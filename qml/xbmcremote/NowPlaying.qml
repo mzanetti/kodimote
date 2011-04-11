@@ -12,8 +12,14 @@ Rectangle {
         anchors.topMargin: 20
         anchors.bottomMargin: 20
         width: height
-        source: Xbmc.vfsPath + AudioPlaylist.currentThumbnail
+        source: fanart()
         onSourceChanged: console.log("ÄÄÄÄ" + source)
+    }
+    function fanart() {
+        if(AudioPlaylist.currentFanart.length == 0 || AudioPlaylist.currentFanart == "DefaultAlbumCover.png") {
+            return "images/DefaultAlbumCover.png"
+        }
+        return Xbmc.vfsPath + AudioPlaylist.currentThumbnail
     }
 
     VolumeBar {
