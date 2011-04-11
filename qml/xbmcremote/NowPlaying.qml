@@ -96,6 +96,7 @@ Rectangle {
         color: "white"
         text: AudioPlaylist.currentArtist + " - " + AudioPlaylist.currentAlbum
         font.pixelSize: 22
+        elide: Text.ElideRight
     }
 
     Text {
@@ -109,6 +110,7 @@ Rectangle {
         text: AudioPlaylist.currentTitle
         font.pixelSize: 32
         font.bold: true
+        elide: Text.ElideRight
     }
 
     AudioPlayerControls {
