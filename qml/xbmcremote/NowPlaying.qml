@@ -6,10 +6,12 @@ Rectangle {
     state: "none"
 
     Image {
-        anchors.top: topBar.bottom
+        anchors.top: volumeBar.bottom
+        anchors.bottom: nowPlayingText.top
         anchors.horizontalCenter: parent.horizontalCenter
         anchors.topMargin: 20
-        width: 300; height: 300
+        anchors.bottomMargin: 20
+        width: height
         source: Xbmc.vfsPath + AudioPlaylist.currentThumbnail
         onSourceChanged: console.log("ÄÄÄÄ" + source)
     }
