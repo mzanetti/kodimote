@@ -2,102 +2,8 @@ import QtQuick 1.0
 
 Rectangle {
     color: "black"
-
-    ListModel {
-        id: topButtonModel
-        ListElement { buttonId: 0; imageFile: "images/OSDPresetSettingsNF.png" }
-        ListElement { buttonId: 0; imageFile: "images/OSDRepeatNF.png" }
-        ListElement { buttonId: 0; imageFile: "images/OSDRandomOffNF.png" }
-        ListElement { buttonId: 1; imageFile: "images/OSDPlaylistNF.png" }
-        ListElement { buttonId: 2; imageFile: "images/OSDAudioNF.png" }
-    }
-
-    Rectangle {
-        id: topBar
-        anchors.left: parent.left
-        anchors.right: parent.right
-        anchors.top: parent.top
-        anchors.topMargin: 100
-        anchors.leftMargin: 10
-        anchors.rightMargin: 10
-        height: 1
-//        rotation: 90
-        width: 400
-        color: "#000000"
-        gradient: Gradient {
-            GradientStop {
-                position: 0.00;
-                color: "#000000";
-            }
-            GradientStop {
-                position: 0.5;
-                color: "#ffffff";
-            }
-            GradientStop {
-                position: 1.00;
-                color: "#000000";
-            }
-        }
-    }
-
-    ListView {
-        model: topButtonModel
-        anchors.top: parent.top
-        anchors.bottom: topBar.top
-        anchors.left: parent.left
-        anchors.right: parent.right
-        orientation: ListView.Horizontal
-
-
-        delegate: Item {
-            id: myDelegate
-            height: parent.height
-            width: topBar.width / topButtonModel.count
-//            Rectangle {
-//                color: "black"
-//                border.color: "black"
-//                anchors.fill: myDelegate
-//            }
-            Image {
-                source: imageFile
-                anchors.centerIn: myDelegate
-            }
-            MouseArea {
-                anchors.fill: parent
-                onClicked: {
-                    switch(buttonId) {
-                    case 0:
-                        AudioPlayer.skipPrevious()
-                        break;
-                    case 1:
-                        AudioPlayer.seekBackward()
-                        break;
-                    case 2:
-                        AudioPlayer.playPause()
-                        break;
-                    case 3:
-                        AudioPlayer.stop()
-                        break;
-                    case 4:
-                        AudioPlayer.seekForward()
-                        break;
-                    case 5:
-                        AudioPlayer.skipNext()
-                        break;
-                    }
-                }
-            }
-        }
-
-
-    }
-
-//    VolumeBar {
-//        id: volumeBar
-//        anchors.top: parent.top
-//        anchors.left: parent.left
-//        anchors.right: parent.right
-//    }
+    id: nowPlaying
+    state: "none"
 
     Image {
         anchors.top: topBar.bottom
@@ -107,6 +13,110 @@ Rectangle {
         source: Xbmc.vfsPath + AudioPlaylist.currentThumbnail
         onSourceChanged: console.log("ÄÄÄÄ" + source)
     }
+
+    VolumeBar {
+        id: volumeBar
+        anchors.left: parent.left
+        anchors.right: parent.right
+        anchors.top: topBar.bottom
+        anchors.topMargin: -height
+
+        states: [
+            State { name: "volumeVisible"
+                PropertyChanges {target: volumeBar; anchors.topMargin: 0;}
+                PropertyChanges {target: topButtonModel.get(4); imageFile: "images/OSDAudioFO.png"}
+            }
+        ]
+
+        Behavior on anchors.topMargin {
+            NumberAnimation{ duration: 200 }
+        }
+    }
+
+    ListModel {
+        id: topButtonModel
+        ListElement { buttonId: 0; imageFile: "images/OSDPresetSettingsNF.png" }
+        ListElement { buttonId: 1; imageFile: "images/OSDRepeatNF.png" }
+        ListElement { buttonId: 2; imageFile: "images/OSDRandomOffNF.png" }
+        ListElement { buttonId: 3; imageFile: "images/OSDPlaylistNF.png" }
+        ListElement { buttonId: 4; imageFile: "images/OSDAudioNF.png" }
+    }
+
+    Rectangle {
+        id: topBar
+        color: "black"
+        anchors.left: parent.left
+        anchors.right: parent.right
+        anchors.top: parent.top
+        height: 100
+
+        ListView {
+            id: topButtonView
+            model: topButtonModel
+            anchors.top: parent.top
+            anchors.left: parent.left
+            anchors.right: parent.right
+            orientation: ListView.Horizontal
+            height: 100
+            z: 2
+
+            delegate: Item {
+                id: myDelegate
+                height: parent.height
+                width: topBar.width / topButtonModel.count
+    //            Rectangle {
+    //                color: "black"
+    //                border.color: "black"
+    //                anchors.fill: myDelegate
+    //            }
+                Image {
+                    source: imageFile
+                    anchors.centerIn: myDelegate
+                }
+                MouseArea {
+                    anchors.fill: parent
+                    onClicked: {
+                        switch(buttonId) {
+                        case 0:
+    //                        AudioPlayer.skipPrevious()
+                            break;
+                        case 1:
+    //                        AudioPlayer.seekBackward()
+                            break;
+                        case 2:
+    //                        AudioPlayer.playPause()
+                            break;
+                        case 3:
+    //                        AudioPlayer.stop()
+                            break;
+                        case 4:
+                            if(volumeBar.state == "volumeVisible") {
+                                console.log("WTF")
+                                volumeBar.state = "none"
+                            } else {
+                                console.log("setting state to volbar")
+                                volumeBar.state = "volumeVisible"
+                            }
+                            console.log("fdsfsdafsdadf")
+
+                            break;
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    Rectangle {
+        anchors.left: parent.left
+        anchors.right: parent.right
+        anchors.leftMargin: 10
+        anchors.rightMargin: 10
+        anchors.bottom: topBar.bottom
+        height: 1
+        color: "#ffffff";
+    }
+
 
     Text {
         id: nowPlayingText
@@ -168,5 +178,4 @@ Rectangle {
         height: 100
         id: audioPlayerControls
     }
-
 }

@@ -140,7 +140,7 @@ void XbmcConnectionPrivate::readData()
         }
         qDebug() << "finished parsing after" << t.msecsTo(QTime::currentTime());
 
-        qDebug() << ">>> Incoming:" << data;
+//        qDebug() << ">>> Incoming:" << data;
 
         if(rsp.value("method").toString() == "Announcement") {
             qDebug() << ">>> received announcement" << rsp.value("params").toMap();
