@@ -33,15 +33,6 @@ Rectangle {
         }
     }
 
-    ListModel {
-        id: topButtonModel
-        ListElement { buttonId: 0; imageFile: "images/OSDPresetSettingsNF.png" }
-        ListElement { buttonId: 1; imageFile: "images/OSDRepeatNF.png" }
-        ListElement { buttonId: 2; imageFile: "images/OSDRandomOffNF.png" }
-        ListElement { buttonId: 3; imageFile: "images/OSDPlaylistNF.png" }
-        ListElement { buttonId: 4; imageFile: "images/OSDAudioNF.png" }
-    }
-
     Rectangle {
         id: topBar
         color: "black"
@@ -50,62 +41,10 @@ Rectangle {
         anchors.top: parent.top
         height: 100
 
-        ListView {
-            id: topButtonView
-            model: topButtonModel
-            anchors.top: parent.top
-            anchors.left: parent.left
-            anchors.right: parent.right
-            orientation: ListView.Horizontal
-            height: 100
-            z: 2
-            interactive: false
-
-            delegate: Item {
-                id: myDelegate
-                height: parent.height
-                width: topBar.width / topButtonModel.count
-    //            Rectangle {
-    //                color: "black"
-    //                border.color: "black"
-    //                anchors.fill: myDelegate
-    //            }
-                Image {
-                    source: imageFile
-                    anchors.centerIn: myDelegate
-                }
-                MouseArea {
-                    anchors.fill: parent
-                    onClicked: {
-                        switch(buttonId) {
-                        case 0:
-    //                        AudioPlayer.skipPrevious()
-                            break;
-                        case 1:
-    //                        AudioPlayer.seekBackward()
-                            break;
-                        case 2:
-    //                        AudioPlayer.playPause()
-                            break;
-                        case 3:
-    //                        AudioPlayer.stop()
-                            break;
-                        case 4:
-                            if(volumeBar.state == "volumeVisible") {
-                                console.log("WTF")
-                                volumeBar.state = "none"
-                            } else {
-                                console.log("setting state to volbar")
-                                volumeBar.state = "volumeVisible"
-                            }
-                            console.log("fdsfsdafsdadf")
-
-                            break;
-                        }
-                    }
-                }
-            }
+        PlayerControlsTop {
+            anchors.fill: parent
         }
+
     }
 
     Rectangle {
@@ -179,4 +118,5 @@ Rectangle {
         height: 100
         id: audioPlayerControls
     }
+
 }

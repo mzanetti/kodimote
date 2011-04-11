@@ -8,7 +8,8 @@ namespace Xbmc
 
 Playlist::Playlist(QObject *parent) :
     QAbstractItemModel(parent),
-    m_currentSong(-1)
+    m_currentSong(-1),
+    m_shuffle(false) //TODO: query player for state as soon as API supports it
 {
     connect(XbmcConnection::notifier(), SIGNAL(responseReceived(int,QVariant)), SLOT(responseReveiced(int,QVariant)));
     connect(XbmcConnection::notifier(), SIGNAL(receivedAnnouncement(QVariantMap)), SLOT(receivedAnnouncement(QVariantMap)));
@@ -257,6 +258,24 @@ int Playlist::currentTrackNumber() const
 int Playlist::count() const
 {
     return m_itemList.count();
+}
+
+bool Playlist::shuffle() const
+{
+    return m_shuffle;
+}
+
+void Playlist::setShuffle(bool shuffle)
+{
+    if(shuffle) {
+        XbmcConnection::sendCommand(namespaceString() + ".Shuffle");
+    } else {
+        XbmcConnection::sendCommand(namespaceString() + ".UnShuffle");
+    }
+    if(m_shuffle != shuffle) {
+        m_shuffle = shuffle;
+        emit shuffleChanged();
+    }
 }
 
 }

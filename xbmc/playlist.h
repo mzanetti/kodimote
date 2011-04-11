@@ -23,6 +23,7 @@ class Playlist : public QAbstractItemModel
     Q_PROPERTY(QString currentAlbum READ currentAlbum NOTIFY currentChanged)
     Q_PROPERTY(QString currentFanart READ currentThumbnail NOTIFY currentChanged)
     Q_PROPERTY(QString currentThumbnail READ currentThumbnail NOTIFY currentChanged)
+    Q_PROPERTY(bool shuffle READ shuffle WRITE setShuffle NOTIFY shuffleChanged)
 
 public:
     explicit Playlist(QObject *parent = 0);
@@ -32,6 +33,9 @@ public:
     void addItems(const QList<SongItem> &itemList);
 
     int count() const;
+
+    bool shuffle() const;
+    void setShuffle(bool shuffle);
 
     int currentTrackNumber() const;
     QString currentLabel() const;
@@ -51,6 +55,8 @@ public:
 
 signals:
     void currentChanged();
+    void shuffleChanged();
+    void repeatChanged();
 
 public slots:
     void refresh();
@@ -77,7 +83,7 @@ private:
     QList<SongItem> m_itemList;
 
     int m_currentSong;
-
+    bool m_shuffle;
 };
 
 }
