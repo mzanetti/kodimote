@@ -59,6 +59,7 @@ Rectangle {
             orientation: ListView.Horizontal
             height: 100
             z: 2
+            interactive: false
 
             delegate: Item {
                 id: myDelegate

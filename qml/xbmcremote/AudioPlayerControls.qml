@@ -41,6 +41,7 @@ Item {
         model: controlsModel
         orientation: ListView.Horizontal
         anchors.fill: container
+        interactive: false
 
         delegate: Item {
             id: myDelegate
