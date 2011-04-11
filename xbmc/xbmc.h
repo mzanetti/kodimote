@@ -18,7 +18,7 @@ class Xbmc: public QObject
     Q_OBJECT
     Q_PROPERTY(QString state READ state NOTIFY stateChanged)
     Q_PROPERTY(int volume READ volume WRITE setVolume NOTIFY volumeChanged)
-    Q_PROPERTY(QString vfsPath READ vfsPath)
+    Q_PROPERTY(QString vfsPath READ vfsPath NOTIFY vfsPathChanged)
 
 public:
     Xbmc(QObject *parent = 0);
@@ -41,6 +41,7 @@ public slots:
     void toggleMute();
 
 signals:
+    void vfsPathChanged();
     void stateChanged();
     void activePlayerChanged(Player *player);
     void volumeChanged(int volume);

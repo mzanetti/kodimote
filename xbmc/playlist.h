@@ -15,7 +15,7 @@ class Playlist : public QAbstractItemModel
 {
     Q_OBJECT
 
-    Q_PROPERTY(int count READ count)
+    Q_PROPERTY(int count READ count NOTIFY countChanged)
     Q_PROPERTY(int currentTrackNumber READ currentTrackNumber NOTIFY currentChanged)
     Q_PROPERTY(QString currentLabel READ currentLabel NOTIFY currentChanged)
     Q_PROPERTY(QString currentTitle READ currentTitle NOTIFY currentChanged)
@@ -54,6 +54,7 @@ public:
     QVariant data(const QModelIndex &index, int role) const;
 
 signals:
+    void countChanged();
     void currentChanged();
     void shuffleChanged();
     void repeatChanged();

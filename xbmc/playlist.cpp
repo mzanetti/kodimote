@@ -109,6 +109,7 @@ void Playlist::responseReveiced(int id, const QVariant &response)
         m_currentSong = response.toMap().value("state").toMap().value("current").toInt();
         queryItemData(m_currentSong);
         qDebug() << "set current to" << m_currentSong;
+        emit countChanged();
         emit currentChanged();
         break;
     }
