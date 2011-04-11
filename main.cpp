@@ -1,14 +1,14 @@
-#include "xbmc.h"
+#include "xbmc/xbmc.h"
 
 #include <QtGui/QApplication>
 #include "qmlapplicationviewer.h"
 #include <QDeclarativeContext>
 
-#include "xbmcconnection.h"
-#include "audioplayer.h"
-#include "audioplaylist.h"
-#include "videoplayer.h"
-#include "audiolibrary.h"
+#include "xbmc/xbmcconnection.h"
+#include "xbmc/audioplayer.h"
+#include "xbmc/audioplaylist.h"
+#include "xbmc/videoplayer.h"
+#include "xbmc/audiolibrary.h"
 
 int main(int argc, char *argv[])
 {

@@ -1,8 +1,8 @@
 #include "xbmcconnection.h"
 #include "xbmcconnection_p.h"
 
-#include <VariantToJson.h>
-#include <JsonToVariant.h>
+#include "JsonQt/lib/VariantToJson.h"
+#include "JsonQt/lib/JsonToVariant.h"
 #include <QTime>
 
 namespace Xbmc
