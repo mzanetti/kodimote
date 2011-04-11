@@ -1,0 +1,1 @@
+/usr/bin/c++   -O3 -DNDEBUG   CMakeFiles/JsonRpcAdaptor.dir/JsonRpcAdaptor.cpp.o  -o JsonRpcAdaptor -rdynamic -lQtTest -lQtCore ../lib/libJsonQt.so.0.1.0 -lQtCore -Wl,-rpath,/home/micha/Develop/JsonQt/build/lib 

@@ -8,15 +8,11 @@ QML_IMPORT_PATH =
 
 QT += network
 
-INCLUDEPATH += ../JsonQt/lib/
-
 unix:!symbian {
     maemo5 {
         target.path = /opt/usr/lib
-        LIBS += -L../JsonQt-build-maemo/ -ljsonqt
     } else {
         target.path = /usr/local/lib
-        LIBS += -L../JsonQt-build-desktop/ -ljsonqt
     }
     INSTALLS += target
 }
@@ -37,36 +33,51 @@ symbian:TARGET.CAPABILITY += NetworkServices
 
 # The .cpp file which was generated for your project. Feel free to hack it.
 SOURCES += main.cpp \
-    xbmc.cpp \
-    player.cpp \
-    audioplayer.cpp \
-    videoplayer.cpp \
-    xbmcconnection.cpp \
-    playlist.cpp \
-    audioplaylist.cpp \
-    playlistitem.cpp \
-    audiolibrary.cpp \
-    artistitem.cpp \
-    albumitem.cpp \
-    songitem.cpp \
-    libraryitem.cpp
+    xbmc/xbmc.cpp \
+    xbmc/player.cpp \
+    xbmc/audioplayer.cpp \
+    xbmc/videoplayer.cpp \
+    xbmc/xbmcconnection.cpp \
+    xbmc/playlist.cpp \
+    xbmc/audioplaylist.cpp \
+    xbmc/playlistitem.cpp \
+    xbmc/audiolibrary.cpp \
+    xbmc/artistitem.cpp \
+    xbmc/albumitem.cpp \
+    xbmc/songitem.cpp \
+    xbmc/libraryitem.cpp \
+    JsonQt/lib/VariantToJson.cpp \
+    JsonQt/lib/ParseException.cpp \
+    JsonQt/lib/JsonToVariant.cpp \
+    JsonQt/lib/JsonToProperties.cpp \
+    JsonQt/lib/JsonRpcAdaptorPrivate.cpp \
+    JsonQt/lib/JsonRpcAdaptor.cpp \
+    JsonQt/lib/JsonRpc.cpp
 
 # Please do not modify the following two lines. Required for deployment.
 include(qmlapplicationviewer/qmlapplicationviewer.pri)
 qtcAddDeployment()
 
 HEADERS += \
-    xbmc.h \
-    player.h \
-    audioplayer.h \
-    videoplayer.h \
-    xbmcconnection.h \
-    xbmcconnection_p.h \
-    playlist.h \
-    audioplaylist.h \
-    playlistitem.h \
-    audiolibrary.h \
-    artistitem.h \
-    albumitem.h \
-    songitem.h \
-    libraryitem.h
+    xbmc/xbmc.h \
+    xbmc/player.h \
+    xbmc/audioplayer.h \
+    xbmc/videoplayer.h \
+    xbmc/xbmcconnection.h \
+    xbmc/xbmcconnection_p.h \
+    xbmc/playlist.h \
+    xbmc/audioplaylist.h \
+    xbmc/playlistitem.h \
+    xbmc/audiolibrary.h \
+    xbmc/artistitem.h \
+    xbmc/albumitem.h \
+    xbmc/songitem.h \
+    xbmc/libraryitem.h \
+    JsonQt/lib/VariantToJson.h \
+    JsonQt/lib/ParseException.h \
+    JsonQt/lib/JsonToVariant.h \
+    JsonQt/lib/JsonToProperties.h \
+    JsonQt/lib/JsonRpcAdaptorPrivate.h \
+    JsonQt/lib/JsonRpcAdaptor.h \
+    JsonQt/lib/JsonRpc.h \
+    JsonQt/lib/JsonQtExport.h
