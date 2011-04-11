@@ -1,0 +1,283 @@
+#include "audiolibrary.h"
+#include "player.h"
+#include "xbmcconnection.h"
+#include "artistitem.h"
+#include "playlist.h"
+
+namespace Xbmc
+{
+
+AudioLibrary::AudioLibrary(Player *player, QObject *parent) :
+    QAbstractItemModel(parent),
+    m_player(player)
+{
+    connect(XbmcConnection::notifier(), SIGNAL(responseReceived(int,QVariant)), SLOT(responseReceived(int,QVariant)));
+
+    m_state = "library";
+
+    // intialize with default stuff
+    m_list.append(LibraryItem("Artists", 0));
+    m_list.append(LibraryItem("Albums", 1));
+    m_list.append(LibraryItem("Songs", 2));
+
+    QHash<int, QByteArray> roleNames;
+    roleNames.insert(Qt::DisplayRole, "label");
+    roleNames.insert(Qt::UserRole, "itemId");
+    setRoleNames(roleNames);
+
+    m_albumFilter = -1;
+    m_artistFilter = -1;
+
+}
+
+void AudioLibrary::enterItem(int index)
+{
+    qDebug() << "entering item" << index << "state is" << m_state;
+    if(m_state == "library") {
+        switch(index) {
+        case 0:
+            showArtists();
+            break;
+        case 1:
+            showAlbums();
+            break;
+        case 2:
+            showSongs();
+            break;
+        }
+    }
+
+    if(m_state == "artists") {
+        if(index == -1) {
+            showLibrary();
+        } else {
+            showAlbums(index);
+        }
+        return;
+    }
+
+    if(m_state == "albums") {
+        if(index == -1) {
+            if(m_artistFilter == -1) {
+                showLibrary();
+            } else {
+                showArtists();
+            }
+        } else {
+            showSongs(m_artistFilter, index);
+        }
+    }
+
+    if(m_state == "songs") {
+        if(index == -1) {
+            if(m_albumFilter == -1) {
+                showLibrary();
+            } else {
+                showAlbums(m_artistFilter);
+            }
+        } else {
+            qDebug() << "on song pressed" << index;
+            m_player->playlist()->clear();
+            int translatedIndex = 0;
+            QList<SongItem> addList = m_songList;
+            addList.removeFirst();
+            m_player->playlist()->addItems(addList);
+            m_player->playlist()->playItem(translatedIndex);
+        }
+    }
+}
+
+void AudioLibrary::showLibrary()
+{
+    beginResetModel();
+    m_state = "library";
+    emit stateChanged();
+    endResetModel();
+}
+
+void AudioLibrary::showArtists()
+{
+    qDebug() << "requesting artists";
+    QVariantMap params;
+    params.insert("genreid", 1);
+    int id = XbmcConnection::sendCommand("AudioLibrary.GetArtists");//, params);
+    m_requestMap.insert(id, RequestArtists);
+}
+
+void AudioLibrary::showAlbums(int artistId)
+{
+    qDebug() << "requesting albums with artistid" << artistId;
+    m_artistFilter = artistId;
+    QVariantMap params;
+//    params.insert("genreid", -1);
+    if(artistId != -1) {
+      params.insert("artistid", artistId);
+    }
+//    params.insert("start", 0);
+//    params.insert("end", 50);
+    int id = XbmcConnection::sendCommand("AudioLibrary.GetAlbums", params);
+    m_requestMap.insert(id, RequestAlbums);
+}
+
+void AudioLibrary::showSongs(int artistId, int albumId)
+{
+    qDebug() << "requesting songs with artistid" << artistId << "and albumid" << albumId;
+    m_artistFilter = artistId;
+    m_albumFilter = albumId;
+    QVariantMap params;
+//    params.insert("genreid", -1);
+    if(artistId != -1) {
+        params.insert("artistid", artistId);
+    }
+    if(albumId != -1) {
+        params.insert("albumid", albumId);
+    }
+    QVariantList fields;
+    fields.append("file");
+    params.insert("fields", fields);
+    int id = XbmcConnection::sendCommand("AudioLibrary.GetSongs", params);
+    m_requestMap.insert(id, RequestSongs);
+}
+
+QModelIndex AudioLibrary::index(int row, int column, const QModelIndex &parent) const
+{
+    return createIndex(row, column);
+}
+
+QModelIndex AudioLibrary::parent(const QModelIndex &child) const
+{
+    return QModelIndex();
+}
+
+int AudioLibrary::rowCount(const QModelIndex &parent) const
+{
+    if(m_state == "library") {
+        return m_list.count();
+    }
+    if(m_state == "artists") {
+        return m_artistList.count();
+    }
+    if(m_state == "albums") {
+        return m_albumList.count();
+    }
+    if(m_state == "songs") {
+        return m_songList.count();
+    }
+    return 0;
+}
+
+int AudioLibrary::columnCount(const QModelIndex &parent) const
+{
+    return 1;
+}
+
+QVariant AudioLibrary::data(const QModelIndex &index, int role) const
+{
+    if(m_state == "library") {
+        if(role == Qt::DisplayRole) {
+            return m_list.at(index.row()).label();
+        }
+        return m_list.at(index.row()).id();
+    } else if(m_state == "artists") {
+        if(role == Qt::DisplayRole) {
+            return m_artistList.at(index.row()).label();
+        }
+        return m_artistList.at(index.row()).id();
+    } else if(m_state == "albums") {
+        if(role == Qt::DisplayRole) {
+            return m_albumList.at(index.row()).label();
+        }
+        return m_albumList.at(index.row()).id();
+    } else if(m_state == "songs") {
+        if(role == Qt::DisplayRole) {
+            return m_songList.at(index.row()).label();
+        }
+        return m_songList.at(index.row()).songId();
+    }
+    return QVariant();
+}
+
+void AudioLibrary::responseReceived(int id, QVariant response)
+{
+    if(!m_requestMap.contains(id)) {
+        return;
+    }
+
+    switch(m_requestMap.value(id)) {
+    case RequestArtists: {
+        beginResetModel();
+        m_artistList.clear();
+        m_artistList.append(ArtistItem(".."));
+        qDebug() << "got artists:" << response;
+        QVariantList responseList = response.toMap().value("artists").toList();
+        foreach(const QVariant &itemVariant, responseList) {
+            QVariantMap itemMap = itemVariant.toMap();
+            ArtistItem item(itemMap.value("label").toString(), itemMap.value("artistid").toInt());
+            qDebug() << "adding item:" << item.label();
+            m_artistList.append(item);
+            m_state = "artists";
+            emit stateChanged();
+        }
+        endResetModel();
+    }
+        break;
+    case RequestAlbums: {
+        beginResetModel();
+        m_albumList.clear();
+        m_albumList.append(AlbumItem(".."));
+        qDebug() << "got albums:" << response;
+        QVariantList responseList = response.toMap().value("albums").toList();
+        foreach(const QVariant &itemVariant, responseList) {
+            QVariantMap itemMap = itemVariant.toMap();
+            AlbumItem item(itemMap.value("label").toString(), itemMap.value("albumid").toInt());
+            qDebug() << "adding item:" << item.label();
+            m_albumList.append(item);
+            m_state = "albums";
+            emit stateChanged();
+        }
+        endResetModel();
+        break;
+    }
+    case RequestSongs: {
+        beginResetModel();
+        m_songList.clear();
+        m_songList.append(SongItem(-1, "..."));
+//        qDebug() << "got songs:" << response;
+        QVariantList responseList = response.toMap().value("songs").toList();
+        qDebug() << "starting inserting items";
+        foreach(const QVariant &itemVariant, responseList) {
+            QVariantMap itemMap = itemVariant.toMap();
+            qDebug() << "got songitem" << itemMap;
+            SongItem item;
+            item.setSongId(itemMap.value("songid").toInt());
+            item.setFile(itemMap.value("file").toString());
+            item.setLabel(itemMap.value("label").toString());
+            item.setFanart(itemMap.value("fanart").toString());
+            item.setThumbnail(itemMap.value("thumbnail").toString());
+//            qDebug() << "adding item:" << item.label();
+            m_songList.append(item);
+            m_state = "songs";
+            emit stateChanged();
+        }
+        endResetModel();
+        break;
+    }
+    }
+}
+
+
+QString AudioLibrary::state()
+{
+    return m_state;
+}
+
+int AudioLibrary::albumFilter()
+{
+    return m_albumFilter;
+}
+
+int AudioLibrary::artistFilter()
+{
+    return m_artistFilter;
+}
+}
