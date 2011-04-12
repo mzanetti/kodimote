@@ -70,6 +70,7 @@ void Xbmc::setVolume(int volume)
         QVariantMap map;
         map.insert("value", volume);
         int id = XbmcConnection::sendCommand("XBMC.SetVolume", map);
+        m_volume = volume;
 //        m_requestMap.insert(id, RequestVolume);
     }
 }
