@@ -1,86 +1,117 @@
 import QtQuick 1.0
 
-Item {
-//    anchors.fill: parent
-    id: container
+Row {
 
-    Rectangle {
-        anchors.left: parent.left
-        anchors.right: parent.right
-        anchors.top: parent.top
-        height: 1
-        anchors.leftMargin: 10
-        anchors.rightMargin: 10
-        color: "white"
-    }
+    Item {
+        height: parent.height
+        width: parent.width / 6
 
+        Image {
+            source: "images/OSDPrevTrackNF.png"
+            anchors.centerIn: parent
+        }
 
-//    gradient: Gradient {
-//        GradientStop {
-//            position: 1.00;
-//            color: "#000000";
-//        }
-//        GradientStop {
-//            position: 0.00;
-//            color: "#979797";
-//        }
-//    }
-
-    ListModel {
-        id: controlsModel
-        ListElement { buttonId: 0; imageFile: "images/OSDPrevTrackNF.png" }
-        ListElement { buttonId: 1; imageFile: "images/OSDRewindNF.png" }
-        ListElement { buttonId: 2; imageFile: "images/OSDPlayNF.png" }
-        ListElement { buttonId: 3; imageFile: "images/OSDStopNF.png" }
-        ListElement { buttonId: 4; imageFile: "images/OSDForwardNF.png" }
-        ListElement { buttonId: 5; imageFile: "images/OSDNextTrackNF.png" }
-    }
-
-    ListView {
-        id: audioControls
-        model: controlsModel
-        orientation: ListView.Horizontal
-        anchors.fill: container
-        interactive: false
-
-        delegate: Item {
-            id: myDelegate
-            height: parent.height
-            width: container.width / audioControls.count
-//            Rectangle {
-//                color: "black"
-//                border.color: "black"
-//                anchors.fill: myDelegate
-//            }
-            Image {
-                source: imageFile
-                anchors.centerIn: myDelegate
-            }
-            MouseArea {
-                anchors.fill: parent
-                onClicked: {
-                    switch(buttonId) {
-                    case 0:
-                        AudioPlayer.skipPrevious()
-                        break;
-                    case 1:
-                        AudioPlayer.seekBackward()
-                        break;
-                    case 2:
-                        AudioPlayer.playPause()
-                        break;
-                    case 3:
-                        AudioPlayer.stop()
-                        break;
-                    case 4:
-                        AudioPlayer.seekForward()
-                        break;
-                    case 5:
-                        AudioPlayer.skipNext()
-                        break;
-                    }
-                }
+        MouseArea {
+            anchors.fill: parent
+            onClicked: {
+                AudioPlayer.skipPrevious()
             }
         }
     }
+
+    Item {
+        height: parent.height
+        width: parent.width / 6
+
+        Image {
+            source: "images/OSDRewindNF.png"
+            anchors.centerIn: parent
+        }
+
+        MouseArea {
+            anchors.fill: parent
+            onClicked: {
+                AudioPlayer.seekBackward()
+            }
+        }
+    }
+
+    Item {
+        height: parent.height
+        width: parent.width / 6
+
+        Image {
+            source: AudioPlayer.state == "playing" ? "images/OSDPauseNF.png" : "images/OSDPlayNF.png"
+            anchors.centerIn: parent
+        }
+
+        MouseArea {
+            anchors.fill: parent
+            onClicked: {
+                AudioPlayer.playPause()
+            }
+        }
+    }
+
+    Item {
+        height: parent.height
+        width: parent.width / 6
+
+        Image {
+            source: "images/OSDStopNF.png"
+            anchors.centerIn: parent
+        }
+
+        MouseArea {
+            anchors.fill: parent
+            onClicked: {
+                AudioPlayer.stop()
+            }
+        }
+    }
+
+    Item {
+        height: parent.height
+        width: parent.width / 6
+
+        Image {
+            source: "images/OSDForwardNF.png"
+            anchors.centerIn: parent
+        }
+
+        MouseArea {
+            anchors.fill: parent
+            onClicked: {
+                AudioPlayer.seekForward()
+            }
+        }
+    }
+    Item {
+        height: parent.height
+        width: parent.width / 6
+
+        Image {
+            source: "images/OSDNextTrackNF.png"
+            anchors.centerIn: parent
+        }
+
+        MouseArea {
+            anchors.fill: parent
+            onClicked: {
+                AudioPlayer.skipNext()
+            }
+        }
+    }
+    states: [
+        State {
+            name: "stopped"
+        },
+        State {
+            name: "playing"
+        },
+        State {
+            name: "paused"
+        }
+
+    ]
 }

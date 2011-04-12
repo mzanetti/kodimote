@@ -3,7 +3,7 @@ import QtQuick 1.0
 Rectangle {
     color: "black"
     id: nowPlaying
-    state: "none"
+    state: AudioPlayer.state
 
     Image {
         anchors.top: volumeBar.bottom
@@ -119,6 +119,16 @@ Rectangle {
         font.pixelSize: 32
         font.bold: true
         elide: Text.ElideRight
+    }
+
+    Rectangle {
+        anchors.left: parent.left
+        anchors.right: parent.right
+        anchors.leftMargin: 10
+        anchors.rightMargin: 10
+        anchors.bottom: audioPlayerControls.top
+        height: 1
+        color: "#ffffff";
     }
 
     AudioPlayerControls {

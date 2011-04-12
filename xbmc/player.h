@@ -2,6 +2,7 @@
 #define PLAYER_H
 
 #include <QObject>
+#include <QVariantMap>
 
 namespace Xbmc
 {
@@ -14,6 +15,7 @@ class Player : public QObject
 
     Q_PROPERTY(PlayerType type READ type)
     Q_PROPERTY(Playlist playlist READ playlist)
+    Q_PROPERTY(QString state READ state NOTIFY stateChanged)
 
 public:
     enum PlayerType {
@@ -22,15 +24,9 @@ public:
         PlayerTypePictures
     };
 
-    enum State {
-        StatePlaying,
-        StatePaused,
-        StatePartyMode
-    };
-
     explicit Player(PlayerType type, QObject *parent = 0);
 
-    State state();
+    QString state();
 
     PlayerType type();
 
@@ -39,6 +35,7 @@ public:
     virtual Playlist* playlist() const = 0;
 
 signals:
+    void stateChanged();
 
 public slots:
     void playPause();
@@ -48,8 +45,19 @@ public slots:
     void seekBackward();
     void seekForward();
 
+private slots:
+    void getState();
+    void receivedAnnouncement(const QVariantMap& map);
+    void responseReceived(int, const QVariant &rsp);
+
 private:
+    enum Request {
+       RequestState
+    };
+    QMap<int, Request> m_requestMap;
+
     PlayerType m_type;
+    QString m_state;
 };
 
 }
