@@ -8,7 +8,9 @@ namespace Xbmc
 
 Player::Player(PlayerType type, QObject *parent) :
     QObject(parent),
-    m_type(type)
+    m_type(type),
+    m_state("stopped"),
+    m_speed(1)
 {
     connect(XbmcConnection::notifier(), SIGNAL(receivedAnnouncement(QVariantMap)), SLOT(receivedAnnouncement(QVariantMap)));
     connect(XbmcConnection::notifier(), SIGNAL(responseReceived(int,QVariant)), SLOT(responseReceived(int,QVariant)));
@@ -77,6 +79,9 @@ void Player::receivedAnnouncement(const QVariantMap &map)
               map.value("message").toString() == "PlaybackResumed") {
         m_state = "playing";
         emit stateChanged();
+    } else if(map.value("message").toString() == "PlaybackSpeedChanged") {
+        m_speed = map.value("data").toMap().value("speed").toInt();
+        emit speedChanged();
     }
 }
 
@@ -96,6 +101,11 @@ void Player::responseReceived(int id, const QVariant &rsp)
         }
         emit stateChanged();
     }
+}
+
+int Player::speed()
+{
+    return m_speed;
 }
 
 }

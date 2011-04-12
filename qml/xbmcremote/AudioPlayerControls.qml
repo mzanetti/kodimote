@@ -24,7 +24,7 @@ Row {
         width: parent.width / 6
 
         Image {
-            source: "images/OSDRewindNF.png"
+            source: AudioPlayer.speed < 1 ? "images/OSDRewindFO.png" : "images/OSDRewindNF.png"
             anchors.centerIn: parent
         }
 
@@ -41,8 +41,17 @@ Row {
         width: parent.width / 6
 
         Image {
-            source: AudioPlayer.state == "playing" ? "images/OSDPauseNF.png" : "images/OSDPlayNF.png"
+            source: (AudioPlayer.speed != 1 || AudioPlayer.state != "playing") ? "images/OSDPlayNF.png" : "images/OSDPauseNF.png"
             anchors.centerIn: parent
+        }
+        function playButtonSource() {
+            if(AudioPlayer.speed != 1) {
+                return "images/OSDPlayNF.png"
+            }
+            if(AudioPlayer.state == "playing") {
+                return "images/OSDPauseNF.png"
+            }
+            return "images/OSDPlayNF.png"
         }
 
         MouseArea {
@@ -75,7 +84,7 @@ Row {
         width: parent.width / 6
 
         Image {
-            source: "images/OSDForwardNF.png"
+            source: AudioPlayer.speed > 1 ? "images/OSDForwardFO.png" : "images/OSDForwardNF.png"
             anchors.centerIn: parent
         }
 

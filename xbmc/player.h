@@ -16,6 +16,7 @@ class Player : public QObject
     Q_PROPERTY(PlayerType type READ type)
     Q_PROPERTY(Playlist playlist READ playlist)
     Q_PROPERTY(QString state READ state NOTIFY stateChanged)
+    Q_PROPERTY(int speed READ speed NOTIFY speedChanged)
 
 public:
     enum PlayerType {
@@ -27,6 +28,7 @@ public:
     explicit Player(PlayerType type, QObject *parent = 0);
 
     QString state();
+    int speed();
 
     PlayerType type();
 
@@ -36,6 +38,7 @@ public:
 
 signals:
     void stateChanged();
+    void speedChanged();
 
 public slots:
     void playPause();
@@ -58,6 +61,7 @@ private:
 
     PlayerType m_type;
     QString m_state;
+    int m_speed;
 };
 
 }
