@@ -32,7 +32,6 @@ Rectangle {
         states: [
             State { name: "volumeVisible"
                 PropertyChanges {target: volumeBar; anchors.topMargin: 0;}
-                PropertyChanges {target: topButtonModel.get(4); imageFile: "images/OSDAudioFO.png"}
             }
         ]
 
