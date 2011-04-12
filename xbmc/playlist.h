@@ -30,7 +30,7 @@ public:
 
 
     void clear();
-    void addItems(const QList<SongItem> &itemList);
+    void addItems(int artistId, int albumId);
 
     int count() const;
 

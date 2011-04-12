@@ -79,9 +79,7 @@ void AudioLibrary::enterItem(int index)
             qDebug() << "on song pressed" << index;
             m_player->playlist()->clear();
             int translatedIndex = 0;
-            QList<SongItem> addList = m_songList;
-            addList.removeFirst();
-            m_player->playlist()->addItems(addList);
+            m_player->playlist()->addItems(m_artistFilter, m_albumFilter);
             m_player->playlist()->playItem(translatedIndex);
         }
     }

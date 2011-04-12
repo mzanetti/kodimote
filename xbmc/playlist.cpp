@@ -59,27 +59,16 @@ void Playlist::clear()
     endResetModel();
 }
 
-void Playlist::addItems(const QList<SongItem> &itemList)
+void Playlist::addItems(int artistId, int albumId)
 {
-    // convert to PlaylistItems
-    QList<PlaylistItem> pList;
-    foreach(const SongItem &item, itemList) {
-        if(item.songId() == -1) {
-            continue;
-        }
-        PlaylistItem pItem;
-        pItem.setFile(item.file());
-        pList.append(pItem);
-    }
 
-    beginInsertRows(QModelIndex(), m_itemList.count(), m_itemList.count() + pList.count());
-    foreach(const PlaylistItem &item, pList) {
-        QVariantMap map;
-        map.insert("item", item.toMap());
-        XbmcConnection::sendCommand(namespaceString() + ".Add", map);
-    }
-    m_itemList.append(itemList);
-    endInsertRows();
+    PlaylistItem pItem;
+    pItem.setArtistId(artistId);
+    pItem.setAlbumId(albumId);
+    QVariantMap item;
+    item.insert("item", pItem.toMap());
+
+    XbmcConnection::sendCommand(namespaceString() + ".Add", item);
 }
 
 void Playlist::responseReveiced(int id, const QVariant &response)

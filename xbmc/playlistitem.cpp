@@ -66,12 +66,8 @@ QVariantMap PlaylistItem::toMap() const
     QVariantMap map;
     if(m_albumId != -1) map.insert("albumid", m_albumId);
     if(m_artistId != -1) map.insert("artistid", m_artistId);
-    map.insert("file", m_file);
+//    map.insert("file", m_file);
     if(m_genreId != -1) map.insert("genreid", m_genreId);
-
-    QVariantMap plist;
-    plist.insert("id", "testlist");
-    map.insert("playlist", plist);
     return map;
 }
 
