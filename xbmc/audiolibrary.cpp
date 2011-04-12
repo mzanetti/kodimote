@@ -78,9 +78,13 @@ void AudioLibrary::enterItem(int index)
         } else {
             qDebug() << "on song pressed" << index;
             m_player->playlist()->clear();
-            int translatedIndex = 0;
             m_player->playlist()->addItems(m_artistFilter, m_albumFilter);
-            m_player->playlist()->playItem(translatedIndex);
+            for(int i = 0; i < m_songList.count(); ++i) {
+                if(m_songList.at(i).songId() == index) {
+                    m_player->playlist()->playItem(i - 1); // -1 because of the ".."
+                    break;
+                }
+            }
         }
     }
 }
@@ -239,7 +243,7 @@ void AudioLibrary::responseReceived(int id, QVariant response)
     case RequestSongs: {
         beginResetModel();
         m_songList.clear();
-        m_songList.append(SongItem(-1, "..."));
+        m_songList.append(SongItem(-1, ".."));
 //        qDebug() << "got songs:" << response;
         QVariantList responseList = response.toMap().value("songs").toList();
         qDebug() << "starting inserting items";
