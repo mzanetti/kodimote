@@ -13,9 +13,10 @@
 #include <QMenuBar>
 #include <QDebug>
 #include <QDeclarativeContext>
-#include <QCoreApplication>
+#include <QApplication>
 #include <QFileInfo>
 #include <QLayout>
+#include <QDesktopWidget>
 
 MainWindow::MainWindow()
 {
@@ -38,7 +39,9 @@ MainWindow::MainWindow()
 //    m_viewer.setOrientation(QmlApplicationViewer::ScreenOrientationLockPortrait);
 
     qDebug() << "connecting xbmc";
-    Xbmc::XbmcConnection::connect("10.10.10.5", 9090);
+    Xbmc::XbmcConnection::connect("10.10.10.100", 9090);
+
+    m_viewer->rootContext()->setContextProperty("MainWindow", this);
 
     xbmc = new Xbmc::Xbmc(this);
     m_viewer->rootContext()->setContextProperty("Xbmc", xbmc);
@@ -84,4 +87,31 @@ QString MainWindow::adjustPath(const QString &path)
     if (QFileInfo(pathInShareDir).exists())
         return pathInShareDir;
     return path;
+}
+
+QString MainWindow::state() const
+{
+//    QRect screenGeometry = QApplication::desktop()->screenGeometry();
+//    if (screenGeometry.width() > screenGeometry.height()) {
+//        qDebug() << "In Landscape Mode";
+//        return "landscape";
+//    } else {
+//        qDebug() << "In Portrait Mode";
+//        return "prtrait";
+//    }
+    if(size().width() > size().height()) {
+        return "landscape";
+    } else {
+        return "portrait";
+    }
+}
+
+void MainWindow::myslot()
+{
+    qDebug() << "wff";
+}
+
+void MainWindow::resizeEvent(QResizeEvent *)
+{
+    emit orientationChanged();
 }

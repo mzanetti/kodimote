@@ -48,7 +48,7 @@ Rectangle {
 
     ListView {
         id: view
-        anchors { top: parent.top; left: parent.left; right: parent.right; bottom: bottomMenu.top }
+        anchors.fill: parent
         model: itemModel
         preferredHighlightBegin: 0; preferredHighlightEnd: 0
         highlightRangeMode: ListView.StrictlyEnforceRange
@@ -58,85 +58,4 @@ Rectangle {
         cacheBuffer: 200
     }
 
-    Rectangle {
-
-        id: bottomMenu
-        width: parent.width; height: 60
-        anchors.bottom: parent.bottom
-        color: "gray"
-        gradient: Gradient {
-            GradientStop {
-                position: 1.00;
-                color: "#000000";
-            }
-            GradientStop {
-                position: 0.00;
-                color: "#979797";
-            }
-        }
-
-        Row {
-            anchors.centerIn: parent
-            spacing: 0
-
-            Repeater {
-                model: itemModel.count
-
-                Item {
-                    id: menuButton
-                    width: bottomMenu.width / itemModel.count;
-                    height: bottomMenu.height
-                    Rectangle {
-                        anchors.fill: parent
-                        radius: 3
-                        opacity: view.currentIndex == index ? 0.2 : 0
-                        color: "#0084ff"
-
-                    }
-                    MouseArea {
-                        anchors.fill: parent
-                        onClicked: view.currentIndex = index
-                    }
-                    Text {
-                        anchors.centerIn: parent
-                        text: indexLabel()
-                        color: "white"
-                        opacity: 1
-                    }
-                    function indexLabel() {
-                        if(index == 0) {
-                            return "Library";
-                        }
-                        if(index == 1) {
-                            return "Playlist";
-                        }
-                        if(index == 2) {
-                            return "Now Playing";
-                        }
-                    }
-                }
-            }
-        }
-    }
-
-    ListModel {
-        id: tmpModel
-        ListElement { label: "bla" }
-        ListElement { label: "bla" }
-        ListElement { label: "bla" }
-    }
-
-
-
-    states: [
-        State {
-            name: "library"
-        },
-        State {
-            name: "audio"
-        },
-        State {
-            name: "video"
-        }
-    ]
 }
