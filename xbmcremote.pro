@@ -33,6 +33,7 @@ symbian:TARGET.CAPABILITY += NetworkServices
 
 # The .cpp file which was generated for your project. Feel free to hack it.
 SOURCES += main.cpp \
+    mainwindow.cpp \
     xbmc/xbmc.cpp \
     xbmc/player.cpp \
     xbmc/audioplayer.cpp \
@@ -52,13 +53,18 @@ SOURCES += main.cpp \
     JsonQt/lib/JsonToProperties.cpp \
     JsonQt/lib/JsonRpcAdaptorPrivate.cpp \
     JsonQt/lib/JsonRpcAdaptor.cpp \
-    JsonQt/lib/JsonRpc.cpp
+    JsonQt/lib/JsonRpc.cpp \
+
+# We actually don't use the QMLApplicationViewer any more... It's pri file,
+# however contains a lot of deplayment stuff so we still keep this here:
 
 # Please do not modify the following two lines. Required for deployment.
 include(qmlapplicationviewer/qmlapplicationviewer.pri)
 qtcAddDeployment()
 
+
 HEADERS += \
+    mainwindow.h \
     xbmc/xbmc.h \
     xbmc/player.h \
     xbmc/audioplayer.h \
@@ -80,4 +86,4 @@ HEADERS += \
     JsonQt/lib/JsonRpcAdaptorPrivate.h \
     JsonQt/lib/JsonRpcAdaptor.h \
     JsonQt/lib/JsonRpc.h \
-    JsonQt/lib/JsonQtExport.h
+    JsonQt/lib/JsonQtExport.h \

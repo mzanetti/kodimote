@@ -1,7 +1,8 @@
 import QtQuick 1.0
 
 Rectangle {
-    width: parent.width
+    anchors.left: parent.left
+    anchors.right: parent.right
     height: 62
     property bool dragging: false
 
@@ -13,16 +14,6 @@ Rectangle {
         GradientStop {
             position: 1.00;
             color: "#979797";
-        }
-    }
-
-
-    Connections {
-        target:  Xbmc
-        onVolumeChanged: {
-            if(!dragging){
-                slider.x = percentToSliderPos(volume)
-            }
         }
     }
 
@@ -62,7 +53,8 @@ Rectangle {
             width: 80
             radius: height / 2
             anchors.verticalCenter: parent.verticalCenter
-            x: 1
+            x: percentToSliderPos(Xbmc.volume)
+
 
             MouseArea {
                 anchors.fill: parent
