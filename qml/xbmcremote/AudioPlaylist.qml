@@ -14,6 +14,11 @@ Rectangle {
         console.log("mdoelchanged")
     }
 
+    Image {
+        anchors.fill: parent
+        source: "images/GlassOverlay.png"
+    }
+
     ListView {
         id: list
         anchors.fill: parent
