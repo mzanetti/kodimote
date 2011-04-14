@@ -1,9 +1,9 @@
 import QtQuick 1.0
 
-Rectangle {
+Image {
     width: 480
     height: 800
-    color: "black"
+    source: "backgrounds/music.jpg"
 
     state: Xbmc.state
 
@@ -14,7 +14,7 @@ Rectangle {
     VisualItemModel {
         id: itemModel
 
-        Rectangle {
+        Item {
             property string label: "Library"
             width: view.width; height: view.height
             LibraryView {
@@ -24,7 +24,7 @@ Rectangle {
 
             Component.onDestruction: print("destroyed 1")
         }
-        Rectangle {
+        Item {
             property string label: "Playlist"
             width: view.width; height: view.height
             AudioPlaylist {
@@ -35,7 +35,7 @@ Rectangle {
 
             Component.onDestruction: print("destroyed 3")
         }
-        Rectangle {
+        Item {
             property string label: "Now Playing"
             width: view.width; height: view.height
             NowPlaying {
@@ -60,13 +60,19 @@ Rectangle {
 
     Rectangle {
         id: notConnectedPopup
-        anchors.fill: parent
-        anchors.margins: 50
+        anchors.centerIn: parent
+        height: 200
+        width: 400
         color: "black"
         border.color: "white"
         radius: 10
         opacity: 0
         scale: 0.5
+
+        Image {
+            anchors.fill: parent
+            source: "images/GlassOverlay.png"
+        }
 
         Text {
             anchors.fill: parent
@@ -82,7 +88,7 @@ Rectangle {
     states: [
     State {
             name: "notConnected"; when: !Xbmc.connected
-            PropertyChanges { target: notConnectedPopup; opacity: 1; scale: 1 }
+            PropertyChanges { target: notConnectedPopup; opacity: 0.8; scale: 1 }
             PropertyChanges { target: view; opacity: 0; }
         },
         State {

@@ -1,8 +1,12 @@
 import QtQuick 1.0
 
 Rectangle {
-//    anchors.fill: parent
+    anchors.fill: parent
+    anchors.margins: 10
     color: "black"
+    border.color: "white"
+    radius: 10
+    opacity: 0.8
 
     property alias model: list.model
 

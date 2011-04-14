@@ -2,8 +2,17 @@ import QtQuick 1.0
 
 Rectangle {
     anchors.fill: parent
+    anchors.margins: 10
+    radius: 10
     color: "black"
+    border.color: "white"
     state: AudioLibrary.state
+    opacity: 0.8
+
+    Image {
+        anchors.fill: parent
+        source: "images/GlassOverlay.png"
+    }
 
     Rectangle {
 

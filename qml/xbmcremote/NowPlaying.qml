@@ -1,9 +1,19 @@
 import QtQuick 1.0
 
 Rectangle {
+    anchors.fill: parent
+    anchors.margins: 10
+    radius: 10
     color: "black"
+    border.color: "white"
     id: nowPlaying
     state: AudioPlayer.state
+    opacity: 0.8
+
+    Image {
+        anchors.fill: parent
+        source: "images/GlassOverlay.png"
+    }
 
     Connections {
         target: MainWindow
@@ -16,21 +26,24 @@ Rectangle {
         anchors.right: parent.right
         anchors.top: topBar.bottom
         anchors.topMargin: -height
+        opacity: 0
 
         states: [
             State { name: "volumeVisible"
-                PropertyChanges {target: volumeBar; anchors.topMargin: 0;}
+                PropertyChanges {target: volumeBar; anchors.topMargin: 0; opacity: 1}
             }
         ]
 
         Behavior on anchors.topMargin {
             NumberAnimation{ duration: 200 }
         }
+        Behavior on opacity {
+            NumberAnimation{ duration: 200 }
+        }
     }
 
-    Rectangle {
+    Item {
         id: topBar
-        color: "black"
         anchors.left: parent.left
         anchors.right: parent.right
         anchors.top: parent.top
