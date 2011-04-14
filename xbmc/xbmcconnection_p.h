@@ -46,9 +46,13 @@ public:
 
     Notifier *notifier();
 
+    bool connected();
+
 private slots:
     void readData();
     void clearPending();
+    void socketError();
+    void slotConnected();
 
 private:
     QTcpSocket *m_socket;

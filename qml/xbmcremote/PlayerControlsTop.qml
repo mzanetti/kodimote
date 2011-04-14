@@ -82,10 +82,8 @@ Row {
             anchors.fill: parent
             onClicked: {
                 if(volumeBar.state == "volumeVisible") {
-                    console.log("WTF")
                     volumeBar.state = "none"
                 } else {
-                    console.log("setting state to volbar")
                     volumeBar.state = "volumeVisible"
                 }
             }

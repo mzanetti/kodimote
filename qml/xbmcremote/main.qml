@@ -58,4 +58,53 @@ Rectangle {
         cacheBuffer: 200
     }
 
+    Rectangle {
+        id: notConnectedPopup
+        anchors.fill: parent
+        anchors.margins: 50
+        color: "black"
+        border.color: "white"
+        radius: 10
+        opacity: 0
+        scale: 0.5
+
+        Text {
+            anchors.fill: parent
+            horizontalAlignment: Text.AlignHCenter
+            verticalAlignment: Text.AlignVCenter
+            text: "Could not connect to Xbmc. Please check your network connection and settings."
+            wrapMode: Text.WordWrap
+            color: "white"
+            font.pixelSize: 28
+        }
+    }
+
+    states: [
+    State {
+            name: "notConnected"; when: !Xbmc.connected
+            PropertyChanges { target: notConnectedPopup; opacity: 1; scale: 1 }
+            PropertyChanges { target: view; opacity: 0; }
+        },
+        State {
+            name: "connected"; when: Xbmc.connected
+            PropertyChanges { target: notConnectedPopup; opacity: 0; scale: 0.5 }
+            PropertyChanges { target: view; opacity: 1; }
+        }
+    ]
+
+    transitions: [
+        Transition {
+            from: "*"; to: "notConnected"
+            NumberAnimation {properties: "opacity"; duration:  300; easing.type: Easing.InCirc}
+            NumberAnimation {properties: "scale"; duration:  500; easing.type: Easing.OutBack}
+        },
+        Transition {
+            from: "notConnected"
+            to: "*"
+            NumberAnimation {properties: "opacity"; duration:  200; easing.type: Easing.OutCirc}
+            NumberAnimation {properties: "scale"; duration:  300; easing.type: Easing.Linear}
+        }
+    ]
+
+
 }

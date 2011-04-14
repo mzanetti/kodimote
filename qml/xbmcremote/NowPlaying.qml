@@ -129,7 +129,7 @@ Rectangle {
             Text {
                 id: artistText
                 height:  40
-                width: nowPlayingList.width
+                width: nowPlayingText.width
                 anchors.bottom: titleText.top
                 color: "white"
                 text: AudioPlaylist.currentArtist + " - " + AudioPlaylist.currentAlbum
@@ -139,7 +139,7 @@ Rectangle {
 
             Text {
                 id:titleText
-                width: nowPlayingList.width
+                width: nowPlayingText.width
                 height:  40
                 anchors.bottom: nowPlayingText.bottom
                 color: "white"

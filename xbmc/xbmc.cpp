@@ -14,6 +14,7 @@ Xbmc::Xbmc(QObject *parent):
 {
     connect(XbmcConnection::notifier(), SIGNAL(receivedAnnouncement(QVariantMap)), SLOT(parseAnnouncement(QVariantMap)));
     connect(XbmcConnection::notifier(), SIGNAL(responseReceived(int,QVariant)), SLOT(responseReceived(int,QVariant)));
+    connect(XbmcConnection::notifier(), SIGNAL(connectionChanged()), SIGNAL(connectedChanged()));
 
     int id = XbmcConnection::sendCommand("Player.GetActivePlayers");
     m_requestMap.insert(id, RequestActivePlayer);
@@ -26,6 +27,10 @@ Xbmc::Xbmc(QObject *parent):
     m_activePlayer = 0;
 
     m_audioLibrary = new AudioLibrary(m_audioPlayer, this);
+}
+
+bool Xbmc::connected() {
+    return XbmcConnection::connected();
 }
 
 QString Xbmc::state()

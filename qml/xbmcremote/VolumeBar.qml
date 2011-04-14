@@ -1,21 +1,21 @@
 import QtQuick 1.0
 
-Rectangle {
+Item {
     anchors.left: parent.left
     anchors.right: parent.right
     height: 62
     property bool dragging: false
 
-    gradient: Gradient {
-        GradientStop {
-            position: 0.00;
-            color: "#000000";
-        }
-        GradientStop {
-            position: 1.00;
-            color: "#979797";
-        }
-    }
+//    gradient: Gradient {
+//        GradientStop {
+//            position: 0.00;
+//            color: "#000000";
+//        }
+//        GradientStop {
+//            position: 1.00;
+//            color: "#979797";
+//        }
+//    }
 
     function sliderPosToPercent(x) {
         return slider.x * 100 / container.width

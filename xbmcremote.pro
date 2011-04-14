@@ -34,6 +34,7 @@ symbian:TARGET.CAPABILITY += NetworkServices
 # The .cpp file which was generated for your project. Feel free to hack it.
 SOURCES += main.cpp \
     mainwindow.cpp \
+    settingsdialog.cpp \
     xbmc/xbmc.cpp \
     xbmc/player.cpp \
     xbmc/audioplayer.cpp \
@@ -65,6 +66,7 @@ qtcAddDeployment()
 
 HEADERS += \
     mainwindow.h \
+    settingsdialog.h \
     xbmc/xbmc.h \
     xbmc/player.h \
     xbmc/audioplayer.h \

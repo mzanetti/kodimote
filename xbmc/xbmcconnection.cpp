@@ -29,6 +29,11 @@ Notifier *notifier()
     return instance()->notifier();
 }
 
+bool connected()
+{
+    return instance()->connected();
+}
+
 /*****************************************************************
   Private impl
   ***************************************************************/
@@ -41,6 +46,12 @@ XbmcConnectionPrivate::XbmcConnectionPrivate(QObject *parent) :
     m_socket = new QTcpSocket();
     m_notifier = new XbmcConnection::Notifier();
 
+    QObject::connect(m_socket, SIGNAL(readyRead()), SLOT(readData()));
+    QObject::connect(m_socket, SIGNAL(connected()), m_notifier, SIGNAL(connectionChanged()));
+    QObject::connect(m_socket, SIGNAL(error(QAbstractSocket::SocketError)), SLOT(socketError()));
+    QObject::connect(m_socket, SIGNAL(connected()), SLOT(slotConnected()));
+    QObject::connect(m_socket, SIGNAL(disconnected()), m_notifier, SIGNAL(connectionChanged()));
+
     m_timeoutTimer.setInterval(1000);
     m_timeoutTimer.setSingleShot(true);
     QObject::connect(&m_timeoutTimer, SIGNAL(timeout()), SLOT(clearPending()));
@@ -49,21 +60,30 @@ XbmcConnectionPrivate::XbmcConnectionPrivate(QObject *parent) :
 
 void XbmcConnectionPrivate::connect(const QString &hostname, int port)
 {
-    qDebug() << "connecting...";
-    m_socket->connectToHost(hostname, port);
-
-    if (m_socket->waitForConnected(5000)) {
-        qDebug() << "connection established.";
-        QObject::connect(m_socket, SIGNAL(readyRead()), SLOT(readData()));
-        sendCommand("JSONRPC.Ping");
-
-        m_hostName = hostname;
-        m_port = port;
-    } else {
-        QString QStringErrorString = m_socket->errorString();
-        qDebug() << QStringErrorString;
+    if(connected()) {
+        m_socket->disconnectFromHost();
     }
 
+    m_hostName = hostname;
+    m_port = port;
+
+    qDebug() << "connecting to" << hostname;
+    m_socket->connectToHost(hostname, port);
+
+}
+
+void XbmcConnectionPrivate::slotConnected()
+{
+    qDebug() << "connected";
+    emit m_notifier->connectionChanged();
+}
+
+void XbmcConnectionPrivate::socketError()
+{
+    qDebug() << "connection error";
+    QString QStringErrorString = m_socket->errorString();
+    qDebug() << QStringErrorString;
+    emit m_notifier->connectionChanged();
 }
 
 QString XbmcConnectionPrivate::vfsPath()
@@ -87,7 +107,7 @@ int XbmcConnectionPrivate::sendCommand(const QString &command, const QVariant &p
 
 void XbmcConnectionPrivate::sendNextCommand()
 {
-    if(m_currentPendingId >= 0) {
+    if(m_currentPendingId >= 0 || m_socket->state() != QAbstractSocket::ConnectedState) {
 //        qDebug() << "cannot send... busy";
         return;
     }
@@ -180,6 +200,11 @@ void XbmcConnectionPrivate::clearPending()
 Notifier *XbmcConnectionPrivate::notifier()
 {
     return m_notifier;
+}
+
+bool XbmcConnectionPrivate::connected()
+{
+    return m_socket->state() == QAbstractSocket::ConnectedState;
 }
 
 }

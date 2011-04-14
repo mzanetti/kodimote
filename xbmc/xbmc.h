@@ -16,6 +16,7 @@ class AudioLibrary;
 class Xbmc: public QObject
 {
     Q_OBJECT
+    Q_PROPERTY(bool connected READ connected NOTIFY connectedChanged)
     Q_PROPERTY(QString state READ state NOTIFY stateChanged)
     Q_PROPERTY(int volume READ volume WRITE setVolume NOTIFY volumeChanged)
     Q_PROPERTY(QString vfsPath READ vfsPath NOTIFY vfsPathChanged)
@@ -34,6 +35,8 @@ public:
 
     AudioLibrary *audioLibrary();
 
+    bool connected();
+
     QString vfsPath();
 
 public slots:
@@ -41,6 +44,7 @@ public slots:
     void toggleMute();
 
 signals:
+    void connectedChanged();
     void vfsPathChanged();
     void stateChanged();
     void activePlayerChanged(Player *player);

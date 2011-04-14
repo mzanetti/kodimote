@@ -1,5 +1,6 @@
 #include "mainwindow.h"
 
+#include "settingsdialog.h"
 #include "xbmc/xbmc.h"
 #include "xbmc/xbmcconnection.h"
 #include "xbmc/audioplayer.h"
@@ -17,6 +18,7 @@
 #include <QFileInfo>
 #include <QLayout>
 #include <QDesktopWidget>
+#include <QSettings>
 
 MainWindow::MainWindow()
 {
@@ -36,10 +38,15 @@ MainWindow::MainWindow()
 
     m_viewer = new QDeclarativeView;
 
-//    m_viewer.setOrientation(QmlApplicationViewer::ScreenOrientationLockPortrait);
+    //    m_viewer.setOrientation(QmlApplicationViewer::ScreenOrientationLockPortrait);
+
+    QSettings settings;
+    if(!settings.contains("Hostname")) {
+        openSettings();
+    }
 
     qDebug() << "connecting xbmc";
-    Xbmc::XbmcConnection::connect("10.10.10.100", 9090);
+    Xbmc::XbmcConnection::connect(settings.value("Hostname").toString(), 9090);
 
     m_viewer->rootContext()->setContextProperty("MainWindow", this);
 
@@ -53,7 +60,7 @@ MainWindow::MainWindow()
     m_viewer->rootContext()->setContextProperty("VideoPlayer", xbmc->videoPlayer());
 
     setMainQmlFile("qml/xbmcremote/main.qml");
-//    viewer.showExpanded();
+    //    viewer.showExpanded();
 
     m_viewer->setResizeMode(QDeclarativeView::SizeRootObjectToView);
 
@@ -69,7 +76,12 @@ MainWindow::MainWindow()
 
 void MainWindow::openSettings()
 {
-
+    QSettings settings;
+    SettingsDialog settingsDialog;
+    settingsDialog.setHostname(settings.value("Hostname").toString());
+    settingsDialog.exec();
+    settings.setValue("Hostname", settingsDialog.hostname());
+    Xbmc::XbmcConnection::connect(settingsDialog.hostname(), 9090);
 }
 
 void MainWindow::setMainQmlFile(const QString &file)
@@ -81,9 +93,9 @@ void MainWindow::setMainQmlFile(const QString &file)
 QString MainWindow::adjustPath(const QString &path)
 {
     const QString pathInShareDir = QCoreApplication::applicationDirPath()
-        + QLatin1String("/../share/")
-        + QFileInfo(QCoreApplication::applicationFilePath()).fileName()
-        + QLatin1Char('/') + path;
+            + QLatin1String("/../share/")
+            + QFileInfo(QCoreApplication::applicationFilePath()).fileName()
+            + QLatin1Char('/') + path;
     if (QFileInfo(pathInShareDir).exists())
         return pathInShareDir;
     return path;
@@ -91,14 +103,14 @@ QString MainWindow::adjustPath(const QString &path)
 
 QString MainWindow::state() const
 {
-//    QRect screenGeometry = QApplication::desktop()->screenGeometry();
-//    if (screenGeometry.width() > screenGeometry.height()) {
-//        qDebug() << "In Landscape Mode";
-//        return "landscape";
-//    } else {
-//        qDebug() << "In Portrait Mode";
-//        return "prtrait";
-//    }
+    //    QRect screenGeometry = QApplication::desktop()->screenGeometry();
+    //    if (screenGeometry.width() > screenGeometry.height()) {
+    //        qDebug() << "In Landscape Mode";
+    //        return "landscape";
+    //    } else {
+    //        qDebug() << "In Portrait Mode";
+    //        return "prtrait";
+    //    }
     if(size().width() > size().height()) {
         return "landscape";
     } else {

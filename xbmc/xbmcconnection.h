@@ -15,12 +15,15 @@ int sendCommand(const QString &command, const QVariant &params = QVariant());
 
 QString vfsPath();
 
+bool connected();
+
 class Notifier: public QObject
 {
     Q_OBJECT
 public:
     friend class XbmcConnectionPrivate;
 signals:
+    void connectionChanged();
     void receivedAnnouncement(const QVariantMap &announcement);
     void responseReceived(int id, const QVariant &params);
 };
