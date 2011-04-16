@@ -25,7 +25,7 @@ public:
 signals:
     void connectionChanged();
     void receivedAnnouncement(const QVariantMap &announcement);
-    void responseReceived(int id, const QVariant &params);
+    void responseReceived(int id, const QVariantMap &response);
 };
 Notifier *notifier();
 }

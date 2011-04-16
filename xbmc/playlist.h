@@ -31,6 +31,8 @@ public:
 
     void clear();
     void addItems(int artistId, int albumId);
+    void addPlaylist(const QString &playlistId);
+    void addFile(const QString &file);
 
     int count() const;
 
@@ -66,7 +68,7 @@ public slots:
     void skipPrevious();
 
 private slots:
-    void responseReveiced(int id, const QVariant &response);
+    void responseReveiced(int id, const QVariantMap &response);
     void receivedAnnouncement(const QVariantMap &map);
 
 protected:

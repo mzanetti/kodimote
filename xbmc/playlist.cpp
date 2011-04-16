@@ -11,7 +11,7 @@ Playlist::Playlist(QObject *parent) :
     m_currentSong(-1),
     m_shuffle(false) //TODO: query player for state as soon as API supports it
 {
-    connect(XbmcConnection::notifier(), SIGNAL(responseReceived(int,QVariant)), SLOT(responseReveiced(int,QVariant)));
+    connect(XbmcConnection::notifier(), SIGNAL(responseReceived(int,QVariantMap)), SLOT(responseReveiced(int,QVariantMap)));
     connect(XbmcConnection::notifier(), SIGNAL(receivedAnnouncement(QVariantMap)), SLOT(receivedAnnouncement(QVariantMap)));
     staticMetaObject.invokeMethod(this, "refresh", Qt::QueuedConnection);
 
@@ -71,11 +71,32 @@ void Playlist::addItems(int artistId, int albumId)
     XbmcConnection::sendCommand(namespaceString() + ".Add", item);
 }
 
-void Playlist::responseReveiced(int id, const QVariant &response)
+void Playlist::addPlaylist(const QString &playlistId)
+{
+    PlaylistItem pItem;
+    pItem.setPlayList(playlistId);
+    QVariantMap item;
+    item.insert("item", pItem.toMap());
+
+    XbmcConnection::sendCommand(namespaceString() + ".Add", item);
+}
+
+void Playlist::addFile(const QString &file)
+{
+    PlaylistItem pItem;
+    pItem.setFile(file);
+    QVariantMap item;
+    item.insert("item", pItem.toMap());
+    XbmcConnection::sendCommand(namespaceString() + ".Add", item);
+}
+
+void Playlist::responseReveiced(int id, const QVariantMap &response)
 {
     if(!m_requestMap.contains(id)) {
         return;
     }
+
+    QVariant rsp = response.value("result");
 
     switch(m_requestMap.value(id)) {
     case RequestGetItems: {
@@ -83,7 +104,7 @@ void Playlist::responseReveiced(int id, const QVariant &response)
 //        qDebug() << "resetting model";
         beginResetModel();
         m_itemList.clear();
-        QVariantList responseList = response.toMap().value("items").toList();
+        QVariantList responseList = rsp.toMap().value("items").toList();
         foreach(const QVariant &itemVariant, responseList) {
             QVariantMap itemMap = itemVariant.toMap();
             SongItem item;
@@ -95,7 +116,7 @@ void Playlist::responseReveiced(int id, const QVariant &response)
             m_itemList.append(item);
         }
         endResetModel();
-        m_currentSong = response.toMap().value("state").toMap().value("current").toInt();
+        m_currentSong = rsp.toMap().value("state").toMap().value("current").toInt();
         queryItemData(m_currentSong);
         qDebug() << "set current to" << m_currentSong;
         emit countChanged();
@@ -103,9 +124,9 @@ void Playlist::responseReveiced(int id, const QVariant &response)
         break;
     }
     case RequestCurrentData: {
-        if(m_itemList.count() > m_currentSong) {
+        if(m_itemList.count() > m_currentSong && m_currentSong > -1) {
             SongItem item = m_itemList.at(m_currentSong);
-            QVariantList responseList = response.toMap().value("items").toList();
+            QVariantList responseList = rsp.toMap().value("items").toList();
             QVariantMap itemMap = responseList.first().toMap();
     //            item.setFanart(itemMap.value("fanart").toString());
             item.setLabel(itemMap.value("label").toString());

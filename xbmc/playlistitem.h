@@ -11,19 +11,19 @@ namespace Xbmc
 class PlaylistItem
 {
 public:
-    PlaylistItem(int albumId = -1, int artistId = -1, const QString &file = QString(), int genreId = -1, int playlistId = -1);
+    PlaylistItem(int albumId = -1, int artistId = -1, const QString &file = QString(), int genreId = -1, const QString &playlist = QString());
 
     void setAlbumId(int albumId);
     void setArtistId(int artistId);
     void setFile(const QString &file);
     void setGenreId(int genreId);
-    void setPlayList(int playlistId);
+    void setPlayList(const QString &playlist);
 
     int albumId() const;
     int artistId() const;
     QString file() const;
     int genreId() const;
-    int playlistId() const;
+    QString playlistId() const;
 
     QVariantMap toMap() const;
 
@@ -32,7 +32,7 @@ private:
     int m_artistId;
     QString m_file;
     int m_genreId;
-    int m_playlistId;
+    QString m_playlistId;
 };
 
 }

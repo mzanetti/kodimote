@@ -3,6 +3,9 @@
 
 #include "playlist.h"
 #include "audiolibrary.h"
+#include "audioplayer.h"
+#include "videoplayer.h"
+#include "files.h"
 
 #include <QDebug>
 
@@ -13,7 +16,7 @@ Xbmc::Xbmc(QObject *parent):
     QObject(parent)
 {
     connect(XbmcConnection::notifier(), SIGNAL(receivedAnnouncement(QVariantMap)), SLOT(parseAnnouncement(QVariantMap)));
-    connect(XbmcConnection::notifier(), SIGNAL(responseReceived(int,QVariant)), SLOT(responseReceived(int,QVariant)));
+    connect(XbmcConnection::notifier(), SIGNAL(responseReceived(int,QVariantMap)), SLOT(responseReceived(int,QVariantMap)));
     connect(XbmcConnection::notifier(), SIGNAL(connectionChanged()), SIGNAL(connectedChanged()));
 
     int id = XbmcConnection::sendCommand("Player.GetActivePlayers");
@@ -27,6 +30,8 @@ Xbmc::Xbmc(QObject *parent):
     m_activePlayer = 0;
 
     m_audioLibrary = new AudioLibrary(m_audioPlayer, this);
+
+    m_files = new Files(m_audioPlayer, this);
 }
 
 bool Xbmc::connected() {
@@ -44,7 +49,7 @@ QString Xbmc::state()
     return "undefined";
 }
 
-AudioPlayer *Xbmc::audioPlayer()
+Player *Xbmc::audioPlayer()
 {
     return m_audioPlayer;
 }
@@ -54,7 +59,12 @@ AudioLibrary *Xbmc::audioLibrary()
     return m_audioLibrary;
 }
 
-VideoPlayer *Xbmc::videoPlayer()
+Files *Xbmc::files()
+{
+    return m_files;
+}
+
+Player *Xbmc::videoPlayer()
 {
     return m_videoPlayer;
 }
@@ -93,13 +103,15 @@ void Xbmc::parseAnnouncement(const QVariantMap &map)
     }
 }
 
-void Xbmc::responseReceived(int id, const QVariant &rsp)
+void Xbmc::responseReceived(int id, const QVariantMap &response)
 {
     if(!m_requestMap.contains(id)) {
         return;
     }
 
     Player *activePlayer = 0;
+
+    QVariant rsp = response.value("result");
 
     switch(m_requestMap.value(id)) {
     case RequestActivePlayer: {

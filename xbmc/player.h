@@ -51,7 +51,7 @@ public slots:
 private slots:
     void getState();
     void receivedAnnouncement(const QVariantMap& map);
-    void responseReceived(int, const QVariant &rsp);
+    void responseReceived(int, const QVariantMap &rsp);
 
 private:
     enum Request {

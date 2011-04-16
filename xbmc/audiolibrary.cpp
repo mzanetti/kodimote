@@ -11,7 +11,7 @@ AudioLibrary::AudioLibrary(Player *player, QObject *parent) :
     QAbstractItemModel(parent),
     m_player(player)
 {
-    connect(XbmcConnection::notifier(), SIGNAL(responseReceived(int,QVariant)), SLOT(responseReceived(int,QVariant)));
+    connect(XbmcConnection::notifier(), SIGNAL(responseReceived(int,QVariantMap)), SLOT(responseReceived(int,QVariantMap)));
 
     m_state = "library";
 
@@ -48,42 +48,22 @@ void AudioLibrary::enterItem(int index)
     }
 
     if(m_state == "artists") {
-        if(index == -1) {
-            showLibrary();
-        } else {
-            showAlbums(index);
-        }
+        showAlbums(index);
         return;
     }
 
     if(m_state == "albums") {
-        if(index == -1) {
-            if(m_artistFilter == -1) {
-                showLibrary();
-            } else {
-                showArtists();
-            }
-        } else {
-            showSongs(m_artistFilter, index);
-        }
+        showSongs(m_artistFilter, index);
     }
 
     if(m_state == "songs") {
-        if(index == -1) {
-            if(m_albumFilter == -1) {
-                showLibrary();
-            } else {
-                showAlbums(m_artistFilter);
-            }
-        } else {
-            qDebug() << "on song pressed" << index;
-            m_player->playlist()->clear();
-            m_player->playlist()->addItems(m_artistFilter, m_albumFilter);
-            for(int i = 0; i < m_songList.count(); ++i) {
-                if(m_songList.at(i).songId() == index) {
-                    m_player->playlist()->playItem(i - 1); // -1 because of the ".."
-                    break;
-                }
+        qDebug() << "on song pressed" << index;
+        m_player->playlist()->clear();
+        m_player->playlist()->addItems(m_artistFilter, m_albumFilter);
+        for(int i = 0; i < m_songList.count(); ++i) {
+            if(m_songList.at(i).songId() == index) {
+                m_player->playlist()->playItem(i);
+                break;
             }
         }
     }
@@ -199,19 +179,20 @@ QVariant AudioLibrary::data(const QModelIndex &index, int role) const
     return QVariant();
 }
 
-void AudioLibrary::responseReceived(int id, QVariant response)
+void AudioLibrary::responseReceived(int id, const QVariantMap &response)
 {
     if(!m_requestMap.contains(id)) {
         return;
     }
 
+    QVariant rsp = response.value("result");
+
     switch(m_requestMap.value(id)) {
     case RequestArtists: {
         beginResetModel();
         m_artistList.clear();
-        m_artistList.append(ArtistItem(".."));
-        qDebug() << "got artists:" << response;
-        QVariantList responseList = response.toMap().value("artists").toList();
+        qDebug() << "got artists:" << rsp;
+        QVariantList responseList = rsp.toMap().value("artists").toList();
         foreach(const QVariant &itemVariant, responseList) {
             QVariantMap itemMap = itemVariant.toMap();
             ArtistItem item(itemMap.value("label").toString(), itemMap.value("artistid").toInt());
@@ -226,9 +207,8 @@ void AudioLibrary::responseReceived(int id, QVariant response)
     case RequestAlbums: {
         beginResetModel();
         m_albumList.clear();
-        m_albumList.append(AlbumItem(".."));
         qDebug() << "got albums:" << response;
-        QVariantList responseList = response.toMap().value("albums").toList();
+        QVariantList responseList = rsp.toMap().value("albums").toList();
         foreach(const QVariant &itemVariant, responseList) {
             QVariantMap itemMap = itemVariant.toMap();
             AlbumItem item(itemMap.value("label").toString(), itemMap.value("albumid").toInt());
@@ -243,9 +223,8 @@ void AudioLibrary::responseReceived(int id, QVariant response)
     case RequestSongs: {
         beginResetModel();
         m_songList.clear();
-        m_songList.append(SongItem(-1, ".."));
 //        qDebug() << "got songs:" << response;
-        QVariantList responseList = response.toMap().value("songs").toList();
+        QVariantList responseList = rsp.toMap().value("songs").toList();
         qDebug() << "starting inserting items";
         foreach(const QVariant &itemVariant, responseList) {
             QVariantMap itemMap = itemVariant.toMap();
@@ -281,5 +260,88 @@ int AudioLibrary::albumFilter()
 int AudioLibrary::artistFilter()
 {
     return m_artistFilter;
+}
+
+QString AudioLibrary::currentDir()
+{
+    if(m_state == "library") {
+        return "Library/";
+    }
+
+    if(m_state == "artists") {
+        return "Library/Artists/";
+    }
+
+    if(m_state == "albums") {
+        if(m_artistFilter == -1) {
+            return "Library/Albums/";
+        } else {
+            return "Library/Artists/Albums/";
+        }
+    }
+
+    if(m_state == "songs") {
+        QString ret = "Library/";
+        if(m_artistFilter != -1) {
+            ret.append("Artists/");
+        }
+        if(m_albumFilter != -1) {
+            ret.append("Albums/");
+        }
+        ret.append("Songs/");
+        return ret;
+    }
+}
+
+void AudioLibrary::goUp(int levels)
+{
+    if(levels <= 0 || m_state == "library") {
+        return; // Nothing to do
+    }
+
+    if(m_state == "artists") { // Library > Artists
+        showLibrary();
+        return;
+    }
+
+    if(m_state == "albums") {
+        if(m_artistFilter == -1) { // Library > Albums
+            showLibrary();
+        } else {  // Library > Artists > Albums
+            if(levels == 1) {
+                showArtists();
+            } else if(levels > 1) {
+                showLibrary();
+            }
+        }
+        return;
+    }
+
+    if(m_state == "songs") {
+        if(m_artistFilter != -1) {
+            if(m_albumFilter != -1) { // Library > Artists > Albums > Songs
+                if(levels == 1) {
+                    showAlbums(m_artistFilter);
+                } else if(levels == 2) {
+                    showArtists();
+                } else {
+                    showLibrary();
+                }
+            } else { // Library > Artists > Songs (not yet supported)
+                showArtists();
+            }
+        } else {
+            if(m_albumFilter != -1) { // Library > Albums > Songs
+                if(levels == 1) {
+                    showAlbums();
+                } else {
+                    showLibrary();
+                }
+            } else { // Library > Songs
+                showLibrary();
+            }
+        }
+        return;
+    }
 }
 }

@@ -7,23 +7,47 @@ Image {
 
     state: Xbmc.state
 
-    onStateChanged: {
-        console.log("*****" + state)
-    }
-
     VisualItemModel {
         id: itemModel
 
+//        Item {
+//            property string label: "Library"
+//            width: view.width; height: view.height
+//            LibraryView {
+//                id: libraryView
+//                visible: true
+//            }
+
+//            Component.onDestruction: print("destroyed 1")
+//        }
         Item {
-            property string label: "Library"
+            id: musicBrowser
             width: view.width; height: view.height
+            Browser {
+                id: fileBrowser
+                visible: true
+                onGoBack: selectorPopup.state = "open"
+            }
             LibraryView {
                 id: libraryView
-                visible: true
+                visible: false
+                onGoBack: selectorPopup.state = "open"
             }
 
-            Component.onDestruction: print("destroyed 1")
+            states: [
+                State { name: "files"
+                    PropertyChanges {target:  fileBrowser; visible: true }
+                    PropertyChanges {target:  libraryView; visible: false }
+                },
+                State { name: "library"
+                    PropertyChanges {target:  fileBrowser; visible: false }
+                    PropertyChanges {target:  libraryView; visible: true }
+                }
+
+            ]
+
         }
+
         Item {
             property string label: "Playlist"
             width: view.width; height: view.height
@@ -33,7 +57,6 @@ Image {
                 model: AudioPlaylist
             }
 
-            Component.onDestruction: print("destroyed 3")
         }
         Item {
             property string label: "Now Playing"
@@ -42,7 +65,6 @@ Image {
                 anchors.fill: parent
             }
 
-            Component.onDestruction: print("destroyed 2")
         }
     }
 
@@ -83,6 +105,53 @@ Image {
             color: "white"
             font.pixelSize: 28
         }
+    }
+
+    Rectangle {
+        id: selectorPopup
+        anchors.top: parent.top
+        anchors.bottom: parent.bottom
+        anchors.right: parent.left
+        width: 300
+        color: "black"
+        state: "closed"
+
+        ListModel {
+            id: musicSelectorModel
+            ListElement { label: "Files"}
+            ListElement { label: "Library"}
+        }
+        ListView {
+            anchors.fill: parent
+            model: musicSelectorModel
+            delegate: Item {
+                anchors.left: parent.left
+                anchors.right: parent.right
+                height: 55
+
+                Text {
+                    text: label
+                    color: "white"
+                }
+                MouseArea {
+                    anchors.fill: parent
+                    onClicked: {
+                        if(index == 0) {
+                            musicBrowser.state = "files"
+                        } else {
+                            musicBrowser.state = "library"
+                        }
+                        selectorPopup.state = "closed"
+                    }
+                }
+            }
+        }
+
+        states:  [
+            State { name: "open"
+                PropertyChanges { target: selectorPopup; anchors.rightMargin: -selectorPopup.width }
+            }
+        ]
     }
 
     states: [

@@ -1,19 +1,16 @@
 import QtQuick 1.0
 
-Rectangle {
-    anchors.fill: parent
+BorderImage {
+    border.top: 15
+    border.right: 15
+    border.left: 15
+    border.bottom: 15
     anchors.margins: 10
-    radius: 10
-    color: "black"
-    border.color: "white"
+    anchors.fill: parent
+    source: "images/ContentPanel.png"
     id: nowPlaying
     state: AudioPlayer.state
-    opacity: 0.8
 
-    Image {
-        anchors.fill: parent
-        source: "images/GlassOverlay.png"
-    }
 
     Connections {
         target: MainWindow
@@ -47,7 +44,8 @@ Rectangle {
         anchors.left: parent.left
         anchors.right: parent.right
         anchors.top: parent.top
-        height: 100
+        anchors.topMargin: 20
+        height: 60
 
         PlayerControlsTop {
             anchors.fill: parent
@@ -93,7 +91,6 @@ Rectangle {
                 height: parent.height
                 width: height
                 source: fanart()
-                onSourceChanged: console.log("ÄÄÄÄ" + source)
             }
         }
 
@@ -178,7 +175,8 @@ Rectangle {
         anchors.left: parent.left
         anchors.right: parent.right
         anchors.bottom: parent.bottom
-        height: 100
+        anchors.bottomMargin: 20
+        height: 60
         id: audioPlayerControls
     }
 

@@ -19,8 +19,9 @@ class AudioLibrary : public QAbstractItemModel
     Q_OBJECT
 
     Q_PROPERTY(QString state READ state NOTIFY stateChanged)
-    Q_PROPERTY(int artistFilter READ artistFilter())
-    Q_PROPERTY(int albumFilter READ albumFilter())
+    Q_PROPERTY(int artistFilter READ artistFilter)
+    Q_PROPERTY(int albumFilter READ albumFilter)
+    Q_PROPERTY(QString currentDir READ currentDir NOTIFY stateChanged)
 
 public:
     explicit AudioLibrary(Player *player, QObject *parent = 0);
@@ -34,6 +35,7 @@ public:
     QString state();
     int artistFilter();
     int albumFilter();
+    QString currentDir();
 
 signals:
     void stateChanged();
@@ -44,6 +46,7 @@ public slots:
     void showArtists();
     void showAlbums(int artistId = -1);
     void showSongs(int artistId = -1, int albumId = -1);
+    void goUp(int levels);
 
 private:
     enum Request {
@@ -65,7 +68,7 @@ private:
     QList<SongItem> m_songList;
 
 private slots:
-    void responseReceived(int,QVariant);
+    void responseReceived(int, const QVariantMap &response);
 
 
 };

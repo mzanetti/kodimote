@@ -1,9 +1,6 @@
 #ifndef XBMC_H
 #define XBMC_H
 
-#include "audioplayer.h"
-#include "videoplayer.h"
-
 #include <QList>
 #include <QObject>
 #include <QVariantMap>
@@ -12,6 +9,8 @@ namespace Xbmc
 {
 
 class AudioLibrary;
+class Files;
+class Player;
 
 class Xbmc: public QObject
 {
@@ -28,12 +27,14 @@ public:
 
     int volume();
 
-    AudioPlayer *audioPlayer();
-    VideoPlayer *videoPlayer();
+    Player *audioPlayer();
+    Player *videoPlayer();
 
     Player *activePlayer();
 
     AudioLibrary *audioLibrary();
+
+    Files *files();
 
     bool connected();
 
@@ -56,9 +57,10 @@ private:
         RequestVolume
     };
 
-    AudioPlayer *m_audioPlayer;
-    VideoPlayer *m_videoPlayer;
+    Player *m_audioPlayer;
+    Player *m_videoPlayer;
     Player *m_activePlayer;
+    Files *m_files;
 
     AudioLibrary *m_audioLibrary;
 
@@ -68,7 +70,7 @@ private:
 
 private slots:
     void parseAnnouncement(const QVariantMap &map);
-    void responseReceived(int id, const QVariant &rsp);
+    void responseReceived(int id, const QVariantMap &rsp);
 
 };
 

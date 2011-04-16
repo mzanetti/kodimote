@@ -55,6 +55,7 @@ SOURCES += main.cpp \
     JsonQt/lib/JsonRpcAdaptorPrivate.cpp \
     JsonQt/lib/JsonRpcAdaptor.cpp \
     JsonQt/lib/JsonRpc.cpp \
+    xbmc/files.cpp
 
 # We actually don't use the QMLApplicationViewer any more... It's pri file,
 # however contains a lot of deplayment stuff so we still keep this here:
@@ -89,3 +90,4 @@ HEADERS += \
     JsonQt/lib/JsonRpcAdaptor.h \
     JsonQt/lib/JsonRpc.h \
     JsonQt/lib/JsonQtExport.h \
+    xbmc/files.h

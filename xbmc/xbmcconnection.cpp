@@ -76,6 +76,7 @@ void XbmcConnectionPrivate::slotConnected()
 {
     qDebug() << "connected";
     emit m_notifier->connectionChanged();
+    sendNextCommand();
 }
 
 void XbmcConnectionPrivate::socketError()
@@ -149,8 +150,8 @@ void XbmcConnectionPrivate::readData()
             continue;
         }
         QVariantMap rsp;
-        QTime t = QTime::currentTime();
-        qDebug() << "starting parsing";
+//        QTime t = QTime::currentTime();
+//        qDebug() << "starting parsing";
         try {
             rsp = JsonQt::JsonToVariant::parse(lineData).toMap();
         } catch (JsonQt::ParseException) {
@@ -158,9 +159,9 @@ void XbmcConnectionPrivate::readData()
             qFatal("caught ParseException.");
             return;
         }
-        qDebug() << "finished parsing after" << t.msecsTo(QTime::currentTime());
+//        qDebug() << "finished parsing after" << t.msecsTo(QTime::currentTime());
 
-//        qDebug() << ">>> Incoming:" << data;
+        qDebug() << ">>> Incoming:" << data;
 
         if(rsp.value("method").toString() == "Announcement") {
             qDebug() << ">>> received announcement" << rsp.value("params").toMap();
@@ -168,8 +169,8 @@ void XbmcConnectionPrivate::readData()
             return;
         }
         if(rsp.value("id").toInt() >= 0) {
-    //        qDebug() << ">>> received response" << rsp.value("result");
-            emit m_notifier->responseReceived(rsp.value("id").toInt(), rsp.value("result"));
+//            qDebug() << ">>> received response" << rsp.value("result");
+            emit m_notifier->responseReceived(rsp.value("id").toInt(), rsp);
             int id = rsp.value("id").toInt();
             if(m_currentPendingId == id) {
 //                m_commandQueue.removeFirst();

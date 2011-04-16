@@ -13,7 +13,7 @@ Player::Player(PlayerType type, QObject *parent) :
     m_speed(1)
 {
     connect(XbmcConnection::notifier(), SIGNAL(receivedAnnouncement(QVariantMap)), SLOT(receivedAnnouncement(QVariantMap)));
-    connect(XbmcConnection::notifier(), SIGNAL(responseReceived(int,QVariant)), SLOT(responseReceived(int,QVariant)));
+    connect(XbmcConnection::notifier(), SIGNAL(responseReceived(int,QVariantMap)), SLOT(responseReceived(int,QVariantMap)));
     staticMetaObject.invokeMethod(this, "getState", Qt::QueuedConnection);
 }
 
@@ -85,15 +85,17 @@ void Player::receivedAnnouncement(const QVariantMap &map)
     }
 }
 
-void Player::responseReceived(int id, const QVariant &rsp)
+void Player::responseReceived(int id, const QVariantMap &response)
 {
     if(!m_requestMap.contains(id)) {
         return;
     }
 
+    QVariant rsp = response.value("result");
+
     switch(m_requestMap.value(id)) {
     case RequestState:
-        qDebug() << "****** got state" << rsp;
+//        qDebug() << "****** got state" << rsp;
         if(rsp.toMap().value("paused").toBool()) {
             m_state = "paused";
         } else if(rsp.toMap().value("playing").toBool()) {

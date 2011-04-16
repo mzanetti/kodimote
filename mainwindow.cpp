@@ -7,6 +7,7 @@
 #include "xbmc/audioplaylist.h"
 #include "xbmc/videoplayer.h"
 #include "xbmc/audiolibrary.h"
+#include "xbmc/files.h"
 
 #include "qmlapplicationviewer.h"
 
@@ -58,6 +59,8 @@ MainWindow::MainWindow()
     m_viewer->rootContext()->setContextProperty("AudioLibrary", xbmc->audioLibrary());
 
     m_viewer->rootContext()->setContextProperty("VideoPlayer", xbmc->videoPlayer());
+
+    m_viewer->rootContext()->setContextProperty("Files", xbmc->files());
 
     setMainQmlFile("qml/xbmcremote/main.qml");
     //    viewer.showExpanded();

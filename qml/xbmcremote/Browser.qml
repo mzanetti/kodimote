@@ -1,7 +1,7 @@
 import QtQuick 1.0
 
 Item {
-    id: libraryView
+    id: browser
     anchors.fill: parent
 
     signal goBack
@@ -11,10 +11,10 @@ Item {
         anchors.left: parent.left
         anchors.top: parent.top
         anchors.right: parent.right
-        currentDir: AudioLibrary.currentDir
+        currentDir: Files.currentDir
 
-        onGoUp: AudioLibrary.goUp(levels)
-        onGoBack: libraryView.goBack()
+        onGoUp: Files.goUp(levels)
+        onGoBack: browser.goBack()
     }
 
     BorderImage {
@@ -22,18 +22,22 @@ Item {
         border.right: 15
         border.left: 15
         border.bottom: 15
-        anchors {left: parent.left; right: parent.right; bottom: parent.bottom; top: topBar.bottom }
-        anchors.margins: 10
-        state: AudioLibrary.state
+
+        anchors.top: topBar.bottom
+        anchors.left: parent.left
+        anchors.right: parent.right
+        anchors.bottom: parent.bottom
+        anchors.leftMargin: 10
+        anchors.rightMargin: 10
+        anchors.bottomMargin: 10
         source: "images/ContentPanel.png"
 
         ListView {
             id: list
-            anchors {left: parent.left; right: parent.right; bottom: parent.bottom; top: parent.top}
+            anchors.fill: parent
             anchors.margins: 20
-            //        anchors.rightMargin: 20
             clip: true
-            model: AudioLibrary
+            model: Files
 
             delegate: Item {
                 width: parent.width
@@ -60,7 +64,7 @@ Item {
                     anchors.fill: parent
 
                     onClicked: {
-                        list.model.enterItem(itemId)
+                        list.model.enterDir(directory)
 
                     }
                 }

@@ -1,29 +1,20 @@
 import QtQuick 1.0
 
-Rectangle {
-    anchors.fill: parent
+BorderImage {
+    border.top: 15
+    border.right: 15
+    border.left: 15
+    border.bottom: 15
     anchors.margins: 10
-    color: "black"
-    border.color: "white"
-    radius: 10
-    opacity: 0.8
+    anchors.fill: parent
+    source: "images/ContentPanel.png"
 
     property alias model: list.model
-
-    onVisibleChanged: {
-        console.log("mdoelchanged")
-    }
-
-    Image {
-        anchors.fill: parent
-        source: "images/GlassOverlay.png"
-    }
 
     ListView {
         id: list
         anchors.fill: parent
-        anchors.leftMargin: 20
-        anchors.rightMargin: 20
+        anchors.margins: 20
         clip: true
 
         delegate: Item {
