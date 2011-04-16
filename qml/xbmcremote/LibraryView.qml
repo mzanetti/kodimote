@@ -32,7 +32,7 @@ Item {
         ListView {
             id: list
             anchors {left: parent.left; right: parent.right; bottom: parent.bottom; top: parent.top}
-            anchors.margins: 20
+            anchors.margins: 25
             //        anchors.rightMargin: 20
             clip: true
             model: AudioLibrary
@@ -72,6 +72,7 @@ Item {
         ScrollBar {
             scrollArea: list; width: 15; alwaysVisible: false
             anchors { right: parent.right; top: parent.top; bottom: parent.bottom}
+            anchors.rightMargin: 10
             anchors.topMargin: 20
             anchors.bottomMargin: 20
         }

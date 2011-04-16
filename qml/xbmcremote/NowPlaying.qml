@@ -56,8 +56,8 @@ BorderImage {
     Rectangle {
         anchors.left: parent.left
         anchors.right: parent.right
-        anchors.leftMargin: 10
-        anchors.rightMargin: 10
+        anchors.leftMargin: 15
+        anchors.rightMargin: 15
         anchors.bottom: topBar.bottom
         height: 1
         color: "#ffffff";
@@ -76,7 +76,7 @@ BorderImage {
         anchors.bottom: audioPlayerControls.top
         anchors.left: parent.left
         anchors.right: parent.right
-        anchors.margins: 15
+        anchors.margins: 20
         spacing: 15
 
 //        Rectangle { height: 30; width: nowPlayingList.width; color: "blue" }
@@ -118,7 +118,7 @@ BorderImage {
                 Text {
                     id: trackNumLabel
                     anchors.right: trackNumText.right
-                        anchors.rightMargin: trackNumText.width + 15
+                    anchors.rightMargin: trackNumText.width + 20
                     height:  40
                     color: "#0084ff"
                     text: "Track:"
@@ -164,8 +164,8 @@ BorderImage {
     Rectangle {
         anchors.left: parent.left
         anchors.right: parent.right
-        anchors.leftMargin: 10
-        anchors.rightMargin: 10
+        anchors.leftMargin: 15
+        anchors.rightMargin: 15
         anchors.bottom: audioPlayerControls.top
         height: 1
         color: "#ffffff";

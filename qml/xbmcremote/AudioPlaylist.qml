@@ -14,7 +14,7 @@ BorderImage {
     ListView {
         id: list
         anchors.fill: parent
-        anchors.margins: 20
+        anchors.margins: 25
         clip: true
 
         delegate: Item {
@@ -51,6 +51,7 @@ BorderImage {
     ScrollBar {
          scrollArea: list; width: 15; alwaysVisible: false
          anchors { right: parent.right; top: parent.top; bottom: parent.bottom}
+         anchors.rightMargin: 10
          anchors.topMargin: 20
          anchors.bottomMargin: 20
      }
