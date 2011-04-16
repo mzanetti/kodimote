@@ -23,7 +23,9 @@ Item {
         border.left: 15
         border.bottom: 15
         anchors {left: parent.left; right: parent.right; bottom: parent.bottom; top: topBar.bottom }
-        anchors.margins: 10
+        anchors.leftMargin: 10
+        anchors.rightMargin: 10
+        anchors.bottomMargin: 10
         state: AudioLibrary.state
         source: "images/ContentPanel.png"
 

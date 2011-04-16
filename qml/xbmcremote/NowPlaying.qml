@@ -44,7 +44,7 @@ BorderImage {
         anchors.left: parent.left
         anchors.right: parent.right
         anchors.top: parent.top
-        anchors.topMargin: 20
+        anchors.topMargin: 15
         height: 60
 
         PlayerControlsTop {
@@ -175,7 +175,7 @@ BorderImage {
         anchors.left: parent.left
         anchors.right: parent.right
         anchors.bottom: parent.bottom
-        anchors.bottomMargin: 20
+        anchors.bottomMargin: 15
         height: 60
         id: audioPlayerControls
     }

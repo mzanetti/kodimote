@@ -26,12 +26,12 @@ Image {
             Browser {
                 id: fileBrowser
                 visible: true
-                onGoBack: selectorPopup.state = "open"
+                onGoBack: homeMenu.state = "open"
             }
             LibraryView {
                 id: libraryView
                 visible: false
-                onGoBack: selectorPopup.state = "open"
+                onGoBack: homeMenu.state = "open"
             }
 
             states: [
@@ -107,51 +107,10 @@ Image {
         }
     }
 
-    Rectangle {
-        id: selectorPopup
-        anchors.top: parent.top
-        anchors.bottom: parent.bottom
-        anchors.right: parent.left
-        width: 300
-        color: "black"
-        state: "closed"
 
-        ListModel {
-            id: musicSelectorModel
-            ListElement { label: "Files"}
-            ListElement { label: "Library"}
-        }
-        ListView {
-            anchors.fill: parent
-            model: musicSelectorModel
-            delegate: Item {
-                anchors.left: parent.left
-                anchors.right: parent.right
-                height: 55
+    HomeMenu {
+        id: homeMenu
 
-                Text {
-                    text: label
-                    color: "white"
-                }
-                MouseArea {
-                    anchors.fill: parent
-                    onClicked: {
-                        if(index == 0) {
-                            musicBrowser.state = "files"
-                        } else {
-                            musicBrowser.state = "library"
-                        }
-                        selectorPopup.state = "closed"
-                    }
-                }
-            }
-        }
-
-        states:  [
-            State { name: "open"
-                PropertyChanges { target: selectorPopup; anchors.rightMargin: -selectorPopup.width }
-            }
-        ]
     }
 
     states: [
