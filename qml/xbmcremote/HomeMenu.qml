@@ -21,6 +21,7 @@ BorderImage {
         ListElement { label: "Library"}
     }
     ListView {
+        id: musicSelectorView
         anchors.fill: parent
         model: musicSelectorModel
         anchors.margins: 25
@@ -64,6 +65,7 @@ BorderImage {
     states:  [
         State { name: "open"
             PropertyChanges { target: homeMenu; anchors.rightMargin: -homeMenu.width }
+            PropertyChanges { target: cancelArea; anchors.leftMargin: 0 }
         }
     ]
 }

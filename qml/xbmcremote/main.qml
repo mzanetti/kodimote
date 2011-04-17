@@ -1,6 +1,7 @@
 import QtQuick 1.0
 
 Image {
+    id: screen
     width: 480
     height: 800
     source: "backgrounds/music.jpg"
@@ -109,6 +110,18 @@ Image {
     }
 
 
+    MouseArea {
+        id: cancelArea
+        anchors.fill: screen
+        enabled: false
+        onClicked: {
+            homeMenu.state = "closed"
+        }
+        states: State {
+            name: "homeMenuOpen"; when: homeMenu.state == "open"
+            PropertyChanges { target: cancelArea; enabled: true }
+        }
+    }
     HomeMenu {
         id: homeMenu
 
