@@ -23,7 +23,7 @@ BorderImage {
             Rectangle {
                 width: parent.width
                 height: 1
-                anchors.top: parent.top
+                anchors.top: parent.bottom
                 color: "white"
                 opacity: 0.5
 

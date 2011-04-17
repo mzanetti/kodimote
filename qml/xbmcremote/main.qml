@@ -4,6 +4,7 @@ Image {
     width: 480
     height: 800
     source: "backgrounds/music.jpg"
+    fillMode: Image.PreserveAspectCrop
 
     state: Xbmc.state
 
