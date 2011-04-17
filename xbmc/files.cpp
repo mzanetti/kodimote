@@ -208,7 +208,7 @@ void Files::enterDir(const QString &directory)
             int songToPlay = 0;
             for(int i = 0; i < m_filesList.count(); ++i) {
                 QString file = m_filesList.at(i).second;
-                if(!file.endsWith('/')) {
+                if(!file.endsWith('/')) { // only add files (no dirs)
                     m_player->playlist()->addFile(file);
                     if(file == dir) {
                         songToPlay = newListCount;
@@ -217,6 +217,10 @@ void Files::enterDir(const QString &directory)
                 }
             }
             m_player->playlist()->playItem(songToPlay); // -1 because of the ".."
+        } else {
+            m_player->playlist()->clear();
+            m_player->playlist()->addFile(dir);
+//            m_player->playlist()->playItem(0);
         }
 //        for(int i = 0; i < m_songList.count(); ++i) {
 //            if(m_songList.at(i).songId() == index) {

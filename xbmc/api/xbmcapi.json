@@ -737,10 +737,24 @@ API generated out of xbmc git master on 10.04.11
 "Playlist.Remove":{"description":"Remove item from the playlist","params":[{"$ref":"Playlist.Id","name":"playlist","required":true},{"name":"item","required":true,"type":["string","integer"]}],"returns":"string","type":"method"},
 "Playlist.Shuffle":{"description":"Shuffle playlist","params":[{"$ref":"Playlist.Id","name":"playlist","required":true}],"returns":"string","type":"method"},
 "Playlist.Swap":{"description":"Swap items in the playlist","params":[{"$ref":"Playlist.Id","name":"playlist","required":true},{"$ref":"Playlist.Item.Position","description":"Position of the item","name":"item1","required":true},{"$ref":"Playlist.Item.Position","description":"Position of the item","name":"item2","required":true}],"returns":"string","type":"method"},
+
 "Playlist.UnShuffle":{"description":"Unshuffle playlist","params":[{"$ref":"Playlist.Id","name":"playlist","required":true}],"returns":"string","type":"method"},
-"System.GetInfoBooleans":{"description":"Retrieve info booleans about the system","params":[{"items":{"type":"string"},
-"minItems":1,"name":"booleans","required":true,"type":"array"}],"returns":{"description":"List of key-value pairs of the retrieved info booleans","type":"object"},
-"type":"method"},
+
+"System.GetInfoBooleans":{
+  "description":"Retrieve info booleans about the system",
+  "params":[
+    {
+      "items":{"type":"string"},
+      "minItems":1,
+      "name":"booleans",
+      "required":true,
+      "type":"array"
+    }
+  ],
+  "returns":{"description":"List of key-value pairs of the retrieved info booleans","type":"object"},
+  "type":"method"
+},
+
 "System.GetInfoLabels":{"description":"Retrieve info labels about the system","params":[{"description":"See http://wiki.xbmc.org/index.php?title=InfoLabels for a list of possible info labels","items":{"type":"string"},
 "minItems":1,"name":"labels","required":true,"type":"array"}],"returns":{"description":"List of key-value pairs of the retrieved info labels","type":"object"},
 "type":"method"},
