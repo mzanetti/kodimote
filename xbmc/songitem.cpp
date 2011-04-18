@@ -49,6 +49,11 @@ void SongItem::setFanart(const QString &fanart)
     m_fanart = fanart;
 }
 
+void SongItem::setDuration(const QTime &duration)
+{
+    m_duration = duration;
+}
+
 int SongItem::songId() const
 {
     return m_songId;
@@ -87,6 +92,11 @@ QString SongItem::thumbnail() const
 QString SongItem::fanart() const
 {
     return m_fanart;
+}
+
+QTime SongItem::duration() const
+{
+    return m_duration;
 }
 
 }

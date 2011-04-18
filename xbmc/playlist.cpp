@@ -17,17 +17,19 @@ Playlist::Playlist(QObject *parent) :
 
     QHash<int, QByteArray> roleNames;
     roleNames.insert(Qt::DisplayRole, "label");
+    roleNames.insert(Qt::UserRole, "duration");
     setRoleNames(roleNames);
 }
 
 void Playlist::refresh()
 {
-//    QVariantMap fieldMap;
-//    QVariantList fields;
+    QVariantMap params;
+    QVariantList fields;
 //    fields.append("title");
-//    fields.append("artist");
-//    fieldMap.insert("fields", fields);
-    int id = XbmcConnection::sendCommand(namespaceString() + ".GetItems"); //, fieldMap);
+    fields.append("duration");
+    params.insert("fields", fields);
+
+    int id = XbmcConnection::sendCommand(namespaceString() + ".GetItems", params);
     m_requestMap.insert(id, RequestGetItems);
 }
 
@@ -40,6 +42,7 @@ void Playlist::queryItemData(int index)
     fields.append("album");
     fields.append("fanart");
     fields.append("thumbnail");
+    fields.append("duration");
     params.insert("fields", fields);
 
     QVariantMap limits;
@@ -110,6 +113,7 @@ void Playlist::responseReveiced(int id, const QVariantMap &response)
             SongItem item;
 //            item.setFanart(itemMap.value("fanart").toString());
             item.setLabel(itemMap.value("label").toString());
+            item.setDuration(QTime().addSecs(itemMap.value("duration").toInt()));
 //            item.setTitle(itemMap.value("title").toString());
 //            item.setArtist(itemMap.value("artist").toString());
 //            qDebug() << "adding item:" << item.label();
@@ -135,7 +139,6 @@ void Playlist::responseReveiced(int id, const QVariantMap &response)
             item.setAlbum(itemMap.value("album").toString());
             item.setFanart(itemMap.value("fanart").toString());
             item.setThumbnail(itemMap.value("thumbnail").toString());
-    //            qDebug() << "adding item:" << item.label();
             m_itemList.replace(m_currentSong, item);
             emit currentChanged();
             break;
@@ -176,8 +179,9 @@ QVariant Playlist::data(const QModelIndex &index, int role) const
     switch(role) {
     case Qt::DisplayRole:
         return m_itemList.at(index.row()).label();
-    case Qt::DecorationRole:
-        return m_itemList.at(index.row()).file();
+    case Qt::UserRole:
+        qDebug() << "durations is" << m_itemList.at(index.row()).duration();
+        return m_itemList.at(index.row()).duration().toString("mm:ss");
     }
     return QVariant();
 }

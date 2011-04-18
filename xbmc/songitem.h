@@ -2,6 +2,7 @@
 #define SONGITEM_H
 
 #include <QString>
+#include <QTime>
 
 namespace Xbmc
 {
@@ -20,6 +21,7 @@ public:
     void setAlbum(const QString &album);
     void setThumbnail(const QString &thumbnail);
     void setFanart(const QString &fanart);
+    void setDuration(const QTime &duration);
 
 
     int songId() const;
@@ -30,6 +32,7 @@ public:
     QString album() const;
     QString thumbnail() const;
     QString fanart() const;
+    QTime duration() const;
 
 private:
     int m_songId;
@@ -40,6 +43,7 @@ private:
     QString m_album;
     QString m_thumbnail;
     QString m_fanart;
+    QTime m_duration;
 };
 
 }
