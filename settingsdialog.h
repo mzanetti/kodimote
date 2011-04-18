@@ -1,6 +1,5 @@
 /*****************************************************************************
- * Copyright: 2010 Christian Fetzer <fetzer.ch@googlemail.com>               *
- * Copyright: 2010 Michael Zanetti <mzanetti@kde.org>                        *
+ * Copyright: 2011 Michael Zanetti <mzanetti@kde.org>                        *
  *                                                                           *
  * This program is free software: you can redistribute it and/or modify      *
  * it under the terms of the GNU General Public License as published by      *
