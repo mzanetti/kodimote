@@ -42,13 +42,9 @@ Item {
             delegate: Item {
                 width: parent.width
                 height: 64
-                Rectangle {
-                    width: parent.width
-                    height: 1
-                    anchors.top: parent.bottom
-                    color: "white"
-                    opacity: 0.5
-
+                Image {
+                    anchors.fill: parent
+                    source: "images/MenuItemNF.png"
                 }
 
                 Text {
