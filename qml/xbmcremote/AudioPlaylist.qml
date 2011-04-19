@@ -41,12 +41,6 @@ BorderImage {
                 visible: AudioPlaylist.currentTrackNumber - 1 == index
             }
 
-            Connections {
-                target: AudioPlaylist
-                onCurrentTrackNumberChanged: {
-                    console.log("currentindex:" + AudioPlaylist.currentTrackNumber + ":" + index)
-                }
-            }
             Text {
                 color: "white"
                 text: label

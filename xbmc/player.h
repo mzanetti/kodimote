@@ -21,6 +21,7 @@
 
 #include <QObject>
 #include <QVariantMap>
+#include <QTimer>
 
 namespace Xbmc
 {
@@ -35,6 +36,7 @@ class Player : public QObject
     Q_PROPERTY(Playlist playlist READ playlist)
     Q_PROPERTY(QString state READ state NOTIFY stateChanged)
     Q_PROPERTY(int speed READ speed NOTIFY speedChanged)
+    Q_PROPERTY(double percentage READ percentage NOTIFY percentageChanged)
 
 public:
     enum PlayerType {
@@ -45,10 +47,11 @@ public:
 
     explicit Player(PlayerType type, QObject *parent = 0);
 
-    QString state();
-    int speed();
+    QString state() const;
+    int speed() const;
+    double percentage() const;
 
-    PlayerType type();
+    PlayerType type() const;
 
     virtual QString namespaceString() const = 0;
 
@@ -57,6 +60,7 @@ public:
 signals:
     void stateChanged();
     void speedChanged();
+    void percentageChanged();
 
 public slots:
     void playPause();
@@ -70,16 +74,20 @@ private slots:
     void getState();
     void receivedAnnouncement(const QVariantMap& map);
     void responseReceived(int, const QVariantMap &rsp);
+    void setPercentage();
 
 private:
     enum Request {
-       RequestState
+        RequestState,
+        RequestPercentage
     };
     QMap<int, Request> m_requestMap;
 
     PlayerType m_type;
     QString m_state;
     int m_speed;
+    double m_percentage;
+    QTimer m_percentageTimer;
 };
 
 }

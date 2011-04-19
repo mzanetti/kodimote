@@ -171,7 +171,12 @@ API generated out of xbmc git master on 10.04.11
 
 "AudioPlayer.Forward":{"description":"Forward current playback","params":[],"returns":"string","type":"method"},
 
-"AudioPlayer.GetPercentage":{"description":"Retrieve current playback progress in percentage","params":[],"returns":"number","type":"method"},
+"AudioPlayer.GetPercentage":{
+  "description":"Retrieve current playback progress in percentage",
+  "params":[],
+  "returns":"number",
+  "type":"method"
+},
 
 "AudioPlayer.GetTime":{
   "description":"Retrieves the current and total time of the currently playing file",

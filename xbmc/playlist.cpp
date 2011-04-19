@@ -139,8 +139,8 @@ void Playlist::responseReveiced(int id, const QVariantMap &response)
         }
         endResetModel();
         m_currentSong = rsp.toMap().value("state").toMap().value("current").toInt();
-        queryItemData(m_currentSong);
         qDebug() << "set current to" << m_currentSong;
+        queryItemData(m_currentSong);
         emit countChanged();
         emit currentChanged();
         break;
@@ -198,7 +198,6 @@ QVariant Playlist::data(const QModelIndex &index, int role) const
     case Qt::DisplayRole:
         return m_itemList.at(index.row()).label();
     case Qt::UserRole:
-        qDebug() << "durations is" << m_itemList.at(index.row()).duration();
         return m_itemList.at(index.row()).duration().toString("mm:ss");
     }
     return QVariant();
@@ -215,6 +214,7 @@ void Playlist::playItem(int index)
     map.insert("item", index);
     XbmcConnection::sendCommand(namespaceString() + ".Play", map);
     m_currentSong = index;
+    qDebug() << "(2)settings current to" << m_currentSong;
     emit currentChanged();
 }
 
@@ -223,6 +223,7 @@ void Playlist::skipNext()
     if(m_currentSong < m_itemList.count() - 1) {
         XbmcConnection::sendCommand(namespaceString() + ".SkipNext");
         m_currentSong++;
+        qDebug() << "(3)settings current to" << m_currentSong;
         emit currentChanged();
     }
 }
@@ -232,6 +233,7 @@ void Playlist::skipPrevious()
     if(m_currentSong > 0) {
         XbmcConnection::sendCommand(namespaceString() + ".SkipPrevious");
         m_currentSong--;
+        qDebug() << "(4)settings current to" << m_currentSong;
         emit currentChanged();
     }
 }
@@ -309,6 +311,14 @@ void Playlist::setShuffle(bool shuffle)
         m_shuffle = shuffle;
         emit shuffleChanged();
     }
+}
+
+SongItem Playlist::currentItem() const
+{
+    if(m_currentSong == -1 || m_currentSong >= m_itemList.count()) {
+        return SongItem();
+    }
+    return m_itemList.at(m_currentSong);
 }
 
 }

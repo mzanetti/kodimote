@@ -28,11 +28,15 @@ Player::Player(PlayerType type, QObject *parent) :
     QObject(parent),
     m_type(type),
     m_state("stopped"),
-    m_speed(1)
+    m_speed(1),
+    m_percentage(0)
 {
     connect(XbmcConnection::notifier(), SIGNAL(receivedAnnouncement(QVariantMap)), SLOT(receivedAnnouncement(QVariantMap)));
     connect(XbmcConnection::notifier(), SIGNAL(responseReceived(int,QVariantMap)), SLOT(responseReceived(int,QVariantMap)));
     staticMetaObject.invokeMethod(this, "getState", Qt::QueuedConnection);
+
+    m_percentageTimer.setInterval(1000);
+    connect(&m_percentageTimer, SIGNAL(timeout()), SLOT(setPercentage()));
 }
 
 void Player::getState()
@@ -41,7 +45,7 @@ void Player::getState()
     m_requestMap.insert(id, RequestState);
 }
 
-Player::PlayerType Player::type()
+Player::PlayerType Player::type() const
 {
     return m_type;
 }
@@ -79,7 +83,7 @@ void Player::seekForward()
     XbmcConnection::sendCommand(namespaceString() + ".Forward");
 }
 
-QString Player::state()
+QString Player::state() const
 {
     return m_state;
 }
@@ -89,16 +93,27 @@ void Player::receivedAnnouncement(const QVariantMap &map)
     if(map.value("message").toString() == "PlaybackEnded" ||
             map.value("message").toString() == "PlaybackStopped") {
         m_state = "stopped";
+        m_percentageTimer.stop();
         emit stateChanged();
+        m_speed = 1;
+        emit speedChanged();
     } else if(map.value("message").toString() == "PlaybackPaused") {
         m_state = "paused";
+        m_percentageTimer.stop();
         emit stateChanged();
+        m_speed = 1;
+        emit speedChanged();
     } else if(map.value("message").toString() == "PlaybackStarted" ||
               map.value("message").toString() == "PlaybackResumed") {
         m_state = "playing";
         emit stateChanged();
+        int id = XbmcConnection::sendCommand(namespaceString() + ".GetPercentage");
+        m_requestMap.insert(id, RequestPercentage);
+        m_speed = 1;
+        emit speedChanged();
     } else if(map.value("message").toString() == "PlaybackSpeedChanged") {
         m_speed = map.value("data").toMap().value("speed").toInt();
+        qDebug() << "speed changed to" << m_speed;
         emit speedChanged();
     }
 }
@@ -106,6 +121,10 @@ void Player::receivedAnnouncement(const QVariantMap &map)
 void Player::responseReceived(int id, const QVariantMap &response)
 {
     if(!m_requestMap.contains(id)) {
+        return;
+    }
+    if(response.contains("error")) {
+        qDebug() << "Error:" << response.value("error");
         return;
     }
 
@@ -116,16 +135,37 @@ void Player::responseReceived(int id, const QVariantMap &response)
 //        qDebug() << "****** got state" << rsp;
         if(rsp.toMap().value("paused").toBool()) {
             m_state = "paused";
+            m_percentageTimer.stop();
         } else if(rsp.toMap().value("playing").toBool()) {
             m_state = "playing";
+            int id = XbmcConnection::sendCommand(namespaceString() + ".GetPercentage");
+            m_requestMap.insert(id, RequestPercentage);
         }
         emit stateChanged();
+        break;
+    case RequestPercentage:
+        qDebug() << "*** Got percentage response" << response;
+        m_percentage = rsp.toDouble();
+        emit percentageChanged();
+        m_percentageTimer.start();
     }
 }
 
-int Player::speed()
+int Player::speed() const
 {
     return m_speed;
+}
+
+double Player::percentage() const
+{
+    return m_percentage;
+}
+
+void Player::setPercentage()
+{
+    int duration = playlist()->currentItem().duration().minute() * 60 + playlist()->currentItem().duration().second();
+    m_percentage += 100.0 / duration * m_speed;
+    emit percentageChanged();
 }
 
 }

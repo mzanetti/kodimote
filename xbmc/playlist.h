@@ -64,6 +64,7 @@ public:
     QString currentAlbum() const;
     QString currentFanart() const;
     QString currentThumbnail() const;
+    SongItem currentItem() const;
 
 
     SongItem at(int index);

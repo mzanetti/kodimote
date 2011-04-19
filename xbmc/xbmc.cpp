@@ -144,7 +144,7 @@ void Xbmc::responseReceived(int id, const QVariantMap &response)
         }
         if(m_activePlayer != activePlayer) {
             m_activePlayer = activePlayer;
-//            qDebug() << "active player changed!";
+            qDebug() << "active player changed!";
             emit stateChanged();
             emit activePlayerChanged(m_activePlayer);
         }

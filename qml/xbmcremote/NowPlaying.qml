@@ -98,7 +98,7 @@ BorderImage {
         Item {
             id: nowPlayingText
             width: MainWindow.state == "portrait" ? nowPlayingFlow.width : nowPlayingFlow.width - imageItem.width - nowPlayingFlow.spacing
-            height: MainWindow.state == "portrait" ? 40 * 3 : nowPlayingFlow.height
+            height: MainWindow.state == "portrait" ? 40 * 3 + 20: nowPlayingFlow.height
 
             Item {
                 id: line1
@@ -151,12 +151,33 @@ BorderImage {
                 id:titleText
                 width: nowPlayingText.width
                 height:  40
-                anchors.bottom: nowPlayingText.bottom
+                anchors.bottom: progressBar.top
+                anchors.bottomMargin: 5
                 color: "white"
                 text: AudioPlaylist.currentTitle
                 font.pixelSize: 32
                 font.bold: true
                 elide: Text.ElideRight
+            }
+
+            Rectangle {
+                id: progressBar
+                width: nowPlayingText.width
+                height: 15
+                anchors.bottom: nowPlayingText.bottom
+                color: "#1d1d1d"
+                border.color: "#333333"
+                border.width: 2
+                radius: height/2
+            }
+            Rectangle {
+                width: height + (nowPlayingText.width - height) * AudioPlayer.percentage / 100
+                height: 15
+                anchors.bottom: nowPlayingText.bottom
+                radius: height/2
+                color: "#8fb2c2"
+                border.color: "#c7d9e2"
+                border.width: 2
             }
         }
     }
