@@ -34,12 +34,12 @@ BorderImage {
         delegate: Item {
             anchors.left: parent.left
             anchors.right: parent.right
-            height: 55
+            height: 70
 
             Text {
                 color: "white"
                 text: label
-                font.pixelSize: 28
+                font.pixelSize: 40
                 anchors.fill: parent
                 horizontalAlignment: Text.AlignRight
                 verticalAlignment: Text.AlignVCenter
