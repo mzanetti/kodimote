@@ -167,8 +167,8 @@ void Playlist::responseReveiced(int id, const QVariantMap &response)
 
 void Playlist::receivedAnnouncement(const QVariantMap &map)
 {
-    if(map.value("message").toString() == "QueueNextItem") {
-    } else if(map.value("message").toString() == "PlaybackStarted") {
+    if(map.value("method").toString() == "Player.QueueNextItem") {
+    } else if(map.value("method").toString() == "Player.PlaybackStarted") {
     }
 }
 

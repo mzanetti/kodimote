@@ -170,6 +170,13 @@ BorderImage {
                 border.width: 2
                 radius: height/2
             }
+            Connections {
+                target: AudioPlayer
+                onPercentageChanged: {
+                    console.log(AudioPlayer.percentage)
+                }
+            }
+
             Rectangle {
                 width: height + (nowPlayingText.width - height) * AudioPlayer.percentage / 100
                 height: 15

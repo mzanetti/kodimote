@@ -90,29 +90,29 @@ QString Player::state() const
 
 void Player::receivedAnnouncement(const QVariantMap &map)
 {
-    if(map.value("message").toString() == "PlaybackEnded" ||
-            map.value("message").toString() == "PlaybackStopped") {
+    if(map.value("method").toString() == "Player.PlaybackEnded" ||
+            map.value("method").toString() == "Player.PlaybackStopped") {
         m_state = "stopped";
         m_percentageTimer.stop();
         emit stateChanged();
         m_speed = 1;
         emit speedChanged();
-    } else if(map.value("message").toString() == "PlaybackPaused") {
+    } else if(map.value("method").toString() == "Player.PlaybackPaused") {
         m_state = "paused";
         m_percentageTimer.stop();
         emit stateChanged();
         m_speed = 1;
         emit speedChanged();
-    } else if(map.value("message").toString() == "PlaybackStarted" ||
-              map.value("message").toString() == "PlaybackResumed") {
+    } else if(map.value("method").toString() == "Player.PlaybackStarted" ||
+              map.value("method").toString() == "Player.PlaybackResumed") {
         m_state = "playing";
         emit stateChanged();
         int id = XbmcConnection::sendCommand(namespaceString() + ".GetPercentage");
         m_requestMap.insert(id, RequestPercentage);
         m_speed = 1;
         emit speedChanged();
-    } else if(map.value("message").toString() == "PlaybackSpeedChanged") {
-        m_speed = map.value("data").toMap().value("speed").toInt();
+    } else if(map.value("method").toString() == "Player.PlaybackSpeedChanged") {
+        m_speed = map.value("params").toMap().value("speed").toInt();
         qDebug() << "speed changed to" << m_speed;
         emit speedChanged();
     }
@@ -164,7 +164,11 @@ double Player::percentage() const
 void Player::setPercentage()
 {
     int duration = playlist()->currentItem().duration().minute() * 60 + playlist()->currentItem().duration().second();
-    m_percentage += 100.0 / duration * m_speed;
+    if(duration > 0) {
+        m_percentage += 100.0 / duration * m_speed;
+    } else {
+        m_percentage = 100;
+    }
     emit percentageChanged();
 }
 

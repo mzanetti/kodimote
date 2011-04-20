@@ -181,9 +181,9 @@ void XbmcConnectionPrivate::readData()
 
         qDebug() << ">>> Incoming:" << data;
 
-        if(rsp.value("method").toString() == "Announcement") {
-            qDebug() << ">>> received announcement" << rsp.value("params").toMap();
-            emit m_notifier->receivedAnnouncement(rsp.value("params").toMap());
+        if(rsp.value("params").toMap().value("sender").toString() == "xbmc") {
+            qDebug() << ">>> received announcement" << rsp;
+            emit m_notifier->receivedAnnouncement(rsp);
             return;
         }
         if(rsp.value("id").toInt() >= 0) {
