@@ -48,13 +48,6 @@ SOURCES += main.cpp \
     xbmc/albumitem.cpp \
     xbmc/songitem.cpp \
     xbmc/libraryitem.cpp \
-    JsonQt/lib/VariantToJson.cpp \
-    JsonQt/lib/ParseException.cpp \
-    JsonQt/lib/JsonToVariant.cpp \
-    JsonQt/lib/JsonToProperties.cpp \
-    JsonQt/lib/JsonRpcAdaptorPrivate.cpp \
-    JsonQt/lib/JsonRpcAdaptor.cpp \
-    JsonQt/lib/JsonRpc.cpp \
     xbmc/files.cpp
 
 # We actually don't use the QMLApplicationViewer any more... It's pri file,
@@ -82,12 +75,6 @@ HEADERS += \
     xbmc/albumitem.h \
     xbmc/songitem.h \
     xbmc/libraryitem.h \
-    JsonQt/lib/VariantToJson.h \
-    JsonQt/lib/ParseException.h \
-    JsonQt/lib/JsonToVariant.h \
-    JsonQt/lib/JsonToProperties.h \
-    JsonQt/lib/JsonRpcAdaptorPrivate.h \
-    JsonQt/lib/JsonRpcAdaptor.h \
-    JsonQt/lib/JsonRpc.h \
-    JsonQt/lib/JsonQtExport.h \
     xbmc/files.h
+
+LIBS += -lqjson

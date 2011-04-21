@@ -1,1 +1,0 @@
-/usr/bin/c++   -O3 -DNDEBUG   CMakeFiles/JsonRpc.dir/JsonRpc.cpp.o  -o JsonRpc -rdynamic -lQtTest -lQtCore ../lib/libJsonQt.so.0.1.0 -lQtCore -Wl,-rpath,/home/micha/Develop/JsonQt/build/lib 

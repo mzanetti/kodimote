@@ -1,7 +1,0 @@
-/home/micha/Develop/JsonQt/build/lib/CMakeFiles/JsonQt.dir
-/home/micha/Develop/JsonQt/build/tests/CMakeFiles/JsonRpc.dir
-/home/micha/Develop/JsonQt/build/tests/CMakeFiles/JsonRpcAdaptor.dir
-/home/micha/Develop/JsonQt/build/tests/CMakeFiles/JsonToProperties.dir
-/home/micha/Develop/JsonQt/build/tests/CMakeFiles/JsonToVariant.dir
-/home/micha/Develop/JsonQt/build/tests/CMakeFiles/VariantToJson.dir
-/home/micha/Develop/JsonQt/build/CMakeFiles/doc.dir

@@ -19,9 +19,10 @@
 #include "xbmcconnection.h"
 #include "xbmcconnection_p.h"
 
-#include "JsonQt/lib/VariantToJson.h"
-#include "JsonQt/lib/JsonToVariant.h"
+#include <qjson/parser.h>
+#include <qjson/serializer.h>
 #include <QTime>
+#include <QStringList>
 
 namespace Xbmc
 {
@@ -142,9 +143,10 @@ void XbmcConnectionPrivate::sendNextCommand()
             map.insert("params", command.params());
         }
 
-        QString finalCommand = JsonQt::VariantToJson::parse(map);
+        QJson::Serializer serializer;
+        QByteArray finalCommand = serializer.serialize(map);
         qDebug() << "<<< sending:" << finalCommand;
-        m_socket->write(finalCommand.toLocal8Bit());
+        m_socket->write(finalCommand);
         m_currentPendingId = command.id();
         m_timeoutTimer.start();
     }
@@ -170,9 +172,10 @@ void XbmcConnectionPrivate::readData()
         QVariantMap rsp;
 //        QTime t = QTime::currentTime();
 //        qDebug() << "starting parsing";
-        try {
-            rsp = JsonQt::JsonToVariant::parse(lineData).toMap();
-        } catch (JsonQt::ParseException) {
+        QJson::Parser parser;
+        bool ok;
+        rsp = parser.parse(lineData.toLocal8Bit(), &ok).toMap();
+        if(!ok) {
             qDebug() << "data is" << lineData;
             qFatal("caught ParseException.");
             return;
