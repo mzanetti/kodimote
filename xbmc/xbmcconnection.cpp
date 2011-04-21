@@ -22,9 +22,7 @@
 #ifdef Q_WS_MAEMO_5
 #include <parser.h>
 #include <serializer.h>
-#endif
-
-#ifdef Q_WS_X11
+#else
 #include <qjson/parser.h>
 #include <qjson/serializer.h>
 #endif
