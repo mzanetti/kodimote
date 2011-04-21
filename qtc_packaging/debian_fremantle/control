@@ -1,7 +1,7 @@
 Source: xbmcremote
 Section: user/hidden
 Priority: optional
-Maintainer: unknown <micha@unknown>
+Maintainer: Michael Zanetti <mzanetti@kde.org>
 Build-Depends: debhelper (>= 5), libqt4-dev
 Standards-Version: 3.7.3
 Homepage: <insert the upstream URL, if relevant>
@@ -9,5 +9,5 @@ Homepage: <insert the upstream URL, if relevant>
 Package: xbmcremote
 Architecture: any
 Depends: ${shlibs:Depends}, ${misc:Depends}
-Description: <insert up to 60 chars description>
- <insert long description, indented with spaces>
+Description: A remote control for xbmc
+ A remote control for xbmc written in Qt with QML.
