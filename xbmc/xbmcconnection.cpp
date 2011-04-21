@@ -19,8 +19,16 @@
 #include "xbmcconnection.h"
 #include "xbmcconnection_p.h"
 
+#ifdef Q_WS_MAEMO_5
+#include <parser.h>
+#include <serializer.h>
+#endif
+
+#ifdef Q_WS_X11
 #include <qjson/parser.h>
 #include <qjson/serializer.h>
+#endif
+
 #include <QTime>
 #include <QStringList>
 
@@ -144,9 +152,14 @@ void XbmcConnectionPrivate::sendNextCommand()
         }
 
         QJson::Serializer serializer;
-        QByteArray finalCommand = serializer.serialize(map);
-        qDebug() << "<<< sending:" << finalCommand;
-        m_socket->write(finalCommand);
+#ifdef DEBUGJSON
+        qDebug() << "sending command" << serializer.serialize(map);
+#endif
+        bool ok = true;
+        serializer.serialize(map, m_socket, &ok);
+        if(!ok) {
+            qDebug() << "Error sending command:" << serializer.serialize(map);
+        }
         m_currentPendingId = command.id();
         m_timeoutTimer.start();
     }
@@ -177,12 +190,12 @@ void XbmcConnectionPrivate::readData()
         rsp = parser.parse(lineData.toLocal8Bit(), &ok).toMap();
         if(!ok) {
             qDebug() << "data is" << lineData;
-            qFatal("caught ParseException.");
+            qFatal("failed parsing.");
             return;
         }
 //        qDebug() << "finished parsing after" << t.msecsTo(QTime::currentTime());
 
-        qDebug() << ">>> Incoming:" << data;
+//        qDebug() << ">>> Incoming:" << data;
 
         if(rsp.value("params").toMap().value("sender").toString() == "xbmc") {
             qDebug() << ">>> received announcement" << rsp;

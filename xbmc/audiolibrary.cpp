@@ -246,7 +246,7 @@ void AudioLibrary::responseReceived(int id, const QVariantMap &response)
         qDebug() << "starting inserting items";
         foreach(const QVariant &itemVariant, responseList) {
             QVariantMap itemMap = itemVariant.toMap();
-            qDebug() << "got songitem" << itemMap;
+//            qDebug() << "got songitem" << itemMap;
             SongItem item;
             item.setSongId(itemMap.value("songid").toInt());
             item.setFile(itemMap.value("file").toString());
