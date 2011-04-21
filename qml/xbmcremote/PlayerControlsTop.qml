@@ -1,8 +1,11 @@
 import QtQuick 1.0
 
 Row {
+    id: playerControlsTop
     anchors.fill: parent
     property bool volumeVisible: false
+
+    signal openPlaylist
 
     Item {
         height: parent.height
@@ -65,6 +68,8 @@ Row {
         MouseArea {
             anchors.fill: parent
             onClicked: {
+                console.log("clicked1")
+                playerControlsTop.openPlaylist()
             }
         }
     }

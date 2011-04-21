@@ -51,16 +51,6 @@ Image {
         }
 
         Item {
-            property string label: "Playlist"
-            width: view.width; height: view.height
-            AudioPlaylist {
-                id: audioPlaylist
-                anchors.fill: parent
-                model: AudioPlaylist
-            }
-
-        }
-        Item {
             property string label: "Now Playing"
             width: view.width; height: view.height
             NowPlaying {

@@ -3,7 +3,7 @@ import QtQuick 1.0
 Item {
     anchors.left: parent.left
     anchors.right: parent.right
-    height: 62
+    height: 40
     property bool dragging: false
 
 //    gradient: Gradient {
@@ -29,18 +29,20 @@ Item {
         anchors.left: parent.left
         anchors.right: parent.right
         anchors.verticalCenter: parent.verticalCenter
-        anchors.margins: 10
 
         height: 40
         radius: height / 2
-        color: "black"
-        border.color: "white"
+        color: "#1d1d1d"
+        border.color: "#333333"
+        border.width: 2
 
         Rectangle {
             id: fill
             height: 40
             radius: height / 2
-            color: "#0084ff"
+            color: "#8fb2c2"
+            border.color: "#c7d9e2"
+            border.width: 2
             anchors.fill: container
 
             anchors.rightMargin: container.width - slider.x - slider.width
@@ -48,7 +50,9 @@ Item {
 
         Rectangle {
             id: slider
-            color: "white"
+            color: "#c7d9e2"
+            border.color: "#c7d9e2"
+            border.width: 2
             height: 40
             width: 80
             radius: height / 2
