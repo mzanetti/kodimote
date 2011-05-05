@@ -21,6 +21,7 @@
 
 #include "playlist.h"
 #include "audiolibrary.h"
+#include "videolibrary.h"
 #include "audioplayer.h"
 #include "videoplayer.h"
 #include "files.h"
@@ -48,6 +49,7 @@ Xbmc::Xbmc(QObject *parent):
     m_activePlayer = 0;
 
     m_audioLibrary = new AudioLibrary(m_audioPlayer, this);
+//    m_videoLibrary = new VideoLibrary(m_videoPlayer, this);
 
     m_files = new Files(m_audioPlayer, this);
 }
@@ -75,6 +77,11 @@ Player *Xbmc::audioPlayer()
 AudioLibrary *Xbmc::audioLibrary()
 {
     return m_audioLibrary;
+}
+
+VideoLibrary *Xbmc::videoLibrary()
+{
+    return m_videoLibrary;
 }
 
 Files *Xbmc::files()

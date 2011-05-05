@@ -6,6 +6,8 @@ Item {
 
     signal goBack
 
+//    property alias library: list.model
+
     BrowsingTopBar {
         id: topBar
         anchors.left: parent.left

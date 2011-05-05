@@ -31,8 +31,7 @@ namespace Xbmc
 
 class Player;
 
-class AudioLibrary : public QAbstractItemModel
-
+class AudioLibrary: public QAbstractItemModel
 {
     Q_OBJECT
 

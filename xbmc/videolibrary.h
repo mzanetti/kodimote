@@ -16,85 +16,75 @@
  *                                                                           *
  ****************************************************************************/
 
-#ifndef XBMC_H
-#define XBMC_H
+#ifndef VIDEOLIBRARY_H
+#define VIDEOLIBRARY_H
 
-#include <QList>
-#include <QObject>
-#include <QVariantMap>
+#include "libraryitem.h"
+
+#include <QAbstractItemModel>
 
 namespace Xbmc
 {
 
-class AudioLibrary;
-class VideoLibrary;
-class Files;
 class Player;
 
-class Xbmc: public QObject
+class VideoLibrary: public QAbstractItemModel
 {
     Q_OBJECT
-    Q_PROPERTY(bool connected READ connected NOTIFY connectedChanged)
+
     Q_PROPERTY(QString state READ state NOTIFY stateChanged)
-    Q_PROPERTY(int volume READ volume WRITE setVolume NOTIFY volumeChanged)
-    Q_PROPERTY(QString vfsPath READ vfsPath NOTIFY vfsPathChanged)
+//    Q_PROPERTY(int artistFilter READ artistFilter)
+//    Q_PROPERTY(int albumFilter READ albumFilter)
+    Q_PROPERTY(QString currentDir READ currentDir NOTIFY stateChanged)
 
 public:
-    Xbmc(QObject *parent = 0);
+    explicit VideoLibrary(Player *player, QObject *parent = 0);
+
+    QModelIndex index(int row, int column, const QModelIndex &parent) const;
+    QModelIndex parent(const QModelIndex &child) const;
+    int rowCount(const QModelIndex &parent) const;
+    int columnCount(const QModelIndex &parent) const;
+    QVariant data(const QModelIndex &index, int role) const;
 
     QString state();
-
-    int volume();
-
-    Player *audioPlayer();
-    Player *videoPlayer();
-
-    Player *activePlayer();
-
-    AudioLibrary *audioLibrary();
-    VideoLibrary *videoLibrary();
-
-    Files *files();
-
-    bool connected();
-
-    QString vfsPath();
-
-public slots:
-    void setVolume(int volume);
-    void toggleMute();
+//    int artistFilter();
+//    int albumFilter();
+    QString currentDir();
 
 signals:
-    void connectedChanged();
-    void vfsPathChanged();
     void stateChanged();
-    void activePlayerChanged(Player *player);
-    void volumeChanged(int volume);
+
+public slots:
+    void enterItem(int index);
+    void showLibrary();
+//    void showArtists();
+//    void showAlbums(int artistId = -1);
+//    void showSongs(int artistId = -1, int albumId = -1);
+    void goUp(int levels);
 
 private:
     enum Request {
-        RequestActivePlayer,
-        RequestVolume
+//        RequestArtists,
+//        RequestAlbums,
+//        RequestSongs
     };
-
-    Player *m_audioPlayer;
-    Player *m_videoPlayer;
-    Player *m_activePlayer;
-    Files *m_files;
-
-    AudioLibrary *m_audioLibrary;
-    VideoLibrary *m_videoLibrary;
-
-    int m_volume;
-
     QMap<int, Request> m_requestMap;
 
+    Player *m_player;
+
+    QString m_state;
+    int m_artistFilter;
+    int m_albumFilter;
+
+    QList<LibraryItem> m_list;
+//    QList<ArtistItem> m_artistList;
+//    QList<AlbumItem> m_albumList;
+//    QList<SongItem> m_songList;
+
 private slots:
-    void parseAnnouncement(const QVariantMap &map);
-    void responseReceived(int id, const QVariantMap &rsp);
+    void responseReceived(int, const QVariantMap &response);
 
 };
 
 }
-#endif // XBMC_H
-
+#endif // VIDEOLIBRARY_H

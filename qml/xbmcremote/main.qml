@@ -32,6 +32,7 @@ Image {
             }
             LibraryView {
                 id: libraryView
+//                library: AudioLibrary
                 visible: false
                 onGoBack: homeMenu.state = "open"
             }
