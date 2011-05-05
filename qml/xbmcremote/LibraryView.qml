@@ -59,7 +59,6 @@ Item {
 
                     onClicked: {
                         list.model.enterItem(itemId)
-
                     }
                 }
             }

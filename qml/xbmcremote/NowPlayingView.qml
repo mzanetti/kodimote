@@ -87,8 +87,6 @@ BorderImage {
         anchors.margins: 20
         spacing: 15
 
-//        Rectangle { height: 30; width: nowPlayingList.width; color: "blue" }
-
         Item {
             id: imageItem
             width: MainWindow.state == "portrait" ? nowPlayingFlow.width : height
@@ -180,7 +178,7 @@ BorderImage {
             }
 
             Rectangle {
-                width: height + (nowPlayingText.width - height) * AudioPlayer.percentage / 100
+                width: height + (progressBar.width - height) * AudioPlayer.percentage / 100
                 height: 15
                 anchors.bottom: nowPlayingText.bottom
                 radius: height/2

@@ -1,27 +1,17 @@
 import QtQuick 1.0
 
 Item {
+    id: bar
     anchors.left: parent.left
     anchors.right: parent.right
     height: 40
     property bool dragging: false
 
-//    gradient: Gradient {
-//        GradientStop {
-//            position: 0.00;
-//            color: "#000000";
-//        }
-//        GradientStop {
-//            position: 1.00;
-//            color: "#979797";
-//        }
-//    }
-
     function sliderPosToPercent(x) {
         return slider.x * 100 / container.width
     }
     function percentToSliderPos(pc) {
-        return pc * container.width / 100;
+        return pc * bar.width / 100;
     }
 
     Rectangle {
@@ -31,6 +21,7 @@ Item {
         anchors.verticalCenter: parent.verticalCenter
 
         height: 40
+        width: parent.width
         radius: height / 2
         color: "#1d1d1d"
         border.color: "#333333"
@@ -75,23 +66,4 @@ Item {
             }
         }
     }
-//    Rectangle {
-//        id: slider
-//        x: 1; y: 1; width: 30; height: 14
-//        radius: 6
-//        smooth: true
-//        gradient: Gradient {
-//            GradientStop { position: 0.0; color: "#424242" }
-//            GradientStop { position: 1.0; color: "black" }
-//        }
-
-//        MouseArea {
-//            anchors.fill: parent
-//            anchors.margins: -16 // Increase mouse area a lot outside the slider
-//            drag.target: parent; drag.axis: Drag.XAxis
-//            drag.minimumX: 2; drag.maximumX: container.width - 32
-//        }
-//    }
-
-
 }
