@@ -21,8 +21,6 @@
 
 #include "player.h"
 
-namespace Xbmc
-{
 class AudioPlaylist;
 
 class AudioPlayer : public Player
@@ -38,7 +36,5 @@ protected:
 private:
     AudioPlaylist *m_playList;
 };
-}
-
 
 #endif // AUDIOPLAYER_H

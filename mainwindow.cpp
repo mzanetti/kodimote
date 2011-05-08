@@ -34,6 +34,7 @@
 #include <QMenuBar>
 #include <QDebug>
 #include <QDeclarativeContext>
+#include <QDeclarativeComponent>
 #include <QApplication>
 #include <QFileInfo>
 #include <QLayout>
@@ -42,6 +43,10 @@
 
 MainWindow::MainWindow()
 {
+    qmlRegisterType<AudioPlayer>();
+    qmlRegisterType<AudioPlayer>("Xbmc", 1, 0, "AudioPlayer");
+    qmlRegisterType<VideoPlayer>("Xbmc", 1, 0, "VideoPlayer");
+
 
     QAction *settingsAction = new QAction("&Settings", this);
 
@@ -66,11 +71,11 @@ MainWindow::MainWindow()
     }
 
     qDebug() << "connecting xbmc";
-    Xbmc::XbmcConnection::connect(settings.value("Hostname").toString(), 9090);
+    XbmcConnection::connect(settings.value("Hostname").toString(), 9090);
 
     m_viewer->rootContext()->setContextProperty("MainWindow", this);
 
-    xbmc = new Xbmc::Xbmc(this);
+    xbmc = new Xbmc(this);
     m_viewer->rootContext()->setContextProperty("Xbmc", xbmc);
 
     m_viewer->rootContext()->setContextProperty("AudioPlayer", xbmc->audioPlayer());
@@ -78,9 +83,15 @@ MainWindow::MainWindow()
     m_viewer->rootContext()->setContextProperty("AudioLibrary", xbmc->audioLibrary());
 
     m_viewer->rootContext()->setContextProperty("VideoPlayer", xbmc->videoPlayer());
-//    m_viewer->rootContext()->setContextProperty("VideoLibrary", xbmc->videoLibrary());
+    m_viewer->rootContext()->setContextProperty("VideoPlaylist", xbmc->videoPlayer()->playlist());
+    m_viewer->rootContext()->setContextProperty("VideoLibrary", xbmc->videoLibrary());
 
-    m_viewer->rootContext()->setContextProperty("Files", xbmc->files());
+    m_viewer->rootContext()->setContextProperty("ActivePlayer", xbmc->audioPlayer());
+    m_viewer->rootContext()->setContextProperty("ActivePlaylist", xbmc->audioPlayer()->playlist());
+    connect(xbmc, SIGNAL(activePlayerChanged(Player*)), SLOT(activePlayerChanged(Player*)));
+
+    m_viewer->rootContext()->setContextProperty("AudioFiles", xbmc->audioFiles());
+    m_viewer->rootContext()->setContextProperty("VideoFiles", xbmc->videoFiles());
 
     setMainQmlFile("qml/xbmcremote/main.qml");
     //    viewer.showExpanded();
@@ -104,7 +115,7 @@ void MainWindow::openSettings()
     settingsDialog.setHostname(settings.value("Hostname").toString());
     settingsDialog.exec();
     settings.setValue("Hostname", settingsDialog.hostname());
-    Xbmc::XbmcConnection::connect(settingsDialog.hostname(), 9090);
+    XbmcConnection::connect(settingsDialog.hostname(), 9090);
 }
 
 void MainWindow::setMainQmlFile(const QString &file)
@@ -149,4 +160,10 @@ void MainWindow::myslot()
 void MainWindow::resizeEvent(QResizeEvent *)
 {
     emit orientationChanged();
+}
+
+void MainWindow::activePlayerChanged(Player *player)
+{
+    m_viewer->rootContext()->setContextProperty("ActivePlayer", player);
+    m_viewer->rootContext()->setContextProperty("ActivePlaylist", player->playlist());
 }

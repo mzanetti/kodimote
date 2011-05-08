@@ -16,21 +16,25 @@
  *                                                                           *
  ****************************************************************************/
 
-#include "albumitem.h"
+#ifndef VIDEOPLAYLIST_H
+#define VIDEOPLAYLIST_H
 
-AlbumItem::AlbumItem(const QString &label, int id):
-    m_id(id),
-    m_label(label)
+#include "playlist.h"
+
+class VideoPlaylist : public Playlist
 {
+public:
+    VideoPlaylist(Player *parent = 0);
 
-}
+public slots:
+    void refresh();
 
-int AlbumItem::id() const
-{
-    return m_id;
-}
+protected:
+    QString namespaceString() const;
+    void queryItemData(int index);
 
-QString AlbumItem::label() const
-{
-    return m_label;
-}
+private slots:
+    void responseReveiced(int id, const QVariantMap &response);
+};
+
+#endif // VIDEOPLAYLIST_H

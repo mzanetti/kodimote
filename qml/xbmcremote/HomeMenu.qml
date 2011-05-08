@@ -17,8 +17,10 @@ BorderImage {
 
     ListModel {
         id: musicSelectorModel
-        ListElement { label: "Files"}
-        ListElement { label: "Library"}
+        ListElement { label: "Music Files"}
+        ListElement { label: "Music Library"}
+        ListElement { label: "Video Files"}
+        ListElement { label: "Video Library"}
     }
     ListView {
         id: musicSelectorView
@@ -47,10 +49,19 @@ BorderImage {
             MouseArea {
                 anchors.fill: parent
                 onClicked: {
-                    if(index == 0) {
-                        musicBrowser.state = "files"
-                    } else {
-                        musicBrowser.state = "library"
+                    switch(index) {
+                    case 0:
+                        xbmcBrowser.state = "audiofiles"
+                        break;
+                    case 1:
+                        xbmcBrowser.state = "audiolibrary"
+                        break;
+                    case 2:
+                        xbmcBrowser.state = "videofiles"
+                        break;
+                    case 3:
+                        xbmcBrowser.state = "videolibrary"
+                        break;
                     }
                     homeMenu.state = "closed"
                 }

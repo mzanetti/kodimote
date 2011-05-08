@@ -21,9 +21,6 @@
 
 #include <QString>
 
-namespace Xbmc
-{
-
 class ArtistItem
 {
 public:
@@ -40,6 +37,4 @@ private:
     QString m_label;
 
 };
-
-}
 #endif // ARTISTITEM_H

@@ -21,11 +21,9 @@
 #include "playlistitem.h"
 #include "xbmcconnection.h"
 
-namespace Xbmc
-{
-
-Playlist::Playlist(QObject *parent) :
+Playlist::Playlist(Player *parent) :
     QAbstractItemModel(parent),
+    m_player(parent),
     m_currentSong(-1),
     m_shuffle(false) //TODO: query player for state as soon as API supports it
 {
@@ -39,44 +37,16 @@ Playlist::Playlist(QObject *parent) :
     setRoleNames(roleNames);
 }
 
-void Playlist::refresh()
+Player *Playlist::player() const
 {
-    QVariantMap params;
-    QVariantList fields;
-//    fields.append("title");
-    fields.append("duration");
-    params.insert("fields", fields);
-
-    int id = XbmcConnection::sendCommand(namespaceString() + ".GetItems", params);
-    m_requestMap.insert(id, RequestGetItems);
-}
-
-void Playlist::queryItemData(int index)
-{
-    QVariantMap params;
-    QVariantList fields;
-    fields.append("title");
-    fields.append("artist");
-    fields.append("album");
-    fields.append("fanart");
-    fields.append("thumbnail");
-    fields.append("duration");
-    params.insert("fields", fields);
-
-    QVariantMap limits;
-    limits.insert("start", index);
-    limits.insert("end", index + 1);
-    params.insert("limits", limits);
-
-    int id = XbmcConnection::sendCommand(namespaceString() + ".GetItems", params);
-    m_requestMap.insert(id, RequestCurrentData);
+    return m_player;
 }
 
 void Playlist::clear()
 {
     beginResetModel();
     m_itemList.clear();
-    XbmcConnection::sendCommand("AudioPlaylist.Clear");
+    XbmcConnection::sendCommand(namespaceString() + ".Clear");
     endResetModel();
 }
 
@@ -109,60 +79,6 @@ void Playlist::addFile(const QString &file)
     QVariantMap item;
     item.insert("item", pItem.toMap());
     XbmcConnection::sendCommand(namespaceString() + ".Add", item);
-}
-
-void Playlist::responseReveiced(int id, const QVariantMap &response)
-{
-    if(!m_requestMap.contains(id)) {
-        return;
-    }
-
-    QVariant rsp = response.value("result");
-
-    switch(m_requestMap.value(id)) {
-    case RequestGetItems: {
-//        qDebug() << "got GetItems response:" << response;
-//        qDebug() << "resetting model";
-        beginResetModel();
-        m_itemList.clear();
-        QVariantList responseList = rsp.toMap().value("items").toList();
-        foreach(const QVariant &itemVariant, responseList) {
-            QVariantMap itemMap = itemVariant.toMap();
-            SongItem item;
-//            item.setFanart(itemMap.value("fanart").toString());
-            item.setLabel(itemMap.value("label").toString());
-            item.setDuration(QTime().addSecs(itemMap.value("duration").toInt()));
-//            item.setTitle(itemMap.value("title").toString());
-//            item.setArtist(itemMap.value("artist").toString());
-//            qDebug() << "adding item:" << item.label();
-            m_itemList.append(item);
-        }
-        endResetModel();
-        m_currentSong = rsp.toMap().value("state").toMap().value("current").toInt();
-        qDebug() << "set current to" << m_currentSong;
-        queryItemData(m_currentSong);
-        emit countChanged();
-        emit currentChanged();
-        break;
-    }
-    case RequestCurrentData: {
-        if(m_itemList.count() > m_currentSong && m_currentSong > -1) {
-            SongItem item = m_itemList.at(m_currentSong);
-            QVariantList responseList = rsp.toMap().value("items").toList();
-            QVariantMap itemMap = responseList.first().toMap();
-    //            item.setFanart(itemMap.value("fanart").toString());
-            item.setLabel(itemMap.value("label").toString());
-            item.setTitle(itemMap.value("title").toString());
-            item.setArtist(itemMap.value("artist").toString());
-            item.setAlbum(itemMap.value("album").toString());
-            item.setFanart(itemMap.value("fanart").toString());
-            item.setThumbnail(itemMap.value("thumbnail").toString());
-            m_itemList.replace(m_currentSong, item);
-            emit currentChanged();
-            break;
-        }
-        }
-    }
 }
 
 void Playlist::receivedAnnouncement(const QVariantMap &map)
@@ -214,7 +130,7 @@ void Playlist::playItem(int index)
     map.insert("item", index);
     XbmcConnection::sendCommand(namespaceString() + ".Play", map);
     m_currentSong = index;
-    qDebug() << "(2)settings current to" << m_currentSong;
+    qDebug() << namespaceString() + "setting current to" << m_currentSong;
     emit currentChanged();
 }
 
@@ -319,6 +235,4 @@ SongItem Playlist::currentItem() const
         return SongItem();
     }
     return m_itemList.at(m_currentSong);
-}
-
 }

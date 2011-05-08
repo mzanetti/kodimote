@@ -16,33 +16,32 @@
  *                                                                           *
  ****************************************************************************/
 
-#include "audioplaylist.h"
+#include "videoplaylist.h"
 
 #include "xbmcconnection.h"
 
-AudioPlaylist::AudioPlaylist(Player *parent):
+VideoPlaylist::VideoPlaylist(Player *parent):
     Playlist(parent)
 {
 }
 
-QString AudioPlaylist::namespaceString() const
+QString VideoPlaylist::namespaceString() const
 {
-    return "AudioPlaylist";
+    return "VideoPlaylist";
 }
 
-void AudioPlaylist::refresh()
+void VideoPlaylist::refresh()
 {
     QVariantMap params;
     QVariantList fields;
-    fields.append("duration");
+    fields.append("title");
     params.insert("fields", fields);
 
     int id = XbmcConnection::sendCommand(namespaceString() + ".GetItems", params);
     m_requestMap.insert(id, RequestGetItems);
 }
 
-
-void AudioPlaylist::queryItemData(int index)
+void VideoPlaylist::queryItemData(int index)
 {
     QVariantMap params;
     QVariantList fields;
@@ -51,7 +50,8 @@ void AudioPlaylist::queryItemData(int index)
     fields.append("album");
     fields.append("fanart");
     fields.append("thumbnail");
-    fields.append("duration");
+//    fields.append("duration");
+    fields.append("file");
     params.insert("fields", fields);
 
     QVariantMap limits;
@@ -63,16 +63,15 @@ void AudioPlaylist::queryItemData(int index)
     m_requestMap.insert(id, RequestCurrentData);
 }
 
-
-void AudioPlaylist::responseReveiced(int id, const QVariantMap &response)
+void VideoPlaylist::responseReveiced(int id, const QVariantMap &response)
 {
     if(!m_requestMap.contains(id)) {
         return;
     }
 
-    QVariant rsp = response.value("result");
+    qDebug() << "VideoPlaylist response:" << response;
 
-//    qDebug() << "AudioPlaylist response:" << rsp;
+    QVariant rsp = response.value("result");
 
     switch(m_requestMap.value(id)) {
     case RequestGetItems: {
@@ -107,6 +106,7 @@ void AudioPlaylist::responseReveiced(int id, const QVariantMap &response)
             QVariantMap itemMap = responseList.first().toMap();
     //            item.setFanart(itemMap.value("fanart").toString());
             item.setLabel(itemMap.value("label").toString());
+            item.setFile(itemMap.value("file").toString());
             item.setTitle(itemMap.value("title").toString());
             item.setArtist(itemMap.value("artist").toString());
             item.setAlbum(itemMap.value("album").toString());

@@ -21,9 +21,6 @@
 
 #include <QString>
 
-namespace Xbmc
-{
-
 class LibraryItem
 {
 public:
@@ -36,7 +33,5 @@ private:
     int m_id;
     QString m_label;
 };
-
-}
 
 #endif // LIBRARYITEM_H

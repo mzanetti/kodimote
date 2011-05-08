@@ -14,7 +14,7 @@ Row {
         MouseArea {
             anchors.fill: parent
             onClicked: {
-                AudioPlayer.skipPrevious()
+                ActivePlayer.skipPrevious()
             }
         }
     }
@@ -24,14 +24,14 @@ Row {
         width: parent.width / 6
 
         Image {
-            source: AudioPlayer.speed < 1 ? "images/OSDRewindFO.png" : "images/OSDRewindNF.png"
+            source: ActivePlayer.speed < 1 ? "images/OSDRewindFO.png" : "images/OSDRewindNF.png"
             anchors.centerIn: parent
         }
 
         MouseArea {
             anchors.fill: parent
             onClicked: {
-                AudioPlayer.seekBackward()
+                ActivePlayer.seekBackward()
             }
         }
     }
@@ -41,14 +41,14 @@ Row {
         width: parent.width / 6
 
         Image {
-            source: (AudioPlayer.speed != 1 || AudioPlayer.state != "playing") ? "images/OSDPlayNF.png" : "images/OSDPauseNF.png"
+            source: (ActivePlayer.speed != 1 || ActivePlayer.state != "playing") ? "images/OSDPlayNF.png" : "images/OSDPauseNF.png"
             anchors.centerIn: parent
         }
         function playButtonSource() {
-            if(AudioPlayer.speed != 1) {
+            if(ActivePlayer.speed != 1) {
                 return "images/OSDPlayNF.png"
             }
-            if(AudioPlayer.state == "playing") {
+            if(ActivePlayer.state == "playing") {
                 return "images/OSDPauseNF.png"
             }
             return "images/OSDPlayNF.png"
@@ -57,7 +57,7 @@ Row {
         MouseArea {
             anchors.fill: parent
             onClicked: {
-                AudioPlayer.playPause()
+                ActivePlayer.playPause()
             }
         }
     }
@@ -74,7 +74,7 @@ Row {
         MouseArea {
             anchors.fill: parent
             onClicked: {
-                AudioPlayer.stop()
+                ActivePlayer.stop()
             }
         }
     }
@@ -84,14 +84,14 @@ Row {
         width: parent.width / 6
 
         Image {
-            source: AudioPlayer.speed > 1 ? "images/OSDForwardFO.png" : "images/OSDForwardNF.png"
+            source: ActivePlayer.speed > 1 ? "images/OSDForwardFO.png" : "images/OSDForwardNF.png"
             anchors.centerIn: parent
         }
 
         MouseArea {
             anchors.fill: parent
             onClicked: {
-                AudioPlayer.seekForward()
+                ActivePlayer.seekForward()
             }
         }
     }
@@ -107,7 +107,7 @@ Row {
         MouseArea {
             anchors.fill: parent
             onClicked: {
-                AudioPlayer.skipNext()
+                ActivePlayer.skipNext()
             }
         }
     }

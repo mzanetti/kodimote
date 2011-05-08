@@ -23,14 +23,12 @@
 #include <QVariantMap>
 #include <QTimer>
 
-namespace Xbmc
-{
-
 class Playlist;
 
 class Player : public QObject
 {
     Q_OBJECT
+    Q_ENUMS(PlayerType)
 
     Q_PROPERTY(PlayerType type READ type)
     Q_PROPERTY(Playlist playlist READ playlist)
@@ -45,6 +43,7 @@ public:
         PlayerTypePictures
     };
 
+    Player() {};
     explicit Player(PlayerType type, QObject *parent = 0);
 
     QString state() const;
@@ -89,7 +88,5 @@ private:
     double m_percentage;
     QTimer m_percentageTimer;
 };
-
-}
 
 #endif // PLAYER_H

@@ -21,13 +21,11 @@
 
 #include "playlistitem.h"
 #include "songitem.h"
+#include "player.h"
 
 #include <QObject>
 #include <QVariantMap>
 #include <QAbstractItemModel>
-
-namespace Xbmc
-{
 
 class Playlist : public QAbstractItemModel
 {
@@ -43,8 +41,10 @@ class Playlist : public QAbstractItemModel
     Q_PROPERTY(QString currentThumbnail READ currentThumbnail NOTIFY currentChanged)
     Q_PROPERTY(bool shuffle READ shuffle WRITE setShuffle NOTIFY shuffleChanged)
 
+    Q_PROPERTY(Player* player READ player)
+
 public:
-    explicit Playlist(QObject *parent = 0);
+    explicit Playlist(Player *parent = 0);
 
 
     void clear();
@@ -65,7 +65,7 @@ public:
     QString currentFanart() const;
     QString currentThumbnail() const;
     SongItem currentItem() const;
-
+    Player *player() const;
 
     SongItem at(int index);
     QModelIndex index(int row, int column, const QModelIndex &parent) const;
@@ -81,21 +81,20 @@ signals:
     void repeatChanged();
 
 public slots:
-    void refresh();
+    virtual void refresh() = 0;
     void playItem(int index);
     void skipNext();
     void skipPrevious();
 
 private slots:
-    void responseReveiced(int id, const QVariantMap &response);
+    virtual void responseReveiced(int id, const QVariantMap &response) = 0;
     void receivedAnnouncement(const QVariantMap &map);
 
 protected:
     virtual QString namespaceString() const = 0;
 
-    void queryItemData(int index);
+    virtual void queryItemData(int index) = 0;
 
-private:
     enum Request {
         RequestGetItems,
         RequestCurrentData
@@ -106,8 +105,7 @@ private:
 
     int m_currentSong;
     bool m_shuffle;
+    Player *m_player;
 };
-
-}
 
 #endif // PLAYLIST_H

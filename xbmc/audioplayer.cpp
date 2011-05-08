@@ -20,9 +20,6 @@
 
 #include "audioplaylist.h"
 
-namespace Xbmc
-{
-
 AudioPlayer::AudioPlayer(QObject *parent):
     Player(PlayerTypeAudio, parent)
 {
@@ -37,6 +34,4 @@ QString AudioPlayer::namespaceString() const
 Playlist * AudioPlayer::playlist() const
 {
     return m_playList;
-}
-
 }

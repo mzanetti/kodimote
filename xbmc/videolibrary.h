@@ -23,9 +23,6 @@
 
 #include <QAbstractItemModel>
 
-namespace Xbmc
-{
-
 class Player;
 
 class VideoLibrary: public QAbstractItemModel
@@ -57,9 +54,8 @@ signals:
 public slots:
     void enterItem(int index);
     void showLibrary();
-//    void showArtists();
-//    void showAlbums(int artistId = -1);
-//    void showSongs(int artistId = -1, int albumId = -1);
+    void showFiles();
+//    void showPlaylists();
     void goUp(int levels);
 
 private:
@@ -86,5 +82,4 @@ private slots:
 
 };
 
-}
 #endif // VIDEOLIBRARY_H

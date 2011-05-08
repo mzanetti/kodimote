@@ -22,10 +22,6 @@
 #include <QString>
 #include <QVariantMap>
 
-namespace Xbmc
-{
-
-
 class PlaylistItem
 {
 public:
@@ -53,5 +49,4 @@ private:
     QString m_playlistId;
 };
 
-}
 #endif // PLAYLISTITEM_H

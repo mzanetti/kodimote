@@ -22,17 +22,26 @@
 #include <QAbstractItemModel>
 #include <QStringList>
 
-namespace Xbmc
-{
-
 class Player;
 
 class Files : public QAbstractItemModel
 {
     Q_OBJECT
     Q_PROPERTY(QString currentDir READ currentDir NOTIFY dirChanged)
+    Q_PROPERTY(MediaType mediaType READ mediaType WRITE setMediaType NOTIFY mediaTypeChanged)
+
 public:
-    explicit Files(Player *player, QObject *parent = 0);
+    enum MediaType {
+        MediaTypeAudio,
+        MediaTypeVideo
+    };
+
+    enum PlayBehavior {
+        PlayBehaviorSingle,
+        PlayBehaviorAll
+    };
+
+    explicit Files(MediaType mediaType, Player *player, QObject *parent = 0);
 
     QModelIndex index(int row, int column, const QModelIndex &parent) const;
     QModelIndex parent(const QModelIndex &child) const;
@@ -41,9 +50,11 @@ public:
     QVariant data(const QModelIndex &index, int role) const;
 
     QString currentDir() const;
+    MediaType mediaType() const;
 
 signals:
     void dirChanged();
+    void mediaTypeChanged();
 
 public slots:
     void responseReceived(int, const QVariantMap &rsp);
@@ -54,6 +65,8 @@ public slots:
 
     void listShares();
 
+    void setMediaType(MediaType &mediaType);
+
 private:
     enum Request {
         RequestSources,
@@ -61,13 +74,15 @@ private:
     };
     QMap<int, Request> m_requestMap;
 
+    MediaType m_mediaType;
     Player *m_player;
     QList<QPair<QString, QString> > m_filesList;
     QMap<QString, QString> m_sharesMap;
     QString m_currentDir;
     QString m_currentDirLabel;
-};
+    PlayBehavior m_playBehavior;
 
-}
+    QString mediaString();
+};
 
 #endif // FILES_H

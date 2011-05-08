@@ -26,9 +26,6 @@
 
 #include <QAbstractItemModel>
 
-namespace Xbmc
-{
-
 class Player;
 
 class AudioLibrary: public QAbstractItemModel
@@ -89,6 +86,4 @@ private slots:
 
 
 };
-
-}
 #endif // AUDIOLIBRARY_H

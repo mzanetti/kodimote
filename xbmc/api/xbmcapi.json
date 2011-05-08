@@ -112,7 +112,48 @@ API generated out of xbmc git master on 10.04.11
     "type":"method"
   },
 
-"AudioLibrary.GetGenres":{"description":"Retrieve all genres","params":[{"$ref":"List.Limits","name":"limits"},{"$ref":"List.Sort","name":"sort"}],"returns":{"properties":{"genres":{"id":"Library.Genres","items":{"properties":{"genre":{"required":true,"type":"string"},"genreid":{"$ref":"Library.Id","required":true},"label":{"required":true,"type":"string"},"thumbnail":{"type":"string"}},"type":"object"},"type":"array"},"limits":{"$ref":"List.LimitsReturned","required":true}},"type":"object"},"type":"method"},"AudioLibrary.GetSongDetails":{"description":"Retrieve details about a specific song","params":[{"$ref":"Library.Id","name":"songid","required":true},{"$ref":"Library.Fields.Song","name":"fields"}],"returns":{"properties":{"songdetails":{"$ref":"Audio.SongDetails"}},"type":"object"},"type":"method"},
+"AudioLibrary.GetGenres":{
+  "description":"Retrieve all genres",
+  "params":[
+    {"$ref":"List.Limits","name":"limits"},
+    {"$ref":"List.Sort","name":"sort"}
+  ],
+  "returns":{
+    "properties":{
+      "genres":{
+        "id":"Library.Genres",
+        "items":{
+          "properties":{
+            "genre":{"required":true,"type":"string"},
+            "genreid":{"$ref":"Library.Id","required":true},
+            "label":{"required":true,"type":"string"},
+            "thumbnail":{"type":"string"}
+          },
+          "type":"object"
+        },
+        "type":"array"
+      },
+      "limits":{"$ref":"List.LimitsReturned","required":true}
+    },
+    "type":"object"
+  },
+  "type":"method"
+},
+
+"AudioLibrary.GetSongDetails":{
+  "description":"Retrieve details about a specific song",
+  "params":[
+    {"$ref":"Library.Id","name":"songid","required":true},
+    {"$ref":"Library.Fields.Song","name":"fields"}
+  ],
+  "returns":{
+    "properties":{
+      "songdetails":{"$ref":"Audio.SongDetails"}
+    },
+    "type":"object"
+  },
+  "type":"method"
+},
 
 "AudioLibrary.GetSongs":{
   "description":"Retrieve all songs from specified album, artist or genre",
@@ -516,7 +557,8 @@ API generated out of xbmc git master on 10.04.11
     {"default":false,"name":"Library","type":"boolean"},
     {"default":false,"name":"Other","type":"boolean"}
   ],
-  "returns":{"$ref":"Notification.Flags"},
+
+"returns":{"$ref":"Notification.Flags"},
   "type":"method"
 },
 
@@ -739,16 +781,49 @@ API generated out of xbmc git master on 10.04.11
   "type":"method"
 },
 
-"Playlist.Remove":{"description":"Remove item from the playlist","params":[{"$ref":"Playlist.Id","name":"playlist","required":true},{"name":"item","required":true,"type":["string","integer"]}],"returns":"string","type":"method"},
-"Playlist.Shuffle":{"description":"Shuffle playlist","params":[{"$ref":"Playlist.Id","name":"playlist","required":true}],"returns":"string","type":"method"},
-"Playlist.Swap":{"description":"Swap items in the playlist","params":[{"$ref":"Playlist.Id","name":"playlist","required":true},{"$ref":"Playlist.Item.Position","description":"Position of the item","name":"item1","required":true},{"$ref":"Playlist.Item.Position","description":"Position of the item","name":"item2","required":true}],"returns":"string","type":"method"},
+"Playlist.Remove":{
+  "description":"Remove item from the playlist",
+  "params":[
+    {"$ref":"Playlist.Id","name":"playlist","required":true},
+    {"name":"item","required":true,"type":["string","integer"]}
+  ],
+  "returns":"string",
+  "type":"method"
+},
 
-"Playlist.UnShuffle":{"description":"Unshuffle playlist","params":[{"$ref":"Playlist.Id","name":"playlist","required":true}],"returns":"string","type":"method"},
+"Playlist.Shuffle":{
+  "description":"Shuffle playlist",
+  "params":[
+    {"$ref":"Playlist.Id","name":"playlist","required":true}
+  ],
+  "returns":"string",
+  "type":"method"
+},
+
+"Playlist.Swap":{
+  "description":"Swap items in the playlist",
+  "params":[
+    {"$ref":"Playlist.Id","name":"playlist","required":true},
+    {"$ref":"Playlist.Item.Position","description":"Position of the item","name":"item1","required":true},
+    {"$ref":"Playlist.Item.Position","description":"Position of the item","name":"item2","required":true}
+  ],
+  "returns":"string",
+  "type":"method"
+},
+
+"Playlist.UnShuffle":{
+  "description":"Unshuffle playlist",
+  "params":[
+    {"$ref":"Playlist.Id","name":"playlist","required":true}
+  ],
+  "returns":"string",
+  "type":"method"
+},
 
 "System.GetInfoBooleans":{
   "description":"Retrieve info booleans about the system",
   "params":[
-    {
+  {
       "items":{"type":"string"},
       "minItems":1,
       "name":"booleans",
@@ -756,20 +831,74 @@ API generated out of xbmc git master on 10.04.11
       "type":"array"
     }
   ],
-  "returns":{"description":"List of key-value pairs of the retrieved info booleans","type":"object"},
+  "returns":{
+    "description":"List of key-value pairs of the retrieved info booleans",
+    "type":"object"
+  },
   "type":"method"
 },
 
-"System.GetInfoLabels":{"description":"Retrieve info labels about the system","params":[{"description":"See http://wiki.xbmc.org/index.php?title=InfoLabels for a list of possible info labels","items":{"type":"string"},
-"minItems":1,"name":"labels","required":true,"type":"array"}],"returns":{"description":"List of key-value pairs of the retrieved info labels","type":"object"},
-"type":"method"},
-"System.Hibernate":{"description":"Puts the system running XBMC into hibernate mode","params":[],"returns":"string","type":"method"},
-"System.Reboot":{"description":"Reboots the system running XBMC","params":[],"returns":"string","type":"method"},
-"System.Shutdown":{"description":"Shuts the system running XBMC down","params":[],"returns":"string","type":"method"},
-"System.Suspend":{"description":"Suspends the system running XBMC","params":[],"returns":"string","type":"method"},
-"VideoLibrary.GetEpisodeDetails":{"description":"Retrieve details about a specific tv show episode","params":[{"$ref":"Library.Id","name":"episodeid","required":true},{"$ref":"Library.Fields.Episode","name":"fields"}],"returns":{"properties":{"episodedetails":{"$ref":"Library.Details.Episode"}},
-"type":"object"},
-"type":"method"},
+"System.GetInfoLabels":{
+  "description":"Retrieve info labels about the system",
+  "params":[
+    {
+      "description":"See http://wiki.xbmc.org/index.php?title=InfoLabels for a list of possible info labels",
+      "items":{"type":"string"},
+      "minItems":1,
+      "name":"labels",
+      "required":true,
+      "type":"array"
+    }
+  ],
+  "returns":{
+    "description":"List of key-value pairs of the retrieved info labels",
+    "type":"object"
+  },
+  "type":"method"
+},
+
+"System.Hibernate":{
+  "description":"Puts the system running XBMC into hibernate mode",
+  "params":[],
+  "returns":"string",
+  "type":"method"
+},
+
+"System.Reboot":{
+  "description":"Reboots the system running XBMC",
+  "params":[],
+  "returns":"string",
+  "type":"method"
+},
+
+"System.Shutdown":{
+  "description":"Shuts the system running XBMC down",
+  "params":[],
+  "returns":"string",
+  "type":"method"
+},
+
+"System.Suspend":{
+  "description":"Suspends the system running XBMC",
+  "params":[],
+  "returns":"string",
+  "type":"method"
+},
+
+"VideoLibrary.GetEpisodeDetails":{
+  "description":"Retrieve details about a specific tv show episode",
+  "params":[
+    {"$ref":"Library.Id","name":"episodeid","required":true},
+    {"$ref":"Library.Fields.Episode","name":"fields"}
+  ],
+  "returns":{
+    "properties":{
+      "episodedetails":{"$ref":"Library.Details.Episode"}
+    },
+    "type":"object"
+  },
+  "type":"method"
+},
 
 "VideoLibrary.GetEpisodes":{
   "description":"Retrieve all tv show episodes",
@@ -934,91 +1063,249 @@ API generated out of xbmc git master on 10.04.11
   "type":"method"
 },
 
-"VideoLibrary.GetMusicVideoDetails":{"description":"Retrieve details about a specific music video","params":[{"$ref":"Library.Id","name":"musicvideoid","required":true},{"$ref":"Library.Fields.MusicVideo","name":"fields"}],"returns":{"properties":{"musicvideodetails":{"$ref":"Library.Details.MusicVideo"}},
-"type":"object"},
-"type":"method"},
-"VideoLibrary.GetMusicVideos":{"description":"Retrieve all music videos","params":[{"$ref":"Library.Id","default":-1,"name":"artistid"},{"$ref":"Library.Id","default":-1,"name":"albumid"},{"$ref":"Library.Fields.MusicVideo","name":"fields"},{"$ref":"List.Limits","name":"limits"},{"$ref":"List.Sort","name":"sort"}],"returns":{"properties":{"limits":{"$ref":"List.LimitsReturned","required":true},
-"musicvideos":{"items":{"id":"Library.Details.MusicVideo","properties":{"album":{"type":"string"},
-"artist":{"type":"string"},
-"director":{"type":"string"},
-"fanart":{"type":"string"},
-"file":{"type":"string"},
-"genre":{"type":"string"},
-"label":{"required":true,"type":"string"},
-"lastplayed":{"type":"string"},
-"musicvideoid":{"$ref":"Library.Id","required":true},
-"playcount":{"type":"integer"},
-"plot":{"type":"string"},
-"runtime":{"type":"string"},
-"streamDetails":{"$ref":"Video.Streams"},
-"studio":{"type":"string"},
-"thumbnail":{"type":"string"},
-"title":{"type":"string"},
-"track":{"type":"integer"},
-"year":{"type":"integer"}},
-"type":"object"},
-"type":"array"}},
-"type":"object"},
-"type":"method"},
-"VideoLibrary.GetRecentlyAddedEpisodes":{"description":"Retrieve all recently added tv episodes","params":[{"$ref":"Library.Fields.Episode","name":"fields"},{"$ref":"List.Limits","name":"limits"},{"$ref":"List.Sort","name":"sort"}],"returns":{"properties":{"episodes":{"items":{"$ref":"Library.Details.Episode"},
-"type":"array"},
-"limits":{"$ref":"List.LimitsReturned","required":true}},
-"type":"object"},
-"type":"method"},
-"VideoLibrary.GetRecentlyAddedMovies":{"description":"Retrieve all recently added movies","params":[{"$ref":"Library.Fields.Movie","name":"fields"},{"$ref":"List.Limits","name":"limits"},{"$ref":"List.Sort","name":"sort"}],"returns":{"properties":{"limits":{"$ref":"List.LimitsReturned","required":true},
-"movies":{"items":{"$ref":"Library.Details.Movie"},
-"type":"array"}},
-"type":"object"},
-"type":"method"},
-"VideoLibrary.GetRecentlyAddedMusicVideos":{"description":"Retrieve all recently added music videos","params":[{"$ref":"Library.Fields.MusicVideo","name":"fields"},{"$ref":"List.Limits","name":"limits"},{"$ref":"List.Sort","name":"sort"}],"returns":{"properties":{"limits":{"$ref":"List.LimitsReturned","required":true},
-"musicvideos":{"items":{"$ref":"Library.Details.MusicVideo"},
-"type":"array"}},
-"type":"object"},
-"type":"method"},
-"VideoLibrary.GetSeasons":{"description":"Retrieve all tv seasons","params":[{"$ref":"Library.Id","name":"tvshowid","required":true},{"$ref":"Library.Fields.Season","name":"fields"},{"$ref":"List.Limits","name":"limits"},{"$ref":"List.Sort","name":"sort"}],"returns":{"properties":{"limits":{"$ref":"List.LimitsReturned","required":true},
-"seasons":{"items":{"id":"Library.Details.Season","properties":{"episode":{"type":"integer"},
-"fanart":{"type":"string"},
-"label":{"required":true,"type":"string"},
-"playcount":{"type":"integer"},
-"season":{"required":true,"type":"integer"},
-"showtitle":{"type":"string"},
-"thumbnail":{"type":"string"}},
-"type":"object"},
-"type":"array"}},
-"type":"object"},
-"type":"method"},
-"VideoLibrary.GetTVShowDetails":{"description":"Retrieve details about a specific tv show","params":[{"$ref":"Library.Id","name":"tvshowid","required":true},{"$ref":"Library.Fields.TVShow","name":"fields"}],"returns":{"properties":{"tvshowdetails":{"$ref":"Library.Details.TVShow"}},
-"type":"object"},
-"type":"method"},
-"VideoLibrary.GetTVShows":{"description":"Retrieve all tv shows","params":[{"$ref":"Library.Fields.TVShow","name":"fields"},{"$ref":"List.Limits","name":"limits"},{"$ref":"List.Sort","name":"sort"}],"returns":{"properties":{"limits":{"$ref":"List.LimitsReturned","required":true},
-"tvshows":{"items":{"id":"Library.Details.TVShow","properties":{"cast":{"$ref":"Video.Cast"},
-"episode":{"type":"integer"},
-"fanart":{"type":"string"},
-"file":{"type":"string"},
-"genre":{"type":"string"},
-"imdbnumber":{"type":"string"},
-"label":{"required":true,"type":"string"},
-"lastplayed":{"type":"string"},
-"mpaa":{"type":"string"},
-"playcount":{"type":"integer"},
-"plot":{"type":"string"},
-"premiered":{"type":"string"},
-"rating":{"type":"number"},
-"studio":{"type":"string"},
-"thumbnail":{"type":"string"},
-"title":{"type":"string"},
-"tvshowid":{"$ref":"Library.Id","required":true},
-"votes":{"type":"string"},
-"year":{"type":"integer"}},
-"type":"object"},
-"type":"array"}},
-"type":"object"},
-"type":"method"},
-"VideoLibrary.ScanForContent":{"description":"Scans the video sources for new library items","params":[],"returns":"string","type":"method"},
-"VideoPlayer.BigSkipBackward":{"params":[],"returns":"string","type":"method"},
-"VideoPlayer.BigSkipForward":{"params":[],"returns":"string","type":"method"},
-"VideoPlayer.Forward":{"description":"Forward current playback","params":[],"returns":"string","type":"method"},
-"VideoPlayer.GetPercentage":{"description":"Retrieve current playback progress in percentage","params":[],"returns":"number","type":"method"},
+"VideoLibrary.GetMusicVideoDetails":{
+  "description":"Retrieve details about a specific music video",
+  "params":[
+    {"$ref":"Library.Id","name":"musicvideoid","required":true},
+    {"$ref":"Library.Fields.MusicVideo","name":"fields"}
+  ],
+  "returns":{
+    "properties":{
+      "musicvideodetails":{"$ref":"Library.Details.MusicVideo"}
+    },
+    "type":"object"
+  },
+  "type":"method"
+},
+
+"VideoLibrary.GetMusicVideos":{
+  "description":"Retrieve all music videos",
+  "params":[
+    {"$ref":"Library.Id","default":-1,"name":"artistid"},
+    {"$ref":"Library.Id","default":-1,"name":"albumid"},
+    {"$ref":"Library.Fields.MusicVideo","name":"fields"},
+    {"$ref":"List.Limits","name":"limits"},
+    {"$ref":"List.Sort","name":"sort"}
+  ],
+  "returns":{
+    "properties":{
+      "limits":{"$ref":"List.LimitsReturned","required":true},
+      "musicvideos":{
+        "items":{
+          "id":"Library.Details.MusicVideo",
+          "properties":{
+            "album":{"type":"string"},
+            "artist":{"type":"string"},
+            "director":{"type":"string"},
+            "fanart":{"type":"string"},
+            "file":{"type":"string"},
+            "genre":{"type":"string"},
+            "label":{"required":true,"type":"string"},
+            "lastplayed":{"type":"string"},
+            "musicvideoid":{"$ref":"Library.Id","required":true},
+            "playcount":{"type":"integer"},
+            "plot":{"type":"string"},
+            "runtime":{"type":"string"},
+            "streamDetails":{"$ref":"Video.Streams"},
+            "studio":{"type":"string"},
+            "thumbnail":{"type":"string"},
+            "title":{"type":"string"},
+            "track":{"type":"integer"},
+            "year":{"type":"integer"}
+          },
+          "type":"object"
+        },
+        "type":"array"
+      }
+    },
+    "type":"object"
+  },
+  "type":"method"
+},
+
+"VideoLibrary.GetRecentlyAddedEpisodes":{
+  "description":"Retrieve all recently added tv episodes",
+  "params":[
+    {"$ref":"Library.Fields.Episode","name":"fields"},
+    {"$ref":"List.Limits","name":"limits"},
+    {"$ref":"List.Sort","name":"sort"}
+  ],
+  "returns":{
+    "properties":{
+      "episodes":{
+        "items":{"$ref":"Library.Details.Episode"},
+        "type":"array"
+      },
+      "limits":{"$ref":"List.LimitsReturned","required":true}
+    },
+    "type":"object"
+  },
+  "type":"method"
+},
+
+"VideoLibrary.GetRecentlyAddedMovies":{
+  "description":"Retrieve all recently added movies",
+  "params":[
+    {"$ref":"Library.Fields.Movie","name":"fields"},
+    {"$ref":"List.Limits","name":"limits"},
+    {"$ref":"List.Sort","name":"sort"}
+  ],
+  "returns":{
+    "properties":{
+      "limits":{"$ref":"List.LimitsReturned","required":true},
+      "movies":{
+        "items":{"$ref":"Library.Details.Movie"},
+        "type":"array"
+      }
+    },
+    "type":"object"
+  },
+  "type":"method"
+},
+
+"VideoLibrary.GetRecentlyAddedMusicVideos":{
+  "description":"Retrieve all recently added music videos",
+  "params":[
+    {"$ref":"Library.Fields.MusicVideo","name":"fields"},
+    {"$ref":"List.Limits","name":"limits"},
+    {"$ref":"List.Sort","name":"sort"}
+  ],
+  "returns":{
+    "properties":{
+      "limits":{"$ref":"List.LimitsReturned","required":true},
+      "musicvideos":{"items":{"$ref":"Library.Details.MusicVideo"},
+      "type":"array"}
+    },
+    "type":"object"
+  },
+  "type":"method"
+},
+
+"VideoLibrary.GetSeasons":{
+  "description":"Retrieve all tv seasons",
+  "params":[
+    {"$ref":"Library.Id","name":"tvshowid","required":true},
+    {"$ref":"Library.Fields.Season","name":"fields"},
+    {"$ref":"List.Limits","name":"limits"},
+    {"$ref":"List.Sort","name":"sort"}
+  ],
+  "returns":{
+    "properties":{
+      "limits":{"$ref":"List.LimitsReturned","required":true},
+      "seasons":{
+        "items":{
+          "id":"Library.Details.Season",
+          "properties":{
+            "episode":{"type":"integer"},
+            "fanart":{"type":"string"},
+            "label":{"required":true,"type":"string"},
+            "playcount":{"type":"integer"},
+            "season":{"required":true,"type":"integer"},
+            "showtitle":{"type":"string"},
+            "thumbnail":{"type":"string"}
+          },
+          "type":"object"
+        },
+        "type":"array"
+      }
+    },
+    "type":"object"
+  },
+  "type":"method"
+},
+
+"VideoLibrary.GetTVShowDetails":{
+  "description":"Retrieve details about a specific tv show",
+  "params":[
+    {"$ref":"Library.Id","name":"tvshowid","required":true},
+    {"$ref":"Library.Fields.TVShow","name":"fields"}
+  ],
+  "returns":{
+    "properties":{
+      "tvshowdetails":{"$ref":"Library.Details.TVShow"}
+    },
+    "type":"object"
+  },
+  "type":"method"
+},
+
+"VideoLibrary.GetTVShows":{
+  "description":"Retrieve all tv shows",
+  "params":[
+    {"$ref":"Library.Fields.TVShow","name":"fields"},
+    {"$ref":"List.Limits","name":"limits"},
+    {"$ref":"List.Sort","name":"sort"}
+  ],
+  "returns":{
+    "properties":{
+      "limits":{"$ref":"List.LimitsReturned","required":true},
+      "tvshows":{
+        "items":{
+          "id":"Library.Details.TVShow",
+          "properties":{
+            "cast":{"$ref":"Video.Cast"},
+            "episode":{"type":"integer"},
+            "fanart":{"type":"string"},
+            "file":{"type":"string"},
+            "genre":{"type":"string"},
+            "imdbnumber":{"type":"string"},
+            "label":{"required":true,"type":"string"},
+            "lastplayed":{"type":"string"},
+            "mpaa":{"type":"string"},
+            "playcount":{"type":"integer"},
+            "plot":{"type":"string"},
+            "premiered":{"type":"string"},
+            "rating":{"type":"number"},
+            "studio":{"type":"string"},
+            "thumbnail":{"type":"string"},
+            "title":{"type":"string"},
+            "tvshowid":{"$ref":"Library.Id","required":true},
+            "votes":{"type":"string"},
+            "year":{"type":"integer"}
+          },
+          "type":"object"
+        },
+        "type":"array"
+      }
+    },
+    "type":"object"
+  },
+  "type":"method"
+},
+
+"VideoLibrary.ScanForContent":{
+  "description":"Scans the video sources for new library items",
+  "params":[],
+  "returns":"string",
+  "type":"method"
+},
+
+"VideoPlayer.BigSkipBackward":{
+  "params":[],
+  "returns":"string",
+  "type":"method"
+},
+
+"VideoPlayer.BigSkipForward":{
+  "params":[],
+  "returns":"string",
+  "type":"method"
+},
+
+"VideoPlayer.Forward":{
+  "description":"Forward current playback",
+  "params":[],
+  "returns":"string",
+  "type":"method"
+},
+
+"VideoPlayer.GetPercentage":{
+  "description":"Retrieve current playback progress in percentage",
+  "params":[],
+  "returns":"number",
+  "type":"method"
+},
+
 "VideoPlayer.GetTime":{"description":"Retrieves the current and total time of the currently playing file","params":[],"returns":{"$ref":"Player.TimeValues"},
 "type":"method"},
 "VideoPlayer.PlayPause":{"description":"Pauses or unpause playback and returns the new state","params":[],"returns":{"$ref":"Player.State"},
@@ -1252,8 +1539,53 @@ API generated out of xbmc git master on 10.04.11
   "type":"array","uniqueItems":true
 },
 
-"List.Fields.Video":{"id":"List.Fields.Video","items":{"enums":["title","artist","genre","year","rating","album","track","playcount","fanart","director","trailer","tagline","plot","plotoutline","originaltitle","lastplayed","writer","studio","mpaa","cast","country","imdbnumber","premiered","productioncode","runtime","set","showlink","streamDetails","top250","votes","writingcredits","firstaired","season","episode","showtitle","thumbnail","file"],"type":"string"},
-"type":"array","uniqueItems":true},
+"List.Fields.Video":{
+  "id":"List.Fields.Video",
+  "items":{
+    "enums":[
+      "title",
+      "artist",
+      "genre",
+      "year",
+      "rating",
+      "album",
+      "track",
+      "playcount",
+      "fanart",
+      "director",
+      "trailer",
+      "tagline",
+      "plot",
+      "plotoutline",
+      "originaltitle",
+      "lastplayed",
+      "writer",
+      "studio",
+      "mpaa",
+      "cast",
+      "country",
+      "imdbnumber",
+      "premiered",
+      "productioncode",
+      "runtime",
+      "set",
+      "showlink",
+      "streamDetails",
+      "top250",
+      "votes",
+      "writingcredits",
+      "firstaired",
+      "season",
+      "episode",
+      "showtitle",
+      "thumbnail",
+      "file"
+    ],
+    "type":"string"
+  },
+  "type":"array",
+  "uniqueItems":true
+},
 
 "List.Limits":{
   "id":"List.Limits",

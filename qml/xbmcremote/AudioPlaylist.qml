@@ -73,6 +73,7 @@ Item {
             anchors.fill: parent
             anchors.margins: 25
             clip: true
+            model: VideoPlaylist
 
             delegate: Item {
                 width: parent.width
@@ -87,14 +88,14 @@ Item {
                 //            }
                 Image {
                     anchors.fill: parent
-                    source: AudioPlaylist.currentTrackNumber - 1 == index ? "images/MenuItemFO.png" : "images/MenuItemNF.png"
+                    source: list.model.currentTrackNumber - 1 == index ? "images/MenuItemFO.png" : "images/MenuItemNF.png"
                 }
                 Image {
                     anchors {top: parent.top; right: parent.right; bottom: parent.bottom }
                     anchors.topMargin: 10
                     anchors.bottomMargin: 10
                     source: "images/MediaItemDetailBG.png"
-                    visible: AudioPlaylist.currentTrackNumber - 1 == index
+                    visible: list.model.currentTrackNumber - 1 == index
                 }
 
                 Text {

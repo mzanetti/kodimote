@@ -18,9 +18,6 @@
 
 #include "playlistitem.h"
 
-namespace Xbmc
-{
-
 PlaylistItem::PlaylistItem(int albumId, int artistId, const QString &file, int genreId, const QString &playlist):
     m_albumId(albumId),
     m_artistId(artistId),
@@ -100,6 +97,4 @@ QVariantMap PlaylistItem::toMap() const
         map.insert("playlist", playlist);
     }
     return map;
-}
-
 }

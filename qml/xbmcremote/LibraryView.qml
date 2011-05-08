@@ -6,16 +6,16 @@ Item {
 
     signal goBack
 
-//    property alias library: list.model
+    property alias library: list.model
 
     BrowsingTopBar {
         id: topBar
         anchors.left: parent.left
         anchors.top: parent.top
         anchors.right: parent.right
-        currentDir: AudioLibrary.currentDir
+        currentDir: library.currentDir
 
-        onGoUp: AudioLibrary.goUp(levels)
+        onGoUp: library.goUp(levels)
         onGoBack: libraryView.goBack()
     }
 
@@ -28,7 +28,7 @@ Item {
         anchors.leftMargin: 10
         anchors.rightMargin: 10
         anchors.bottomMargin: 10
-        state: AudioLibrary.state
+        state: library.state
         source: "images/ContentPanel.png"
 
         ListView {
@@ -37,7 +37,7 @@ Item {
             anchors.margins: 25
             //        anchors.rightMargin: 20
             clip: true
-            model: AudioLibrary
+            model: library
 
             delegate: Item {
                 width: parent.width

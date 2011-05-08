@@ -30,8 +30,8 @@
 #include <QTime>
 #include <QStringList>
 
-namespace Xbmc
-{
+#define DEBUGJSON
+
 namespace XbmcConnection
 {
 void connect(const QString &hostname, int port)
@@ -152,12 +152,14 @@ void XbmcConnectionPrivate::sendNextCommand()
         QJson::Serializer serializer;
 #ifdef DEBUGJSON
         qDebug() << "sending command" << serializer.serialize(map);
-#endif
+        m_socket->write(serializer.serialize(map));
+#else
         bool ok = true;
         serializer.serialize(map, m_socket, &ok);
         if(!ok) {
             qDebug() << "Error sending command:" << serializer.serialize(map);
         }
+#endif
         m_currentPendingId = command.id();
         m_timeoutTimer.start();
     }
@@ -176,6 +178,7 @@ void XbmcConnectionPrivate::readData()
 //        qDebug() << tmp;
 //        qDebug() << ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>><";
     }
+//    qDebug() << "<<<<<<<<<<<< Received:" << data;
     foreach(const QString lineData, data.split('\n')) {
         if(lineData.isEmpty()) {
             continue;
@@ -193,7 +196,7 @@ void XbmcConnectionPrivate::readData()
         }
 //        qDebug() << "finished parsing after" << t.msecsTo(QTime::currentTime());
 
-//        qDebug() << ">>> Incoming:" << data;
+        qDebug() << ">>> Incoming:" << data;
 
         if(rsp.value("params").toMap().value("sender").toString() == "xbmc") {
             qDebug() << ">>> received announcement" << rsp;
@@ -240,5 +243,4 @@ bool XbmcConnectionPrivate::connected()
     return m_socket->state() == QAbstractSocket::ConnectedState;
 }
 
-}
 }

@@ -22,9 +22,6 @@
 #include "artistitem.h"
 #include "playlist.h"
 
-namespace Xbmc
-{
-
 AudioLibrary::AudioLibrary(Player *player, QObject *parent) :
     QAbstractItemModel(parent),
     m_player(player)
@@ -361,5 +358,4 @@ void AudioLibrary::goUp(int levels)
         }
         return;
     }
-}
 }

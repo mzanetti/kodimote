@@ -4,6 +4,8 @@ Item {
     id: nowPlayling
     anchors.fill: parent
 
+    property alias playlist: audioPlaylist.model
+
     state: "nowPlaying"
 
     NowPlayingView {
@@ -18,7 +20,6 @@ Item {
     AudioPlaylist {
         id: audioPlaylist
         anchors.fill: parent
-        model: AudioPlaylist
         onClosePlaylist: {
             nowPlayling.state = "nowPlaying"
         }

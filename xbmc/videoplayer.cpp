@@ -17,13 +17,12 @@
  ****************************************************************************/
 
 #include "videoplayer.h"
-
-namespace Xbmc
-{
+#include "videoplaylist.h"
 
 VideoPlayer::VideoPlayer(QObject *parent):
     Player(PlayerTypeVideo, parent)
 {
+    m_playlist = new VideoPlaylist(this);
 }
 
 QString VideoPlayer::namespaceString() const
@@ -33,7 +32,5 @@ QString VideoPlayer::namespaceString() const
 
 Playlist *VideoPlayer::playlist() const
 {
-    //return m_playlist;
-}
-
+    return m_playlist;
 }

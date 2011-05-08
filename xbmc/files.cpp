@@ -23,30 +23,52 @@
 
 #include <QVariant>
 
-namespace Xbmc
-{
-
-Files::Files(Player *player, QObject *parent) :
+Files::Files(MediaType mediaType, Player *player, QObject *parent) :
     QAbstractItemModel(parent),
-    m_player(player)
+    m_player(player),
+    m_mediaType(mediaType)
 {
     QHash<int, QByteArray> roleNames;
     roleNames.insert(Qt::DisplayRole, "label");
     roleNames.insert(Qt::UserRole, "directory");
     setRoleNames(roleNames);
 
+    if(mediaType == MediaTypeAudio) {
+        m_playBehavior = PlayBehaviorAll;
+    } else {
+        m_playBehavior = PlayBehaviorSingle;
+    }
 
     connect(XbmcConnection::notifier(), SIGNAL(responseReceived(int,QVariantMap)), SLOT(responseReceived(int,QVariantMap)));
 
     listShares();
 }
 
+void Files::setMediaType(MediaType &mediaType)
+{
+    m_mediaType = mediaType;
+    emit mediaTypeChanged();
+}
+
+Files::MediaType Files::mediaType() const
+{
+    return m_mediaType;
+}
+
+QString Files::mediaString()
+{
+    if(m_mediaType == MediaTypeAudio) {
+        return "music";
+    } else {
+        return "video";
+    }
+}
+
 void Files::listShares()
 {
     QVariantMap params;
 
-    QVariant media("music");
-
+    QVariant media(mediaString());
     params.insert("media", media);
 
     int id = XbmcConnection::sendCommand("Files.GetSources", params);
@@ -91,6 +113,8 @@ void Files::responseReceived(int id, const QVariantMap &response)
         return;
     }
 
+    qDebug() << "Files reponse:" << response;
+
     QVariant rsp = response.value("result");
 
     switch(m_requestMap.value(id)) {
@@ -116,7 +140,12 @@ void Files::responseReceived(int id, const QVariantMap &response)
         QVariantList shares = rsp.toMap().value("files").toList();
         foreach(const QVariant &variant, shares) {
             QVariantMap share = variant.toMap();
-            m_filesList.append(qMakePair(share.value("label").toString(), share.value("file").toString()));
+            QString label = share.value("label").toString();
+            QString file = share.value("file").toString();
+            if(label.isEmpty()) {
+                label = file.right(file.length() - file.lastIndexOf('/') - 1);
+            }
+            m_filesList.append(qMakePair(label, file));
         }
         endResetModel();
         break;
@@ -145,7 +174,7 @@ void Files::enterDir(const QString &directory)
         QVariantMap params;
         params.insert("directory", dir);
 
-        QVariant media("music");
+        QVariant media(mediaString());
         params.insert("media", media);
 
         QVariantList fields;
@@ -224,17 +253,22 @@ void Files::enterDir(const QString &directory)
             m_player->playlist()->clear();
             int newListCount = 0;
             int songToPlay = 0;
-            for(int i = 0; i < m_filesList.count(); ++i) {
-                QString file = m_filesList.at(i).second;
-                if(!file.endsWith('/')) { // only add files (no dirs)
-                    m_player->playlist()->addFile(file);
-                    if(file == dir) {
-                        songToPlay = newListCount;
+            if(m_playBehavior == PlayBehaviorAll) {
+                for(int i = 0; i < m_filesList.count(); ++i) {
+                    QString file = m_filesList.at(i).second;
+                    if(!file.endsWith('/')) { // only add files (no dirs)
+                        m_player->playlist()->addFile(file);
+                        if(file == dir) {
+                            songToPlay = newListCount;
+                        }
+                        newListCount++;
                     }
-                    newListCount++;
                 }
+                m_player->playlist()->playItem(songToPlay);
+            } else {
+                m_player->playlist()->addFile(m_filesList.at(songToPlay).second);
+                m_player->playlist()->playItem(0);
             }
-            m_player->playlist()->playItem(songToPlay); // -1 because of the ".."
         } else {
             m_player->playlist()->clear();
             m_player->playlist()->addFile(dir);
@@ -264,6 +298,4 @@ QString Files::currentDir() const
 {
     qDebug() << "currentdir is" << m_currentDirLabel;
     return "Files/" +m_currentDirLabel;
-}
-
 }

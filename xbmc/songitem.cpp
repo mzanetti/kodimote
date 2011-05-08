@@ -18,9 +18,6 @@
 
 #include "songitem.h"
 
-namespace Xbmc
-{
-
 SongItem::SongItem(int songid, const QString &label):
     m_songId(songid),
     m_label(label)
@@ -84,7 +81,10 @@ QString SongItem::file() const
 
 QString SongItem::label() const
 {
-    return m_label;
+    if(!m_label.isEmpty()) {
+        return m_label;
+    }
+    return m_file.right(m_file.length() - m_file.lastIndexOf('/') - 1);
 }
 
 QString SongItem::title() const
@@ -115,6 +115,4 @@ QString SongItem::fanart() const
 QTime SongItem::duration() const
 {
     return m_duration;
-}
-
 }

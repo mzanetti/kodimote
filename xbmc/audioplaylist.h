@@ -21,18 +21,20 @@
 
 #include "playlist.h"
 
-namespace Xbmc
-{
-
 class AudioPlaylist : public Playlist
 {
 public:
-    AudioPlaylist(QObject *parent = 0);
+    AudioPlaylist(Player *parent = 0);
+
+public slots:
+    void refresh();
 
 protected:
     QString namespaceString() const;
-};
+    void queryItemData(int index);
 
-}
+private slots:
+    void responseReveiced(int id, const QVariantMap &response);
+};
 
 #endif // AUDIOPLAYLIST_H

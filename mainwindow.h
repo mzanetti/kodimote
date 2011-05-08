@@ -23,10 +23,8 @@
 
 #include <QMainWindow>
 
-namespace Xbmc
-{
 class Xbmc;
-}
+class Player;
 
 class MainWindow: public QMainWindow
 {
@@ -48,10 +46,11 @@ protected:
 private slots:
     void openSettings();
     void myslot();
+    void activePlayerChanged(Player *player);
 
 private:
     QDeclarativeView *m_viewer;
-    Xbmc::Xbmc *xbmc;
+    Xbmc *xbmc;
 
 
     void setMainQmlFile(const QString &file);

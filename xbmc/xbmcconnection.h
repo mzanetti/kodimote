@@ -22,8 +22,6 @@
 #include <QObject>
 #include <QTcpSocket>
 
-namespace Xbmc
-{
 namespace XbmcConnection
 {
 
@@ -48,5 +46,4 @@ signals:
 Notifier *notifier();
 }
 
-}
 #endif // XBMCCONNECTION_H

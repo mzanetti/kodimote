@@ -27,9 +27,6 @@
 #include <QTcpSocket>
 #include <QTimer>
 
-namespace Xbmc
-{
-
 namespace XbmcConnection
 {
 
@@ -90,6 +87,5 @@ private:
 Q_GLOBAL_STATIC(XbmcConnectionPrivate, instance)
 
 
-}
 }
 #endif // XBMC_P_H

@@ -1,4 +1,5 @@
 import QtQuick 1.0
+import Xbmc 1.0
 
 BorderImage {
     id: nowPlayingView
@@ -72,10 +73,10 @@ BorderImage {
     }
 
     function fanart() {
-        if(AudioPlaylist.currentFanart.length == 0 || AudioPlaylist.currentFanart == "DefaultAlbumCover.png") {
+        if(ActivePlaylist.currentFanart.length == 0 || ActivePlaylist.currentFanart == "DefaultAlbumCover.png") {
             return "images/DefaultAlbumCover.png"
         }
-        return Xbmc.vfsPath + AudioPlaylist.currentThumbnail
+        return Xbmc.vfsPath + ActivePlaylist.currentThumbnail
     }
 
     Flow {
@@ -110,7 +111,7 @@ BorderImage {
                 id: line1
                 height: 40
                 width: nowPlayingText.width
-                anchors.bottom: artistText.top
+                anchors.bottom: ActivePlayer.type == AudioPlayer.PlayerTypeAudio ? artistText.top : titleText.top
 
                 Text {
                     id: nowPlayingTextLabel
@@ -129,6 +130,7 @@ BorderImage {
                     color: "#0084ff"
                     text: "Track:"
                     font.pixelSize: 22
+                    visible: ActivePlayer.type == AudioPlayer.PlayerTypeAudio
                 }
 
                 Text {
@@ -138,6 +140,7 @@ BorderImage {
                     color: "white"
                     text: AudioPlaylist.currentTrackNumber + " / " + AudioPlaylist.count
                     font.pixelSize: 22
+                    visible: ActivePlayer.type == AudioPlayer.PlayerTypeAudio
                 }
             }
 
@@ -151,6 +154,7 @@ BorderImage {
                 text: AudioPlaylist.currentArtist + " - " + AudioPlaylist.currentAlbum
                 font.pixelSize: 22
                 elide: Text.ElideRight
+                visible: ActivePlayer.type == AudioPlayer.PlayerTypeAudio
             }
 
             Text {
@@ -160,7 +164,7 @@ BorderImage {
                 anchors.bottom: progressBar.top
                 anchors.bottomMargin: 5
                 color: "white"
-                text: AudioPlaylist.currentTitle
+                text: ActivePlaylist.currentTitle.length > 0 ? ActivePlaylist.currentTitle : ActivePlaylist.currentLabel
                 font.pixelSize: 32
                 font.bold: true
                 elide: Text.ElideRight
@@ -178,7 +182,7 @@ BorderImage {
             }
 
             Rectangle {
-                width: height + (progressBar.width - height) * AudioPlayer.percentage / 100
+                width: height + (progressBar.width - height) * ActivePlayer.percentage / 100
                 height: 15
                 anchors.bottom: nowPlayingText.bottom
                 radius: height/2

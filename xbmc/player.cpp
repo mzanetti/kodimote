@@ -21,9 +21,6 @@
 
 #include "xbmcconnection.h"
 
-namespace Xbmc
-{
-
 Player::Player(PlayerType type, QObject *parent) :
     QObject(parent),
     m_type(type),
@@ -170,6 +167,4 @@ void Player::setPercentage()
         m_percentage = 100;
     }
     emit percentageChanged();
-}
-
 }

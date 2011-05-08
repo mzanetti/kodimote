@@ -22,10 +22,6 @@
 #include <QString>
 #include <QTime>
 
-namespace Xbmc
-{
-
-
 class SongItem
 {
 public:
@@ -64,5 +60,4 @@ private:
     QTime m_duration;
 };
 
-}
 #endif // SONGITEM_H

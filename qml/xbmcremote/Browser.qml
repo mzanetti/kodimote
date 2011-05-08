@@ -3,6 +3,7 @@ import QtQuick 1.0
 Item {
     id: browser
     anchors.fill: parent
+    property alias model: list.model
 
     signal goBack
 
@@ -11,9 +12,9 @@ Item {
         anchors.left: parent.left
         anchors.top: parent.top
         anchors.right: parent.right
-        currentDir: Files.currentDir
+        currentDir: model.currentDir
 
-        onGoUp: Files.goUp(levels)
+        onGoUp: model.goUp(levels)
         onGoBack: browser.goBack()
     }
 
@@ -37,7 +38,6 @@ Item {
             anchors.fill: parent
             anchors.margins: 25
             clip: true
-            model: Files
 
             delegate: Item {
                 width: parent.width

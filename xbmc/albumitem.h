@@ -21,9 +21,6 @@
 
 #include <QString>
 
-namespace Xbmc
-{
-
 class AlbumItem
 {
 public:
@@ -41,5 +38,4 @@ private:
 
 };
 
-}
 #endif // ALBUMTITEM_H

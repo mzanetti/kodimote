@@ -23,9 +23,6 @@
 #include <QObject>
 #include <QVariantMap>
 
-namespace Xbmc
-{
-
 class AudioLibrary;
 class VideoLibrary;
 class Files;
@@ -54,7 +51,8 @@ public:
     AudioLibrary *audioLibrary();
     VideoLibrary *videoLibrary();
 
-    Files *files();
+    Files *audioFiles();
+    Files *videoFiles();
 
     bool connected();
 
@@ -80,7 +78,8 @@ private:
     Player *m_audioPlayer;
     Player *m_videoPlayer;
     Player *m_activePlayer;
-    Files *m_files;
+    Files *m_audioFiles;
+    Files *m_videoFiles;
 
     AudioLibrary *m_audioLibrary;
     VideoLibrary *m_videoLibrary;
@@ -95,6 +94,5 @@ private slots:
 
 };
 
-}
 #endif // XBMC_H
 

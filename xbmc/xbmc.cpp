@@ -28,9 +28,6 @@
 
 #include <QDebug>
 
-namespace Xbmc
-{
-
 Xbmc::Xbmc(QObject *parent):
     QObject(parent)
 {
@@ -49,9 +46,10 @@ Xbmc::Xbmc(QObject *parent):
     m_activePlayer = 0;
 
     m_audioLibrary = new AudioLibrary(m_audioPlayer, this);
-//    m_videoLibrary = new VideoLibrary(m_videoPlayer, this);
+    m_videoLibrary = new VideoLibrary(m_videoPlayer, this);
 
-    m_files = new Files(m_audioPlayer, this);
+    m_audioFiles = new Files(Files::MediaTypeAudio, m_audioPlayer, this);
+    m_videoFiles = new Files(Files::MediaTypeVideo, m_videoPlayer, this);
 }
 
 bool Xbmc::connected() {
@@ -84,9 +82,14 @@ VideoLibrary *Xbmc::videoLibrary()
     return m_videoLibrary;
 }
 
-Files *Xbmc::files()
+Files *Xbmc::audioFiles()
 {
-    return m_files;
+    return m_audioFiles;
+}
+
+Files *Xbmc::videoFiles()
+{
+    return m_videoFiles;
 }
 
 Player *Xbmc::videoPlayer()
@@ -122,6 +125,7 @@ void Xbmc::toggleMute()
 
 void Xbmc::parseAnnouncement(const QVariantMap &map)
 {
+    qDebug() << "incoming announcement" << map << "method:" << map.value("method").toString();
     if(map.value("method").toString() == "Player.PlaybackStarted") {
         int id = XbmcConnection::sendCommand("Player.GetActivePlayers");
         m_requestMap.insert(id, RequestActivePlayer);
@@ -172,6 +176,4 @@ void Xbmc::responseReceived(int id, const QVariantMap &response)
 QString Xbmc::vfsPath()
 {
     return XbmcConnection::vfsPath();
-}
-
 }

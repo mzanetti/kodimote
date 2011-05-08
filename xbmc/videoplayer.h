@@ -21,8 +21,7 @@
 
 #include "player.h"
 
-namespace Xbmc
-{
+class VideoPlaylist;
 
 class VideoPlayer : public Player
 {
@@ -36,8 +35,8 @@ protected:
     virtual QString namespaceString() const;
 
 private:
+    VideoPlaylist *m_playlist;
 
 };
-}
 
 #endif // VIDEOPLAYER_H

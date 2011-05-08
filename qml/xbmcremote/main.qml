@@ -23,28 +23,47 @@ Image {
 //            Component.onDestruction: print("destroyed 1")
 //        }
         Item {
-            id: musicBrowser
+            id: xbmcBrowser
             width: view.width; height: view.height
+            state: "audiolibrary"
+
             Browser {
-                id: fileBrowser
-                visible: true
+                id: musicBrowser
+                model: AudioFiles
+                visible: false
                 onGoBack: homeMenu.state = "open"
             }
             LibraryView {
-                id: libraryView
-//                library: AudioLibrary
+                id: musicLibraryView
+                library: AudioLibrary
+                visible: false
+                onGoBack: homeMenu.state = "open"
+            }
+            Browser {
+                id: videoBrowser
+                model: VideoFiles
+                visible: false
+                onGoBack: homeMenu.state = "open"
+            }
+            LibraryView {
+                id: videoLibraryView
+                library: VideoLibrary
                 visible: false
                 onGoBack: homeMenu.state = "open"
             }
 
             states: [
-                State { name: "files"
-                    PropertyChanges {target:  fileBrowser; visible: true }
-                    PropertyChanges {target:  libraryView; visible: false }
+                State { name: "audiofiles"
+                    PropertyChanges {target:  musicBrowser; visible: true }
                 },
-                State { name: "library"
-                    PropertyChanges {target:  fileBrowser; visible: false }
-                    PropertyChanges {target:  libraryView; visible: true }
+                State { name: "audiolibrary"
+                    PropertyChanges {target:  musicLibraryView; visible: true }
+                },
+                State { name: "videofiles"
+                    PropertyChanges {target:  videoBrowser; visible: true }
+                },
+                State { name: "videolibrary"
+                    PropertyChanges {target:  videoLibraryView; visible: true }
                 }
 
             ]
@@ -56,6 +75,7 @@ Image {
             width: view.width; height: view.height
             NowPlaying {
                 anchors.fill: parent
+                playlist: ActivePlaylist
             }
 
         }
