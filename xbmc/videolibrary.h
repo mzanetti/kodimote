@@ -20,6 +20,7 @@
 #define VIDEOLIBRARY_H
 
 #include "libraryitem.h"
+#include "movieitem.h"
 
 #include <QAbstractItemModel>
 
@@ -60,7 +61,7 @@ public slots:
 
 private:
     enum Request {
-//        RequestArtists,
+        RequestMovies
 //        RequestAlbums,
 //        RequestSongs
     };
@@ -73,7 +74,7 @@ private:
     int m_albumFilter;
 
     QList<LibraryItem> m_list;
-//    QList<ArtistItem> m_artistList;
+    QList<MovieItem> m_movieList;
 //    QList<AlbumItem> m_albumList;
 //    QList<SongItem> m_songList;
 

@@ -50,7 +50,8 @@ SOURCES += main.cpp \
     xbmc/libraryitem.cpp \
     xbmc/files.cpp \
     xbmc/videolibrary.cpp \
-    xbmc/videoplaylist.cpp
+    xbmc/videoplaylist.cpp \
+    xbmc/movieitem.cpp
 
 # We actually don't use the QMLApplicationViewer any more... It's pri file,
 # however contains a lot of deplayment stuff so we still keep this here:
@@ -79,7 +80,8 @@ HEADERS += \
     xbmc/libraryitem.h \
     xbmc/files.h \
     xbmc/videolibrary.h \
-    xbmc/videoplaylist.h
+    xbmc/videoplaylist.h \
+    xbmc/movieitem.h
 
 maemo5: {
 # change this to where you have QJsons headers

@@ -113,7 +113,7 @@ void Files::responseReceived(int id, const QVariantMap &response)
         return;
     }
 
-    qDebug() << "Files reponse:" << response;
+//    qDebug() << "Files reponse:" << response;
 
     QVariant rsp = response.value("result");
 

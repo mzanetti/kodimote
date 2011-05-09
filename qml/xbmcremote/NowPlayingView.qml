@@ -10,7 +10,6 @@ BorderImage {
     anchors.margins: 10
     anchors.fill: parent
     source: "images/ContentPanel.png"
-    state: AudioPlayer.state
 
     signal openPlaylist
 

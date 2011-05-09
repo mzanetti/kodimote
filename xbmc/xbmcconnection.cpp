@@ -196,7 +196,7 @@ void XbmcConnectionPrivate::readData()
         }
 //        qDebug() << "finished parsing after" << t.msecsTo(QTime::currentTime());
 
-        qDebug() << ">>> Incoming:" << data;
+//        qDebug() << ">>> Incoming:" << data;
 
         if(rsp.value("params").toMap().value("sender").toString() == "xbmc") {
             qDebug() << ">>> received announcement" << rsp;

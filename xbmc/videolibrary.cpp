@@ -10,7 +10,7 @@ VideoLibrary::VideoLibrary(Player *player, QObject *parent):
     m_state = "library";
 
     // intialize with default stuff
-    m_list.append(LibraryItem("Files", 0));
+    m_list.append(LibraryItem("Movies", 0));
     m_list.append(LibraryItem("Playlists", 1));
 
     QHash<int, QByteArray> roleNames;
@@ -20,6 +20,11 @@ VideoLibrary::VideoLibrary(Player *player, QObject *parent):
 
     m_albumFilter = -1;
     m_artistFilter = -1;
+
+    connect(XbmcConnection::notifier(), SIGNAL(responseReceived(int,QVariantMap)), SLOT(responseReceived(int,QVariantMap)));
+
+    int id = XbmcConnection::sendCommand("VideoLibrary.GetMovies");
+    m_requestMap.insert(id, RequestMovies);
 }
 
 void VideoLibrary::enterItem(int index)
@@ -28,7 +33,10 @@ void VideoLibrary::enterItem(int index)
     if(m_state == "library") {
         switch(index) {
         case 0:
-            showFiles();
+            m_state = "movies";
+            emit stateChanged();
+            beginResetModel();
+            endResetModel();
             break;
         case 1:
 //            showPlaylists();
@@ -53,12 +61,46 @@ void VideoLibrary::showFiles()
 
 void VideoLibrary::goUp(int levels)
 {
+    qDebug() << "Should go up!";
 
+    if(levels <= 0 || m_state == "library") {
+        return; // Nothing to do
+    }
+
+    if(m_state == "movies") {
+        m_state = "library";
+        emit stateChanged();
+        beginResetModel();
+        endResetModel();
+    }
 }
 
-void VideoLibrary::responseReceived(int, const QVariantMap &response)
+void VideoLibrary::responseReceived(int id, const QVariantMap &response)
 {
+    if(!m_requestMap.contains(id)) {
+        return;
+    }
 
+    qDebug() << "VideoLibrary response received" << response;
+
+    QVariant rsp = response.value("result");
+
+    switch(m_requestMap.value(id)) {
+    case RequestMovies: {
+        beginResetModel();
+        m_movieList.clear();
+        qDebug() << "got movies:" << rsp;
+        QVariantList responseList = rsp.toMap().value("movies").toList();
+        foreach(const QVariant &itemVariant, responseList) {
+            QVariantMap itemMap = itemVariant.toMap();
+            MovieItem item(itemMap.value("label").toString(), itemMap.value("movieid").toInt());
+            qDebug() << "adding item:" << item.label();
+            m_movieList.append(item);
+        }
+        endResetModel();
+        }
+        break;
+    }
 }
 
 QString VideoLibrary::state()
@@ -68,7 +110,12 @@ QString VideoLibrary::state()
 
 QString VideoLibrary::currentDir()
 {
-    return "Library/";
+    if(m_state == "library") {
+        return "Library/";
+    }
+    if(m_state == "movies") {
+        return "Library/Movies/";
+    }
 }
 
 QModelIndex VideoLibrary::index(int row, int column, const QModelIndex &parent) const
@@ -83,7 +130,13 @@ QModelIndex VideoLibrary::parent(const QModelIndex &child) const
 
 int VideoLibrary::rowCount(const QModelIndex &parent) const
 {
-    return m_list.count();
+    if(m_state == "library") {
+        return m_list.count();
+    }
+    if(m_state == "movies") {
+        return m_movieList.count();
+    }
+    return 0;
 }
 
 int VideoLibrary::columnCount(const QModelIndex &parent) const
@@ -98,11 +151,11 @@ QVariant VideoLibrary::data(const QModelIndex &index, int role) const
             return m_list.at(index.row()).label();
         }
         return m_list.at(index.row()).id();
-//    } else if(m_state == "artists") {
-//        if(role == Qt::DisplayRole) {
-//            return m_artistList.at(index.row()).label();
-//        }
-//        return m_artistList.at(index.row()).id();
+    } else if(m_state == "movies") {
+        if(role == Qt::DisplayRole) {
+            return m_movieList.at(index.row()).label();
+        }
+        return m_movieList.at(index.row()).id();
 //    } else if(m_state == "albums") {
 //        if(role == Qt::DisplayRole) {
 //            return m_albumList.at(index.row()).label();

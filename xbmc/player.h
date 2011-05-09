@@ -30,7 +30,7 @@ class Player : public QObject
     Q_OBJECT
     Q_ENUMS(PlayerType)
 
-    Q_PROPERTY(PlayerType type READ type)
+    Q_PROPERTY(PlayerType type READ type NOTIFY typeChanged)
     Q_PROPERTY(Playlist playlist READ playlist)
     Q_PROPERTY(QString state READ state NOTIFY stateChanged)
     Q_PROPERTY(int speed READ speed NOTIFY speedChanged)
@@ -60,6 +60,7 @@ signals:
     void stateChanged();
     void speedChanged();
     void percentageChanged();
+    void typeChanged();
 
 public slots:
     void playPause();
