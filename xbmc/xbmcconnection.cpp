@@ -178,7 +178,7 @@ void XbmcConnectionPrivate::readData()
 //        qDebug() << tmp;
 //        qDebug() << ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>><";
     }
-//    qDebug() << "<<<<<<<<<<<< Received:" << data;
+    qDebug() << "<<<<<<<<<<<< Received:" << data;
     foreach(const QString lineData, data.split('\n')) {
         if(lineData.isEmpty()) {
             continue;

@@ -238,7 +238,7 @@ void Files::enterDir(const QString &directory)
         }
         emit dirChanged();
     } else {
-        qDebug() << "play item here";
+        qDebug() << "play item here" << directory << dir;
         if(dir.startsWith('/')) {
             // regular file: create playlist from entire folder
             //dir.remove(dir.lastIndexOf('/') + 1, dir.length() - dir.lastIndexOf('/'));
@@ -266,7 +266,7 @@ void Files::enterDir(const QString &directory)
                 }
                 m_player->playlist()->playItem(songToPlay);
             } else {
-                m_player->playlist()->addFile(m_filesList.at(songToPlay).second);
+                m_player->playlist()->addFile(dir);
                 m_player->playlist()->playItem(0);
             }
         } else {

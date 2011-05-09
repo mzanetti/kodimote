@@ -50,7 +50,7 @@ void VideoPlaylist::queryItemData(int index)
     fields.append("album");
     fields.append("fanart");
     fields.append("thumbnail");
-//    fields.append("duration");
+    fields.append("runtime");
     fields.append("file");
     params.insert("fields", fields);
 
@@ -85,7 +85,7 @@ void VideoPlaylist::responseReveiced(int id, const QVariantMap &response)
             SongItem item;
 //            item.setFanart(itemMap.value("fanart").toString());
             item.setLabel(itemMap.value("label").toString());
-            item.setDuration(QTime().addSecs(itemMap.value("duration").toInt()));
+            item.setDuration(QTime().addSecs(itemMap.value("runtime").toInt()));
 //            item.setTitle(itemMap.value("title").toString());
 //            item.setArtist(itemMap.value("artist").toString());
 //            qDebug() << "adding item:" << item.label();
@@ -105,6 +105,7 @@ void VideoPlaylist::responseReveiced(int id, const QVariantMap &response)
             QVariantList responseList = rsp.toMap().value("items").toList();
             QVariantMap itemMap = responseList.first().toMap();
     //            item.setFanart(itemMap.value("fanart").toString());
+            item.setDuration(QTime().addSecs(itemMap.value("runtime").toInt() * 60));
             item.setLabel(itemMap.value("label").toString());
             item.setFile(itemMap.value("file").toString());
             item.setTitle(itemMap.value("title").toString());
