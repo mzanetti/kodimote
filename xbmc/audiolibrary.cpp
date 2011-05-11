@@ -96,8 +96,14 @@ void AudioLibrary::showArtists()
 {
     qDebug() << "requesting artists";
     QVariantMap params;
-    params.insert("genreid", 1);
-    int id = XbmcConnection::sendCommand("AudioLibrary.GetArtists");//, params);
+//    params.insert("genreid", 1);
+    QVariantMap sort;
+    sort.insert("method", "label");
+    sort.insert("order", "ascending");
+    sort.insert("ignorearticle", true);
+    params.insert("sort", sort);
+
+    int id = XbmcConnection::sendCommand("AudioLibrary.GetArtists", params);
     m_requestMap.insert(id, RequestArtists);
 }
 
@@ -106,12 +112,20 @@ void AudioLibrary::showAlbums(int artistId)
     qDebug() << "requesting albums with artistid" << artistId;
     m_artistFilter = artistId;
     QVariantMap params;
+
 //    params.insert("genreid", -1);
+
     if(artistId != -1) {
       params.insert("artistid", artistId);
     }
+    QVariantMap sort;
+    sort.insert("method", "label");
+    sort.insert("order", "ascending");
+    params.insert("sort", sort);
+
 //    params.insert("start", 0);
 //    params.insert("end", 50);
+
     int id = XbmcConnection::sendCommand("AudioLibrary.GetAlbums", params);
     m_requestMap.insert(id, RequestAlbums);
 }
@@ -132,6 +146,12 @@ void AudioLibrary::showSongs(int artistId, int albumId)
     QVariantList fields;
     fields.append("file");
     params.insert("fields", fields);
+
+    QVariantMap sort;
+    sort.insert("method", "track");
+    sort.insert("order", "ascending");
+    params.insert("sort", sort);
+
     int id = XbmcConnection::sendCommand("AudioLibrary.GetSongs", params);
     m_requestMap.insert(id, RequestSongs);
 }

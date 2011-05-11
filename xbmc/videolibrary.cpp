@@ -23,7 +23,15 @@ VideoLibrary::VideoLibrary(Player *player, QObject *parent):
 
     connect(XbmcConnection::notifier(), SIGNAL(responseReceived(int,QVariantMap)), SLOT(responseReceived(int,QVariantMap)));
 
-    int id = XbmcConnection::sendCommand("VideoLibrary.GetMovies");
+    QVariantMap params;
+
+    QVariantMap sort;
+    sort.insert("method", "label");
+    sort.insert("order", "ascending");
+    sort.insert("ignorearticle", true);
+    params.insert("sort", sort);
+
+    int id = XbmcConnection::sendCommand("VideoLibrary.GetMovies", params);
     m_requestMap.insert(id, RequestMovies);
 }
 

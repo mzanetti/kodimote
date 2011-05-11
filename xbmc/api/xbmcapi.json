@@ -1596,10 +1596,56 @@ API generated out of xbmc git master on 10.04.11
   "type":"object"
 },
 
-"List.Sort":{"id":"List.Sort","properties":{"ignorearticle":{"default":false,"type":"boolean"},
-"method":{"default":"none","enums":["none","label","date","size","file","drivetype","track","duration","title","artist","album","genre","year","videorating","programcount","playlist","episode","videotitle","sorttitle","productioncode","songrating","mpaarating","videoruntime","studio","fullpath","lastplayed","unsorted","max"],"type":"string"},
-"order":{"default":"ascending","enums":["ascending","descending"],"type":"string"}},
-"type":"object"},
+"List.Sort":{
+  "id":"List.Sort",
+  "properties":{
+    "ignorearticle":{
+      "default":false,
+      "type":"boolean"
+    },
+    "method":{
+      "default":"none",
+      "enums":[
+        "none",
+        "label",
+        "date",
+        "size",
+        "file",
+        "drivetype",
+        "track",
+        "duration",
+        "title",
+        "artist",
+        "album",
+        "genre",
+        "year",
+        "videorating",
+        "programcount",
+        "playlist",
+        "episode",
+        "videotitle",
+        "sorttitle",
+        "productioncode",
+        "songrating",
+        "mpaarating",
+        "videoruntime",
+        "studio",
+        "fullpath",
+        "lastplayed",
+        "unsorted",
+        "max"
+      ],
+      "type":"string"
+    },
+    "order":{
+      "default":"ascending",
+      "enums":["ascending","descending"],
+      "type":"string"
+    }
+  },
+  "type":"object"
+},
+
 "Player.SeekPercentage":{"description":"Percentage value to seek to","id":"Player.SeekPercentage","maximum":100.0,"minimum":0.0,"required":true,"type":"number"},
 "Player.SeekTime":{"description":"Time to seek to in seconds","id":"Player.SeekTime","minimum":0,"required":true,"type":"integer"},
 

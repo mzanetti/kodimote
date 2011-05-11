@@ -71,6 +71,12 @@ void Files::listShares()
     QVariant media(mediaString());
     params.insert("media", media);
 
+    QVariantMap sort;
+    sort.insert("method", "label");
+    sort.insert("order", "ascending");
+    sort.insert("ignorearticle", true);
+    params.insert("sort", sort);
+
     int id = XbmcConnection::sendCommand("Files.GetSources", params);
     m_requestMap.insert(id, RequestSources);
 
@@ -225,6 +231,12 @@ void Files::enterDir(const QString &directory)
         fields.append("file");
 
         params.insert("fields", fields);
+
+        QVariantMap sort;
+        sort.insert("method", "label");
+        sort.insert("order", "ascending");
+        sort.insert("ignorearticle", true);
+        params.insert("sort", sort);
 
         int id = XbmcConnection::sendCommand("Files.GetDirectory", params);
         m_requestMap.insert(id, RequestDirectory);
