@@ -55,28 +55,33 @@ signals:
 public slots:
     void enterItem(int index);
     void showLibrary();
-    void showFiles();
-//    void showPlaylists();
+    void showMusicVideos();
+    void showMovies();
+    void showTvShows();
+    void showSeasons(int tvshowid);
+    void showEpisodes(int tvshowid, int episodeid);
     void goUp(int levels);
 
 private:
     enum Request {
-        RequestMovies
-//        RequestAlbums,
-//        RequestSongs
+        RequestMovies,
+        RequestMusicVideos,
+        RequestTvShows,
+        RequestSeasons,
+        RequestEpisodes
     };
     QMap<int, Request> m_requestMap;
 
     Player *m_player;
 
     QString m_state;
-    int m_artistFilter;
-    int m_albumFilter;
 
     QList<LibraryItem> m_list;
     QList<MovieItem> m_movieList;
 //    QList<AlbumItem> m_albumList;
 //    QList<SongItem> m_songList;
+
+    int m_tvShowId;
 
 private slots:
     void responseReceived(int, const QVariantMap &response);

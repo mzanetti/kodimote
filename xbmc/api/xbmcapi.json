@@ -1320,7 +1320,16 @@ API generated out of xbmc git master on 10.04.11
 "VideoPlayer.State":{"description":"Returns playback state of the video player (if it is active)","params":[],"returns":{"$ref":"Player.State.Extended"},
 "type":"method"},
 "VideoPlayer.Stop":{"description":"Stops playback","params":[],"returns":"string","type":"method"},
-"VideoPlaylist.Add":{"description":"Add item(s) to playlist","params":[{"$ref":"Playlist.Video.Item","name":"item","required":true}],"returns":"string","type":"method"},
+
+"VideoPlaylist.Add":{
+  "description":"Add item(s) to playlist",
+  "params":[
+    {"$ref":"Playlist.Video.Item","name":"item","required":true}
+  ],
+"returns":"string",
+"type":"method"
+},
+
 "VideoPlaylist.Clear":{"description":"Clear playlist","params":[],"returns":"string","type":"method"},
 
 "VideoPlaylist.GetItems":{
@@ -1442,7 +1451,45 @@ API generated out of xbmc git master on 10.04.11
 
 "Library.Fields.Episode":{"id":"Library.Fields.Episode","items":{"description":"Requesting the cast field will result in increased response times","enums":["title","plot","votes","rating","writingcredits","firstaired","playcount","runtime","director","productioncode","season","episode","originaltitle","showtitle","cast","streamDetails","lastplayed","fanart","thumbnail","file"],"type":"string"},
 "type":"array","uniqueItems":true},
-"Library.Fields.Movie":{"id":"Library.Fields.Movie","items":{"description":"Requesting the cast, set and/or showlink field will result in increased response times","enums":["title","genre","year","rating","director","trailer","tagline","plot","plotoutline","originaltitle","lastplayed","playcount","writer","studio","mpaa","cast","country","imdbnumber","premiered","productioncode","runtime","set","showlink","streamDetails","top250","votes","writingcredits","fanart","thumbnail","file"],"type":"string"},
+
+"Library.Fields.Movie":{
+  "id":"Library.Fields.Movie",
+  "items":{
+    "description":"Requesting the cast, set and/or showlink field will result in increased response times",
+    "enums":[
+      "title",
+      "genre",
+      "year",
+      "rating",
+      "director",
+      "trailer",
+      "tagline",
+      "plot",
+      "plotoutline",
+      "originaltitle",
+      "lastplayed",
+      "playcount",
+      "writer",
+      "studio",
+      "mpaa",
+      "cast",
+      "country",
+      "imdbnumber",
+      "premiered",
+      "productioncode",
+      "runtime",
+      "set",
+      "showlink",
+      "streamDetails",
+      "top250",
+      "votes",
+      "writingcredits",
+      "fanart",
+      "thumbnail",
+      "file"
+    ],
+  "type":"string"
+},
 "type":"array","uniqueItems":true},
 "Library.Fields.MusicVideo":{"id":"Library.Fields.MusicVideo","items":{"enums":["title","playcount","runtime","director","studio","year","plot","album","artist","genre","track","streamDetails","lastplayed","fanart","thumbnail","file"],"type":"string"},
 "type":"array","uniqueItems":true},

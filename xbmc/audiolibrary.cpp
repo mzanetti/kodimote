@@ -21,6 +21,7 @@
 #include "xbmcconnection.h"
 #include "artistitem.h"
 #include "playlist.h"
+#include "audioplaylistitem.h"
 
 AudioLibrary::AudioLibrary(Player *player, QObject *parent) :
     QAbstractItemModel(parent),
@@ -74,7 +75,10 @@ void AudioLibrary::enterItem(int index)
     if(m_state == "songs") {
         qDebug() << "on song pressed" << index;
         m_player->playlist()->clear();
-        m_player->playlist()->addItems(m_artistFilter, m_albumFilter);
+        AudioPlaylistItem pItem;
+        pItem.setArtistId(m_artistFilter);
+        pItem.setAlbumId(m_albumFilter);
+        m_player->playlist()->addItems(pItem);
         for(int i = 0; i < m_songList.count(); ++i) {
             if(m_songList.at(i).songId() == index) {
                 m_player->playlist()->playItem(i);

@@ -48,7 +48,7 @@ public:
 
 
     void clear();
-    void addItems(int artistId, int albumId);
+    void addItems(const PlaylistItem &item);
     void addPlaylist(const QString &playlistId);
     void addFile(const QString &file);
 

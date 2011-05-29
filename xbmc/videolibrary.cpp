@@ -1,5 +1,8 @@
 #include "videolibrary.h"
 #include "xbmcconnection.h"
+#include "player.h"
+#include "playlist.h"
+#include "videoplaylistitem.h"
 
 #include <QDebug>
 
@@ -11,17 +14,119 @@ VideoLibrary::VideoLibrary(Player *player, QObject *parent):
 
     // intialize with default stuff
     m_list.append(LibraryItem("Movies", 0));
-    m_list.append(LibraryItem("Playlists", 1));
+    m_list.append(LibraryItem("Music Videos", 1));
+    m_list.append(LibraryItem("TV-Shows", 2));
 
     QHash<int, QByteArray> roleNames;
     roleNames.insert(Qt::DisplayRole, "label");
     roleNames.insert(Qt::UserRole, "itemId");
     setRoleNames(roleNames);
 
-    m_albumFilter = -1;
-    m_artistFilter = -1;
-
     connect(XbmcConnection::notifier(), SIGNAL(responseReceived(int,QVariantMap)), SLOT(responseReceived(int,QVariantMap)));
+}
+
+void VideoLibrary::enterItem(int index)
+{
+
+    qDebug() << "entering item" << index << "state is" << m_state;
+    if(m_state == "library") {
+        switch(index) {
+        case 0:
+            showMovies();
+            break;
+        case 1:
+            showMusicVideos();
+            break;
+        case 2:
+            showTvShows();
+            break;
+        }
+    } else if(m_state == "movies") {
+        m_player->playlist()->clear();
+        VideoPlaylistItem item(index);
+        m_player->playlist()->addItems(item);
+        m_player->playlist()->playItem(0);
+    } else if(m_state == "musicvideos") {
+        m_player->playlist()->clear();
+        VideoPlaylistItem item;
+        item.setMusicVideoId(index);
+        m_player->playlist()->addItems(item);
+        m_player->playlist()->playItem(0);
+    } else if(m_state == "tvshows") {
+        showSeasons(index);
+    } else if(m_state == "seasons") {
+        showEpisodes(m_tvShowId, index);
+    } else if(m_state == "episodes") {
+        m_player->playlist()->clear();
+        VideoPlaylistItem item;
+        item.setEpisodeId(index);
+        m_player->playlist()->addItems(item);
+        m_player->playlist()->playItem(0);
+    }
+}
+
+void VideoLibrary::showLibrary()
+{
+
+}
+
+void VideoLibrary::showMovies()
+{
+    QVariantMap params;
+
+    QVariantMap sort;
+    sort.insert("method", "label");
+    sort.insert("order", "ascending");
+    sort.insert("ignorearticle", true);
+    params.insert("sort", sort);
+
+    QVariantList fields;
+
+    params.insert("fields", fields);
+
+
+    int id = XbmcConnection::sendCommand("VideoLibrary.GetMovies", params);
+    m_requestMap.insert(id, RequestMovies);
+
+    m_state = "movies";
+    emit stateChanged();
+}
+
+void VideoLibrary::showMusicVideos()
+{
+    QVariantMap params;
+
+    QVariantMap sort;
+    sort.insert("method", "label");
+    sort.insert("order", "ascending");
+    sort.insert("ignorearticle", true);
+    params.insert("sort", sort);
+
+    int id = XbmcConnection::sendCommand("VideoLibrary.GetMusicVideos", params);
+    m_requestMap.insert(id, RequestMusicVideos);
+    m_state = "musicvideos";
+    emit stateChanged();
+}
+
+void VideoLibrary::showTvShows()
+{
+    QVariantMap params;
+
+    QVariantMap sort;
+    sort.insert("method", "label");
+    sort.insert("order", "ascending");
+    sort.insert("ignorearticle", true);
+    params.insert("sort", sort);
+
+    int id = XbmcConnection::sendCommand("VideoLibrary.GetTVShows", params);
+    m_requestMap.insert(id, RequestTvShows);
+    m_state = "tvshows";
+    emit stateChanged();
+}
+
+void VideoLibrary::showSeasons(int tvshowid)
+{
+    m_tvShowId = tvshowid;
 
     QVariantMap params;
 
@@ -31,40 +136,33 @@ VideoLibrary::VideoLibrary(Player *player, QObject *parent):
     sort.insert("ignorearticle", true);
     params.insert("sort", sort);
 
-    int id = XbmcConnection::sendCommand("VideoLibrary.GetMovies", params);
-    m_requestMap.insert(id, RequestMovies);
+//    QVariantMap fields;
+    params.insert("tvshowid", tvshowid);
+//    params.insert("fields", fields);
+
+    int id = XbmcConnection::sendCommand("VideoLibrary.GetSeasons", params);
+    m_requestMap.insert(id, RequestSeasons);
+    m_state = "seasons";
+    emit stateChanged();
 }
 
-void VideoLibrary::enterItem(int index)
+void VideoLibrary::showEpisodes(int tvshowid, int episodeid)
 {
-    qDebug() << "entering item" << index << "state is" << m_state;
-    if(m_state == "library") {
-        switch(index) {
-        case 0:
-            m_state = "movies";
-            emit stateChanged();
-            beginResetModel();
-            endResetModel();
-            break;
-        case 1:
-//            showPlaylists();
-            break;
-        }
-    }
-}
+    QVariantMap params;
 
-void VideoLibrary::showLibrary()
-{
+    QVariantMap sort;
+    sort.insert("method", "label");
+    sort.insert("order", "ascending");
+    sort.insert("ignorearticle", true);
+    params.insert("sort", sort);
 
-}
+    params.insert("tvshowid", tvshowid);
+    params.insert("season", m_movieList.at(episodeid).label());
 
-void VideoLibrary::showFiles()
-{
-//    qDebug() << "requesting files";
-//    QVariantMap params;
-//    params.insert("genreid", 1);
-//    int id = XbmcConnection::sendCommand("VideoLibrary.GetArtists");//, params);
-//    m_requestMap.insert(id, RequestArtists);
+    int id = XbmcConnection::sendCommand("VideoLibrary.GetEpisodes", params);
+    m_requestMap.insert(id, RequestEpisodes);
+    m_state = "episodes";
+    emit stateChanged();
 }
 
 void VideoLibrary::goUp(int levels)
@@ -75,11 +173,22 @@ void VideoLibrary::goUp(int levels)
         return; // Nothing to do
     }
 
-    if(m_state == "movies") {
-        m_state = "library";
+    if(m_state == "movies" || m_state == "musicvideos" || m_state == "tvshows" ||
+            (m_state == "seasons" && levels >= 2) ||
+            (m_state == "episodes" && levels >= 3)) {
+         m_state = "library";
         emit stateChanged();
         beginResetModel();
         endResetModel();
+    }
+
+    if((m_state == "seasons" && levels == 1) ||
+            (m_state == "episodes" && levels == 2)) {
+        showTvShows();
+    }
+
+    if(m_state == "episodes" && levels == 1) {
+        showSeasons(m_tvShowId);
     }
 }
 
@@ -102,6 +211,64 @@ void VideoLibrary::responseReceived(int id, const QVariantMap &response)
         foreach(const QVariant &itemVariant, responseList) {
             QVariantMap itemMap = itemVariant.toMap();
             MovieItem item(itemMap.value("label").toString(), itemMap.value("movieid").toInt());
+            qDebug() << "adding item:" << item.label() << ":" << item.id();
+            m_movieList.append(item);
+        }
+        endResetModel();
+        }
+        break;
+    case RequestMusicVideos: {
+        beginResetModel();
+        m_movieList.clear();
+        qDebug() << "got musicvideos:" << rsp;
+        QVariantList responseList = rsp.toMap().value("musicvideos").toList();
+        foreach(const QVariant &itemVariant, responseList) {
+            QVariantMap itemMap = itemVariant.toMap();
+            MovieItem item(itemMap.value("label").toString(), itemMap.value("musicvideoid").toInt());
+            qDebug() << "adding item:" << item.label() << ":" << item.id();
+            m_movieList.append(item);
+        }
+        endResetModel();
+        }
+        break;
+    case RequestTvShows: {
+        beginResetModel();
+        m_movieList.clear();
+        qDebug() << "got tv shows:" << rsp;
+        QVariantList responseList = rsp.toMap().value("tvshows").toList();
+        foreach(const QVariant &itemVariant, responseList) {
+            QVariantMap itemMap = itemVariant.toMap();
+            MovieItem item(itemMap.value("label").toString(), itemMap.value("tvshowid").toInt());
+            qDebug() << "adding item:" << item.label();
+            m_movieList.append(item);
+        }
+        endResetModel();
+        }
+        break;
+    case RequestSeasons: {
+        beginResetModel();
+        m_movieList.clear();
+        qDebug() << "got seasons:" << rsp;
+        QVariantList responseList = rsp.toMap().value("seasons").toList();
+        int i = 0;
+        foreach(const QVariant &itemVariant, responseList) {
+            QVariantMap itemMap = itemVariant.toMap();
+            MovieItem item(itemMap.value("label").toString(), i++);
+            qDebug() << "adding item:" << item.label();
+            m_movieList.append(item);
+        }
+        endResetModel();
+        }
+        break;
+    case RequestEpisodes: {
+        beginResetModel();
+        m_movieList.clear();
+        qDebug() << "got episodes:" << rsp;
+        QVariantList responseList = rsp.toMap().value("episodes").toList();
+        int i = 0;
+        foreach(const QVariant &itemVariant, responseList) {
+            QVariantMap itemMap = itemVariant.toMap();
+            MovieItem item(itemMap.value("label").toString(), i++);
             qDebug() << "adding item:" << item.label();
             m_movieList.append(item);
         }
@@ -124,6 +291,19 @@ QString VideoLibrary::currentDir()
     if(m_state == "movies") {
         return "Library/Movies/";
     }
+    if(m_state == "musicvideos") {
+        return "Library/Music Videos/";
+    }
+    if(m_state == "tvshows") {
+        return "Library/TV Shows/";
+    }
+    if(m_state == "seasons") {
+        return "Library/TV Shows/Seasons/";
+    }
+    if(m_state == "episodes") {
+        return "Library/TV Shows/Seasons/Episodes";
+    }
+    return QString("Library/");
 }
 
 QModelIndex VideoLibrary::index(int row, int column, const QModelIndex &parent) const
@@ -141,7 +321,7 @@ int VideoLibrary::rowCount(const QModelIndex &parent) const
     if(m_state == "library") {
         return m_list.count();
     }
-    if(m_state == "movies") {
+    if(m_state == "movies" || m_state == "musicvideos" || m_state == "tvshows" || m_state == "seasons") {
         return m_movieList.count();
     }
     return 0;
@@ -159,7 +339,7 @@ QVariant VideoLibrary::data(const QModelIndex &index, int role) const
             return m_list.at(index.row()).label();
         }
         return m_list.at(index.row()).id();
-    } else if(m_state == "movies") {
+    } else if(m_state == "movies" || m_state == "musicvideos" || m_state == "tvshows" || m_state == "seasons") {
         if(role == Qt::DisplayRole) {
             return m_movieList.at(index.row()).label();
         }

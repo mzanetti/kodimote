@@ -50,16 +50,12 @@ void Playlist::clear()
     endResetModel();
 }
 
-void Playlist::addItems(int artistId, int albumId)
+void Playlist::addItems(const PlaylistItem &item)
 {
+    QVariantMap itemMap;
+    itemMap.insert("item", item.toMap());
 
-    PlaylistItem pItem;
-    pItem.setArtistId(artistId);
-    pItem.setAlbumId(albumId);
-    QVariantMap item;
-    item.insert("item", pItem.toMap());
-
-    XbmcConnection::sendCommand(namespaceString() + ".Add", item);
+    XbmcConnection::sendCommand(namespaceString() + ".Add", itemMap);
 }
 
 void Playlist::addPlaylist(const QString &playlistId)
