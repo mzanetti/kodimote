@@ -23,10 +23,6 @@ Item {
             verticalAlignment: Text.AlignVCenter
 
         }
-
-        Behavior on anchors.leftMargin {
-            NumberAnimation { duration:  300; easing.type: Easing.OutQuad}
-        }
     }
 
     Image {
@@ -139,13 +135,32 @@ Item {
     states: [
         State {
             name: "hidden"
-            PropertyChanges { target: background; opacity: 0; scale: 0.5 }
+            PropertyChanges { target: background; opacity: 0 }
             PropertyChanges { target: header; opacity: 0; anchors.leftMargin: -header.width }
             PropertyChanges { target: nowPlayingButton; opacity: 0; anchors.rightMargin: -nowPlayingButton.width }
         },
         State {
             name: "visible"
-            PropertyChanges { target: background; opacity: 1; scale: 1 }
+            PropertyChanges { target: background; opacity: 1 }
+        }
+    ]
+
+    transitions: [
+        Transition {
+            from: "hidden"
+            to: "visible"
+            NumberAnimation { target: background; property: "opacity"; duration: 300; easing.type: Easing.InQuint }
+            NumberAnimation { target: header; property: "anchors.leftMargin"; duration:  300; easing.type: Easing.OutQuad}
+            NumberAnimation { target: nowPlayingButton; property: "anchors.rightMargin"; duration:  300; easing.type: Easing.OutQuad}
+        },
+        Transition {
+            from: "visible"
+            to: "hidden"
+            NumberAnimation { property: "opacity"; duration: 300; easing.type: Easing.OutQuint }
+            NumberAnimation { target: header; property: "anchors.leftMargin"; duration:  200; easing.type: Easing.InQuad}
+            NumberAnimation { target: header; property: "opacity"; duration: 300; easing.type: Easing.OutQuad}
+            NumberAnimation { target: nowPlayingButton; property: "anchors.rightMargin"; duration: 200; easing.type: Easing.InQuad}
+            NumberAnimation { target: nowPlayingButton; property: "opacity"; duration: 300; easing.type: Easing.OutQuad}
         }
     ]
 }

@@ -28,12 +28,12 @@ Item {
     states: [
         State {
             name: "nowPlaying"
-            PropertyChanges { target: nowPlayingView; opacity: 1 }
+            PropertyChanges { target: nowPlayingView; state: "visible" }
             PropertyChanges { target: audioPlaylist; state: "hidden" }
         },
         State {
             name: "playlist"
-            PropertyChanges { target: nowPlayingView; opacity: 0 }
+            PropertyChanges { target: nowPlayingView; state: "hidden" }
             PropertyChanges { target: audioPlaylist; state: "visible" }
         }
 

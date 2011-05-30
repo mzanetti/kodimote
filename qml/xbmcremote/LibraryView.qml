@@ -76,4 +76,35 @@ Item {
 
 
     }
+
+//    Behavior on opacity {
+//        NumberAnimation { easing.type: Easing.InQuint; duration: 300 }
+//    }
+
+    states: [
+        State {
+            name: "hidden"; when: !visible
+            PropertyChanges { target: libraryView; opacity: 0}
+        },
+        State {
+            name: "visible"; when: visible
+            PropertyChanges { target: libraryView; opacity: 1 }
+        }
+    ]
+
+    transitions: [
+        Transition {
+            from: "hidden"
+            to: "visible"
+            NumberAnimation { property: "opacity"; duration: 300; easing.type: Easing.InQuint }
+
+        },
+        Transition {
+            from: "visible"
+            to: "hidden"
+            NumberAnimation { property: "opacity"; duration: 300; easing.type: Easing.OutQuint }
+
+        }
+    ]
+
 }

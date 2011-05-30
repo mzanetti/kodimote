@@ -216,4 +216,30 @@ BorderImage {
         id: audioPlayerControls
     }
 
+    states: [
+        State {
+            name: "hidden"; when: !visible
+            PropertyChanges { target: nowPlayingView; opacity: 0}
+        },
+        State {
+            name: "visible"; when: visible
+            PropertyChanges { target: nowPlayingView; opacity: 1 }
+        }
+    ]
+
+    transitions: [
+        Transition {
+            from: "hidden"
+            to: "visible"
+            NumberAnimation { property: "opacity"; duration: 300; easing.type: Easing.InQuint }
+
+        },
+        Transition {
+            from: "visible"
+            to: "hidden"
+            NumberAnimation { property: "opacity"; duration: 300; easing.type: Easing.OutQuint }
+
+        }
+    ]
+
 }

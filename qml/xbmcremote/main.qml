@@ -1,10 +1,11 @@
 import QtQuick 1.0
+import Xbmc 1.0
 
 Image {
     id: screen
     width: 480
     height: 800
-    source: "backgrounds/music.jpg"
+    source: xbmcBrowser.mediaState == "audio" ? "backgrounds/music.jpg" : "backgrounds/videos.jpg"
     fillMode: Image.PreserveAspectCrop
 
     state: Xbmc.state
@@ -25,7 +26,9 @@ Image {
         Item {
             id: xbmcBrowser
             width: view.width; height: view.height
-            state: "audiolibrary"
+
+            property string mediaState: "audio"
+            property string viewState: "library"
 
             Browser {
                 id: musicBrowser
@@ -53,16 +56,22 @@ Image {
             }
 
             states: [
-                State { name: "audiofiles"
+                State { name: "none"; when: homeMenu.state == "open"
+                    PropertyChanges {target:  musicBrowser; visible: false }
+                    PropertyChanges {target:  musicLibraryView; visible: false }
+                    PropertyChanges {target:  videoBrowser; visible: false }
+                    PropertyChanges {target:  videoLibraryView; visible: false }
+                },
+                State { name: "audiofiles"; when: xbmcBrowser.mediaState == "audio" && xbmcBrowser.viewState == "files"
                     PropertyChanges {target:  musicBrowser; visible: true }
                 },
-                State { name: "audiolibrary"
+                State { name: "audiolibrary"; when: xbmcBrowser.mediaState == "audio" && xbmcBrowser.viewState == "library"
                     PropertyChanges {target:  musicLibraryView; visible: true }
                 },
-                State { name: "videofiles"
+                State { name: "videofiles"; when: xbmcBrowser.mediaState == "video" && xbmcBrowser.viewState == "files"
                     PropertyChanges {target:  videoBrowser; visible: true }
                 },
-                State { name: "videolibrary"
+                State { name: "videolibrary"; when: xbmcBrowser.mediaState == "video" && xbmcBrowser.viewState == "library"
                     PropertyChanges {target:  videoLibraryView; visible: true }
                 }
 
@@ -127,9 +136,10 @@ Image {
         enabled: false
         onClicked: {
             homeMenu.state = "closed"
+            homeMenu.subMenuState = "closed"
         }
         states: State {
-            name: "homeMenuOpen"; when: homeMenu.state == "open"
+            name: "homeMenuOpen"; when: homeMenu.state == "open" || homeMenu.subMenuState == "open"
             PropertyChanges { target: cancelArea; enabled: true }
         }
     }
