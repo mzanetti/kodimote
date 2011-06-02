@@ -1,14 +1,41 @@
 import QtQuick 1.0
 import Xbmc 1.0
 
-Image {
+Item {
     id: screen
     width: 480
     height: 800
-    source: xbmcBrowser.mediaState == "audio" ? "backgrounds/music.jpg" : "backgrounds/videos.jpg"
-    fillMode: Image.PreserveAspectCrop
 
     state: Xbmc.state
+
+    Rectangle {
+        anchors.fill: parent
+        color: "black"
+    }
+
+    Image  {
+        id: backgroundImageMusic
+        anchors.fill: parent
+        fillMode: Image.PreserveAspectCrop
+        source: "backgrounds/music.jpg"
+        opacity:  xbmcBrowser.mediaState == "audio" ? 1 : 0
+
+        Behavior on opacity {
+            NumberAnimation { duration: 1000 }
+        }
+    }
+
+    Image {
+        id: backgroundImageVideos
+        source: "backgrounds/videos.jpg"
+        anchors.fill: parent
+        fillMode: Image.PreserveAspectCrop
+        opacity:  xbmcBrowser.mediaState == "video" ? 1 : 0
+
+        Behavior on opacity {
+            NumberAnimation { duration: 1000 }
+        }
+    }
 
     VisualItemModel {
         id: itemModel

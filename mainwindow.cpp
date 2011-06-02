@@ -71,7 +71,7 @@ MainWindow::MainWindow()
     }
 
     qDebug() << "connecting xbmc";
-    XbmcConnection::connect(settings.value("Hostname").toString(), 9090);
+    XbmcConnection::connect(settings.value("Hostname").toString(), settings.value("Port", 8080).toInt());
 
     m_viewer->rootContext()->setContextProperty("MainWindow", this);
 
@@ -113,9 +113,11 @@ void MainWindow::openSettings()
     QSettings settings;
     SettingsDialog settingsDialog;
     settingsDialog.setHostname(settings.value("Hostname").toString());
+    settingsDialog.setPort(settings.value("Port", 8080).toInt());
     settingsDialog.exec();
     settings.setValue("Hostname", settingsDialog.hostname());
-    XbmcConnection::connect(settingsDialog.hostname(), 9090);
+    settings.setValue("Port", settingsDialog.port());
+    XbmcConnection::connect(settingsDialog.hostname(), settingsDialog.port());
 }
 
 void MainWindow::setMainQmlFile(const QString &file)

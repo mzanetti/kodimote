@@ -32,8 +32,12 @@ public:
     void setHostname(const QString &hostname);
     QString hostname();
 
+    void setPort(int port);
+    int port();
+
 private:
     QLineEdit *m_hostName;
+    QLineEdit *m_port;
 
 };
 

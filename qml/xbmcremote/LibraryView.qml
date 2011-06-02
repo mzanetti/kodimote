@@ -12,7 +12,6 @@ Item {
         id: topBar
         anchors.left: parent.left
         anchors.top: parent.top
-        anchors.right: parent.right
         currentDir: library.currentDir
 
         onGoUp: library.goUp(levels)
@@ -20,6 +19,7 @@ Item {
     }
 
     BorderImage {
+        id: listBackground
         border.top: 15
         border.right: 15
         border.left: 15
@@ -84,11 +84,12 @@ Item {
     states: [
         State {
             name: "hidden"; when: !visible
-            PropertyChanges { target: libraryView; opacity: 0}
+            PropertyChanges { target: listBackground; opacity: 0}
+            PropertyChanges { target: topBar; opacity: 0; anchors.leftMargin: -topBar.width}
         },
         State {
             name: "visible"; when: visible
-            PropertyChanges { target: libraryView; opacity: 1 }
+            PropertyChanges { target: listBackground; opacity: 1 }
         }
     ]
 
@@ -96,14 +97,15 @@ Item {
         Transition {
             from: "hidden"
             to: "visible"
-            NumberAnimation { property: "opacity"; duration: 300; easing.type: Easing.InQuint }
-
+            NumberAnimation { target: listBackground; property: "opacity"; duration: 300; easing.type: Easing.InQuint }
+            NumberAnimation { target: topBar; property: "anchors.leftMargin"; duration:  300; easing.type: Easing.OutQuad}
         },
         Transition {
             from: "visible"
             to: "hidden"
-            NumberAnimation { property: "opacity"; duration: 300; easing.type: Easing.OutQuint }
-
+            NumberAnimation { target: listBackground; property: "opacity"; duration: 300; easing.type: Easing.OutQuint }
+            NumberAnimation { target: topBar; property: "anchors.leftMargin"; duration:  200; easing.type: Easing.InQuad}
+            NumberAnimation { target: topBar; property: "opacity"; duration: 300; easing.type: Easing.OutQuad}
         }
     ]
 

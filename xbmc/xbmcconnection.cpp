@@ -93,7 +93,8 @@ void XbmcConnectionPrivate::connect(const QString &hostname, int port)
     m_port = port;
 
     qDebug() << "connecting to" << hostname;
-    m_socket->connectToHost(hostname, port);
+    // We always connect to telnet on port 9090 for now
+    m_socket->connectToHost(hostname, 9090);
 
 }
 
@@ -114,8 +115,8 @@ void XbmcConnectionPrivate::socketError()
 
 QString XbmcConnectionPrivate::vfsPath()
 {
-    qDebug() << "returning vfs:" << "http://" + m_hostName + ":8080/vfs/";
-    return "http://" + m_hostName + ":8080/vfs/";
+    qDebug() << "returning vfs:" << "http://" + m_hostName + ':' + QString::number(m_port) + "/vfs/";
+    return "http://" + m_hostName + ':' + QString::number(m_port) + "/vfs/";
 }
 
 int XbmcConnectionPrivate::sendCommand(const QString &command, const QVariant &params)
@@ -152,14 +153,8 @@ void XbmcConnectionPrivate::sendNextCommand()
         QJson::Serializer serializer;
 #ifdef DEBUGJSON
         qDebug() << "sending command" << serializer.serialize(map);
-        m_socket->write(serializer.serialize(map));
-#else
-        bool ok = true;
-        serializer.serialize(map, m_socket, &ok);
-        if(!ok) {
-            qDebug() << "Error sending command:" << serializer.serialize(map);
-        }
 #endif
+        m_socket->write(serializer.serialize(map));
         m_currentPendingId = command.id();
         m_timeoutTimer.start();
     }

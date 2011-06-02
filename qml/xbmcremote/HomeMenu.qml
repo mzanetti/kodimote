@@ -14,6 +14,8 @@ BorderImage {
     anchors.right: parent.left
     width: 200
     state: "closed"
+    opacity: anchors.rightMargin == 0 ? 0 : 1
+
     property alias subMenuState: subMenu.state
 
     ListModel {
@@ -183,7 +185,7 @@ BorderImage {
 
         states: State {
             name: "open"
-            PropertyChanges { target: subMenuBackground; anchors.rightMargin: -subMenu.width + 30 }
+            PropertyChanges { target: subMenuBackground; anchors.rightMargin: -subMenu.width + 30; }
         }
 
 

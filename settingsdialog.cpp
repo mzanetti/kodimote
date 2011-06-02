@@ -22,6 +22,7 @@
 #include <QDialogButtonBox>
 #include <QStandardItemModel>
 #include <QLabel>
+#include <QIntValidator>
 
 SettingsDialog::SettingsDialog(QWidget *parent) :
     QDialog(parent)
@@ -38,6 +39,12 @@ SettingsDialog::SettingsDialog(QWidget *parent) :
 
     m_hostName = new QLineEdit();
     hLayout->addWidget(m_hostName);
+
+    hLayout->addWidget(new QLabel("Http Port:"));
+
+    m_port = new QLineEdit();
+    m_port->setValidator(new QIntValidator());
+    hLayout->addWidget(m_port);
 
 
 
@@ -56,4 +63,14 @@ void SettingsDialog::setHostname(const QString &hostname)
 QString SettingsDialog::hostname()
 {
     return m_hostName->text();
+}
+
+void SettingsDialog::setPort(int port)
+{
+    m_port->setText(QString::number(port));
+}
+
+int SettingsDialog::port()
+{
+    return m_port->text().toInt();
 }

@@ -1,13 +1,15 @@
 import QtQuick 1.0
 
-BorderImage {
+Item {
     id: topBar
-    source: "images/TopPanel.png"
+//    source: "images/TopPanel.png"
     height: 70
+    width: parent.width
     anchors.leftMargin: 10
     anchors.rightMargin: 10
-    border.left: 15; border.top: 0
-    border.right: 15; border.bottom: 15
+//    border.left: 15; border.top: 0
+//    border.right: 15; border.bottom: 15
+
 
     property string currentDir
 
@@ -28,9 +30,18 @@ BorderImage {
         anchors.bottomMargin: 10
         anchors.leftMargin: 10
         anchors.left: parent.left
-        width: height
+        width: 60
+        z: dirRow.count
         Image {
-            anchors.centerIn: parent
+            id: header
+            anchors.right: parent.right
+            anchors.top: parent.top
+            height: 60
+            source: "images/header.png"
+        }
+        Image {
+            anchors.left: parent.left
+            anchors.verticalCenter: parent.verticalCenter
             source: "images/HomeIcon.png"
         }
 
@@ -47,18 +58,40 @@ BorderImage {
         anchors.right: parent.right
         Repeater {
             id: dirRow
-            model: currentDir.split("/").length
+            model: currentDir.split("/").length - 1
             delegate: Item {
-                width: folderName.width + 10
+                width: calculateWidth(folderName.text)
                 height: 60
+                z: dirRow.count - index
+
+                function calculateWidth(text) {
+                    var textElement = Qt.createQmlObject('import QtQuick 1.0; Text { font.pixelSize: 28; text: "' + text + '"}', parent, "calcTextWidth")
+                    console.log("textElement is" + textElement.width)
+                    var width = Math.min(textElement.width + 25, headerImage.width - 25)
+                    textElement.destroy()
+                    return width
+                }
+
+                Image {
+                    id: headerImage
+                    anchors.right: parent.right
+                    anchors.top: parent.top
+                    height: 60
+                    source: "images/header.png"
+                }
+
                 Text {
                     id: folderName
-                    anchors.centerIn: parent
-                    text: currentDir.split("/")[index] + (currentDir.split("/").length > index+1 ? " >" : "")
+                    width: parent.width - 25
+                    anchors.left: parent.left
+                    anchors.verticalCenter: parent.verticalCenter
+                    text: currentDir.split("/")[index]
+                    elide: Text.ElideRight
                     font.pixelSize: 28
                     color: "#0084ff"
                     horizontalAlignment: Text.AlignLeft
                     verticalAlignment: Text.AlignVCenter
+                    z: dirRow.count
                 }
 
                 MouseArea {
