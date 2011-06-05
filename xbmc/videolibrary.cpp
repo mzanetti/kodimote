@@ -136,9 +136,12 @@ void VideoLibrary::showSeasons(int tvshowid)
     sort.insert("ignorearticle", true);
     params.insert("sort", sort);
 
-//    QVariantMap fields;
     params.insert("tvshowid", tvshowid);
-//    params.insert("fields", fields);
+
+    QVariantList fields;
+    fields.append("season");
+    params.insert("fields", fields);
+
 
     int id = XbmcConnection::sendCommand("VideoLibrary.GetSeasons", params);
     m_requestMap.insert(id, RequestSeasons);
@@ -157,7 +160,7 @@ void VideoLibrary::showEpisodes(int tvshowid, int episodeid)
     params.insert("sort", sort);
 
     params.insert("tvshowid", tvshowid);
-    params.insert("season", m_movieList.at(episodeid).label());
+    params.insert("season", m_movieList.at(episodeid).id());
 
     int id = XbmcConnection::sendCommand("VideoLibrary.GetEpisodes", params);
     m_requestMap.insert(id, RequestEpisodes);
@@ -253,7 +256,7 @@ void VideoLibrary::responseReceived(int id, const QVariantMap &response)
         int i = 0;
         foreach(const QVariant &itemVariant, responseList) {
             QVariantMap itemMap = itemVariant.toMap();
-            MovieItem item(itemMap.value("label").toString(), i++);
+            MovieItem item(itemMap.value("label").toString(), itemMap.value("season").toLongLong());
             qDebug() << "adding item:" << item.label();
             m_movieList.append(item);
         }
@@ -321,7 +324,7 @@ int VideoLibrary::rowCount(const QModelIndex &parent) const
     if(m_state == "library") {
         return m_list.count();
     }
-    if(m_state == "movies" || m_state == "musicvideos" || m_state == "tvshows" || m_state == "seasons") {
+    if(m_state == "movies" || m_state == "musicvideos" || m_state == "tvshows" || m_state == "seasons" || m_state == "episodes") {
         return m_movieList.count();
     }
     return 0;
@@ -339,7 +342,7 @@ QVariant VideoLibrary::data(const QModelIndex &index, int role) const
             return m_list.at(index.row()).label();
         }
         return m_list.at(index.row()).id();
-    } else if(m_state == "movies" || m_state == "musicvideos" || m_state == "tvshows" || m_state == "seasons") {
+    } else if(m_state == "movies" || m_state == "musicvideos" || m_state == "tvshows" || m_state == "seasons" || m_state == "episodes") {
         if(role == Qt::DisplayRole) {
             return m_movieList.at(index.row()).label();
         }

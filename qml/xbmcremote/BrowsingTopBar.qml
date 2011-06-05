@@ -60,12 +60,13 @@ Item {
             id: dirRow
             model: currentDir.split("/").length - 1
             delegate: Item {
+                id: dirEntry
                 width: calculateWidth(folderName.text)
                 height: 60
                 z: dirRow.count - index
 
                 function calculateWidth(text) {
-                    var textElement = Qt.createQmlObject('import QtQuick 1.0; Text { font.pixelSize: 28; text: "' + text + '"}', parent, "calcTextWidth")
+                    var textElement = Qt.createQmlObject('import QtQuick 1.0; Text { font.pixelSize: 28; text: "' + text + '"}', dirEntry, "calcTextWidth")
                     console.log("textElement is" + textElement.width)
                     var width = Math.min(textElement.width + 25, headerImage.width - 25)
                     textElement.destroy()

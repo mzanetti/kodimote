@@ -162,7 +162,7 @@ void XbmcConnectionPrivate::sendNextCommand()
 
 void XbmcConnectionPrivate::readData()
 {
-    QString data = m_socket->readAll();
+    QString data = QString::fromUtf8(m_socket->readAll());
     while(!data.endsWith("}\n") && !data.isEmpty()) {
 //        qDebug() << "***********************************";
 //        qDebug() << data;
