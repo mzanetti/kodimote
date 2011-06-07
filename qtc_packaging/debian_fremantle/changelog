@@ -1,5 +1,5 @@
-xbmcremote (0.0.1) unstable; urgency=low
+xbmcremote (0.1.0-1) unstable; urgency=low
 
-  * Initial Release.
+  * Move to category user/multimedia
 
- -- unknown <micha@unknown>  Sat, 09 Apr 2011 18:13:12 +0200
+ -- Michael Zanetti <mzanetti@kde.org>  Tue, 07 June 2011 20:52:00 +0200

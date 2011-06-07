@@ -87,14 +87,4 @@ HEADERS += \
     xbmc/audioplaylistitem.h \
     xbmc/videoplaylistitem.h
 
-maemo5: {
-# change this to where you have QJsons headers
-# Most desktops will install them to /usr/include/qjson/ but that
-# doesn't get picked up for maemo builds
-# if you check it out from git you have the headers in a dir called src/
-INCLUDEPATH += ../qjson/src/
-# change this to where you have libqjson compiled for maemo
-# most like you want to install libqjson on the device and copy it over
-LIBS += -L.
-}
 LIBS += -lqjson

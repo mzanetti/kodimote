@@ -19,13 +19,8 @@
 #include "xbmcconnection.h"
 #include "xbmcconnection_p.h"
 
-#ifdef Q_WS_MAEMO_5
-#include <parser.h>
-#include <serializer.h>
-#else
 #include <qjson/parser.h>
 #include <qjson/serializer.h>
-#endif
 
 #include <QTime>
 #include <QStringList>
@@ -162,7 +157,10 @@ void XbmcConnectionPrivate::sendNextCommand()
 
 void XbmcConnectionPrivate::readData()
 {
-    QString data = QString::fromUtf8(m_socket->readAll());
+//    QString data = QString::fromUtf8(m_socket->readAll());
+    QByteArray dataArray = m_socket->readAll();
+    QString data(dataArray);
+    qDebug() << "<<<<<<<<<<<< Received:" << dataArray;
     while(!data.endsWith("}\n") && !data.isEmpty()) {
 //        qDebug() << "***********************************";
 //        qDebug() << data;
@@ -173,7 +171,6 @@ void XbmcConnectionPrivate::readData()
 //        qDebug() << tmp;
 //        qDebug() << ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>><";
     }
-    qDebug() << "<<<<<<<<<<<< Received:" << data;
     foreach(const QString lineData, data.split('\n')) {
         if(lineData.isEmpty()) {
             continue;
