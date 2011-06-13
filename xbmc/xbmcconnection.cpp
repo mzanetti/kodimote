@@ -161,7 +161,7 @@ void XbmcConnectionPrivate::readData()
     QByteArray dataArray = m_socket->readAll();
     QString data(dataArray);
     qDebug() << "<<<<<<<<<<<< Received:" << dataArray;
-    while(!data.endsWith("}\n") && !data.isEmpty()) {
+    while(!(data.endsWith("}") || data.endsWith("}\n") || !data.isEmpty())) {
 //        qDebug() << "***********************************";
 //        qDebug() << data;
 //        qDebug() << "data seems to be unfinished... rading more";
