@@ -1,4 +1,4 @@
-import QtQuick 1.0
+import Qt 4.7
 
 Item {
     id: browser
@@ -83,7 +83,7 @@ Item {
         State {
             name: "hidden"; when: !visible
             PropertyChanges { target: listBackground; opacity: 0}
-            PropertyChanges { target: topBar; opacity: 0; anchors.leftMargin: -topBar.width}
+            PropertyChanges { target: topBar; opacity: 0; anchors.left: parent.right}
         },
         State {
             name: "visible"; when: visible

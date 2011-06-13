@@ -1,5 +1,5 @@
-xbmcremote (0.1.0-1) unstable; urgency=low
+xbmcremote (0.1.1-1) unstable; urgency=low
 
-  * Move to category user/multimedia
+  * Fix connection with xbmc running on windows
 
- -- Michael Zanetti <mzanetti@kde.org>  Tue, 07 June 2011 20:52:00 +0200
+ -- Michael Zanetti <mzanetti@kde.org>  Tue, 12 June 2011 18:23:00 +0200
