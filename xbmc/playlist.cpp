@@ -80,7 +80,7 @@ void Playlist::addFile(const QString &file)
 void Playlist::receivedAnnouncement(const QVariantMap &map)
 {
     if(map.value("method").toString() == "Player.QueueNextItem") {
-    } else if(map.value("method").toString() == "Player.PlaybackStarted") {
+    } else if(map.value("method").toString() == "Player.OnPlay") {
     }
 }
 

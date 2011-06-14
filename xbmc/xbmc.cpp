@@ -126,7 +126,7 @@ void Xbmc::toggleMute()
 void Xbmc::parseAnnouncement(const QVariantMap &map)
 {
     qDebug() << "incoming announcement" << map << "method:" << map.value("method").toString();
-    if(map.value("method").toString() == "Player.PlaybackStarted") {
+    if(map.value("method").toString() == "Player.OnPlay") {
         int id = XbmcConnection::sendCommand("Player.GetActivePlayers");
         m_requestMap.insert(id, RequestActivePlayer);
     }

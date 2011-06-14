@@ -51,6 +51,7 @@ private slots:
 private:
     QDeclarativeView *m_viewer;
     Xbmc *xbmc;
+    Qt::Orientation m_orientation;
 
 
     void setMainQmlFile(const QString &file);

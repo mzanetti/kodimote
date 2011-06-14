@@ -90,7 +90,10 @@ BorderImage {
         Item {
             id: imageItem
             width: MainWindow.state == "portrait" ? nowPlayingFlow.width : height
-            height: MainWindow.state == "portrait" ? nowPlayingFlow.height - nowPlayingText.height - nowPlayingFlow.spacing : nowPlayingFlow.height
+            height: MainWindow.state == "portrait" ? nowPlayingFlow.height - 40 * 3 - 20 - 15: nowPlayingFlow.height
+            // the following crashes since Qt 4.7.3... probably some circular dependency - but I can't find it
+//            width: MainWindow.state == "portrait" ? nowPlayingFlow.width : height
+//            height: MainWindow.state == "portrait" ? nowPlayingFlow.height - nowPlayingText.height - nowPlayingFlow.spacing : nowPlayingFlow.height
 
             Image {
                 anchors.centerIn: parent

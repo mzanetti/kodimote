@@ -88,3 +88,6 @@ HEADERS += \
     xbmc/videoplaylistitem.h
 
 LIBS += -lqjson
+
+OTHER_FILES += \
+    qtc_packaging/meego.spec

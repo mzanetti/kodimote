@@ -62,7 +62,9 @@ Item {
 
             }
             onXChanged: {
-                Xbmc.setVolume(sliderPosToPercent(x))
+                if(dragging) {
+                    Xbmc.setVolume(sliderPosToPercent(x))
+                }
             }
         }
     }

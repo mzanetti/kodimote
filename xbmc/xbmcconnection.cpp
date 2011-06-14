@@ -161,7 +161,7 @@ void XbmcConnectionPrivate::readData()
     QByteArray dataArray = m_socket->readAll();
     QString data(dataArray);
     qDebug() << "<<<<<<<<<<<< Received:" << dataArray;
-    while(!(data.endsWith("}") || data.endsWith("}\n") || !data.isEmpty())) {
+    while(!(data.endsWith("}") || data.endsWith("}\n") || data.isEmpty())) {
 //        qDebug() << "***********************************";
 //        qDebug() << data;
 //        qDebug() << "data seems to be unfinished... rading more";
@@ -171,9 +171,16 @@ void XbmcConnectionPrivate::readData()
 //        qDebug() << tmp;
 //        qDebug() << ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>><";
     }
-    foreach(const QString lineData, data.split('\n')) {
+    foreach(QString lineData, data.split("}{")) {
         if(lineData.isEmpty()) {
             continue;
+        }
+        // if we split at }{ the braces are removed... so lets add them again
+        if(!lineData.startsWith('{')) {
+            lineData.prepend('{');
+        }
+        if(!lineData.endsWith('}')) {
+            lineData.append('}');
         }
         QVariantMap rsp;
 //        QTime t = QTime::currentTime();

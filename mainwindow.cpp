@@ -47,6 +47,11 @@ MainWindow::MainWindow()
     qmlRegisterType<AudioPlayer>("Xbmc", 1, 0, "AudioPlayer");
     qmlRegisterType<VideoPlayer>("Xbmc", 1, 0, "VideoPlayer");
 
+    if(size().width() > size().height()) {
+        m_orientation = Qt::Horizontal;
+    } else {
+        m_orientation = Qt::Vertical;
+    }
 
     QAction *settingsAction = new QAction("&Settings", this);
 
@@ -104,7 +109,6 @@ MainWindow::MainWindow()
     setAttribute(Qt::WA_Maemo5AutoOrientation, true);
 #endif
 
-
 }
 
 
@@ -147,7 +151,7 @@ QString MainWindow::state() const
     //        qDebug() << "In Portrait Mode";
     //        return "prtrait";
     //    }
-    if(size().width() > size().height()) {
+    if(m_orientation == Qt::Horizontal) {
         return "landscape";
     } else {
         return "portrait";
@@ -161,7 +165,19 @@ void MainWindow::myslot()
 
 void MainWindow::resizeEvent(QResizeEvent *)
 {
-    emit orientationChanged();
+    if(m_orientation == Qt::Horizontal) {
+        qDebug() << "current state is landscape";
+    } else {
+        qDebug() << "current state is portrait";
+    }
+    if(m_orientation == Qt::Horizontal && size().width() < size().height()) {
+        m_orientation = Qt::Vertical;
+        emit orientationChanged();
+    }
+    if(m_orientation == Qt::Vertical && size().width() > size().height()) {
+        m_orientation = Qt::Horizontal;
+        emit orientationChanged();
+    }
 }
 
 void MainWindow::activePlayerChanged(Player *player)

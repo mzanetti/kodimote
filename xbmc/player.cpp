@@ -87,30 +87,26 @@ QString Player::state() const
 
 void Player::receivedAnnouncement(const QVariantMap &map)
 {
-    if(map.value("method").toString() == "Player.PlaybackEnded" ||
-            map.value("method").toString() == "Player.PlaybackStopped") {
+    qDebug() << "got announcement:" << map.value("method");
+    if(map.value("method").toString() == "Player.OnStop") {
         m_state = "stopped";
         m_percentageTimer.stop();
         emit stateChanged();
         m_speed = 1;
         emit speedChanged();
-    } else if(map.value("method").toString() == "Player.PlaybackPaused") {
+    } else if(map.value("method").toString() == "Player.OnPause") {
         m_state = "paused";
         m_percentageTimer.stop();
         emit stateChanged();
         m_speed = 1;
         emit speedChanged();
-    } else if(map.value("method").toString() == "Player.PlaybackStarted" ||
-              map.value("method").toString() == "Player.PlaybackResumed") {
+    } else if(map.value("method").toString() == "Player.OnPlay") {
+        qDebug() << map.value("params").toMap().value("data");
         m_state = "playing";
+        m_speed = map.value("params").toMap().value("data").toMap().value("speed").toInt();
         emit stateChanged();
         int id = XbmcConnection::sendCommand(namespaceString() + ".GetPercentage");
         m_requestMap.insert(id, RequestPercentage);
-        m_speed = 1;
-        emit speedChanged();
-    } else if(map.value("method").toString() == "Player.PlaybackSpeedChanged") {
-        m_speed = map.value("params").toMap().value("speed").toInt();
-        qDebug() << "speed changed to" << m_speed;
         emit speedChanged();
     }
 }

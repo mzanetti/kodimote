@@ -1,5 +1,5 @@
-xbmcremote (0.1.1-1) unstable; urgency=low
+xbmcremote (0.1.2-0) unstable; urgency=low
 
-  * Fix connection with xbmc running on windows
+  * Adapt to latest API changes in xbmc
 
- -- Michael Zanetti <mzanetti@kde.org>  Tue, 12 June 2011 18:23:00 +0200
+ -- Michael Zanetti <mzanetti@kde.org>  Tue, 14 June 2011 17:25:00 +0200
