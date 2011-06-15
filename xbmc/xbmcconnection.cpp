@@ -171,16 +171,18 @@ void XbmcConnectionPrivate::readData()
 //        qDebug() << tmp;
 //        qDebug() << ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>><";
     }
-    foreach(QString lineData, data.split("}{")) {
+    QStringList commandsList = data.split("}{");
+    for(int i = 0; i < commandsList.count(); ++i) {
+        QString lineData = commandsList.at(i);
         if(lineData.isEmpty()) {
             continue;
         }
         // if we split at }{ the braces are removed... so lets add them again
-        if(!lineData.startsWith('{')) {
-            lineData.prepend('{');
+        if(i < commandsList.count() - 1) {
+            lineData.append("}");
         }
-        if(!lineData.endsWith('}')) {
-            lineData.append('}');
+        if(i > 0) {
+            lineData.prepend("{");
         }
         QVariantMap rsp;
 //        QTime t = QTime::currentTime();
@@ -200,7 +202,7 @@ void XbmcConnectionPrivate::readData()
         if(rsp.value("params").toMap().value("sender").toString() == "xbmc") {
             qDebug() << ">>> received announcement" << rsp;
             emit m_notifier->receivedAnnouncement(rsp);
-            return;
+            continue;
         }
         if(rsp.value("id").toInt() >= 0) {
 //            qDebug() << ">>> received response" << rsp.value("result");
@@ -212,7 +214,7 @@ void XbmcConnectionPrivate::readData()
                 m_currentPendingId = -1;
             }
             sendNextCommand();
-            return;
+            continue;
         }
         qDebug() << "received unhandled data" << data;
     }
