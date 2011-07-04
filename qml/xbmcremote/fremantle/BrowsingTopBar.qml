@@ -101,7 +101,7 @@ Item {
 //                z: dirRow.count - index
 
                 function calculateWidth(text) {
-                    var textElement = Qt.createQmlObject('import Qt 4.7; Text { font.pixelSize: 28; text: "' + text + '"}', dirItem, "calcTextWidth")
+                    var textElement = Qt.createQmlObject('import Qt 4.7; Text { visible: false; font.pixelSize: 28; text: "' + text + '"}', dirItem, "calcTextWidth")
 //                    console.log("textElement is" + textElement.width)
                     var width = Math.min(textElement.width + 25, parent.width - 25 - backArrow.width)
                     textElement.destroy()
