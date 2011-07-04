@@ -1,6 +1,6 @@
 #include "videoplaylistitem.h"
 
-VideoPlaylistItem::VideoPlaylistItem(int movieId, int musicVideoId, int episodeId, const QString &file, const QString &playlist):
+VideoPlaylistItem::VideoPlaylistItem(int movieId, int musicVideoId, int episodeId):
     m_movieId(movieId),
     m_musicVideoId(musicVideoId),
     m_episodeId(episodeId)

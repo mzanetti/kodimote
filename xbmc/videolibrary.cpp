@@ -14,6 +14,7 @@ VideoLibrary::VideoLibrary(XbmcModel *parent) :
 
 int VideoLibrary::rowCount(const QModelIndex &parent) const
 {
+    Q_UNUSED(parent)
     return m_list.count();
 }
 
@@ -25,6 +26,7 @@ QVariant VideoLibrary::data(const QModelIndex &index, int role) const
     case Qt::UserRole+1:
         return "directory";
     }
+    return QVariant();
 }
 
 XbmcModel *VideoLibrary::enterItem(int index)
@@ -42,6 +44,7 @@ XbmcModel *VideoLibrary::enterItem(int index)
 
 void VideoLibrary::playItem(int index)
 {
+    Q_UNUSED(index)
     qDebug() << "cannot play whole video library";
 }
 

@@ -35,6 +35,7 @@ void MusicVideos::responseReceived(int id, const QVariantMap &rsp)
 
 int MusicVideos::rowCount(const QModelIndex &parent) const
 {
+    Q_UNUSED(parent)
     return m_list.count();
 }
 
@@ -53,7 +54,8 @@ QVariant MusicVideos::data(const QModelIndex &index, int role) const
 
 XbmcModel *MusicVideos::enterItem(int index)
 {
-//    return new Albums(m_list.at(index)->data(Qt::UserRole + 100).toInt());
+    Q_UNUSED(index)
+    qDebug() << "Cannot enter MusicVideo. Use playItem() to play it";
     return 0;
 }
 

@@ -39,6 +39,7 @@ void Movies::responseReceived(int id, const QVariantMap &rsp)
 
 int Movies::rowCount(const QModelIndex &parent) const
 {
+    Q_UNUSED(parent)
     return m_list.count();
 }
 
@@ -57,7 +58,8 @@ QVariant Movies::data(const QModelIndex &index, int role) const
 
 XbmcModel *Movies::enterItem(int index)
 {
-//    return new Albums(m_list.at(index)->data(Qt::UserRole + 100).toInt());
+    Q_UNUSED(index)
+    qDebug() << "Cannot enter Movie. Use playItem() to play it";
     return 0;
 }
 

@@ -7,7 +7,7 @@ class Shares : public XbmcModel
 {
     Q_OBJECT
 public:
-    explicit Shares(const QString &mediatype, QObject *parent = 0);
+    explicit Shares(const QString &mediatype);
 
     int rowCount(const QModelIndex &parent) const;
     QVariant data(const QModelIndex &index, int role) const;

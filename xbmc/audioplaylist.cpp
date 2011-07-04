@@ -32,6 +32,7 @@ QString AudioPlaylist::namespaceString() const
 
 int AudioPlaylist::rowCount(const QModelIndex &parent) const
 {
+    Q_UNUSED(parent)
     return m_itemList.count();
 }
 

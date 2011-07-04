@@ -10,7 +10,7 @@ class AudioPlaylistItem : public PlaylistItem
     Q_PROPERTY(QString artist READ artist NOTIFY artistChanged)
 
 public:
-    AudioPlaylistItem(int albumId = -1, int artistId = -1, const QString &file = QString(), int genreId = -1, const QString &playlist = QString());
+    AudioPlaylistItem(int albumId = -1, int artistId = -1, int genreId = -1);
 
     // Those will be filled in on toMap()
     void setAlbumId(int albumId);

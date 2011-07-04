@@ -52,6 +52,7 @@ void Seasons::responseReceived(int id, const QVariantMap &rsp)
 
 int Seasons::rowCount(const QModelIndex &parent) const
 {
+    Q_UNUSED(parent)
     return m_list.count();
 }
 
@@ -71,6 +72,7 @@ XbmcModel *Seasons::enterItem(int index)
 
 void Seasons::playItem(int index)
 {
+    Q_UNUSED(index)
     qDebug() << "Seasons: playing whole season not supported yet";
 }
 

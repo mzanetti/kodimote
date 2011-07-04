@@ -9,7 +9,7 @@ class AudioLibrary : public XbmcModel
 {
     Q_OBJECT
 public:
-    explicit AudioLibrary(QObject *parent = 0);
+    explicit AudioLibrary();
 
     int rowCount(const QModelIndex &parent) const;
     QVariant data(const QModelIndex &index, int role) const;

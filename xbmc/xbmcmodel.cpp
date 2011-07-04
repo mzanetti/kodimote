@@ -34,15 +34,18 @@ XbmcModel* XbmcModel::exit()
 
 int XbmcModel::columnCount(const QModelIndex &parent) const
 {
+    Q_UNUSED(parent)
     return 1;
 }
 
 QModelIndex XbmcModel::index(int row, int column, const QModelIndex &parent) const
 {
+    Q_UNUSED(parent)
     return createIndex(row, column);
 }
 
 QModelIndex XbmcModel::parent(const QModelIndex &child) const
 {
+    Q_UNUSED(child)
     return QModelIndex();
 }

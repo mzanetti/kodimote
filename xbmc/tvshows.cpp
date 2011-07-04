@@ -40,6 +40,7 @@ void TvShows::responseReceived(int id, const QVariantMap &rsp)
 
 int TvShows::rowCount(const QModelIndex &parent) const
 {
+    Q_UNUSED(parent)
     return m_list.count();
 }
 
@@ -63,6 +64,7 @@ XbmcModel *TvShows::enterItem(int index)
 
 void TvShows::playItem(int index)
 {
+    Q_UNUSED(index)
     qDebug() << "TvShows: playing whole tvshow not supported yet";
 }
 

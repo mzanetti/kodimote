@@ -141,6 +141,7 @@ QVariant VideoPlaylist::data(const QModelIndex &index, int role) const
 
 int VideoPlaylist::rowCount(const QModelIndex &parent) const
 {
+    Q_UNUSED(parent)
     return m_itemList.count();
 }
 

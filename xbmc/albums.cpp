@@ -51,6 +51,7 @@ void Albums::responseReceived(int id, const QVariantMap &rsp)
 
 int Albums::rowCount(const QModelIndex &parent) const
 {
+    Q_UNUSED(parent)
     return m_list.count();
 }
 
@@ -70,6 +71,7 @@ XbmcModel* Albums::enterItem(int index)
 
 void Albums::playItem(int index)
 {
+    Q_UNUSED(index)
     qDebug() << "Albums::play() not implemented yet";
 }
 

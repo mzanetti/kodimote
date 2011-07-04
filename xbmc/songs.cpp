@@ -55,6 +55,7 @@ void Songs::responseReceived(int id, const QVariantMap &rsp)
 
 int Songs::rowCount(const QModelIndex &parent) const
 {
+    Q_UNUSED(parent)
     return m_list.count();
 }
 
@@ -69,6 +70,8 @@ QVariant Songs::data(const QModelIndex &index, int role) const
 
 XbmcModel* Songs::enterItem(int index)
 {
+    Q_UNUSED(index)
+    qDebug() << "Cannot enter song items. Use playItem() to play it";
     return 0;
 }
 

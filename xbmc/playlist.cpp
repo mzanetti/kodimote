@@ -23,9 +23,9 @@
 
 Playlist::Playlist(Player *parent) :
     XbmcModel(0),
-    m_player(parent),
     m_currentItem(-1),
-    m_shuffle(false) //TODO: query player for state as soon as API supports it
+    m_shuffle(false), //TODO: query player for state as soon as API supports it
+    m_player(parent)
 {
     connect(XbmcConnection::notifier(), SIGNAL(responseReceived(int,QVariantMap)), SLOT(responseReveiced(int,QVariantMap)));
     connect(XbmcConnection::notifier(), SIGNAL(receivedAnnouncement(QVariantMap)), SLOT(receivedAnnouncement(QVariantMap)));

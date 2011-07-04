@@ -55,6 +55,7 @@ void Files::responseReceived(int id, const QVariantMap &rsp)
 
 int Files::rowCount(const QModelIndex &parent) const
 {
+    Q_UNUSED(parent)
     return m_list.count();
 }
 

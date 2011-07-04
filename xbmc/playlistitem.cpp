@@ -18,7 +18,8 @@
 
 #include "playlistitem.h"
 
-PlaylistItem::PlaylistItem(QObject *parent)
+PlaylistItem::PlaylistItem(QObject *parent):
+    QObject(parent)
 {
 }
 

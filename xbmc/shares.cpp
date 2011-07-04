@@ -2,7 +2,7 @@
 #include "files.h"
 #include "xbmcconnection.h"
 
-Shares::Shares(const QString &mediatype, QObject *parent):
+Shares::Shares(const QString &mediatype):
     XbmcModel(0),
     m_mediaType(mediatype)
 {
@@ -47,6 +47,7 @@ void Shares::responseReceived(int id, const QVariantMap &rsp)
 
 int Shares::rowCount(const QModelIndex &parent) const
 {
+    Q_UNUSED(parent)
     return m_list.count();
 }
 
@@ -65,7 +66,8 @@ XbmcModel *Shares::enterItem(int index)
 
 void Shares::playItem(int index)
 {
-
+    Q_UNUSED(index)
+    qDebug() << "Playing whole shares is not supported";
 }
 
 QString Shares::title() const

@@ -13,7 +13,7 @@ class VideoPlaylistItem : public PlaylistItem
     Q_PROPERTY(QString rating READ rating NOTIFY ratingChanged)
 
 public:
-    VideoPlaylistItem(int movieId = -1, int musicVideoId = -1, int episodeid = -1, const QString &file = QString(), const QString &playlist = QString());
+    VideoPlaylistItem(int movieId = -1, int musicVideoId = -1, int episodeid = -1);
 
     void setMovieId(int movieId);
     int movieId() const;

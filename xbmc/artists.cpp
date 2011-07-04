@@ -38,6 +38,7 @@ void Artists::responseReceived(int id, const QVariantMap &rsp)
 
 int Artists::rowCount(const QModelIndex &parent) const
 {
+    Q_UNUSED(parent)
     return m_list.count();
 }
 
@@ -61,6 +62,7 @@ XbmcModel *Artists::enterItem(int index)
 
 void Artists::playItem(int index)
 {
+    Q_UNUSED(index)
     qDebug() << "Artists::play() not implemented yet";
 }
 

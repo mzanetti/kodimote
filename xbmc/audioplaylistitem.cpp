@@ -1,6 +1,6 @@
 #include "audioplaylistitem.h"
 
-AudioPlaylistItem::AudioPlaylistItem(int albumId, int artistId, const QString &file, int genreId, const QString &playlist):
+AudioPlaylistItem::AudioPlaylistItem(int albumId, int artistId, int genreId):
     m_albumId(albumId),
     m_artistId(artistId),
     m_genreId(genreId)

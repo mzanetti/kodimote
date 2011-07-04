@@ -4,7 +4,7 @@
 #include "songs.h"
 #include "xbmcconnection.h"
 
-AudioLibrary::AudioLibrary(QObject *parent) :
+AudioLibrary::AudioLibrary() :
     XbmcModel(0)
 {
     m_itemlist.append("Artists");
@@ -15,6 +15,7 @@ AudioLibrary::AudioLibrary(QObject *parent) :
 
 int AudioLibrary::rowCount(const QModelIndex &parent) const
 {
+    Q_UNUSED(parent)
     return m_itemlist.count();
 }
 
@@ -26,6 +27,7 @@ QVariant AudioLibrary::data(const QModelIndex &index, int role) const
     case Qt::UserRole+1:
         return "directory";
     }
+    return QVariant();
 }
 
 XbmcModel *AudioLibrary::enterItem(int index)
@@ -38,10 +40,12 @@ XbmcModel *AudioLibrary::enterItem(int index)
     case 2:
         return new Songs(-1, -1, this);
     }
+    return 0;
 }
 
 void AudioLibrary::playItem(int index)
 {
+    Q_UNUSED(index)
     qDebug() << "cannot play whole audio library";
 }
 
