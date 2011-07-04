@@ -158,6 +158,7 @@ BorderImage {
                 width: nowPlayingText.width
                 anchors.bottom: titleText.top
                 Text {
+                    anchors {left: parent.left; top: parent.top; bottom: parent.bottom; right: ratingStars.left }
                     color: "white"
                     text: (xbmc.state == "audio" ? currentItem.artist : (currentItem.type == "episode" ? currentItem.tvShow : "Year: " + currentItem.year)) + (xbmc.state == "audio" ? " - " + currentItem.album : (currentItem.type == "episode" ? " - Season: " + currentItem.season : ""))
                     font.pixelSize: 22

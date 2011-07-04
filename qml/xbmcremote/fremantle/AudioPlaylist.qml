@@ -72,7 +72,7 @@ Item {
             model: playlist.model
 
             delegate: Item {
-                width: parent.width
+                width: list.width
                 height: 64
                 //            Rectangle {
                 //                width: parent.width
@@ -98,11 +98,13 @@ Item {
                     color: "white"
                     text: title
                     font.pixelSize: 28
-                    anchors.fill: parent
+                    anchors {left: parent.left; top:  parent.top; bottom: parent.bottom; right: durationText.left }
                     horizontalAlignment: Text.AlignLeft
                     verticalAlignment: Text.AlignVCenter
+                    elide: Text.ElideRight
                 }
                 Text {
+                    id: durationText
                     color: "white"
                     text: duration
                     font.pixelSize: 28
