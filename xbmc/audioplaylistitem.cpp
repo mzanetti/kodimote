@@ -1,7 +1,6 @@
 #include "audioplaylistitem.h"
 
 AudioPlaylistItem::AudioPlaylistItem(int albumId, int artistId, const QString &file, int genreId, const QString &playlist):
-    PlaylistItem(file, playlist),
     m_albumId(albumId),
     m_artistId(artistId),
     m_genreId(genreId)
@@ -51,4 +50,26 @@ QVariantMap AudioPlaylistItem::toMap() const
         map.insert("genreid", m_genreId);
     }
     return map;
+}
+
+void AudioPlaylistItem::setArtist(const QString &artist)
+{
+    m_artist = artist;
+    emit artistChanged();
+}
+
+QString AudioPlaylistItem::artist() const
+{
+    return m_artist;
+}
+
+void AudioPlaylistItem::setAlbum(const QString &album)
+{
+    m_album = album;
+    emit albumChanged();
+}
+
+QString AudioPlaylistItem::album() const
+{
+    return m_album;
 }

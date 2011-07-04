@@ -21,6 +21,8 @@
 
 #include "xbmcconnection.h"
 
+#include <QTime>
+
 Player::Player(PlayerType type, QObject *parent) :
     QObject(parent),
     m_type(type),
@@ -154,13 +156,33 @@ double Player::percentage() const
     return m_percentage;
 }
 
+QString Player::time() const
+{
+    PlaylistItem *item = playlist()->currentItem();
+    if(item) {
+        QTime time;
+        int currentTime = time.secsTo(playlist()->currentItem()->duration());
+        currentTime = currentTime * m_percentage / 100;
+        time = QTime();
+        time = time.addSecs(currentTime);
+        if(item->duration().hour() > 0) {
+            return time.toString("hh:mm:ss");
+        } else {
+            return time.toString("mm:ss");
+        }
+    }
+    return "00:00";
+}
+
 void Player::setPercentage()
 {
-    int duration = playlist()->currentItem().duration().minute() * 60 + playlist()->currentItem().duration().second();
+    QTime time;
+    int duration = time.secsTo(playlist()->currentItem()->duration());
     if(duration > 0) {
         m_percentage += 100.0 / duration * m_speed;
     } else {
         m_percentage = 100;
     }
     emit percentageChanged();
+    emit timeChanged();
 }

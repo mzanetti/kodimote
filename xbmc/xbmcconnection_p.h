@@ -20,7 +20,7 @@
 #define XBMC_P_H
 
 #include "xbmcconnection.h"
-#include "player.h"
+//#include "player.h"
 
 #include <QString>
 #include <QObject>

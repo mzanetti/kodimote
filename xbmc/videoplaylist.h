@@ -20,11 +20,20 @@
 #define VIDEOPLAYLIST_H
 
 #include "playlist.h"
+#include "videoplaylistitem.h"
 
 class VideoPlaylist : public Playlist
 {
 public:
     VideoPlaylist(Player *parent = 0);
+
+    QVariant data(const QModelIndex &index, int role) const;
+
+//    void clear();
+    PlaylistItem* at(int index) const;
+    int rowCount(const QModelIndex &parent) const;
+
+    QString title() const;
 
 public slots:
     void refresh();
@@ -35,6 +44,9 @@ protected:
 
 private slots:
     void responseReveiced(int id, const QVariantMap &response);
+
+private:
+    QList<VideoPlaylistItem*> m_itemList;
 };
 
 #endif // VIDEOPLAYLIST_H

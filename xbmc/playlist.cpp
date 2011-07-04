@@ -22,32 +22,19 @@
 #include "xbmcconnection.h"
 
 Playlist::Playlist(Player *parent) :
-    QAbstractItemModel(parent),
+    XbmcModel(0),
     m_player(parent),
-    m_currentSong(-1),
+    m_currentItem(-1),
     m_shuffle(false) //TODO: query player for state as soon as API supports it
 {
     connect(XbmcConnection::notifier(), SIGNAL(responseReceived(int,QVariantMap)), SLOT(responseReveiced(int,QVariantMap)));
     connect(XbmcConnection::notifier(), SIGNAL(receivedAnnouncement(QVariantMap)), SLOT(receivedAnnouncement(QVariantMap)));
     staticMetaObject.invokeMethod(this, "refresh", Qt::QueuedConnection);
-
-    QHash<int, QByteArray> roleNames;
-    roleNames.insert(Qt::DisplayRole, "label");
-    roleNames.insert(Qt::UserRole, "duration");
-    setRoleNames(roleNames);
 }
 
 Player *Playlist::player() const
 {
     return m_player;
-}
-
-void Playlist::clear()
-{
-    beginResetModel();
-    m_itemList.clear();
-    XbmcConnection::sendCommand(namespaceString() + ".Clear");
-    endResetModel();
 }
 
 void Playlist::addItems(const PlaylistItem &item)
@@ -56,6 +43,14 @@ void Playlist::addItems(const PlaylistItem &item)
     itemMap.insert("item", item.toMap());
 
     XbmcConnection::sendCommand(namespaceString() + ".Add", itemMap);
+}
+
+void Playlist::clear()
+{
+    beginResetModel();
+//    m_itemList.clear();
+    XbmcConnection::sendCommand(namespaceString() + ".Clear");
+    endResetModel();
 }
 
 void Playlist::addPlaylist(const QString &playlistId)
@@ -81,43 +76,9 @@ void Playlist::receivedAnnouncement(const QVariantMap &map)
 {
     if(map.value("method").toString() == "Player.QueueNextItem") {
     } else if(map.value("method").toString() == "Player.OnPlay") {
+        qDebug() << "current has changed!";
+        emit currentChanged();
     }
-}
-
-QModelIndex Playlist::index(int row, int column, const QModelIndex &parent) const
-{
-    return createIndex(row, column);
-}
-
-QModelIndex Playlist::parent(const QModelIndex &index) const
-{
-    return QModelIndex();
-}
-
-int Playlist::rowCount(const QModelIndex &parent) const
-{
-    return m_itemList.count();
-}
-
-int Playlist::columnCount(const QModelIndex &parent) const
-{
-    return 1;
-}
-
-QVariant Playlist::data(const QModelIndex &index, int role) const
-{
-    switch(role) {
-    case Qt::DisplayRole:
-        return m_itemList.at(index.row()).label();
-    case Qt::UserRole:
-        return m_itemList.at(index.row()).duration().toString("mm:ss");
-    }
-    return QVariant();
-}
-
-SongItem Playlist::at(int index)
-{
-    return m_itemList.at(index);
 }
 
 void Playlist::playItem(int index)
@@ -125,86 +86,87 @@ void Playlist::playItem(int index)
     QVariantMap map;
     map.insert("item", index);
     XbmcConnection::sendCommand(namespaceString() + ".Play", map);
-    m_currentSong = index;
-    qDebug() << namespaceString() + "setting current to" << m_currentSong;
+    m_currentItem = index;
+    qDebug() << namespaceString() + "setting current to" << m_currentItem;
     emit currentChanged();
-}
-
-void Playlist::skipNext()
-{
-    if(m_currentSong < m_itemList.count() - 1) {
-        XbmcConnection::sendCommand(namespaceString() + ".SkipNext");
-        m_currentSong++;
-        qDebug() << "(3)settings current to" << m_currentSong;
-        emit currentChanged();
-    }
 }
 
 void Playlist::skipPrevious()
 {
-    if(m_currentSong > 0) {
+    if(m_currentItem > 0) {
         XbmcConnection::sendCommand(namespaceString() + ".SkipPrevious");
-        m_currentSong--;
-        qDebug() << "(4)settings current to" << m_currentSong;
+        m_currentItem--;
+        qDebug() << "(4)settings current to" << m_currentItem;
         emit currentChanged();
     }
 }
 
-QString Playlist::currentLabel() const
+void Playlist::skipNext()
 {
-    if(m_currentSong == -1 || m_currentSong >= m_itemList.count()) {
-        return QString();
+    if(m_currentItem < count() - 1) {
+        XbmcConnection::sendCommand(namespaceString() + ".SkipNext");
+        m_currentItem++;
+        qDebug() << "(3)settings current to" << m_currentItem;
+        emit currentChanged();
     }
-    return m_itemList.at(m_currentSong).label();
 }
 
-QString Playlist::currentTitle() const
-{
-    if(m_currentSong == -1 || m_currentSong >= m_itemList.count()) {
-        return QString();
-    }
-    return m_itemList.at(m_currentSong).title();
-}
+//QString Playlist::currentLabel() const
+//{
+//    if(m_currentSong == -1 || m_currentSong >= rowCount()) {
+//        return QString();
+//    }
+//    return at(m_currentSong).label();
+//}
 
-QString Playlist::currentArtist() const
-{
-    if(m_currentSong == -1 || m_currentSong >= m_itemList.count()) {
-        return QString();
-    }
-    return m_itemList.at(m_currentSong).artist();
-}
-QString Playlist::currentFanart() const
-{
-    if(m_currentSong == -1 || m_currentSong >= m_itemList.count()) {
-        return QString();
-    }
-    return m_itemList.at(m_currentSong).fanart();
-}
+//QString Playlist::currentTitle() const
+//{
+//    if(m_currentSong == -1 || m_currentSong >= rowCount()) {
+//        return QString();
+//    }
+//    return at(m_currentSong).title();
+//}
 
-QString Playlist::currentThumbnail() const
-{
-    if(m_currentSong == -1 || m_currentSong >= m_itemList.count()) {
-        return QString();
-    }
-    return m_itemList.at(m_currentSong).thumbnail();
-}
+//QString Playlist::currentArtist() const
+//{
+//    if(m_currentSong == -1 || m_currentSong >= m_itemList.count()) {
+//        return QString();
+//    }
+//    return m_itemList.at(m_currentSong).artist();
+//}
 
-QString Playlist::currentAlbum() const
-{
-    if(m_currentSong == -1 || m_currentSong >= m_itemList.count()) {
-        return QString();
-    }
-    return m_itemList.at(m_currentSong).album();
-}
+//QString Playlist::currentFanart() const
+//{
+//    if(m_currentSong == -1 || m_currentSong >= rowCount()) {
+//        return QString();
+//    }
+//    return at(m_currentSong).fanart();
+//}
+
+//QString Playlist::currentThumbnail() const
+//{
+//    if(m_currentSong == -1 || m_currentSong >= rowCount()) {
+//        return QString();
+//    }
+//    return at(m_currentSong).thumbnail();
+//}
+
+//QString Playlist::currentAlbum() const
+//{
+//    if(m_currentSong == -1 || m_currentSong >= m_itemList.count()) {
+//        return QString();
+//    }
+//    return m_itemList.at(m_currentSong).album();
+//}
 
 int Playlist::currentTrackNumber() const
 {
-    return m_currentSong + 1;
+    return m_currentItem + 1;
 }
 
 int Playlist::count() const
 {
-    return m_itemList.count();
+    return rowCount();
 }
 
 bool Playlist::shuffle() const
@@ -225,10 +187,19 @@ void Playlist::setShuffle(bool shuffle)
     }
 }
 
-SongItem Playlist::currentItem() const
+PlaylistItem* Playlist::currentItem() const
 {
-    if(m_currentSong == -1 || m_currentSong >= m_itemList.count()) {
-        return SongItem();
+    if(m_currentItem == -1 || m_currentItem >= count()) {
+        return 0;
     }
-    return m_itemList.at(m_currentSong);
+    return at(m_currentItem);
 }
+
+//QString Playlist::currentDuration() const
+//{
+//    if(m_currentSong == -1 || m_currentSong >= m_itemList.count()) {
+//        return QString("00:00");
+//    }
+//    return m_itemList.at(m_currentSong).duration().toString("mm:ss");
+//}
+

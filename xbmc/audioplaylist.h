@@ -20,11 +20,23 @@
 #define AUDIOPLAYLIST_H
 
 #include "playlist.h"
+#include "audioplaylistitem.h"
 
 class AudioPlaylist : public Playlist
 {
 public:
     AudioPlaylist(Player *parent = 0);
+
+    QVariant data(const QModelIndex &index, int role) const;
+
+//    void clear();
+    int rowCount(const QModelIndex &parent) const;
+
+//    void addItems(const PlaylistItem &item);
+
+    PlaylistItem* at(int index) const;
+
+    QString title() const;
 
 public slots:
     void refresh();
@@ -35,6 +47,11 @@ protected:
 
 private slots:
     void responseReveiced(int id, const QVariantMap &response);
+
+
+private:
+    QList<AudioPlaylistItem*> m_itemList;
+
 };
 
 #endif // AUDIOPLAYLIST_H

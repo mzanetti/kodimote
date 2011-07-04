@@ -17,7 +17,6 @@
  ****************************************************************************/
 
 #include "videoplaylist.h"
-
 #include "xbmcconnection.h"
 
 VideoPlaylist::VideoPlaylist(Player *parent):
@@ -46,12 +45,14 @@ void VideoPlaylist::queryItemData(int index)
     QVariantMap params;
     QVariantList fields;
     fields.append("title");
-    fields.append("artist");
-    fields.append("album");
+    fields.append("season");
+    fields.append("showtitle");
     fields.append("fanart");
     fields.append("thumbnail");
     fields.append("runtime");
     fields.append("file");
+    fields.append("year");
+    fields.append("rating");
     params.insert("fields", fields);
 
     QVariantMap limits;
@@ -82,41 +83,73 @@ void VideoPlaylist::responseReveiced(int id, const QVariantMap &response)
         QVariantList responseList = rsp.toMap().value("items").toList();
         foreach(const QVariant &itemVariant, responseList) {
             QVariantMap itemMap = itemVariant.toMap();
-            SongItem item;
+            VideoPlaylistItem *item = new VideoPlaylistItem();
 //            item.setFanart(itemMap.value("fanart").toString());
-            item.setLabel(itemMap.value("label").toString());
-            item.setDuration(QTime().addSecs(itemMap.value("runtime").toInt()));
+            item->setLabel(itemMap.value("label").toString());
+            item->setDuration(QTime().addSecs(itemMap.value("runtime").toInt()));
 //            item.setTitle(itemMap.value("title").toString());
 //            item.setArtist(itemMap.value("artist").toString());
 //            qDebug() << "adding item:" << item.label();
             m_itemList.append(item);
         }
         endResetModel();
-        m_currentSong = rsp.toMap().value("state").toMap().value("current").toInt();
-        qDebug() << "set current to" << m_currentSong;
-        queryItemData(m_currentSong);
+        m_currentItem = rsp.toMap().value("state").toMap().value("current").toInt();
+        qDebug() << "set current to" << m_currentItem;
+        queryItemData(m_currentItem);
         emit countChanged();
         emit currentChanged();
         break;
     }
     case RequestCurrentData: {
-        if(m_itemList.count() > m_currentSong && m_currentSong > -1) {
-            SongItem item = m_itemList.at(m_currentSong);
+        if(m_itemList.count() > m_currentItem && m_currentItem > -1) {
+            VideoPlaylistItem *item = m_itemList.at(m_currentItem);
             QVariantList responseList = rsp.toMap().value("items").toList();
             QVariantMap itemMap = responseList.first().toMap();
     //            item.setFanart(itemMap.value("fanart").toString());
-            item.setDuration(QTime().addSecs(itemMap.value("runtime").toInt() * 60));
-            item.setLabel(itemMap.value("label").toString());
-            item.setFile(itemMap.value("file").toString());
-            item.setTitle(itemMap.value("title").toString());
-            item.setArtist(itemMap.value("artist").toString());
-            item.setAlbum(itemMap.value("album").toString());
-            item.setFanart(itemMap.value("fanart").toString());
-            item.setThumbnail(itemMap.value("thumbnail").toString());
-            m_itemList.replace(m_currentSong, item);
+            item->setDuration(QTime().addSecs(itemMap.value("runtime").toInt() * 60));
+            item->setLabel(itemMap.value("label").toString());
+            item->setFile(itemMap.value("file").toString());
+            item->setTitle(itemMap.value("title").toString());
+            item->setType(itemMap.value("type").toString());
+            item->setTvShow(itemMap.value("showtitle").toString());
+            item->setSeason(itemMap.value("season").toString());
+            item->setFanart(itemMap.value("fanart").toString());
+            item->setThumbnail(itemMap.value("thumbnail").toString());
+            item->setYear(itemMap.value("year").toString());
+            item->setRating(itemMap.value("rating").toString());
             emit currentChanged();
             break;
         }
         }
     }
+}
+
+QVariant VideoPlaylist::data(const QModelIndex &index, int role) const
+{
+    switch(role) {
+    case Qt::DisplayRole:
+        return m_itemList.at(index.row())->label();
+    case Qt::UserRole+1:
+        return "file";
+//    case Qt::UserRole+2:
+//        return m_itemList.at(index.row()).artist() + " - " + m_itemList.at(index.row()).album();
+    case Qt::UserRole+3:
+        return m_itemList.at(index.row())->duration().toString("mm:ss");
+    }
+    return QVariant();
+}
+
+int VideoPlaylist::rowCount(const QModelIndex &parent) const
+{
+    return m_itemList.count();
+}
+
+PlaylistItem* VideoPlaylist::at(int index) const
+{
+    return m_itemList.at(index);
+}
+
+QString VideoPlaylist::title() const
+{
+    return "Now Playing - Videos";
 }

@@ -28,32 +28,37 @@ symbian:TARGET.CAPABILITY += NetworkServices
 # If your application uses the Qt Mobility libraries, uncomment
 # the following lines and add the respective components to the 
 # MOBILITY variable. 
-# CONFIG += mobility
-# MOBILITY +=
+CONFIG += mobility
+MOBILITY += systeminfo
 
 # The .cpp file which was generated for your project. Feel free to hack it.
 SOURCES += main.cpp \
-    mainwindow.cpp \
     settingsdialog.cpp \
     xbmc/xbmc.cpp \
+    xbmc/xbmcconnection.cpp \
+    xbmc/xbmcmodel.cpp \
     xbmc/player.cpp \
     xbmc/audioplayer.cpp \
     xbmc/videoplayer.cpp \
-    xbmc/xbmcconnection.cpp \
     xbmc/playlist.cpp \
     xbmc/audioplaylist.cpp \
-    xbmc/playlistitem.cpp \
-    xbmc/audiolibrary.cpp \
-    xbmc/artistitem.cpp \
-    xbmc/albumitem.cpp \
-    xbmc/songitem.cpp \
-    xbmc/libraryitem.cpp \
-    xbmc/files.cpp \
-    xbmc/videolibrary.cpp \
     xbmc/videoplaylist.cpp \
-    xbmc/movieitem.cpp \
+    xbmc/playlistitem.cpp \
     xbmc/audioplaylistitem.cpp \
-    xbmc/videoplaylistitem.cpp
+    xbmc/videoplaylistitem.cpp \
+    xbmc/audiolibrary.cpp \
+    xbmc/artists.cpp \
+    xbmc/albums.cpp \
+    xbmc/songs.cpp \
+    xbmc/musicvideos.cpp \
+    xbmc/tvshows.cpp \
+    xbmc/seasons.cpp \
+    xbmc/episodes.cpp \
+    xbmc/videolibrary.cpp \
+    xbmc/files.cpp \
+    xbmc/shares.cpp \
+    xbmc/movies.cpp \
+    xbmc/keys.cpp
 
 # We actually don't use the QMLApplicationViewer any more... It's pri file,
 # however contains a lot of deplayment stuff so we still keep this here:
@@ -63,31 +68,41 @@ include(qmlapplicationviewer/qmlapplicationviewer.pri)
 qtcAddDeployment()
 
 
-HEADERS += \
-    mainwindow.h \
-    settingsdialog.h \
+HEADERS += settingsdialog.h \
     xbmc/xbmc.h \
+    xbmc/xbmcconnection.h \
+    xbmc/xbmcmodel.h \
     xbmc/player.h \
     xbmc/audioplayer.h \
     xbmc/videoplayer.h \
-    xbmc/xbmcconnection.h \
     xbmc/xbmcconnection_p.h \
     xbmc/playlist.h \
     xbmc/audioplaylist.h \
     xbmc/playlistitem.h \
     xbmc/audiolibrary.h \
-    xbmc/artistitem.h \
-    xbmc/albumitem.h \
-    xbmc/songitem.h \
-    xbmc/libraryitem.h \
+    xbmc/artists.h \
+    xbmc/albums.h \
+    xbmc/songs.h \
     xbmc/files.h \
+    xbmc/shares.h \
+    xbmc/movies.h \
+    xbmc/musicvideos.h \
+    xbmc/tvshows.h \
+    xbmc/seasons.h \
+    xbmc/episodes.h \
     xbmc/videolibrary.h \
     xbmc/videoplaylist.h \
-    xbmc/movieitem.h \
     xbmc/audioplaylistitem.h \
-    xbmc/videoplaylistitem.h
+    xbmc/videoplaylistitem.h \
+    xbmc/keys.h
 
 LIBS += -lqjson
 
 OTHER_FILES += \
-    qtc_packaging/meego.spec
+    qtc_packaging/meego.spec \
+    qtc_packaging/debian_harmattan/rules \
+    qtc_packaging/debian_harmattan/README \
+    qtc_packaging/debian_harmattan/copyright \
+    qtc_packaging/debian_harmattan/control \
+    qtc_packaging/debian_harmattan/compat \
+    qtc_packaging/debian_harmattan/changelog

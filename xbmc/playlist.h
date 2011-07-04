@@ -20,25 +20,26 @@
 #define PLAYLIST_H
 
 #include "playlistitem.h"
-#include "songitem.h"
 #include "player.h"
+#include "xbmcmodel.h"
 
 #include <QObject>
 #include <QVariantMap>
-#include <QAbstractItemModel>
 
-class Playlist : public QAbstractItemModel
+class Playlist : public XbmcModel
 {
     Q_OBJECT
 
     Q_PROPERTY(int count READ count NOTIFY countChanged)
+    Q_PROPERTY(PlaylistItem* currentItem READ currentItem NOTIFY currentChanged)
     Q_PROPERTY(int currentTrackNumber READ currentTrackNumber NOTIFY currentChanged)
-    Q_PROPERTY(QString currentLabel READ currentLabel NOTIFY currentChanged)
-    Q_PROPERTY(QString currentTitle READ currentTitle NOTIFY currentChanged)
-    Q_PROPERTY(QString currentArtist READ currentArtist NOTIFY currentChanged)
-    Q_PROPERTY(QString currentAlbum READ currentAlbum NOTIFY currentChanged)
-    Q_PROPERTY(QString currentFanart READ currentThumbnail NOTIFY currentChanged)
-    Q_PROPERTY(QString currentThumbnail READ currentThumbnail NOTIFY currentChanged)
+//    Q_PROPERTY(QString currentLabel READ currentLabel NOTIFY currentChanged)
+//    Q_PROPERTY(QString currentTitle READ currentTitle NOTIFY currentChanged)
+//    Q_PROPERTY(QString currentArtist READ currentArtist NOTIFY currentChanged)
+//    Q_PROPERTY(QString currentAlbum READ currentAlbum NOTIFY currentChanged)
+//    Q_PROPERTY(QString currentFanart READ currentThumbnail NOTIFY currentChanged)
+//    Q_PROPERTY(QString currentThumbnail READ currentThumbnail NOTIFY currentChanged)
+//    Q_PROPERTY(QString currentDuration READ currentDuration NOTIFY currentChanged)
     Q_PROPERTY(bool shuffle READ shuffle WRITE setShuffle NOTIFY shuffleChanged)
 
     Q_PROPERTY(Player* player READ player)
@@ -47,8 +48,8 @@ public:
     explicit Playlist(Player *parent = 0);
 
 
-    void clear();
-    void addItems(const PlaylistItem &item);
+    virtual void clear();
+    virtual void addItems(const PlaylistItem &item);
     void addPlaylist(const QString &playlistId);
     void addFile(const QString &file);
 
@@ -58,21 +59,20 @@ public:
     void setShuffle(bool shuffle);
 
     int currentTrackNumber() const;
-    QString currentLabel() const;
-    QString currentTitle() const;
-    QString currentArtist() const;
-    QString currentAlbum() const;
-    QString currentFanart() const;
-    QString currentThumbnail() const;
-    SongItem currentItem() const;
+//    QString currentLabel() const;
+//    QString currentTitle() const;
+//    QString currentArtist() const;
+//    QString currentAlbum() const;
+//    QString currentFanart() const;
+//    QString currentThumbnail() const;
+//    QString currentDuration() const;
+
     Player *player() const;
 
-    SongItem at(int index);
-    QModelIndex index(int row, int column, const QModelIndex &parent) const;
-    QModelIndex parent(const QModelIndex &child) const;
-    int rowCount(const QModelIndex &parent) const;
-    int columnCount(const QModelIndex &parent) const;
-    QVariant data(const QModelIndex &index, int role) const;
+    PlaylistItem* currentItem() const;
+    virtual PlaylistItem* at(int index) const = 0;
+
+    XbmcModel *enterItem(int) { return 0;}
 
 signals:
     void countChanged();
@@ -101,9 +101,8 @@ protected:
     };
 
     QMap<int, Request> m_requestMap;
-    QList<SongItem> m_itemList;
 
-    int m_currentSong;
+    mutable int m_currentItem;
     bool m_shuffle;
     Player *m_player;
 };

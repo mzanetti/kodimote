@@ -35,6 +35,9 @@ public:
     void setPort(int port);
     int port();
 
+public slots:
+    void accept();
+
 private:
     QLineEdit *m_hostName;
     QLineEdit *m_port;

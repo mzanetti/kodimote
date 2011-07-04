@@ -1443,14 +1443,46 @@ API generated out of xbmc git master on 10.04.11
 "Library.Fields.Album":{
   "id":"Library.Fields.Album",
   "items":{
-    "enums":["title","descriptiUserRoleon","artist","genre","theme","mood","style","type","label","rating","year","musicbrainzalbumid","musicbrainzalbumartistid","fanart","thumbnail"],
+    "enums":[
+      "title",
+      "descriptiUserRoleon",
+      "artist",
+      "genre","theme","mood","style","type","label","rating","year","musicbrainzalbumid","musicbrainzalbumartistid","fanart","thumbnail"],
     "type":"string"
   },
   "type":"array","uniqueItems":true
 },
 
-"Library.Fields.Episode":{"id":"Library.Fields.Episode","items":{"description":"Requesting the cast field will result in increased response times","enums":["title","plot","votes","rating","writingcredits","firstaired","playcount","runtime","director","productioncode","season","episode","originaltitle","showtitle","cast","streamDetails","lastplayed","fanart","thumbnail","file"],"type":"string"},
-"type":"array","uniqueItems":true},
+"Library.Fields.Episode":{
+  "id":"Library.Fields.Episode",
+  "items":{
+    "description":"Requesting the cast field will result in increased response times",
+    "enums":[
+      "title",
+      "plot",
+      "votes",
+      "rating",
+      "writingcredits",
+      "firstaired",
+      "playcount",
+      "runtime",
+      "director",
+      "productioncode",
+      "season",
+      "episode",
+      "originaltitle",
+      "showtitle",
+      "cast",
+      "streamDetails",
+      "lastplayed",
+      "fanart",
+      "thumbnail",
+      "file"
+    ],
+    "type":"string"
+  },
+  "type":"array","uniqueItems":true
+},
 
 "Library.Fields.Movie":{
   "id":"Library.Fields.Movie",
@@ -1493,8 +1525,18 @@ API generated out of xbmc git master on 10.04.11
 "type":"array","uniqueItems":true},
 "Library.Fields.MusicVideo":{"id":"Library.Fields.MusicVideo","items":{"enums":["title","playcount","runtime","director","studio","year","plot","album","artist","genre","track","streamDetails","lastplayed","fanart","thumbnail","file"],"type":"string"},
 "type":"array","uniqueItems":true},
-"Library.Fields.Season":{"id":"Library.Fields.Season","items":{"enums":["season","showtitle","playcount","episode","fanart","thumbnail"],"type":"string"},
-"type":"array","uniqueItems":true},
+
+"Library.Fields.Season":{
+  "id":"Library.Fields.Season",
+  "items":{
+    "enums":[
+      "season","showtitle","playcount","episode","fanart","thumbnail"
+    ],
+    "type":"string"
+  },
+  "type":"array",
+  "uniqueItems":true
+},
 
 
 "Library.Fields.Song":{

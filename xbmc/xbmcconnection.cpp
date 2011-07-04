@@ -68,7 +68,7 @@ XbmcConnectionPrivate::XbmcConnectionPrivate(QObject *parent) :
 
     QObject::connect(m_socket, SIGNAL(readyRead()), SLOT(readData()));
     QObject::connect(m_socket, SIGNAL(connected()), m_notifier, SIGNAL(connectionChanged()));
-    QObject::connect(m_socket, SIGNAL(error(QAbstractSocket::SocketError)), SLOT(socketError()));
+//    QObject::connect(m_socket, SIGNAL(error(QAbstractSocket::SocketError)), SLOT(socketError()));
     QObject::connect(m_socket, SIGNAL(connected()), SLOT(slotConnected()));
     QObject::connect(m_socket, SIGNAL(disconnected()), m_notifier, SIGNAL(connectionChanged()));
 
@@ -146,10 +146,14 @@ void XbmcConnectionPrivate::sendNextCommand()
         }
 
         QJson::Serializer serializer;
+        QByteArray data = serializer.serialize(map);
+//        qDebug() << "ater serializing:" << data;
+        QString dataStr = QString::fromLatin1(data);
 #ifdef DEBUGJSON
-        qDebug() << "sending command" << serializer.serialize(map);
+//        qDebug() << "sending command 1" << dataStr;
+        qDebug() << "sending command" << dataStr.toLocal8Bit();
 #endif
-        m_socket->write(serializer.serialize(map));
+        m_socket->write(data);
         m_currentPendingId = command.id();
         m_timeoutTimer.start();
     }
@@ -161,15 +165,16 @@ void XbmcConnectionPrivate::readData()
     QByteArray dataArray = m_socket->readAll();
     QString data(dataArray);
     qDebug() << "<<<<<<<<<<<< Received:" << dataArray;
+    m_socket->waitForReadyRead(10);
     while(!(data.endsWith("}") || data.endsWith("}\n") || data.isEmpty())) {
-//        qDebug() << "***********************************";
-//        qDebug() << data;
-//        qDebug() << "data seems to be unfinished... rading more";
+        qDebug() << "***********************************";
+        qDebug() << data;
+        qDebug() << "data seems to be unfinished... rading more";
         m_socket->waitForReadyRead(100);
         QString tmp = m_socket->readAll();
         data.append(tmp);
-//        qDebug() << tmp;
-//        qDebug() << ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>><";
+        qDebug() << tmp;
+        qDebug() << ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>><";
     }
     QStringList commandsList = data.split("}{");
     for(int i = 0; i < commandsList.count(); ++i) {
@@ -189,7 +194,7 @@ void XbmcConnectionPrivate::readData()
 //        qDebug() << "starting parsing";
         QJson::Parser parser;
         bool ok;
-        rsp = parser.parse(lineData.toLocal8Bit(), &ok).toMap();
+        rsp = parser.parse(lineData.toAscii(), &ok).toMap();
         if(!ok) {
             qDebug() << "data is" << lineData;
             qFatal("failed parsing.");

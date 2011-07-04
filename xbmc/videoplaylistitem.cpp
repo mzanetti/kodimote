@@ -1,7 +1,6 @@
 #include "videoplaylistitem.h"
 
 VideoPlaylistItem::VideoPlaylistItem(int movieId, int musicVideoId, int episodeId, const QString &file, const QString &playlist):
-    PlaylistItem(file, playlist),
     m_movieId(movieId),
     m_musicVideoId(musicVideoId),
     m_episodeId(episodeId)
@@ -51,4 +50,59 @@ QVariantMap VideoPlaylistItem::toMap() const
         map.insert("episodeid", m_episodeId);
     }
     return map;
+}
+
+void VideoPlaylistItem::setType(const QString &type)
+{
+    m_type = type;
+    emit typeChanged();
+}
+
+QString VideoPlaylistItem::type() const
+{
+    return m_type;
+}
+
+void VideoPlaylistItem::setTvShow(const QString &tvShow)
+{
+    m_tvShow = tvShow;
+    emit tvShowChanged();
+}
+
+QString VideoPlaylistItem::tvShow() const
+{
+    return m_tvShow;
+}
+
+void VideoPlaylistItem::setSeason(const QString &season)
+{
+    m_season = season;
+    emit seasonChanged();
+}
+
+QString VideoPlaylistItem::season() const
+{
+    return m_season;
+}
+
+void VideoPlaylistItem::setYear(const QString &year)
+{
+    m_year = year;
+    emit yearChanged();
+}
+
+QString VideoPlaylistItem::year() const
+{
+    return m_year;
+}
+
+void VideoPlaylistItem::setRating(const QString &rating)
+{
+    m_rating = rating;
+    emit ratingChanged();
+}
+
+QString VideoPlaylistItem::rating() const
+{
+    return m_rating;
 }

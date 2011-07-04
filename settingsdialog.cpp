@@ -24,6 +24,8 @@
 #include <QLabel>
 #include <QIntValidator>
 
+#include "xbmc/xbmc.h"
+
 SettingsDialog::SettingsDialog(QWidget *parent) :
     QDialog(parent)
 {
@@ -37,12 +39,12 @@ SettingsDialog::SettingsDialog(QWidget *parent) :
 
     hLayout->addWidget(new QLabel("Host:"));
 
-    m_hostName = new QLineEdit();
+    m_hostName = new QLineEdit(Xbmc::instance()->hostname());
     hLayout->addWidget(m_hostName);
 
     hLayout->addWidget(new QLabel("Http Port:"));
 
-    m_port = new QLineEdit();
+    m_port = new QLineEdit(QString::number(Xbmc::instance()->port()));
     m_port->setValidator(new QIntValidator());
     hLayout->addWidget(m_port);
 
@@ -73,4 +75,12 @@ void SettingsDialog::setPort(int port)
 int SettingsDialog::port()
 {
     return m_port->text().toInt();
+}
+
+void SettingsDialog::accept()
+{
+    Xbmc::instance()->setHostname(m_hostName->text());
+    Xbmc::instance()->setPort(m_port->text().toInt());
+    Xbmc::instance()->connectToHost();
+    QDialog::accept();
 }

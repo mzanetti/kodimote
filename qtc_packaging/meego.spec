@@ -1,6 +1,6 @@
 Name: xbmcremote
 Summary: A remote control for xbmc written in Qt with QML
-Version: 0.1.2-0
+Version: 0.1.0
 Release: 1
 License: <Enter your application's license here>
 Group: <Set your application's group here>

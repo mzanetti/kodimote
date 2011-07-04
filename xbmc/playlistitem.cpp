@@ -18,9 +18,7 @@
 
 #include "playlistitem.h"
 
-PlaylistItem::PlaylistItem(const QString &file, const QString &playlist):
-    m_file(file),
-    m_playlistId(playlist)
+PlaylistItem::PlaylistItem(QObject *parent)
 {
 }
 
@@ -61,4 +59,67 @@ QVariantMap PlaylistItem::toMap() const
         map.insert("playlist", playlist);
     }
     return map;
+}
+
+void PlaylistItem::setLabel(const QString &label)
+{
+    m_label = label;
+    emit labelChanged();
+}
+
+QString PlaylistItem::label() const
+{
+    return m_label;
+}
+
+void PlaylistItem::setDuration(const QTime &duration)
+{
+    m_duration = duration;
+    emit durationChanged();
+}
+
+QTime PlaylistItem::duration() const
+{
+    return m_duration;
+}
+
+QString PlaylistItem::durationString() const
+{
+    if(m_duration.hour() > 0) {
+        return m_duration.toString("hh:mm:ss");
+    }
+    return m_duration.toString("mm:ss");
+}
+
+void PlaylistItem::setTitle(const QString &title)
+{
+    m_title = title;
+    emit titleChanged();
+}
+
+QString PlaylistItem::title() const
+{
+    return m_title;
+}
+
+void PlaylistItem::setFanart(const QString &fanart)
+{
+    m_fanart = fanart;
+    emit fanartChanged();
+}
+
+QString PlaylistItem::fanart() const
+{
+    return m_fanart;
+}
+
+void PlaylistItem::setThumbnail(const QString &thumbnail)
+{
+    m_thumbnail = thumbnail;
+    emit thumbnailChanged();
+}
+
+QString PlaylistItem::thumbnail() const
+{
+    return m_thumbnail;
 }

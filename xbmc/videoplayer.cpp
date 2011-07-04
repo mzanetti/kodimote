@@ -34,3 +34,4 @@ Playlist *VideoPlayer::playlist() const
 {
     return m_playlist;
 }
+

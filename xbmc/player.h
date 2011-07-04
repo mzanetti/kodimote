@@ -31,10 +31,11 @@ class Player : public QObject
     Q_ENUMS(PlayerType)
 
     Q_PROPERTY(PlayerType type READ type NOTIFY typeChanged)
-    Q_PROPERTY(Playlist playlist READ playlist)
+//    Q_PROPERTY(Playlist playlist READ playlist NOTIFY playlistChanged)
     Q_PROPERTY(QString state READ state NOTIFY stateChanged)
     Q_PROPERTY(int speed READ speed NOTIFY speedChanged)
     Q_PROPERTY(double percentage READ percentage NOTIFY percentageChanged)
+    Q_PROPERTY(QString time READ time NOTIFY timeChanged)
 
 public:
     enum PlayerType {
@@ -49,18 +50,20 @@ public:
     QString state() const;
     int speed() const;
     double percentage() const;
+    QString time() const;
 
     PlayerType type() const;
 
     virtual QString namespaceString() const = 0;
 
-    virtual Playlist* playlist() const = 0;
+    Q_INVOKABLE virtual Playlist* playlist() const = 0;
 
 signals:
     void stateChanged();
     void speedChanged();
     void percentageChanged();
     void typeChanged();
+    void timeChanged();
 
 public slots:
     void playPause();

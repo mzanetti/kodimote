@@ -30,17 +30,28 @@ QString AudioPlaylist::namespaceString() const
     return "AudioPlaylist";
 }
 
+int AudioPlaylist::rowCount(const QModelIndex &parent) const
+{
+    return m_itemList.count();
+}
+
+//void AudioPlaylist::addItems(const PlaylistItem &item) const
+//{
+
+//}
+
 void AudioPlaylist::refresh()
 {
     QVariantMap params;
     QVariantList fields;
     fields.append("duration");
+    fields.append("artist");
+    fields.append("album");
     params.insert("fields", fields);
 
     int id = XbmcConnection::sendCommand(namespaceString() + ".GetItems", params);
     m_requestMap.insert(id, RequestGetItems);
 }
-
 
 void AudioPlaylist::queryItemData(int index)
 {
@@ -79,43 +90,70 @@ void AudioPlaylist::responseReveiced(int id, const QVariantMap &response)
 //        qDebug() << "got GetItems response:" << response;
 //        qDebug() << "resetting model";
         beginResetModel();
-        m_itemList.clear();
+        while(!m_itemList.isEmpty()){
+            delete m_itemList.takeFirst();
+        }
         QVariantList responseList = rsp.toMap().value("items").toList();
         foreach(const QVariant &itemVariant, responseList) {
             QVariantMap itemMap = itemVariant.toMap();
-            SongItem item;
+            AudioPlaylistItem *item = new AudioPlaylistItem();
 //            item.setFanart(itemMap.value("fanart").toString());
-            item.setLabel(itemMap.value("label").toString());
-            item.setDuration(QTime().addSecs(itemMap.value("duration").toInt()));
+            item->setLabel(itemMap.value("label").toString());
+            item->setDuration(QTime().addSecs(itemMap.value("duration").toInt()));
 //            item.setTitle(itemMap.value("title").toString());
-//            item.setArtist(itemMap.value("artist").toString());
+            item->setArtist(itemMap.value("artist").toString());
+            item->setAlbum(itemMap.value("album").toString());
 //            qDebug() << "adding item:" << item.label();
             m_itemList.append(item);
         }
         endResetModel();
-        m_currentSong = rsp.toMap().value("state").toMap().value("current").toInt();
-        qDebug() << "set current to" << m_currentSong;
-        queryItemData(m_currentSong);
+        m_currentItem = rsp.toMap().value("state").toMap().value("current").toInt();
+        qDebug() << "set current to" << m_currentItem;
+        queryItemData(m_currentItem);
         emit countChanged();
         emit currentChanged();
         break;
     }
     case RequestCurrentData: {
-        if(m_itemList.count() > m_currentSong && m_currentSong > -1) {
-            SongItem item = m_itemList.at(m_currentSong);
+        if(m_itemList.count() > m_currentItem && m_currentItem > -1) {
+            AudioPlaylistItem *item = m_itemList.at(m_currentItem);
             QVariantList responseList = rsp.toMap().value("items").toList();
             QVariantMap itemMap = responseList.first().toMap();
     //            item.setFanart(itemMap.value("fanart").toString());
-            item.setLabel(itemMap.value("label").toString());
-            item.setTitle(itemMap.value("title").toString());
-            item.setArtist(itemMap.value("artist").toString());
-            item.setAlbum(itemMap.value("album").toString());
-            item.setFanart(itemMap.value("fanart").toString());
-            item.setThumbnail(itemMap.value("thumbnail").toString());
-            m_itemList.replace(m_currentSong, item);
+            item->setLabel(itemMap.value("label").toString());
+            item->setTitle(itemMap.value("title").toString());
+            item->setArtist(itemMap.value("artist").toString());
+            item->setAlbum(itemMap.value("album").toString());
+            item->setFanart(itemMap.value("fanart").toString());
+            item->setThumbnail(itemMap.value("thumbnail").toString());
             emit currentChanged();
             break;
         }
         }
     }
+}
+
+QVariant AudioPlaylist::data(const QModelIndex &index, int role) const
+{
+    switch(role) {
+    case Qt::DisplayRole:
+        return m_itemList.at(index.row())->label();
+    case Qt::UserRole+1:
+        return "file";
+    case Qt::UserRole+2:
+        return m_itemList.at(index.row())->artist() + " - " + m_itemList.at(index.row())->album();
+    case Qt::UserRole+3:
+        return m_itemList.at(index.row())->duration().toString("mm:ss");
+    }
+    return QVariant();
+}
+
+PlaylistItem* AudioPlaylist::at(int index) const
+{
+    return m_itemList.at(index);
+}
+
+QString AudioPlaylist::title() const
+{
+    return "Now Playing - Music";
 }
