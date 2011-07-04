@@ -71,7 +71,7 @@ BorderImage {
 
     function fanart() {
         console.log("fanart: " + currentItem.thumbnail)
-        if(currentItem.thumbnail.length == 0) {
+        if(currentItem.thumbnail.length == 0 || currentItem.thumbnail == "DefaultAlbumCover.png") {
             if(xbmc.state == "audio") {
                 return "images/DefaultAlbumCover.png";
             } else {
