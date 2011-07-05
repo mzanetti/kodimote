@@ -176,6 +176,9 @@ QString Player::time() const
 
 void Player::setPercentage()
 {
+    if(!playlist()->currentItem()) {
+        return;
+    }
     QTime time;
     int duration = time.secsTo(playlist()->currentItem()->duration());
     if(duration > 0) {

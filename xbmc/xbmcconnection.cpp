@@ -24,6 +24,8 @@
 
 #include <QTime>
 #include <QStringList>
+#include <QNetworkRequest>
+#include <QNetworkReply>
 
 #define DEBUGJSON
 
@@ -36,7 +38,7 @@ void connect(const QString &hostname, int port)
 
 int sendCommand(const QString &command, const QVariant &params)
 {
-   return instance()->sendCommand(command, params);
+   return instance()->sendCommand2(command, params);
 }
 
 QString vfsPath()
@@ -76,6 +78,7 @@ XbmcConnectionPrivate::XbmcConnectionPrivate(QObject *parent) :
     m_timeoutTimer.setSingleShot(true);
     QObject::connect(&m_timeoutTimer, SIGNAL(timeout()), SLOT(clearPending()));
 
+    m_network = new QNetworkAccessManager();
 }
 
 void XbmcConnectionPrivate::connect(const QString &hostname, int port)
@@ -112,6 +115,84 @@ QString XbmcConnectionPrivate::vfsPath()
 {
     qDebug() << "returning vfs:" << "http://" + m_hostName + ':' + QString::number(m_port) + "/vfs/";
     return "http://" + m_hostName + ':' + QString::number(m_port) + "/vfs/";
+}
+
+int XbmcConnectionPrivate::sendCommand2(const QString &command, const QVariant &parms) {
+    QNetworkRequest request;
+    request.setUrl(QUrl("http://10.10.10.100:8080/jsonrpc"));
+
+    QVariantMap map;
+    map.insert("jsonrpc", "2.0");
+    map.insert("method", command);
+    map.insert("id", m_commandId);
+
+    if(!parms.isNull()) {
+        map.insert("params", parms);
+    }
+
+    QJson::Serializer serializer;
+    QByteArray data = serializer.serialize(map);
+
+    qDebug() << "Sending data:" << data;
+
+    QNetworkReply * reply = m_network->post(request, data);
+    QObject::connect(reply, SIGNAL(finished()), SLOT(replyReceived()));
+    return m_commandId++;
+}
+
+void XbmcConnectionPrivate::replyReceived()
+{
+    QString commands = static_cast<QNetworkReply*>(sender())->readAll();
+    qDebug() << "received reply:" << commands;
+
+    QStringList commandsList = commands.split("}{");
+
+    for(int i = 0; i < commandsList.count(); ++i) {
+        QString lineData = commandsList.at(i);
+        if(lineData.isEmpty()) {
+            continue;
+        }
+        // if we split at }{ the braces are removed... so lets add them again
+        if(i < commandsList.count() - 1) {
+            lineData.append("}");
+        }
+        if(i > 0) {
+            lineData.prepend("{");
+        }
+        QVariantMap rsp;
+//        QTime t = QTime::currentTime();
+//        qDebug() << "starting parsing";
+        QJson::Parser parser;
+        bool ok;
+        rsp = parser.parse(lineData.toAscii(), &ok).toMap();
+        if(!ok) {
+            qDebug() << "data is" << lineData;
+            qFatal("failed parsing.");
+            return;
+        }
+//        qDebug() << "finished parsing after" << t.msecsTo(QTime::currentTime());
+
+//        qDebug() << ">>> Incoming:" << data;
+
+        if(rsp.value("params").toMap().value("sender").toString() == "xbmc") {
+            qDebug() << ">>> received announcement" << rsp;
+            emit m_notifier->receivedAnnouncement(rsp);
+            continue;
+        }
+        if(rsp.value("id").toInt() >= 0) {
+//            qDebug() << ">>> received response" << rsp.value("result");
+            emit m_notifier->responseReceived(rsp.value("id").toInt(), rsp);
+            int id = rsp.value("id").toInt();
+            if(m_currentPendingId == id) {
+//                m_commandQueue.removeFirst();
+                m_timeoutTimer.stop();
+                m_currentPendingId = -1;
+            }
+            sendNextCommand();
+            continue;
+        }
+        qDebug() << "received unhandled data" << commands;
+    }
 }
 
 int XbmcConnectionPrivate::sendCommand(const QString &command, const QVariant &params)

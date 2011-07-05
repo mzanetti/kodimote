@@ -26,6 +26,7 @@
 #include <QObject>
 #include <QTcpSocket>
 #include <QTimer>
+#include <QNetworkAccessManager>
 
 namespace XbmcConnection
 {
@@ -56,6 +57,7 @@ public:
     void connect(const QString &hostname, int port);
 
     int sendCommand(const QString &command, const QVariant &parms = QVariant());
+    int sendCommand2(const QString &command, const QVariant &parms = QVariant());
 
     QString vfsPath();
 
@@ -69,6 +71,7 @@ private slots:
     void socketError();
     void slotConnected();
 
+    void replyReceived();
 private:
     QTcpSocket *m_socket;
     int m_commandId;
@@ -82,6 +85,8 @@ private:
 
     QString m_hostName;
     int m_port;
+
+    QNetworkAccessManager *m_network;
 
 };
 Q_GLOBAL_STATIC(XbmcConnectionPrivate, instance)
