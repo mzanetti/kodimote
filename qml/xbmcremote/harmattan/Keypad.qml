@@ -39,8 +39,7 @@ Page {
             }
             Image {
                 id: okButton
-                source: "icons/button-arrow-up.png"
-                rotation: 90
+                source: "icons/button-ok.png"
                 anchors.centerIn: parent
                 MouseArea {
                     anchors.fill: parent
@@ -77,7 +76,7 @@ Page {
             spacing: 20
             Image {
                 id: backButton
-                source: "icons/button-arrow-up.png"
+                source: "icons/button-back.png"
                 anchors.left: parent.left
                 MouseArea {
                     anchors.fill: parent
@@ -86,7 +85,7 @@ Page {
             }
             Image {
                 id: homeButton
-                source: "icons/button-arrow-up.png"
+                source: "icons/button-menu.png"
                 anchors.right: parent.right
                 MouseArea {
                     anchors.fill: parent
@@ -95,5 +94,4 @@ Page {
             }
         }
     }
-
 }

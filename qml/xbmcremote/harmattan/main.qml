@@ -102,7 +102,7 @@ PageStackWindow {
             }
         } else {
             var component = Qt.createComponent("MainPage.qml")
-            if (component.status == Component.Ready) {
+            if (component.status == Component.Ready && pageStack.busy == false) {
                 pageStack.replace(component);
             } else {
                 console.log("Error loading component:", component.errorString());
