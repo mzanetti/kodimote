@@ -10,6 +10,7 @@
 #include "shares.h"
 
 #include "playlist.h"
+#include "audioplaylist.h"
 
 #include "audioplayer.h"
 #include "videoplayer.h"
@@ -49,6 +50,8 @@ Xbmc::Xbmc(QObject *parent) :
     qmlRegisterType<Files>();
     qmlRegisterType<Shares>();
     qmlRegisterType<Keys>();
+
+    qmlRegisterType<AudioPlaylist>("Xbmc", 1, 0, "Playlist");
 
     QSettings settings("xbmcremote");
     m_hostname = settings.value("Host").toString();
@@ -217,7 +220,9 @@ Keys *Xbmc::keys()
 
 void Xbmc::connectionChanged()
 {
-    m_requestMap.insert(XbmcConnection::sendCommand("XBMC.GetVolume"), RequestVolume);
+    if(connected()) {
+        m_requestMap.insert(XbmcConnection::sendCommand("XBMC.GetVolume"), RequestVolume);
+    }
     emit connectedChanged();
 }
 

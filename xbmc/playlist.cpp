@@ -25,7 +25,8 @@ Playlist::Playlist(Player *parent) :
     XbmcModel(0),
     m_currentItem(-1),
     m_shuffle(false), //TODO: query player for state as soon as API supports it
-    m_player(parent)
+    m_player(parent),
+    m_repeat(RepeatOne)
 {
     connect(XbmcConnection::notifier(), SIGNAL(responseReceived(int,QVariantMap)), SLOT(responseReveiced(int,QVariantMap)));
     connect(XbmcConnection::notifier(), SIGNAL(receivedAnnouncement(QVariantMap)), SLOT(receivedAnnouncement(QVariantMap)));
@@ -111,54 +112,6 @@ void Playlist::skipNext()
     }
 }
 
-//QString Playlist::currentLabel() const
-//{
-//    if(m_currentSong == -1 || m_currentSong >= rowCount()) {
-//        return QString();
-//    }
-//    return at(m_currentSong).label();
-//}
-
-//QString Playlist::currentTitle() const
-//{
-//    if(m_currentSong == -1 || m_currentSong >= rowCount()) {
-//        return QString();
-//    }
-//    return at(m_currentSong).title();
-//}
-
-//QString Playlist::currentArtist() const
-//{
-//    if(m_currentSong == -1 || m_currentSong >= m_itemList.count()) {
-//        return QString();
-//    }
-//    return m_itemList.at(m_currentSong).artist();
-//}
-
-//QString Playlist::currentFanart() const
-//{
-//    if(m_currentSong == -1 || m_currentSong >= rowCount()) {
-//        return QString();
-//    }
-//    return at(m_currentSong).fanart();
-//}
-
-//QString Playlist::currentThumbnail() const
-//{
-//    if(m_currentSong == -1 || m_currentSong >= rowCount()) {
-//        return QString();
-//    }
-//    return at(m_currentSong).thumbnail();
-//}
-
-//QString Playlist::currentAlbum() const
-//{
-//    if(m_currentSong == -1 || m_currentSong >= m_itemList.count()) {
-//        return QString();
-//    }
-//    return m_itemList.at(m_currentSong).album();
-//}
-
 int Playlist::currentTrackNumber() const
 {
     return m_currentItem + 1;
@@ -187,6 +140,34 @@ void Playlist::setShuffle(bool shuffle)
     }
 }
 
+void Playlist::setRepeat(Playlist::Repeat repeat)
+{
+    QVariantMap params;
+    switch(repeat) {
+    case RepeatNone:
+        params.insert("state", "off");
+        break;
+    case RepeatOne:
+        params.insert("state", "one");
+        break;
+    case RepeatAll:
+        params.insert("state", "all");
+        break;
+    }
+
+    XbmcConnection::sendCommand(namespaceString() + ".Repeat", params);
+
+    if(m_repeat != repeat) {
+        m_repeat = repeat;
+        emit repeatChanged();
+    }
+}
+
+Playlist::Repeat Playlist::repeat() const
+{
+    return m_repeat;
+}
+
 PlaylistItem* Playlist::currentItem() const
 {
     if(m_currentItem == -1 || m_currentItem >= count()) {
@@ -194,12 +175,3 @@ PlaylistItem* Playlist::currentItem() const
     }
     return at(m_currentItem);
 }
-
-//QString Playlist::currentDuration() const
-//{
-//    if(m_currentSong == -1 || m_currentSong >= m_itemList.count()) {
-//        return QString("00:00");
-//    }
-//    return m_itemList.at(m_currentSong).duration().toString("mm:ss");
-//}
-

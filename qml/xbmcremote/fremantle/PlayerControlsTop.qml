@@ -1,4 +1,5 @@
 import Qt 4.7
+import Xbmc 1.0
 
 Row {
     id: playerControlsTop
@@ -28,13 +29,20 @@ Row {
         width: parent.width / 5
 
         Image {
-            source: "images/OSDRepeatNF.png"
             anchors.centerIn: parent
+            source: xbmc.activePlayer.playlist().repeat == Playlist.RepeatNone ? "images/OSDRepeatNF.png" : (xbmc.activePlayer.playlist().repeat == Playlist.RepeatOne ? "images/OSDRepeatOneFO.png" : "images/OSDRepeatAllFO.png")
         }
 
         MouseArea {
             anchors.fill: parent
             onClicked: {
+                if(xbmc.activePlayer.playlist().repeat == Playlist.RepeatNone) {
+                    xbmc.activePlayer.playlist().repeat = Playlist.RepeatOne;
+                } else if(xbmc.activePlayer.playlist().repeat == Playlist.RepeatOne) {
+                    xbmc.activePlayer.playlist().repeat = Playlist.RepeatAll;
+                } else {
+                    xbmc.activePlayer.playlist().repeat = Playlist.RepeatNone;
+                }
             }
         }
     }

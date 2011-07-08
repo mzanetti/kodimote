@@ -196,6 +196,16 @@ Rectangle {
             name: "connected"; when: xbmc.connected
             PropertyChanges { target: notConnectedPopup; opacity: 0; scale: 0.5 }
             PropertyChanges { target: view; opacity: 1; }
+
+            PropertyChanges {
+                target: backgroundImageMusic
+                x: 0
+                y: 0
+                anchors.topMargin: 0
+                anchors.rightMargin: 0
+                anchors.bottomMargin: 0
+                anchors.leftMargin: 0
+            }
         }
     ]
 

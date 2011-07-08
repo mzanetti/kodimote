@@ -30,21 +30,22 @@ class Playlist : public XbmcModel
 {
     Q_OBJECT
 
+    Q_ENUMS(Repeat)
     Q_PROPERTY(int count READ count NOTIFY countChanged)
     Q_PROPERTY(PlaylistItem* currentItem READ currentItem NOTIFY currentChanged)
     Q_PROPERTY(int currentTrackNumber READ currentTrackNumber NOTIFY currentChanged)
-//    Q_PROPERTY(QString currentLabel READ currentLabel NOTIFY currentChanged)
-//    Q_PROPERTY(QString currentTitle READ currentTitle NOTIFY currentChanged)
-//    Q_PROPERTY(QString currentArtist READ currentArtist NOTIFY currentChanged)
-//    Q_PROPERTY(QString currentAlbum READ currentAlbum NOTIFY currentChanged)
-//    Q_PROPERTY(QString currentFanart READ currentThumbnail NOTIFY currentChanged)
-//    Q_PROPERTY(QString currentThumbnail READ currentThumbnail NOTIFY currentChanged)
-//    Q_PROPERTY(QString currentDuration READ currentDuration NOTIFY currentChanged)
     Q_PROPERTY(bool shuffle READ shuffle WRITE setShuffle NOTIFY shuffleChanged)
+    Q_PROPERTY(Repeat repeat READ repeat WRITE setRepeat NOTIFY repeatChanged)
 
     Q_PROPERTY(Player* player READ player)
 
 public:
+    enum Repeat {
+        RepeatNone,
+        RepeatOne,
+        RepeatAll
+    };
+
     explicit Playlist(Player *parent = 0);
 
 
@@ -58,14 +59,10 @@ public:
     bool shuffle() const;
     void setShuffle(bool shuffle);
 
+    Repeat repeat() const;
+    void setRepeat(Repeat repeat);
+
     int currentTrackNumber() const;
-//    QString currentLabel() const;
-//    QString currentTitle() const;
-//    QString currentArtist() const;
-//    QString currentAlbum() const;
-//    QString currentFanart() const;
-//    QString currentThumbnail() const;
-//    QString currentDuration() const;
 
     Player *player() const;
 
@@ -105,6 +102,7 @@ protected:
     mutable int m_currentItem;
     bool m_shuffle;
     Player *m_player;
+    Repeat m_repeat;
 };
 
 #endif // PLAYLIST_H
