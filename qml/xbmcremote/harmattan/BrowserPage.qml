@@ -8,6 +8,32 @@ Page {
     anchors.margins: appWindow.pageMargin
     property QtObject model
 
+    ToolBarLayout {
+        id: toolBarBack
+        visible: false
+        ToolIcon { platformIconId: "toolbar-back";
+            anchors.left: parent===undefined ? undefined : parent.left
+            onClicked: pageStack.pop();
+        }
+        ToolIcon { platformIconId: "toolbar-dialer";
+            anchors.horizontalCenter: parent===undefined ? undefined : parent.horizontalCenter
+            onClicked: {
+                var component = Qt.createComponent("Keypad.qml")
+                if (component.status == Component.Ready) {
+                    pageStack.push(component);
+                } else {
+                    console.log("Error loading component:", component.errorString());
+                }
+            }
+        }
+        ToolIcon {
+            platformIconId: "toolbar-mediacontrol-play" + (enabled ? "" : "-dimmed");
+            enabled: xbmc.activePlayer !== null
+            anchors.right: parent===undefined ? undefined : parent.right
+            onClicked: pageStack.push(nowPlayingPage)
+        }
+    }
+
     Component.onCompleted: {
         console.log("setting model " + model)
         listView.model = model
@@ -21,7 +47,7 @@ Page {
     ListView {
         id: listView
         anchors {left: parent.left; top: listHeader.bottom; right: parent.right; bottom: parent.bottom }
-//        header: listHeader
+        //        header: listHeader
 
 
         delegate:  Item {

@@ -2,6 +2,10 @@
 #include "qmlapplicationviewer.h"
 #include "settingsdialog.h"
 
+#ifdef Q_WS_MAEMO_6
+#include "meegohelper.h"
+#endif
+
 #include <QtGui/QApplication>
 #include <QtDeclarative>
 #include <QtSystemInfo/QSystemDeviceInfo>
@@ -18,7 +22,9 @@ int main(int argc, char *argv[])
 
     QmlApplicationViewer *viewer;
     QDeclarativeView *view;
-    if(devInfo.model() != "N9") {
+
+#ifndef Q_WS_MAEMO_6
+
         QMainWindow *mainWindow = new QMainWindow();
 #ifdef Q_WS_MAEMO_5
         mainWindow->setAttribute(Qt::WA_Maemo5AutoOrientation, true);
@@ -36,11 +42,12 @@ int main(int argc, char *argv[])
         viewer->setOrientation(QmlApplicationViewer::ScreenOrientationAuto);
         viewer->setMainQmlFile(QLatin1String("qml/xbmcremote/fremantle/main.qml"));
         mainWindow->show();
-    } else {
-        view = new QDeclarativeView;
+#else
+    view = new QDeclarativeView;
         view->rootContext()->setContextProperty("xbmc", Xbmc::instance());
         view->setSource(QUrl("/opt/xbmcremote/qml/xbmcremote/harmattan/main.qml"));
         view->showFullScreen();
-    }
-    return app.exec();
+        MeeGoHelper *helper = new MeeGoHelper(&app);
+#endif
+        return app.exec();
 }

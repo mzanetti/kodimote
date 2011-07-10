@@ -10,7 +10,7 @@ PageStackWindow {
 
     MainPage{
         id: mainPage
-       // model: mainMenuModel
+        // model: mainMenuModel
     }
 
     NoConnectionPage {
@@ -25,52 +25,31 @@ PageStackWindow {
         id: toolBarEntry
         visible: false
         ToolIcon { platformIconId: "toolbar-settings";
-             anchors.left: parent===undefined ? undefined : parent.left
-             onClicked: myMenu.state == "open" ? myMenu.close() : myMenu.open()
+            anchors.left: parent===undefined ? undefined : parent.left
+            onClicked: myMenu.state == "open" ? myMenu.close() : myMenu.open()
         }
         ToolIcon { platformIconId: "toolbar-dialer";
-             anchors.horizontalCenter: parent===undefined ? undefined : parent.horizontalCenter
-             onClicked: {
-                 var component = Qt.createComponent("Keypad.qml")
-                 if (component.status == Component.Ready) {
-                     pageStack.push(component);
-                 } else {
-                     console.log("Error loading component:", component.errorString());
-                 }
-             }
+            anchors.horizontalCenter: parent===undefined ? undefined : parent.horizontalCenter
+            onClicked: {
+                var component = Qt.createComponent("Keypad.qml")
+                if (component.status == Component.Ready) {
+                    pageStack.push(component);
+                } else {
+                    console.log("Error loading component:", component.errorString());
+                }
+            }
         }
-        ToolIcon { platformIconId: "toolbar-mediacontrol-play";
-             anchors.right: parent===undefined ? undefined : parent.right
-             onClicked: pageStack.push(nowPlayingPage)
+        ToolIcon {
+            platformIconId: "toolbar-mediacontrol-play" + (enabled ? "" : "-dimmed");
+            enabled: xbmc.activePlayer !== null
+            anchors.right: parent===undefined ? undefined : parent.right
+            onClicked: pageStack.push(nowPlayingPage)
         }
-//        ToolIcon { platformIconId: "toolbar-view-menu";
-//             anchors.right: parent===undefined ? undefined : parent.right
-//             onClicked: {
-//             }
-//        }
-    }
-    ToolBarLayout {
-        id: toolBarBack
-        visible: false
-        ToolIcon { platformIconId: "toolbar-back";
-             anchors.left: parent===undefined ? undefined : parent.left
-             onClicked: pageStack.pop();
-        }
-        ToolIcon { platformIconId: "toolbar-mediacontrol-play";
-             anchors.horizontalCenter: parent===undefined ? undefined : parent.horizontalCenter
-             onClicked: pageStack.push(nowPlayingPage)
-        }
-        ToolIcon { platformIconId: "toolbar-view-menu";
-             anchors.right: parent===undefined ? undefined : parent.right
-             onClicked: {
-                 var component = Qt.createComponent("PlaylistPage.qml")
-                 if (component.status == Component.Ready) {
-                     pageStack.push(component);
-                 } else {
-                     console.log("Error loading component:", component.errorString());
-                 }
-             }
-        }
+        //        ToolIcon { platformIconId: "toolbar-view-menu";
+        //             anchors.right: parent===undefined ? undefined : parent.right
+        //             onClicked: {
+        //             }
+        //        }
     }
 
     Menu {

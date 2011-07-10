@@ -12,17 +12,32 @@ Page {
 
     property string orientation: width > height ? "landscape" : "portrait"
 
+    onPlayerChanged: {
+        if(player === null) {
+            do {
+            }while(pageStack.pop() !== mainPage);
+        }
+    }
+
     ToolBarLayout {
         id: nowPlayingToolbar
-        visible: false
-        ToolIcon { platformIconId: "toolbar-back";
+        ToolIcon { platformIconId: "toolbar-column";
              anchors.left: parent===undefined ? undefined : parent.left
-             onClicked: pageStack.pop();
+             onClicked: {
+                 pageStack.pop()
+             }
         }
-//        ToolIcon { platformIconId: "toolbar-mediacontrol-play";
-//             anchors.right: parent===undefined ? undefined : parent.right
-//             onClicked: pageStack.push(nowPlayingPage)
-//        }
+        ToolIcon { platformIconId: "toolbar-dialer";
+             anchors.horizontalCenter: parent===undefined ? undefined : parent.horizontalCenter
+             onClicked: {
+                 var component = Qt.createComponent("Keypad.qml")
+                 if (component.status == Component.Ready) {
+                     pageStack.replace(component);
+                 } else {
+                     console.log("Error loading component:", component.errorString());
+                 }
+             }
+        }
         ToolIcon { platformIconId: "toolbar-view-menu";
              anchors.right: parent===undefined ? undefined : parent.right
              onClicked: {
@@ -66,6 +81,23 @@ Page {
 //                color: "blue"
 //                anchors.fill: parent
 //            }
+
+            Rectangle {
+                id: defaultFanart
+                anchors.fill: parent
+                color:  "black"
+
+                Text {
+                    anchors.fill: parent
+                    textFormat: Text.StyledText
+                    text: "<b>" + currentItem.album + "</b> " + currentItem.album + " " + currentItem.album
+                    wrapMode: Text.WrapAnywhere
+                    color: "lightblue"
+                    font.pixelSize: 85
+                    font.capitalization: Font.AllUppercase
+                    clip: true
+                }
+            }
 
             Image {
                 anchors.fill: parent
@@ -160,8 +192,6 @@ Page {
                 anchors.bottomMargin: 20
                 text: playlist.currentTrackNumber + "/" + playlist.count
             }
-
         }
-    }
-
+    }    
 }

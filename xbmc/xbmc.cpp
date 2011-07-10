@@ -152,8 +152,9 @@ Player *Xbmc::activePlayer()
 
 void Xbmc::parseAnnouncement(const QVariantMap &map)
 {
-    qDebug() << "incoming announcement" << map << "method:" << map.value("method").toString();
-    if(map.value("method").toString() == "Player.OnPlay") {
+    QString method = map.value("method").toString();
+    qDebug() << "incoming announcement" << map << "method:" << method;
+    if(method == "Player.OnPlay" || method == "Player.OnStop") {
         int id = XbmcConnection::sendCommand("Player.GetActivePlayers");
         m_requestMap.insert(id, RequestActivePlayer);
     }
@@ -171,7 +172,7 @@ void Xbmc::responseReceived(int id, const QVariantMap &response)
 
     switch(m_requestMap.value(id)) {
     case RequestActivePlayer: {
-//        qDebug() << "active player response:" << rsp;
+        qDebug() << "active player response:" << rsp;
         QVariantMap activePlayerMap = rsp.toMap();
         if(activePlayerMap.value("audio").toBool() == true) {
             activePlayer = m_audioPlayer;
@@ -179,8 +180,10 @@ void Xbmc::responseReceived(int id, const QVariantMap &response)
         } else if(activePlayerMap.value("video").toBool() == true) {
             activePlayer = m_videoPlayer;
             m_state = "video";
-        } else if(activePlayerMap.value("pictures").toBool() == true) {
+//        } else if(activePlayerMap.value("pictures").toBool() == true) {
 //            activePlayer = m_picturePlayer;
+        } else {
+            activePlayer = 0;
         }
         if(m_activePlayer != activePlayer) {
             m_activePlayer = activePlayer;
@@ -228,6 +231,12 @@ void Xbmc::connectionChanged()
 
 void Xbmc::setVolume(int volume)
 {
+    if(volume < 0) {
+        volume = 0;
+    }
+    if(volume > 100) {
+        volume = 100;
+    }
     if(volume != m_volume) {
         QVariantMap map;
         map.insert("value", volume);

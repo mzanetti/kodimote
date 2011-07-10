@@ -4,7 +4,24 @@ import com.meego 1.0
 Page {
     id: keyPad
     anchors.fill: parent
-    tools: toolBarBack
+    tools: toolBarKeypad
+
+    ToolBarLayout {
+        id: toolBarKeypad
+        visible: false
+        ToolIcon { platformIconId: "toolbar-column";
+            anchors.left: parent===undefined ? undefined : parent.left
+            onClicked: {
+                pageStack.pop();
+            }
+        }
+        ToolIcon {
+            platformIconId: "toolbar-mediacontrol-play" + (enabled ? "" : "-dimmed");
+            enabled: xbmc.activePlayer !== null
+            anchors.right: parent===undefined ? undefined : parent.right
+            onClicked: pageStack.replace(nowPlayingPage)
+        }
+    }
 
     property QtObject keys: xbmc.keys()
 

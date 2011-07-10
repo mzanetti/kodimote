@@ -8,19 +8,6 @@ QML_IMPORT_PATH =
 
 QT += network
 
-unix:!symbian {
-    maemo5 {
-        target.path = /opt/usr/lib
-    } else {
-        target.path = /usr/local/lib
-    }
-    INSTALLS += target
-}
-symbian:TARGET.UID3 = 0xE1297420
-
-# Allow network access on Symbian
-symbian:TARGET.CAPABILITY += NetworkServices
-
 # Define QMLJSDEBUGGER to allow debugging of QML in debug builds
 # (This might significantly increase build time)
 # DEFINES += QMLJSDEBUGGER
@@ -106,3 +93,27 @@ OTHER_FILES += \
     qtc_packaging/debian_harmattan/control \
     qtc_packaging/debian_harmattan/compat \
     qtc_packaging/debian_harmattan/changelog
+
+
+unix:!symbian {
+    maemo5 {
+        target.path = /opt/usr/lib
+    }
+    INSTALLS += target
+}
+
+#contains (MEEGO_FLAVOR, "harmattan") { # This will be added soon, in the meantime use workaround
+exists($$QMAKE_INCDIR_QT"/../qmsystem2/qmkeys.h") {
+    message(Harmattan build)
+    DEFINES += Q_WS_MAEMO_6
+    target.path = /opt/usr/bin
+    CONFIG += qmsystem2
+    DEFINES += Q_WS_MAEMO_6
+    SOURCES += meegohelper.cpp
+    HEADERS += meegohelper.h
+}
+
+symbian:TARGET.UID3 = 0xE1297420
+
+# Allow network access on Symbian
+symbian:TARGET.CAPABILITY += NetworkServices
