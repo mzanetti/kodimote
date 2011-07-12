@@ -38,7 +38,7 @@ void connect(const QString &hostname, int port)
 
 int sendCommand(const QString &command, const QVariant &params)
 {
-   return instance()->sendCommand2(command, params);
+   return instance()->sendCommand(command, params);
 }
 
 QString vfsPath()
@@ -91,7 +91,7 @@ void XbmcConnectionPrivate::connect(const QString &hostname, int port)
     m_port = port;
 
     qDebug() << "connecting to" << hostname;
-    // We always connect to telnet on port 9090 for now
+    // We connect to telnet on port 9090 for the announcements
     m_socket->connectToHost(hostname, 9090);
 
 }
@@ -117,27 +117,41 @@ QString XbmcConnectionPrivate::vfsPath()
     return "http://" + m_hostName + ':' + QString::number(m_port) + "/vfs/";
 }
 
-int XbmcConnectionPrivate::sendCommand2(const QString &command, const QVariant &parms) {
-    QNetworkRequest request;
-    request.setUrl(QUrl("http://10.10.10.100:8080/jsonrpc"));
+void XbmcConnectionPrivate::sendNextCommand2() {
 
-    QVariantMap map;
-    map.insert("jsonrpc", "2.0");
-    map.insert("method", command);
-    map.insert("id", m_commandId);
-
-    if(!parms.isNull()) {
-        map.insert("params", parms);
+    if(m_currentPendingId >= 0 || m_socket->state() != QAbstractSocket::ConnectedState) {
+//        qDebug() << "cannot send... busy";
+        return;
     }
+    if(m_commandQueue.count() > 0) {
+        Command command = m_commandQueue.takeFirst();
 
-    QJson::Serializer serializer;
-    QByteArray data = serializer.serialize(map);
+        QNetworkRequest request;
+        request.setUrl(QUrl("http://10.10.10.100:8080/jsonrpc"));
 
-    qDebug() << "Sending data:" << data;
+        QVariantMap map;
+        map.insert("jsonrpc", "2.0");
+        map.insert("method", command.command());
+        map.insert("id", command.id());
 
-    QNetworkReply * reply = m_network->post(request, data);
-    QObject::connect(reply, SIGNAL(finished()), SLOT(replyReceived()));
-    return m_commandId++;
+        if(!command.params().isNull()) {
+            map.insert("params", command.params());
+        }
+
+        QJson::Serializer serializer;
+        QByteArray data = serializer.serialize(map);
+//        qDebug() << "ater serializing:" << data;
+        QString dataStr = QString::fromLatin1(data);
+#ifdef DEBUGJSON
+//        qDebug() << "sending command 1" << dataStr;
+        qDebug() << "sending command" << dataStr.toLocal8Bit();
+#endif
+        QNetworkReply * reply = m_network->post(request, data);
+        QObject::connect(reply, SIGNAL(finished()), SLOT(replyReceived()));
+
+        m_currentPendingId = command.id();
+        m_timeoutTimer.start();
+    }
 }
 
 void XbmcConnectionPrivate::replyReceived()
@@ -188,7 +202,7 @@ void XbmcConnectionPrivate::replyReceived()
                 m_timeoutTimer.stop();
                 m_currentPendingId = -1;
             }
-            sendNextCommand();
+            sendNextCommand2();
             continue;
         }
         qDebug() << "received unhandled data" << commands;
@@ -200,7 +214,7 @@ int XbmcConnectionPrivate::sendCommand(const QString &command, const QVariant &p
     int id = m_commandId++;
     Command cmd(id, command, params);
     m_commandQueue.append(cmd);
-    sendNextCommand();
+    sendNextCommand2();
 
     if(m_commandId < 0) {
         m_commandId = 0;
@@ -299,7 +313,7 @@ void XbmcConnectionPrivate::readData()
                 m_timeoutTimer.stop();
                 m_currentPendingId = -1;
             }
-            sendNextCommand();
+            sendNextCommand2();
             continue;
         }
         qDebug() << "received unhandled data" << data;
@@ -316,7 +330,7 @@ void XbmcConnectionPrivate::clearPending()
     } else {
         qDebug() << "Still nothing... discarding packet";
         m_currentPendingId = -1;
-        sendNextCommand();
+        sendNextCommand2();
     }
 }
 

@@ -55,7 +55,7 @@ Xbmc::Xbmc(QObject *parent) :
 
     QSettings settings("xbmcremote");
     m_hostname = settings.value("Host").toString();
-    m_port = settings.value("Port").toInt();
+    m_port = settings.value("Port", 8080).toInt();
 
     XbmcConnection::connect(m_hostname, m_port);
 //    XbmcConnection::connect("10.10.10.10", 8080);

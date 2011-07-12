@@ -111,7 +111,11 @@ symbian {
         export($$itempath)
         INSTALLS += $$item
     }
-    icon.files = $${TARGET}.png
+    maemo5 {
+        icon.files = $${TARGET}_fremantle.png
+    } else {
+        icon.files = $${TARGET}_harmattan.png
+    }
     icon.path = /usr/share/icons/hicolor/64x64/apps
     desktopfile.files = $${TARGET}.desktop
     target.path = $${installPrefix}/bin

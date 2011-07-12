@@ -97,7 +97,7 @@ OTHER_FILES += \
 
 unix:!symbian {
     maemo5 {
-        target.path = /opt/usr/lib
+        target.path = /opt/usr/bin
     }
     INSTALLS += target
 }

@@ -57,7 +57,6 @@ public:
     void connect(const QString &hostname, int port);
 
     int sendCommand(const QString &command, const QVariant &parms = QVariant());
-    int sendCommand2(const QString &command, const QVariant &parms = QVariant());
 
     QString vfsPath();
 
@@ -82,6 +81,7 @@ private:
     QTimer m_timeoutTimer;
 
     void sendNextCommand();
+    void sendNextCommand2();
 
     QString m_hostName;
     int m_port;
