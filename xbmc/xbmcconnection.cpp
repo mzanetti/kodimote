@@ -127,7 +127,7 @@ void XbmcConnectionPrivate::sendNextCommand2() {
         Command command = m_commandQueue.takeFirst();
 
         QNetworkRequest request;
-        request.setUrl(QUrl("http://10.10.10.100:8080/jsonrpc"));
+        request.setUrl(QUrl("http://" + m_hostName + ":" + QString::number(m_port) + "/jsonrpc"));
 
         QVariantMap map;
         map.insert("jsonrpc", "2.0");
@@ -144,7 +144,7 @@ void XbmcConnectionPrivate::sendNextCommand2() {
         QString dataStr = QString::fromLatin1(data);
 #ifdef DEBUGJSON
 //        qDebug() << "sending command 1" << dataStr;
-        qDebug() << "sending command" << dataStr.toLocal8Bit();
+        qDebug() << "sending command to" << request.url() << ":" << dataStr.toLocal8Bit();
 #endif
         QNetworkReply * reply = m_network->post(request, data);
         QObject::connect(reply, SIGNAL(finished()), SLOT(replyReceived()));
@@ -323,7 +323,7 @@ void XbmcConnectionPrivate::readData()
 void XbmcConnectionPrivate::clearPending()
 {
     int waitingFor = m_currentPendingId;
-    readData();
+//    readData();
     qDebug() << "timeouttimer hit!";
     if(m_currentPendingId != waitingFor) {
         qDebug() << "ok... data is here now..";

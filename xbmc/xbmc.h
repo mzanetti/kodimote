@@ -69,6 +69,7 @@ private slots:
     void parseAnnouncement(const QVariantMap &map);
     void responseReceived(int id, const QVariantMap &rsp);
     void connectionChanged();
+    void init();
 
 private:
     static Xbmc *s_instance;

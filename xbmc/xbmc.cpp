@@ -64,12 +64,6 @@ Xbmc::Xbmc(QObject *parent) :
     connect(XbmcConnection::notifier(), SIGNAL(receivedAnnouncement(QVariantMap)), SLOT(parseAnnouncement(QVariantMap)));
     connect(XbmcConnection::notifier(), SIGNAL(responseReceived(int,QVariantMap)), SLOT(responseReceived(int,QVariantMap)));
 
-    int id = XbmcConnection::sendCommand("Player.GetActivePlayers");
-    m_requestMap.insert(id, RequestActivePlayer);
-
-    id = XbmcConnection::sendCommand("XBMC.GetVolume");
-    m_requestMap.insert(id, RequestVolume);
-
     m_audioPlayer = new AudioPlayer(this);
     m_videoPlayer = new VideoPlayer(this);
     m_activePlayer = m_audioPlayer;
@@ -80,6 +74,16 @@ Xbmc::Xbmc(QObject *parent) :
 
 Xbmc::~Xbmc()
 {
+}
+
+void Xbmc::init()
+{
+    int id = XbmcConnection::sendCommand("Player.GetActivePlayers");
+    m_requestMap.insert(id, RequestActivePlayer);
+
+    id = XbmcConnection::sendCommand("XBMC.GetVolume");
+    m_requestMap.insert(id, RequestVolume);
+
 }
 
 bool Xbmc::connected()
@@ -224,7 +228,7 @@ Keys *Xbmc::keys()
 void Xbmc::connectionChanged()
 {
     if(connected()) {
-        m_requestMap.insert(XbmcConnection::sendCommand("XBMC.GetVolume"), RequestVolume);
+        init();
     }
     emit connectedChanged();
 }
