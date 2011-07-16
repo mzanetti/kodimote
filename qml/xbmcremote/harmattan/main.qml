@@ -72,17 +72,18 @@ PageStackWindow {
 
     onConnectedChanged: {
         console.log("connectedChanged " + connected)
+        pageStack.clear();
         if(!connected) {
             var component = Qt.createComponent("NoConnectionPage.qml")
             if (component.status == Component.Ready) {
-                pageStack.replace(component);
+                pageStack.push(component);
             } else {
                 console.log("Error loading component:", component.errorString());
             }
         } else {
             var component = Qt.createComponent("MainPage.qml")
-            if (component.status == Component.Ready && pageStack.busy == false) {
-                pageStack.replace(component);
+            if (component.status == Component.Ready) {
+                pageStack.push(component);
             } else {
                 console.log("Error loading component:", component.errorString());
             }
