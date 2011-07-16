@@ -112,7 +112,7 @@ symbian {
         INSTALLS += $$item
     }
     maemo5 {
-        icon.files = $${TARGET}_fremantle.png
+        icon.files = $${TARGET}.png
     } else {
         icon.files = $${TARGET}_harmattan.png
     }
