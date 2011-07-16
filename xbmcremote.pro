@@ -95,13 +95,6 @@ OTHER_FILES += \
     qtc_packaging/debian_harmattan/changelog
 
 
-unix:!symbian {
-    maemo5 {
-        target.path = /opt/usr/bin
-    }
-    INSTALLS += target
-}
-
 #contains (MEEGO_FLAVOR, "harmattan") { # This will be added soon, in the meantime use workaround
 exists($$QMAKE_INCDIR_QT"/../qmsystem2/qmkeys.h") {
     message(Harmattan build)

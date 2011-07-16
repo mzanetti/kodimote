@@ -8,17 +8,10 @@
 
 #include <QtGui/QApplication>
 #include <QtDeclarative>
-#include <QtSystemInfo/QSystemDeviceInfo>
-
-QTM_USE_NAMESPACE
 
 int main(int argc, char *argv[])
 {
     QApplication app(argc, argv);
-
-    QSystemDeviceInfo devInfo;
-
-    qDebug() << devInfo.model();
 
     QmlApplicationViewer *viewer;
     QDeclarativeView *view;
@@ -40,7 +33,7 @@ int main(int argc, char *argv[])
 
         viewer->rootContext()->setContextProperty("xbmc", Xbmc::instance());
         viewer->setOrientation(QmlApplicationViewer::ScreenOrientationAuto);
-        viewer->setMainQmlFile(QLatin1String("/opt/xbmcremote/qml/xbmcremote/fremantle/main.qml"));
+        viewer->setMainQmlFile(QLatin1String("qml/xbmcremote/fremantle/main.qml"));
         mainWindow->show();
 #else
     view = new QDeclarativeView;
