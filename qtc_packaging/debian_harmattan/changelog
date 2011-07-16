@@ -1,5 +1,7 @@
-xbmcremote (0.1.4-0) unstable; urgency=low
+xbmcremote (0.2.1-harmattan0) unstable; urgency=low
 
-  * Initial Release.
+  * Fix connection problem
+  * Fix freeze on reconnect
+  * Correctly refresh when changing connection
 
- -- unknown <micha@unknown>  Tue, 21 Jun 2011 18:57:39 +0200
+ -- unknown <mzanetti@kde.org>  Sat, 16 Jul 2011 10:20:39 +0200

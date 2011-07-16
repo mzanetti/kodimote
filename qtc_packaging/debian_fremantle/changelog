@@ -1,5 +1,8 @@
-xbmcremote (0.1.4-0) unstable; urgency=low
+xbmcremote (0.2.1-fremantle0) unstable; urgency=low
 
-  * Improved character set problems
+  * Fix connection problem
+  * Fix freeze on reconnect
+  * Correctly refresh when changing connection
+  * Fix application icon
 
- -- Michael Zanetti <mzanetti@kde.org>  Tue, 19 June 2011 09:59:00 +0200
+ -- Michael Zanetti <mzanetti@kde.org>  Sat, 16 Jul 2011 10:20:39 +0200
