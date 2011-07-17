@@ -160,7 +160,7 @@ Rectangle {
             anchors.fill: parent
             horizontalAlignment: Text.AlignHCenter
             verticalAlignment: Text.AlignVCenter
-            text: "Could not connect to Xbmc. Please check your network connection and settings."
+            text: xbmc.connectionError
             wrapMode: Text.WordWrap
             color: "white"
             font.pixelSize: 28

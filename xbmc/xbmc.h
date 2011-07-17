@@ -19,6 +19,7 @@ class Xbmc : public QObject
 {
     Q_OBJECT
     Q_PROPERTY(bool connected READ connected NOTIFY connectedChanged)
+    Q_PROPERTY(QString connectionError READ connectionError NOTIFY connectedChanged)
     Q_PROPERTY(QString hostname READ hostname WRITE setHostname NOTIFY hostnameChanged)
     Q_PROPERTY(int port READ port WRITE setPort NOTIFY portChanged)
     Q_PROPERTY(QString vfsPath READ vfsPath NOTIFY vfsPathChanged)
@@ -42,6 +43,7 @@ public:
     Q_INVOKABLE Keys *keys();
 
     bool connected();
+    QString connectionError();
     Q_INVOKABLE void connectToHost();
 
     QString hostname();

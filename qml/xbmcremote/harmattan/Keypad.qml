@@ -24,89 +24,121 @@ Page {
     }
 
     property QtObject keys: xbmc.keys()
+    property string orientation: width > height ? "landscape" : "portrait"
 
-    Column {
-        width: (arrowUp.width + spacing) * 3
-        anchors.centerIn: parent
-        spacing: 20
-        Row {
-            width: parent.width
-            Image {
-                id: arrowUp
-                source: "icons/button-arrow-up.png"
-                anchors.centerIn: parent
-                MouseArea {
-                    anchors.fill: parent
-                    onClicked: keys.up();
-                }
-            }
-        }
-        Row {
-            width: parent.width
-            spacing: 20
-            Image {
-                id: arrowLeft
-                source: "icons/button-arrow-up.png"
-                rotation: -90
-                anchors.left: parent.left
-                MouseArea {
-                    anchors.fill: parent
-                    onClicked: keys.left();
-                }
-            }
-            Image {
-                id: okButton
-                source: "icons/button-ok.png"
-                anchors.centerIn: parent
-                MouseArea {
-                    anchors.fill: parent
-                    onClicked: keys.select();
-                }
-            }
-            Image {
-                id: arrowRight
-                source: "icons/button-arrow-up.png"
-                rotation: 90
-                anchors.right: parent.right
-                MouseArea {
-                    anchors.fill: parent
-                    onClicked: keys.right();
-                }
-            }
+    Grid {
+        anchors.fill: parent
+        anchors.margins: 30
+        columns: orientation == "portrait" ? 1 : 3
 
-        }
-        Row {
-            width: parent.width
-            Image {
-                id: arrowDown
-                source: "icons/button-arrow-up.png"
-                rotation: 180
+        Item {
+            anchors.left: parent.left
+            anchors.top: parent.top
+            height: orientation == "portrait" ? crossCol.height : parent.height
+            width: orientation == "portrait" ? parent.width : crossCol.width
+//            Rectangle { color: "green"; anchors.fill: parent }
+            Grid {
+                id: crossCol
+                spacing: 20
+                columns: 3
                 anchors.centerIn: parent
-                MouseArea {
-                    anchors.fill: parent
-                    onClicked: keys.down();
+                Item {
+                    width: arrowUp.width
+                    height: arrowUp.height
+                }
+                Image {
+                    id: arrowUp
+                    source: "icons/button-arrow-up.png"
+                    MouseArea {
+                        anchors.fill: parent
+                        onClicked: keys.up();
+                    }
+                }
+                Item {
+                    width: arrowUp.width
+                    height: arrowUp.height
+                }
+                Image {
+                    id: arrowLeft
+                    source: "icons/button-arrow-up.png"
+                    rotation: -90
+                    MouseArea {
+                        anchors.fill: parent
+                        onClicked: keys.left();
+                    }
+                }
+                Image {
+                    id: okButton
+                    source: "icons/button-ok.png"
+                    MouseArea {
+                        anchors.fill: parent
+                        onClicked: keys.select();
+                    }
+                }
+                Image {
+                    id: arrowRight
+                    source: "icons/button-arrow-up.png"
+                    rotation: 90
+                    MouseArea {
+                        anchors.fill: parent
+                        onClicked: keys.right();
+                    }
+                }
+                Item {
+                    width: arrowUp.width
+                    height: arrowUp.height
+                }
+                Image {
+                    id: arrowDown
+                    source: "icons/button-arrow-up.png"
+                    rotation: 180
+                    MouseArea {
+                        anchors.fill: parent
+                        onClicked: keys.down();
+                    }
+                }
+                Item {
+                    width: arrowUp.width
+                    height: arrowUp.height
                 }
             }
         }
-        Row {
-            width: parent.width
-            spacing: 20
-            Image {
-                id: backButton
-                source: "icons/button-back.png"
-                anchors.left: parent.left
-                MouseArea {
-                    anchors.fill: parent
-                    onClicked: keys.back();
+        Item {
+            width: orientation == "portrait" ? parent.width : parent.width - crossCol.width - buttonRow.width
+            height: orientation == "portrait" ? 20 : parent.height
+//            Rectangle {color: "red"; anchors.fill: parent }
+        }
+
+        Item {
+            id: buttonRow
+            width: orientation == "portrait" ? parent.width : buttonRowGrid.width
+            height: orientation == "portrait" ? buttonRowGrid.height : parent.height
+//            Rectangle {color: "blue"; anchors.fill: parent }
+            Grid {
+                anchors.centerIn: parent
+                id: buttonRowGrid
+                spacing: 20
+                columns: orientation == "portrait" ? 3 : 1
+                Image {
+                    id: backButton
+                    source: "icons/button-back.png"
+                    MouseArea {
+                        anchors.fill: parent
+                        onClicked: keys.back();
+                    }
                 }
-            }
-            Image {
-                id: homeButton
-                source: "icons/button-menu.png"
-                anchors.right: parent.right
-                MouseArea {
-                    anchors.fill: parent
-                    onClicked: keys.home();
+                Item {
+                    width: homeButton.width
+                    height: homeButton.height
+                }
+
+                Image {
+                    id: homeButton
+                    source: "icons/button-menu.png"
+                    MouseArea {
+                        anchors.fill: parent
+                        onClicked: keys.home();
+                    }
                 }
             }
         }

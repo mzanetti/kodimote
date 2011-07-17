@@ -4,4 +4,4 @@ xbmcremote (0.2.1-harmattan0) unstable; urgency=low
   * Fix freeze on reconnect
   * Correctly refresh when changing connection
 
- -- unknown <mzanetti@kde.org>  Sat, 16 Jul 2011 10:20:39 +0200
+ -- Michael Zanetti <mzanetti@kde.org>  Sat, 16 Jul 2011 10:20:39 +0200

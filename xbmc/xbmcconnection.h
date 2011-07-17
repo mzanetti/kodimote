@@ -32,6 +32,7 @@ int sendCommand(const QString &command, const QVariant &params = QVariant());
 QString vfsPath();
 
 bool connected();
+QString connectionError();
 
 class Notifier: public QObject
 {

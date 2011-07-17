@@ -6,7 +6,10 @@ Page {
     Label {
         id: label
         anchors.centerIn: parent
-        text: qsTr("Could not connect to xbmc.\n Please check your network connection.")
+        width: parent.width - 100
+        text: xbmc.connectionError
+        wrapMode: Text.WordWrap
+        horizontalAlignment: Text.AlignHCenter
 
 //        visible: false
     }

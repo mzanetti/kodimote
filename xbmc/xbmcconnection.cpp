@@ -56,6 +56,11 @@ bool connected()
     return instance()->connected();
 }
 
+QString connectionError()
+{
+    return instance()->connectionError();
+}
+
 /*****************************************************************
   Private impl
   ***************************************************************/
@@ -63,16 +68,18 @@ bool connected()
 XbmcConnectionPrivate::XbmcConnectionPrivate(QObject *parent) :
     QObject(parent),
     m_commandId(0),
-    m_currentPendingId(-1)
+    m_currentPendingId(-1),
+    m_versionRequestId(-1),
+    m_connected(false)
 {
     m_socket = new QTcpSocket();
     m_notifier = new XbmcConnection::Notifier();
 
     QObject::connect(m_socket, SIGNAL(readyRead()), SLOT(readData()));
-    QObject::connect(m_socket, SIGNAL(connected()), m_notifier, SIGNAL(connectionChanged()));
-//    QObject::connect(m_socket, SIGNAL(error(QAbstractSocket::SocketError)), SLOT(socketError()));
+//    QObject::connect(m_socket, SIGNAL(connected()), m_notifier, SIGNAL(connectionChanged()));
+    QObject::connect(m_socket, SIGNAL(error(QAbstractSocket::SocketError)), SLOT(socketError()));
     QObject::connect(m_socket, SIGNAL(connected()), SLOT(slotConnected()));
-    QObject::connect(m_socket, SIGNAL(disconnected()), m_notifier, SIGNAL(connectionChanged()));
+    QObject::connect(m_socket, SIGNAL(disconnected()), SLOT(slotDisconnected()));
 
     m_timeoutTimer.setInterval(1000);
     m_timeoutTimer.setSingleShot(true);
@@ -94,20 +101,36 @@ void XbmcConnectionPrivate::connect(const QString &hostname, int port)
     // We connect to telnet on port 9090 for the announcements
     m_socket->connectToHost(hostname, 9090);
 
+    m_connectionError = "Connecting to " + hostname + "...";
+    emit m_notifier->connectionChanged();
 }
 
 void XbmcConnectionPrivate::slotConnected()
 {
-    qDebug() << "connected";
+    qDebug() << "Connected to remote host. Asking for version...";
+
+    m_versionRequestId = m_commandId++;
+    Command cmd(m_versionRequestId, "JSONRPC.Version", QVariant());
+    m_commandQueue.prepend(cmd);
+    sendNextCommand2();
+}
+
+void XbmcConnectionPrivate::slotDisconnected()
+{
+    if(!m_connected) {
+        qDebug() << "No connection yet, cannot disconnect.";
+    }
+    qDebug() << "Disconnected";
+    m_connected = false;
+    m_connectionError = "The connection has been disconnected";
     emit m_notifier->connectionChanged();
-    sendNextCommand();
 }
 
 void XbmcConnectionPrivate::socketError()
 {
-    qDebug() << "connection error";
-    QString QStringErrorString = m_socket->errorString();
-    qDebug() << QStringErrorString;
+    QString errorString = m_socket->errorString();
+    qDebug() << "connection error:" << errorString;
+    m_connectionError = "Connection failed: " + errorString;
     emit m_notifier->connectionChanged();
 }
 
@@ -156,7 +179,14 @@ void XbmcConnectionPrivate::sendNextCommand2() {
 
 void XbmcConnectionPrivate::replyReceived()
 {
-    QString commands = static_cast<QNetworkReply*>(sender())->readAll();
+    QNetworkReply *reply = static_cast<QNetworkReply*>(sender());
+    QString commands = reply->readAll();
+    if(reply->error() != QNetworkReply::NoError) {
+        m_socket->disconnectFromHost();
+        m_connectionError = "Connection failed: " + reply->errorString();
+        emit m_notifier->connectionChanged();
+    }
+
     qDebug() << "received reply:" << commands;
 
     QStringList commandsList = commands.split("}{");
@@ -187,6 +217,20 @@ void XbmcConnectionPrivate::replyReceived()
 //        qDebug() << "finished parsing after" << t.msecsTo(QTime::currentTime());
 
 //        qDebug() << ">>> Incoming:" << data;
+
+        if(rsp.value("id").toInt() == m_versionRequestId) {
+            if(rsp.value("result").toMap().value("version").toInt() >= 3) {
+                sendNextCommand2();
+                m_connected = true;
+                m_connectionError.clear();
+            } else {
+                qDebug() << "XBMC is to old!";
+                m_socket->disconnectFromHost();
+                m_connectionError = "Connection failed: This version of xbmc is to old. Please upgrade to a newer version.";
+            }
+            emit m_notifier->connectionChanged();
+            return;
+        }
 
         if(rsp.value("params").toMap().value("sender").toString() == "xbmc") {
             qDebug() << ">>> received announcement" << rsp;
@@ -341,7 +385,12 @@ Notifier *XbmcConnectionPrivate::notifier()
 
 bool XbmcConnectionPrivate::connected()
 {
-    return m_socket->state() == QAbstractSocket::ConnectedState;
+    return m_connected;
+}
+
+QString XbmcConnectionPrivate::connectionError()
+{
+    return m_connectionError;
 }
 
 }

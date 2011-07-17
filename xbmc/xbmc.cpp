@@ -88,8 +88,12 @@ void Xbmc::init()
 
 bool Xbmc::connected()
 {
-    qDebug() << "****" << XbmcConnection::connected();
     return XbmcConnection::connected();
+}
+
+QString Xbmc::connectionError()
+{
+    return XbmcConnection::connectionError();
 }
 
 AudioLibrary *Xbmc::audioLibrary()

@@ -63,18 +63,21 @@ public:
     Notifier *notifier();
 
     bool connected();
+    QString connectionError();
 
 private slots:
     void readData();
     void clearPending();
     void socketError();
     void slotConnected();
+    void slotDisconnected();
 
     void replyReceived();
 private:
     QTcpSocket *m_socket;
     int m_commandId;
     Notifier *m_notifier;
+    int m_versionRequestId;
 
     QList<Command> m_commandQueue;
     int m_currentPendingId;
@@ -87,6 +90,8 @@ private:
     int m_port;
 
     QNetworkAccessManager *m_network;
+    bool m_connected;
+    QString m_connectionError;
 
 };
 Q_GLOBAL_STATIC(XbmcConnectionPrivate, instance)
