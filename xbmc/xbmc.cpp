@@ -149,7 +149,6 @@ void Xbmc::setPort(int port)
 
 void Xbmc::connectToHost()
 {
-    qDebug() << "fdfdsfsdafas";
     XbmcConnection::connect(m_hostname, m_port);
 }
 
@@ -234,7 +233,8 @@ void Xbmc::connectionChanged()
     if(connected()) {
         init();
     }
-    emit connectedChanged();
+    qDebug() << "Connection changed to " << connected();
+    emit connectedChanged(connected());
 }
 
 void Xbmc::setVolume(int volume)
@@ -257,4 +257,9 @@ void Xbmc::setVolume(int volume)
 int Xbmc::volume()
 {
     return m_volume;
+}
+
+void Xbmc::quit()
+{
+    XbmcConnection::sendCommand("XBMC.Quit");
 }

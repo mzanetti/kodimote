@@ -67,6 +67,12 @@ PageStackWindow {
                     }
                 }
             }
+            MenuItem {
+                text: "Quit xbmc"
+                onClicked: {
+                    quitDialog.open();
+                }
+            }
         }
     }
 
@@ -87,6 +93,18 @@ PageStackWindow {
             } else {
                 console.log("Error loading component:", component.errorString());
             }
+        }
+    }
+
+    QueryDialog {
+        id: quitDialog
+        message: "Do you want to quit xbmc?"
+        acceptButtonText: "Yes"
+        rejectButtonText: "No"
+        titleText: "Are you sure?"
+        onAccepted:
+        {
+            xbmc.quit();
         }
     }
 

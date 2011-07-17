@@ -58,8 +58,11 @@ public:
     Q_INVOKABLE void setVolume(int volume);
     int volume();
 
+public slots:
+    void quit();
+
 signals:
-    void connectedChanged();
+    void connectedChanged(bool connected);
     void activePlayerChanged();
     void volumeChanged(int volume);
     void vfsPathChanged();
