@@ -26,67 +26,104 @@ BorderImage {
 //            Rectangle { color: "green"; anchors.fill: parent }
             Grid {
                 id: crossCol
-                spacing: 20
+                spacing: -30
                 columns: 3
                 anchors.centerIn: parent
                 Item {
-                    width: arrowUp.width
+                    width: arrowLeft.width
                     height: arrowUp.height
                 }
                 Image {
                     id: arrowUp
-                    source: "images/button-arrow-up.png"
+                    source: "images/up_u.png"
                     MouseArea {
+                        id: upMouseArea
                         anchors.fill: parent
                         onClicked: keys.up();
                     }
+                    states: [
+                        State {
+                            when: upMouseArea.pressed;
+                            PropertyChanges { target: arrowUp; source: "images/up_d.png" }
+                        }
+                    ]
                 }
                 Item {
-                    width: arrowUp.width
+                    width: arrowRight.width
                     height: arrowUp.height
                 }
                 Image {
                     id: arrowLeft
-                    source: "images/button-arrow-up.png"
-                    rotation: -90
+                    source: "images/left_u.png"
                     MouseArea {
+                        id: leftMouseArea
                         anchors.fill: parent
                         onClicked: keys.left();
                     }
+                    states: [
+                        State {
+                            when: leftMouseArea.pressed;
+                            PropertyChanges { target: arrowLeft; source: "images/left_d.png" }
+                        }
+                    ]
                 }
-                Image {
-                    id: okButton
-                    source: "images/button-ok.png"
-                    MouseArea {
-                        anchors.fill: parent
-                        onClicked: keys.select();
+                Item {
+                    height: arrowLeft.height
+                    width: arrowUp.width
+                    Image {
+                        anchors.centerIn: parent
+                        id: okButton
+                        source: "images/middle_u.png"
+                        MouseArea {
+                            id: okMouseArea
+                            anchors.fill: parent
+                            onClicked: keys.select();
+                        }
+                        states: [
+                            State {
+                                when: okMouseArea.pressed;
+                                PropertyChanges { target: okButton; source: "images/middle_d.png" }
+                            }
+                        ]
                     }
                 }
                 Image {
                     id: arrowRight
-                    source: "images/button-arrow-up.png"
-                    rotation: 90
+                    source: "images/right_u.png"
                     MouseArea {
+                        id: rightMouseArea
                         anchors.fill: parent
                         onClicked: keys.right();
                     }
+                    states: [
+                        State {
+                            when: rightMouseArea.pressed;
+                            PropertyChanges { target: arrowRight; source: "images/right_d.png" }
+                        }
+                    ]
                 }
                 Item {
-                    width: arrowUp.width
-                    height: arrowUp.height
+                    width: arrowLeft.width
+                    height: arrowDown.height
                 }
                 Image {
                     id: arrowDown
-                    source: "images/button-arrow-up.png"
-                    rotation: 180
+                    source: "images/down_u.png"
                     MouseArea {
+                        id: downMouseArea
                         anchors.fill: parent
                         onClicked: keys.down();
                     }
+                    states: [
+                        State {
+                            when: downMouseArea.pressed;
+                            PropertyChanges { target: arrowDown; source: "images/down_d.png" }
+                        }
+                    ]
                 }
                 Item {
-                    width: arrowUp.width
-                    height: arrowUp.height
+                    width: arrowRight.width
+                    height: arrowDown.height
                 }
             }
         }
@@ -108,11 +145,18 @@ BorderImage {
                 columns: orientation == "portrait" ? 3 : 1
                 Image {
                     id: backButton
-                    source: "images/button-back.png"
+                    source: "images/back_u.png"
                     MouseArea {
+                        id: backMouseArea
                         anchors.fill: parent
                         onClicked: keys.back();
                     }
+                    states: [
+                        State {
+                            when: backMouseArea.pressed;
+                            PropertyChanges { target: backButton; source: "images/back_d.png" }
+                        }
+                    ]
                 }
                 Item {
                     width: homeButton.width
@@ -121,11 +165,18 @@ BorderImage {
 
                 Image {
                     id: homeButton
-                    source: "images/button-menu.png"
+                    source: "images/button2_u.png"
                     MouseArea {
+                        id: homeMouseArea
                         anchors.fill: parent
                         onClicked: keys.home();
                     }
+                    states: [
+                        State {
+                            when: homeMouseArea.pressed;
+                            PropertyChanges { target: homeButton; source: "images/button2_d.png" }
+                        }
+                    ]
                 }
             }
         }

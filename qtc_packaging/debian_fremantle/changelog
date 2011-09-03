@@ -1,8 +1,5 @@
-xbmcremote (0.2.1-fremantle0) unstable; urgency=low
+xbmcremote (0.3.0-fremantle0) unstable; urgency=low
 
-  * Fix connection problem
-  * Fix freeze on reconnect
-  * Correctly refresh when changing connection
-  * Fix application icon
+  * New artwork for the buttons thanks to Johannes Siipola <joppu@kapsi.fi>
 
  -- Michael Zanetti <mzanetti@kde.org>  Sat, 16 Jul 2011 10:20:39 +0200
