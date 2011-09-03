@@ -137,7 +137,7 @@ BorderImage {
             id: buttonRow
             width: orientation == "portrait" ? parent.width : buttonRowGrid.width
             height: orientation == "portrait" ? buttonRowGrid.height : parent.height
-            Rectangle {color: "blue"; anchors.fill: parent }
+//            Rectangle {color: "blue"; anchors.fill: parent }
             Grid {
                 anchors.centerIn: parent
                 id: buttonRowGrid
@@ -160,13 +160,13 @@ BorderImage {
                 }
                 Item {
                     width: homeButton.width
-                    height: homeButton.height
-                    visible: orientation == "portrait"
+//                    height: homeButton.height
+                    height: orientation == "portrait" ? homeButton.height : homeButton.height / 2
                 }
 
                 Image {
                     id: homeButton
-                    source: "images/button2_u1.png"
+                    source: "images/button2_u.png"
                     MouseArea {
                         id: homeMouseArea
                         anchors.fill: parent
