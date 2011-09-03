@@ -41,7 +41,7 @@ Page {
 
     Component.onDestruction: {
         console.log("model is " + model)
-        model.close();
+        model.exit();
     }
 
     ListView {
