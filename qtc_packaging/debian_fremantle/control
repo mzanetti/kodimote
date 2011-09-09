@@ -1,5 +1,5 @@
 Source: xbmcremote
-Section: user/multimedia
+Section: user/other
 Priority: optional
 Maintainer: Michael Zanetti <mzanetti@kde.org>
 Build-Depends: debhelper (>= 5), libqt4-dev
