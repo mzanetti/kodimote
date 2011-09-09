@@ -68,6 +68,12 @@ PageStackWindow {
                 }
             }
             MenuItem {
+                text: "About"
+                onClicked: {
+                    aboutDialog.open();
+                }
+            }
+            MenuItem {
                 text: "Quit xbmc"
                 onClicked: {
                     quitDialog.open();
@@ -105,6 +111,56 @@ PageStackWindow {
         onAccepted:
         {
             xbmc.quit();
+        }
+    }
+
+    Dialog {
+        id: aboutDialog
+
+        title: Item {
+            height: 200
+            width: parent.width
+            Image {
+                id: icon
+                anchors.top: parent.top
+                anchors.horizontalCenter: parent.horizontalCenter
+                source: "icons/xbmcremote_harmattan.png"
+            }
+            Text {
+                anchors.top: icon.bottom
+                anchors.horizontalCenter: parent.horizontalCenter
+                anchors.topMargin: 20
+                color: "white"
+                font.pixelSize: 32
+                text: "Xbmcremote 0.3.1"
+            }
+
+        }
+
+        content:Item {
+          id: name
+          height: 200
+          width: parent.width
+          Label {
+            id: text
+            font.pixelSize: 22
+            anchors.centerIn: parent
+            color: "white"
+            text: "Copyright\n Michael Zanetti\n michael_zanetti@gmx.net\n\nThanks to\n Xbmc Development Team (artwork)\n Johannes Siipola (artwork)"
+          }
+        }
+
+        buttons {
+            Button {
+                id: closeButton
+                text: "close"; onClicked: aboutDialog.close()
+            }
+            Button {
+                anchors.top: closeButton.bottom
+                anchors.topMargin: 10
+                text: "donate";
+                onClicked: Qt.openUrlExternally("https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=CWFYRZH8XNYF2")
+            }
         }
     }
 

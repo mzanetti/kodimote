@@ -30,12 +30,18 @@ SettingsDialog::SettingsDialog(QWidget *parent) :
     QDialog(parent)
 {
 
-    setWindowTitle("XbmcRemote - " + tr("Settings"));
-    QHBoxLayout *hLayout = new QHBoxLayout();
-    setLayout(hLayout);
+    setAttribute(Qt::WA_DeleteOnClose, true);
+    setWindowTitle("XbmcRemote - " + tr("Connect to Xbmc"));
 
-//    QVBoxLayout *layout = new QVBoxLayout();
-//    hLayout->addLayout(layout);
+    QHBoxLayout *hLayout = new QHBoxLayout();
+
+#ifdef Q_WS_MAEMO_5
+    setLayout(hLayout);
+#else
+    QVBoxLayout *vLayout = new QVBoxLayout();
+    vLayout->addLayout(hLayout);
+    setLayout(vLayout);
+#endif
 
     hLayout->addWidget(new QLabel("Host:"));
 
@@ -49,9 +55,14 @@ SettingsDialog::SettingsDialog(QWidget *parent) :
     hLayout->addWidget(m_port);
 
 
-
+#ifdef Q_WS_MAEMO_5
     QDialogButtonBox *buttonBox = new QDialogButtonBox(QDialogButtonBox::Ok | QDialogButtonBox::Cancel, Qt::Vertical);
     hLayout->addWidget(buttonBox);
+#else
+    QDialogButtonBox *buttonBox = new QDialogButtonBox(QDialogButtonBox::Ok | QDialogButtonBox::Cancel, Qt::Horizontal);
+    vLayout->addWidget(buttonBox);
+#endif
+
 
     connect(buttonBox, SIGNAL(accepted()), this, SLOT(accept()));
     connect(buttonBox, SIGNAL(rejected()), this, SLOT(reject()));

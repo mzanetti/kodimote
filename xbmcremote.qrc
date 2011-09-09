@@ -1,0 +1,5 @@
+<RCC>
+    <qresource prefix="/">
+        <file>xbmcremote.png</file>
+    </qresource>
+</RCC>

@@ -12,6 +12,7 @@ Item {
 
 
     property string currentDir
+    property string currentIcon: "images/HomeIcon.png"
 
     signal goUp
     signal goBack
@@ -21,10 +22,11 @@ Item {
         anchors.top: parent.top
         anchors.bottom: parent.bottom
         anchors.bottomMargin: 10
-        anchors.leftMargin: 10
+        anchors.leftMargin: -10
         anchors.left: parent.left
-        width: 60
+        width: 80
         z: 1
+        clip: true
         Image {
             id: header
             anchors.right: parent.right
@@ -35,7 +37,10 @@ Item {
         Image {
             anchors.left: parent.left
             anchors.verticalCenter: parent.verticalCenter
-            source: "images/HomeIcon.png"
+            anchors.leftMargin: 20
+            height: 32
+            width: 32
+            source: currentIcon
         }
 
         MouseArea {

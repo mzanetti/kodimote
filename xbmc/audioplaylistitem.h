@@ -13,10 +13,12 @@ public:
     AudioPlaylistItem(int albumId = -1, int artistId = -1, int genreId = -1);
 
     // Those will be filled in on toMap()
+    void setSongId(int songId);
     void setAlbumId(int albumId);
     void setArtistId(int artistId);
     void setGenreId(int genreId);
 
+    int songId() const;
     int albumId() const;
     int artistId() const;
     int genreId() const;
@@ -34,6 +36,7 @@ signals:
     void artistChanged();
 
 private:
+    int m_songId;
     int m_albumId;
     int m_artistId;
     int m_genreId;

@@ -13,13 +13,20 @@ Item {
         anchors.left: parent.left
         anchors.top: parent.top
         currentDir: library.title
+        currentIcon: library.parentModel() !== null ? "images/HomeBack.png" : "images/HomeIcon.png"
 
-        onGoUp: {
+//        onGoUp: {
+//            if(library.parentModel() !== null) {
+//                library = library.exit()
+//            }
+//        }
+        onGoBack: {
             if(library.parentModel() !== null) {
                 library = library.exit()
+            } else {
+                libraryView.goBack()
             }
         }
-        onGoBack: libraryView.goBack()
     }
 
     BorderImage {

@@ -93,6 +93,19 @@ void VideoPlaylist::responseReveiced(int id, const QVariantMap &response)
             m_itemList.append(item);
         }
         endResetModel();
+
+        if(rsp.toMap().value("state").toMap().value("repeat").toString() == "off") {
+            m_repeat = RepeatNone;
+        } else if(rsp.toMap().value("state").toMap().value("repeat").toString() == "one") {
+            m_repeat = RepeatOne;
+        } else {
+            m_repeat = RepeatAll;
+        }
+        emit repeatChanged();
+
+        m_shuffle = rsp.toMap().value("state").toMap().value("shuffled").toBool();
+        emit shuffleChanged();
+
         m_currentItem = rsp.toMap().value("state").toMap().value("current").toInt();
         qDebug() << "set current to" << m_currentItem;
         queryItemData(m_currentItem);

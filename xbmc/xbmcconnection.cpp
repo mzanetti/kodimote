@@ -68,8 +68,8 @@ QString connectionError()
 XbmcConnectionPrivate::XbmcConnectionPrivate(QObject *parent) :
     QObject(parent),
     m_commandId(0),
-    m_currentPendingId(-1),
     m_versionRequestId(-1),
+    m_currentPendingId(-1),
     m_connected(false)
 {
     m_socket = new QTcpSocket();
@@ -90,9 +90,7 @@ XbmcConnectionPrivate::XbmcConnectionPrivate(QObject *parent) :
 
 void XbmcConnectionPrivate::connect(const QString &hostname, int port)
 {
-    if(connected()) {
-        m_socket->disconnectFromHost();
-    }
+    m_socket->disconnectFromHost();
 
     m_hostName = hostname;
     m_port = port;
@@ -224,9 +222,9 @@ void XbmcConnectionPrivate::replyReceived()
                 m_connected = true;
                 m_connectionError.clear();
             } else {
-                qDebug() << "XBMC is to old!";
+                qDebug() << "XBMC is too old!";
                 m_socket->disconnectFromHost();
-                m_connectionError = "Connection failed: This version of xbmc is to old. Please upgrade to a newer version.";
+                m_connectionError = "Connection failed: This version of xbmc is too old. Please upgrade to a newer version.";
             }
             emit m_notifier->connectionChanged();
             return;
@@ -366,16 +364,15 @@ void XbmcConnectionPrivate::readData()
 
 void XbmcConnectionPrivate::clearPending()
 {
-    int waitingFor = m_currentPendingId;
-//    readData();
-    qDebug() << "timeouttimer hit!";
-    if(m_currentPendingId != waitingFor) {
-        qDebug() << "ok... data is here now..";
-    } else {
-        qDebug() << "Still nothing... discarding packet";
-        m_currentPendingId = -1;
-        sendNextCommand2();
+    qDebug() << "timeouttimer hit for comman" << m_commandId;
+    if(m_commandId == m_versionRequestId) {
+        qDebug() << "cannot ask for remote version... ";
+        m_connectionError = "Connection to " + m_hostName + " timed out...";
+        emit m_notifier->connectionChanged();
+        m_commandQueue.clear();
     }
+    m_currentPendingId = -1;
+    sendNextCommand2();
 }
 
 Notifier *XbmcConnectionPrivate::notifier()

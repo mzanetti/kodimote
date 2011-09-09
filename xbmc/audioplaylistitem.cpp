@@ -7,6 +7,11 @@ AudioPlaylistItem::AudioPlaylistItem(int albumId, int artistId, int genreId):
 {
 }
 
+void AudioPlaylistItem::setSongId(int songId)
+{
+    m_songId = songId;
+}
+
 void AudioPlaylistItem::setAlbumId(int albumId)
 {
     m_albumId = albumId;
@@ -20,6 +25,11 @@ void AudioPlaylistItem::setArtistId(int artistId)
 void AudioPlaylistItem::setGenreId(int genreId)
 {
     m_genreId = genreId;
+}
+
+int AudioPlaylistItem::songId() const
+{
+    return m_songId;
 }
 
 int AudioPlaylistItem::albumId() const
@@ -40,7 +50,10 @@ int AudioPlaylistItem::genreId() const
 QVariantMap AudioPlaylistItem::toMap() const
 {
     QVariantMap map = PlaylistItem::toMap();
-    if(m_albumId != -1){
+    if(m_songId != -1) {
+        map.insert("songid", m_songId);
+    }
+    if(m_albumId != -1) {
         map.insert("albumid", m_albumId);
     }
     if(m_artistId != -1) {

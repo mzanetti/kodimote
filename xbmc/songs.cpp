@@ -43,6 +43,7 @@ void Songs::responseReceived(int id, const QVariantMap &rsp)
         QStandardItem *item = new QStandardItem();
         item->setText(itemMap.value("label").toString());
         item->setData(itemMap.value("artist").toString() + " - " + itemMap.value("album").toString(), Qt::UserRole + 2);
+        item->setData(itemMap.value("songid").toInt(), Qt::UserRole + 100);
         list.append(item);
     }
     beginInsertRows(QModelIndex(), 0, list.count() - 1);
@@ -75,14 +76,15 @@ XbmcModel* Songs::enterItem(int index)
     return 0;
 }
 
-void Songs::playItem(int index)
+void Songs::playItem(int row)
 {
     AudioPlaylistItem pItem;
     pItem.setArtistId(m_artistId);
     pItem.setAlbumId(m_albumId);
+    pItem.setSongId(index(row, 0, QModelIndex()).data(Qt::UserRole + 100).toInt());
     Xbmc::instance()->audioPlayer()->playlist()->clear();
     Xbmc::instance()->audioPlayer()->playlist()->addItems(pItem);
-    Xbmc::instance()->audioPlayer()->playlist()->playItem(index);
+    Xbmc::instance()->audioPlayer()->playlist()->playItem(row);
 }
 
 QString Songs::title() const

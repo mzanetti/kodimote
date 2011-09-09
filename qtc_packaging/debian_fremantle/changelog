@@ -1,5 +1,6 @@
-xbmcremote (0.3.0-fremantle0) unstable; urgency=low
+xbmcremote (0.3.1-fremantle0) unstable; urgency=low
 
   * New artwork for the buttons thanks to Johannes Siipola <joppu@kapsi.fi>
+  * Fixed QML imports for Qt 4.7.0
 
- -- Michael Zanetti <mzanetti@kde.org>  Sat, 16 Jul 2011 10:20:39 +0200
+ -- Michael Zanetti <mzanetti@kde.org>  Sat, 05 Sep 2011 10:20:39 +0200

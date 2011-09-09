@@ -45,7 +45,9 @@ SOURCES += main.cpp \
     xbmc/files.cpp \
     xbmc/shares.cpp \
     xbmc/movies.cpp \
-    xbmc/keys.cpp
+    xbmc/keys.cpp \
+    aboutdialog.cpp \
+    mainwindow.cpp
 
 # We actually don't use the QMLApplicationViewer any more... It's pri file,
 # however contains a lot of deplayment stuff so we still keep this here:
@@ -81,7 +83,9 @@ HEADERS += settingsdialog.h \
     xbmc/videoplaylist.h \
     xbmc/audioplaylistitem.h \
     xbmc/videoplaylistitem.h \
-    xbmc/keys.h
+    xbmc/keys.h \
+    aboutdialog.h \
+    mainwindow.h
 
 LIBS += -lqjson
 
@@ -92,7 +96,13 @@ OTHER_FILES += \
     qtc_packaging/debian_harmattan/copyright \
     qtc_packaging/debian_harmattan/control \
     qtc_packaging/debian_harmattan/compat \
-    qtc_packaging/debian_harmattan/changelog
+    qtc_packaging/debian_harmattan/changelog \
+    qtc_packaging/debian_fremantle/rules \
+    qtc_packaging/debian_fremantle/README \
+    qtc_packaging/debian_fremantle/copyright \
+    qtc_packaging/debian_fremantle/control \
+    qtc_packaging/debian_fremantle/compat \
+    qtc_packaging/debian_fremantle/changelog
 
 
 #contains (MEEGO_FLAVOR, "harmattan") { # This will be added soon, in the meantime use workaround
@@ -104,9 +114,20 @@ exists($$QMAKE_INCDIR_QT"/../qmsystem2/qmkeys.h") {
     DEFINES += Q_WS_MAEMO_6
     SOURCES += meegohelper.cpp
     HEADERS += meegohelper.h
+    INCLUDEPATH += /usr/include/resource/qt4
+    LIBS += -lqjson -lresourceqt
 }
 
 symbian:TARGET.UID3 = 0xE1297420
 
 # Allow network access on Symbian
 symbian:TARGET.CAPABILITY += NetworkServices
+
+RESOURCES += \
+    xbmcremote.qrc
+
+
+
+
+
+
