@@ -7,23 +7,23 @@
 AudioLibrary::AudioLibrary() :
     XbmcModel(0)
 {
-    m_itemlist.append("Artists");
-    m_itemlist.append("Albums");
-    m_itemlist.append("Titles");
+    m_list.append(new QStandardItem("Artists"));
+    m_list.append(new QStandardItem("Albums"));
+    m_list.append(new QStandardItem("Titles"));
 
 }
 
 int AudioLibrary::rowCount(const QModelIndex &parent) const
 {
     Q_UNUSED(parent)
-    return m_itemlist.count();
+    return m_list.count();
 }
 
 QVariant AudioLibrary::data(const QModelIndex &index, int role) const
 {
     switch(role) {
     case Qt::DisplayRole:
-        return m_itemlist.at(index.row());
+        return m_list.at(index.row())->data(Qt::DisplayRole);
     case Qt::UserRole+1:
         return "directory";
     }

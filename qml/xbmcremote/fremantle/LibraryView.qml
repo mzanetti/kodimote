@@ -7,6 +7,7 @@ Item {
     signal goBack
 
     property alias library: list.model
+    property alias view: list
 
     BrowsingTopBar {
         id: topBar
@@ -81,6 +82,7 @@ Item {
                     }
                 }
             }
+
         }
 
         ScrollBar {

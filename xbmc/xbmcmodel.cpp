@@ -49,3 +49,19 @@ QModelIndex XbmcModel::parent(const QModelIndex &child) const
     Q_UNUSED(child)
     return QModelIndex();
 }
+
+int XbmcModel::findItem(const QString &string, bool caseSensitive)
+{
+    foreach(QStandardItem* item, m_list) {
+        if(caseSensitive) {
+            if(item->data(Qt::DisplayRole).toString().startsWith(string)) {
+                return m_list.indexOf(item);
+            }
+        } else {
+            if(item->data(Qt::DisplayRole).toString().toLower().startsWith(string.toLower())) {
+                return m_list.indexOf(item);
+            }
+        }
+    }
+    return -1;
+}

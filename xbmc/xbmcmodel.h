@@ -23,6 +23,8 @@ public:
 
     Q_INVOKABLE virtual QString title() const = 0;
 
+    Q_INVOKABLE int findItem(const QString &string, bool caseSensitive = false);
+
 signals:
     void titleChanged();
 

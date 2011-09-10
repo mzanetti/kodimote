@@ -26,8 +26,6 @@ private:
     };
     QMap<int, Request> m_requestMap;
 
-    QStringList m_itemlist;
-
 };
 
 #endif // AUDIOLIBRARY_H

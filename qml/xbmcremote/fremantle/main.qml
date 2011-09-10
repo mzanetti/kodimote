@@ -13,10 +13,12 @@ Rectangle {
 
 //    state: xbmc.state
 
+
     Rectangle {
         anchors.fill: parent
         color: "black"
     }
+
 
     Image  {
         id: backgroundImageMusic
@@ -42,9 +44,33 @@ Rectangle {
         }
     }
 
+    FocusScope {
+        anchors.fill: parent
+        focus: true
+        property string inputText
+        Timer {
+            id: inputTimer
+            interval: 1500
+            repeat: false
+            triggeredOnStart: false
+
+            onTriggered: parent.inputText = ""
+        }
+
+        Keys.onPressed: {
+            inputTimer.stop();
+            inputText += event.text;
+            itemModel.currentView.view.positionViewAtIndex(itemModel.currentView.library.findItem(inputText), ListView.Beginning)
+            inputTimer.start();
+        }
+
+
+    }
+
     VisualItemModel {
         id: itemModel
 
+        property QtObject currentView
 //        Item {
 //            property string label: "Library"
 //            width: view.width; height: view.height
@@ -93,18 +119,23 @@ Rectangle {
                     PropertyChanges {target:  musicLibraryView; visible: false }
                     PropertyChanges {target:  videoBrowser; visible: false }
                     PropertyChanges {target:  videoLibraryView; visible: false }
+                    PropertyChanges {target: itemModel; currentView: null }
                 },
                 State { name: "audiofiles"; when: xbmcBrowser.mediaState == "audio" && xbmcBrowser.viewState == "files"
                     PropertyChanges {target:  musicBrowser; visible: true }
+                    PropertyChanges {target: itemModel; currentView: musicBrowser }
                 },
                 State { name: "audiolibrary"; when: xbmcBrowser.mediaState == "audio" && xbmcBrowser.viewState == "library"
                     PropertyChanges {target:  musicLibraryView; visible: true }
+                    PropertyChanges {target: itemModel; currentView: musicLibraryView }
                 },
                 State { name: "videofiles"; when: xbmcBrowser.mediaState == "video" && xbmcBrowser.viewState == "files"
                     PropertyChanges {target:  videoBrowser; visible: true }
+                    PropertyChanges {target: itemModel; currentView: videoBrowser }
                 },
                 State { name: "videolibrary"; when: xbmcBrowser.mediaState == "video" && xbmcBrowser.viewState == "library"
                     PropertyChanges {target:  videoLibraryView; visible: true }
+                    PropertyChanges {target: itemModel; currentView: videoLibraryView }
                 }
 
             ]
