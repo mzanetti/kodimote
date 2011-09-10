@@ -107,14 +107,13 @@ OTHER_FILES += \
 #contains (MEEGO_FLAVOR, "harmattan") { # This will be added soon, in the meantime use workaround
 exists($$QMAKE_INCDIR_QT"/../qmsystem2/qmkeys.h") {
     message(Harmattan build)
-    DEFINES += Q_WS_MAEMO_6
     target.path = /opt/usr/bin
     CONFIG += qmsystem2
     DEFINES += Q_WS_MAEMO_6
     SOURCES += meegohelper.cpp
     HEADERS += meegohelper.h
     INCLUDEPATH += /usr/include/resource/qt4
-    LIBS += -lqjson -lresourceqt
+    LIBS += -lresourceqt
 }
 
 symbian:TARGET.UID3 = 0xE1297420
