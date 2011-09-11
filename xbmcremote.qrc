@@ -1,5 +1,5 @@
 <RCC>
     <qresource prefix="/">
-        <file>xbmcremote.png</file>
+        <file alias="logo_l">logo_l.png</file>
     </qresource>
 </RCC>

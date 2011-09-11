@@ -18,7 +18,11 @@ AboutDialog::AboutDialog(QWidget *parent) :
     QHBoxLayout *hlayout = new QHBoxLayout;
     hlayout->setSpacing(20);
 
-    QPixmap icon = QPixmap(":/xbmcremote.png");
+#if Q_WS_MAEMO_5
+    QPixmap icon = QPixmap(":/logo_l").scaled(256, 256, Qt::KeepAspectRatio, Qt::SmoothTransformation);
+#else
+    QPixmap icon = QPixmap(":/logo_l").scaled(64, 64, Qt::KeepAspectRatio, Qt::SmoothTransformation);
+#endif
     QLabel *iconLabel = new QLabel();
     iconLabel->setAlignment(Qt::AlignTop);
     iconLabel->setPixmap(icon);
