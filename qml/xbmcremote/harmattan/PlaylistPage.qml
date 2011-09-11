@@ -35,6 +35,7 @@ Page {
         id: listView
         anchors {left: parent.left; right: parent.right; top: listHeader.bottom; bottom: parent.bottom }
         model: playlist
+        property int currentSelected
 
         delegate:  Item {
             id: listItem
@@ -89,6 +90,13 @@ Page {
             MouseArea {
                 id: mouseArea
                 anchors.fill: background
+
+                onPressed: listView.currentSelected = index
+
+                onPressAndHold: {
+                    longTapMenu.open();
+                }
+
                 onClicked: {
                     playlist.playItem(index);
                 }
@@ -111,6 +119,25 @@ Page {
             anchors.verticalCenter: listHeader.verticalCenter
             font.pixelSize: 28
             text: playlist.title
+        }
+    }
+
+    ContextMenu {
+        id: longTapMenu
+        visualParent: pageStack
+        MenuLayout {
+            MenuItem {
+                text: "Play"
+                onClicked: {
+                    playlist.playItem(listView.currentSelected)
+                }
+            }
+            MenuItem {
+                text: "Remove from playlist"
+                onClicked: {
+                    playlist.removeItem(listView.currentSelected)
+                }
+            }
         }
     }
 

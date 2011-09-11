@@ -17,6 +17,7 @@ public:
 
     XbmcModel *enterItem(int index);
     void playItem(int index);
+    void addToPlaylist(int index);
 
     QString title() const;
 

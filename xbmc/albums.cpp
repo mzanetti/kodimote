@@ -2,6 +2,10 @@
 #include "xbmcconnection.h"
 
 #include "songs.h"
+#include "audioplaylistitem.h"
+#include "xbmc.h"
+#include "audioplayer.h"
+#include "playlist.h"
 
 Albums::Albums(int artistId, XbmcModel *parent) :
     XbmcModel(parent),
@@ -40,8 +44,8 @@ void Albums::responseReceived(int id, const QVariantMap &rsp)
         QVariantMap itemMap = itemVariant.toMap();
         QStandardItem *item = new QStandardItem();
         item->setText(itemMap.value("label").toString());
-        item->setData(itemMap.value("artist").toString(), Qt::UserRole + 2);
-        item->setData(itemMap.value("albumid").toInt(), Qt::UserRole + 100);
+        item->setData(itemMap.value("artist").toString(), RoleSubtitle);
+        item->setData(itemMap.value("albumid").toInt(), RoleAlbumId);
         list.append(item);
     }
     beginInsertRows(QModelIndex(), 0, list.count() - 1);
@@ -58,21 +62,35 @@ int Albums::rowCount(const QModelIndex &parent) const
 QVariant Albums::data(const QModelIndex &index, int role) const
 {
     switch(role) {
-    case Qt::UserRole+1:
+    case RoleFileType:
         return "directory";
+    case RolePlayable:
+        return true;
     }
     return m_list.at(index.row())->data(role);
 }
 
 XbmcModel* Albums::enterItem(int index)
 {
-    return new Songs(m_artistId, m_list.at(index)->data(Qt::UserRole + 100).toInt(), this);
+    return new Songs(m_artistId, m_list.at(index)->data(RoleAlbumId).toInt(), this);
 }
 
 void Albums::playItem(int index)
 {
-    Q_UNUSED(index)
-    qDebug() << "Albums::play() not implemented yet";
+    AudioPlaylistItem pItem;
+    pItem.setArtistId(m_artistId);
+    pItem.setAlbumId(m_list.at(index)->data(RoleAlbumId).toInt());
+    Xbmc::instance()->audioPlayer()->playlist()->clear();
+    Xbmc::instance()->audioPlayer()->playlist()->addItems(pItem);
+    Xbmc::instance()->audioPlayer()->playlist()->playItem(0);
+}
+
+void Albums::addToPlaylist(int index)
+{
+    AudioPlaylistItem pItem;
+    pItem.setArtistId(m_artistId);
+    pItem.setAlbumId(m_list.at(index)->data(RoleAlbumId).toInt());
+    Xbmc::instance()->audioPlayer()->playlist()->addItems(pItem);
 }
 
 QString Albums::title() const

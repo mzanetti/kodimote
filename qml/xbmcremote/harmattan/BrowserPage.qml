@@ -48,6 +48,7 @@ Page {
         id: listView
         anchors {left: parent.left; top: listHeader.bottom; right: parent.right; bottom: parent.bottom }
         //        header: listHeader
+        property int currentSelected
 
 
         delegate:  Item {
@@ -104,6 +105,15 @@ Page {
             MouseArea {
                 id: mouseArea
                 anchors.fill: background
+
+                onPressed: listView.currentSelected = index
+
+                onPressAndHold: {
+                    if(playable) {
+                        longTapMenu.open();
+                    }
+                }
+
                 onClicked: {
                     if(filetype=="directory") {
                         var component = Qt.createComponent("BrowserPage.qml")
@@ -139,4 +149,24 @@ Page {
             elide: Text.ElideLeft
         }
     }
+
+    Menu {
+        id: longTapMenu
+        visualParent: pageStack
+        MenuLayout {
+            MenuItem {
+                text: "Play"
+                onClicked: {
+                    browserPage.model.playItem(listView.currentSelected)
+                }
+            }
+            MenuItem {
+                text: "Add to playlist"
+                onClicked: {
+                    browserPage.model.addToPlaylist(listView.currentSelected)
+                }
+            }
+        }
+    }
+
 }

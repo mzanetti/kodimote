@@ -8,25 +8,25 @@ Row {
 
     signal openPlaylist
 
+//    Item {
+//        height: parent.height
+//        width: parent.width / 5
+
+//        Image {
+//            source: "images/OSDPresetSettingsNF.png"
+//            anchors.centerIn: parent
+//        }
+
+//        MouseArea {
+//            anchors.fill: parent
+//            onClicked: {
+//            }
+//        }
+//    }
+
     Item {
         height: parent.height
-        width: parent.width / 5
-
-        Image {
-            source: "images/OSDPresetSettingsNF.png"
-            anchors.centerIn: parent
-        }
-
-        MouseArea {
-            anchors.fill: parent
-            onClicked: {
-            }
-        }
-    }
-
-    Item {
-        height: parent.height
-        width: parent.width / 5
+        width: parent.width / 4
 
         Image {
             anchors.centerIn: parent
@@ -49,7 +49,7 @@ Row {
 
     Item {
         height: parent.height
-        width: parent.width / 5
+        width: parent.width / 4
 
         Image {
             source: xbmc.activePlayer.playlist().shuffle ? "images/OSDRandomOffFO.png" : "images/OSDRandomOffNF.png"
@@ -66,7 +66,7 @@ Row {
 
     Item {
         height: parent.height
-        width: parent.width / 5
+        width: parent.width / 4
 
         Image {
             source: "images/OSDPlaylistNF.png"
@@ -84,7 +84,7 @@ Row {
 
     Item {
         height: parent.height
-        width: parent.width / 5
+        width: parent.width / 4
 
         Image {
             source: volumeBar.state == "volumeVisible" ? "images/OSDAudioFO.png" : "images/OSDAudioNF.png"

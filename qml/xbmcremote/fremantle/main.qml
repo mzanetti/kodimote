@@ -144,10 +144,12 @@ Rectangle {
 
         Item {
             property string label: "Now Playing"
-            width: view.width; height: view.height
+            width: view.width
+            height: view.height
             NowPlaying {
                 anchors.fill: parent
                 playlist: xbmc.activePlayer.playlist()
+                state: xbmc.activePlayer === null ? "playlist" : "nowPlaying"
             }
 
         }
@@ -214,7 +216,7 @@ Rectangle {
     }
     HomeMenu {
         id: homeMenu
-
+        state: "open"
     }
 
     states: [
@@ -222,6 +224,7 @@ Rectangle {
             name: "notConnected"; when: !xbmc.connected
             PropertyChanges { target: notConnectedPopup; opacity: 0.8; scale: 1 }
             PropertyChanges { target: view; opacity: 0; }
+            PropertyChanges { target: homeMenu; opacity: 0 }
         },
         State {
             name: "connected"; when: xbmc.connected

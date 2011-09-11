@@ -49,10 +49,11 @@ public:
     explicit Playlist(Player *parent = 0);
 
 
-    virtual void clear();
+    Q_INVOKABLE virtual void clear();
     virtual void addItems(const PlaylistItem &item);
     void addPlaylist(const QString &playlistId);
     void addFile(const QString &file);
+    Q_INVOKABLE void removeItem(int index);
 
     int count() const;
 
@@ -70,6 +71,7 @@ public:
     virtual PlaylistItem* at(int index) const = 0;
 
     XbmcModel *enterItem(int) { return 0;}
+    void addToPlaylist(int){}
 
 signals:
     void countChanged();

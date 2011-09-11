@@ -25,7 +25,7 @@ void MusicVideos::responseReceived(int id, const QVariantMap &rsp)
         QVariantMap itemMap = itemVariant.toMap();
         QStandardItem *item = new QStandardItem();
         item->setText(itemMap.value("label").toString());
-        item->setData(itemMap.value("musicvideoid").toInt(), Qt::UserRole + 100);
+        item->setData(itemMap.value("musicvideoid").toInt(), RoleMusicVideoId);
         list.append(item);
     }
     beginInsertRows(QModelIndex(), 0, list.count() - 1);
@@ -44,10 +44,12 @@ QVariant MusicVideos::data(const QModelIndex &index, int role) const
     switch(role) {
     case Qt::DisplayRole:
         return m_list.at(index.row())->text();
-    case Qt::UserRole+1:
+    case RoleFileType:
         return "file";
-    case Qt::UserRole+2:
+    case RoleSubtitle:
         return "";
+    case RolePlayable:
+        return true;
     }
     return QVariant();
 }
@@ -61,12 +63,19 @@ XbmcModel *MusicVideos::enterItem(int index)
 
 void MusicVideos::playItem(int index)
 {
-    qDebug() << "should play item" << index << "musicvideoid is" << m_list.at(index)->data(Qt::UserRole+100).toInt();
+    qDebug() << "should play item" << index << "musicvideoid is" << m_list.at(index)->data(RoleMusicVideoId).toInt();
     Xbmc::instance()->videoPlayer()->playlist()->clear();
     VideoPlaylistItem item;
-    item.setMusicVideoId(m_list.at(index)->data(Qt::UserRole+100).toInt());
+    item.setMusicVideoId(m_list.at(index)->data(RoleMusicVideoId).toInt());
     Xbmc::instance()->videoPlayer()->playlist()->addItems(item);
     Xbmc::instance()->videoPlayer()->playlist()->playItem(0);
+}
+
+void MusicVideos::addToPlaylist(int row)
+{
+    VideoPlaylistItem pItem;
+    pItem.setMusicVideoId(m_list.at(row)->data(RoleMusicVideoId).toInt());
+    Xbmc::instance()->videoPlayer()->playlist()->addItems(pItem);
 }
 
 QString MusicVideos::title() const

@@ -70,6 +70,7 @@ Item {
             anchors.margins: 25
             clip: true
             model: playlist.model
+            property int selectedIndex: -1
 
             delegate: Item {
                 width: list.width
@@ -84,18 +85,18 @@ Item {
                 //            }
                 Image {
                     anchors.fill: parent
-                    source: list.model.currentTrackNumber - 1 == index ? "images/MenuItemFO.png" : "images/MenuItemNF.png"
+                    source: itemArea.pressed || index == list.selectedIndex ? "images/MenuItemFO.png" : "images/MenuItemNF.png"
                 }
                 Image {
                     anchors {top: parent.top; right: parent.right; bottom: parent.bottom }
                     anchors.topMargin: 10
                     anchors.bottomMargin: 10
                     source: "images/MediaItemDetailBG.png"
-                    visible: list.model.currentTrackNumber - 1 == index
+                    visible: itemArea.pressed || index == list.selectedIndex
                 }
 
                 Text {
-                    color: "white"
+                    color: list.model.currentTrackNumber - 1 == index ? "yellow" : "white"
                     text: title
                     font.pixelSize: 28
                     anchors {left: parent.left; top:  parent.top; bottom: parent.bottom; right: durationText.left }
@@ -116,6 +117,16 @@ Item {
 
                 MouseArea {
                     anchors.fill: parent
+                    id: itemArea
+                    enabled: contextMenu.state != "visible"
+
+                    onPressed: {
+                        list.selectedIndex = index
+                    }
+
+                    onPressAndHold: {
+                        contextMenu.state = "visible"
+                    }
 
                     onClicked: {
                         list.model.playItem(index)
@@ -132,6 +143,31 @@ Item {
             anchors.bottomMargin: 20
         }
 
+    }
+
+
+    ContextMenu {
+        id: contextMenu
+
+        model: ListModel {
+            ListElement { entryId: 0; menuEntry: "Play"}
+            ListElement { entryId: 1; menuEntry: "Remove from playlist"}
+            ListElement { entryId: 2; menuEntry: "Clear playlist"}
+        }
+
+        onClicked: {
+            switch(index) {
+            case 0:
+                list.model.playItem(list.selectedIndex);
+                break;
+            case 1:
+                list.model.removeItem(list.selectedIndex);
+                break;
+            case 2:
+                list.model.clear();
+                break;
+            }
+        }
     }
 
     states: [

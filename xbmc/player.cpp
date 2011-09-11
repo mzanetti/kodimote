@@ -96,6 +96,7 @@ void Player::receivedAnnouncement(const QVariantMap &map)
         emit stateChanged();
         m_speed = 1;
         emit speedChanged();
+        playlist()->refresh();
     } else if(map.value("method").toString() == "Player.OnPause") {
         m_state = "paused";
         m_percentageTimer.stop();

@@ -30,7 +30,7 @@ void TvShows::responseReceived(int id, const QVariantMap &rsp)
         QVariantMap itemMap = itemVariant.toMap();
         QStandardItem *item = new QStandardItem();
         item->setText(itemMap.value("label").toString());
-        item->setData(itemMap.value("tvshowid").toInt(), Qt::UserRole + 100);
+        item->setData(itemMap.value("tvshowid").toInt(), RoleTvShowId);
         list.append(item);
     }
     beginInsertRows(QModelIndex(), 0, list.count() - 1);
@@ -49,23 +49,31 @@ QVariant TvShows::data(const QModelIndex &index, int role) const
     switch(role) {
     case Qt::DisplayRole:
         return m_list.at(index.row())->text();
-    case Qt::UserRole+1:
+    case RoleFileType:
         return "directory";
-    case Qt::UserRole+2:
+    case RoleSubtitle:
         return "";
+    case RolePlayable:
+        return false;
     }
     return QVariant();
 }
 
 XbmcModel *TvShows::enterItem(int index)
 {
-    return new Seasons(m_list.at(index)->data(Qt::UserRole + 100).toInt(), this);
+    return new Seasons(m_list.at(index)->data(RoleTvShowId).toInt(), this);
 }
 
 void TvShows::playItem(int index)
 {
     Q_UNUSED(index)
-    qDebug() << "TvShows: playing whole tvshow not supported yet";
+    qDebug() << "TvShows: playing whole tvshow not supported by xbmc";
+}
+
+void TvShows::addToPlaylist(int row)
+{
+    Q_UNUSED(row)
+    qDebug() << "TvShows: playing whole tvshow not supported by xbmc";
 }
 
 QString TvShows::title() const

@@ -112,6 +112,7 @@ BorderImage {
             id: nowPlayingText
             width: screen.orientation == "portrait" ? nowPlayingFlow.width : nowPlayingFlow.width - imageItem.width - nowPlayingFlow.anchors.margins
             height: 40 * 3 + 20
+
             anchors.bottom: nowPlayingFlow.bottom
 
             Item {
@@ -158,7 +159,8 @@ BorderImage {
                 width: nowPlayingText.width
                 anchors.bottom: titleText.top
                 Text {
-                    anchors {left: parent.left; top: parent.top; bottom: parent.bottom; right: ratingStars.left }
+//                    anchors {left: parent.left; top: parent.top; bottom: parent.bottom; right: ratingStars.left }
+                    width: parent.width - ratingStars.width
                     color: "white"
                     text: (xbmc.state == "audio" ? currentItem.artist : (currentItem.type == "episode" ? currentItem.tvShow : "Year: " + currentItem.year)) + (xbmc.state == "audio" ? " - " + currentItem.album : (currentItem.type == "episode" ? " - Season: " + currentItem.season : ""))
                     font.pixelSize: 22
@@ -169,7 +171,6 @@ BorderImage {
                 Image {
                     id: ratingStars
                     source: "images/rating" + Math.floor(currentItem.rating / 2) + ".png"
-                    anchors.right: parent.right
                     visible: currentItem.type == "movie"
                 }
             }

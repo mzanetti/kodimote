@@ -49,7 +49,17 @@ void AudioLibrary::playItem(int index)
     qDebug() << "cannot play whole audio library";
 }
 
+void AudioLibrary::addToPlaylist(int index)
+{
+    Q_UNUSED(index)
+}
+
 QString AudioLibrary::title() const
 {
     return "Audio Library";
+}
+
+void AudioLibrary::scanForContent()
+{
+    XbmcConnection::sendCommand("AudioLibrary.Scan");
 }

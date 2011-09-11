@@ -8,9 +8,10 @@ XbmcModel::XbmcModel(XbmcModel *parent) :
 {
     QHash<int, QByteArray> roleNames;
     roleNames.insert(Qt::DisplayRole, "title");
-    roleNames.insert(Qt::UserRole+1, "filetype");
-    roleNames.insert(Qt::UserRole+2, "subtitle");
-    roleNames.insert(Qt::UserRole+3, "duration");
+    roleNames.insert(RoleFileType, "filetype");
+    roleNames.insert(RoleSubtitle, "subtitle");
+    roleNames.insert(RoleDuration, "duration");
+    roleNames.insert(RolePlayable, "playable");
     setRoleNames(roleNames);
 }
 

@@ -23,8 +23,10 @@ QVariant VideoLibrary::data(const QModelIndex &index, int role) const
     switch(role) {
     case Qt::DisplayRole:
         return m_list.at(index.row());
-    case Qt::UserRole+1:
+    case RoleFileType:
         return "directory";
+    case RolePlayable:
+        return false;
     }
     return QVariant();
 }
@@ -48,7 +50,17 @@ void VideoLibrary::playItem(int index)
     qDebug() << "cannot play whole video library";
 }
 
+void VideoLibrary::addToPlaylist(int index)
+{
+    Q_UNUSED(index)
+}
+
 QString VideoLibrary::title() const
 {
     return "Video Library";
+}
+
+void VideoLibrary::scanForContent()
+{
+    XbmcConnection::sendCommand("VideoLibrary.Scan");
 }

@@ -37,6 +37,7 @@ Page {
 //        header: headerLayout
         model: mainMenuModel
         spacing: 20
+        property int currentSelected
 
         delegate:  Item {
             id: listItem
@@ -110,6 +111,11 @@ Page {
             MouseArea {
                 id: mouseArea
                 anchors.fill: parent
+
+                onPressed: listView.currentSelected = index;
+
+                onPressAndHold: longTapMenu.open();
+
                 onClicked: {
                     var component = Qt.createComponent("BrowserPage.qml")
                     var newModel;
@@ -147,18 +153,6 @@ Page {
             }
 
 
-            Button {
-                id: options
-                text: "..."
-                width: 80
-                anchors.right: parent.right
-                anchors.rightMargin: 20
-                anchors.verticalCenter: parent.verticalCenter
-                visible: listItem.state != "expanded"
-                onClicked: {
-                    listItem.state = "expanded"
-                }
-            }
 
             ButtonRow {
                 anchors.top: textRow.bottom
@@ -198,4 +192,44 @@ Page {
     ScrollDecorator {
         flickableItem: listView
     }
+
+
+    ContextMenu {
+        id: longTapMenu
+        visualParent: pageStack
+        MenuLayout {
+            MenuItem {
+                text: "Show files"
+                visible: listView.currentItem.mode != "files"
+                onClicked: {
+                    listView.currentItem.mode = "files"
+                }
+            }
+            MenuItem {
+                text: "Show library"
+                visible: listView.currentItem.mode != "library"
+                onClicked: {
+                    listView.currentItem.mode = "library"
+                }
+            }
+            MenuItem {
+                text: "Rescan library"
+                onClicked: {
+                    var lib = xbmc.audioLibrary();
+                    switch(listView.currentSelected) {
+                    case 0:
+                        lib = xbmc.audioLibrary();
+                        break;
+                    case 1:
+                        lib = xbmc.videoLibrary();
+                        break;
+                    }
+
+                    lib.scanForContent();
+                    lib.exit();
+                }
+            }
+        }
+    }
+
 }

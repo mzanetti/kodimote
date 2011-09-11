@@ -42,8 +42,8 @@ void Songs::responseReceived(int id, const QVariantMap &rsp)
         QVariantMap itemMap = itemVariant.toMap();
         QStandardItem *item = new QStandardItem();
         item->setText(itemMap.value("label").toString());
-        item->setData(itemMap.value("artist").toString() + " - " + itemMap.value("album").toString(), Qt::UserRole + 2);
-        item->setData(itemMap.value("songid").toInt(), Qt::UserRole + 100);
+        item->setData(itemMap.value("artist").toString() + " - " + itemMap.value("album").toString(), RoleSubtitle);
+        item->setData(itemMap.value("songid").toInt(), RoleSongId);
         list.append(item);
     }
     beginInsertRows(QModelIndex(), 0, list.count() - 1);
@@ -63,8 +63,10 @@ int Songs::rowCount(const QModelIndex &parent) const
 QVariant Songs::data(const QModelIndex &index, int role) const
 {
     switch(role) {
-    case Qt::UserRole+1:
+    case RoleFileType:
         return "file";
+    case RolePlayable:
+        return true;
     }
     return m_list.at(index.row())->data(role);
 }
@@ -81,10 +83,16 @@ void Songs::playItem(int row)
     AudioPlaylistItem pItem;
     pItem.setArtistId(m_artistId);
     pItem.setAlbumId(m_albumId);
-    pItem.setSongId(index(row, 0, QModelIndex()).data(Qt::UserRole + 100).toInt());
     Xbmc::instance()->audioPlayer()->playlist()->clear();
     Xbmc::instance()->audioPlayer()->playlist()->addItems(pItem);
     Xbmc::instance()->audioPlayer()->playlist()->playItem(row);
+}
+
+void Songs::addToPlaylist(int row)
+{
+    AudioPlaylistItem pItem;
+    pItem.setSongId(index(row, 0, QModelIndex()).data(RoleSongId).toInt());
+    Xbmc::instance()->audioPlayer()->playlist()->addItems(pItem);
 }
 
 QString Songs::title() const

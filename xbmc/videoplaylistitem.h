@@ -21,6 +21,12 @@ public:
     void setMusicVideoId(int musicVideoId);
     int musicVideoId() const;
 
+    void setTvShowId(int tvShowId);
+    int tvShowId() const;
+
+    void setSeasonId(int seasonId);
+    int seasonId() const;
+
     void setEpisodeId(int episodeId);
     int episodeId() const;
 
@@ -47,6 +53,8 @@ signals:
 private:
     int m_movieId;
     int m_musicVideoId;
+    int m_tvShowId;
+    int m_seasonId;
     int m_episodeId;
 
     QString m_type;

@@ -19,8 +19,8 @@ BorderImage {
         columns: orientation == "portrait" ? 1 : 3
 
         Item {
-            anchors.left: parent.left
-            anchors.top: parent.top
+//            anchors.left: parent.left
+//            anchors.top: parent.top
             height: orientation == "portrait" ? crossCol.height : parent.height
             width: orientation == "portrait" ? parent.width : crossCol.width
 //            Rectangle { color: "green"; anchors.fill: parent }

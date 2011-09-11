@@ -41,8 +41,8 @@ void Seasons::responseReceived(int id, const QVariantMap &rsp)
         QVariantMap itemMap = itemVariant.toMap();
         QStandardItem *item = new QStandardItem();
         item->setText(itemMap.value("label").toString());
-        item->setData(itemMap.value("showtitle").toString(), Qt::UserRole+2);
-        item->setData(itemMap.value("season").toInt(), Qt::UserRole + 100);
+        item->setData(itemMap.value("showtitle").toString(), RoleSubtitle);
+        item->setData(itemMap.value("season").toInt(), RoleSeasonId);
         list.append(item);
     }
     beginInsertRows(QModelIndex(), 0, list.count() - 1);
@@ -59,21 +59,29 @@ int Seasons::rowCount(const QModelIndex &parent) const
 QVariant Seasons::data(const QModelIndex &index, int role) const
 {
     switch(role) {
-    case Qt::UserRole+1:
+    case RoleFileType:
         return "directory";
+    case RolePlayable:
+        return false;
     }
     return m_list.at(index.row())->data(role);
 }
 
 XbmcModel *Seasons::enterItem(int index)
 {
-    return new Episodes(m_tvshowid, m_list.at(index)->data(Qt::UserRole + 100).toInt(), m_list.at(index)->text(), this);
+    return new Episodes(m_tvshowid, m_list.at(index)->data(RoleSeasonId).toInt(), m_list.at(index)->text(), this);
 }
 
 void Seasons::playItem(int index)
 {
     Q_UNUSED(index)
-    qDebug() << "Seasons: playing whole season not supported yet";
+    qDebug() << "Seasons: playing whole season not supported by xbmc";
+}
+
+void Seasons::addToPlaylist(int row)
+{
+    Q_UNUSED(row)
+    qDebug() << "Seasons: playing whole season not supported by xbmc";
 }
 
 QString Seasons::title() const

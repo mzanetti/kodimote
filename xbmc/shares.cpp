@@ -70,6 +70,11 @@ void Shares::playItem(int index)
     qDebug() << "Playing whole shares is not supported";
 }
 
+void Shares::addToPlaylist(int index)
+{
+    Q_UNUSED(index)
+}
+
 QString Shares::title() const
 {
     if(m_mediaType == "music") {

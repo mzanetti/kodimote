@@ -44,14 +44,23 @@ void Playlist::addItems(const PlaylistItem &item)
     itemMap.insert("item", item.toMap());
 
     XbmcConnection::sendCommand(namespaceString() + ".Add", itemMap);
+
+    refresh();
+}
+
+void Playlist::removeItem(int index)
+{
+    QVariantMap params;
+    params.insert("item", index);
+    XbmcConnection::sendCommand(namespaceString() + ".Remove", params);
+
+    refresh();
 }
 
 void Playlist::clear()
 {
-    beginResetModel();
-//    m_itemList.clear();
     XbmcConnection::sendCommand(namespaceString() + ".Clear");
-    endResetModel();
+    refresh();
 }
 
 void Playlist::addPlaylist(const QString &playlistId)
@@ -71,6 +80,7 @@ void Playlist::addFile(const QString &file)
     QVariantMap item;
     item.insert("item", pItem.toMap());
     XbmcConnection::sendCommand(namespaceString() + ".Add", item);
+    refresh();
 }
 
 void Playlist::receivedAnnouncement(const QVariantMap &map)

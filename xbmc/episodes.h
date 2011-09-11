@@ -17,6 +17,7 @@ public:
 
     XbmcModel *enterItem(int index);
     void playItem(int index);
+    void addToPlaylist(int index);
 
     QString title() const;
 
@@ -25,6 +26,8 @@ private slots:
 
 private:
     int m_request;
+    int m_tvshowid;
+    int m_seasonid;
     QString m_seasonString;
 };
 

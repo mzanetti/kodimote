@@ -204,7 +204,12 @@ API generated out of xbmc git master on 10.04.11
   "type":"method"
 },
 
-"AudioLibrary.ScanForContent":{"description":"Scans the audio sources for new library items","params":[],"returns":"string","type":"method"},
+"AudioLibrary.ScanForContent":{
+  "description":"Scans the audio sources for new library items",
+  "params":[],
+  "returns":"string",
+  "type":"method"
+},
 
 "AudioPlayer.BigSkipBackward":{"params":[],"returns":"string","type":"method"},
 

@@ -4,6 +4,8 @@
 #include "audioplayer.h"
 #include "videoplayer.h"
 #include "playlist.h"
+#include "audioplaylistitem.h"
+#include "videoplaylistitem.h"
 
 Files::Files(const QString &mediaType, const QString &dir, XbmcModel *parent):
     XbmcModel(parent),
@@ -42,8 +44,8 @@ void Files::responseReceived(int id, const QVariantMap &rsp)
         QVariantMap itemMap = itemVariant.toMap();
         QStandardItem *item = new QStandardItem();
         item->setText(itemMap.value("label").toString());
-        item->setData(itemMap.value("filetype").toString(), Qt::UserRole+1);
-        item->setData(itemMap.value("file").toString(), Qt::UserRole + 100);
+        item->setData(itemMap.value("filetype").toString(), RoleFileType);
+        item->setData(itemMap.value("file").toString(), RoleFileName);
         list.append(item);
     }
     beginInsertRows(QModelIndex(), 0, list.count() - 1);
@@ -61,13 +63,16 @@ int Files::rowCount(const QModelIndex &parent) const
 
 QVariant Files::data(const QModelIndex &index, int role) const
 {
+    if(role == RolePlayable) {
+        return index.data(RoleFileType).toString() == "file";
+    }
     return m_list.at(index.row())->data(role);
 }
 
 XbmcModel *Files::enterItem(int index)
 {
-    if(m_list.at(index)->data(Qt::UserRole+1).toString() == "directory") {
-        return new Files(m_mediaType, m_list.at(index)->data(Qt::UserRole+100).toString(), this);
+    if(m_list.at(index)->data(RoleFileType).toString() == "directory") {
+        return new Files(m_mediaType, m_list.at(index)->data(RoleFileName).toString(), this);
     }
     qDebug() << "cannot enter item of type file";
     return 0;
@@ -83,8 +88,8 @@ void Files::playItem(int index)
         int songToPlay = 0;
         for(int i = 0; i < m_list.count(); ++i) {
             QStandardItem *item = m_list.at(i);
-            if(item->data(Qt::UserRole+1).toString() == "file") { // only add files (no dirs)
-                player->playlist()->addFile(item->data(Qt::UserRole+100).toString());
+            if(item->data(RoleFileType).toString() == "file") { // only add files (no dirs)
+                player->playlist()->addFile(item->data(RoleFileName).toString());
                 if(i == index) {
                     songToPlay = newListCount;
                 }
@@ -95,8 +100,17 @@ void Files::playItem(int index)
     } else {
         player = Xbmc::instance()->videoPlayer();
         player->playlist()->clear();
-        player->playlist()->addFile(m_list.at(index)->data(Qt::UserRole+100).toString());
+        player->playlist()->addFile(m_list.at(index)->data(RoleFileName).toString());
         player->playlist()->playItem(0);
+    }
+}
+
+void Files::addToPlaylist(int index)
+{
+    if(m_mediaType == "music") {
+        Xbmc::instance()->audioPlayer()->playlist()->addFile(m_list.at(index)->data(RoleFileName).toString());
+    } else {
+        Xbmc::instance()->videoPlayer()->playlist()->addFile(m_list.at(index)->data(RoleFileName).toString());
     }
 }
 

@@ -50,13 +50,14 @@ Item {
             //        anchors.rightMargin: 20
             clip: true
             model: library
+            property int selectedIndex: -1
 
             delegate: Item {
                 width: parent.width
                 height: 64
                 Image {
                     anchors.fill: parent
-                    source: "images/MenuItemNF.png"
+                    source: index == list.selectedIndex ? "images/MenuItemFO.png" : "images/MenuItemNF.png"
                 }
 
                 Text {
@@ -70,12 +71,33 @@ Item {
 
                 MouseArea {
                     anchors.fill: parent
+                    enabled: contextMenu.state != "visible"
+
+                    onPressed: list.selectedIndex = index
+
+                    onPressAndHold: {
+                        // Hack: if we clear the model, the anchors are screwed for some reason. To prevent this
+                        // we unset the model and set it back after populating it
+                        contextMenu.model = null
+                        contextMenuModel.clear();
+                        if(playable) {
+                            contextMenuModel.append({ "entryId": 0, "menuEntry": "Play"})
+                            contextMenuModel.append({ "entryId": 1, "menuEntry": "Add to playlist"})
+                        }
+                        if(xbmcBrowser.viewState === "library" && list.model.parentModel() === null) {
+                            contextMenuModel.append({ "entryId": 2, "menuEntry": "Rescan library"})
+                        }
+                        if(contextMenuModel.count > 0) {
+                            contextMenu.state = "visible"
+                        }
+                        contextMenu.model = contextMenuModel
+                    }
 
                     onClicked: {
                         if(filetype=="directory") {
-                            var newModel = list.model.enterItem(index)
-                            console.log("newModel: " + newModel)
-                            list.model = newModel
+                            var newModel = list.model.enterItem(index);
+                            console.log("newModel: " + newModel);
+                            list.model = newModel;
                         } else {
                             list.model.playItem(index);
                         }
@@ -83,6 +105,9 @@ Item {
                 }
             }
 
+            Keys.onPressed: {
+                console.log("key pressed");
+            }
         }
 
         ScrollBar {
@@ -95,6 +120,35 @@ Item {
 
 
     }
+
+    ListModel {
+        id: contextMenuModel
+        ListElement { entryId: 0; menuEntry: "Play"}
+        ListElement { entryId: 1; menuEntry: "Add to playlist"}
+        ListElement { entryId: 2; menuEntry: "Rescan library"}
+    }
+
+    ContextMenu {
+        id: contextMenu
+
+        model: contextMenuModel
+
+        onClicked: {
+            switch(index) {
+            case 0:
+                list.model.playItem(list.selectedIndex);
+                break;
+            case 1:
+                list.model.addToPlaylist(list.selectedIndex);
+                break;
+            case 2:
+                list.model.scanForContent();
+                break;
+            }
+        }
+    }
+
+
 
 //    Behavior on opacity {
 //        NumberAnimation { easing.type: Easing.InQuint; duration: 300 }
