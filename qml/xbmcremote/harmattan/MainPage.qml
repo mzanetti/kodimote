@@ -10,12 +10,12 @@ Page {
         id: mainMenuModel
         ListElement {
             title: "Music"
-            icon: "content-music-band"
+            icon: "icon-m-content-music-band"
             subtitle: ""
         }
         ListElement {
             title: "Videos"
-            icon: "content-videos"
+            icon: "icon-m-content-videos"
             subtitle: ""
         }
 //        ListElement {
@@ -49,11 +49,11 @@ Page {
             Rectangle {
                 id: background
                 anchors.fill: parent
-                opacity: 0.05
+                opacity: theme.inverted ? 0.1 : 0.05
                 // Fill page borders
-                anchors.leftMargin: -mainPage.anchors.leftMargin
-                anchors.rightMargin: -mainPage.anchors.rightMargin
-                color: "black"
+//                anchors.leftMargin: -mainPage.anchors.leftMargin
+//                anchors.rightMargin: -mainPage.anchors.rightMargin
+                color: theme.inverted ? "white" : "black"
                 radius: 20
             }
 
@@ -61,8 +61,6 @@ Page {
                 id: backgroundPressed
                 anchors.fill: parent
                 // Fill page borders
-                anchors.leftMargin: -mainPage.anchors.leftMargin
-                anchors.rightMargin: -mainPage.anchors.rightMargin
                 visible: mouseArea.pressed
                 source: "image://theme/meegotouch-list-background-pressed-center"
             }
@@ -70,14 +68,16 @@ Page {
 
             Row {
                 id: textRow
-                anchors {left: toolIcon.right; right: arrow.left; top: parent.top; /*bottom: parent.bottom*/ }
+                anchors.fill: parent
                 height: 150
+                spacing: 20
+                anchors.margins: 20
 
-                ToolIcon {
+
+                Image {
                     id: toolIcon
-                    anchors.left: parent.left
                     anchors.verticalCenter: parent.verticalCenter
-                    platformIconId: icon
+                    source: "image://theme/" + icon + (theme.inverted ? "-inverse" : "")
                 }
 
                 Column {
@@ -94,9 +94,8 @@ Page {
                         id: subText
                         text: listItem.mode == "library" ? "Library" : "Files"
                         font.weight: Font.Light
-                        font.pixelSize: 22
-                        color: "#cc6633"
-
+                        font.pixelSize: 24
+                        color: theme.inverted ? "#7b797b" : "#848684"
                         visible: text != ""
                     }
                 }
@@ -197,6 +196,7 @@ Page {
     ContextMenu {
         id: longTapMenu
         visualParent: pageStack
+
         MenuLayout {
             MenuItem {
                 text: "Show files"

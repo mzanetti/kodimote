@@ -7,6 +7,9 @@ PageStackWindow {
     property bool connected: xbmc.connected
     initialPage: connected ? mainPage : noConnectionPage
 
+    Component.onCompleted: {
+        theme.inverted = settings.themeInverted
+    }
 
     MainPage{
         id: mainPage
@@ -65,6 +68,13 @@ PageStackWindow {
                     } else {
                         console.log("Error loading component:", component.errorString());
                     }
+                }
+            }
+            MenuItem {
+                text: "Invert theme"
+                onClicked: {
+                    theme.inverted = !theme.inverted;
+                    settings.themeInverted = theme.inverted;
                 }
             }
             MenuItem {

@@ -71,8 +71,8 @@ Page {
                         id: subText
                         text: subtitle
                         font.weight: Font.Light
-                        font.pixelSize: 22
-                        color: "#cc6633"
+                        font.pixelSize: 24
+                        color: theme.inverted ? "#7b797b" : "#848684"
                         width: listView.width - durationLabel.width
                         elide: Text.ElideRight
                         visible: text != ""
@@ -112,7 +112,7 @@ Page {
         anchors.leftMargin: -mainPage.anchors.leftMargin
         anchors.rightMargin: -mainPage.anchors.rightMargin
         anchors.topMargin: -mainPage.anchors.topMargin
-        source: "image://theme/meegotouch-view-header-fixed" + (theme.inverted ? "-inverse" : "")
+        source: "image://theme/meegotouch-view-header-fixed" + (theme.inverted ? "-inverted" : "")
         Label {
             anchors.margins: mainPage.anchors.margins
             anchors.fill: parent

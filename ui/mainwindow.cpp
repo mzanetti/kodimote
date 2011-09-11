@@ -1,6 +1,7 @@
 #include "mainwindow.h"
 #include "settingsdialog.h"
 #include "aboutdialog.h"
+#include "settings.h"
 
 #include "qmlapplicationviewer.h"
 
@@ -40,6 +41,8 @@ MainWindow::MainWindow(QWidget *parent) :
 
     setMenuBar(menuBar);
 
+    m_settings = new Settings(this);
+    viewer->rootContext()->setContextProperty("settings", m_settings);
     viewer->rootContext()->setContextProperty("xbmc", Xbmc::instance());
     viewer->setOrientation(QmlApplicationViewer::ScreenOrientationAuto);
     viewer->setMainQmlFile(QLatin1String("qml/xbmcremote/fremantle/main.qml"));

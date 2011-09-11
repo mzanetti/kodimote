@@ -99,8 +99,12 @@ XbmcModel* Songs::enterItem(int index)
 void Songs::playItem(int row)
 {
     AudioPlaylistItem pItem;
-    pItem.setArtistId(m_artistId);
-    pItem.setAlbumId(m_albumId);
+    if(m_artistId == -1 && m_albumId == -1) {
+        pItem.setSongId(index(row, 0, QModelIndex()).data(RoleSongId).toInt());
+    } else {
+        pItem.setArtistId(m_artistId);
+        pItem.setAlbumId(m_albumId);
+    }
     Xbmc::instance()->audioPlayer()->playlist()->clear();
     Xbmc::instance()->audioPlayer()->playlist()->addItems(pItem);
     Xbmc::instance()->audioPlayer()->playlist()->playItem(row);

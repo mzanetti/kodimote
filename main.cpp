@@ -19,6 +19,7 @@
 
 #include "ui/mainwindow.h"
 #include "xbmc/xbmc.h"
+#include "settings.h"
 
 #ifdef Q_WS_MAEMO_6
 #include "meegohelper.h"
@@ -31,11 +32,13 @@ int main(int argc, char *argv[])
 {
     QApplication app(argc, argv);
 
+    Settings settings;
 
 #ifdef Q_WS_MAEMO_6
 
     QDeclarativeView *view;
     view = new QDeclarativeView;
+    view->rootContext()->setContextProperty("settings", &settings);
     view->rootContext()->setContextProperty("xbmc", Xbmc::instance());
     view->setSource(QUrl("/opt/xbmcremote/qml/xbmcremote/harmattan/main.qml"));
     view->showFullScreen();

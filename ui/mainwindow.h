@@ -4,6 +4,7 @@
 #include <QMainWindow>
 #include <QKeyEvent>
 
+class Settings;
 class QmlApplicationViewer;
 
 class MainWindow : public QMainWindow
@@ -24,6 +25,7 @@ private:
     void grabZoomKeys(bool grab);
 
     QmlApplicationViewer *viewer;
+    Settings *m_settings;
 
 };
 
