@@ -81,7 +81,11 @@ void Xbmc::init()
     int id = XbmcConnection::sendCommand("Player.GetActivePlayers");
     m_requestMap.insert(id, RequestActivePlayer);
 
-    id = XbmcConnection::sendCommand("XBMC.GetVolume");
+    QVariantMap params;
+    QVariantList list;
+    list.append("volume");
+    params.insert("properties", list);
+    id = XbmcConnection::sendCommand("Application.GetProperties", params);
     m_requestMap.insert(id, RequestVolume);
 
 }
@@ -204,7 +208,7 @@ void Xbmc::responseReceived(int id, const QVariantMap &response)
         }
         break;
     case RequestVolume:
-        m_volume = rsp.toInt();
+        m_volume = rsp.toMap().value("volume").toInt();
 //        qDebug() << "Volume received" << m_volume;
         emit volumeChanged(m_volume);
         break;
@@ -248,7 +252,7 @@ void Xbmc::setVolume(int volume)
     if(volume != m_volume) {
         QVariantMap map;
         map.insert("value", volume);
-        XbmcConnection::sendCommand("XBMC.SetVolume", map);
+        XbmcConnection::sendCommand("Application.SetVolume", map);
         m_volume = volume;
         emit volumeChanged(m_volume);
     }
