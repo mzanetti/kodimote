@@ -19,7 +19,7 @@ CONFIG += mobility
 MOBILITY += systeminfo
 
 SOURCES += main.cpp \
-    settingsdialog.cpp \
+    ui/settingsdialog.cpp \
     xbmc/xbmc.cpp \
     xbmc/xbmcconnection.cpp \
     xbmc/xbmcmodel.cpp \
@@ -45,8 +45,8 @@ SOURCES += main.cpp \
     xbmc/shares.cpp \
     xbmc/movies.cpp \
     xbmc/keys.cpp \
-    aboutdialog.cpp \
-    mainwindow.cpp
+    ui/aboutdialog.cpp \
+    ui/mainwindow.cpp
 
 # We actually don't use the QMLApplicationViewer any more... It's pri file,
 # however contains a lot of deplayment stuff so we still keep this here:
@@ -56,7 +56,7 @@ include(qmlapplicationviewer/qmlapplicationviewer.pri)
 qtcAddDeployment()
 
 
-HEADERS += settingsdialog.h \
+HEADERS += ui/settingsdialog.h \
     xbmc/xbmc.h \
     xbmc/xbmcconnection.h \
     xbmc/xbmcmodel.h \
@@ -83,8 +83,8 @@ HEADERS += settingsdialog.h \
     xbmc/audioplaylistitem.h \
     xbmc/videoplaylistitem.h \
     xbmc/keys.h \
-    aboutdialog.h \
-    mainwindow.h
+    ui/aboutdialog.h \
+    ui/mainwindow.h
 
 LIBS += -lqjson
 
