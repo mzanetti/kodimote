@@ -9,6 +9,7 @@
 
 #include <QMenuBar>
 #include <QDeclarativeContext>
+#include <QProcess>
 
 #ifdef Q_WS_MAEMO_5
     #include <QtGui/QX11Info>
@@ -70,14 +71,25 @@ void MainWindow::openAboutDialog()
 
 void MainWindow::keyPressEvent(QKeyEvent *event)
 {
+    Settings settings;
     switch (event->key()) {
     case Qt::Key_F7:
-        Xbmc::instance()->setVolume(Xbmc::instance()->volume() + 5);
+        if(!settings.volumeUpCommand().isEmpty()) {
+            QProcess p;
+            p.execute(settings.volumeUpCommand());
+        } else {
+            Xbmc::instance()->setVolume(Xbmc::instance()->volume() + 5);
+        }
         event->accept();
         break;
 
     case Qt::Key_F8:
-        Xbmc::instance()->setVolume(Xbmc::instance()->volume() - 5);
+        if(!settings.volumeDownCommand().isEmpty()) {
+            QProcess p;
+            p.execute(settings.volumeDownCommand());
+        } else {
+            Xbmc::instance()->setVolume(Xbmc::instance()->volume() - 5);
+        }
         event->accept();
         break;
     }

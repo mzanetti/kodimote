@@ -13,6 +13,12 @@ public:
     void setThemeInverted(bool inverted);
     bool themeInverted() const;
 
+    void setVolumeUpCommand(const QString &volumeUpCommand);
+    QString volumeUpCommand() const;
+
+    void setVolumeDownCommand(const QString &volumeDownCommand);
+    QString volumeDownCommand() const;
+
 };
 
 #endif // SETTINGS_H
