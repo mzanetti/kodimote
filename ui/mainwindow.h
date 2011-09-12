@@ -3,6 +3,7 @@
 
 #include <QMainWindow>
 #include <QKeyEvent>
+#include <QtDBus/QDBusObjectPath>
 
 class Settings;
 class QmlApplicationViewer;
@@ -20,6 +21,8 @@ protected:
 private slots:
     void openSettingsDialog();
     void openAboutDialog();
+    void callEvent(const QDBusObjectPath &, const QString &);
+    void callTerminated();
 
 private:
     void grabZoomKeys(bool grab);

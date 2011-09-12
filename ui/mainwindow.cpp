@@ -10,6 +10,7 @@
 #include <QMenuBar>
 #include <QDeclarativeContext>
 #include <QProcess>
+#include <QDebug>
 
 #ifdef Q_WS_MAEMO_5
     #include <QtGui/QX11Info>
@@ -24,6 +25,9 @@ MainWindow::MainWindow(QWidget *parent) :
 
 #ifdef Q_WS_MAEMO_5
     setAttribute(Qt::WA_Maemo5AutoOrientation, true);
+
+    QDBusConnection::systemBus().connect(QString(), "/com/nokia/csd/call", "com.nokia.csd.Call", "Coming", this, SLOT(callEvent(QDBusObjectPath,QString)));
+    QDBusConnection::systemBus().connect(QString(), "/com/nokia/csd/call", "com.nokia.csd.Call", "Created", this, SLOT(callEvent(QDBusObjectPath,QString)));
 #endif
 
     viewer = new QmlApplicationViewer;
@@ -71,25 +75,14 @@ void MainWindow::openAboutDialog()
 
 void MainWindow::keyPressEvent(QKeyEvent *event)
 {
-    Settings settings;
     switch (event->key()) {
     case Qt::Key_F7:
-        if(!settings.volumeUpCommand().isEmpty()) {
-            QProcess p;
-            p.execute(settings.volumeUpCommand());
-        } else {
-            Xbmc::instance()->setVolume(Xbmc::instance()->volume() + 5);
-        }
+        Xbmc::instance()->setVolume(Xbmc::instance()->volume() + 5);
         event->accept();
         break;
 
     case Qt::Key_F8:
-        if(!settings.volumeDownCommand().isEmpty()) {
-            QProcess p;
-            p.execute(settings.volumeDownCommand());
-        } else {
-            Xbmc::instance()->setVolume(Xbmc::instance()->volume() - 5);
-        }
+        Xbmc::instance()->setVolume(Xbmc::instance()->volume() - 5);
         event->accept();
         break;
     }
@@ -122,4 +115,18 @@ void MainWindow::grabZoomKeys(bool grab) {
              reinterpret_cast<unsigned char *>(&val),
              1);
 #endif
- }
+}
+
+void MainWindow::callEvent(const QDBusObjectPath &param1, const QString &param2)
+{
+    qDebug() << "phone call event" << param1.path() << param2;
+    Xbmc::instance()->dimVolumeTo(0);
+
+    QDBusConnection::systemBus().connect(QString(), param1.path(), "com.nokia.csd.Call.Instance", "Terminated", this, SLOT(callTerminated()));
+
+}
+
+void MainWindow::callTerminated()
+{
+    Xbmc::instance()->restoreVolume();
+}

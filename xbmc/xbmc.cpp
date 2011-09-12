@@ -38,6 +38,8 @@
 
 #include "keys.h"
 
+#include "settings.h"
+
 #include <QSettings>
 #include <QtDeclarative>
 
@@ -88,6 +90,10 @@ Xbmc::Xbmc(QObject *parent) :
     m_state = "undefined";
 
     m_keys = new Keys(this);
+
+    m_volumeAnimation.setTargetObject(this);
+    m_volumeAnimation.setPropertyName("volume");
+    m_volumeAnimation.setDuration(500);
 }
 
 Xbmc::~Xbmc()
@@ -267,12 +273,19 @@ void Xbmc::setVolume(int volume)
     if(volume > 100) {
         volume = 100;
     }
-    if(volume != m_volume) {
-        QVariantMap map;
-        map.insert("value", volume);
-        XbmcConnection::sendCommand("Application.SetVolume", map);
-        m_volume = volume;
-        emit volumeChanged(m_volume);
+
+    Settings settings;
+    if(!settings.volumeUpCommand().isEmpty()) {
+        QProcess p;
+        p.execute(settings.volumeUpCommand(), QStringList() << QString::number(volume));
+    } else {
+        if(volume != m_volume) {
+            QVariantMap map;
+            map.insert("value", volume);
+            XbmcConnection::sendCommand("Application.SetVolume", map);
+            m_volume = volume;
+            emit volumeChanged(m_volume);
+        }
     }
 }
 
@@ -284,4 +297,18 @@ int Xbmc::volume()
 void Xbmc::quit()
 {
     XbmcConnection::sendCommand("XBMC.Quit");
+}
+
+void Xbmc::dimVolumeTo(int newVolume)
+{
+    m_volumeAnimation.setDirection(QAbstractAnimation::Forward);
+    m_volumeAnimation.setStartValue(m_volume);
+    m_volumeAnimation.setEndValue(newVolume);
+    m_volumeAnimation.start();
+}
+
+void Xbmc::restoreVolume()
+{
+    m_volumeAnimation.setDirection(QAbstractAnimation::Backward);
+    m_volumeAnimation.start();
 }

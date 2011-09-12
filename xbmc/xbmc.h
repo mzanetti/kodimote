@@ -21,6 +21,7 @@
 
 #include <QObject>
 #include <QVariantMap>
+#include <QPropertyAnimation>
 
 class XbmcModel;
 class AudioLibrary;
@@ -76,6 +77,9 @@ public:
     Q_INVOKABLE void setVolume(int volume);
     int volume();
 
+    Q_INVOKABLE void dimVolumeTo(int newVolume);
+    Q_INVOKABLE void restoreVolume();
+
 public slots:
     void quit();
 
@@ -115,6 +119,11 @@ private:
 
     QString m_hostname;
     int m_port;
+
+    int m_originalVolume;
+    int m_targetVolume;
+
+    QPropertyAnimation m_volumeAnimation;
 
 };
 

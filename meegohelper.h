@@ -22,6 +22,7 @@
 #include <QObject>
 #include <qmsystem2/qmkeys.h>
 #include <resource/qt4/policy/resource-set.h>
+#include <QtDBus/QDBusObjectPath>
 
 class MeeGoHelper : public QObject
 {
@@ -34,6 +35,8 @@ signals:
 private slots:
     void keyEvent(MeeGo::QmKeys::Key,MeeGo::QmKeys::State);
     bool eventFilter(QObject *obj, QEvent *event);
+    void callEvent(const QDBusObjectPath &, const QString &);
+    void callTerminated();
 
 private:
     MeeGo::QmKeys m_keys;

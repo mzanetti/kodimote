@@ -45,8 +45,6 @@ SOURCES += main.cpp \
     xbmc/shares.cpp \
     xbmc/movies.cpp \
     xbmc/keys.cpp \
-    ui/aboutdialog.cpp \
-    ui/mainwindow.cpp \
     settings.cpp
 
 # We actually don't use the QMLApplicationViewer any more... It's pri file,
@@ -84,8 +82,6 @@ HEADERS += ui/settingsdialog.h \
     xbmc/audioplaylistitem.h \
     xbmc/videoplaylistitem.h \
     xbmc/keys.h \
-    ui/aboutdialog.h \
-    ui/mainwindow.h \
     settings.h
 
 LIBS += -lqjson
@@ -116,6 +112,12 @@ exists($$QMAKE_INCDIR_QT"/../qmsystem2/qmkeys.h") {
     HEADERS += meegohelper.h
     INCLUDEPATH += /usr/include/resource/qt4
     LIBS += -lresourceqt
+} else {
+    SOURCES += ui/aboutdialog.cpp \
+               ui/mainwindow.cpp
+
+    HEADERS += ui/aboutdialog.h \
+               ui/mainwindow.h
 }
 
 symbian:TARGET.UID3 = 0xE1297420

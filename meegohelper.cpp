@@ -22,6 +22,7 @@
 #include <QDebug>
 #include <QApplication>
 #include <policy/audio-resource.h>
+#include <QtDBus/QDBusConnection>
 
 MeeGoHelper::MeeGoHelper(QObject *parent) :
     QObject(parent),
@@ -34,6 +35,10 @@ MeeGoHelper::MeeGoHelper(QObject *parent) :
 
     m_resouceSet->acquire();
     m_buttonsAcquired = true;
+
+
+    QDBusConnection::systemBus().connect(QString(), "/com/nokia/csd/call", "com.nokia.csd.Call", "Coming", this, SLOT(callEvent(QDBusObjectPath,QString)));
+    QDBusConnection::systemBus().connect(QString(), "/com/nokia/csd/call", "com.nokia.csd.Call", "Created", this, SLOT(callEvent(QDBusObjectPath,QString)));
 }
 
 bool MeeGoHelper::eventFilter(QObject *obj, QEvent *event)
@@ -64,4 +69,18 @@ void MeeGoHelper::keyEvent(MeeGo::QmKeys::Key key, MeeGo::QmKeys::State state)
         Xbmc::instance()->setVolume(Xbmc::instance()->volume() - 5);
         break;
     }
+}
+
+void MeeGoHelper::callEvent(const QDBusObjectPath &param1, const QString &param2)
+{
+    qDebug() << "phone call event" << param1.path() << param2;
+    Xbmc::instance()->dimVolumeTo(0);
+
+    QDBusConnection::systemBus().connect(QString(), param1.path(), "com.nokia.csd.Call.Instance", "Terminated", this, SLOT(callTerminated()));
+
+}
+
+void MeeGoHelper::callTerminated()
+{
+    Xbmc::instance()->restoreVolume();
 }
