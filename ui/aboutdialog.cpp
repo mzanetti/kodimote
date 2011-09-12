@@ -7,7 +7,7 @@
 #include <QDesktopServices>
 #include <QUrl>
 
-#define VERSION_STRING "0.3.1"
+#define VERSION_STRING "0.4.1"
 
 AboutDialog::AboutDialog(QWidget *parent) :
     QDialog(parent)
@@ -41,7 +41,7 @@ AboutDialog::AboutDialog(QWidget *parent) :
     vlayout->addWidget(label1);
 
     QLabel *label2 = new QLabel("Thanks to\n" \
-                                "Xbmc Development Team (artwork)\n" \
+                                "Xbmc Development Team\n" \
                                 "Johannes Siipola (artwork)");
     vlayout->addWidget(label2);
 

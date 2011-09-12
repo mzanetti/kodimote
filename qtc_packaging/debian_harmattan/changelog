@@ -1,5 +1,12 @@
-xbmcremote (0.3.0-harmattan0) unstable; urgency=low
+xbmcremote (0.4.1-harmattan0) unstable; urgency=low
 
-  * blabla
+  * New artwork for the buttons thanks to Johannes Siipola <joppu@kapsi.fi>
+  * Added AboutDialog
+  * Added longtap context menu to lists for manipulating the playlist
+  * Added possibility to remotely rescan the collection
+  * Use volume buttons on N900/N950/N9
+  * Minor fixes and UI improvements
+  * Added ability to invert the theme
+  * Added ability to define custom commands vor volumeUp/volumeDown in config file
 
- -- Michael Zanetti <mzanetti@kde.org>  Sat, 16 Jul 2011 10:20:39 +0200
+ -- Michael Zanetti <michael_zanetti@gmx.net>  Sat, 11 Sep 2011 16:47:39 +0200

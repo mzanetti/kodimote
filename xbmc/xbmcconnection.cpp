@@ -224,7 +224,7 @@ void XbmcConnectionPrivate::replyReceived()
             } else {
                 qDebug() << "XBMC is too old!";
                 m_socket->disconnectFromHost();
-                m_connectionError = "Connection failed: This version of xbmc is too old. Please upgrade to a newer version.";
+                m_connectionError = "Connection failed: This version of xbmc is too old. Please upgrade to a newer version (at least from 05. Sep. 2011) which can be downloaded from http://mirrors.xbmc.org/nightlies/.";
             }
             emit m_notifier->connectionChanged();
             return;

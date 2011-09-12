@@ -1,11 +1,5 @@
-xbmcremote (0.4.0-fremantle0) unstable; urgency=low
+xbmcremote (0.4.1-fremantle3) unstable; urgency=low
 
-  * New artwork for the buttons thanks to Johannes Siipola <joppu@kapsi.fi>
-  * Fixed QML imports for Qt 4.7.0
-  * Added AboutDialog
-  * Added longtap context menu to lists for manipulating the playlist
-  * Added possibility to remotely rescan the collection
-  * Use volume buttons on N900/N950/N9
-  * Minor fixes and UI improvements
+  * Added more informations if connecting to an installation of xbmc which is too old
 
- -- Michael Zanetti <michael_zanetti@gmx.net>  Sat, 11 Sep 2011 16:47:39 +0200
+ -- Michael Zanetti <michael_zanetti@gmx.net>  Mon, 12 Sep 2011 07:07:39 +0200

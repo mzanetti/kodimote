@@ -176,8 +176,8 @@ Rectangle {
     Rectangle {
         id: notConnectedPopup
         anchors.centerIn: parent
-        height: 200
-        width: 400
+        height: 250
+        width: 450
         color: "black"
         border.color: "white"
         radius: 10
@@ -191,6 +191,7 @@ Rectangle {
 
         Text {
             anchors.fill: parent
+            anchors.margins: 20
             horizontalAlignment: Text.AlignHCenter
             verticalAlignment: Text.AlignVCenter
             text: xbmc.connectionError
