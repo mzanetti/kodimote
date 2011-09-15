@@ -11,7 +11,6 @@
 #include <QDeclarativeContext>
 #include <QProcess>
 #include <QDebug>
-#include <QtDBus/QDBusConnection>
 
 #ifdef Q_WS_MAEMO_5
     #include <QtGui/QX11Info>
@@ -29,6 +28,8 @@ MainWindow::MainWindow(QWidget *parent) :
 
     QDBusConnection::systemBus().connect(QString(), "/com/nokia/csd/call", "com.nokia.csd.Call", "Coming", this, SLOT(callEvent(QDBusObjectPath,QString)));
     QDBusConnection::systemBus().connect(QString(), "/com/nokia/csd/call", "com.nokia.csd.Call", "Created", this, SLOT(callEvent(QDBusObjectPath,QString)));
+
+    grabZoomKeys(true);
 #endif
 
     viewer = new QmlApplicationViewer;
@@ -53,13 +54,13 @@ MainWindow::MainWindow(QWidget *parent) :
     viewer->setOrientation(QmlApplicationViewer::ScreenOrientationAuto);
     viewer->setMainQmlFile(QLatin1String("qml/xbmcremote/fremantle/main.qml"));
 
-    grabZoomKeys(true);
-
 }
 
 MainWindow::~MainWindow()
 {
+#ifdef Q_WS_MAEMO_5
     grabZoomKeys(false);
+#endif
 }
 
 void MainWindow::openSettingsDialog()
@@ -90,10 +91,8 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
     QWidget::keyPressEvent(event);
 }
 
+#ifdef Q_WS_MAEMO_5
 void MainWindow::grabZoomKeys(bool grab) {
-#ifndef Q_WS_MAEMO_5
-    Q_UNUSED(grab)
-#else
     if (!winId()) {
         qWarning("Can't grab keys unless we have a window id");
         return;
@@ -115,7 +114,6 @@ void MainWindow::grabZoomKeys(bool grab) {
              PropModeReplace,
              reinterpret_cast<unsigned char *>(&val),
              1);
-#endif
 }
 
 void MainWindow::callEvent(const QDBusObjectPath &param1, const QString &param2)
@@ -131,3 +129,4 @@ void MainWindow::callTerminated()
 {
     Xbmc::instance()->restoreVolume();
 }
+#endif
