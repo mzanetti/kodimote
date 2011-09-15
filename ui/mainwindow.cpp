@@ -11,6 +11,7 @@
 #include <QDeclarativeContext>
 #include <QProcess>
 #include <QDebug>
+#include <QtDBus/QDBusConnection>
 
 #ifdef Q_WS_MAEMO_5
     #include <QtGui/QX11Info>
