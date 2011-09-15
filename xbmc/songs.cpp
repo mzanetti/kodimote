@@ -41,7 +41,11 @@ Songs::Songs(int artistid, int albumid, XbmcModel *parent):
     params.insert("fields", fields);
 
     QVariantMap sort;
-    sort.insert("method", "track");
+    if(m_albumId == -1) {
+        sort.insert("method", "label");
+    } else {
+        sort.insert("method", "track");
+    }
     sort.insert("order", "ascending");
     params.insert("sort", sort);
     m_requestId = XbmcConnection::sendCommand("AudioLibrary.GetSongs", params);

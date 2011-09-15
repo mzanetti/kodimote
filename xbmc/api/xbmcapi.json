@@ -11,7 +11,29 @@
 "AudioLibrary.GetAlbumDetails":{"description":"Retrieve details about a specific album","params":[{"$ref":"Library.Id","name":"albumid","required":true},{"$ref":"Audio.Fields.Album","name":"fields"}],"returns":{"properties":{"albumdetails":{"$ref":"Audio.Details.Album"}},"type":"object"},"type":"method"},
 "AudioLibrary.GetAlbums":{"description":"Retrieve all albums from specified artist or genre","params":[{"$ref":"Library.Id","default":-1,"name":"artistid"},{"$ref":"Library.Id","default":-1,"name":"genreid"},{"$ref":"Audio.Fields.Album","name":"fields"},{"$ref":"List.Limits","name":"limits"},{"$ref":"List.Sort","name":"sort"}],"returns":{"properties":{"albums":{"items":{"$ref":"Audio.Details.Album"},"type":"array"},"limits":{"$ref":"List.LimitsReturned","required":true}},"type":"object"},"type":"method"},
 "AudioLibrary.GetArtistDetails":{"description":"Retrieve details about a specific artist","params":[{"$ref":"Library.Id","name":"artistid","required":true},{"$ref":"Audio.Fields.Artist","name":"fields"}],"returns":{"properties":{"artistdetails":{"$ref":"Audio.Details.Artist"}},"type":"object"},"type":"method"},
-"AudioLibrary.GetArtists":{"description":"Retrieve all artists","params":[{"$ref":"Optional.Boolean","default":null,"description":"Whether or not to include artists only appearing in compilations. If the parameter is not passed or is passed as null the GUI setting will be used","name":"albumartistsonly"},{"$ref":"Library.Id","default":-1,"name":"genreid"},{"$ref":"Audio.Fields.Artist","name":"fields"},{"$ref":"List.Limits","name":"limits"},{"$ref":"List.Sort","name":"sort"}],"returns":{"properties":{"artists":{"items":{"$ref":"Audio.Details.Artist"},"type":"array"},"limits":{"$ref":"List.LimitsReturned","required":true}},"type":"object"},"type":"method"},
+
+"AudioLibrary.GetArtists":{
+  "description":"Retrieve all artists",
+  "params":[
+    {"$ref":"Optional.Boolean","default":null,"description":"Whether or not to include artists only appearing in compilations. If the parameter is not passed or is passed as null the GUI setting will be used","name":"albumartistsonly"},
+    {"$ref":"Library.Id","default":-1,"name":"genreid"},
+    {"$ref":"Audio.Fields.Artist","name":"fields"},
+    {"$ref":"List.Limits","name":"limits"},
+    {"$ref":"List.Sort","name":"sort"}
+  ],
+  "returns":{
+    "properties":{
+      "artists":{
+        "items":{"$ref":"Audio.Details.Artist"},
+        "type":"array"
+      },
+      "limits":{"$ref":"List.LimitsReturned","required":true}
+    },
+    "type":"object"
+  },
+  "type":"method"
+},
+
 "AudioLibrary.GetGenres":{"description":"Retrieve all genres","params":[{"$ref":"Library.Fields.Genre","name":"fields"},{"$ref":"List.Limits","name":"limits"},{"$ref":"List.Sort","name":"sort"}],"returns":{"properties":{"genres":{"items":{"$ref":"Library.Details.Genre"},"required":true,"type":"array"},"limits":{"$ref":"List.LimitsReturned","required":true}},"type":"object"},"type":"method"},
 "AudioLibrary.GetRecentlyAddedAlbums":{"description":"Retrieve recently added albums","params":[{"$ref":"List.Amount","default":-1,"name":"albums"},{"$ref":"Audio.Fields.Album","name":"fields"},{"$ref":"List.Limits","name":"limits"},{"$ref":"List.Sort","name":"sort"}],"returns":{"properties":{"albums":{"items":{"$ref":"Audio.Details.Album"},"type":"array"},"limits":{"$ref":"List.LimitsReturned","required":true}},"type":"object"},"type":"method"},
 "AudioLibrary.GetRecentlyAddedSongs":{"description":"Retrieve recently added songs","params":[{"$ref":"List.Amount","default":-1,"description":"The amount of recently added albums from which to return the songs","name":"albums"},{"$ref":"Audio.Fields.Song","name":"fields"},{"$ref":"List.Limits","name":"limits"},{"$ref":"List.Sort","name":"sort"}],"returns":{"properties":{"limits":{"$ref":"List.LimitsReturned","required":true},"songs":{"items":{"$ref":"Audio.Details.Song"},"type":"array"}},"type":"object"},"type":"method"},
@@ -205,7 +227,29 @@
 "List.Items.Video":{"id":"List.Items.Video","items":{"properties":{"album":{"default":"","type":"string"},"artist":{"default":"","type":"string"},"country":{"default":"","type":"string"},"director":{"default":"","type":"string"},"episode":{"default":0,"type":"integer"},"episodeguide":{"default":"","type":"string"},"fanart":{"default":"","type":"string"},"file":{"default":"","type":"string"},"firstaired":{"default":"","type":"string"},"genre":{"default":"","type":"string"},"id":{"$ref":"Library.Id","default":-1},"imdbnumber":{"default":"","type":"string"},"label":{"required":true,"type":"string"},"lastplayed":{"default":"","type":"string"},"mpaa":{"default":"","type":"string"},"originaltitle":{"default":"","type":"string"},"playcount":{"default":0,"type":"integer"},"plot":{"default":"","type":"string"},"plotoutline":{"default":"","type":"string"},"premiered":{"default":"","type":"string"},"productioncode":{"default":"","type":"string"},"rating":{"default":0,"type":"number"},"runtime":{"default":"","type":"string"},"season":{"default":0,"type":"integer"},"setid":{"default":"","description":"Comma-separated list of sets","type":"string"},"showlink":{"default":"","type":"string"},"showtitle":{"default":"","type":"string"},"sorttitle":{"default":"","type":"string"},"streamdetails":{"$ref":"Video.Streams"},"studio":{"default":"","type":"string"},"tagline":{"default":"","type":"string"},"thumbnail":{"default":"","type":"string"},"title":{"default":"","type":"string"},"top250":{"default":0,"type":"integer"},"track":{"default":0,"type":"integer"},"trailer":{"default":"","type":"string"},"tvshowid":{"$ref":"Library.Id","default":-1},"type":{"default":"unknown","enums":["unknown","movie","episode","musicvideo"],"type":"string"},"votes":{"default":"","type":"string"},"writer":{"default":"","type":"string"},"year":{"default":0,"type":"integer"}},"type":"object"},"type":"array"},
 "List.Limits":{"id":"List.Limits","properties":{"end":{"default":-1,"minimum":0,"type":"integer"},"start":{"default":0,"minimum":0,"type":"integer"}},"type":"object"},
 "List.LimitsReturned":{"id":"List.LimitsReturned","properties":{"end":{"minimum":0,"required":true,"type":"integer"},"start":{"minimum":0,"required":true,"type":"integer"},"total":{"minimum":0,"required":true,"type":"integer"}},"type":"object"},
-"List.Sort":{"id":"List.Sort","properties":{"ignorearticle":{"default":false,"type":"boolean"},"method":{"default":"none","enums":["none","label","date","size","file","drivetype","track","duration","title","artist","album","genre","year","videorating","programcount","playlist","episode","videotitle","sorttitle","productioncode","songrating","mpaarating","videoruntime","studio","fullpath","lastplayed","unsorted","max"],"type":"string"},"order":{"default":"ascending","enums":["ascending","descending"],"type":"string"}},"type":"object"},"Optional.Boolean":{"default":null,"id":"Optional.Boolean","type":["null","boolean"]},
+
+"List.Sort":{
+  "id":"List.Sort",
+  "properties":{
+    "ignorearticle":{
+      "default":false,
+      "type":"boolean"
+    },
+    "method":{
+      "default":"none",
+      "enums":["none","label","date","size","file","drivetype","track","duration","title","artist","album","genre","year","videorating","programcount","playlist","episode","videotitle","sorttitle","productioncode","songrating","mpaarating","videoruntime","studio","fullpath","lastplayed","unsorted","max"],
+      "type":"string"
+    },
+    "order":{
+      "default":"ascending",
+      "enums":["ascending","descending"],
+      "type":"string"
+    }
+  },
+  "type":"object"
+},
+
+"Optional.Boolean":{"default":null,"id":"Optional.Boolean","type":["null","boolean"]},
 
 "Player.SeekPercentage":{"default":0,"id":"Player.SeekPercentage","maximum":100,"minimum":0,"type":"number"},
 "Player.SeekTime":{"default":0,"id":"Player.SeekTime","minimum":0,"type":"integer"},

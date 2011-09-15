@@ -28,7 +28,16 @@ Artists::Artists(XbmcModel *parent) :
     XbmcModel(parent)
 {
     connect(XbmcConnection::notifier(), SIGNAL(responseReceived(int,QVariantMap)), SLOT(responseReceived(int,QVariantMap)));
-    m_request = XbmcConnection::sendCommand("AudioLibrary.GetArtists");
+
+    QVariantMap params;
+
+    QVariantMap sort;
+    sort.insert("ignorearticle", true);
+    sort.insert("method", "label");
+
+    params.insert("sort", sort);
+
+    m_request = XbmcConnection::sendCommand("AudioLibrary.GetArtists", params);
 }
 
 Artists::~Artists()
