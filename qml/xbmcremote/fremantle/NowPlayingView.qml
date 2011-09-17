@@ -78,6 +78,7 @@ BorderImage {
                 return "images/DefaultVideoCover.png";
             }
         }
+        print("Downloading vfs item:" + xbmc.vfsPath + currentItem.thumbnail)
         return xbmc.vfsPath + currentItem.thumbnail;
     }
 

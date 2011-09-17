@@ -30,6 +30,7 @@ class VideoLibrary;
 class Player;
 class AudioPlayer;
 class VideoPlayer;
+class PicturePlayer;
 class Shares;
 
 class Keys;
@@ -59,6 +60,7 @@ public:
 
     Q_INVOKABLE AudioPlayer *audioPlayer();
     Q_INVOKABLE VideoPlayer *videoPlayer();
+    Q_INVOKABLE PicturePlayer *picturePlayer();
     Q_INVOKABLE Player *activePlayer();
 
     Q_INVOKABLE Keys *keys();
@@ -85,6 +87,8 @@ public:
 
     Q_INVOKABLE void dimVolumeTo(int newVolume);
     Q_INVOKABLE void restoreVolume();
+
+    Q_INVOKABLE void startSlideShow(const QString &directory);
 
 public slots:
     void quit();
@@ -118,6 +122,7 @@ private:
 
     AudioPlayer *m_audioPlayer;
     VideoPlayer *m_videoPlayer;
+    PicturePlayer *m_picturePlayer;
     Player *m_activePlayer;
 
     Keys *m_keys;

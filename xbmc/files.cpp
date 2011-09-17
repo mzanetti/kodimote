@@ -115,11 +115,13 @@ void Files::playItem(int index)
             }
         }
         player->playlist()->playItem(songToPlay);
-    } else {
+    } else if(m_mediaType == "videos"){
         player = Xbmc::instance()->videoPlayer();
         player->playlist()->clear();
         player->playlist()->addFile(m_list.at(index)->data(RoleFileName).toString());
         player->playlist()->playItem(0);
+    } else {
+        Xbmc::instance()->startSlideShow(m_dir);
     }
 }
 
@@ -127,7 +129,7 @@ void Files::addToPlaylist(int index)
 {
     if(m_mediaType == "music") {
         Xbmc::instance()->audioPlayer()->playlist()->addFile(m_list.at(index)->data(RoleFileName).toString());
-    } else {
+    } else if(m_mediaType == "videos"){
         Xbmc::instance()->videoPlayer()->playlist()->addFile(m_list.at(index)->data(RoleFileName).toString());
     }
 }

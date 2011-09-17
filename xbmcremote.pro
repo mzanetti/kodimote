@@ -46,7 +46,9 @@ SOURCES += main.cpp \
     xbmc/movies.cpp \
     xbmc/keys.cpp \
     settings.cpp \
-    networkaccessmanagerfactory.cpp
+    networkaccessmanagerfactory.cpp \
+    xbmc/pictures.cpp \
+    xbmc/pictureplayer.cpp
 
 # We actually don't use the QMLApplicationViewer any more... It's pri file,
 # however contains a lot of deplayment stuff so we still keep this here:
@@ -84,7 +86,9 @@ HEADERS += ui/settingsdialog.h \
     xbmc/videoplaylistitem.h \
     xbmc/keys.h \
     settings.h \
-    networkaccessmanagerfactory.h
+    networkaccessmanagerfactory.h \
+    xbmc/pictures.h \
+    xbmc/pictureplayer.h
 
 LIBS += -lqjson
 
@@ -129,13 +133,4 @@ symbian:TARGET.CAPABILITY += NetworkServices
 
 RESOURCES += \
     xbmcremote.qrc
-
-
-
-
-
-
-
-
-
 

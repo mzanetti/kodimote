@@ -37,7 +37,7 @@ Rectangle {
         source: "backgrounds/videos.jpg"
         anchors.fill: parent
         fillMode: Image.PreserveAspectCrop
-        opacity:  xbmcBrowser.mediaState == "video" ? 1 : 0
+        opacity:  xbmcBrowser.mediaState == "pictures" ? 1 : 0
 
         Behavior on opacity {
             NumberAnimation { duration: 1000 }
@@ -112,6 +112,12 @@ Rectangle {
                 visible: false
                 onGoBack: homeMenu.state = "open"
             }
+            LibraryView {
+                id: pictureBrowser
+                library: xbmc.shares("pictures")
+                visible: false
+                onGoBack: homeMenu.state = "open"
+            }
 
             states: [
                 State { name: "none"; when: homeMenu.state == "open"
@@ -136,6 +142,10 @@ Rectangle {
                 State { name: "videolibrary"; when: xbmcBrowser.mediaState == "video" && xbmcBrowser.viewState == "library"
                     PropertyChanges {target:  videoLibraryView; visible: true }
                     PropertyChanges {target: itemModel; currentView: videoLibraryView }
+                },
+                State { name: "pictures"; when: xbmcBrowser.mediaState == "pictures" && xbmcBrowser.viewState == "pictures"
+                    PropertyChanges {target:  pictureBrowser; visible: true }
+                    PropertyChanges {target: itemModel; currentView: pictureBrowser }
                 }
 
             ]
@@ -149,7 +159,14 @@ Rectangle {
             NowPlaying {
                 anchors.fill: parent
                 playlist: xbmc.activePlayer.playlist()
-                state: xbmc.activePlayer === null ? "playlist" : "nowPlaying"
+                state: "nowPlaying"
+                visible: xbmcBrowser.mediaState != "pictures"
+            }
+
+            PictureControls {
+                visible: xbmcBrowser.mediaState == "pictures"
+                width: view.width
+                height: view.height
             }
 
         }

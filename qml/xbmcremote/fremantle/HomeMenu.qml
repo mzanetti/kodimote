@@ -22,6 +22,7 @@ BorderImage {
         id: homeMenuModel
         ListElement { label: "Music"; stateName: "audio"}
         ListElement { label: "Video"; stateName: "video"}
+        ListElement { label: "Pictures"; stateName: "pictures"}
     }
     ListView {
         id: homeMenuList
@@ -74,6 +75,11 @@ BorderImage {
                     case 1:
                         xbmcBrowser.mediaState = "video"
                         break;
+                    case 2:
+                        xbmcBrowser.mediaState = "pictures"
+                        xbmcBrowser.viewState = "pictures"
+                        homeMenu.state = "closed"
+                        return;
                     }
 //                    homeMenu.state = "closed"
                     subMenu.state = "open"

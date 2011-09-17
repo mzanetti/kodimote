@@ -13,6 +13,7 @@ Item {
     NowPlayingView {
         id: nowPlayingView
         anchors.fill: parent
+        state: "hidden"
         onOpenPlaylist: {
             console.log("clicked3")
             nowPlayling.state = "playlist"
@@ -23,6 +24,7 @@ Item {
         id: audioPlaylist
         anchors.fill: parent
         model: playlist
+        state: "hidden"
         onClosePlaylist: {
             nowPlayling.state = "nowPlaying"
         }

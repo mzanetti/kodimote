@@ -32,6 +32,7 @@
 
 #include "audioplayer.h"
 #include "videoplayer.h"
+#include "pictureplayer.h"
 
 #include "audioplaylistitem.h"
 #include "videoplaylistitem.h"
@@ -63,6 +64,7 @@ Xbmc::Xbmc(QObject *parent) :
     qmlRegisterType<Player>();
     qmlRegisterType<AudioPlayer>();
     qmlRegisterType<VideoPlayer>();
+    qmlRegisterType<PicturePlayer>();
     qmlRegisterType<Playlist>();
     qmlRegisterType<PlaylistItem>();
     qmlRegisterType<AudioPlaylistItem>();
@@ -88,6 +90,7 @@ Xbmc::Xbmc(QObject *parent) :
 
     m_audioPlayer = new AudioPlayer(this);
     m_videoPlayer = new VideoPlayer(this);
+    m_picturePlayer = new PicturePlayer(this);
     m_activePlayer = m_audioPlayer;
     m_state = "undefined";
 
@@ -149,6 +152,11 @@ AudioPlayer *Xbmc::audioPlayer()
 VideoPlayer *Xbmc::videoPlayer()
 {
     return m_videoPlayer;
+}
+
+PicturePlayer *Xbmc::picturePlayer()
+{
+    return m_picturePlayer;
 }
 
 QString Xbmc::hostname()
@@ -339,4 +347,12 @@ void Xbmc::restoreVolume()
 {
     m_volumeAnimation.setDirection(QAbstractAnimation::Backward);
     m_volumeAnimation.start();
+}
+
+void Xbmc::startSlideShow(const QString &directory)
+{
+    QVariantMap params;
+    params.insert("directory", directory);
+
+    XbmcConnection::sendCommand("XBMC.StartSlideShow", params);
 }
