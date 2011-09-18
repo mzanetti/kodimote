@@ -2,8 +2,18 @@
 #include "xbmcconnection.h"
 
 PicturePlayer::PicturePlayer(QObject *parent) :
-    QObject(parent)
+    Player(Player::PlayerTypePictures, parent)
 {
+}
+
+QString PicturePlayer::namespaceString() const
+{
+    return "PicturePlayer";
+}
+
+Playlist *PicturePlayer::playlist() const
+{
+    return 0;
 }
 
 void PicturePlayer::playPause()

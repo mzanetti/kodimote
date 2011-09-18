@@ -46,6 +46,7 @@ class Xbmc : public QObject
     Q_PROPERTY(QString password READ password WRITE setPassword)
     Q_PROPERTY(QString vfsPath READ vfsPath NOTIFY vfsPathChanged)
     Q_PROPERTY(Player* activePlayer READ activePlayer NOTIFY activePlayerChanged)
+    Q_PROPERTY(bool picturePlayerActive READ picturePlayerActive NOTIFY picturePlayerActiveChanged)
     Q_PROPERTY(QString state READ state NOTIFY stateChanged)
     Q_PROPERTY(int volume READ volume WRITE setVolume NOTIFY volumeChanged)
 
@@ -60,8 +61,9 @@ public:
 
     Q_INVOKABLE AudioPlayer *audioPlayer();
     Q_INVOKABLE VideoPlayer *videoPlayer();
-    Q_INVOKABLE PicturePlayer *picturePlayer();
+//    Q_INVOKABLE PicturePlayer *picturePlayer();
     Q_INVOKABLE Player *activePlayer();
+    Q_INVOKABLE bool picturePlayerActive();
 
     Q_INVOKABLE Keys *keys();
 
@@ -90,8 +92,10 @@ public:
 
     Q_INVOKABLE void startSlideShow(const QString &directory);
 
+
 public slots:
     void quit();
+    void queryActivePlayers();
 
 signals:
     void connectedChanged(bool connected);
@@ -103,6 +107,7 @@ signals:
     void portChanged();
     void usernameChanged();
     void passwordChanged();
+    void picturePlayerActiveChanged();
 
 private slots:
     void parseAnnouncement(const QVariantMap &map);
@@ -122,8 +127,9 @@ private:
 
     AudioPlayer *m_audioPlayer;
     VideoPlayer *m_videoPlayer;
-    PicturePlayer *m_picturePlayer;
+//    PicturePlayer *m_picturePlayer;
     Player *m_activePlayer;
+    bool m_picturePlayerActive;
 
     Keys *m_keys;
 

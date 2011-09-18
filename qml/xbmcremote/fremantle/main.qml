@@ -160,20 +160,18 @@ Rectangle {
                 anchors.fill: parent
                 playlist: xbmc.activePlayer.playlist()
                 state: "nowPlaying"
-                visible: xbmcBrowser.mediaState != "pictures"
             }
-
-            PictureControls {
-                visible: xbmcBrowser.mediaState == "pictures"
-                width: view.width
-                height: view.height
-            }
-
         }
 
         Item {
             width: view.width; height: view.height
-            Keypad {}
+            Keypad {
+                visible: !xbmc.picturePlayerActive
+            }
+            PictureControls {
+                visible: xbmc.picturePlayerActive
+            }
+
         }
 
     }

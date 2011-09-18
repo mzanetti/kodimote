@@ -1,13 +1,17 @@
 #ifndef PICTUREPLAYER_H
 #define PICTUREPLAYER_H
 
+#include "player.h"
 #include <QObject>
 
-class PicturePlayer : public QObject
+class PicturePlayer : public Player
 {
     Q_OBJECT
 public:
     explicit PicturePlayer(QObject *parent = 0);
+
+    QString namespaceString() const;
+    Playlist *playlist() const;
 
 public slots:
     void playPause();

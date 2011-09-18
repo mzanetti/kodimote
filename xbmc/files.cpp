@@ -122,6 +122,7 @@ void Files::playItem(int index)
         player->playlist()->playItem(0);
     } else {
         Xbmc::instance()->startSlideShow(m_dir);
+        QTimer::singleShot(100, Xbmc::instance(), SLOT(queryActivePlayers()));
     }
 }
 

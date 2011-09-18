@@ -90,9 +90,10 @@ Xbmc::Xbmc(QObject *parent) :
 
     m_audioPlayer = new AudioPlayer(this);
     m_videoPlayer = new VideoPlayer(this);
-    m_picturePlayer = new PicturePlayer(this);
+//    m_picturePlayer = new PicturePlayer(this);
     m_activePlayer = m_audioPlayer;
     m_state = "undefined";
+    m_picturePlayerActive = false;
 
     m_keys = new Keys(this);
 
@@ -107,14 +108,13 @@ Xbmc::~Xbmc()
 
 void Xbmc::init()
 {
-    int id = XbmcConnection::sendCommand("Player.GetActivePlayers");
-    m_requestMap.insert(id, RequestActivePlayer);
+    queryActivePlayers();
 
     QVariantMap params;
     QVariantList list;
     list.append("volume");
     params.insert("properties", list);
-    id = XbmcConnection::sendCommand("Application.GetProperties", params);
+    int id = XbmcConnection::sendCommand("Application.GetProperties", params);
     m_requestMap.insert(id, RequestVolume);
 
 }
@@ -154,10 +154,10 @@ VideoPlayer *Xbmc::videoPlayer()
     return m_videoPlayer;
 }
 
-PicturePlayer *Xbmc::picturePlayer()
-{
-    return m_picturePlayer;
-}
+//PicturePlayer *Xbmc::picturePlayer()
+//{
+//    return m_picturePlayer;
+//}
 
 QString Xbmc::hostname()
 {
@@ -251,10 +251,20 @@ void Xbmc::responseReceived(int id, const QVariantMap &response)
         } else if(activePlayerMap.value("video").toBool() == true) {
             activePlayer = m_videoPlayer;
             m_state = "video";
-//        } else if(activePlayerMap.value("pictures").toBool() == true) {
-//            activePlayer = m_picturePlayer;
         } else {
             activePlayer = 0;
+            m_state = "";
+        }
+        if(activePlayerMap.value("picture").toBool() == true) {
+            if(!m_picturePlayerActive) {
+                m_picturePlayerActive = true;
+                emit picturePlayerActiveChanged();
+            }
+        } else {
+            if(m_picturePlayerActive) {
+                m_picturePlayerActive = false;
+                emit picturePlayerActiveChanged();
+            }
         }
         if(m_activePlayer != activePlayer) {
             m_activePlayer = activePlayer;
@@ -355,4 +365,15 @@ void Xbmc::startSlideShow(const QString &directory)
     params.insert("directory", directory);
 
     XbmcConnection::sendCommand("XBMC.StartSlideShow", params);
+}
+
+bool Xbmc::picturePlayerActive()
+{
+    return m_picturePlayerActive;
+}
+
+void Xbmc::queryActivePlayers()
+{
+    int id = XbmcConnection::sendCommand("Player.GetActivePlayers");
+    m_requestMap.insert(id, RequestActivePlayer);
 }

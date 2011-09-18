@@ -18,11 +18,11 @@ Page {
             icon: "icon-m-content-videos"
             subtitle: ""
         }
-//        ListElement {
-//            title: "Music Files"
-//            icon: "content-music-band"
-//            subtitle: ""
-//        }
+        ListElement {
+            title: "Pictures"
+            icon: "icon-m-content-image"
+            subtitle: ""
+        }
 //        ListElement {
 //            title: "Video Files"
 //            icon: "content-videos"
@@ -113,7 +113,11 @@ Page {
 
                 onPressed: listView.currentSelected = index;
 
-                onPressAndHold: longTapMenu.open();
+                onPressAndHold: {
+                    if(index == 0 || index  == 1) {
+                        longTapMenu.open();
+                    }
+                }
 
                 onClicked: {
                     var component = Qt.createComponent("BrowserPage.qml")
@@ -135,13 +139,13 @@ Page {
                             }
                             break;
                         case 2:
-                            newModel = xbmc.shares("music");
+                            newModel = xbmc.shares("pictures");
                             console.log("created model: " + newModel);
                             break;
-                        case 3:
-                            newModel = xbmc.shares("video");
-                            console.log("created model: " + newModel);
-                            break;
+//                        case 3:
+//                            newModel = xbmc.shares("video");
+//                            console.log("created model: " + newModel);
+//                            break;
                         }
                         console.log("setting model: " + newModel);
                         pageStack.push(component, {model: newModel});

@@ -34,25 +34,30 @@ PageStackWindow {
         ToolIcon { platformIconId: "toolbar-dialer";
             anchors.horizontalCenter: parent===undefined ? undefined : parent.horizontalCenter
             onClicked: {
-                var component = Qt.createComponent("Keypad.qml")
-                if (component.status == Component.Ready) {
-                    pageStack.push(component);
+                if(xbmc.picturePlayerActive) {
+                    var component = Qt.createComponent("PictureControlsPage.qml")
+                    if (component.status == Component.Ready) {
+                        pageStack.push(component);
+                    } else {
+                        console.log("Error loading component:", component.errorString());
+                    }
                 } else {
-                    console.log("Error loading component:", component.errorString());
+                    var component = Qt.createComponent("Keypad.qml")
+                    if (component.status == Component.Ready) {
+                        pageStack.push(component);
+                    } else {
+                        console.log("Error loading component:", component.errorString());
+                    }
                 }
+
             }
         }
         ToolIcon {
             platformIconId: "toolbar-mediacontrol-play" + (enabled ? "" : "-dimmed");
             enabled: xbmc.activePlayer !== null
             anchors.right: parent===undefined ? undefined : parent.right
-            onClicked: pageStack.push(nowPlayingPage)
+            onClicked: pageStack.push(nowPlayingPage);
         }
-        //        ToolIcon { platformIconId: "toolbar-view-menu";
-        //             anchors.right: parent===undefined ? undefined : parent.right
-        //             onClicked: {
-        //             }
-        //        }
     }
 
     Menu {
@@ -148,16 +153,16 @@ PageStackWindow {
         }
 
         content:Item {
-          id: name
-          height: 200
-          width: parent.width
-          Label {
-            id: text
-            font.pixelSize: 22
-            anchors.centerIn: parent
-            color: "white"
-            text: "Copyright\n Michael Zanetti\n michael_zanetti@gmx.net\n\nThanks to\n Xbmc Development Team (artwork)\n Johannes Siipola (artwork)"
-          }
+            id: name
+            height: 200
+            width: parent.width
+            Label {
+                id: text
+                font.pixelSize: 22
+                anchors.centerIn: parent
+                color: "white"
+                text: "Copyright\n Michael Zanetti\n michael_zanetti@gmx.net\n\nThanks to\n Xbmc Development Team (artwork)\n Johannes Siipola (artwork)"
+            }
         }
 
         buttons {
@@ -173,5 +178,4 @@ PageStackWindow {
             }
         }
     }
-
 }

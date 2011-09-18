@@ -18,11 +18,20 @@ Page {
         ToolIcon { platformIconId: "toolbar-dialer";
             anchors.horizontalCenter: parent===undefined ? undefined : parent.horizontalCenter
             onClicked: {
-                var component = Qt.createComponent("Keypad.qml")
-                if (component.status == Component.Ready) {
-                    pageStack.push(component);
+                if(xbmc.picturePlayerActive) {
+                    var component = Qt.createComponent("PictureControlsPage.qml")
+                    if (component.status == Component.Ready) {
+                        pageStack.push(component);
+                    } else {
+                        console.log("Error loading component:", component.errorString());
+                    }
                 } else {
-                    console.log("Error loading component:", component.errorString());
+                    var component = Qt.createComponent("Keypad.qml")
+                    if (component.status == Component.Ready) {
+                        pageStack.push(component);
+                    } else {
+                        console.log("Error loading component:", component.errorString());
+                    }
                 }
             }
         }
