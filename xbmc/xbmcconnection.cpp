@@ -26,14 +26,15 @@
 #include <QStringList>
 #include <QNetworkRequest>
 #include <QNetworkReply>
+#include <QAuthenticator>
 
 #define DEBUGJSON
 
 namespace XbmcConnection
 {
-void connect(const QString &hostname, int port)
+void connect(const QString &hostname, int port, const QString &username, const QString &password)
 {
-    instance()->connect(hostname, port);
+    instance()->connect(hostname, port, username, password);
 }
 
 int sendCommand(const QString &command, const QVariant &params)
@@ -61,6 +62,11 @@ QString connectionError()
     return instance()->connectionError();
 }
 
+QNetworkAccessManager *nam()
+{
+    return instance()->nam();
+}
+
 /*****************************************************************
   Private impl
   ***************************************************************/
@@ -86,14 +92,17 @@ XbmcConnectionPrivate::XbmcConnectionPrivate(QObject *parent) :
     QObject::connect(&m_timeoutTimer, SIGNAL(timeout()), SLOT(clearPending()));
 
     m_network = new QNetworkAccessManager();
+    QObject::connect(m_network, SIGNAL(authenticationRequired(QNetworkReply*,QAuthenticator*)), SLOT(authenticationRequired(QNetworkReply*,QAuthenticator*)));
 }
 
-void XbmcConnectionPrivate::connect(const QString &hostname, int port)
+void XbmcConnectionPrivate::connect(const QString &hostname, int port, const QString &username, const QString &password)
 {
     m_socket->disconnectFromHost();
 
     m_hostName = hostname;
     m_port = port;
+    m_username = username;
+    m_password = password;
 
     qDebug() << "connecting to" << hostname;
     // We connect to telnet on port 9090 for the announcements
@@ -149,6 +158,9 @@ void XbmcConnectionPrivate::sendNextCommand2() {
 
         QNetworkRequest request;
         request.setUrl(QUrl("http://" + m_hostName + ":" + QString::number(m_port) + "/jsonrpc"));
+//        if(!m_password.isEmpty()) {
+//            request.setRawHeader("Authorization", "Basic " + QByteArray(QString("%1:%2").arg(m_username).arg(m_password).toAscii()).toBase64());
+//        }
 
         QVariantMap map;
         map.insert("jsonrpc", "2.0");
@@ -388,6 +400,25 @@ bool XbmcConnectionPrivate::connected()
 QString XbmcConnectionPrivate::connectionError()
 {
     return m_connectionError;
+}
+
+void XbmcConnectionPrivate::authenticationRequired(QNetworkReply *reply, QAuthenticator *authenticator)
+{
+    Q_UNUSED(reply)
+    if(reply == m_lastAuthRequest) {
+        m_connectionError = "Wrong username or password";
+        emit m_notifier->connectionChanged();
+    }
+    if(!m_username.isEmpty() && !m_password.isEmpty()) {
+        authenticator->setUser(m_username);
+        authenticator->setPassword(m_password);
+        m_lastAuthRequest = reply;
+    }
+}
+
+QNetworkAccessManager *XbmcConnectionPrivate::nam()
+{
+    return m_network;
 }
 
 }

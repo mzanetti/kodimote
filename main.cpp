@@ -20,6 +20,7 @@
 #include "ui/mainwindow.h"
 #include "xbmc/xbmc.h"
 #include "settings.h"
+#include "networkaccessmanagerfactory.h"
 
 #ifdef Q_WS_MAEMO_6
 #include "meegohelper.h"
@@ -41,6 +42,7 @@ int main(int argc, char *argv[])
     view->rootContext()->setContextProperty("settings", &settings);
     view->rootContext()->setContextProperty("xbmc", Xbmc::instance());
     view->setSource(QUrl("/opt/xbmcremote/qml/xbmcremote/harmattan/main.qml"));
+    view->engine()->setNetworkAccessManagerFactory(new NetworkAccessManagerFactory());
     view->showFullScreen();
     MeeGoHelper *helper = new MeeGoHelper(&app);
 

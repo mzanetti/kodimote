@@ -54,7 +54,7 @@ class XbmcConnectionPrivate : public QObject
 public:
     explicit XbmcConnectionPrivate(QObject *parent = 0);
 
-    void connect(const QString &hostname, int port);
+    void connect(const QString &hostname, int port, const QString &username, const QString &password);
 
     int sendCommand(const QString &command, const QVariant &parms = QVariant());
 
@@ -65,6 +65,8 @@ public:
     bool connected();
     QString connectionError();
 
+    QNetworkAccessManager *nam();
+
 private slots:
     void readData();
     void clearPending();
@@ -73,6 +75,7 @@ private slots:
     void slotDisconnected();
 
     void replyReceived();
+    void authenticationRequired(QNetworkReply *reply, QAuthenticator *authenticator);
 private:
     QTcpSocket *m_socket;
     int m_commandId;
@@ -88,8 +91,11 @@ private:
 
     QString m_hostName;
     int m_port;
+    QString m_username;
+    QString m_password;
 
     QNetworkAccessManager *m_network;
+    QNetworkReply *m_lastAuthRequest;
     bool m_connected;
     QString m_connectionError;
 

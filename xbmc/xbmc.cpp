@@ -76,8 +76,10 @@ Xbmc::Xbmc(QObject *parent) :
     QSettings settings("xbmcremote");
     m_hostname = settings.value("Host").toString();
     m_port = settings.value("Port", 8080).toInt();
+    m_username = settings.value("Username").toString();
+    m_password = settings.value("Password").toString();
 
-    XbmcConnection::connect(m_hostname, m_port);
+    XbmcConnection::connect(m_hostname, m_port, m_username, m_password);
 //    XbmcConnection::connect("10.10.10.10", 8080);
 
     connect(XbmcConnection::notifier(), SIGNAL(connectionChanged()), SLOT(connectionChanged()));
@@ -175,9 +177,35 @@ void Xbmc::setPort(int port)
     emit portChanged();
 }
 
+QString Xbmc::username()
+{
+    return m_username;
+}
+
+void Xbmc::setUsername(const QString &username)
+{
+    QSettings settings("xbmcremote");
+    settings.setValue("Username", username);
+    m_username = username;
+    emit usernameChanged();
+}
+
+QString Xbmc::password()
+{
+    return m_password;
+}
+
+void Xbmc::setPassword(const QString &password)
+{
+    QSettings settings("xbmcremote");
+    settings.setValue("Password", password);
+    m_password = password;
+    emit passwordChanged();
+}
+
 void Xbmc::connectToHost()
 {
-    XbmcConnection::connect(m_hostname, m_port);
+    XbmcConnection::connect(m_hostname, m_port, m_username, m_password);
 }
 
 Player *Xbmc::activePlayer()

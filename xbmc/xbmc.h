@@ -41,6 +41,8 @@ class Xbmc : public QObject
     Q_PROPERTY(QString connectionError READ connectionError NOTIFY connectedChanged)
     Q_PROPERTY(QString hostname READ hostname WRITE setHostname NOTIFY hostnameChanged)
     Q_PROPERTY(int port READ port WRITE setPort NOTIFY portChanged)
+    Q_PROPERTY(QString username READ username WRITE setUsername)
+    Q_PROPERTY(QString password READ password WRITE setPassword)
     Q_PROPERTY(QString vfsPath READ vfsPath NOTIFY vfsPathChanged)
     Q_PROPERTY(Player* activePlayer READ activePlayer NOTIFY activePlayerChanged)
     Q_PROPERTY(QString state READ state NOTIFY stateChanged)
@@ -69,6 +71,10 @@ public:
     void setHostname(const QString &hostname);
     int port();
     void setPort(int port);
+    QString username();
+    void setUsername(const QString &username);
+    QString password();
+    void setPassword(const QString &password);
 
     QString state();
 
@@ -91,6 +97,8 @@ signals:
     void stateChanged();
     void hostnameChanged();
     void portChanged();
+    void usernameChanged();
+    void passwordChanged();
 
 private slots:
     void parseAnnouncement(const QVariantMap &map);
@@ -119,6 +127,8 @@ private:
 
     QString m_hostname;
     int m_port;
+    QString m_username;
+    QString m_password;
 
     int m_originalVolume;
     int m_targetVolume;

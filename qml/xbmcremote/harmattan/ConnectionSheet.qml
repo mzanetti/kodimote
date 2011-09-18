@@ -27,6 +27,23 @@ Sheet {
             id: port
             text: xbmc.port
         }
+        Label {
+            text: "Username:"
+        }
+        TextField {
+            width: parent.width
+            id: username
+            text: xbmc.username
+
+        }
+        Label {
+            text: "Password:"
+        }
+        TextField {
+            width: parent.width
+            id: password
+            text: xbmc.password
+        }
     }
     Component.onCompleted: {
         console.log("port is" + xbmc.port)
@@ -36,6 +53,8 @@ Sheet {
         console.log("sheet accepted")
         xbmc.hostname = hostname.text;
         xbmc.port = port.text;
+        xbmc.username = username.text;
+        xbmc.password = password.text;
         xbmc.connectToHost();
     }
 }

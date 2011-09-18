@@ -4,6 +4,7 @@
 #include <QMainWindow>
 #include <QKeyEvent>
 #include <QtDBus/QDBusObjectPath>
+#include <xbmc/xbmcconnection.h>
 
 class Settings;
 class QmlApplicationViewer;

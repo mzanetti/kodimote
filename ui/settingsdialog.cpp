@@ -33,7 +33,7 @@ SettingsDialog::SettingsDialog(QWidget *parent) :
     setAttribute(Qt::WA_DeleteOnClose, true);
     setWindowTitle("XbmcRemote - " + tr("Connect to Xbmc"));
 
-    QHBoxLayout *hLayout = new QHBoxLayout();
+    QGridLayout *hLayout = new QGridLayout();
 
 #ifdef Q_WS_MAEMO_5
     setLayout(hLayout);
@@ -43,16 +43,26 @@ SettingsDialog::SettingsDialog(QWidget *parent) :
     setLayout(vLayout);
 #endif
 
-    hLayout->addWidget(new QLabel("Host:"));
+    hLayout->addWidget(new QLabel("Host:"), 0, 0);
 
     m_hostName = new QLineEdit(Xbmc::instance()->hostname());
-    hLayout->addWidget(m_hostName);
+    hLayout->addWidget(m_hostName, 0, 1);
 
-    hLayout->addWidget(new QLabel("Http Port:"));
+    hLayout->addWidget(new QLabel("Http Port:"), 1, 0);
 
     m_port = new QLineEdit(QString::number(Xbmc::instance()->port()));
     m_port->setValidator(new QIntValidator());
-    hLayout->addWidget(m_port);
+    hLayout->addWidget(m_port, 1, 1);
+
+    hLayout->addWidget(new QLabel("Username:"), 2, 0);
+
+    m_userName = new QLineEdit(Xbmc::instance()->username());
+    hLayout->addWidget(m_userName, 2, 1);
+
+    hLayout->addWidget(new QLabel("Password:"), 3, 0);
+
+    m_password = new QLineEdit(Xbmc::instance()->password());
+    hLayout->addWidget(m_password, 3, 1);
 
 
 #ifdef Q_WS_MAEMO_5
@@ -88,10 +98,32 @@ int SettingsDialog::port()
     return m_port->text().toInt();
 }
 
+void SettingsDialog::setUsername(const QString &username)
+{
+    m_userName->setText(username);
+}
+
+QString SettingsDialog::username()
+{
+    return m_userName->text();
+}
+
+void SettingsDialog::setPassword(const QString &password)
+{
+    m_password->setText(password);
+}
+
+QString SettingsDialog::password()
+{
+    return m_password->text();
+}
+
 void SettingsDialog::accept()
 {
     Xbmc::instance()->setHostname(m_hostName->text());
     Xbmc::instance()->setPort(m_port->text().toInt());
+    Xbmc::instance()->setUsername(m_userName->text());
+    Xbmc::instance()->setPassword(m_password->text());
     Xbmc::instance()->connectToHost();
     QDialog::accept();
 }

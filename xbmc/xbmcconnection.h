@@ -21,11 +21,12 @@
 
 #include <QObject>
 #include <QTcpSocket>
+#include <QNetworkAccessManager>
 
 namespace XbmcConnection
 {
 
-void connect(const QString &hostname, int port);
+void connect(const QString &hostname, int port, const QString &username = QString(), const QString &password = QString());
 
 int sendCommand(const QString &command, const QVariant &params = QVariant());
 
@@ -33,6 +34,8 @@ QString vfsPath();
 
 bool connected();
 QString connectionError();
+
+QNetworkAccessManager *nam();
 
 class Notifier: public QObject
 {

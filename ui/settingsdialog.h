@@ -35,12 +35,20 @@ public:
     void setPort(int port);
     int port();
 
+    void setUsername(const QString &username);
+    QString username();
+
+    void setPassword(const QString &password);
+    QString password();
+
 public slots:
     void accept();
 
 private:
     QLineEdit *m_hostName;
     QLineEdit *m_port;
+    QLineEdit *m_userName;
+    QLineEdit *m_password;
 
 };
 

@@ -2,6 +2,7 @@
 #include "settingsdialog.h"
 #include "aboutdialog.h"
 #include "settings.h"
+#include "networkaccessmanagerfactory.h"
 
 #include "qmlapplicationviewer.h"
 
@@ -9,6 +10,7 @@
 
 #include <QMenuBar>
 #include <QDeclarativeContext>
+#include <QDeclarativeEngine>
 #include <QProcess>
 #include <QDebug>
 
@@ -53,6 +55,7 @@ MainWindow::MainWindow(QWidget *parent) :
     viewer->rootContext()->setContextProperty("xbmc", Xbmc::instance());
     viewer->setOrientation(QmlApplicationViewer::ScreenOrientationAuto);
     viewer->setMainQmlFile(QLatin1String("qml/xbmcremote/fremantle/main.qml"));
+    viewer->engine()->setNetworkAccessManagerFactory(new NetworkAccessManagerFactory());
 
 }
 
