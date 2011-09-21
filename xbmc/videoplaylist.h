@@ -39,7 +39,7 @@ public slots:
     void refresh();
 
 protected:
-    QString namespaceString() const;
+    int playlistId() const;
     void queryItemData(int index);
 
 private slots:

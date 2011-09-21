@@ -33,13 +33,14 @@ Albums::Albums(int artistId, XbmcModel *parent) :
     if(artistId != -1) {
       params.insert("artistid", artistId);
     }
-    QVariantList fields;
-    fields.append("artist");
-    params.insert("fields", fields);
+    QVariantList properties;
+    properties.append("artist");
+    params.insert("properties", properties);
 
     QVariantMap sort;
     sort.insert("method", "label");
     sort.insert("order", "ascending");
+    sort.insert("ignorearticle", true);
     params.insert("sort", sort);
     m_request = XbmcConnection::sendCommand("AudioLibrary.GetAlbums", params);
     connect(XbmcConnection::notifier(), SIGNAL(responseReceived(int,QVariantMap)), SLOT(responseReceived(int,QVariantMap)));

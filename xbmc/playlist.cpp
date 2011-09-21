@@ -40,10 +40,11 @@ Player *Playlist::player() const
 
 void Playlist::addItems(const PlaylistItem &item)
 {
-    QVariantMap itemMap;
-    itemMap.insert("item", item.toMap());
+    QVariantMap params;
+    params.insert("item", item.toMap());
+    params.insert("playlistid", playlistId());
 
-    XbmcConnection::sendCommand(namespaceString() + ".Add", itemMap);
+    XbmcConnection::sendCommand("Playlist.Add", params);
 
     refresh();
 }
@@ -52,34 +53,42 @@ void Playlist::removeItem(int index)
 {
     QVariantMap params;
     params.insert("item", index);
-    XbmcConnection::sendCommand(namespaceString() + ".Remove", params);
+    params.insert("playlistid", playlistId());
+    XbmcConnection::sendCommand("Playlist.Remove", params);
 
     refresh();
 }
 
 void Playlist::clear()
 {
-    XbmcConnection::sendCommand(namespaceString() + ".Clear");
+    QVariantMap params;
+    params.insert("playlistid", playlistId());
+    XbmcConnection::sendCommand("Playlist.Clear", params);
     refresh();
 }
 
-void Playlist::addPlaylist(const QString &playlistId)
+void Playlist::addPlaylist(const QString &playlist)
 {
     PlaylistItem pItem;
-    pItem.setPlayList(playlistId);
-    QVariantMap item;
-    item.insert("item", pItem.toMap());
+    pItem.setPlayList(playlist);
 
-    XbmcConnection::sendCommand(namespaceString() + ".Add", item);
+    QVariantMap params;
+    params.insert("item", pItem.toMap());
+    params.insert("playlistid", playlistId());
+
+    XbmcConnection::sendCommand("Playlist.Add", params);
 }
 
 void Playlist::addFile(const QString &file)
 {
     PlaylistItem pItem;
     pItem.setFile(file);
-    QVariantMap item;
-    item.insert("item", pItem.toMap());
-    XbmcConnection::sendCommand(namespaceString() + ".Add", item);
+
+    QVariantMap params;
+    params.insert("item", pItem.toMap());
+    params.insert("playlistid", playlistId());
+
+    XbmcConnection::sendCommand("Playlist.Add", params);
     refresh();
 }
 
@@ -94,18 +103,24 @@ void Playlist::receivedAnnouncement(const QVariantMap &map)
 
 void Playlist::playItem(int index)
 {
-    QVariantMap map;
-    map.insert("item", index);
-    XbmcConnection::sendCommand(namespaceString() + ".Play", map);
+    QVariantMap params;
+    params.insert("item", index);
+    params.insert("playlistid", playlistId());
+
+    XbmcConnection::sendCommand("Playlist.Play", params);
+
     m_currentItem = index;
-    qDebug() << namespaceString() + "setting current to" << m_currentItem;
+    qDebug() << "setting current of" << playlistId() << "to" << m_currentItem;
     emit currentChanged();
 }
 
 void Playlist::skipPrevious()
 {
     if(m_currentItem > 0) {
-        XbmcConnection::sendCommand(namespaceString() + ".SkipPrevious");
+        QVariantMap params;
+        params.insert("playlistid", playlistId());
+
+        XbmcConnection::sendCommand("Playlist.SkipPrevious", params);
         m_currentItem--;
         qDebug() << "(4)settings current to" << m_currentItem;
         emit currentChanged();
@@ -115,7 +130,10 @@ void Playlist::skipPrevious()
 void Playlist::skipNext()
 {
     if(m_currentItem < count() - 1) {
-        XbmcConnection::sendCommand(namespaceString() + ".SkipNext");
+        QVariantMap params;
+        params.insert("playlistid", playlistId());
+
+        XbmcConnection::sendCommand("Playlist.SkipNext", params);
         m_currentItem++;
         qDebug() << "(3)settings current to" << m_currentItem;
         emit currentChanged();
@@ -139,10 +157,13 @@ bool Playlist::shuffle() const
 
 void Playlist::setShuffle(bool shuffle)
 {
+    QVariantMap params;
+    params.insert("playlistid", playlistId());
+
     if(shuffle) {
-        XbmcConnection::sendCommand(namespaceString() + ".Shuffle");
+        XbmcConnection::sendCommand("Playlist.Shuffle", params);
     } else {
-        XbmcConnection::sendCommand(namespaceString() + ".UnShuffle");
+        XbmcConnection::sendCommand("Playlist.UnShuffle", params);
     }
     if(m_shuffle != shuffle) {
         m_shuffle = shuffle;
@@ -164,8 +185,9 @@ void Playlist::setRepeat(Playlist::Repeat repeat)
         params.insert("state", "all");
         break;
     }
+    params.insert("playlistid", playlistId());
 
-    XbmcConnection::sendCommand(namespaceString() + ".Repeat", params);
+    XbmcConnection::sendCommand("Playlist.Repeat", params);
 
     if(m_repeat != repeat) {
         m_repeat = repeat;

@@ -35,10 +35,10 @@ Songs::Songs(int artistid, int albumid, XbmcModel *parent):
     if(albumid != -1) {
       params.insert("albumid", albumid);
     }
-    QVariantList fields;
-    fields.append("artist");
-    fields.append("album");
-    params.insert("fields", fields);
+    QVariantList properties;
+    properties.append("artist");
+    properties.append("album");
+    params.insert("properties", properties);
 
     QVariantMap sort;
     if(m_albumId == -1) {

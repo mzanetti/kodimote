@@ -24,9 +24,9 @@ VideoPlaylist::VideoPlaylist(Player *parent):
 {
 }
 
-QString VideoPlaylist::namespaceString() const
+int VideoPlaylist::playlistId() const
 {
-    return "VideoPlaylist";
+    return 1;
 }
 
 void VideoPlaylist::refresh()
@@ -35,8 +35,9 @@ void VideoPlaylist::refresh()
     QVariantList fields;
     fields.append("title");
     params.insert("fields", fields);
+    params.insert("playlistid", playlistId());
 
-    int id = XbmcConnection::sendCommand(namespaceString() + ".GetItems", params);
+    int id = XbmcConnection::sendCommand("Playlist.GetItems", params);
     m_requestMap.insert(id, RequestGetItems);
 }
 
@@ -59,8 +60,9 @@ void VideoPlaylist::queryItemData(int index)
     limits.insert("start", index);
     limits.insert("end", index + 1);
     params.insert("limits", limits);
+    params.insert("playlistid", playlistId());
 
-    int id = XbmcConnection::sendCommand(namespaceString() + ".GetItems", params);
+    int id = XbmcConnection::sendCommand("Playlist.GetItems", params);
     m_requestMap.insert(id, RequestCurrentData);
 }
 

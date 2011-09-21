@@ -90,7 +90,7 @@ private slots:
     void receivedAnnouncement(const QVariantMap &map);
 
 protected:
-    virtual QString namespaceString() const = 0;
+    virtual int playlistId() const = 0;
 
     virtual void queryItemData(int index) = 0;
 

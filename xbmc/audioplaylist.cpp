@@ -25,9 +25,9 @@ AudioPlaylist::AudioPlaylist(Player *parent):
 {
 }
 
-QString AudioPlaylist::namespaceString() const
+int AudioPlaylist::playlistId() const
 {
-    return "AudioPlaylist";
+    return 0;
 }
 
 int AudioPlaylist::rowCount(const QModelIndex &parent) const
@@ -49,8 +49,9 @@ void AudioPlaylist::refresh()
     fields.append("artist");
     fields.append("album");
     params.insert("fields", fields);
+    params.insert("playlistid", playlistId());
 
-    int id = XbmcConnection::sendCommand(namespaceString() + ".GetItems", params);
+    int id = XbmcConnection::sendCommand("Playlist.GetItems", params);
     m_requestMap.insert(id, RequestGetItems);
 }
 
@@ -70,8 +71,9 @@ void AudioPlaylist::queryItemData(int index)
     limits.insert("start", index);
     limits.insert("end", index + 1);
     params.insert("limits", limits);
+    params.insert("playlistid", playlistId());
 
-    int id = XbmcConnection::sendCommand(namespaceString() + ".GetItems", params);
+    int id = XbmcConnection::sendCommand("Playlist.GetItems", params);
     m_requestMap.insert(id, RequestCurrentData);
 }
 
