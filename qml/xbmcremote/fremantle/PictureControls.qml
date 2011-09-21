@@ -146,21 +146,6 @@ BorderImage {
                 Row {
                     anchors.horizontalCenter: parent.horizontalCenter
                     spacing: 20
-//                Image {
-//                    id: stopButton
-//                    source: "images/stop_u.png"
-//                    MouseArea {
-//                        id: stopMouseArea
-//                        anchors.fill: parent
-//                        onClicked: player.stop();
-//                    }
-//                    states: [
-//                        State {
-//                            when: stopMouseArea.pressed;
-//                            PropertyChanges { target: homeButton; source: "images/stop_d.png" }
-//                        }
-//                    ]
-//                }
                     Image {
                         id: previousButton
                         source: "images/previous_u.png"
@@ -173,21 +158,6 @@ BorderImage {
                             State {
                                 when: previousMouseArea.pressed;
                                 PropertyChanges { target: previousButton; source: "images/previous_d.png" }
-                            }
-                        ]
-                    }
-                    Image {
-                        id: playPauseButton
-                        source: "images/playpause_u.png"
-                        MouseArea {
-                            id: playPauseMouseArea
-                            anchors.fill: parent
-                            onClicked: player.playPause();
-                        }
-                        states: [
-                            State {
-                                when: playPauseMouseArea.pressed;
-                                PropertyChanges { target: playPauseButton; source: "images/playpause_d.png" }
                             }
                         ]
                     }
@@ -206,10 +176,40 @@ BorderImage {
                             }
                         ]
                     }
+                    Image {
+                        id: playPauseButton
+                        source: "images/playpause_u.png"
+                        MouseArea {
+                            id: playPauseMouseArea
+                            anchors.fill: parent
+                            onClicked: player.playPause();
+                        }
+                        states: [
+                            State {
+                                when: playPauseMouseArea.pressed;
+                                PropertyChanges { target: playPauseButton; source: "images/playpause_d.png" }
+                            }
+                        ]
+                    }
                 }
                 Row{
                     spacing: 20
                     anchors.horizontalCenter: parent.horizontalCenter
+                    Image {
+                        id: zoomOutButton
+                        source: "images/zoomOut_u.png"
+                        MouseArea {
+                            id: zoomOutMouseArea
+                            anchors.fill: parent
+                            onClicked: player.zoomOut();
+                        }
+                        states: [
+                            State {
+                                when: zoomOutMouseArea.pressed;
+                                PropertyChanges { target: zoomOutButton; source: "images/zoomOut_d.png" }
+                            }
+                        ]
+                    }
                     Image {
                         id: zoomInButton
                         source: "images/zoomIn_u.png"
@@ -226,17 +226,17 @@ BorderImage {
                         ]
                     }
                     Image {
-                        id: zoomOutButton
-                        source: "images/zoomOut_u.png"
+                        id: stopButton
+                        source: "images/stop_u.png"
                         MouseArea {
-                            id: zoomOutMouseArea
+                            id: stopMouseArea
                             anchors.fill: parent
-                            onClicked: player.zoomOut();
+                            onClicked: player.stop();
                         }
                         states: [
                             State {
-                                when: zoomOutMouseArea.pressed;
-                                PropertyChanges { target: zoomOutButton; source: "images/zoomOut_d.png" }
+                                when: stopMouseArea.pressed;
+                                PropertyChanges { target: stopButton; source: "images/stop_d.png" }
                             }
                         ]
                     }

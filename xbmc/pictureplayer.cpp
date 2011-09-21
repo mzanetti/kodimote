@@ -1,19 +1,10 @@
 #include "pictureplayer.h"
 #include "xbmcconnection.h"
+#include "xbmc.h"
 
 PicturePlayer::PicturePlayer(QObject *parent) :
-    Player(Player::PlayerTypePictures, parent)
+    QObject(parent)
 {
-}
-
-QString PicturePlayer::namespaceString() const
-{
-    return "PicturePlayer";
-}
-
-Playlist *PicturePlayer::playlist() const
-{
-    return 0;
 }
 
 void PicturePlayer::playPause()
@@ -59,6 +50,7 @@ void PicturePlayer::skipPrevious()
 void PicturePlayer::stop()
 {
     XbmcConnection::sendCommand("PicturePlayer.Stop");
+    QTimer::singleShot(100, Xbmc::instance(), SLOT(queryActivePlayers()));
 }
 
 void PicturePlayer::zoomIn()

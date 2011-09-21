@@ -159,21 +159,6 @@ Page {
                 Row {
                     anchors.horizontalCenter: parent.horizontalCenter
                     spacing: 20
-//                Image {
-//                    id: stopButton
-//                    source: "icons/stop_u.png"
-//                    MouseArea {
-//                        id: stopMouseArea
-//                        anchors.fill: parent
-//                        onClicked: player.stop();
-//                    }
-//                    states: [
-//                        State {
-//                            when: stopMouseArea.pressed;
-//                            PropertyChanges { target: homeButton; source: "icons/stop_d.png" }
-//                        }
-//                    ]
-//                }
                     Image {
                         id: previousButton
                         source: "icons/previous_u.png"
@@ -186,21 +171,6 @@ Page {
                             State {
                                 when: previousMouseArea.pressed;
                                 PropertyChanges { target: previousButton; source: "icons/previous_d.png" }
-                            }
-                        ]
-                    }
-                    Image {
-                        id: playPauseButton
-                        source: "icons/playpause_u.png"
-                        MouseArea {
-                            id: playPauseMouseArea
-                            anchors.fill: parent
-                            onClicked: player.playPause();
-                        }
-                        states: [
-                            State {
-                                when: playPauseMouseArea.pressed;
-                                PropertyChanges { target: playPauseButton; source: "icons/playpause_d.png" }
                             }
                         ]
                     }
@@ -219,10 +189,40 @@ Page {
                             }
                         ]
                     }
+                    Image {
+                        id: playPauseButton
+                        source: "icons/playpause_u.png"
+                        MouseArea {
+                            id: playPauseMouseArea
+                            anchors.fill: parent
+                            onClicked: player.playPause();
+                        }
+                        states: [
+                            State {
+                                when: playPauseMouseArea.pressed;
+                                PropertyChanges { target: playPauseButton; source: "icons/playpause_d.png" }
+                            }
+                        ]
+                    }
                 }
                 Row{
                     spacing: 20
                     anchors.horizontalCenter: parent.horizontalCenter
+                    Image {
+                        id: zoomOutButton
+                        source: "icons/zoomOut_u.png"
+                        MouseArea {
+                            id: zoomOutMouseArea
+                            anchors.fill: parent
+                            onClicked: player.zoomOut();
+                        }
+                        states: [
+                            State {
+                                when: zoomOutMouseArea.pressed;
+                                PropertyChanges { target: zoomOutButton; source: "icons/zoomOut_d.png" }
+                            }
+                        ]
+                    }
                     Image {
                         id: zoomInButton
                         source: "icons/zoomIn_u.png"
@@ -239,17 +239,25 @@ Page {
                         ]
                     }
                     Image {
-                        id: zoomOutButton
-                        source: "icons/zoomOut_u.png"
+                        id: stopButton
+                        source: "icons/stop_u.png"
                         MouseArea {
-                            id: zoomOutMouseArea
+                            id: stopMouseArea
                             anchors.fill: parent
-                            onClicked: player.zoomOut();
+                            onClicked: {
+                                player.stop();
+                                var component = Qt.createComponent("Keypad.qml")
+                                if (component.status == Component.Ready) {
+                                    pageStack.replace(component);
+                                } else {
+                                    console.log("Error loading component:", component.errorString());
+                                }
+                            }
                         }
                         states: [
                             State {
-                                when: zoomOutMouseArea.pressed;
-                                PropertyChanges { target: zoomOutButton; source: "icons/zoomOut_d.png" }
+                                when: stopMouseArea.pressed;
+                                PropertyChanges { target: stopButton; source: "icons/stop_d.png" }
                             }
                         ]
                     }

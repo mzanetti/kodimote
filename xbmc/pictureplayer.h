@@ -4,14 +4,11 @@
 #include "player.h"
 #include <QObject>
 
-class PicturePlayer : public Player
+class PicturePlayer : public QObject
 {
     Q_OBJECT
 public:
     explicit PicturePlayer(QObject *parent = 0);
-
-    QString namespaceString() const;
-    Playlist *playlist() const;
 
 public slots:
     void playPause();

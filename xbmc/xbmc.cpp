@@ -90,7 +90,7 @@ Xbmc::Xbmc(QObject *parent) :
 
     m_audioPlayer = new AudioPlayer(this);
     m_videoPlayer = new VideoPlayer(this);
-//    m_picturePlayer = new PicturePlayer(this);
+    m_picturePlayer = new PicturePlayer(this);
     m_activePlayer = m_audioPlayer;
     m_state = "undefined";
     m_picturePlayerActive = false;
@@ -154,10 +154,10 @@ VideoPlayer *Xbmc::videoPlayer()
     return m_videoPlayer;
 }
 
-//PicturePlayer *Xbmc::picturePlayer()
-//{
-//    return m_picturePlayer;
-//}
+PicturePlayer *Xbmc::picturePlayer()
+{
+    return m_picturePlayer;
+}
 
 QString Xbmc::hostname()
 {

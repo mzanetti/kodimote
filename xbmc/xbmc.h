@@ -61,7 +61,7 @@ public:
 
     Q_INVOKABLE AudioPlayer *audioPlayer();
     Q_INVOKABLE VideoPlayer *videoPlayer();
-//    Q_INVOKABLE PicturePlayer *picturePlayer();
+    Q_INVOKABLE PicturePlayer *picturePlayer();
     Q_INVOKABLE Player *activePlayer();
     Q_INVOKABLE bool picturePlayerActive();
 
@@ -127,7 +127,7 @@ private:
 
     AudioPlayer *m_audioPlayer;
     VideoPlayer *m_videoPlayer;
-//    PicturePlayer *m_picturePlayer;
+    PicturePlayer *m_picturePlayer;
     Player *m_activePlayer;
     bool m_picturePlayerActive;
 
