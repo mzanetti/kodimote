@@ -19,11 +19,11 @@
 #ifndef TVSHOWS_H
 #define TVSHOWS_H
 
-#include "xbmcmodel.h"
+#include "xbmclibrary.h"
 
 #include <QStandardItem>
 
-class TvShows : public XbmcModel
+class TvShows : public XbmcLibrary
 {
     Q_OBJECT
 public:

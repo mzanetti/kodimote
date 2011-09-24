@@ -29,6 +29,7 @@ class Player : public QObject
 {
     Q_OBJECT
     Q_ENUMS(PlayerType)
+    Q_ENUMS(Repeat)
 
     Q_PROPERTY(PlayerType type READ type NOTIFY typeChanged)
 //    Q_PROPERTY(Playlist playlist READ playlist NOTIFY playlistChanged)
@@ -36,12 +37,19 @@ class Player : public QObject
     Q_PROPERTY(int speed READ speed NOTIFY speedChanged)
     Q_PROPERTY(double percentage READ percentage NOTIFY percentageChanged)
     Q_PROPERTY(QString time READ time NOTIFY timeChanged)
+    Q_PROPERTY(bool shuffle READ shuffle WRITE setShuffle NOTIFY shuffleChanged)
+    Q_PROPERTY(Repeat repeat READ repeat WRITE setRepeat NOTIFY repeatChanged)
 
 public:
     enum PlayerType {
         PlayerTypeAudio,
         PlayerTypeVideo,
         PlayerTypePictures
+    };
+    enum Repeat {
+        RepeatNone,
+        RepeatOne,
+        RepeatAll
     };
 
     Player() {};
@@ -54,9 +62,18 @@ public:
 
     PlayerType type() const;
 
-    virtual QString namespaceString() const = 0;
+    virtual int playerId() const = 0;
 
     Q_INVOKABLE virtual Playlist* playlist() const = 0;
+
+    /// play the given item from the playlist
+    Q_INVOKABLE void playItem(int index);
+
+    bool shuffle() const;
+    void setShuffle(bool shuffle);
+
+    Repeat repeat() const;
+    void setRepeat(Repeat repeat);
 
 signals:
     void stateChanged();
@@ -64,6 +81,8 @@ signals:
     void percentageChanged();
     void typeChanged();
     void timeChanged();
+    void shuffleChanged();
+    void repeatChanged();
 
 public slots:
     void playPause();
@@ -74,15 +93,20 @@ public slots:
     void seekForward();
 
 private slots:
-    void getState();
+    void getSpeed();
+    void getPercentage();
+    void getPosition();
     void receivedAnnouncement(const QVariantMap& map);
     void responseReceived(int, const QVariantMap &rsp);
     void setPercentage();
+    void getRepeatShuffle();
 
-private:
+protected:
     enum Request {
-        RequestState,
-        RequestPercentage
+        RequestSpeed,
+        RequestPercentage,
+        RequestPosition,
+        RequestRepeatShuffle
     };
     QMap<int, Request> m_requestMap;
 
@@ -91,6 +115,10 @@ private:
     int m_speed;
     double m_percentage;
     QTimer m_percentageTimer;
+    int m_currentItem;
+
+    bool m_shuffle;
+    Repeat m_repeat;
 };
 
 #endif // PLAYER_H

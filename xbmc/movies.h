@@ -19,11 +19,11 @@
 #ifndef MOVIES_H
 #define MOVIES_H
 
-#include "xbmcmodel.h"
+#include "xbmclibrary.h"
 
 #include <QStandardItem>
 
-class Movies : public XbmcModel
+class Movies : public XbmcLibrary
 {
     Q_OBJECT
 public:

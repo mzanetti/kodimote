@@ -25,17 +25,17 @@
 #include "videoplaylistitem.h"
 
 Seasons::Seasons(int tvshowid, XbmcModel *parent):
-    XbmcModel(parent),
+    XbmcLibrary(parent),
     m_tvshowid(tvshowid)
 {
     QVariantMap params;
     if(tvshowid != -1) {
       params.insert("tvshowid", tvshowid);
     }
-    QVariantList fields;
-    fields.append("showtitle");
-    fields.append("season");
-    params.insert("fields", fields);
+    QVariantList properties;
+    properties.append("showtitle");
+    properties.append("season");
+    params.insert("properties", properties);
 
     QVariantMap sort;
     sort.insert("method", "label");

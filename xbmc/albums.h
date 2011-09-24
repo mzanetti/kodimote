@@ -19,11 +19,11 @@
 #ifndef ALBUMS_H
 #define ALBUMS_H
 
-#include "xbmcmodel.h"
+#include "xbmclibrary.h"
 
 #include <QStandardItem>
 
-class Albums : public XbmcModel
+class Albums : public XbmcLibrary
 {
     Q_OBJECT
 public:

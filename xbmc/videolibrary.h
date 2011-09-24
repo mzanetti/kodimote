@@ -19,11 +19,11 @@
 #ifndef VIDEOLIBRARY_H
 #define VIDEOLIBRARY_H
 
-#include "xbmcmodel.h"
+#include "xbmclibrary.h"
 
 #include <QStandardItem>
 
-class VideoLibrary : public XbmcModel
+class VideoLibrary : public XbmcLibrary
 {
     Q_OBJECT
 public:

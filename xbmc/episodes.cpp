@@ -24,7 +24,7 @@
 #include "videoplaylistitem.h"
 
 Episodes::Episodes(int tvshowid, int seasonid, const QString &seasonString, XbmcModel *parent):
-    XbmcModel(parent),
+    XbmcLibrary(parent),
     m_tvshowid(tvshowid),
     m_seasonid(seasonid),
     m_seasonString(seasonString)
@@ -36,10 +36,9 @@ Episodes::Episodes(int tvshowid, int seasonid, const QString &seasonString, Xbmc
     if(tvshowid != -1) {
       params.insert("season", seasonid);
     }
-    QVariantList fields;
-    fields.append("showtitle");
-//    fields.append("season");
-    params.insert("fields", fields);
+    QVariantList properties;
+    properties.append("showtitle");
+    params.insert("properties", properties);
 
     QVariantMap sort;
     sort.insert("method", "label");
@@ -103,7 +102,7 @@ void Episodes::playItem(int index)
     VideoPlaylistItem item;
     item.setEpisodeId(m_list.at(index)->data(RoleEpisodeId).toInt());
     Xbmc::instance()->videoPlayer()->playlist()->addItems(item);
-    Xbmc::instance()->videoPlayer()->playlist()->playItem(0);
+    Xbmc::instance()->videoPlayer()->playItem(0);
 }
 
 void Episodes::addToPlaylist(int row)

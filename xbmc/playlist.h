@@ -21,7 +21,7 @@
 
 #include "playlistitem.h"
 #include "player.h"
-#include "xbmcmodel.h"
+#include "xbmclibrary.h"
 
 #include <QObject>
 #include <QVariantMap>
@@ -30,38 +30,23 @@ class Playlist : public XbmcModel
 {
     Q_OBJECT
 
-    Q_ENUMS(Repeat)
     Q_PROPERTY(int count READ count NOTIFY countChanged)
     Q_PROPERTY(PlaylistItem* currentItem READ currentItem NOTIFY currentChanged)
     Q_PROPERTY(int currentTrackNumber READ currentTrackNumber NOTIFY currentChanged)
-    Q_PROPERTY(bool shuffle READ shuffle WRITE setShuffle NOTIFY shuffleChanged)
-    Q_PROPERTY(Repeat repeat READ repeat WRITE setRepeat NOTIFY repeatChanged)
 
     Q_PROPERTY(Player* player READ player)
 
 public:
-    enum Repeat {
-        RepeatNone,
-        RepeatOne,
-        RepeatAll
-    };
-
     explicit Playlist(Player *parent = 0);
-
 
     Q_INVOKABLE virtual void clear();
     virtual void addItems(const PlaylistItem &item);
     void addPlaylist(const QString &playlistId);
     void addFile(const QString &file);
+    void addDirectory(const QString &dir);
     Q_INVOKABLE void removeItem(int index);
 
     int count() const;
-
-    bool shuffle() const;
-    void setShuffle(bool shuffle);
-
-    Repeat repeat() const;
-    void setRepeat(Repeat repeat);
 
     int currentTrackNumber() const;
 
@@ -70,27 +55,22 @@ public:
     PlaylistItem* currentItem() const;
     virtual PlaylistItem* at(int index) const = 0;
 
-    XbmcModel *enterItem(int) { return 0;}
-    void addToPlaylist(int){}
+    virtual int playlistId() const = 0;
 
 signals:
     void countChanged();
     void currentChanged();
-    void shuffleChanged();
-    void repeatChanged();
 
 public slots:
     virtual void refresh() = 0;
-    void playItem(int index);
-    void skipNext();
-    void skipPrevious();
+//    void playItem(int index);
+    void setCurrentIndex(int index);
 
 private slots:
     virtual void responseReveiced(int id, const QVariantMap &response) = 0;
     void receivedAnnouncement(const QVariantMap &map);
 
 protected:
-    virtual int playlistId() const = 0;
 
     virtual void queryItemData(int index) = 0;
 
@@ -102,9 +82,7 @@ protected:
     QMap<int, Request> m_requestMap;
 
     mutable int m_currentItem;
-    bool m_shuffle;
     Player *m_player;
-    Repeat m_repeat;
 };
 
 #endif // PLAYLIST_H

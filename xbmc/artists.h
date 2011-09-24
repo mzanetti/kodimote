@@ -19,11 +19,11 @@
 #ifndef ARTISTS_H
 #define ARTISTS_H
 
-#include "xbmcmodel.h"
+#include "xbmclibrary.h"
 
 #include <QStandardItem>
 
-class Artists : public XbmcModel
+class Artists : public XbmcLibrary
 {
     Q_OBJECT
 public:

@@ -23,7 +23,7 @@
 #include "xbmcconnection.h"
 
 VideoLibrary::VideoLibrary(XbmcModel *parent) :
-    XbmcModel(parent)
+    XbmcLibrary(parent)
 {
     m_list.append("Movies");
     m_list.append("TV Shows");

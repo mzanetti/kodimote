@@ -1,30 +1,26 @@
-{"id":5,"jsonrpc":"2.0","result":{"description":"JSON RPC API of XBMC","id":"http://www.xbmc.org/jsonrpc/ServiceDescription.json",
+{"id":"1","jsonrpc":"2.0","result":{"description":"JSON RPC API of XBMC","id":"http://www.xbmc.org/jsonrpc/ServiceDescription.json","methods":{
 
-"methods":{
 "Application.GetProperties":{"description":"Retrieves the values of the given properties","params":[{"items":{"$ref":"Application.Property.Name"},"name":"properties","required":true,"type":"array","uniqueItems":true}],"returns":{"$ref":"Application.Property.Value"},"type":"method"},
 "Application.Quit":{"description":"Quit application","params":[],"returns":{"type":"string"},"type":"method"},
 "Application.SetVolume":{"description":"Set the current volume","params":[{"maximum":100,"minimum":0,"name":"value","required":true,"type":"integer"}],"returns":{"exclusiveMaximum":true,"exclusiveMinimum":true,"maximum":0,"minimum":0,"type":"integer"},"type":"method"},
 "Application.ToggleMute":{"description":"Toggle mute/unmute","params":[],"returns":{"description":"New volume","type":"integer"},"type":"method"},
-
 "AudioLibrary.Clean":{"description":"Cleans the audio library from non-existent items","params":[],"returns":{"type":"string"},"type":"method"},
 "AudioLibrary.Export":{"description":"Exports all items from the audio library","params":[{"default":true,"description":"Whether to export the data into one or multiple files","name":"singlefile","type":"boolean"},{"default":false,"description":"Whether to export thumbnails and fanart images","name":"images","type":"boolean"},{"default":false,"description":"Whether to overwrite existing exported files","name":"overwrite","type":"boolean"},{"default":"","description":"Path to the directory to where the data should be exported","name":"path","type":"string"}],"returns":{"type":"string"},"type":"method"},
-"AudioLibrary.GetAlbumDetails":{"description":"Retrieve details about a specific album","params":[{"$ref":"Library.Id","name":"albumid","required":true},{"$ref":"Audio.Fields.Album","name":"fields"}],"returns":{"properties":{"albumdetails":{"$ref":"Audio.Details.Album"}},"type":"object"},"type":"method"},
-"AudioLibrary.GetAlbums":{"description":"Retrieve all albums from specified artist or genre","params":[{"$ref":"Library.Id","default":-1,"name":"artistid"},{"$ref":"Library.Id","default":-1,"name":"genreid"},{"$ref":"Audio.Fields.Album","name":"fields"},{"$ref":"List.Limits","name":"limits"},{"$ref":"List.Sort","name":"sort"}],"returns":{"properties":{"albums":{"items":{"$ref":"Audio.Details.Album"},"type":"array"},"limits":{"$ref":"List.LimitsReturned","required":true}},"type":"object"},"type":"method"},
-"AudioLibrary.GetArtistDetails":{"description":"Retrieve details about a specific artist","params":[{"$ref":"Library.Id","name":"artistid","required":true},{"$ref":"Audio.Fields.Artist","name":"fields"}],"returns":{"properties":{"artistdetails":{"$ref":"Audio.Details.Artist"}},"type":"object"},"type":"method"},
+"AudioLibrary.GetAlbumDetails":{"description":"Retrieve details about a specific album","params":[{"$ref":"Library.Id","name":"albumid","required":true},{"$ref":"Audio.Fields.Album","name":"properties"}],"returns":{"properties":{"albumdetails":{"$ref":"Audio.Details.Album"}},"type":"object"},"type":"method"},
 
-"AudioLibrary.GetArtists":{
-  "description":"Retrieve all artists",
+"AudioLibrary.GetAlbums":{
+  "description":"Retrieve all albums from specified artist or genre",
   "params":[
-    {"$ref":"Optional.Boolean","default":null,"description":"Whether or not to include artists only appearing in compilations. If the parameter is not passed or is passed as null the GUI setting will be used","name":"albumartistsonly"},
+    {"$ref":"Library.Id","default":-1,"name":"artistid"},
     {"$ref":"Library.Id","default":-1,"name":"genreid"},
-    {"$ref":"Audio.Fields.Artist","name":"fields"},
+    {"$ref":"Audio.Fields.Album","name":"properties"},
     {"$ref":"List.Limits","name":"limits"},
     {"$ref":"List.Sort","name":"sort"}
   ],
   "returns":{
     "properties":{
-      "artists":{
-        "items":{"$ref":"Audio.Details.Artist"},
+      "albums":{
+        "items":{"$ref":"Audio.Details.Album"},
         "type":"array"
       },
       "limits":{"$ref":"List.LimitsReturned","required":true}
@@ -34,46 +30,41 @@
   "type":"method"
 },
 
-"AudioLibrary.GetGenres":{"description":"Retrieve all genres","params":[{"$ref":"Library.Fields.Genre","name":"fields"},{"$ref":"List.Limits","name":"limits"},{"$ref":"List.Sort","name":"sort"}],"returns":{"properties":{"genres":{"items":{"$ref":"Library.Details.Genre"},"required":true,"type":"array"},"limits":{"$ref":"List.LimitsReturned","required":true}},"type":"object"},"type":"method"},
-"AudioLibrary.GetRecentlyAddedAlbums":{"description":"Retrieve recently added albums","params":[{"$ref":"List.Amount","default":-1,"name":"albums"},{"$ref":"Audio.Fields.Album","name":"fields"},{"$ref":"List.Limits","name":"limits"},{"$ref":"List.Sort","name":"sort"}],"returns":{"properties":{"albums":{"items":{"$ref":"Audio.Details.Album"},"type":"array"},"limits":{"$ref":"List.LimitsReturned","required":true}},"type":"object"},"type":"method"},
-"AudioLibrary.GetRecentlyAddedSongs":{"description":"Retrieve recently added songs","params":[{"$ref":"List.Amount","default":-1,"description":"The amount of recently added albums from which to return the songs","name":"albums"},{"$ref":"Audio.Fields.Song","name":"fields"},{"$ref":"List.Limits","name":"limits"},{"$ref":"List.Sort","name":"sort"}],"returns":{"properties":{"limits":{"$ref":"List.LimitsReturned","required":true},"songs":{"items":{"$ref":"Audio.Details.Song"},"type":"array"}},"type":"object"},"type":"method"},
-"AudioLibrary.GetSongDetails":{"description":"Retrieve details about a specific song","params":[{"$ref":"Library.Id","name":"songid","required":true},{"$ref":"Audio.Fields.Song","name":"fields"}],"returns":{"properties":{"songdetails":{"$ref":"Audio.Details.Song"}},"type":"object"},"type":"method"},
-"AudioLibrary.GetSongs":{"description":"Retrieve all songs from specified album, artist or genre","params":[{"$ref":"Library.Id","default":-1,"name":"artistid"},{"$ref":"Library.Id","default":-1,"name":"albumid"},{"$ref":"Library.Id","default":-1,"name":"genreid"},{"$ref":"Audio.Fields.Song","name":"fields"},{"$ref":"List.Limits","name":"limits"},{"$ref":"List.Sort","name":"sort"}],"returns":{"properties":{"limits":{"$ref":"List.LimitsReturned","required":true},"songs":{"items":{"$ref":"Audio.Details.Song"},"type":"array"}},"type":"object"},"type":"method"},
+"AudioLibrary.GetArtistDetails":{"description":"Retrieve details about a specific artist","params":[{"$ref":"Library.Id","name":"artistid","required":true},{"$ref":"Audio.Fields.Artist","name":"properties"}],"returns":{"properties":{"artistdetails":{"$ref":"Audio.Details.Artist"}},"type":"object"},"type":"method"},
+"AudioLibrary.GetArtists":{"description":"Retrieve all artists","params":[{"$ref":"Optional.Boolean","default":null,"description":"Whether or not to include artists only appearing in compilations. If the parameter is not passed or is passed as null the GUI setting will be used","name":"albumartistsonly"},{"$ref":"Library.Id","default":-1,"name":"genreid"},{"$ref":"Audio.Fields.Artist","name":"properties"},{"$ref":"List.Limits","name":"limits"},{"$ref":"List.Sort","name":"sort"}],"returns":{"properties":{"artists":{"items":{"$ref":"Audio.Details.Artist"},"type":"array"},"limits":{"$ref":"List.LimitsReturned","required":true}},"type":"object"},"type":"method"},
+"AudioLibrary.GetGenres":{"description":"Retrieve all genres","params":[{"$ref":"Library.Fields.Genre","name":"properties"},{"$ref":"List.Limits","name":"limits"},{"$ref":"List.Sort","name":"sort"}],"returns":{"properties":{"genres":{"items":{"$ref":"Library.Details.Genre"},"required":true,"type":"array"},"limits":{"$ref":"List.LimitsReturned","required":true}},"type":"object"},"type":"method"},
+"AudioLibrary.GetRecentlyAddedAlbums":{"description":"Retrieve recently added albums","params":[{"$ref":"List.Amount","default":-1,"name":"albums"},{"$ref":"Audio.Fields.Album","name":"properties"},{"$ref":"List.Limits","name":"limits"},{"$ref":"List.Sort","name":"sort"}],"returns":{"properties":{"albums":{"items":{"$ref":"Audio.Details.Album"},"type":"array"},"limits":{"$ref":"List.LimitsReturned","required":true}},"type":"object"},"type":"method"},
+"AudioLibrary.GetRecentlyAddedSongs":{"description":"Retrieve recently added songs","params":[{"$ref":"List.Amount","default":-1,"description":"The amount of recently added albums from which to return the songs","name":"albums"},{"$ref":"Audio.Fields.Song","name":"properties"},{"$ref":"List.Limits","name":"limits"},{"$ref":"List.Sort","name":"sort"}],"returns":{"properties":{"limits":{"$ref":"List.LimitsReturned","required":true},"songs":{"items":{"$ref":"Audio.Details.Song"},"type":"array"}},"type":"object"},"type":"method"},
+"AudioLibrary.GetSongDetails":{"description":"Retrieve details about a specific song","params":[{"$ref":"Library.Id","name":"songid","required":true},{"$ref":"Audio.Fields.Song","name":"properties"}],"returns":{"properties":{"songdetails":{"$ref":"Audio.Details.Song"}},"type":"object"},"type":"method"},
+"AudioLibrary.GetSongs":{"description":"Retrieve all songs from specified album, artist or genre","params":[{"$ref":"Library.Id","default":-1,"name":"artistid"},{"$ref":"Library.Id","default":-1,"name":"albumid"},{"$ref":"Library.Id","default":-1,"name":"genreid"},{"$ref":"Audio.Fields.Song","name":"properties"},{"$ref":"List.Limits","name":"limits"},{"$ref":"List.Sort","name":"sort"}],"returns":{"properties":{"limits":{"$ref":"List.LimitsReturned","required":true},"songs":{"items":{"$ref":"Audio.Details.Song"},"type":"array"}},"type":"object"},"type":"method"},
 "AudioLibrary.Scan":{"description":"Scans the audio sources for new library items","params":[],"returns":{"type":"string"},"type":"method"},
-
-"AudioPlayer.BigSkipBackward":{"params":[],"returns":{"type":"string"},"type":"method"},
-"AudioPlayer.BigSkipForward":{"params":[],"returns":{"type":"string"},"type":"method"},
-"AudioPlayer.Forward":{"description":"Forward current playback","params":[],"returns":{"type":"string"},"type":"method"},
-"AudioPlayer.GetPercentage":{"description":"Retrieve current playback progress in percentage","params":[],"returns":{"exclusiveMaximum":true,"exclusiveMinimum":true,"maximum":1.0869444208507423972e-321,"minimum":1.0869444208507423972e-321,"type":"number"},"type":"method"},
-"AudioPlayer.GetTime":{"description":"Retrieves the current and total time of the currently playing file","params":[],"returns":{"$ref":"Player.TimeValues"},"type":"method"},
-"AudioPlayer.PlayPause":{"description":"Pauses or unpause playback and returns the new state","params":[],"returns":{"$ref":"Player.State"},"type":"method"},
-"AudioPlayer.Rewind":{"description":"Rewind current playback","params":[],"returns":{"type":"string"},"type":"method"},
-"AudioPlayer.SeekPercentage":{"description":"Seek to a specific percentage","params":[{"$ref":"Player.SeekPercentage","description":"Percentage value to seek to","name":"value","required":true}],"returns":{"type":"string"},"type":"method"},
-"AudioPlayer.SeekTime":{"description":"Seek to a specific time","params":[{"$ref":"Player.SeekTime","description":"Time to seek to in seconds","name":"value","required":true}],"returns":{"type":"string"},"type":"method"},
-"AudioPlayer.SkipNext":{"description":"Skips to next item on the playlist","params":[],"returns":{"type":"string"},"type":"method"},
-"AudioPlayer.SkipPrevious":{"description":"Skips to previous item on the playlist","params":[],"returns":{"type":"string"},"type":"method"},
-"AudioPlayer.SmallSkipBackward":{"params":[],"returns":{"type":"string"},"type":"method"},
-"AudioPlayer.SmallSkipForward":{"params":[],"returns":{"type":"string"},"type":"method"},
-"AudioPlayer.State":{"description":"Returns playback state of the audio player (if it is active)","params":[],"returns":{"$ref":"Player.State.Extended"},"type":"method"},
-"AudioPlayer.Stop":{"description":"Stops playback","params":[],"returns":{"type":"string"},"type":"method"},
-
-"AudioPlaylist.Add":{"description":"Add item(s) to playlist","params":[{"$ref":"Playlist.Audio.Item","name":"item","required":true}],"returns":{"type":"string"},"type":"method"},
-"AudioPlaylist.Clear":{"description":"Clear playlist","params":[],"returns":{"type":"string"},"type":"method"},
-"AudioPlaylist.GetItems":{"description":"Get all items from playlist","params":[{"$ref":"Audio.Fields.Song","name":"fields"},{"$ref":"List.Limits","name":"limits"},{"$ref":"List.Sort","name":"sort"}],"returns":{"properties":{"items":{"$ref":"List.Items.Audio","required":true},"limits":{"$ref":"List.LimitsReturned","required":true},"state":{"$ref":"Playlist.State"}},"type":"object"},"type":"method"},
-"AudioPlaylist.Insert":{"description":"Insert item(s) into playlist","params":[{"$ref":"Playlist.Item.Position","name":"index","required":true},{"$ref":"Playlist.Audio.Item","name":"item","required":true}],"returns":{"type":"string"},"type":"method"},
-"AudioPlaylist.Play":{"description":"Play current or a specific item","params":[{"$ref":"Playlist.Item.Position","default":-1,"name":"item"},{"$ref":"Library.Id","default":-1,"description":"Identification of a song from the audio library","name":"songid"}],"returns":{"properties":{"success":{"required":true,"type":"boolean"}},"type":"object"},"type":"method"},
-"AudioPlaylist.Remove":{"description":"Remove item from playlist","params":[{"$ref":"Playlist.Item.Position","name":"item","required":true}],"returns":{"type":"string"},"type":"method"},
-"AudioPlaylist.Repeat":{"description":"Set the repeat mode of the playlist","params":[{"$ref":"Playlist.Repeat","name":"state","required":true}],"returns":{"type":"string"},"type":"method"},
-"AudioPlaylist.Shuffle":{"description":"Shuffle playlist","params":[],"returns":{"type":"string"},"type":"method"},
-"AudioPlaylist.SkipNext":{"description":"Skip current item and play next item","params":[],"returns":{"type":"string"},"type":"method"},
-"AudioPlaylist.SkipPrevious":{"description":"Skip current item and play previous item","params":[],"returns":{"type":"string"},"type":"method"},
-"AudioPlaylist.State":{"description":"Provides information about the current state of the playlist","params":[],"returns":{"$ref":"Playlist.State"},"type":"method"},
-"AudioPlaylist.Swap":{"description":"Swap items in the playlist","params":[{"$ref":"Playlist.Item.Position","name":"item1","required":true},{"$ref":"Playlist.Item.Position","name":"item2","required":true}],"returns":{"type":"string"},"type":"method"},
-"AudioPlaylist.UnShuffle":{"description":"Unshuffle playlist","params":[],"returns":{"type":"string"},"type":"method"},
-
 "Files.Download":{"params":[{"name":"path","required":true,"type":"string"}],"returns":{"properties":{"path":{"required":true,"type":"string"}},"type":"object"},"type":"method"},
-"Files.GetDirectory":{"params":[{"name":"directory","required":true,"type":"string"},{"$ref":"Files.Media","default":"files","name":"media"},{"$ref":"List.Fields.All","name":"fields"},{"$ref":"List.Sort","name":"sort"}],"returns":{"properties":{"files":{"$ref":"List.Items.Files","required":true},"limits":{"$ref":"List.LimitsReturned","required":true}},"type":"object"},"type":"method"},
-"Files.GetSources":{"description":"Get the sources of the media windows","params":[{"$ref":"Files.Media","name":"media","required":true},{"$ref":"List.Limits","name":"limits"},{"$ref":"List.Sort","name":"sort"}],"returns":{"properties":{"limits":{"$ref":"List.LimitsReturned","required":true},"shares":{"$ref":"List.Items.Shares","required":true}},"type":"object"},"type":"method"},
+"Files.GetDirectory":{"params":[{"name":"directory","required":true,"type":"string"},{"$ref":"Files.Media","default":"files","name":"media"},{"$ref":"List.Fields.All","name":"properties"},{"$ref":"List.Sort","name":"sort"}],"returns":{"properties":{"files":{"$ref":"List.Items.Files","required":true},"limits":{"$ref":"List.LimitsReturned","required":true}},"type":"object"},"type":"method"},
+
+"Files.GetSources":{
+  "description":"Get the sources of the media windows",
+  "params":[
+    {
+      "$ref":"Files.Media",
+      "name":"media",
+      "required":true
+    },{
+      "$ref":"List.Limits",
+      "name":"limits"
+    },{
+      "$ref":"List.Sort",
+      "name":"sort"
+    }
+  ],
+  "returns":{
+    "properties":{
+      "limits":{"$ref":"List.LimitsReturned","required":true},
+      "sources":{"$ref":"List.Items.Sources","required":true}
+    },
+    "type":"object"
+  },
+  "type":"method"
+},
 
 "Input.Back":{"description":"Goes back in GUI","params":[],"returns":{"type":"string"},"type":"method"},
 "Input.Down":{"description":"Navigate down in GUI","params":[],"returns":{"type":"string"},"type":"method"},
@@ -82,208 +73,352 @@
 "Input.Right":{"description":"Navigate right in GUI","params":[],"returns":{"type":"string"},"type":"method"},
 "Input.Select":{"description":"Select current item in GUI","params":[],"returns":{"type":"string"},"type":"method"},
 "Input.Up":{"description":"Navigate up in GUI","params":[],"returns":{"type":"string"},"type":"method"},
-
 "JSONRPC.Introspect":{"description":"Enumerates all actions and descriptions","params":[{"default":true,"name":"getdescriptions","type":"boolean"},{"default":false,"name":"getmetadata","type":"boolean"},{"default":true,"name":"filterbytransport","type":"boolean"},{"name":"filter","properties":{"getreferences":{"default":true,"description":"Whether or not to print the schema for referenced types","type":"boolean"},"id":{"description":"Name of a namespace, method or type","required":true,"type":"string"},"type":{"description":"Type of the given name","enums":["method","namespace","type","notification"],"required":true,"type":"string"}},"type":"object"}],"returns":{"type":"object"},"type":"method"},
 "JSONRPC.NotifyAll":{"description":"Notify all other connected clients","params":[{"name":"sender","required":true,"type":"string"},{"name":"message","required":true,"type":"string"},{"default":null,"name":"data","type":"any"}],"returns":{"type":"any"},"type":"method"},
 "JSONRPC.Permission":{"description":"Retrieve the clients permissions","params":[],"returns":{"properties":{"controlnotify":{"required":true,"type":"boolean"},"controlplayback":{"required":true,"type":"boolean"},"controlpower":{"required":true,"type":"boolean"},"readdata":{"required":true,"type":"boolean"},"removedata":{"required":true,"type":"boolean"},"updatedata":{"required":true,"type":"boolean"},"writefile":{"required":true,"type":"boolean"}},"type":"object"},"type":"method"},
 "JSONRPC.Ping":{"description":"Ping responder","params":[],"returns":{"type":"string"},"type":"method"},
 "JSONRPC.Version":{"description":"Retrieve the jsonrpc protocol version","params":[],"returns":{"type":"string"},"type":"method"},
 
-"PicturePlayer.MoveDown":{"description":"If picture is zoomed move viewport down","params":[],"returns":{"type":"string"},"type":"method"},
-"PicturePlayer.MoveLeft":{"description":"If picture is zoomed move viewport left otherwise skip previous","params":[],"returns":{"type":"string"},"type":"method"},
-"PicturePlayer.MoveRight":{"description":"If picture is zoomed move viewport right otherwise skip next","params":[],"returns":{"type":"string"},"type":"method"},
-"PicturePlayer.MoveUp":{"description":"If picture is zoomed move viewport up","params":[],"returns":{"type":"string"},"type":"method"},
-"PicturePlayer.PlayPause":{"description":"Pauses or unpause slideshow","params":[],"returns":{"type":"string"},"type":"method"},
-"PicturePlayer.Rotate":{"description":"Rotates current picture","params":[],"returns":{"type":"string"},"type":"method"},
-"PicturePlayer.SkipNext":{"description":"Skips to next picture in the slideshow","params":[],"returns":{"type":"string"},"type":"method"},
-"PicturePlayer.SkipPrevious":{"description":"Skips to previous picture in the slideshow","params":[],"returns":{"type":"string"},"type":"method"},
-"PicturePlayer.Stop":{"description":"Stops slideshow","params":[],"returns":{"type":"string"},"type":"method"},
-"PicturePlayer.Zoom":{"description":"Zooms current picture","params":[{"description":"Zoom level","maximum":10,"minimum":1,"name":"value","required":true,"type":"integer"}],"returns":{"type":"string"},"type":"method"},
-"PicturePlayer.ZoomIn":{"description":"Zoom in once","params":[],"returns":{"type":"string"},"type":"method"},
-"PicturePlayer.ZoomOut":{"description":"Zoom out once","params":[],"returns":{"type":"string"},"type":"method"},
+"Player.GetActivePlayers":{"description":"Returns all active players","params":[],"returns":{"items":{"properties":{"playerid":{"$ref":"Player.Id","required":true},"type":{"$ref":"Player.Type","required":true}},"type":"object"},"type":"array","uniqueItems":true},"type":"method"},
 
-"Player.GetActivePlayers":{"description":"Returns all active players","params":[],"returns":{"properties":{"audio":{"required":true,"type":"boolean"},"picture":{"required":true,"type":"boolean"},"video":{"required":true,"type":"boolean"}},"type":"object"},"type":"method"},
-"Playlist.Add":{"description":"Add items to the playlist","params":[{"$ref":"Playlist.Id","name":"playlist","required":true},{"$ref":"Playlist.Id","description":"Adds items from given virtual and/or file based playlist","name":"items","required":true}],"returns":{"type":"string"},"type":"method"},
-"Playlist.Clear":{"description":"Clear playlist","params":[{"$ref":"Playlist.Id","name":"playlist","required":true}],"returns":{"type":"string"},"type":"method"},
-"Playlist.Create":{"description":"Creates a virtual playlist from a given one from a file","params":[{"$ref":"Playlist.Id","name":"playlist","required":true}],"returns":{"properties":{"playlistid":{"required":true,"type":"string"}},"type":"object"},"type":"method"},
-"Playlist.Destroy":{"description":"Destroys a virtual playlist","params":[{"description":"Identification of the playlist","name":"playlistid","required":true,"type":"string"}],"returns":{"type":"string"},"type":"method"},
-"Playlist.GetItems":{"description":"Retrieve items in the playlist","params":[{"$ref":"Playlist.Id","name":"playlist","required":true},{"$ref":"List.Fields.All","name":"fields"},{"$ref":"List.Limits","name":"limits"},{"$ref":"List.Sort","name":"sort"}],"returns":{"properties":{"items":{"$ref":"List.Items.All","required":true},"limits":{"$ref":"List.LimitsReturned","required":true},"name":{"default":"","description":"Name of the playlist (if available)","type":"string"}},"type":"object"},"type":"method"},
-"Playlist.Remove":{"description":"Remove item from the playlist","params":[{"$ref":"Playlist.Id","name":"playlist","required":true},{"name":"item","required":true,"type":["string","integer"]}],"returns":{"type":"string"},"type":"method"},
-"Playlist.Shuffle":{"description":"Shuffle playlist","params":[{"$ref":"Playlist.Id","name":"playlist","required":true}],"returns":{"type":"string"},"type":"method"},
-"Playlist.Swap":{"description":"Swap items in the playlist","params":[{"$ref":"Playlist.Id","name":"playlist","required":true},{"$ref":"Playlist.Item.Position","name":"item1","required":true},{"$ref":"Playlist.Item.Position","name":"item2","required":true}],"returns":{"type":"string"},"type":"method"},
-"Playlist.UnShuffle":{"description":"Unshuffle playlist","params":[{"$ref":"Playlist.Id","name":"playlist","required":true}],"returns":{"type":"string"},"type":"method"},
+"Player.GetProperties":{
+  "description":"Retrieves the values of the given properties",
+  "params":[
+    {
+      "$ref":"Player.Id",
+      "name":"playerid",
+      "required":true
+    },{
+      "items":{"$ref":"Player.Property.Name"},
+      "name":"properties",
+      "required":true,
+      "type":"array",
+      "uniqueItems":true
+    }
+  ],
+  "returns":{"$ref":"Player.Property.Value"},
+  "type":"method"
+},
 
+"Player.GoNext":{"description":"Go to next item on the playlist","params":[{"$ref":"Player.Id","name":"playerid","required":true}],"returns":{"type":"string"},"type":"method"},
+"Player.GoPrevious":{"description":"Go to previous item on the playlist","params":[{"$ref":"Player.Id","name":"playerid","required":true}],"returns":{"type":"string"},"type":"method"},
+"Player.GoTo":{"description":"Go to item at the given position in the playlist","params":[{"$ref":"Player.Id","name":"playerid","required":true},{"$ref":"Playlist.Position","name":"position","required":true}],"returns":{"type":"string"},"type":"method"},
+"Player.MoveDown":{"description":"If picture is zoomed move viewport down","params":[{"$ref":"Player.Id","name":"playerid","required":true}],"returns":{"type":"string"},"type":"method"},
+"Player.MoveLeft":{"description":"If picture is zoomed move viewport left otherwise skip previous","params":[{"$ref":"Player.Id","name":"playerid","required":true}],"returns":{"type":"string"},"type":"method"},
+"Player.MoveRight":{"description":"If picture is zoomed move viewport right otherwise skip next","params":[{"$ref":"Player.Id","name":"playerid","required":true}],"returns":{"type":"string"},"type":"method"},
+"Player.MoveUp":{"description":"If picture is zoomed move viewport up","params":[{"$ref":"Player.Id","name":"playerid","required":true}],"returns":{"type":"string"},"type":"method"},
+
+"Player.Open":{
+  "description":"Start playback of either the playlist with the given ID, a slideshow with the pictures from the given directory or a single file or an item from the database.",
+  "params":[{
+    "name":"item",
+    "type":[{
+      "additionalProperties":false,
+      "properties":{
+        "playlistid":{"$ref":"Playlist.Id","required":true},
+        "position":{"$ref":"Playlist.Position","default":0}
+      },
+      "required":true,
+      "type":"object"
+    },
+    {
+      "$ref":"Playlist.Item",
+      "required":true
+    },
+    {
+      "additionalProperties":false,
+      "properties":{
+        "path":{"required":true,"type":"string"},
+        "random":{"default":true,"type":"boolean"},
+        "recursive":{"default":true,"type":"boolean"}
+      },
+      "required":true,
+      "type":"object"
+    }]
+  }],
+  "returns":{"type":"string"},
+  "type":"method"
+},
+
+"Player.PlayPause":{
+  "description":"Pauses or unpause playback and returns the new state",
+  "params":[{"$ref":"Player.Id","name":"playerid","required":true}],
+  "returns":{"$ref":"Player.Speed"},
+  "type":"method"
+},
+
+"Player.Repeat":{"description":"Set the repeat mode of the player","params":[{"$ref":"Player.Id","name":"playerid","required":true},{"$ref":"Player.Repeat","name":"state","required":true}],"returns":{"type":"string"},"type":"method"},
+"Player.Rotate":{"description":"Rotates current picture","params":[{"$ref":"Player.Id","name":"playerid","required":true}],"returns":{"type":"string"},"type":"method"},
+"Player.Seek":{"description":"Seek through the playing item","params":[{"$ref":"Player.Id","name":"playerid","required":true},{"name":"value","required":true,"type":[{"$ref":"Player.Position.Percentage","description":"Percentage value to seek to","required":true},{"additionalProperties":false,"description":"Time to seek to","properties":{"hours":{"default":0,"maximum":23,"minimum":0,"type":"integer"},"milliseconds":{"default":0,"maximum":999,"minimum":0,"type":"integer"},"minutes":{"default":0,"maximum":59,"minimum":0,"type":"integer"},"seconds":{"default":0,"maximum":59,"minimum":0,"type":"integer"}},"required":true,"type":"object"},{"description":"Seek by predefined jumps","enums":["smallforward","smallbackward","bigforward","bigbackward"],"required":true,"type":"string"}]}],"returns":{"properties":{"percentage":{"$ref":"Player.Position.Percentage","default":0},"time":{"$ref":"Global.Time"},"totaltime":{"$ref":"Global.Time"}},"type":"object"},"type":"method"},
+"Player.SetAudioStream":{"description":"Set the audio stream played by the player","params":[{"$ref":"Player.Id","name":"playerid","required":true},{"name":"stream","required":true,"type":[{"default":"previous","enums":["previous","next"],"type":"string"},{"default":0,"description":"Index of the audio stream to play","minimum":0,"type":"integer"}]}],"returns":{"type":"string"},"type":"method"},
+"Player.SetSpeed":{"description":"Set the speed of the current playback","params":[{"$ref":"Player.Id","name":"playerid","required":true},{"enums":[-16,-8,-4,-2,-1,0,1,2,4,8,16,"increment","decrement"],"name":"speed","required":true,"type":[{"default":null,"divisibleBy":32752,"exclusiveMaximum":true,"exclusiveMinimum":true,"maximum":0,"minimum":0,"type":"integer"},{"default":null,"type":"string"}]}],"returns":{"$ref":"Player.Speed"},"type":"method"},
+"Player.SetSubtitle":{"description":"Set the subtitle displayed by the player","params":[{"$ref":"Player.Id","name":"playerid","required":true},{"name":"subtitle","required":true,"type":[{"default":"previous","enums":["previous","next","off","on"],"type":"string"},{"default":0,"description":"Index of the subtitle to display","minimum":0,"type":"integer"}]}],"returns":{"type":"string"},"type":"method"},
+"Player.Shuffle":{"description":"Shuffle items in the player","params":[{"$ref":"Player.Id","name":"playerid","required":true}],"returns":{"type":"string"},"type":"method"},
+"Player.Stop":{"description":"Stops playback","params":[{"$ref":"Player.Id","name":"playerid","required":true}],"returns":{"type":"string"},"type":"method"},
+"Player.UnShuffle":{"description":"Unshuffle items in the player","params":[{"$ref":"Player.Id","name":"playerid","required":true}],"returns":{"type":"string"},"type":"method"},
+"Player.Zoom":{"description":"Zooms current picture","params":[{"$ref":"Player.Id","name":"playerid","required":true},{"description":"Zoom level","maximum":10,"minimum":1,"name":"value","required":true,"type":"integer"}],"returns":{"type":"string"},"type":"method"},
+"Player.ZoomIn":{"description":"Zoom in once","params":[{"$ref":"Player.Id","name":"playerid","required":true}],"returns":{"type":"string"},"type":"method"},
+"Player.ZoomOut":{"description":"Zoom out once","params":[{"$ref":"Player.Id","name":"playerid","required":true}],"returns":{"type":"string"},"type":"method"},
+
+"Playlist.Add":{
+  "description":"Add item(s) to playlist",
+  "params":[
+    {"$ref":"Playlist.Id","name":"playlistid","required":true},
+    {"$ref":"Playlist.Item","name":"item","required":true}
+  ],
+  "returns":{"type":"string"},
+  "type":"method"
+},
+
+"Playlist.Clear":{"description":"Clear playlist","params":[{"$ref":"Playlist.Id","name":"playlistid","required":true}],"returns":{"type":"string"},"type":"method"},
+
+"Playlist.GetItems":{
+  "description":"Get all items from playlist",
+  "params":[
+    {"$ref":"Playlist.Id","name":"playlistid","required":true},
+    {"$ref":"List.Fields.All","name":"properties"},
+    {"$ref":"List.Limits","name":"limits"},
+    {"$ref":"List.Sort","name":"sort"}
+  ],
+  "returns":{
+    "properties":{
+      "items":{"$ref":"List.Items.All","required":true},
+      "limits":{"$ref":"List.LimitsReturned","required":true}
+    },
+    "type":"object"
+  },
+  "type":"method"
+},
+
+"Playlist.GetPlaylists":{"description":"Returns all existing playlists","params":[],"returns":{"items":{"properties":{"playlistid":{"$ref":"Playlist.Id","required":true},"type":{"$ref":"Playlist.Type","required":true}},"type":"object"},"type":"array","uniqueItems":true},"type":"method"},
+
+"Playlist.GetProperties":{
+  "description":"Retrieves the values of the given properties",
+  "params":[{
+    "$ref":"Playlist.Id",
+    "name":"playlistid",
+    "required":true
+  },{
+    "items":{"$ref":"Playlist.Property.Name"},
+    "name":"properties",
+    "required":true,
+    "type":"array",
+    "uniqueItems":true
+  }],
+  "returns":{"$ref":"Playlist.Property.Value"},
+  "type":"method"
+},
+
+"Playlist.Insert":{"description":"Insert item(s) into playlist. Does not work for picture playlists (aka slideshows).","params":[{"$ref":"Playlist.Id","name":"playlistid","required":true},{"$ref":"Playlist.Position","name":"position","required":true},{"$ref":"Playlist.Item","name":"item","required":true}],"returns":{"type":"string"},"type":"method"},
+"Playlist.Remove":{"description":"Remove item from playlist. Does not work for picture playlists (aka slideshows).","params":[{"$ref":"Playlist.Id","name":"playlistid","required":true},{"$ref":"Playlist.Position","name":"position","required":true}],"returns":{"type":"string"},"type":"method"},
+"Playlist.Swap":{"description":"Swap items in the playlist. Does not work for picture playlists (aka slideshows).","params":[{"$ref":"Playlist.Id","name":"playlistid","required":true},{"$ref":"Playlist.Position","name":"position1","required":true},{"$ref":"Playlist.Position","name":"position2","required":true}],"returns":{"type":"string"},"type":"method"},
 "System.GetProperties":{"description":"Retrieves the values of the given properties","params":[{"items":{"$ref":"System.Property.Name"},"name":"properties","required":true,"type":"array","uniqueItems":true}],"returns":{"$ref":"System.Property.Value"},"type":"method"},
 "System.Hibernate":{"description":"Puts the system running XBMC into hibernate mode","params":[],"returns":{"type":"string"},"type":"method"},
 "System.Reboot":{"description":"Reboots the system running XBMC","params":[],"returns":{"type":"string"},"type":"method"},
 "System.Shutdown":{"description":"Shuts the system running XBMC down","params":[],"returns":{"type":"string"},"type":"method"},
 "System.Suspend":{"description":"Suspends the system running XBMC","params":[],"returns":{"type":"string"},"type":"method"},
-
 "VideoLibrary.Clean":{"description":"Cleans the video library from non-existent items","params":[],"returns":{"type":"string"},"type":"method"},
 "VideoLibrary.Export":{"description":"Exports all items from the video library","params":[{"default":true,"description":"Whether to export the data into one or multiple files","name":"singlefile","type":"boolean"},{"default":false,"description":"Whether to export thumbnails and fanart images","name":"images","type":"boolean"},{"default":false,"description":"Whether to export actor thumbnails","name":"actorthumbs","type":"boolean"},{"default":false,"description":"Whether to overwrite existing exported files","name":"overwrite","type":"boolean"},{"default":"","description":"Path to the directory to where the data should be exported","name":"path","type":"string"}],"returns":{"type":"string"},"type":"method"},
-"VideoLibrary.GetEpisodeDetails":{"description":"Retrieve details about a specific tv show episode","params":[{"$ref":"Library.Id","name":"episodeid","required":true},{"$ref":"Video.Fields.Episode","name":"fields"}],"returns":{"properties":{"episodedetails":{"$ref":"Video.Details.Episode"}},"type":"object"},"type":"method"},
-"VideoLibrary.GetEpisodes":{"description":"Retrieve all tv show episodes","params":[{"$ref":"Library.Id","default":-1,"name":"tvshowid"},{"default":-1,"minimum":0,"name":"season","type":"integer"},{"$ref":"Video.Fields.Episode","name":"fields"},{"$ref":"List.Limits","name":"limits"},{"$ref":"List.Sort","name":"sort"}],"returns":{"properties":{"episodes":{"items":{"$ref":"Video.Details.Episode"},"type":"array"},"limits":{"$ref":"List.LimitsReturned","required":true}},"type":"object"},"type":"method"},
-"VideoLibrary.GetGenres":{"description":"Retrieve all genres","params":[{"enums":["movie","tvshow","musicvideo"],"name":"type","required":true,"type":"string"},{"$ref":"Library.Fields.Genre","name":"fields"},{"$ref":"List.Limits","name":"limits"},{"$ref":"List.Sort","name":"sort"}],"returns":{"properties":{"genres":{"items":{"$ref":"Library.Details.Genre"},"required":true,"type":"array"},"limits":{"$ref":"List.LimitsReturned","required":true}},"type":"object"},"type":"method"},
-"VideoLibrary.GetMovieDetails":{"description":"Retrieve details about a specific movie","params":[{"$ref":"Library.Id","name":"movieid","required":true},{"$ref":"Video.Fields.Movie","name":"fields"}],"returns":{"properties":{"moviedetails":{"$ref":"Video.Details.Movie"}},"type":"object"},"type":"method"},
-"VideoLibrary.GetMovieSetDetails":{"description":"Retrieve details about a specific movie set","params":[{"$ref":"Library.Id","name":"setid","required":true},{"$ref":"Video.Fields.MovieSet","name":"fields"},{"name":"movies","properties":{"fields":{"$ref":"Video.Fields.Movie"},"limits":{"$ref":"List.Limits"},"sort":{"$ref":"List.Sort"}},"type":"object"}],"returns":{"properties":{"setdetails":{"$ref":"Video.Details.MovieSet.Extended"}},"type":"object"},"type":"method"},
-"VideoLibrary.GetMovieSets":{"description":"Retrieve all movie sets","params":[{"$ref":"Video.Fields.MovieSet","name":"fields"},{"$ref":"List.Limits","name":"limits"},{"$ref":"List.Sort","name":"sort"}],"returns":{"properties":{"limits":{"$ref":"List.LimitsReturned","required":true},"sets":{"items":{"$ref":"Video.Details.MovieSet"},"type":"array"}},"type":"object"},"type":"method"},
-"VideoLibrary.GetMovies":{"description":"Retrieve all movies","params":[{"$ref":"Video.Fields.Movie","name":"fields"},{"$ref":"List.Limits","name":"limits"},{"$ref":"List.Sort","name":"sort"}],"returns":{"properties":{"limits":{"$ref":"List.LimitsReturned","required":true},"movies":{"items":{"$ref":"Video.Details.Movie"},"type":"array"}},"type":"object"},"type":"method"},
-"VideoLibrary.GetMusicVideoDetails":{"description":"Retrieve details about a specific music video","params":[{"$ref":"Library.Id","name":"musicvideoid","required":true},{"$ref":"Video.Fields.MusicVideo","name":"fields"}],"returns":{"properties":{"musicvideodetails":{"$ref":"Video.Details.MusicVideo"}},"type":"object"},"type":"method"},
-"VideoLibrary.GetMusicVideos":{"description":"Retrieve all music videos","params":[{"$ref":"Library.Id","default":-1,"name":"artistid"},{"$ref":"Library.Id","default":-1,"name":"albumid"},{"$ref":"Video.Fields.MusicVideo","name":"fields"},{"$ref":"List.Limits","name":"limits"},{"$ref":"List.Sort","name":"sort"}],"returns":{"properties":{"limits":{"$ref":"List.LimitsReturned","required":true},"musicvideos":{"items":{"$ref":"Video.Details.MusicVideo"},"type":"array"}},"type":"object"},"type":"method"},
-"VideoLibrary.GetRecentlyAddedEpisodes":{"description":"Retrieve all recently added tv episodes","params":[{"$ref":"Video.Fields.Episode","name":"fields"},{"$ref":"List.Limits","name":"limits"},{"$ref":"List.Sort","name":"sort"}],"returns":{"properties":{"episodes":{"items":{"$ref":"Video.Details.Episode"},"type":"array"},"limits":{"$ref":"List.LimitsReturned","required":true}},"type":"object"},"type":"method"},
-"VideoLibrary.GetRecentlyAddedMovies":{"description":"Retrieve all recently added movies","params":[{"$ref":"Video.Fields.Movie","name":"fields"},{"$ref":"List.Limits","name":"limits"},{"$ref":"List.Sort","name":"sort"}],"returns":{"properties":{"limits":{"$ref":"List.LimitsReturned","required":true},"movies":{"items":{"$ref":"Video.Details.Movie"},"type":"array"}},"type":"object"},"type":"method"},
-"VideoLibrary.GetRecentlyAddedMusicVideos":{"description":"Retrieve all recently added music videos","params":[{"$ref":"Video.Fields.MusicVideo","name":"fields"},{"$ref":"List.Limits","name":"limits"},{"$ref":"List.Sort","name":"sort"}],"returns":{"properties":{"limits":{"$ref":"List.LimitsReturned","required":true},"musicvideos":{"items":{"$ref":"Video.Details.MusicVideo"},"type":"array"}},"type":"object"},"type":"method"},
-"VideoLibrary.GetSeasons":{"description":"Retrieve all tv seasons","params":[{"$ref":"Library.Id","name":"tvshowid","required":true},{"$ref":"Video.Fields.Season","name":"fields"},{"$ref":"List.Limits","name":"limits"},{"$ref":"List.Sort","name":"sort"}],"returns":{"properties":{"limits":{"$ref":"List.LimitsReturned","required":true},"seasons":{"items":{"$ref":"Video.Details.Season"},"type":"array"}},"type":"object"},"type":"method"},
-"VideoLibrary.GetTVShowDetails":{"description":"Retrieve details about a specific tv show","params":[{"$ref":"Library.Id","name":"tvshowid","required":true},{"$ref":"Video.Fields.TVShow","name":"fields"}],"returns":{"properties":{"tvshowdetails":{"$ref":"Video.Details.TVShow"}},"type":"object"},"type":"method"},
-"VideoLibrary.GetTVShows":{"description":"Retrieve all tv shows","params":[{"$ref":"Video.Fields.TVShow","name":"fields"},{"$ref":"List.Limits","name":"limits"},{"$ref":"List.Sort","name":"sort"}],"returns":{"properties":{"limits":{"$ref":"List.LimitsReturned","required":true},"tvshows":{"items":{"$ref":"Video.Details.TVShow"},"type":"array"}},"type":"object"},"type":"method"},
+"VideoLibrary.GetEpisodeDetails":{"description":"Retrieve details about a specific tv show episode","params":[{"$ref":"Library.Id","name":"episodeid","required":true},{"$ref":"Video.Fields.Episode","name":"properties"}],"returns":{"properties":{"episodedetails":{"$ref":"Video.Details.Episode"}},"type":"object"},"type":"method"},
+"VideoLibrary.GetEpisodes":{"description":"Retrieve all tv show episodes","params":[{"$ref":"Library.Id","default":-1,"name":"tvshowid"},{"default":-1,"minimum":0,"name":"season","type":"integer"},{"$ref":"Video.Fields.Episode","name":"properties"},{"$ref":"List.Limits","name":"limits"},{"$ref":"List.Sort","name":"sort"}],"returns":{"properties":{"episodes":{"items":{"$ref":"Video.Details.Episode"},"type":"array"},"limits":{"$ref":"List.LimitsReturned","required":true}},"type":"object"},"type":"method"},
+"VideoLibrary.GetGenres":{"description":"Retrieve all genres","params":[{"enums":["movie","tvshow","musicvideo"],"name":"type","required":true,"type":"string"},{"$ref":"Library.Fields.Genre","name":"properties"},{"$ref":"List.Limits","name":"limits"},{"$ref":"List.Sort","name":"sort"}],"returns":{"properties":{"genres":{"items":{"$ref":"Library.Details.Genre"},"required":true,"type":"array"},"limits":{"$ref":"List.LimitsReturned","required":true}},"type":"object"},"type":"method"},
+"VideoLibrary.GetMovieDetails":{"description":"Retrieve details about a specific movie","params":[{"$ref":"Library.Id","name":"movieid","required":true},{"$ref":"Video.Fields.Movie","name":"properties"}],"returns":{"properties":{"moviedetails":{"$ref":"Video.Details.Movie"}},"type":"object"},"type":"method"},
+"VideoLibrary.GetMovieSetDetails":{"description":"Retrieve details about a specific movie set","params":[{"$ref":"Library.Id","name":"setid","required":true},{"$ref":"Video.Fields.MovieSet","name":"properties"},{"name":"movies","properties":{"limits":{"$ref":"List.Limits"},"properties":{"$ref":"Video.Fields.Movie"},"sort":{"$ref":"List.Sort"}},"type":"object"}],"returns":{"properties":{"setdetails":{"$ref":"Video.Details.MovieSet.Extended"}},"type":"object"},"type":"method"},
+"VideoLibrary.GetMovieSets":{"description":"Retrieve all movie sets","params":[{"$ref":"Video.Fields.MovieSet","name":"properties"},{"$ref":"List.Limits","name":"limits"},{"$ref":"List.Sort","name":"sort"}],"returns":{"properties":{"limits":{"$ref":"List.LimitsReturned","required":true},"sets":{"items":{"$ref":"Video.Details.MovieSet"},"type":"array"}},"type":"object"},"type":"method"},
+"VideoLibrary.GetMovies":{"description":"Retrieve all movies","params":[{"$ref":"Video.Fields.Movie","name":"properties"},{"$ref":"List.Limits","name":"limits"},{"$ref":"List.Sort","name":"sort"}],"returns":{"properties":{"limits":{"$ref":"List.LimitsReturned","required":true},"movies":{"items":{"$ref":"Video.Details.Movie"},"type":"array"}},"type":"object"},"type":"method"},
+"VideoLibrary.GetMusicVideoDetails":{"description":"Retrieve details about a specific music video","params":[{"$ref":"Library.Id","name":"musicvideoid","required":true},{"$ref":"Video.Fields.MusicVideo","name":"properties"}],"returns":{"properties":{"musicvideodetails":{"$ref":"Video.Details.MusicVideo"}},"type":"object"},"type":"method"},
+"VideoLibrary.GetMusicVideos":{"description":"Retrieve all music videos","params":[{"$ref":"Library.Id","default":-1,"name":"artistid"},{"$ref":"Library.Id","default":-1,"name":"albumid"},{"$ref":"Video.Fields.MusicVideo","name":"properties"},{"$ref":"List.Limits","name":"limits"},{"$ref":"List.Sort","name":"sort"}],"returns":{"properties":{"limits":{"$ref":"List.LimitsReturned","required":true},"musicvideos":{"items":{"$ref":"Video.Details.MusicVideo"},"type":"array"}},"type":"object"},"type":"method"},
+"VideoLibrary.GetRecentlyAddedEpisodes":{"description":"Retrieve all recently added tv episodes","params":[{"$ref":"Video.Fields.Episode","name":"properties"},{"$ref":"List.Limits","name":"limits"},{"$ref":"List.Sort","name":"sort"}],"returns":{"properties":{"episodes":{"items":{"$ref":"Video.Details.Episode"},"type":"array"},"limits":{"$ref":"List.LimitsReturned","required":true}},"type":"object"},"type":"method"},
+"VideoLibrary.GetRecentlyAddedMovies":{"description":"Retrieve all recently added movies","params":[{"$ref":"Video.Fields.Movie","name":"properties"},{"$ref":"List.Limits","name":"limits"},{"$ref":"List.Sort","name":"sort"}],"returns":{"properties":{"limits":{"$ref":"List.LimitsReturned","required":true},"movies":{"items":{"$ref":"Video.Details.Movie"},"type":"array"}},"type":"object"},"type":"method"},
+"VideoLibrary.GetRecentlyAddedMusicVideos":{"description":"Retrieve all recently added music videos","params":[{"$ref":"Video.Fields.MusicVideo","name":"properties"},{"$ref":"List.Limits","name":"limits"},{"$ref":"List.Sort","name":"sort"}],"returns":{"properties":{"limits":{"$ref":"List.LimitsReturned","required":true},"musicvideos":{"items":{"$ref":"Video.Details.MusicVideo"},"type":"array"}},"type":"object"},"type":"method"},
+"VideoLibrary.GetSeasons":{"description":"Retrieve all tv seasons","params":[{"$ref":"Library.Id","name":"tvshowid","required":true},{"$ref":"Video.Fields.Season","name":"properties"},{"$ref":"List.Limits","name":"limits"},{"$ref":"List.Sort","name":"sort"}],"returns":{"properties":{"limits":{"$ref":"List.LimitsReturned","required":true},"seasons":{"items":{"$ref":"Video.Details.Season"},"type":"array"}},"type":"object"},"type":"method"},
+"VideoLibrary.GetTVShowDetails":{"description":"Retrieve details about a specific tv show","params":[{"$ref":"Library.Id","name":"tvshowid","required":true},{"$ref":"Video.Fields.TVShow","name":"properties"}],"returns":{"properties":{"tvshowdetails":{"$ref":"Video.Details.TVShow"}},"type":"object"},"type":"method"},
+"VideoLibrary.GetTVShows":{"description":"Retrieve all tv shows","params":[{"$ref":"Video.Fields.TVShow","name":"properties"},{"$ref":"List.Limits","name":"limits"},{"$ref":"List.Sort","name":"sort"}],"returns":{"properties":{"limits":{"$ref":"List.LimitsReturned","required":true},"tvshows":{"items":{"$ref":"Video.Details.TVShow"},"type":"array"}},"type":"object"},"type":"method"},
 "VideoLibrary.Scan":{"description":"Scans the video sources for new library items","params":[],"returns":{"type":"string"},"type":"method"},
-
-"VideoPlayer.BigSkipBackward":{"params":[],"returns":{"type":"string"},"type":"method"},
-"VideoPlayer.BigSkipForward":{"params":[],"returns":{"type":"string"},"type":"method"},
-"VideoPlayer.Forward":{"description":"Forward current playback","params":[],"returns":{"type":"string"},"type":"method"},
-"VideoPlayer.GetPercentage":{"description":"Retrieve current playback progress in percentage","params":[],"returns":{"exclusiveMaximum":true,"exclusiveMinimum":true,"maximum":1.0869444208507423972e-321,"minimum":1.0869444208507423972e-321,"type":"number"},"type":"method"},
-"VideoPlayer.GetTime":{"description":"Retrieves the current and total time of the currently playing file","params":[],"returns":{"$ref":"Player.TimeValues"},"type":"method"},
-"VideoPlayer.PlayPause":{"description":"Pauses or unpause playback and returns the new state","params":[],"returns":{"$ref":"Player.State"},"type":"method"},
-"VideoPlayer.Rewind":{"description":"Rewind current playback","params":[],"returns":{"type":"string"},"type":"method"},
-"VideoPlayer.SeekPercentage":{"description":"Seek to a specific percentage","params":[{"$ref":"Player.SeekPercentage","name":"value","required":true}],"returns":{"type":"string"},"type":"method"},
-"VideoPlayer.SeekTime":{"description":"Seek to a specific time","params":[{"$ref":"Player.SeekTime","name":"value","required":true}],"returns":{"type":"string"},"type":"method"},
-"VideoPlayer.SkipNext":{"description":"Skips to next item on the playlist","params":[],"returns":{"type":"string"},"type":"method"},
-"VideoPlayer.SkipPrevious":{"description":"Skips to previous item on the playlist","params":[],"returns":{"type":"string"},"type":"method"},
-"VideoPlayer.SmallSkipBackward":{"params":[],"returns":{"type":"string"},"type":"method"},
-"VideoPlayer.SmallSkipForward":{"params":[],"returns":{"type":"string"},"type":"method"},
-"VideoPlayer.State":{"description":"Returns playback state of the video player (if it is active)","params":[],"returns":{"$ref":"Player.State.Extended"},"type":"method"},
-"VideoPlayer.Stop":{"description":"Stops playback","params":[],"returns":{"type":"string"},"type":"method"},
-
-"VideoPlaylist.Add":{"description":"Add item(s) to playlist","params":[{"$ref":"Playlist.Video.Item","name":"item","required":true}],"returns":{"type":"string"},"type":"method"},
-"VideoPlaylist.Clear":{"description":"Clear playlist","params":[],"returns":{"type":"string"},"type":"method"},
-"VideoPlaylist.GetItems":{"description":"Get all items from playlist","params":[{"$ref":"List.Fields.Video","name":"fields"},{"$ref":"List.Limits","name":"limits"},{"$ref":"List.Sort","name":"sort"}],"returns":{"properties":{"items":{"$ref":"List.Items.Video","required":true},"limits":{"$ref":"List.LimitsReturned","required":true},"state":{"$ref":"Playlist.State"}},"type":"object"},"type":"method"},
-"VideoPlaylist.Insert":{"description":"Insert item(s) into playlist","params":[{"$ref":"Playlist.Item.Position","name":"index","required":true},{"$ref":"Playlist.Video.Item","name":"item","required":true}],"returns":{"type":"string"},"type":"method"},
-"VideoPlaylist.Play":{"description":"Play current or a specific item","params":[{"$ref":"Playlist.Item.Position","default":-1,"description":"Position of the item","name":"item"}],"returns":{"properties":{"success":{"required":true,"type":"boolean"}},"type":"object"},"type":"method"},
-"VideoPlaylist.Remove":{"description":"Remove item from playlist","params":[{"$ref":"Playlist.Item.Position","name":"item","required":true}],"returns":{"type":"string"},"type":"method"},
-"VideoPlaylist.Repeat":{"description":"Set the repeat mode of the playlist","params":[{"$ref":"Playlist.Repeat","name":"state","required":true}],"returns":{"type":"string"},"type":"method"},
-"VideoPlaylist.Shuffle":{"description":"Shuffle playlist","params":[],"returns":{"type":"string"},"type":"method"},
-"VideoPlaylist.SkipNext":{"description":"Skip current item and play next item","params":[],"returns":{"type":"string"},"type":"method"},
-"VideoPlaylist.SkipPrevious":{"description":"Skip current item and play previous item","params":[],"returns":{"type":"string"},"type":"method"},
-"VideoPlaylist.State":{"description":"Provides information about the current state of the playlist","params":[],"returns":{"$ref":"Playlist.State"},"type":"method"},
-"VideoPlaylist.Swap":{"description":"Swap items in the playlist","params":[{"$ref":"Playlist.Item.Position","name":"item1","required":true},{"$ref":"Playlist.Item.Position","name":"item2","required":true}],"returns":{"type":"string"},"type":"method"},
-"VideoPlaylist.UnShuffle":{"description":"Unshuffle playlist","params":[],"returns":{"type":"string"},"type":"method"},
-
 "XBMC.GetInfoBooleans":{"description":"Retrieve info booleans about XBMC and the system","params":[{"items":{"type":"string"},"name":"booleans","required":true,"type":"array"}],"returns":{"description":"List of key-value pairs of the retrieved info booleans","type":"object"},"type":"method"},
-"XBMC.GetInfoLabels":{"description":"Retrieve info labels about XBMC and the system","params":[{"description":"See http://wiki.xbmc.org/index.php?title=InfoLabels for a list of possible info labels","items":{"type":"string"},"name":"labels","required":true,"type":"array"}],"returns":{"description":"List of key-value pairs of the retrieved info labels","type":"object"},"type":"method"},
-"XBMC.Play":{"description":"Starts playback of the given file","params":[{"name":"file","required":true,"type":"string"}],"returns":{"type":"string"},"type":"method"},
-"XBMC.StartSlideshow":{"description":"Starts slideshow with the images from the given directory","params":[{"name":"directory","required":true,"type":"string"},{"default":true,"name":"random","type":"boolean"},{"default":true,"name":"recursive","type":"boolean"}],"returns":{"type":"string"},"type":"method"}
+"XBMC.GetInfoLabels":{"description":"Retrieve info labels about XBMC and the system","params":[{"description":"See http://wiki.xbmc.org/index.php?title=InfoLabels for a list of possible info labels","items":{"type":"string"},"name":"labels","required":true,"type":"array"}],"returns":{"description":"List of key-value pairs of the retrieved info labels","type":"object"},"type":"method"}
 
-},
-"notifications":{
+},"notifications":{
 
-"AudioLibrary.OnRemove":{"AudioLibrary.OnRemove":{"description":"An audio item has been removed.","params":[{"name":"sender","required":true,"type":"string"},{"name":"data","properties":{"id":{"$ref":"Library.Id","required":true},"type":{"$ref":"Notifications.Library.Audio.Type","required":true}},"required":true,"type":"object"}],"returns":null,"type":"notification"}},
-"AudioLibrary.OnUpdate":{"AudioLibrary.OnUpdate":{"description":"An audio item has been updated.","params":[{"name":"sender","required":true,"type":"string"},{"name":"data","properties":{"id":{"$ref":"Library.Id","required":true},"type":{"enum":["song"],"id":"Notifications.Library.Audio.Type","required":true,"type":"string"}},"required":true,"type":"object"}],"returns":null,"type":"notification"}},
+"AudioLibrary.OnRemove":{"description":"An audio item has been removed.","params":[{"name":"sender","required":true,"type":"string"},{"name":"data","properties":{"id":{"$ref":"Library.Id","required":true},"type":{"$ref":"Notifications.Library.Audio.Type","required":true}},"required":true,"type":"object"}],"returns":null,"type":"notification"},
+"AudioLibrary.OnUpdate":{"description":"An audio item has been updated.","params":[{"name":"sender","required":true,"type":"string"},{"name":"data","properties":{"id":{"$ref":"Library.Id","required":true},"type":{"enum":["song"],"id":"Notifications.Library.Audio.Type","required":true,"type":"string"}},"required":true,"type":"object"}],"returns":null,"type":"notification"},
+"Player.OnPause":{"description":"Playback of a media item has been paused. If there is no ID available extra information will be provided.","params":[{"name":"sender","required":true,"type":"string"},{"$ref":"Player.Notifications.Data","name":"data","required":true}],"returns":null,"type":"notification"},
+"Player.OnPlay":{"description":"Playback of a media item has been started or the playback speed has changed. If there is no ID available extra information will be provided.","params":[{"name":"sender","required":true,"type":"string"},{"$ref":"Player.Notifications.Data","name":"data","required":true}],"returns":null,"type":"notification"},
+"Player.OnSeek":{"description":"The playback position has been changed. If there is no ID available extra information will be provided.","params":[{"name":"sender","required":true,"type":"string"},{"name":"data","properties":{"item":{"$ref":"Player.Notifications.Item"},"player":{"$ref":"Player.Notifications.Player.Seek","required":true}},"required":true,"type":"object"}],"returns":null,"type":"notification"},
+"Player.OnSpeedChanged":{"description":"Speed of the playback of a media item has been changed. If there is no ID available extra information will be provided.","params":[{"name":"sender","required":true,"type":"string"},{"$ref":"Player.Notifications.Data","name":"data","required":true}],"returns":null,"type":"notification"},
+"Player.OnStop":{"description":"Playback of a media item has been stopped. If there is no ID available extra information will be provided.","params":[{"name":"sender","required":true,"type":"string"},{"name":"data","properties":{"item":{"$ref":"Player.Notifications.Item"}},"required":true,"type":"object"}],"returns":null,"type":"notification"},
+"System.OnLowBattery":{"description":"The system is on low battery.","params":[{"name":"sender","required":true,"type":"string"},{"name":"data","required":true,"type":"null"}],"returns":null,"type":"notification"},
+"System.OnQuit":{"description":"XBMC will be closed.","params":[{"name":"sender","required":true,"type":"string"},{"name":"data","required":true,"type":"null"}],"returns":null,"type":"notification"},
+"System.OnRestart":{"description":"The system will be restarted.","params":[{"name":"sender","required":true,"type":"string"},{"name":"data","required":true,"type":"null"}],"returns":null,"type":"notification"},
+"System.OnSleep":{"description":"The system will be suspended.","params":[{"name":"sender","required":true,"type":"string"},{"name":"data","required":true,"type":"null"}],"returns":null,"type":"notification"},
+"System.OnWake":{"description":"The system woke up from suspension.","params":[{"name":"sender","required":true,"type":"string"},{"name":"data","required":true,"type":"null"}],"returns":null,"type":"notification"},
+"VideoLibrary.OnRemove":{"description":"A video item has been removed.","params":[{"name":"sender","required":true,"type":"string"},{"name":"data","properties":{"id":{"$ref":"Library.Id","required":true},"type":{"$ref":"Notifications.Library.Video.Type","required":true}},"required":true,"type":"object"}],"returns":null,"type":"notification"},
+"VideoLibrary.OnUpdate":{"description":"A video item has been updated.","params":[{"name":"sender","required":true,"type":"string"},{"name":"data","properties":{"id":{"$ref":"Library.Id","required":true},"playcount":{"default":-1,"minimum":0,"type":"integer"},"type":{"enum":["movie","tvshow","episode","musicvideo"],"id":"Notifications.Library.Video.Type","required":true,"type":"string"}},"required":true,"type":"object"}],"returns":null,"type":"notification"}
 
-"Player.OnPause":{"Player.OnPause":{"description":"Playback of a media item has been paused. If there is no ID available extra information will be provided.","params":[{"name":"sender","required":true,"type":"string"},{"name":"data","properties":{"album":{"type":"string"},"artist":{"type":"string"},"episode":{"type":"integer"},"id":{"$ref":"Library.Id"},"season":{"type":"integer"},"showtitle":{"type":"string"},"title":{"type":"string"},"track":{"type":"integer"},"type":{"$ref":"Notifications.Player.Type","required":true},"year":{"type":"integer"}},"required":true,"type":"object"}],"returns":null,"type":"notification"}},
-"Player.OnPlay":{"Player.OnPlay":{"description":"Playback of a media item has been started or the playback speed has changed. If there is no ID available extra information will be provided.","params":[{"name":"sender","required":true,"type":"string"},{"name":"data","properties":{"album":{"type":"string"},"artist":{"type":"string"},"episode":{"type":"integer"},"id":{"$ref":"Library.Id"},"season":{"type":"integer"},"showtitle":{"type":"string"},"speed":{"required":true,"type":"integer"},"title":{"type":"string"},"track":{"type":"integer"},"type":{"enum":["unknown","movie","episode","musicvideo","song"],"id":"Notifications.Player.Type","required":true,"type":"string"},"year":{"type":"integer"}},"required":true,"type":"object"}],"returns":null,"type":"notification"}},
-"Player.OnSeek":{"Player.OnSeek":{"description":"The playback position has been changed.","params":[{"name":"sender","required":true,"type":"string"},{"name":"data","properties":{"seekoffset":{"required":true,"type":"integer"},"time":{"required":true,"type":"integer"}},"required":true,"type":"object"}],"returns":null,"type":"notification"}},
-"Player.OnStop":{"Player.OnStop":{"description":"Playback of a media item has been stopped. If there is no ID available extra information will be provided.","params":[{"name":"sender","required":true,"type":"string"},{"name":"data","properties":{"album":{"type":"string"},"artist":{"type":"string"},"episode":{"type":"integer"},"id":{"$ref":"Library.Id"},"season":{"type":"integer"},"showtitle":{"type":"string"},"title":{"type":"string"},"track":{"type":"integer"},"type":{"$ref":"Notifications.Player.Type"},"year":{"type":"integer"}},"required":true,"type":"object"}],"returns":null,"type":"notification"}},
+},"types":{
 
-"System.OnLowBattery":{"System.OnLowBattery":{"description":"The system is on low battery.","params":[{"name":"sender","required":true,"type":"string"},{"name":"data","required":true,"type":"null"}],"returns":null,"type":"notification"}},
-"System.OnQuit":{"System.OnQuit":{"description":"XBMC will be closed.","params":[{"name":"sender","required":true,"type":"string"},{"name":"data","required":true,"type":"null"}],"returns":null,"type":"notification"}},
-"System.OnRestart":{"System.OnRestart":{"description":"The system will be restarted.","params":[{"name":"sender","required":true,"type":"string"},{"name":"data","required":true,"type":"null"}],"returns":null,"type":"notification"}},
-"System.OnSleep":{"System.OnSleep":{"description":"The system will be suspended.","params":[{"name":"sender","required":true,"type":"string"},{"name":"data","required":true,"type":"null"}],"returns":null,"type":"notification"}},
-"System.OnWake":{"System.OnWake":{"description":"The system woke up from suspension.","params":[{"name":"sender","required":true,"type":"string"},{"name":"data","required":true,"type":"null"}],"returns":null,"type":"notification"}},
-
-"VideoLibrary.OnRemove":{"VideoLibrary.OnRemove":{"description":"A video item has been removed.","params":[{"name":"sender","required":true,"type":"string"},{"name":"data","properties":{"id":{"$ref":"Library.Id","required":true},"type":{"$ref":"Notifications.Library.Video.Type","required":true}},"required":true,"type":"object"}],"returns":null,"type":"notification"}},
-"VideoLibrary.OnUpdate":{"VideoLibrary.OnUpdate":{"description":"A video item has been updated.","params":[{"name":"sender","required":true,"type":"string"},{"name":"data","properties":{"id":{"$ref":"Library.Id","required":true},"playcount":{"default":-1,"minimum":0,"type":"integer"},"type":{"enum":["movie","tvshow","episode","musicvideo"],"id":"Notifications.Library.Video.Type","required":true,"type":"string"}},"required":true,"type":"object"}],"returns":null,"type":"notification"}}
-
-},
-"types":{
-
-"Application.Property.Name":{"default":"volume","enums":["volume","muted"],"id":"Application.Property.Name","type":"string"},
-"Application.Property.Value":{"id":"Application.Property.Value","properties":{"muted":{"default":false,"type":"boolean"},"volume":{"default":0,"type":"integer"}},"type":"object"},
-
+"Application.Property.Name":{"default":"volume","enums":["volume","muted","name","version"],"id":"Application.Property.Name","type":"string"},
+"Application.Property.Value":{"id":"Application.Property.Value","properties":{"muted":{"default":false,"type":"boolean"},"name":{"default":"","minLength":1,"type":"string"},"version":{"properties":{"major":{"minimum":0,"required":true,"type":"integer"},"minor":{"minimum":0,"required":true,"type":"integer"},"revision":{"default":null,"type":[{"default":null,"type":"string"},{"default":null,"divisibleBy":32752,"exclusiveMaximum":true,"exclusiveMinimum":true,"maximum":0,"minimum":0,"type":"integer"}]},"tag":{"enums":["prealpha","alpha","beta","releasecandidate","stable"],"required":true,"type":"string"}},"type":"object"},"volume":{"default":0,"type":"integer"}},"type":"object"},
 "Array.Integer":{"id":"Array.Integer","items":{"type":"integer"},"type":"array"},
-"Array.String":{"id":"Array.String","items":{"type":"string"},"type":"array"},
+"Array.String":{"id":"Array.String","items":{"minLength":1,"type":"string"},"type":"array"},
+"Audio.Details.Album":{"extends":"Audio.Details.Media","id":"Audio.Details.Album","properties":{"albumid":{"$ref":"Library.Id","required":true},"albumlabel":{"default":"","type":"string"},"artistid":{"$ref":"Library.Id","default":-1},"description":{"default":"","type":"string"},"mood":{"default":"","type":"string"},"style":{"default":"","type":"string"},"theme":{"default":"","type":"string"},"type":{"default":"","type":"string"}}},
+"Audio.Details.Artist":{"extends":"Audio.Details.Base","id":"Audio.Details.Artist","properties":{"artist":{"required":true,"type":"string"},"artistid":{"$ref":"Library.Id","required":true},"born":{"default":"","type":"string"},"description":{"default":"","type":"string"},"died":{"default":"","type":"string"},"disbanded":{"default":"","type":"string"},"formed":{"default":"","type":"string"},"instrument":{"default":"","type":"string"},"mood":{"default":"","type":"string"},"musicbrainzartistid":{"default":"","type":"string"},"style":{"default":"","type":"string"},"yearsactive":{"default":"","type":"string"}}},"Audio.Details.Base":{"extends":"Media.Details.Base","id":"Audio.Details.Base","properties":{"genre":{"default":"","type":"string"}}},"Audio.Details.Media":{"extends":"Audio.Details.Base","id":"Audio.Details.Media","properties":{"artist":{"default":"","type":"string"},"musicbrainzalbumartistid":{"default":"","type":"string"},"musicbrainzalbumid":{"default":"","type":"string"},"rating":{"default":0,"type":"integer"},"title":{"default":"","type":"string"},"year":{"default":0,"type":"integer"}}},
+"Audio.Details.Song":{"extends":"Audio.Details.Media","id":"Audio.Details.Song","properties":{"album":{"default":"","type":"string"},"albumartist":{"default":"","type":"string"},"albumid":{"$ref":"Library.Id","default":-1},"artistid":{"$ref":"Library.Id","default":-1},"comment":{"default":"","type":"string"},"duration":{"default":0,"type":"integer"},"file":{"default":"","type":"string"},"lyrics":{"default":"","type":"string"},"musicbrainzartistid":{"default":"","type":"string"},"musicbrainztrackid":{"default":"","type":"string"},"playcount":{"default":0,"type":"integer"},"songid":{"$ref":"Library.Id","required":true},"track":{"default":0,"type":"integer"}}},
 
-"Audio.Details.Album":{"id":"Audio.Details.Album","properties":{"albumid":{"$ref":"Library.Id","required":true},"albumlabel":{"default":"","type":"string"},"artist":{"default":"","type":"string"},"artistid":{"$ref":"Library.Id","default":-1},"description":{"default":"","type":"string"},"fanart":{"default":"","type":"string"},"genre":{"default":"","type":"string"},"label":{"required":true,"type":"string"},"mood":{"default":"","type":"string"},"musicbrainzalbumartistid":{"default":"","type":"string"},"musicbrainzalbumid":{"default":"","type":"string"},"rating":{"default":0,"type":"integer"},"style":{"default":"","type":"string"},"theme":{"default":"","type":"string"},"thumbnail":{"default":"","type":"string"},"title":{"default":"","type":"string"},"type":{"default":"","type":"string"},"year":{"default":0,"type":"integer"}},"type":"object"},
-"Audio.Details.Artist":{"id":"Audio.Details.Artist","properties":{"artist":{"required":true,"type":"string"},"artistid":{"$ref":"Library.Id","required":true},"born":{"default":"","type":"string"},"description":{"default":"","type":"string"},"died":{"default":"","type":"string"},"disbanded":{"default":"","type":"string"},"fanart":{"default":"","type":"string"},"formed":{"default":"","type":"string"},"genre":{"default":"","type":"string"},"instrument":{"default":"","type":"string"},"label":{"required":true,"type":"string"},"mood":{"default":"","type":"string"},"musicbrainzartistid":{"default":"","type":"string"},"style":{"default":"","type":"string"},"thumbnail":{"default":"","type":"string"},"yearsactive":{"default":"","type":"string"}},"type":"object"},
-"Audio.Details.Song":{"id":"Audio.Details.Song","properties":{"album":{"default":"","type":"string"},"albumartist":{"default":"","type":"string"},"albumid":{"$ref":"Library.Id","default":-1},"artist":{"default":"","type":"string"},"artistid":{"$ref":"Library.Id","default":-1},"comment":{"default":"","type":"string"},"duration":{"default":0,"type":"integer"},"fanart":{"default":"","type":"string"},"file":{"default":"","type":"string"},"genre":{"default":"","type":"string"},"label":{"required":true,"type":"string"},"lyrics":{"default":"","type":"string"},"musicbrainzalbumartistid":{"default":"","type":"string"},"musicbrainzalbumid":{"default":"","type":"string"},"musicbrainzartistid":{"default":"","type":"string"},"musicbrainztrackid":{"default":"","type":"string"},"playcount":{"default":0,"type":"integer"},"rating":{"default":0,"type":"integer"},"songid":{"$ref":"Library.Id","required":true},"thumbnail":{"default":"","type":"string"},"title":{"default":"","type":"string"},"track":{"default":0,"type":"integer"},"year":{"default":0,"type":"integer"}},"type":"object"},
-"Audio.Fields.Album":{"id":"Audio.Fields.Album","items":{"enums":["title","description","artist","genre","theme","mood","style","type","label","rating","year","musicbrainzalbumid","musicbrainzalbumartistid","fanart","thumbnail","artistid"],"type":"string"},"type":"array","uniqueItems":true},
-"Audio.Fields.Artist":{"id":"Audio.Fields.Artist","items":{"enums":["instrument","style","mood","born","formed","description","genre","died","disbanded","yearsactive","musicbrainzartistid","fanart","thumbnail"],"type":"string"},"type":"array","uniqueItems":true},
-"Audio.Fields.Song":{"id":"Audio.Fields.Song","items":{"enums":["title","artist","albumartist","genre","year","rating","album","track","duration","comment","lyrics","musicbrainztrackid","musicbrainzartistid","musicbrainzalbumid","musicbrainzalbumartistid","playcount","fanart","thumbnail","file","artistid","albumid"],"type":"string"},"type":"array","uniqueItems":true},
+"Audio.Fields.Album":{
+  "extends":"Item.Fields.Base",
+  "id":"Audio.Fields.Album",
+  "items":{
+    "enums":["title","description","artist","genre","theme","mood","style","type","albumlabel","rating","year","musicbrainzalbumid","musicbrainzalbumartistid","fanart","thumbnail","artistid"],
+    "type":"string"
+  }
+},
 
-"Configuration":{"id":"Configuration","properties":{"notifications":{"$ref":"Configuration.Notifications","required":true}},"required":true,"type":"object"},
-"Configuration.Notifications":{"id":"Configuration.Notifications","properties":{"audiolibrary":{"required":true,"type":"boolean"},"gui":{"required":true,"type":"boolean"},"other":{"required":true,"type":"boolean"},"player":{"required":true,"type":"boolean"},"system":{"required":true,"type":"boolean"},"videolibrary":{"required":true,"type":"boolean"}},"type":"object"},
+"Audio.Fields.Artist":{"extends":"Item.Fields.Base","id":"Audio.Fields.Artist","items":{"enums":["instrument","style","mood","born","formed","description","genre","died","disbanded","yearsactive","musicbrainzartistid","fanart","thumbnail"],"type":"string"}},"Audio.Fields.Song":{"extends":"Item.Fields.Base","id":"Audio.Fields.Song","items":{"enums":["title","artist","albumartist","genre","year","rating","album","track","duration","comment","lyrics","musicbrainztrackid","musicbrainzartistid","musicbrainzalbumid","musicbrainzalbumartistid","playcount","fanart","thumbnail","file","artistid","albumid"],"type":"string"}},"Configuration":{"id":"Configuration","properties":{"notifications":{"$ref":"Configuration.Notifications","required":true}},"required":true,"type":"object"},
 
-"Files.Media":{"default":"video","enums":["video","music","pictures","files","programs"],"id":"Files.Media","type":"string"},"Global.Time":{"id":"Global.Time","properties":{"hours":{"maximum":23,"minimum":0,"required":true,"type":"integer"},"milliseconds":{"maximum":999,"minimum":0,"required":true,"type":"integer"},"minutes":{"maximum":59,"minimum":0,"required":true,"type":"integer"},"seconds":{"maximum":59,"minimum":0,"required":true,"type":"integer"}},"type":"object"},
+"Configuration.Notifications":{"additionalProperties":false,"id":"Configuration.Notifications","properties":{"audiolibrary":{"required":true,"type":"boolean"},"gui":{"required":true,"type":"boolean"},"other":{"required":true,"type":"boolean"},"player":{"required":true,"type":"boolean"},"system":{"required":true,"type":"boolean"},"videolibrary":{"required":true,"type":"boolean"}},"type":"object"},
+"Files.Media":{"default":"video","enums":["video","music","pictures","files","programs"],"id":"Files.Media","type":"string"},"Global.Time":{"additionalProperties":false,"id":"Global.Time","properties":{"hours":{"maximum":23,"minimum":0,"required":true,"type":"integer"},"milliseconds":{"maximum":999,"minimum":0,"required":true,"type":"integer"},"minutes":{"maximum":59,"minimum":0,"required":true,"type":"integer"},"seconds":{"maximum":59,"minimum":0,"required":true,"type":"integer"}},"type":"object"},
+"Item.Details.Base":{"id":"Item.Details.Base","properties":{"label":{"required":true,"type":"string"}},"type":"object"},
 
-"Library.Details.Genre":{"id":"Library.Details.Genre","properties":{"genreid":{"$ref":"Library.Id","required":true},"label":{"required":true,"type":"string"},"thumbnail":{"default":"","type":"string"},"title":{"default":"","type":"string"}},"type":"object"},
-"Library.Fields.Genre":{"id":"Library.Fields.Genre","items":{"enums":["title","thumbnail"],"type":"string"},"type":"array","uniqueItems":true},"Library.Id":{"default":-1,"id":"Library.Id","minimum":1,"type":"integer"},
+"Item.Fields.Base":{
+  "id":"Item.Fields.Base",
+  "items":{"type":"string"},
+  "type":"array",
+  "uniqueItems":true
+},
+
+"Library.Details.Genre":{"extends":"Item.Details.Base","id":"Library.Details.Genre","properties":{"genreid":{"$ref":"Library.Id","required":true},"thumbnail":{"default":"","type":"string"},"title":{"default":"","type":"string"}}},"Library.Fields.Genre":{"extends":"Item.Fields.Base","id":"Library.Fields.Genre","items":{"enums":["title","thumbnail"],"type":"string"}},
+
+"Library.Id":{
+  "default":-1,
+  "id":"Library.Id",
+  "minimum":1,
+  "type":"integer"
+},
 
 "List.Amount":{"default":-1,"id":"List.Amount","minimum":0,"type":"integer"},
-"List.Fields.All":{"id":"List.Fields.All","items":{"enums":["title","artist","albumartist","genre","year","rating","album","track","duration","comment","lyrics","musicbrainztrackid","musicbrainzartistid","musicbrainzalbumid","musicbrainzalbumartistid","playcount","fanart","director","trailer","tagline","plot","plotoutline","originaltitle","lastplayed","writer","studio","mpaa","cast","country","imdbnumber","premiered","productioncode","runtime","set","showlink","streamdetails","top250","votes","firstaired","season","episode","showtitle","thumbnail","file","resume","artistid","albumid","tvshowid","setid"],"type":"string"},"type":"array","uniqueItems":true},
-"List.Fields.Video":{"id":"List.Fields.Video","items":{"enums":["title","artist","genre","year","rating","album","track","playcount","fanart","director","trailer","tagline","plot","plotoutline","originaltitle","lastplayed","writer","studio","mpaa","country","imdbnumber","premiered","productioncode","runtime","showlink","streamdetails","top250","votes","firstaired","season","episode","showtitle","thumbnail","file","sorttitle","episodeguide","resume","tvshowid","setid"],"type":"string"},"type":"array","uniqueItems":true},
-"List.Items.All":{"id":"List.Items.All","items":{"properties":{"album":{"default":"","type":"string"},"albumartist":{"default":"","type":"string"},"albumid":{"$ref":"Library.Id","default":-1},"artist":{"default":"","type":"string"},"artistid":{"$ref":"Library.Id","default":-1},"cast":{"$ref":"Video.Cast"},"comment":{"default":"","type":"string"},"country":{"default":"","type":"string"},"director":{"default":"","type":"string"},"duration":{"default":0,"type":"integer"},"episode":{"default":0,"type":"integer"},"fanart":{"default":"","type":"string"},"file":{"default":"","type":"string"},"firstaired":{"default":"","type":"string"},"genre":{"default":"","type":"string"},"id":{"$ref":"Library.Id","default":-1},"imdbnumber":{"default":"","type":"string"},"label":{"required":true,"type":"string"},"lastplayed":{"default":"","type":"string"},"lyrics":{"default":"","type":"string"},"mpaa":{"default":"","type":"string"},"musicbrainzalbumartistid":{"default":"","type":"string"},"musicbrainzalbumid":{"default":"","type":"string"},"musicbrainzartistid":{"default":"","type":"string"},"musicbrainztrackid":{"default":"","type":"string"},"originaltitle":{"default":"","type":"string"},"playcount":{"default":0,"type":"integer"},"plot":{"default":"","type":"string"},"plotoutline":{"default":"","type":"string"},"premiered":{"default":"","type":"string"},"productioncode":{"default":"","type":"string"},"rating":{"default":0,"type":"number"},"resume":{"$ref":"Video.Resume"},"runtime":{"default":"","type":"string"},"season":{"default":0,"type":"integer"},"set":{"$ref":"Array.String"},"setid":{"$ref":"Array.Integer"},"showlink":{"default":"","type":"string"},"showtitle":{"default":"","type":"string"},"streamdetails":{"$ref":"Video.Streams"},"studio":{"default":"","type":"string"},"tagline":{"default":"","type":"string"},"thumbnail":{"default":"","type":"string"},"title":{"default":"","type":"string"},"top250":{"default":0,"type":"integer"},"track":{"default":0,"type":"integer"},"trailer":{"default":"","type":"string"},"tvshowid":{"$ref":"Library.Id","default":-1},"type":{"default":"unknown","enums":["unknown","movie","episode","musicvideo","song"],"type":"string"},"votes":{"default":"","type":"string"},"writer":{"default":"","type":"string"},"year":{"default":0,"type":"integer"}},"type":"object"},"type":"array"},
-"List.Items.Audio":{"id":"List.Items.Audio","items":{"properties":{"album":{"default":"","type":"string"},"albumartist":{"default":"","type":"string"},"albumid":{"$ref":"Library.Id","default":-1},"artist":{"default":"","type":"string"},"artistid":{"$ref":"Library.Id","default":-1},"comment":{"default":"","type":"string"},"duration":{"default":0,"type":"integer"},"fanart":{"default":"","type":"string"},"file":{"default":"","type":"string"},"genre":{"default":"","type":"string"},"id":{"$ref":"Library.Id","default":-1},"label":{"required":true,"type":"string"},"lyrics":{"default":"","type":"string"},"musicbrainzalbumartistid":{"default":"","type":"string"},"musicbrainzalbumid":{"default":"","type":"string"},"musicbrainzartistid":{"default":"","type":"string"},"musicbrainztrackid":{"default":"","type":"string"},"playcount":{"default":0,"type":"integer"},"rating":{"default":0,"type":"integer"},"thumbnail":{"default":"","type":"string"},"title":{"default":"","type":"string"},"track":{"default":0,"type":"integer"},"type":{"default":"unknown","enums":["unknown","song"],"type":"string"},"year":{"default":0,"type":"integer"}},"type":"object"},"type":"array"},
-"List.Items.Files":{"id":"List.Items.Files","items":{"properties":{"album":{"default":"","type":"string"},"albumartist":{"default":"","type":"string"},"albumid":{"$ref":"Library.Id","default":-1},"artist":{"default":"","type":"string"},"artistid":{"$ref":"Library.Id","default":-1},"cast":{"$ref":"Video.Cast"},"comment":{"default":"","type":"string"},"country":{"default":"","type":"string"},"director":{"default":"","type":"string"},"duration":{"default":0,"type":"integer"},"episode":{"default":0,"type":"integer"},"fanart":{"default":"","type":"string"},"file":{"required":true,"type":"string"},"filetype":{"enums":["file","directory"],"required":true,"type":"string"},"firstaired":{"default":"","type":"string"},"genre":{"default":"","type":"string"},"id":{"$ref":"Library.Id","default":-1},"imdbnumber":{"default":"","type":"string"},"label":{"required":true,"type":"string"},"lastplayed":{"default":"","type":"string"},"lyrics":{"default":"","type":"string"},"mpaa":{"default":"","type":"string"},"musicbrainzalbumartistid":{"default":"","type":"string"},"musicbrainzalbumid":{"default":"","type":"string"},"musicbrainzartistid":{"default":"","type":"string"},"musicbrainztrackid":{"default":"","type":"string"},"originaltitle":{"default":"","type":"string"},"playcount":{"default":0,"type":"integer"},"plot":{"default":"","type":"string"},"plotoutline":{"default":"","type":"string"},"premiered":{"default":"","type":"string"},"productioncode":{"default":"","type":"string"},"rating":{"default":0,"type":"number"},"resume":{"$ref":"Video.Resume"},"runtime":{"default":"","type":"string"},"season":{"default":0,"type":"integer"},"set":{"$ref":"Array.String"},"setid":{"$ref":"Array.Integer"},"showlink":{"default":"","type":"string"},"showtitle":{"default":"","type":"string"},"streamdetails":{"$ref":"Video.Streams"},"studio":{"default":"","type":"string"},"tagline":{"default":"","type":"string"},"thumbnail":{"default":"","type":"string"},"title":{"default":"","type":"string"},"top250":{"default":0,"type":"integer"},"track":{"default":0,"type":"integer"},"trailer":{"default":"","type":"string"},"tvshowid":{"$ref":"Library.Id","default":-1},"type":{"default":"unknown","enums":["unknown","movie","episode","musicvideo","song"],"type":"string"},"votes":{"default":"","type":"string"},"writer":{"default":"","type":"string"},"year":{"default":0,"type":"integer"}},"type":"object"},"type":"array"},
-"List.Items.Shares":{"id":"List.Items.Shares","items":{"properties":{"file":{"required":true,"type":"string"},"label":{"required":true,"type":"string"}},"type":"object"},"type":"array"},
-"List.Items.Video":{"id":"List.Items.Video","items":{"properties":{"album":{"default":"","type":"string"},"artist":{"default":"","type":"string"},"country":{"default":"","type":"string"},"director":{"default":"","type":"string"},"episode":{"default":0,"type":"integer"},"episodeguide":{"default":"","type":"string"},"fanart":{"default":"","type":"string"},"file":{"default":"","type":"string"},"firstaired":{"default":"","type":"string"},"genre":{"default":"","type":"string"},"id":{"$ref":"Library.Id","default":-1},"imdbnumber":{"default":"","type":"string"},"label":{"required":true,"type":"string"},"lastplayed":{"default":"","type":"string"},"mpaa":{"default":"","type":"string"},"originaltitle":{"default":"","type":"string"},"playcount":{"default":0,"type":"integer"},"plot":{"default":"","type":"string"},"plotoutline":{"default":"","type":"string"},"premiered":{"default":"","type":"string"},"productioncode":{"default":"","type":"string"},"rating":{"default":0,"type":"number"},"runtime":{"default":"","type":"string"},"season":{"default":0,"type":"integer"},"setid":{"default":"","description":"Comma-separated list of sets","type":"string"},"showlink":{"default":"","type":"string"},"showtitle":{"default":"","type":"string"},"sorttitle":{"default":"","type":"string"},"streamdetails":{"$ref":"Video.Streams"},"studio":{"default":"","type":"string"},"tagline":{"default":"","type":"string"},"thumbnail":{"default":"","type":"string"},"title":{"default":"","type":"string"},"top250":{"default":0,"type":"integer"},"track":{"default":0,"type":"integer"},"trailer":{"default":"","type":"string"},"tvshowid":{"$ref":"Library.Id","default":-1},"type":{"default":"unknown","enums":["unknown","movie","episode","musicvideo"],"type":"string"},"votes":{"default":"","type":"string"},"writer":{"default":"","type":"string"},"year":{"default":0,"type":"integer"}},"type":"object"},"type":"array"},
-"List.Limits":{"id":"List.Limits","properties":{"end":{"default":-1,"minimum":0,"type":"integer"},"start":{"default":0,"minimum":0,"type":"integer"}},"type":"object"},
-"List.LimitsReturned":{"id":"List.LimitsReturned","properties":{"end":{"minimum":0,"required":true,"type":"integer"},"start":{"minimum":0,"required":true,"type":"integer"},"total":{"minimum":0,"required":true,"type":"integer"}},"type":"object"},
+"List.Fields.All":{"extends":"Item.Fields.Base","id":"List.Fields.All","items":{"enums":["title","artist","albumartist","genre","year","rating","album","track","duration","comment","lyrics","musicbrainztrackid","musicbrainzartistid","musicbrainzalbumid","musicbrainzalbumartistid","playcount","fanart","director","trailer","tagline","plot","plotoutline","originaltitle","lastplayed","writer","studio","mpaa","cast","country","imdbnumber","premiered","productioncode","runtime","set","showlink","streamdetails","top250","votes","firstaired","season","episode","showtitle","thumbnail","file","resume","artistid","albumid","tvshowid","setid"],"type":"string"}},"List.Items.All":{"id":"List.Items.All","items":{"extends":["Video.Details.File","Audio.Details.Media"],"properties":{"album":{"default":"","type":"string"},"albumartist":{"default":"","type":"string"},"albumid":{"$ref":"Library.Id","default":-1},"artistid":{"$ref":"Library.Id","default":-1},"cast":{"$ref":"Video.Cast"},"comment":{"default":"","type":"string"},"country":{"default":"","type":"string"},"duration":{"default":0,"type":"integer"},"episode":{"default":0,"type":"integer"},"firstaired":{"default":"","type":"string"},"id":{"$ref":"Library.Id","default":-1},"imdbnumber":{"default":"","type":"string"},"lyrics":{"default":"","type":"string"},"mpaa":{"default":"","type":"string"},"musicbrainzartistid":{"default":"","type":"string"},"musicbrainztrackid":{"default":"","type":"string"},"originaltitle":{"default":"","type":"string"},"plotoutline":{"default":"","type":"string"},"premiered":{"default":"","type":"string"},"productioncode":{"default":"","type":"string"},"season":{"default":0,"type":"integer"},"set":{"$ref":"Array.String"},"setid":{"$ref":"Array.Integer"},"showlink":{"default":"","type":"string"},"showtitle":{"default":"","type":"string"},"studio":{"default":"","type":"string"},"tagline":{"default":"","type":"string"},"top250":{"default":0,"type":"integer"},"track":{"default":0,"type":"integer"},"trailer":{"default":"","type":"string"},"tvshowid":{"$ref":"Library.Id","default":-1},"type":{"default":"unknown","enums":["unknown","movie","episode","musicvideo","song","picture"],"type":"string"},"votes":{"default":"","type":"string"},"writer":{"default":"","type":"string"}}},"type":"array"},
+"List.Items.Files":{"extends":"List.Items.All","id":"List.Items.Files","items":{"properties":{"file":{"required":true,"type":"string"},"filetype":{"enums":["file","directory"],"required":true,"type":"string"}},"type":"object"}},"List.Items.Sources":{"id":"List.Items.Sources","items":{"extends":"Item.Details.Base","properties":{"file":{"required":true,"type":"string"}}},"type":"array"},
+"List.Limits":{"additionalProperties":false,"id":"List.Limits","properties":{"end":{"default":-1,"minimum":0,"type":"integer"},"start":{"default":0,"minimum":0,"type":"integer"}},"type":"object"},
+"List.LimitsReturned":{"additionalProperties":false,"id":"List.LimitsReturned","properties":{"end":{"default":-1,"minimum":0,"type":"integer"},"start":{"default":0,"minimum":0,"type":"integer"},"total":{"minimum":0,"required":true,"type":"integer"}},"type":"object"},
 
 "List.Sort":{
   "id":"List.Sort",
   "properties":{
-    "ignorearticle":{
-      "default":false,
-      "type":"boolean"
-    },
-    "method":{
-      "default":"none",
-      "enums":["none","label","date","size","file","drivetype","track","duration","title","artist","album","genre","year","videorating","programcount","playlist","episode","videotitle","sorttitle","productioncode","songrating","mpaarating","videoruntime","studio","fullpath","lastplayed","unsorted","max"],
-      "type":"string"
-    },
-    "order":{
-      "default":"ascending",
-      "enums":["ascending","descending"],
-      "type":"string"
-    }
+    "ignorearticle":{"default":false,"type":"boolean"},
+    "method":{"default":"none","enums":["none","label","date","size","file","drivetype","track","duration","title","artist","album","genre","year","videorating","programcount","playlist","episode","videotitle","sorttitle","productioncode","songrating","mpaarating","videoruntime","studio","fullpath","lastplayed","unsorted","max"],"type":"string"},
+    "order":{"default":"ascending","enums":["ascending","descending"],"type":"string"}
   },
   "type":"object"
 },
 
-"Optional.Boolean":{"default":null,"id":"Optional.Boolean","type":["null","boolean"]},
+"Media.Details.Base":{"extends":"Item.Details.Base","id":"Media.Details.Base","properties":{"fanart":{"default":"","type":"string"},"thumbnail":{"default":"","type":"string"}}},"Optional.Boolean":{"default":null,"id":"Optional.Boolean","type":[{"required":true,"type":"null"},{"required":true,"type":"boolean"}]},"Player.Audio.Stream":{"id":"Player.Audio.Stream","properties":{"index":{"minimum":0,"required":true,"type":"integer"},"language":{"required":true,"type":"string"},"name":{"required":true,"type":"string"}},"type":"object"},
+"Player.Audio.Stream.Extended":{"extends":"Player.Audio.Stream","id":"Player.Audio.Stream.Extended","properties":{"bitrate":{"required":true,"type":"integer"},"channels":{"required":true,"type":"integer"},"codec":{"required":true,"type":"string"}}},"Player.Id":{"default":-1,"id":"Player.Id","maximum":2,"minimum":0,"type":"integer"},
+"Player.Notifications.Data":{"id":"Player.Notifications.Data","properties":{"item":{"$ref":"Player.Notifications.Item","required":true},"player":{"$ref":"Player.Notifications.Player","required":true}},"type":"object"},
+"Player.Notifications.Item":{"id":"Player.Notifications.Item","type":[{"description":"An unknown item does not have any additional information.","properties":{"type":{"$ref":"Player.Notifications.Item.Type","required":true}},"type":"object"},{"description":"An item known to the database has an identification.","properties":{"id":{"$ref":"Library.Id","required":true},"type":{"$ref":"Player.Notifications.Item.Type","required":true}},"type":"object"},{"description":"A movie item has a title and may have a release year.","properties":{"title":{"required":true,"type":"string"},"type":{"$ref":"Player.Notifications.Item.Type","required":true},"year":{"default":0,"type":"integer"}},"type":"object"},{"description":"A tv episode has a title and may have an episode number, season number and the title of the show it belongs to.","properties":{"episode":{"default":0,"type":"integer"},"season":{"default":0,"type":"integer"},"showtitle":{"default":"","type":"string"},"title":{"required":true,"type":"string"},"type":{"$ref":"Player.Notifications.Item.Type","required":true}},"type":"object"},{"description":"A music video has a title and may have an album and an artist.","properties":{"album":{"default":"","type":"string"},"artist":{"default":"","type":"string"},"title":{"required":true,"type":"string"},"type":{"$ref":"Player.Notifications.Item.Type","required":true}},"type":"object"},{"description":"A song has a title and may have an album, an artist and a track number.","properties":{"album":{"default":"","type":"string"},"artist":{"default":"","type":"string"},"title":{"required":true,"type":"string"},"track":{"default":0,"type":"integer"},"type":{"$ref":"Player.Notifications.Item.Type","required":true}},"type":"object"}]},
+"Player.Notifications.Item.Type":{"default":"unknown","enums":["unknown","movie","episode","musicvideo","song"],"id":"Player.Notifications.Item.Type","type":"string"},
+"Player.Notifications.Player":{"id":"Player.Notifications.Player","properties":{"playerid":{"$ref":"Player.Id","required":true},"speed":{"default":0,"type":"integer"}},"type":"object"},
+"Player.Notifications.Player.Seek":{"extends":"Player.Notifications.Player","id":"Player.Notifications.Player.Seek","properties":{"seekoffset":{"$ref":"Global.Time"},"time":{"$ref":"Global.Time"}}},
+"Player.Position.Percentage":{"default":0,"id":"Player.Position.Percentage","maximum":100,"minimum":0,"type":"number"},
 
-"Player.SeekPercentage":{"default":0,"id":"Player.SeekPercentage","maximum":100,"minimum":0,"type":"number"},
-"Player.SeekTime":{"default":0,"id":"Player.SeekTime","minimum":0,"type":"integer"},
-"Player.State":{"id":"Player.State","properties":{"paused":{"required":true,"type":"boolean"},"playing":{"required":true,"type":"boolean"}},"type":"object"},
-"Player.State.Extended":{"id":"Player.State.Extended","properties":{"partymode":{"required":true,"type":"boolean"},"paused":{"required":true,"type":"boolean"},"playing":{"required":true,"type":"boolean"}},"type":"object"},
-"Player.TimeValues":{"id":"Player.TimeValues","properties":{"paused":{"required":true,"type":"boolean"},"playing":{"required":true,"type":"boolean"},"time":{"$ref":"Global.Time","required":true},"total":{"$ref":"Global.Time","required":true}},"type":"object"},
+"Player.Property.Name":{
+  "default":"type",
+  "enums":["type","partymode","speed","time","percentage","totaltime","playlistid","position","repeat","shuffled","canseek","canchangespeed","canmove","canzoom","canrotate","canshuffle","canrepeat","currentaudiostream","audiostreams","subtitleenabled","currentsubtitle","subtitles"],
+  "id":"Player.Property.Name",
+  "type":"string"
+},
 
-"Playlist.Audio.Item":{"id":"Playlist.Audio.Item","properties":{"albumid":{"$ref":"Library.Id","default":-1},"artistid":{"$ref":"Library.Id","default":-1},"directory":{"default":"","type":"string"},"file":{"default":"","type":"string"},"genreid":{"$ref":"Library.Id","default":-1},"playlist":{"$ref":"Playlist.Id"},"songid":{"$ref":"Library.Id","default":-1}},"type":"object"},
-"Playlist.Id":{"id":"Playlist.Id","properties":{"file":{"default":"","description":"File from which to load a playlist","type":"string"},"id":{"default":"","description":"Identification of a virtual playlist","type":"string"}},"type":"object"},
-"Playlist.Item.Position":{"default":-1,"id":"Playlist.Item.Position","minimum":0,"type":"integer"},
-"Playlist.Repeat":{"default":"off","enums":["off","one","all"],"id":"Playlist.Repeat","type":"string"},
-"Playlist.State":{"id":"Playlist.State","properties":{"current":{"required":true,"type":"integer"},"paused":{"required":true,"type":"boolean"},"playing":{"required":true,"type":"boolean"},"repeat":{"$ref":"Playlist.Repeat","required":true},"shuffled":{"required":true,"type":"boolean"}},"type":"object"},
-"Playlist.Video.Item":{"id":"Playlist.Video.Item","properties":{"directory":{"default":"","type":"string"},"episodeid":{"$ref":"Library.Id","default":-1},"file":{"default":"","description":"Path to a file (not a directory) to be added to the playlist","type":"string"},"movieid":{"$ref":"Library.Id","default":-1},"musicvideoid":{"$ref":"Library.Id","default":-1},"playlist":{"$ref":"Playlist.Id"}},"type":"object"},
+"Player.Property.Value":{"id":"Player.Property.Value","properties":{"audiostreams":{"items":{"$ref":"Player.Audio.Stream.Extended"},"type":"array"},"canchangespeed":{"default":false,"type":"boolean"},"canmove":{"default":false,"type":"boolean"},"canrepeat":{"default":false,"type":"boolean"},"canrotate":{"default":false,"type":"boolean"},"canseek":{"default":false,"type":"boolean"},"canshuffle":{"default":false,"type":"boolean"},"canzoom":{"default":false,"type":"boolean"},"currentaudiostream":{"$ref":"Player.Audio.Stream.Extended"},"currentsubtitle":{"$ref":"Player.Subtitle"},"partymode":{"default":false,"type":"boolean"},"percentage":{"$ref":"Player.Position.Percentage","default":0},"playlistid":{"$ref":"Playlist.Id","default":-1},"position":{"$ref":"Playlist.Position","default":-1},"repeat":{"$ref":"Player.Repeat","default":"off"},"shuffled":{"default":false,"type":"boolean"},"speed":{"default":0,"type":"integer"},"subtitleenabled":{"default":false,"type":"boolean"},"subtitles":{"items":{"$ref":"Player.Subtitle"},"type":"array"},"time":{"$ref":"Global.Time"},"totaltime":{"$ref":"Global.Time"},"type":{"$ref":"Player.Type","default":"video"}},"type":"object"},
+"Player.Repeat":{"default":"off","enums":["off","one","all"],"id":"Player.Repeat","type":"string"},
+"Player.Speed":{"id":"Player.Speed","properties":{"speed":{"default":0,"type":"integer"}},"required":true,"type":"object"},
+"Player.Subtitle":{"id":"Player.Subtitle","properties":{"index":{"minimum":0,"required":true,"type":"integer"},"language":{"required":true,"type":"string"},"name":{"required":true,"type":"string"}},"type":"object"},
+"Player.Type":{"default":"video","enums":["video","audio","picture"],"id":"Player.Type","type":"string"},
+
+"Playlist.Id":{
+  "default":-1,
+  "id":"Playlist.Id",
+  "maximum":2,
+  "minimum":0,
+  "type":"integer"
+},
+
+"Playlist.Item":{
+  "id":"Playlist.Item",
+  "type":[
+    {
+      "additionalProperties":false,
+      "properties":{
+        "file":{"description":"Path to a file (not a directory) to be added to the playlist","required":true,"type":"string"}
+      },
+      "type":"object"
+    },
+    {
+      "additionalProperties":false,
+      "properties":{
+        "directory":{"required":true,"type":"string"}
+      },
+      "type":"object"
+    },
+    {
+      "additionalProperties":false,
+      "properties":{
+        "movieid":{"$ref":"Library.Id","required":true}
+      },
+      "type":"object"
+    },
+    {
+      "additionalProperties":false,
+      "properties":{
+        "episodeid":{"$ref":"Library.Id","required":true}
+      },
+      "type":"object"
+    },
+    {
+      "additionalProperties":false,
+      "properties":{
+        "musicvideoid":{"$ref":"Library.Id","required":true}
+      },
+      "type":"object"
+    },
+    {
+      "additionalProperties":false,
+      "properties":{
+        "artistid":{"$ref":"Library.Id","required":true}
+      },
+      "type":"object"
+    },
+    {
+      "additionalProperties":false,
+      "properties":{
+        "albumid":{"$ref":"Library.Id","required":true}
+      },
+      "type":"object"
+    },
+    {
+      "additionalProperties":false,
+      "properties":{
+        "songid":{"$ref":"Library.Id","required":true}
+      },
+      "type":"object"
+    },
+    {
+      "additionalProperties":false,
+      "properties":{
+        "genreid":{"$ref":"Library.Id","description":"Identification of a genre from the AudioLibrary","required":true}
+      },
+      "type":"object"
+    }
+  ]
+},
+
+"Playlist.Position":{"default":-1,"id":"Playlist.Position","minimum":0,"type":"integer"},
+"Playlist.Property.Name":{"default":"type","enums":["type","size"],"id":"Playlist.Property.Name","type":"string"},
+"Playlist.Property.Value":{"id":"Playlist.Property.Value","properties":{"size":{"default":0,"minimum":0,"type":"integer"},"type":{"$ref":"Playlist.Type","default":"unknown"}},"type":"object"},
+"Playlist.Type":{"default":"unknown","enums":["unknown","video","audio","picture","mixed"],"id":"Playlist.Type","type":"string"},
 "System.Property.Name":{"default":"canshutdown","enums":["canshutdown","cansuspend","canhibernate","canreboot"],"id":"System.Property.Name","type":"string"},
 "System.Property.Value":{"id":"System.Property.Value","properties":{"canhibernate":{"default":false,"type":"boolean"},"canreboot":{"default":false,"type":"boolean"},"canshutdown":{"default":false,"type":"boolean"},"cansuspend":{"default":false,"type":"boolean"}},"type":"object"},
-
-"Video.Cast":{"id":"Video.Cast","items":{"properties":{"name":{"required":true,"type":"string"},"role":{"required":true,"type":"string"},"thumbnail":{"default":"","type":"string"}},"type":"object"},"type":"array"},
-"Video.Details.Episode":{"id":"Video.Details.Episode","properties":{"cast":{"$ref":"Video.Cast"},"director":{"default":"","type":"string"},"episode":{"default":0,"type":"integer"},"episodeid":{"$ref":"Library.Id","required":true},"fanart":{"default":"","type":"string"},"file":{"default":"","type":"string"},"firstaired":{"default":"","type":"string"},"label":{"required":true,"type":"string"},"lastplayed":{"default":"","type":"string"},"originaltitle":{"default":"","type":"string"},"playcount":{"default":0,"type":"integer"},"plot":{"default":"","type":"string"},"productioncode":{"default":"","type":"string"},"rating":{"default":0,"type":"number"},"resume":{"$ref":"Video.Resume"},"runtime":{"default":"","type":"string"},"season":{"default":0,"type":"integer"},"showtitle":{"default":"","type":"string"},"streamdetails":{"$ref":"Video.Streams"},"thumbnail":{"default":"","type":"string"},"title":{"default":"","type":"string"},"tvshowid":{"$ref":"Library.Id","default":-1},"votes":{"default":"","type":"string"},"writer":{"default":"","type":"string"}},"type":"object"},
-"Video.Details.Movie":{"id":"Video.Details.Movie","properties":{"cast":{"$ref":"Video.Cast"},"country":{"default":"","type":"string"},"director":{"default":"","type":"string"},"fanart":{"default":"","type":"string"},"file":{"default":"","type":"string"},"genre":{"default":"","type":"string"},"imdbnumber":{"default":"","type":"string"},"label":{"required":true,"type":"string"},"lastplayed":{"default":"","type":"string"},"movieid":{"$ref":"Library.Id","required":true},"mpaa":{"default":"","type":"string"},"originaltitle":{"default":"","type":"string"},"playcount":{"default":0,"type":"integer"},"plot":{"default":"","type":"string"},"plotoutline":{"default":"","type":"string"},"premiered":{"default":"","type":"string"},"productioncode":{"default":"","type":"string"},"rating":{"default":0,"type":"number"},"resume":{"$ref":"Video.Resume"},"runtime":{"default":"","type":"string"},"set":{"$ref":"Array.String"},"setid":{"$ref":"Array.Integer"},"showlink":{"default":"","type":"string"},"sorttitle":{"default":"","type":"string"},"streamdetails":{"$ref":"Video.Streams"},"studio":{"default":"","type":"string"},"tagline":{"default":"","type":"string"},"thumbnail":{"default":"","type":"string"},"title":{"default":"","type":"string"},"top250":{"default":0,"type":"integer"},"trailer":{"default":"","type":"string"},"votes":{"default":"","type":"string"},"writer":{"default":"","type":"string"},"year":{"default":0,"type":"integer"}},"type":"object"},
-"Video.Details.MovieSet":{"id":"Video.Details.MovieSet","properties":{"fanart":{"default":"","type":"string"},"label":{"required":true,"type":"string"},"playcount":{"default":0,"type":"integer"},"setid":{"$ref":"Library.Id","required":true},"thumbnail":{"default":"","type":"string"},"title":{"default":"","type":"string"}},"type":"object"},
-"Video.Details.MovieSet.Extended":{"id":"Video.Details.MovieSet.Extended","properties":{"fanart":{"default":"","type":"string"},"label":{"required":true,"type":"string"},"movies":{"items":{"$ref":"Video.Details.Movie"},"type":"array"},"playcount":{"default":0,"type":"integer"},"setid":{"$ref":"Library.Id","required":true},"thumbnail":{"default":"","type":"string"},"title":{"default":"","type":"string"}},"type":"object"},
-"Video.Details.MusicVideo":{"id":"Video.Details.MusicVideo","properties":{"album":{"default":"","type":"string"},"artist":{"default":"","type":"string"},"director":{"default":"","type":"string"},"fanart":{"default":"","type":"string"},"file":{"default":"","type":"string"},"genre":{"default":"","type":"string"},"label":{"required":true,"type":"string"},"lastplayed":{"default":"","type":"string"},"musicvideoid":{"$ref":"Library.Id","required":true},"playcount":{"default":0,"type":"integer"},"plot":{"default":"","type":"string"},"resume":{"$ref":"Video.Resume"},"runtime":{"default":"","type":"string"},"streamdetails":{"$ref":"Video.Streams"},"studio":{"default":"","type":"string"},"thumbnail":{"default":"","type":"string"},"title":{"default":"","type":"string"},"track":{"default":0,"type":"integer"},"year":{"default":0,"type":"integer"}},"type":"object"},
-"Video.Details.Season":{"id":"Video.Details.Season","properties":{"episode":{"default":0,"type":"integer"},"fanart":{"default":"","type":"string"},"label":{"required":true,"type":"string"},"playcount":{"default":0,"type":"integer"},"season":{"required":true,"type":"integer"},"showtitle":{"default":"","type":"string"},"thumbnail":{"default":"","type":"string"},"tvshowid":{"$ref":"Library.Id","default":-1}},"type":"object"},
-"Video.Details.TVShow":{"id":"Video.Details.TVShow","properties":{"cast":{"$ref":"Video.Cast"},"episode":{"default":0,"type":"integer"},"episodeguide":{"default":"","type":"string"},"fanart":{"default":"","type":"string"},"file":{"default":"","type":"string"},"genre":{"default":"","type":"string"},"imdbnumber":{"default":"","type":"string"},"label":{"required":true,"type":"string"},"lastplayed":{"default":"","type":"string"},"mpaa":{"default":"","type":"string"},"originaltitle":{"default":"","type":"string"},"playcount":{"default":0,"type":"integer"},"plot":{"default":"","type":"string"},"premiered":{"default":"","type":"string"},"rating":{"default":0,"type":"number"},"sorttitle":{"default":"","type":"string"},"studio":{"default":"","type":"string"},"thumbnail":{"default":"","type":"string"},"title":{"default":"","type":"string"},"tvshowid":{"$ref":"Library.Id","required":true},"votes":{"default":"","type":"string"},"year":{"default":0,"type":"integer"}},"type":"object"},
-"Video.Fields.Episode":{"id":"Video.Fields.Episode","items":{"description":"Requesting the cast and/or resume field will result in increased response times","enums":["title","plot","votes","rating","writer","firstaired","playcount","runtime","director","productioncode","season","episode","originaltitle","showtitle","cast","streamdetails","lastplayed","fanart","thumbnail","file","resume","tvshowid"],"type":"string"},"type":"array","uniqueItems":true},
-"Video.Fields.Movie":{"id":"Video.Fields.Movie","items":{"description":"Requesting the cast, set, showling and/or resume field will result in increased response times","enums":["title","genre","year","rating","director","trailer","tagline","plot","plotoutline","originaltitle","lastplayed","playcount","writer","studio","mpaa","cast","country","imdbnumber","premiered","productioncode","runtime","set","showlink","streamdetails","top250","votes","fanart","thumbnail","file","sorttitle","resume","setid"],"type":"string"},"type":"array","uniqueItems":true},
-"Video.Fields.MovieSet":{"id":"Video.Fields.MovieSet","items":{"enums":["title","playcount","fanart","thumbnail"],"type":"string"},"type":"array","uniqueItems":true},
-"Video.Fields.MusicVideo":{"id":"Video.Fields.MusicVideo","items":{"description":"Requesting the resume field will result in increased response times","enums":["title","playcount","runtime","director","studio","year","plot","album","artist","genre","track","streamdetails","lastplayed","fanart","thumbnail","file","resume"],"type":"string"},"type":"array","uniqueItems":true},
-"Video.Fields.Season":{"id":"Video.Fields.Season","items":{"enums":["season","showtitle","playcount","episode","fanart","thumbnail","tvshowid"],"type":"string"},"type":"array","uniqueItems":true},
-"Video.Fields.TVShow":{"id":"Video.Fields.TVShow","items":{"description":"Requesting the cast field will result in increased response times","enums":["title","genre","year","rating","plot","studio","mpaa","cast","playcount","episode","imdbnumber","premiered","votes","lastplayed","fanart","thumbnail","file","originaltitle","sorttitle","episodeguide"],"type":"string"},"type":"array","uniqueItems":true},
-"Video.Resume":{"id":"Video.Resume","properties":{"position":{"default":0,"type":"number"},"total":{"default":0,"type":"number"}},"type":"object"},
-"Video.Streams":{"id":"Video.Streams","properties":{"audio":{"items":{"properties":{"channels":{"default":0,"type":"integer"},"codec":{"default":"","type":"string"},"language":{"default":"","type":"string"}},"type":"object"},"type":"array"},"subtitle":{"items":{"properties":{"language":{"default":"","type":"string"}},"type":"object"},"type":"array"},"video":{"items":{"properties":{"aspect":{"default":0,"type":"number"},"codec":{"default":"","type":"string"},"duration":{"default":0,"type":"integer"},"height":{"default":0,"type":"integer"},"width":{"default":0,"type":"integer"}},"type":"object"},"type":"array"}},"type":"object"}
-
-},
-"version":3
-}
-}
+"Video.Cast":{"id":"Video.Cast","items":{"additionalProperties":false,"properties":{"name":{"required":true,"type":"string"},"role":{"required":true,"type":"string"},"thumbnail":{"default":"","type":"string"}},"type":"object"},"type":"array"},
+"Video.Details.Base":{"extends":"Media.Details.Base","id":"Video.Details.Base","properties":{"playcount":{"default":0,"type":"integer"}}},"Video.Details.Episode":{"extends":"Video.Details.File","id":"Video.Details.Episode","properties":{"cast":{"$ref":"Video.Cast"},"episode":{"default":0,"type":"integer"},"episodeid":{"$ref":"Library.Id","required":true},"firstaired":{"default":"","type":"string"},"originaltitle":{"default":"","type":"string"},"productioncode":{"default":"","type":"string"},"rating":{"default":0,"type":"number"},"season":{"default":0,"type":"integer"},"showtitle":{"default":"","type":"string"},"tvshowid":{"$ref":"Library.Id","default":-1},"votes":{"default":"","type":"string"},"writer":{"default":"","type":"string"}}},"Video.Details.File":{"extends":"Video.Details.Item","id":"Video.Details.File","properties":{"director":{"default":"","type":"string"},"resume":{"$ref":"Video.Resume"},"runtime":{"default":"","type":"string"},"streamdetails":{"$ref":"Video.Streams"}}},"Video.Details.Item":{"extends":"Video.Details.Media","id":"Video.Details.Item","properties":{"file":{"default":"","type":"string"},"lastplayed":{"default":"","type":"string"},"plot":{"default":"","type":"string"}}},"Video.Details.Media":{"extends":"Video.Details.Base","id":"Video.Details.Media","properties":{"title":{"default":"","type":"string"}}},
+"Video.Details.Movie":{"extends":"Video.Details.File","id":"Video.Details.Movie","properties":{"cast":{"$ref":"Video.Cast"},"country":{"default":"","type":"string"},"genre":{"default":"","type":"string"},"imdbnumber":{"default":"","type":"string"},"movieid":{"$ref":"Library.Id","required":true},"mpaa":{"default":"","type":"string"},"originaltitle":{"default":"","type":"string"},"plotoutline":{"default":"","type":"string"},"premiered":{"default":"","type":"string"},"productioncode":{"default":"","type":"string"},"rating":{"default":0,"type":"number"},"set":{"$ref":"Array.String"},"setid":{"$ref":"Array.Integer"},"showlink":{"default":"","type":"string"},"sorttitle":{"default":"","type":"string"},"studio":{"default":"","type":"string"},"tagline":{"default":"","type":"string"},"top250":{"default":0,"type":"integer"},"trailer":{"default":"","type":"string"},"votes":{"default":"","type":"string"},"writer":{"default":"","type":"string"},"year":{"default":0,"type":"integer"}}},"Video.Details.MovieSet":{"extends":"Video.Details.Media","id":"Video.Details.MovieSet","properties":{"setid":{"$ref":"Library.Id","required":true}}},"Video.Details.MovieSet.Extended":{"extends":"Video.Details.MovieSet","id":"Video.Details.MovieSet.Extended","properties":{"movies":{"items":{"$ref":"Video.Details.Movie"},"type":"array"}}},
+"Video.Details.MusicVideo":{"extends":"Video.Details.File","id":"Video.Details.MusicVideo","properties":{"album":{"default":"","type":"string"},"artist":{"default":"","type":"string"},"genre":{"default":"","type":"string"},"musicvideoid":{"$ref":"Library.Id","required":true},"studio":{"default":"","type":"string"},"track":{"default":0,"type":"integer"},"year":{"default":0,"type":"integer"}}},"Video.Details.Season":{"extends":"Video.Details.Base","id":"Video.Details.Season","properties":{"episode":{"default":0,"type":"integer"},"season":{"required":true,"type":"integer"},"showtitle":{"default":"","type":"string"},"tvshowid":{"$ref":"Library.Id","default":-1}}},"Video.Details.TVShow":{"extends":"Video.Details.Item","id":"Video.Details.TVShow","properties":{"cast":{"$ref":"Video.Cast"},"episode":{"default":0,"type":"integer"},"episodeguide":{"default":"","type":"string"},"genre":{"default":"","type":"string"},"imdbnumber":{"default":"","type":"string"},"mpaa":{"default":"","type":"string"},"originaltitle":{"default":"","type":"string"},"premiered":{"default":"","type":"string"},"rating":{"default":0,"type":"number"},"sorttitle":{"default":"","type":"string"},"studio":{"default":"","type":"string"},"tvshowid":{"$ref":"Library.Id","required":true},"votes":{"default":"","type":"string"},"year":{"default":0,"type":"integer"}}},
+"Video.Fields.Episode":{"extends":"Item.Fields.Base","id":"Video.Fields.Episode","items":{"description":"Requesting the cast and/or resume field will result in increased response times","enums":["title","plot","votes","rating","writer","firstaired","playcount","runtime","director","productioncode","season","episode","originaltitle","showtitle","cast","streamdetails","lastplayed","fanart","thumbnail","file","resume","tvshowid"],"type":"string"}},"Video.Fields.Movie":{"extends":"Item.Fields.Base","id":"Video.Fields.Movie","items":{"description":"Requesting the cast, set, showling and/or resume field will result in increased response times","enums":["title","genre","year","rating","director","trailer","tagline","plot","plotoutline","originaltitle","lastplayed","playcount","writer","studio","mpaa","cast","country","imdbnumber","premiered","productioncode","runtime","set","showlink","streamdetails","top250","votes","fanart","thumbnail","file","sorttitle","resume","setid"],"type":"string"}},"Video.Fields.MovieSet":{"extends":"Item.Fields.Base","id":"Video.Fields.MovieSet","items":{"enums":["title","playcount","fanart","thumbnail"],"type":"string"}},"Video.Fields.MusicVideo":{"extends":"Item.Fields.Base","id":"Video.Fields.MusicVideo","items":{"description":"Requesting the resume field will result in increased response times","enums":["title","playcount","runtime","director","studio","year","plot","album","artist","genre","track","streamdetails","lastplayed","fanart","thumbnail","file","resume"],"type":"string"}},"Video.Fields.Season":{"extends":"Item.Fields.Base","id":"Video.Fields.Season","items":{"enums":["season","showtitle","playcount","episode","fanart","thumbnail","tvshowid"],"type":"string"}},"Video.Fields.TVShow":{"extends":"Item.Fields.Base","id":"Video.Fields.TVShow","items":{"description":"Requesting the cast field will result in increased response times","enums":["title","genre","year","rating","plot","studio","mpaa","cast","playcount","episode","imdbnumber","premiered","votes","lastplayed","fanart","thumbnail","file","originaltitle","sorttitle","episodeguide"],"type":"string"}},"Video.Resume":{"additionalProperties":false,"id":"Video.Resume","properties":{"position":{"default":0,"type":"number"},"total":{"default":0,"type":"number"}},"type":"object"},"Video.Streams":{"additionalProperties":false,"id":"Video.Streams","properties":{"audio":{"items":{"additionalProperties":false,"properties":{"channels":{"default":0,"type":"integer"},"codec":{"default":"","type":"string"},"language":{"default":"","type":"string"}},"type":"object"},"type":"array"},"subtitle":{"items":{"additionalProperties":false,"properties":{"language":{"default":"","type":"string"}},"type":"object"},"type":"array"},"video":{"items":{"additionalProperties":false,"properties":{"aspect":{"default":0,"type":"number"},"codec":{"default":"","type":"string"},"duration":{"default":0,"type":"integer"},"height":{"default":0,"type":"integer"},"width":{"default":0,"type":"integer"}},"type":"object"},"type":"array"}},"type":"object"}},"version":3}}

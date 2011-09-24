@@ -21,12 +21,13 @@
 #include "xbmc.h"
 #include "audioplayer.h"
 #include "videoplayer.h"
+#include "pictureplayer.h"
 #include "playlist.h"
 #include "audioplaylistitem.h"
 #include "videoplaylistitem.h"
 
 Files::Files(const QString &mediaType, const QString &dir, XbmcModel *parent):
-    XbmcModel(parent),
+    XbmcLibrary(parent),
     m_mediaType(mediaType),
     m_dir(dir)
 {    
@@ -34,9 +35,9 @@ Files::Files(const QString &mediaType, const QString &dir, XbmcModel *parent):
     params.insert("directory", dir);
     params.insert("media", mediaType);
 
-    QVariantList fields;
-    fields.append("file");
-    params.insert("fields", fields);
+    QVariantList properties;
+    properties.append("file");
+    params.insert("properties", properties);
 
     QVariantMap sort;
     sort.insert("method", "label");
@@ -82,7 +83,7 @@ int Files::rowCount(const QModelIndex &parent) const
 QVariant Files::data(const QModelIndex &index, int role) const
 {
     if(role == RolePlayable) {
-        return index.data(RoleFileType).toString() == "file";
+        return true;
     }
     return m_list.at(index.row())->data(role);
 }
@@ -102,26 +103,31 @@ void Files::playItem(int index)
     if(m_mediaType == "music") {
         player = Xbmc::instance()->audioPlayer();
         player->playlist()->clear();
-        int newListCount = 0;
-        int songToPlay = 0;
-        for(int i = 0; i < m_list.count(); ++i) {
-            QStandardItem *item = m_list.at(i);
-            if(item->data(RoleFileType).toString() == "file") { // only add files (no dirs)
-                player->playlist()->addFile(item->data(RoleFileName).toString());
-                if(i == index) {
-                    songToPlay = newListCount;
-                }
-                newListCount++;
-            }
+        if(m_list.at(index)->data(RoleFileType).toString() == "file") {
+            player->playlist()->addFile(m_list.at(index)->data(RoleFileName).toString());
+        } else {
+            player->playlist()->addDirectory(m_list.at(index)->data(RoleFileName).toString());
         }
-        player->playlist()->playItem(songToPlay);
-    } else if(m_mediaType == "videos"){
+        player->playItem(0);
+    } else if(m_mediaType == "video"){
         player = Xbmc::instance()->videoPlayer();
         player->playlist()->clear();
-        player->playlist()->addFile(m_list.at(index)->data(RoleFileName).toString());
-        player->playlist()->playItem(0);
+        if(m_list.at(index)->data(RoleFileType).toString() == "file") {
+            player->playlist()->addFile(m_list.at(index)->data(RoleFileName).toString());
+        } else {
+            player->playlist()->addDirectory(m_list.at(index)->data(RoleFileName).toString());
+        }
+        player->playItem(0);
     } else {
-        Xbmc::instance()->startSlideShow(m_dir);
+        player = Xbmc::instance()->picturePlayer();
+        player->stop();
+        player->playlist()->clear();
+        if(m_list.at(index)->data(RoleFileType).toString() == "file") {
+            player->playlist()->addFile(m_list.at(index)->data(RoleFileName).toString());
+        } else {
+            player->playlist()->addDirectory(m_list.at(index)->data(RoleFileName).toString());
+        }
+        player->playItem(0);
         QTimer::singleShot(100, Xbmc::instance(), SLOT(queryActivePlayers()));
     }
 }
@@ -129,9 +135,23 @@ void Files::playItem(int index)
 void Files::addToPlaylist(int index)
 {
     if(m_mediaType == "music") {
-        Xbmc::instance()->audioPlayer()->playlist()->addFile(m_list.at(index)->data(RoleFileName).toString());
-    } else if(m_mediaType == "videos"){
-        Xbmc::instance()->videoPlayer()->playlist()->addFile(m_list.at(index)->data(RoleFileName).toString());
+        if(m_list.at(index)->data(RoleFileType).toString() == "file") {
+            Xbmc::instance()->audioPlayer()->playlist()->addFile(m_list.at(index)->data(RoleFileName).toString());
+        } else {
+            Xbmc::instance()->audioPlayer()->playlist()->addDirectory(m_list.at(index)->data(RoleFileName).toString());
+        }
+    } else if(m_mediaType == "video") {
+        if(m_list.at(index)->data(RoleFileType).toString() == "file") {
+            Xbmc::instance()->videoPlayer()->playlist()->addFile(m_list.at(index)->data(RoleFileName).toString());
+        } else {
+            Xbmc::instance()->videoPlayer()->playlist()->addDirectory(m_list.at(index)->data(RoleFileName).toString());
+        }
+    } else if(m_mediaType == "pictures") {
+        if(m_list.at(index)->data(RoleFileType).toString() == "file") {
+            Xbmc::instance()->picturePlayer()->playlist()->addFile(m_list.at(index)->data(RoleFileName).toString());
+        } else {
+            Xbmc::instance()->picturePlayer()->playlist()->addDirectory(m_list.at(index)->data(RoleFileName).toString());
+        }
     }
 }
 

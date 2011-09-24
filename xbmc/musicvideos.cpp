@@ -24,7 +24,7 @@
 #include "videoplaylistitem.h"
 
 MusicVideos::MusicVideos(XbmcModel *parent) :
-    XbmcModel(parent)
+    XbmcLibrary(parent)
 {
     connect(XbmcConnection::notifier(), SIGNAL(responseReceived(int,QVariantMap)), SLOT(responseReceived(int,QVariantMap)));
     m_request = XbmcConnection::sendCommand("VideoLibrary.GetMusicVideos");
@@ -86,7 +86,7 @@ void MusicVideos::playItem(int index)
     VideoPlaylistItem item;
     item.setMusicVideoId(m_list.at(index)->data(RoleMusicVideoId).toInt());
     Xbmc::instance()->videoPlayer()->playlist()->addItems(item);
-    Xbmc::instance()->videoPlayer()->playlist()->playItem(0);
+    Xbmc::instance()->videoPlayer()->playItem(0);
 }
 
 void MusicVideos::addToPlaylist(int row)

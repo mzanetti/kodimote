@@ -25,7 +25,7 @@
 #include "videoplaylistitem.h"
 
 TvShows::TvShows(XbmcModel *parent) :
-    XbmcModel(parent)
+    XbmcLibrary(parent)
 {
     connect(XbmcConnection::notifier(), SIGNAL(responseReceived(int,QVariantMap)), SLOT(responseReceived(int,QVariantMap)));
     m_request = XbmcConnection::sendCommand("VideoLibrary.GetTVShows");

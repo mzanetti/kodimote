@@ -4,11 +4,14 @@
 #include "player.h"
 #include <QObject>
 
-class PicturePlayer : public QObject
+class PicturePlayer: public Player
 {
     Q_OBJECT
 public:
     explicit PicturePlayer(QObject *parent = 0);
+
+    int playerId() const;
+    Playlist *playlist() const;
 
 public slots:
     void playPause();
@@ -27,6 +30,9 @@ public slots:
       * Min: 1, Max: 10
       */
     void zoom(int level);
+
+private:
+    Playlist *m_playlist;
 };
 
 #endif // PICTUREPLAYER_H

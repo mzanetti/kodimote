@@ -30,18 +30,18 @@ Row {
 
         Image {
             anchors.centerIn: parent
-            source: xbmc.activePlayer.playlist().repeat == Playlist.RepeatNone ? "images/OSDRepeatNF.png" : (xbmc.activePlayer.playlist().repeat == Playlist.RepeatOne ? "images/OSDRepeatOneFO.png" : "images/OSDRepeatAllFO.png")
+            source: xbmc.activePlayer.repeat == Player.RepeatNone ? "images/OSDRepeatNF.png" : (xbmc.activePlayer.repeat == Player.RepeatOne ? "images/OSDRepeatOneFO.png" : "images/OSDRepeatAllFO.png")
         }
 
         MouseArea {
             anchors.fill: parent
             onClicked: {
-                if(xbmc.activePlayer.playlist().repeat == Playlist.RepeatNone) {
-                    xbmc.activePlayer.playlist().repeat = Playlist.RepeatOne;
-                } else if(xbmc.activePlayer.playlist().repeat == Playlist.RepeatOne) {
-                    xbmc.activePlayer.playlist().repeat = Playlist.RepeatAll;
+                if(xbmc.activePlayer.repeat == Player.RepeatNone) {
+                    xbmc.activePlayer.repeat = Player.RepeatOne;
+                } else if(xbmc.activePlayer.repeat == Player.RepeatOne) {
+                    xbmc.activePlayer.repeat = Player.RepeatAll;
                 } else {
-                    xbmc.activePlayer.playlist().repeat = Playlist.RepeatNone;
+                    xbmc.activePlayer.repeat = Player.RepeatNone;
                 }
             }
         }
@@ -52,14 +52,14 @@ Row {
         width: parent.width / 4
 
         Image {
-            source: xbmc.activePlayer.playlist().shuffle ? "images/OSDRandomOffFO.png" : "images/OSDRandomOffNF.png"
+            source: xbmc.activePlayer.shuffle ? "images/OSDRandomOffFO.png" : "images/OSDRandomOffNF.png"
             anchors.centerIn: parent
         }
 
         MouseArea {
             anchors.fill: parent
             onClicked: {
-                xbmc.activePlayer.playlist().shuffle = ! xbmc.activePlayer.playlist().shuffle
+                xbmc.activePlayer.shuffle = ! xbmc.activePlayer.shuffle
             }
         }
     }

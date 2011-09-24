@@ -83,18 +83,23 @@ QVariantMap VideoPlaylistItem::toMap() const
     if(m_movieId != -1) {
         map.insert("movieid", m_movieId);
     }
+
     if(m_musicVideoId != -1) {
         map.insert("musicvideoid", m_musicVideoId);
     }
+
     if(m_tvShowId != -1) {
         map.insert("tvshowid", m_tvShowId);
     }
+
     if(m_seasonId != -1) {
         map.insert("seasonid", m_seasonId);
     }
+
     if(m_episodeId != -1) {
         map.insert("episodeid", m_episodeId);
     }
+
     return map;
 }
 

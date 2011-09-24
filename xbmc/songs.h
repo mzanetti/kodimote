@@ -19,11 +19,11 @@
 #ifndef TITLES_H
 #define TITLES_H
 
-#include "xbmcmodel.h"
+#include "xbmclibrary.h"
 
 #include <QStandardItem>
 
-class Songs : public XbmcModel
+class Songs : public XbmcLibrary
 {
     Q_OBJECT
 public:

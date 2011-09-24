@@ -90,9 +90,6 @@ public:
     Q_INVOKABLE void dimVolumeTo(int newVolume);
     Q_INVOKABLE void restoreVolume();
 
-    Q_INVOKABLE void startSlideShow(const QString &directory);
-
-
 public slots:
     void quit();
     void queryActivePlayers();

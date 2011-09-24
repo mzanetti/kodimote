@@ -19,11 +19,11 @@
 #ifndef MUSICVIDEOS_H
 #define MUSICVIDEOS_H
 
-#include "xbmcmodel.h"
+#include "xbmclibrary.h"
 
 #include <QStandardItem>
 
-class MusicVideos : public XbmcModel
+class MusicVideos : public XbmcLibrary
 {
     Q_OBJECT
 public:

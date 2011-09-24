@@ -26,9 +26,9 @@ AudioPlayer::AudioPlayer(QObject *parent):
     m_playList = new AudioPlaylist(this);
 }
 
-QString AudioPlayer::namespaceString() const
+int AudioPlayer::playerId() const
 {
-    return "AudioPlayer";
+    return 0;
 }
 
 Playlist * AudioPlayer::playlist() const

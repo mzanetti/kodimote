@@ -19,9 +19,9 @@
 #ifndef SHARES_H
 #define SHARES_H
 
-#include "xbmcmodel.h"
+#include "xbmclibrary.h"
 
-class Shares : public XbmcModel
+class Shares : public XbmcLibrary
 {
     Q_OBJECT
 public:

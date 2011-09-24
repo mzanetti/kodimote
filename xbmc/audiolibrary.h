@@ -19,11 +19,11 @@
 #ifndef AUDIOLIBRARY_H
 #define AUDIOLIBRARY_H
 
-#include "xbmcmodel.h"
+#include "xbmclibrary.h"
 
 #include <QStandardItem>
 
-class AudioLibrary : public XbmcModel
+class AudioLibrary : public XbmcLibrary
 {
     Q_OBJECT
 public:

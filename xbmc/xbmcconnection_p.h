@@ -34,18 +34,20 @@ namespace XbmcConnection
 class Command
 {
 public:
-    Command(int id, const QString &command, const QVariant &params):
-        m_id(id), m_command(command), m_params(params) {}
+    Command(int id = -1, const QString &command = QString(), const QVariant &params = QVariant(), const QString &raw = QString()):
+        m_id(id), m_command(command), m_params(params), m_raw(raw) {}
 
     int id() {return m_id;}
     QString command() {return m_command;}
     QVariant params() {return m_params;}
+    QString raw() {return m_raw; }
 
 private:
 
     int m_id;
     QString m_command;
     QVariant m_params;
+    QString m_raw;
 };
 
 class XbmcConnectionPrivate : public QObject
@@ -83,7 +85,7 @@ private:
     int m_versionRequestId;
 
     QList<Command> m_commandQueue;
-    int m_currentPendingId;
+    Command m_currentPendingCommand;
     QTimer m_timeoutTimer;
 
     void sendNextCommand();

@@ -23,7 +23,7 @@
 #include "xbmcconnection.h"
 
 AudioLibrary::AudioLibrary() :
-    XbmcModel(0)
+    XbmcLibrary(0)
 {
     m_list.append(new QStandardItem("Artists"));
     m_list.append(new QStandardItem("Albums"));

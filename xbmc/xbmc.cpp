@@ -18,6 +18,7 @@
 
 #include "xbmc.h"
 #include "xbmcconnection.h"
+#include "xdebug.h"
 
 #include "audiolibrary.h"
 #include "artists.h"
@@ -73,7 +74,7 @@ Xbmc::Xbmc(QObject *parent) :
     qmlRegisterType<Shares>();
     qmlRegisterType<Keys>();
 
-    qmlRegisterType<AudioPlaylist>("Xbmc", 1, 0, "Playlist");
+    qmlRegisterType<AudioPlayer>("Xbmc", 1, 0, "Player");
 
     QSettings settings("xbmcremote");
     m_hostname = settings.value("Host").toString();
@@ -218,17 +219,12 @@ void Xbmc::connectToHost()
 
 Player *Xbmc::activePlayer()
 {
+//    qDebug() << "returning active player" << m_activePlayer;
     return m_activePlayer;
 }
 
 void Xbmc::parseAnnouncement(const QVariantMap &map)
 {
-    QString method = map.value("method").toString();
-    qDebug() << "incoming announcement" << map << "method:" << method;
-    if(method == "Player.OnPlay" || method == "Player.OnStop") {
-        int id = XbmcConnection::sendCommand("Player.GetActivePlayers");
-        m_requestMap.insert(id, RequestActivePlayer);
-    }
 }
 
 void Xbmc::responseReceived(int id, const QVariantMap &response)
@@ -243,38 +239,40 @@ void Xbmc::responseReceived(int id, const QVariantMap &response)
 
     switch(m_requestMap.value(id)) {
     case RequestActivePlayer: {
-        qDebug() << "active player response:" << rsp;
-        QVariantMap activePlayerMap = rsp.toMap();
-        if(activePlayerMap.value("audio").toBool() == true) {
-            activePlayer = m_audioPlayer;
-            m_state = "audio";
-        } else if(activePlayerMap.value("video").toBool() == true) {
-            activePlayer = m_videoPlayer;
-            m_state = "video";
-        } else {
-            activePlayer = 0;
+        // {"id":8,"jsonrpc":"2.0","result":[{"playerid":0,"type":"audio"}]}
+        xDebug(XDAREA_PLAYER) << "active player response:" << rsp;
+        QVariantList activePlayers = rsp.toList();
+        bool picturesActive = false;
+        foreach(const QVariant &activePlayerMap, activePlayers) {
+            if(activePlayerMap.toMap().value("type").toString() == "audio") {
+                activePlayer = m_audioPlayer;
+                m_state = "audio";
+            } else if(activePlayerMap.toMap().value("type").toString() == "video") {
+                activePlayer = m_videoPlayer;
+                m_state = "video";
+            }
+            if(activePlayerMap.toMap().value("type").toString() == "picture"){
+                picturesActive = true;
+            }
+        }
+
+        if(activePlayer == 0) {
             m_state = "";
-        }
-        if(activePlayerMap.value("picture").toBool() == true) {
-            if(!m_picturePlayerActive) {
-                m_picturePlayerActive = true;
-                emit picturePlayerActiveChanged();
-            }
-        } else {
-            if(m_picturePlayerActive) {
-                m_picturePlayerActive = false;
-                emit picturePlayerActiveChanged();
-            }
-        }
-        if(m_activePlayer != activePlayer) {
+        } else if(m_activePlayer != activePlayer) {
             m_activePlayer = activePlayer;
-            qDebug() << "active player changed!";
+            xDebug(XDAREA_PLAYER) << "active player changed!";
             emit stateChanged();
             emit activePlayerChanged();
         }
         if(m_activePlayer) {
             m_activePlayer->playlist()->refresh();
         }
+
+        if(m_picturePlayerActive != picturesActive) {
+            m_picturePlayerActive = picturesActive;
+            emit picturePlayerActiveChanged();
+        }
+
         }
         break;
     case RequestVolume:
@@ -307,7 +305,6 @@ void Xbmc::connectionChanged()
     if(connected()) {
         init();
     }
-    qDebug() << "Connection changed to " << connected();
     emit connectedChanged(connected());
 }
 
@@ -357,14 +354,6 @@ void Xbmc::restoreVolume()
 {
     m_volumeAnimation.setDirection(QAbstractAnimation::Backward);
     m_volumeAnimation.start();
-}
-
-void Xbmc::startSlideShow(const QString &directory)
-{
-    QVariantMap params;
-    params.insert("directory", directory);
-
-    XbmcConnection::sendCommand("XBMC.StartSlideShow", params);
 }
 
 bool Xbmc::picturePlayerActive()

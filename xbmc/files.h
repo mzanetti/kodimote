@@ -19,9 +19,9 @@
 #ifndef FILES_H
 #define FILES_H
 
-#include "xbmcmodel.h"
+#include "xbmclibrary.h"
 
-class Files : public XbmcModel
+class Files : public XbmcLibrary
 {
     Q_OBJECT
 public:

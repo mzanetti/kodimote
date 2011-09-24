@@ -31,7 +31,7 @@ public:
     Q_INVOKABLE virtual Playlist *playlist() const;
 
 protected:
-    virtual QString namespaceString() const;
+    virtual int playerId() const;
 
 private:
     AudioPlaylist *m_playList;

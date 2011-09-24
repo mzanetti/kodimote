@@ -19,6 +19,7 @@
 #include "audioplaylist.h"
 
 #include "xbmcconnection.h"
+#include "xdebug.h"
 
 AudioPlaylist::AudioPlaylist(Player *parent):
     Playlist(parent)
@@ -36,19 +37,16 @@ int AudioPlaylist::rowCount(const QModelIndex &parent) const
     return m_itemList.count();
 }
 
-//void AudioPlaylist::addItems(const PlaylistItem &item) const
-//{
-
-//}
-
 void AudioPlaylist::refresh()
 {
+    xDebug(XDAREA_PLAYLIST) << "Refreshing playlist" << playlistId();
     QVariantMap params;
-    QVariantList fields;
-    fields.append("duration");
-    fields.append("artist");
-    fields.append("album");
-    params.insert("fields", fields);
+    QVariantList properties;
+    properties.append("duration");
+    properties.append("artist");
+    properties.append("album");
+    params.insert("properties", properties);
+
     params.insert("playlistid", playlistId());
 
     int id = XbmcConnection::sendCommand("Playlist.GetItems", params);
@@ -58,14 +56,14 @@ void AudioPlaylist::refresh()
 void AudioPlaylist::queryItemData(int index)
 {
     QVariantMap params;
-    QVariantList fields;
-    fields.append("title");
-    fields.append("artist");
-    fields.append("album");
-    fields.append("fanart");
-    fields.append("thumbnail");
-    fields.append("duration");
-    params.insert("fields", fields);
+    QVariantList properties;
+    properties.append("title");
+    properties.append("artist");
+    properties.append("album");
+    properties.append("fanart");
+    properties.append("thumbnail");
+    properties.append("duration");
+    params.insert("properties", properties);
 
     QVariantMap limits;
     limits.insert("start", index);
@@ -86,12 +84,11 @@ void AudioPlaylist::responseReveiced(int id, const QVariantMap &response)
 
     QVariant rsp = response.value("result");
 
-//    qDebug() << "AudioPlaylist response:" << rsp;
+//    xDebug(XDAREA_PLAYLIST) << "AudioPlaylist response:" << rsp;
 
     switch(m_requestMap.value(id)) {
     case RequestGetItems: {
-//        qDebug() << "got GetItems response:" << response;
-//        qDebug() << "resetting model";
+        xDebug(XDAREA_PLAYLIST) << "got GetItems response:" << response;
         beginResetModel();
         while(!m_itemList.isEmpty()){
             delete m_itemList.takeFirst();
@@ -106,29 +103,11 @@ void AudioPlaylist::responseReveiced(int id, const QVariantMap &response)
 //            item.setTitle(itemMap.value("title").toString());
             item->setArtist(itemMap.value("artist").toString());
             item->setAlbum(itemMap.value("album").toString());
-//            qDebug() << "adding item:" << item.label();
+//            xDebug(XDAREA_PLAYLIST) << "adding item:" << item.label();
             m_itemList.append(item);
         }
         endResetModel();
-
-        if(rsp.toMap().value("state").toMap().value("repeat").toString() == "off") {
-            m_repeat = RepeatNone;
-        } else if(rsp.toMap().value("state").toMap().value("repeat").toString() == "one") {
-            m_repeat = RepeatOne;
-        } else {
-            m_repeat = RepeatAll;
-        }
-        emit repeatChanged();
-
-
-        m_shuffle = rsp.toMap().value("state").toMap().value("shuffled").toBool();
-        emit shuffleChanged();
-
-        m_currentItem = rsp.toMap().value("state").toMap().value("current").toInt();
-        qDebug() << "set current to" << m_currentItem;
-        queryItemData(m_currentItem);
         emit countChanged();
-        emit currentChanged();
         break;
     }
     case RequestCurrentData: {

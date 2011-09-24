@@ -38,6 +38,16 @@ void PlaylistItem::setFile(const QString &file)
     m_file = file;
 }
 
+QString PlaylistItem::directory() const
+{
+    return m_directory;
+}
+
+void PlaylistItem::setDirectory(const QString &directory)
+{
+    m_directory = directory;
+}
+
 QString PlaylistItem::playlistId() const
 {
     return m_playlistId;
@@ -54,10 +64,13 @@ QVariantMap PlaylistItem::toMap() const
     if(!m_file.isEmpty()) {
         map.insert("file", m_file);
     }
+
     if(!m_playlistId.isEmpty()) {
-        QVariantMap playlist;
-        playlist.insert("id", m_playlistId);
-        map.insert("playlist", playlist);
+        map.insert("playlistid", m_playlistId);
+    }
+
+    if(!m_directory.isEmpty()) {
+        map.insert("directory", m_directory);
     }
     return map;
 }

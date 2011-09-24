@@ -3,6 +3,7 @@ import Qt 4.7
 Item {
     id: playlist
     anchors.fill: parent
+    property QtObject player: xbmc.activePlayer
     property alias model: list.model
 
     signal closePlaylist
@@ -129,7 +130,7 @@ Item {
                     }
 
                     onClicked: {
-                        list.model.playItem(index)
+                        player.playItem(index)
                     }
                 }
             }

@@ -19,9 +19,10 @@
 #include "shares.h"
 #include "files.h"
 #include "xbmcconnection.h"
+#include "xdebug.h"
 
 Shares::Shares(const QString &mediatype):
-    XbmcModel(0),
+    XbmcLibrary(0),
     m_mediaType(mediatype)
 {
     QVariantMap params;
@@ -35,6 +36,7 @@ Shares::Shares(const QString &mediatype):
     sort.insert("ignorearticle", true);
     params.insert("sort", sort);
 
+    xDebug(XDAREA_FILES) << "Files.GetShares:" << params;
     connect(XbmcConnection::notifier(), SIGNAL(responseReceived(int,QVariantMap)), SLOT(responseReceived(int,QVariantMap)));
     m_requestId = XbmcConnection::sendCommand("Files.GetSources", params);
 }
@@ -42,13 +44,13 @@ Shares::Shares(const QString &mediatype):
 void Shares::responseReceived(int id, const QVariantMap &rsp)
 {
 
-//    qDebug() << "Files reponse:" << response;
+//    xDebug(XDAREA_FILES) << "Files reponse:" << response;
     if(id != m_requestId) {
         return;
     }
     QList<QStandardItem*> list;
-    qDebug() << "got shares:" << rsp.value("result");
-    QVariantList responseList = rsp.value("result").toMap().value("shares").toList();
+    xDebug(XDAREA_FILES) << "got shares:" << rsp.value("result");
+    QVariantList responseList = rsp.value("result").toMap().value("sources").toList();
     foreach(const QVariant &itemVariant, responseList) {
         QVariantMap itemMap = itemVariant.toMap();
         QStandardItem *item = new QStandardItem();
@@ -85,7 +87,7 @@ XbmcModel *Shares::enterItem(int index)
 void Shares::playItem(int index)
 {
     Q_UNUSED(index)
-    qDebug() << "Playing whole shares is not supported";
+    xDebug(XDAREA_FILES) << "Playing whole shares is not supported";
 }
 
 void Shares::addToPlaylist(int index)

@@ -19,6 +19,7 @@
 #include "audioplaylistitem.h"
 
 AudioPlaylistItem::AudioPlaylistItem(int albumId, int artistId, int genreId):
+    m_songId(-1),
     m_albumId(albumId),
     m_artistId(artistId),
     m_genreId(genreId)
@@ -71,12 +72,15 @@ QVariantMap AudioPlaylistItem::toMap() const
     if(m_songId != -1) {
         map.insert("songid", m_songId);
     }
+
     if(m_albumId != -1) {
         map.insert("albumid", m_albumId);
     }
+
     if(m_artistId != -1) {
         map.insert("artistid", m_artistId);
     }
+
     if(m_genreId != -1) {
         map.insert("genreid", m_genreId);
     }

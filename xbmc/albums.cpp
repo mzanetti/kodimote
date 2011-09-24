@@ -26,7 +26,7 @@
 #include "playlist.h"
 
 Albums::Albums(int artistId, XbmcModel *parent) :
-    XbmcModel(parent),
+    XbmcLibrary(parent),
     m_artistId(artistId)
 {
     QVariantMap params;
@@ -97,11 +97,10 @@ XbmcModel* Albums::enterItem(int index)
 void Albums::playItem(int index)
 {
     AudioPlaylistItem pItem;
-    pItem.setArtistId(m_artistId);
     pItem.setAlbumId(m_list.at(index)->data(RoleAlbumId).toInt());
     Xbmc::instance()->audioPlayer()->playlist()->clear();
     Xbmc::instance()->audioPlayer()->playlist()->addItems(pItem);
-    Xbmc::instance()->audioPlayer()->playlist()->playItem(0);
+    Xbmc::instance()->audioPlayer()->playItem(0);
 }
 
 void Albums::addToPlaylist(int index)

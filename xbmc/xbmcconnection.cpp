@@ -19,6 +19,8 @@
 #include "xbmcconnection.h"
 #include "xbmcconnection_p.h"
 
+#include "xdebug.h"
+
 #include <qjson/parser.h>
 #include <qjson/serializer.h>
 
@@ -75,7 +77,6 @@ XbmcConnectionPrivate::XbmcConnectionPrivate(QObject *parent) :
     QObject(parent),
     m_commandId(0),
     m_versionRequestId(-1),
-    m_currentPendingId(-1),
     m_connected(false)
 {
     m_socket = new QTcpSocket();
@@ -104,7 +105,7 @@ void XbmcConnectionPrivate::connect(const QString &hostname, int port, const QSt
     m_username = username;
     m_password = password;
 
-    qDebug() << "connecting to" << hostname;
+    xDebug(XDAREA_CONNECTION) << "connecting to" << hostname;
     // We connect to telnet on port 9090 for the announcements
     m_socket->connectToHost(hostname, 9090);
 
@@ -114,7 +115,7 @@ void XbmcConnectionPrivate::connect(const QString &hostname, int port, const QSt
 
 void XbmcConnectionPrivate::slotConnected()
 {
-    qDebug() << "Connected to remote host. Asking for version...";
+    xDebug(XDAREA_CONNECTION) << "Connected to remote host. Asking for version...";
 
     m_versionRequestId = m_commandId++;
     Command cmd(m_versionRequestId, "JSONRPC.Version", QVariant());
@@ -125,9 +126,9 @@ void XbmcConnectionPrivate::slotConnected()
 void XbmcConnectionPrivate::slotDisconnected()
 {
     if(!m_connected) {
-        qDebug() << "No connection yet, cannot disconnect.";
+        xDebug(XDAREA_CONNECTION) << "No connection yet, cannot disconnect.";
     }
-    qDebug() << "Disconnected";
+    xDebug(XDAREA_CONNECTION) << "Disconnected";
     m_connected = false;
     m_connectionError = "The connection has been disconnected";
     emit m_notifier->connectionChanged();
@@ -136,21 +137,21 @@ void XbmcConnectionPrivate::slotDisconnected()
 void XbmcConnectionPrivate::socketError()
 {
     QString errorString = m_socket->errorString();
-    qDebug() << "connection error:" << errorString;
+    xDebug(XDAREA_CONNECTION) << "connection error:" << errorString;
     m_connectionError = "Connection failed: " + errorString;
     emit m_notifier->connectionChanged();
 }
 
 QString XbmcConnectionPrivate::vfsPath()
 {
-    qDebug() << "returning vfs:" << "http://" + m_hostName + ':' + QString::number(m_port) + "/vfs/";
+    xDebug(XDAREA_CONNECTION) << "returning vfs:" << "http://" + m_hostName + ':' + QString::number(m_port) + "/vfs/";
     return "http://" + m_hostName + ':' + QString::number(m_port) + "/vfs/";
 }
 
 void XbmcConnectionPrivate::sendNextCommand2() {
 
-    if(m_currentPendingId >= 0 || m_socket->state() != QAbstractSocket::ConnectedState) {
-//        qDebug() << "cannot send... busy";
+    if(m_currentPendingCommand.id() >= 0 || m_socket->state() != QAbstractSocket::ConnectedState) {
+//        xDebug(XDAREA_CONNECTION) << "cannot send... busy";
         return;
     }
     if(m_commandQueue.count() > 0) {
@@ -158,9 +159,6 @@ void XbmcConnectionPrivate::sendNextCommand2() {
 
         QNetworkRequest request;
         request.setUrl(QUrl("http://" + m_hostName + ":" + QString::number(m_port) + "/jsonrpc"));
-//        if(!m_password.isEmpty()) {
-//            request.setRawHeader("Authorization", "Basic " + QByteArray(QString("%1:%2").arg(m_username).arg(m_password).toAscii()).toBase64());
-//        }
 
         QVariantMap map;
         map.insert("jsonrpc", "2.0");
@@ -173,16 +171,16 @@ void XbmcConnectionPrivate::sendNextCommand2() {
 
         QJson::Serializer serializer;
         QByteArray data = serializer.serialize(map);
-//        qDebug() << "ater serializing:" << data;
+//        xDebug(XDAREA_CONNECTION) << "ater serializing:" << data;
         QString dataStr = QString::fromLatin1(data);
 #ifdef DEBUGJSON
-//        qDebug() << "sending command 1" << dataStr;
-        qDebug() << "sending command to" << request.url() << ":" << dataStr.toLocal8Bit();
+//        xDebug(XDAREA_CONNECTION) << "sending command 1" << dataStr;
+        xDebug(XDAREA_CONNECTION) << "sending command to" << request.url() << ":" << dataStr.toLocal8Bit();
 #endif
         QNetworkReply * reply = m_network->post(request, data);
         QObject::connect(reply, SIGNAL(finished()), SLOT(replyReceived()));
 
-        m_currentPendingId = command.id();
+        m_currentPendingCommand = Command(command.id(), command.command(), command.params(), data);
         m_timeoutTimer.start();
     }
 }
@@ -197,7 +195,7 @@ void XbmcConnectionPrivate::replyReceived()
         emit m_notifier->connectionChanged();
     }
 
-    qDebug() << "received reply:" << commands;
+//    xDebug(XDAREA_CONNECTION) << "received reply:" << commands;
 
     QStringList commandsList = commands.split("}{");
 
@@ -215,18 +213,18 @@ void XbmcConnectionPrivate::replyReceived()
         }
         QVariantMap rsp;
 //        QTime t = QTime::currentTime();
-//        qDebug() << "starting parsing";
+//        xDebug(XDAREA_CONNECTION) << "starting parsing";
         QJson::Parser parser;
         bool ok;
         rsp = parser.parse(lineData.toAscii(), &ok).toMap();
         if(!ok) {
-            qDebug() << "data is" << lineData;
+            xDebug(XDAREA_CONNECTION) << "data is" << lineData;
             qFatal("failed parsing.");
             return;
         }
-//        qDebug() << "finished parsing after" << t.msecsTo(QTime::currentTime());
+//        xDebug(XDAREA_CONNECTION) << "finished parsing after" << t.msecsTo(QTime::currentTime());
 
-//        qDebug() << ">>> Incoming:" << data;
+//        xDebug(XDAREA_CONNECTION) << ">>> Incoming:" << data;
 
         if(rsp.value("id").toInt() == m_versionRequestId) {
             if(rsp.value("result").toMap().value("version").toInt() >= 3) {
@@ -234,7 +232,7 @@ void XbmcConnectionPrivate::replyReceived()
                 m_connected = true;
                 m_connectionError.clear();
             } else {
-                qDebug() << "XBMC is too old!";
+                xDebug(XDAREA_CONNECTION) << "XBMC is too old!";
                 m_socket->disconnectFromHost();
                 m_connectionError = "Connection failed: This version of xbmc is too old. Please upgrade to a newer version (at least from 05. Sep. 2011) which can be downloaded from http://mirrors.xbmc.org/nightlies/.";
             }
@@ -243,23 +241,30 @@ void XbmcConnectionPrivate::replyReceived()
         }
 
         if(rsp.value("params").toMap().value("sender").toString() == "xbmc") {
-            qDebug() << ">>> received announcement" << rsp;
+            xDebug(XDAREA_CONNECTION) << ">>> received announcement" << rsp;
             emit m_notifier->receivedAnnouncement(rsp);
             continue;
         }
         if(rsp.value("id").toInt() >= 0) {
-//            qDebug() << ">>> received response" << rsp.value("result");
+//            xDebug(XDAREA_CONNECTION) << ">>> received response" << rsp.value("result");
+
+            if(rsp.contains("error")) {
+                xDebug(XDAREA_GENERAL) << "Error reply received:";
+                xDebug(XDAREA_GENERAL) << "Request:" <<  m_currentPendingCommand.raw();
+                xDebug(XDAREA_GENERAL) << "Reply: " << lineData;
+            }
+
             emit m_notifier->responseReceived(rsp.value("id").toInt(), rsp);
             int id = rsp.value("id").toInt();
-            if(m_currentPendingId == id) {
+            if(m_currentPendingCommand.id() == id) {
 //                m_commandQueue.removeFirst();
                 m_timeoutTimer.stop();
-                m_currentPendingId = -1;
+                m_currentPendingCommand = Command();
             }
             sendNextCommand2();
             continue;
         }
-        qDebug() << "received unhandled data" << commands;
+        xDebug(XDAREA_CONNECTION) << "received unhandled data" << commands;
     }
 }
 
@@ -278,8 +283,8 @@ int XbmcConnectionPrivate::sendCommand(const QString &command, const QVariant &p
 
 void XbmcConnectionPrivate::sendNextCommand()
 {
-    if(m_currentPendingId >= 0 || m_socket->state() != QAbstractSocket::ConnectedState) {
-//        qDebug() << "cannot send... busy";
+    if(m_currentPendingCommand.id() >= 0 || m_socket->state() != QAbstractSocket::ConnectedState) {
+//        xDebug(XDAREA_CONNECTION) << "cannot send... busy";
         return;
     }
     if(m_commandQueue.count() > 0) {
@@ -296,14 +301,14 @@ void XbmcConnectionPrivate::sendNextCommand()
 
         QJson::Serializer serializer;
         QByteArray data = serializer.serialize(map);
-//        qDebug() << "ater serializing:" << data;
+//        xDebug(XDAREA_CONNECTION) << "ater serializing:" << data;
         QString dataStr = QString::fromLatin1(data);
 #ifdef DEBUGJSON
-//        qDebug() << "sending command 1" << dataStr;
-        qDebug() << "sending command" << dataStr.toLocal8Bit();
+//        xDebug(XDAREA_CONNECTION) << "sending command 1" << dataStr;
+        xDebug(XDAREA_CONNECTION) << "sending command" << dataStr.toLocal8Bit();
 #endif
         m_socket->write(data);
-        m_currentPendingId = command.id();
+        m_currentPendingCommand = command;
         m_timeoutTimer.start();
     }
 }
@@ -313,17 +318,17 @@ void XbmcConnectionPrivate::readData()
 //    QString data = QString::fromUtf8(m_socket->readAll());
     QByteArray dataArray = m_socket->readAll();
     QString data(dataArray);
-    qDebug() << "<<<<<<<<<<<< Received:" << dataArray;
+    xDebug(XDAREA_CONNECTION) << "<<<<<<<<<<<< Received:" << dataArray;
     m_socket->waitForReadyRead(10);
     while(!(data.endsWith("}") || data.endsWith("}\n") || data.isEmpty())) {
-        qDebug() << "***********************************";
-        qDebug() << data;
-        qDebug() << "data seems to be unfinished... rading more";
+        xDebug(XDAREA_CONNECTION) << "***********************************";
+        xDebug(XDAREA_CONNECTION) << data;
+        xDebug(XDAREA_CONNECTION) << "data seems to be unfinished... rading more";
         m_socket->waitForReadyRead(100);
         QString tmp = m_socket->readAll();
         data.append(tmp);
-        qDebug() << tmp;
-        qDebug() << ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>><";
+        xDebug(XDAREA_CONNECTION) << tmp;
+        xDebug(XDAREA_CONNECTION) << ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>><";
     }
     QStringList commandsList = data.split("}{");
     for(int i = 0; i < commandsList.count(); ++i) {
@@ -340,50 +345,50 @@ void XbmcConnectionPrivate::readData()
         }
         QVariantMap rsp;
 //        QTime t = QTime::currentTime();
-//        qDebug() << "starting parsing";
+//        xDebug(XDAREA_CONNECTION) << "starting parsing";
         QJson::Parser parser;
         bool ok;
         rsp = parser.parse(lineData.toAscii(), &ok).toMap();
         if(!ok) {
-            qDebug() << "data is" << lineData;
+            xDebug(XDAREA_CONNECTION) << "data is" << lineData;
             qFatal("failed parsing.");
             return;
         }
-//        qDebug() << "finished parsing after" << t.msecsTo(QTime::currentTime());
+//        xDebug(XDAREA_CONNECTION) << "finished parsing after" << t.msecsTo(QTime::currentTime());
 
-//        qDebug() << ">>> Incoming:" << data;
+//        xDebug(XDAREA_CONNECTION) << ">>> Incoming:" << data;
 
         if(rsp.value("params").toMap().value("sender").toString() == "xbmc") {
-            qDebug() << ">>> received announcement" << rsp;
+            xDebug(XDAREA_CONNECTION) << ">>> received announcement" << rsp;
             emit m_notifier->receivedAnnouncement(rsp);
             continue;
         }
         if(rsp.value("id").toInt() >= 0) {
-//            qDebug() << ">>> received response" << rsp.value("result");
+//            xDebug(XDAREA_CONNECTION) << ">>> received response" << rsp.value("result");
             emit m_notifier->responseReceived(rsp.value("id").toInt(), rsp);
             int id = rsp.value("id").toInt();
-            if(m_currentPendingId == id) {
+            if(m_currentPendingCommand.id() == id) {
 //                m_commandQueue.removeFirst();
                 m_timeoutTimer.stop();
-                m_currentPendingId = -1;
+                m_currentPendingCommand = Command();
             }
             sendNextCommand2();
             continue;
         }
-        qDebug() << "received unhandled data" << data;
+        xDebug(XDAREA_CONNECTION) << "received unhandled data" << data;
     }
 }
 
 void XbmcConnectionPrivate::clearPending()
 {
-    qDebug() << "timeouttimer hit for comman" << m_commandId;
+    xDebug(XDAREA_CONNECTION) << "timeouttimer hit for comman" << m_commandId;
     if(m_commandId == m_versionRequestId) {
-        qDebug() << "cannot ask for remote version... ";
+        xDebug(XDAREA_CONNECTION) << "cannot ask for remote version... ";
         m_connectionError = "Connection to " + m_hostName + " timed out...";
         emit m_notifier->connectionChanged();
         m_commandQueue.clear();
     }
-    m_currentPendingId = -1;
+    m_currentPendingCommand = Command();
     sendNextCommand2();
 }
 

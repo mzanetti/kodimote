@@ -34,12 +34,12 @@ public:
     int rowCount(const QModelIndex &parent) const;
 
     QString title() const;
+    int playlistId() const;
 
 public slots:
     void refresh();
 
 protected:
-    int playlistId() const;
     void queryItemData(int index);
 
 private slots:

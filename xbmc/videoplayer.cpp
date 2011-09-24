@@ -25,9 +25,9 @@ VideoPlayer::VideoPlayer(QObject *parent):
     m_playlist = new VideoPlaylist(this);
 }
 
-QString VideoPlayer::namespaceString() const
+int VideoPlayer::playerId() const
 {
-    return "VideoPlayer";
+    return 1;
 }
 
 Playlist *VideoPlayer::playlist() const

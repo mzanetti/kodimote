@@ -32,7 +32,7 @@ public:
     virtual Playlist *playlist() const;
 
 protected:
-    virtual QString namespaceString() const;
+    virtual int playerId() const;
 
 private:
     VideoPlaylist *m_playlist;

@@ -24,7 +24,7 @@
 #include "xbmcconnection.h"
 
 Songs::Songs(int artistid, int albumid, XbmcModel *parent):
-    XbmcModel(parent),
+    XbmcLibrary(parent),
     m_artistId(artistid),
     m_albumId(albumid)
 {
@@ -105,13 +105,15 @@ void Songs::playItem(int row)
     AudioPlaylistItem pItem;
     if(m_artistId == -1 && m_albumId == -1) {
         pItem.setSongId(index(row, 0, QModelIndex()).data(RoleSongId).toInt());
-    } else {
+    } else if(m_albumId == -1){
         pItem.setArtistId(m_artistId);
+    } else {
         pItem.setAlbumId(m_albumId);
     }
     Xbmc::instance()->audioPlayer()->playlist()->clear();
     Xbmc::instance()->audioPlayer()->playlist()->addItems(pItem);
-    Xbmc::instance()->audioPlayer()->playlist()->playItem(row);
+//    Xbmc::instance()->audioPlayer()->playlist()->playItem(row);
+    Xbmc::instance()->audioPlayer()->playItem(row);
 }
 
 void Songs::addToPlaylist(int row)

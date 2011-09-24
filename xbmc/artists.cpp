@@ -25,7 +25,7 @@
 #include "playlist.h"
 
 Artists::Artists(XbmcModel *parent) :
-    XbmcModel(parent)
+    XbmcLibrary(parent)
 {
     connect(XbmcConnection::notifier(), SIGNAL(responseReceived(int,QVariantMap)), SLOT(responseReceived(int,QVariantMap)));
 
@@ -98,7 +98,7 @@ void Artists::playItem(int index)
     pItem.setArtistId(m_list.at(index)->data(RoleArtistId).toInt());
     Xbmc::instance()->audioPlayer()->playlist()->clear();
     Xbmc::instance()->audioPlayer()->playlist()->addItems(pItem);
-    Xbmc::instance()->audioPlayer()->playlist()->playItem(0);
+    Xbmc::instance()->audioPlayer()->playItem(0);
 }
 
 void Artists::addToPlaylist(int index)

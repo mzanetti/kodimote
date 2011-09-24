@@ -21,6 +21,7 @@
 #include "xbmc/xbmc.h"
 #include "settings.h"
 #include "networkaccessmanagerfactory.h"
+#include "xbmc/xdebug.h"
 
 #ifdef Q_WS_MAEMO_6
 #include "meegohelper.h"
@@ -32,6 +33,30 @@
 int main(int argc, char *argv[])
 {
     QApplication app(argc, argv);
+
+    XDebug::addAllowedArea(XDAREA_GENERAL);
+    for(int i = 1; i < app.arguments().count(); ++i ) {
+        if(app.arguments().at(i) == "-d") {
+            if(app.arguments().count() > i) {
+                QStringList debuglist = app.arguments().at(i + 1).split(',');
+                foreach(const QString &debugString, debuglist) {
+                    if(debugString == "connection") {
+                        XDebug::addAllowedArea(XDAREA_CONNECTION);
+                    } else if(debugString == "player") {
+                        XDebug::addAllowedArea(XDAREA_PLAYER);
+                    } else if(debugString == "library") {
+                        XDebug::addAllowedArea(XDAREA_LIBRARY);
+                    } else if(debugString == "files") {
+                        XDebug::addAllowedArea(XDAREA_FILES);
+                    } else if(debugString == "playlist") {
+                        XDebug::addAllowedArea(XDAREA_PLAYLIST);
+//                    } else if(debugString == "") {
+//                        XDebug::addAllowedArea(XDAREA_);
+                    }
+                }
+            }
+        }
+    }
 
     Settings settings;
 

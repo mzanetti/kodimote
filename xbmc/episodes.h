@@ -19,11 +19,11 @@
 #ifndef EPISODES_H
 #define EPISODES_H
 
-#include "xbmcmodel.h"
+#include "xbmclibrary.h"
 
 #include <QStandardItem>
 
-class Episodes : public XbmcModel
+class Episodes : public XbmcLibrary
 {
     Q_OBJECT
 public:

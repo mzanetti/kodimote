@@ -45,12 +45,6 @@ XbmcModel *XbmcModel::parentModel() const
     return m_parentModel;
 }
 
-XbmcModel* XbmcModel::exit()
-{
-    deleteLater();
-    return m_parentModel;
-}
-
 int XbmcModel::columnCount(const QModelIndex &parent) const
 {
     Q_UNUSED(parent)

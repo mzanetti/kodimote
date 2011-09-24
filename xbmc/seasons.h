@@ -19,11 +19,11 @@
 #ifndef SEASONS_H
 #define SEASONS_H
 
-#include "xbmcmodel.h"
+#include "xbmclibrary.h"
 
 #include <QStandardItem>
 
-class Seasons : public XbmcModel
+class Seasons : public XbmcLibrary
 {
     Q_OBJECT
 public:

@@ -39,9 +39,11 @@ public:
     // those will be filled in in toMap()
     void setFile(const QString &file);
     void setPlayList(const QString &playlist);
+    void setDirectory(const QString &directory);
 
     QString file() const;
     QString playlistId() const;
+    QString directory() const;
 
     virtual QVariantMap toMap() const;
 
@@ -68,6 +70,7 @@ signals:
 protected:
     QString m_file;
     QString m_playlistId;
+    QString m_directory;
 
     QString m_label;
     QTime m_duration;
