@@ -3,7 +3,9 @@
 
 #include <QMainWindow>
 #include <QKeyEvent>
+#ifdef Q_WS_MAEMO_5
 #include <QtDBus/QDBusObjectPath>
+#endif
 #include <xbmc/xbmcconnection.h>
 
 class Settings;
