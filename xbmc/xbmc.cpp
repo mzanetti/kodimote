@@ -340,7 +340,7 @@ int Xbmc::volume()
 
 void Xbmc::quit()
 {
-    XbmcConnection::sendCommand("XBMC.Quit");
+    XbmcConnection::sendCommand("Application.Quit");
 }
 
 void Xbmc::dimVolumeTo(int newVolume)
