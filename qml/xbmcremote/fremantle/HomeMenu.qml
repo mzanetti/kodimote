@@ -109,6 +109,7 @@ BorderImage {
         state: "closed"
         clip: true
 
+
         BorderImage {
             id: subMenuBackground
             border.top: 15
@@ -146,6 +147,7 @@ BorderImage {
                 anchors.right: parent.right
                 anchors.rightMargin: -15
                 height: 70
+                visible: (stateName == "library" && xbmcBrowser.mediaState == "pictures") ? false : true
                 Image {
                     id: buttonBg
                     anchors.fill: parent
