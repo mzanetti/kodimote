@@ -99,7 +99,10 @@ QString Shares::title() const
 {
     if(m_mediaType == "music") {
         return "Music Files";
-    } else {
+    } else if(m_mediaType == "video"){
         return "Video Files";
+    } else if(m_mediaType == "pictures") {
+        return "Picture Files";
     }
+    return "";
 }
