@@ -8,10 +8,10 @@ Item {
     property bool dragging: false
 
     function sliderPosToPercent(x) {
-        return slider.x * 100 / container.width
+        return (slider.x) * 100 / (bar.width - slider.width)
     }
     function percentToSliderPos(pc) {
-        return pc * bar.width / 100;
+        return pc * (bar.width - slider.width) / 100;
     }
 
     Rectangle {
