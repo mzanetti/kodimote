@@ -12,7 +12,7 @@ BorderImage {
     anchors.top: parent.top
     anchors.bottom: parent.bottom
     anchors.right: parent.left
-    width: 200
+    width: 250
     state: "closed"
     opacity: anchors.rightMargin == 0 ? 0 : 1
 
