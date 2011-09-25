@@ -77,7 +77,7 @@ BorderImage {
                         break;
                     case 2:
                         xbmcBrowser.mediaState = "pictures"
-                        xbmcBrowser.viewState = "pictures"
+                        xbmcBrowser.viewState = "files"
                         homeMenu.state = "closed"
                         return;
                     }

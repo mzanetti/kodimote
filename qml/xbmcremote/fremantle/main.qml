@@ -148,7 +148,7 @@ Rectangle {
                     PropertyChanges {target:  videoLibraryView; visible: true }
                     PropertyChanges {target: itemModel; currentView: videoLibraryView }
                 },
-                State { name: "pictures"; when: xbmcBrowser.mediaState == "pictures" && xbmcBrowser.viewState == "pictures"
+                State { name: "pictures"; when: xbmcBrowser.mediaState == "pictures" && xbmcBrowser.viewState == "files"
                     PropertyChanges {target:  pictureBrowser; visible: true }
                     PropertyChanges {target: itemModel; currentView: pictureBrowser }
                 }
