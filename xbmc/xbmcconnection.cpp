@@ -118,7 +118,11 @@ void XbmcConnectionPrivate::slotConnected()
     xDebug(XDAREA_CONNECTION) << "Connected to remote host. Asking for version...";
 
     m_versionRequestId = m_commandId++;
-    Command cmd(m_versionRequestId, "JSONRPC.Version", QVariant());
+    QVariantMap params;
+    QVariantList properties;
+    properties.append("version");
+    params.insert("properties", properties);
+    Command cmd(m_versionRequestId, "Application.GetProperties", params);
     m_commandQueue.prepend(cmd);
     sendNextCommand2();
 }
@@ -224,17 +228,17 @@ void XbmcConnectionPrivate::replyReceived()
         }
 //        xDebug(XDAREA_CONNECTION) << "finished parsing after" << t.msecsTo(QTime::currentTime());
 
-//        xDebug(XDAREA_CONNECTION) << ">>> Incoming:" << data;
+        xDebug(XDAREA_CONNECTION) << ">>> Incoming:" << rsp;
 
         if(rsp.value("id").toInt() == m_versionRequestId) {
-            if(rsp.value("result").toMap().value("version").toInt() >= 3) {
+            if(rsp.value("result").toMap().value("version").toMap().value("revision").toString().left(8).toInt() >= 20110923) {
                 sendNextCommand2();
                 m_connected = true;
                 m_connectionError.clear();
             } else {
                 xDebug(XDAREA_CONNECTION) << "XBMC is too old!";
                 m_socket->disconnectFromHost();
-                m_connectionError = "Connection failed: This version of xbmc is too old. Please upgrade to a newer version (at least from 05. Sep. 2011) which can be downloaded from http://mirrors.xbmc.org/nightlies/.";
+                m_connectionError = "Connection failed: This version of xbmc is too old. Please upgrade to a newer version (at least from 23. Sep. 2011) which can be downloaded from http://mirrors.xbmc.org/nightlies/.";
             }
             emit m_notifier->connectionChanged();
             return;

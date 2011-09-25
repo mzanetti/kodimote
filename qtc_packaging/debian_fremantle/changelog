@@ -1,5 +1,8 @@
-xbmcremote (0.4.1-fremantle3) unstable; urgency=low
+xbmcremote (0.5.1-fremantle0) unstable; urgency=low
 
-  * Added more informations if connecting to an installation of xbmc which is too old
+  * Updated to work with the latest Xbmc API
+  * Added support for picture controls
+  * Added support for authentication
+  * Make version check more accurate
 
- -- Michael Zanetti <michael_zanetti@gmx.net>  Mon, 12 Sep 2011 07:07:39 +0200
+ -- Michael Zanetti <michael_zanetti@gmx.net>  Sun, 25 Sep 2011 15:14:39 +0200

@@ -1,12 +1,8 @@
-xbmcremote (0.4.1-harmattan0) unstable; urgency=low
+xbmcremote (0.5.1-harmattan0) unstable; urgency=low
 
-  * New artwork for the buttons thanks to Johannes Siipola <joppu@kapsi.fi>
-  * Added AboutDialog
-  * Added longtap context menu to lists for manipulating the playlist
-  * Added possibility to remotely rescan the collection
-  * Use volume buttons on N900/N950/N9
-  * Minor fixes and UI improvements
-  * Added ability to invert the theme
-  * Added ability to define custom commands vor volumeUp/volumeDown in config file
+  * Updated to work with the latest Xbmc API
+  * Added support for picture controls
+  * Added support for authentication
+  * Make version check more accurate
 
- -- Michael Zanetti <michael_zanetti@gmx.net>  Sat, 11 Sep 2011 16:47:39 +0200
+ -- Michael Zanetti <michael_zanetti@gmx.net>  Sun, 25 Sep 2011 15:14:39 +0200
