@@ -225,6 +225,7 @@ Player *Xbmc::activePlayer()
 
 void Xbmc::parseAnnouncement(const QVariantMap &map)
 {
+    Q_UNUSED(map)
 }
 
 void Xbmc::responseReceived(int id, const QVariantMap &response)

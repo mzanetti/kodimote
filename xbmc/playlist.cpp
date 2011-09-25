@@ -105,6 +105,7 @@ void Playlist::addDirectory(const QString &dir)
 
 void Playlist::receivedAnnouncement(const QVariantMap &map)
 {
+    Q_UNUSED(map)
 }
 
 int Playlist::currentTrackNumber() const

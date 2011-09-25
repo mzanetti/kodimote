@@ -92,7 +92,6 @@ HEADERS += ui/settingsdialog.h \
     networkaccessmanagerfactory.h \
     xbmc/pictures.h \
     xbmc/pictureplayer.h \
-    xbmc/xDebug.h \
     xbmc/xdebug.h \
     xbmc/xbmclibrary.h \
     xbmc/pictureplaylist.h

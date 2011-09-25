@@ -62,4 +62,6 @@ void Keys::select()
 void Keys::responseReceived(int id, const QVariantMap &map)
 {
     // TODO...
+    Q_UNUSED(id)
+    Q_UNUSED(map)
 }
