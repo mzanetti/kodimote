@@ -2,17 +2,21 @@ import QtQuick 1.1
 import com.meego 1.0
 
 Page {
-    id: keyPad
-    anchors.fill: parent
-    tools: toolBarKeypad
+    id: pictureControls
+    tools: toolBarPictureControls
 
     ToolBarLayout {
-        id: toolBarKeypad
-        visible: false
+        id: toolBarPictureControls
         ToolIcon { platformIconId: "toolbar-column";
             anchors.left: parent===undefined ? undefined : parent.left
             onClicked: {
                 pageStack.pop();
+            }
+        }
+        ToolIcon { platformIconId: "toolbar-dialer";
+            anchors.horizontalCenter: parent===undefined ? undefined : parent.horizontalCenter
+            onClicked: {
+                pageStack.replace(keypadPage);
             }
         }
         ToolIcon {
@@ -246,12 +250,7 @@ Page {
                             anchors.fill: parent
                             onClicked: {
                                 player.stop();
-                                var component = Qt.createComponent("Keypad.qml")
-                                if (component.status == Component.Ready) {
-                                    pageStack.replace(component);
-                                } else {
-                                    console.log("Error loading component:", component.errorString());
-                                }
+                                pageStack.replace(keypadPage);
                             }
                         }
                         states: [

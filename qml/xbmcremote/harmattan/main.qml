@@ -24,6 +24,14 @@ PageStackWindow {
         id: nowPlayingPage
     }
 
+    Keypad {
+        id: keypadPage
+    }
+
+    PictureControlsPage {
+        id: pictureControlsPage
+    }
+
     ToolBarLayout {
         id: toolBarEntry
         visible: false
@@ -35,19 +43,9 @@ PageStackWindow {
             anchors.horizontalCenter: parent===undefined ? undefined : parent.horizontalCenter
             onClicked: {
                 if(xbmc.picturePlayerActive) {
-                    var component = Qt.createComponent("PictureControlsPage.qml")
-                    if (component.status == Component.Ready) {
-                        pageStack.push(component);
-                    } else {
-                        console.log("Error loading component:", component.errorString());
-                    }
+                    pageStack.push(pictureControlsPage);
                 } else {
-                    var component = Qt.createComponent("Keypad.qml")
-                    if (component.status == Component.Ready) {
-                        pageStack.push(component);
-                    } else {
-                        console.log("Error loading component:", component.errorString());
-                    }
+                    pageStack.push(keypadPage);
                 }
 
             }

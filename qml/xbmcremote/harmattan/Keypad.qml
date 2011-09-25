@@ -3,17 +3,22 @@ import com.meego 1.0
 
 Page {
     id: keyPad
-    anchors.fill: parent
     tools: toolBarKeypad
 
     ToolBarLayout {
         id: toolBarKeypad
-        visible: false
         ToolIcon { platformIconId: "toolbar-column";
             anchors.left: parent===undefined ? undefined : parent.left
             onClicked: {
                 pageStack.pop();
             }
+        }
+        ToolIcon { platformIconId: "toolbar-image-edit";
+             anchors.horizontalCenter: parent===undefined ? undefined : parent.horizontalCenter
+             visible: xbmc.picturePlayerActive
+             onClicked: {
+                 pageStack.replace(pictureControlsPage);
+             }
         }
         ToolIcon {
             platformIconId: "toolbar-mediacontrol-play" + (enabled ? "" : "-dimmed");
@@ -32,8 +37,8 @@ Page {
         columns: orientation == "portrait" ? 1 : 3
 
         Item {
-            anchors.left: parent.left
-            anchors.top: parent.top
+//            anchors.left: parent.left
+//            anchors.top: parent.top
             height: orientation == "portrait" ? crossCol.height : parent.height
             width: orientation == "portrait" ? parent.width : crossCol.width
 //            Rectangle { color: "green"; anchors.fill: parent }

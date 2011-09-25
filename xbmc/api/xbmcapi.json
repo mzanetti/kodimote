@@ -149,9 +149,59 @@
 
 "Player.Repeat":{"description":"Set the repeat mode of the player","params":[{"$ref":"Player.Id","name":"playerid","required":true},{"$ref":"Player.Repeat","name":"state","required":true}],"returns":{"type":"string"},"type":"method"},
 "Player.Rotate":{"description":"Rotates current picture","params":[{"$ref":"Player.Id","name":"playerid","required":true}],"returns":{"type":"string"},"type":"method"},
-"Player.Seek":{"description":"Seek through the playing item","params":[{"$ref":"Player.Id","name":"playerid","required":true},{"name":"value","required":true,"type":[{"$ref":"Player.Position.Percentage","description":"Percentage value to seek to","required":true},{"additionalProperties":false,"description":"Time to seek to","properties":{"hours":{"default":0,"maximum":23,"minimum":0,"type":"integer"},"milliseconds":{"default":0,"maximum":999,"minimum":0,"type":"integer"},"minutes":{"default":0,"maximum":59,"minimum":0,"type":"integer"},"seconds":{"default":0,"maximum":59,"minimum":0,"type":"integer"}},"required":true,"type":"object"},{"description":"Seek by predefined jumps","enums":["smallforward","smallbackward","bigforward","bigbackward"],"required":true,"type":"string"}]}],"returns":{"properties":{"percentage":{"$ref":"Player.Position.Percentage","default":0},"time":{"$ref":"Global.Time"},"totaltime":{"$ref":"Global.Time"}},"type":"object"},"type":"method"},
+
+"Player.Seek":{
+  "description":"Seek through the playing item",
+  "params":[
+    {"$ref":"Player.Id","name":"playerid","required":true},
+    {"name":"value","required":true,"type":
+      [
+        {"$ref":"Player.Position.Percentage","description":"Percentage value to seek to","required":true},
+        {"additionalProperties":false,"description":"Time to seek to","properties":{
+          "hours":{"default":0,"maximum":23,"minimum":0,"type":"integer"},
+          "milliseconds":{"default":0,"maximum":999,"minimum":0,"type":"integer"},
+          "minutes":{"default":0,"maximum":59,"minimum":0,"type":"integer"},
+          "seconds":{"default":0,"maximum":59,"minimum":0,"type":"integer"}
+        },
+        "required":true,"type":"object"
+      },{
+        "description":"Seek by predefined jumps",
+        "enums":["smallforward","smallbackward","bigforward","bigbackward"],
+        "required":true,
+        "type":"string"
+      }
+    ]
+    }
+  ],
+  "returns":{
+    "properties":{
+      "percentage":{"$ref":"Player.Position.Percentage","default":0},
+      "time":{"$ref":"Global.Time"},
+      "totaltime":{"$ref":"Global.Time"}
+    },
+    "type":"object"
+  },
+  "type":"method"
+},
+
 "Player.SetAudioStream":{"description":"Set the audio stream played by the player","params":[{"$ref":"Player.Id","name":"playerid","required":true},{"name":"stream","required":true,"type":[{"default":"previous","enums":["previous","next"],"type":"string"},{"default":0,"description":"Index of the audio stream to play","minimum":0,"type":"integer"}]}],"returns":{"type":"string"},"type":"method"},
-"Player.SetSpeed":{"description":"Set the speed of the current playback","params":[{"$ref":"Player.Id","name":"playerid","required":true},{"enums":[-16,-8,-4,-2,-1,0,1,2,4,8,16,"increment","decrement"],"name":"speed","required":true,"type":[{"default":null,"divisibleBy":32752,"exclusiveMaximum":true,"exclusiveMinimum":true,"maximum":0,"minimum":0,"type":"integer"},{"default":null,"type":"string"}]}],"returns":{"$ref":"Player.Speed"},"type":"method"},
+
+"Player.SetSpeed":{
+  "description":"Set the speed of the current playback",
+  "params":[
+    {"$ref":"Player.Id","name":"playerid","required":true},
+    {"enums":[-16,-8,-4,-2,-1,0,1,2,4,8,16,"increment","decrement"],
+     "name":"speed","required":true,"type":[
+       {"default":null,"divisibleBy":32752,"exclusiveMaximum":true,"exclusiveMinimum":true,"maximum":0,"minimum":0,"type":"integer"},
+       {"default":null,"type":"string"}
+     ]
+    }
+  ],
+  "returns":{"$ref":"Player.Speed"},
+  "type":"method"
+},
+
+
 "Player.SetSubtitle":{"description":"Set the subtitle displayed by the player","params":[{"$ref":"Player.Id","name":"playerid","required":true},{"name":"subtitle","required":true,"type":[{"default":"previous","enums":["previous","next","off","on"],"type":"string"},{"default":0,"description":"Index of the subtitle to display","minimum":0,"type":"integer"}]}],"returns":{"type":"string"},"type":"method"},
 "Player.Shuffle":{"description":"Shuffle items in the player","params":[{"$ref":"Player.Id","name":"playerid","required":true}],"returns":{"type":"string"},"type":"method"},
 "Player.Stop":{"description":"Stops playback","params":[{"$ref":"Player.Id","name":"playerid","required":true}],"returns":{"type":"string"},"type":"method"},

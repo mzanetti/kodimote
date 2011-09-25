@@ -265,7 +265,7 @@ void Xbmc::responseReceived(int id, const QVariantMap &response)
             emit activePlayerChanged();
         }
         if(m_activePlayer) {
-            m_activePlayer->playlist()->refresh();
+            m_activePlayer->refresh();
         }
 
         if(m_picturePlayerActive != picturesActive) {

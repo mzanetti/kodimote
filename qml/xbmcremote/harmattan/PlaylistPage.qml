@@ -98,7 +98,7 @@ Page {
                 }
 
                 onClicked: {
-                    playlist.playItem(index);
+                    player.playItem(index);
                 }
             }
         }
@@ -129,7 +129,7 @@ Page {
             MenuItem {
                 text: "Play"
                 onClicked: {
-                    playlist.playItem(listView.currentSelected)
+                    player.playItem(listView.currentSelected)
                 }
             }
             MenuItem {

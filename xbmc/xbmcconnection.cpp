@@ -246,7 +246,7 @@ void XbmcConnectionPrivate::replyReceived()
             continue;
         }
         if(rsp.value("id").toInt() >= 0) {
-//            xDebug(XDAREA_CONNECTION) << ">>> received response" << rsp.value("result");
+            xDebug(XDAREA_CONNECTION) << ">>> received response" << rsp.value("result");
 
             if(rsp.contains("error")) {
                 xDebug(XDAREA_GENERAL) << "Error reply received:";

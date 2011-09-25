@@ -90,6 +90,15 @@ void Player::getRepeatShuffle()
     m_requestMap.insert(id, RequestRepeatShuffle);
 }
 
+void Player::refresh()
+{
+    getSpeed();
+    getPercentage();
+    getPosition();
+    getRepeatShuffle();
+    playlist()->refresh();
+}
+
 Player::PlayerType Player::type() const
 {
     return m_type;
@@ -131,14 +140,16 @@ void Player::seekBackward()
 {
     QVariantMap params;
     params.insert("playerid", playerId());
-    XbmcConnection::sendCommand("Player.Rewind", params);
+    params.insert("speed", "decrement");
+    XbmcConnection::sendCommand("Player.SetSpeed", params);
 }
 
 void Player::seekForward()
 {
     QVariantMap params;
     params.insert("playerid", playerId());
-    XbmcConnection::sendCommand("Player.Forward", params);
+    params.insert("speed", "increment");
+    XbmcConnection::sendCommand("Player.SetSpeed", params);
 }
 
 QString Player::state() const
@@ -192,10 +203,9 @@ void Player::responseReceived(int id, const QVariantMap &response)
 
     switch(m_requestMap.value(id)) {
     case RequestSpeed:
-        xDebug(XDAREA_PLAYER) << "got player speed" << rsp;
         m_speed = rsp.toMap().value("speed").toInt();
+        xDebug(XDAREA_PLAYER) << "got player speed" << m_speed;
         emit speedChanged();
-
 
         if(m_speed == 0) {
             m_state = "paused";

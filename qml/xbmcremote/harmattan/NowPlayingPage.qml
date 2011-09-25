@@ -31,19 +31,9 @@ Page {
              anchors.horizontalCenter: parent===undefined ? undefined : parent.horizontalCenter
              onClicked: {
                  if(xbmc.picturePlayerActive) {
-                     var component = Qt.createComponent("PictureControlsPage.qml")
-                     if (component.status == Component.Ready) {
-                         pageStack.push(component);
-                     } else {
-                         console.log("Error loading component:", component.errorString());
-                     }
+                     pageStack.replace(pictureControlsPage);
                  } else {
-                     var component = Qt.createComponent("Keypad.qml")
-                     if (component.status == Component.Ready) {
-                         pageStack.push(component);
-                     } else {
-                         console.log("Error loading component:", component.errorString());
-                     }
+                     pageStack.replace(keypadPage);
                  }
              }
         }
@@ -63,18 +53,6 @@ Page {
     Component.onCompleted: {
         console.log("player is " + player)
         console.log("playlist is " + playlist)
-    }
-
-    function fanart() {
-        console.log("fanart: " + currentItem.thumbnail)
-        if(currentItem.thumbnail.length == 0) {
-            if(xbmc.state == "audio") {
-                return "images/DefaultAlbumCover.png";
-            } else {
-                return "images/DefaultVideoCover.png";
-            }
-        }
-        return xbmc.vfsPath + currentItem.thumbnail;
     }
 
     Grid {
@@ -110,7 +88,7 @@ Page {
 
             Image {
                 anchors.fill: parent
-                source: fanart()
+                source: currentItem.thumbnail.empty ? "" : xbmc.vfsPath + currentItem.thumbnail
             }
         }
 

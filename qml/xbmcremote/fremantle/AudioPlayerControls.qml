@@ -26,7 +26,7 @@ Row {
         width: parent.width / 6
 
         Image {
-            source: player.speed < 1 ? "images/OSDRewindFO.png" : "images/OSDRewindNF.png"
+            source: (player.speed < 1 && player.speed !== 0 ) ? "images/OSDRewindFO.png" : "images/OSDRewindNF.png"
             anchors.centerIn: parent
         }
 
@@ -45,15 +45,6 @@ Row {
         Image {
             source: (player.speed != 1 || player.state != "playing") ? "images/OSDPlayNF.png" : "images/OSDPauseNF.png"
             anchors.centerIn: parent
-        }
-        function playButtonSource() {
-            if(player.speed != 1) {
-                return "images/OSDPlayNF.png"
-            }
-            if(player.state == "playing") {
-                return "images/OSDPauseNF.png"
-            }
-            return "images/OSDPlayNF.png"
         }
 
         MouseArea {

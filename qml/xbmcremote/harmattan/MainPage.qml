@@ -10,7 +10,7 @@ Page {
         id: mainMenuModel
         ListElement {
             title: "Music"
-            icon: "icon-m-content-music-band"
+            icon: "icon-m-content-audio"
             subtitle: ""
         }
         ListElement {

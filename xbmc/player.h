@@ -60,6 +60,8 @@ public:
     double percentage() const;
     QString time() const;
 
+    void refresh();
+
     PlayerType type() const;
 
     virtual int playerId() const = 0;

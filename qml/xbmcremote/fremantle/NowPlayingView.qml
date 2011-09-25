@@ -71,7 +71,8 @@ BorderImage {
 
     function fanart() {
         console.log("fanart: " + currentItem.thumbnail)
-        if(currentItem.thumbnail.length == 0 || currentItem.thumbnail == "DefaultAlbumCover.png") {
+        if(currentItem.thumbnail.length === 0) {
+            print("returning default cover");
             if(xbmc.state == "audio") {
                 return "images/DefaultAlbumCover.png";
             } else {
@@ -210,8 +211,7 @@ BorderImage {
                 border.width: 2
 
                 Behavior on width {
-
-                    NumberAnimation {duration: 500; easing.type: Easing.InOutQuad }
+                    NumberAnimation {duration: 500; easing.type: Easing.Linear }
                 }
             }
         }
