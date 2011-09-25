@@ -2,16 +2,9 @@ import Qt 4.7
 
 Rectangle {
     id: screen
-//    anchors.fill: parent
     color: "black"
-//    width: screen.displayWidth
-//    height: screen.displayHeight
-//    width: 500
-//    height: 500
 
     property string orientation:  width > height ? "landscape" : "portrait"
-
-//    state: xbmc.state
 
 
     Rectangle {
@@ -35,6 +28,18 @@ Rectangle {
     Image {
         id: backgroundImageVideos
         source: "backgrounds/videos.jpg"
+        anchors.fill: parent
+        fillMode: Image.PreserveAspectCrop
+        opacity:  xbmcBrowser.mediaState == "video" ? 1 : 0
+
+        Behavior on opacity {
+            NumberAnimation { duration: 1000 }
+        }
+    }
+
+    Image {
+        id: backgroundImagePictures
+        source: "backgrounds/pictures.jpg"
         anchors.fill: parent
         fillMode: Image.PreserveAspectCrop
         opacity:  xbmcBrowser.mediaState == "pictures" ? 1 : 0

@@ -69,20 +69,6 @@ BorderImage {
         color: "#ffffff";
     }
 
-    function fanart() {
-        console.log("fanart: " + currentItem.thumbnail)
-        if(currentItem.thumbnail.length === 0) {
-            print("returning default cover");
-            if(xbmc.state == "audio") {
-                return "images/DefaultAlbumCover.png";
-            } else {
-                return "images/DefaultVideoCover.png";
-            }
-        }
-        print("Downloading vfs item:" + xbmc.vfsPath + currentItem.thumbnail)
-        return xbmc.vfsPath + currentItem.thumbnail;
-    }
-
     Grid {
         id: nowPlayingFlow
         columns: screen.orientation == "portrait" ? 1 : 2
@@ -93,19 +79,16 @@ BorderImage {
         anchors.margins: 20
         spacing: 15
 
-        Item {
+        Image {
             id: imageItem
-//            width: MainWindow.state == "portrait" ? nowPlayingFlow.width : height
-//            height: MainWindow.state == "portrait" ? nowPlayingFlow.height - 40 * 3 - 20 - 15: nowPlayingFlow.height
-            // the following crashes since Qt 4.7.3... probably some circular dependency - but I can't find it
-
             height: screen.orientation == "portrait" ? nowPlayingFlow.height - 40 * 3 - 20 - 15: nowPlayingFlow.height
             width: screen.orientation == "portrait" ? nowPlayingFlow.width : height
+            source: xbmc.state == "audio" ? "images/DefaultAlbumCover.png" : "images/DefaultVideoCover.png"
             Image {
                 anchors.centerIn: parent
                 height: Math.min(parent.height, parent.width)
                 width: Math.min(parent.height, parent.width)
-                source: fanart()
+                source: xbmc.vfsPath + currentItem.thumbnail
             }
         }
 

@@ -12,16 +12,19 @@ Page {
             title: "Music"
             icon: "icon-m-content-audio"
             subtitle: ""
+            mode: "library"
         }
         ListElement {
             title: "Videos"
             icon: "icon-m-content-videos"
             subtitle: ""
+            mode: "library"
         }
         ListElement {
             title: "Pictures"
             icon: "icon-m-content-image"
             subtitle: ""
+            mode: "files"
         }
 //        ListElement {
 //            title: "Video Files"
@@ -43,7 +46,6 @@ Page {
             id: listItem
             height: 150
             width: parent.width
-            property string mode: "library"
             clip: true
 
             Rectangle {
@@ -92,7 +94,7 @@ Page {
 
                     Label {
                         id: subText
-                        text: listItem.mode == "library" ? "Library" : "Files"
+                        text: mode == "library" ? "Library" : "Files"
                         font.weight: Font.Light
                         font.pixelSize: 24
                         color: theme.inverted ? "#7b797b" : "#848684"
@@ -125,14 +127,14 @@ Page {
                     if (component.status == Component.Ready) {
                         switch(index) {
                         case 0:
-                            if(listItem.mode == "library") {
+                            if(mode == "library") {
                                 newModel = xbmc.audioLibrary();
                             } else {
                                 newModel = xbmc.shares("music");
                             }
                             break
                         case 1:
-                            if(listItem.mode == "library") {
+                            if(mode == "library") {
                                 newModel = xbmc.videoLibrary();
                             } else {
                                 newModel = xbmc.shares("video");
@@ -154,42 +156,6 @@ Page {
                     }
                 }
             }
-
-
-
-            ButtonRow {
-                anchors.top: textRow.bottom
-                anchors.left: parent.left
-                anchors.right: parent.right
-                anchors.margins: 20
-//                visible: listItem.state == "expanded"
-                Button {
-                    text: "Library"
-                    onClicked: {
-                        listItem.state = "normal"
-                        listItem.mode = "library"
-                    }
-                }
-                Button {
-                    text: "Files"
-                    onClicked: {
-                        listItem.state = "normal"
-                        listItem.mode = "files"
-                    }
-                }
-            }
-
-            states:  [
-                State {
-                    name: "expanded"
-                    PropertyChanges { target: listItem; height: 250 }
-                }
-
-            ]
-
-            Behavior on height {
-                NumberAnimation { easing.type: Easing.Linear; duration: 200 }
-            }
         }
     }
     ScrollDecorator {
@@ -204,16 +170,16 @@ Page {
         MenuLayout {
             MenuItem {
                 text: "Show files"
-                visible: listView.currentItem.mode != "files"
+                visible: mainMenuModel.get(listView.currentIndex).mode != "files"
                 onClicked: {
-                    listView.currentItem.mode = "files"
+                    mainMenuModel.setProperty(listView.currentIndex, "mode", "files");
                 }
             }
             MenuItem {
                 text: "Show library"
-                visible: listView.currentItem.mode != "library"
+                visible: mainMenuModel.get(listView.currentIndex).mode != "library"
                 onClicked: {
-                    listView.currentItem.mode = "library"
+                    mainMenuModel.setProperty(listView.currentIndex, "mode", "library");
                 }
             }
             MenuItem {

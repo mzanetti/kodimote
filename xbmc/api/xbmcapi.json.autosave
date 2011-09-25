@@ -1,6 +1,22 @@
 {"id":"1","jsonrpc":"2.0","result":{"description":"JSON RPC API of XBMC","id":"http://www.xbmc.org/jsonrpc/ServiceDescription.json","methods":{
 
-"Application.GetProperties":{"description":"Retrieves the values of the given properties","params":[{"items":{"$ref":"Application.Property.Name"},"name":"properties","required":true,"type":"array","uniqueItems":true}],"returns":{"$ref":"Application.Property.Value"},"type":"method"},
+"Application.GetProperties":{
+  "description":"Retrieves the values of the given properties",
+  "params":[
+    {"items":
+      {"$ref":"Application.Property.Name"},
+      "name":"properties",
+      "required":true,
+      "type":"array",
+      "uniqueItems":true
+    }
+  ],
+  "returns":{
+    "$ref":"Application.Property.Value"
+  },
+  "type":"method"
+},
+
 "Application.Quit":{"description":"Quit application","params":[],"returns":{"type":"string"},"type":"method"},
 "Application.SetVolume":{"description":"Set the current volume","params":[{"maximum":100,"minimum":0,"name":"value","required":true,"type":"integer"}],"returns":{"exclusiveMaximum":true,"exclusiveMinimum":true,"maximum":0,"minimum":0,"type":"integer"},"type":"method"},
 "Application.ToggleMute":{"description":"Toggle mute/unmute","params":[],"returns":{"description":"New volume","type":"integer"},"type":"method"},
@@ -321,7 +337,12 @@
 
 },"types":{
 
-"Application.Property.Name":{"default":"volume","enums":["volume","muted","name","version"],"id":"Application.Property.Name","type":"string"},
+"Application.Property.Name":{
+  "default":"volume",
+  "enums":["volume","muted","name","version"],
+  "id":"Application.Property.Name",
+  "type":"string"
+},
 "Application.Property.Value":{"id":"Application.Property.Value","properties":{"muted":{"default":false,"type":"boolean"},"name":{"default":"","minLength":1,"type":"string"},"version":{"properties":{"major":{"minimum":0,"required":true,"type":"integer"},"minor":{"minimum":0,"required":true,"type":"integer"},"revision":{"default":null,"type":[{"default":null,"type":"string"},{"default":null,"divisibleBy":32752,"exclusiveMaximum":true,"exclusiveMinimum":true,"maximum":0,"minimum":0,"type":"integer"}]},"tag":{"enums":["prealpha","alpha","beta","releasecandidate","stable"],"required":true,"type":"string"}},"type":"object"},"volume":{"default":0,"type":"integer"}},"type":"object"},
 "Array.Integer":{"id":"Array.Integer","items":{"type":"integer"},"type":"array"},
 "Array.String":{"id":"Array.String","items":{"minLength":1,"type":"string"},"type":"array"},

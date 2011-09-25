@@ -144,7 +144,7 @@ void XbmcConnectionPrivate::socketError()
 
 QString XbmcConnectionPrivate::vfsPath()
 {
-    xDebug(XDAREA_CONNECTION) << "returning vfs:" << "http://" + m_hostName + ':' + QString::number(m_port) + "/vfs/";
+//    xDebug(XDAREA_CONNECTION) << "returning vfs:" << "http://" + m_hostName + ':' + QString::number(m_port) + "/vfs/";
     return "http://" + m_hostName + ':' + QString::number(m_port) + "/vfs/";
 }
 
