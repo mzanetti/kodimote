@@ -6,7 +6,7 @@ DEPLOYMENTFOLDERS = folder_01
 # Additional import path used to resolve QML modules in Creator's code model
 QML_IMPORT_PATH =
 
-QT += network dbus
+QT += network
 
 # Define QMLJSDEBUGGER to allow debugging of QML in debug builds
 # (This might significantly increase build time)
@@ -119,6 +119,7 @@ OTHER_FILES += \
 exists($$QMAKE_INCDIR_QT"/../qmsystem2/qmkeys.h") {
     message(Harmattan build)
     target.path = /opt/usr/bin
+    QT += dbus
     CONFIG += qmsystem2
     DEFINES += Q_WS_MAEMO_6
     SOURCES += meegohelper.cpp
@@ -131,6 +132,10 @@ exists($$QMAKE_INCDIR_QT"/../qmsystem2/qmkeys.h") {
 
     HEADERS += ui/aboutdialog.h \
                ui/mainwindow.h
+}
+
+maemo5 {
+    QT += dbus
 }
 
 symbian:TARGET.UID3 = 0xE1297420
