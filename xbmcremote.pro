@@ -53,9 +53,6 @@ SOURCES += main.cpp \
     xbmc/xbmclibrary.cpp \
     xbmc/pictureplaylist.cpp
 
-# We actually don't use the QMLApplicationViewer any more... It's pri file,
-# however contains a lot of deplayment stuff so we still keep this here:
-
 # Please do not modify the following two lines. Required for deployment.
 include(qmlapplicationviewer/qmlapplicationviewer.pri)
 qtcAddDeployment()

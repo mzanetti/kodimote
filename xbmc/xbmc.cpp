@@ -325,7 +325,7 @@ void Xbmc::setVolume(int volume)
     } else {
         if(volume != m_volume) {
             QVariantMap map;
-            map.insert("value", volume);
+            map.insert("volume", volume);
             XbmcConnection::sendCommand("Application.SetVolume", map);
             m_volume = volume;
             emit volumeChanged(m_volume);
