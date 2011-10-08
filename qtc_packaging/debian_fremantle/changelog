@@ -1,8 +1,8 @@
-xbmcremote (0.5.1-fremantle0) unstable; urgency=low
+xbmcremote (0.5.2-fremantle0) unstable; urgency=low
 
-  * Updated to work with the latest Xbmc API
-  * Added support for picture controls
-  * Added support for authentication
-  * Make version check more accurate
+  * Fix compilation for non Maemo platforms
+  * Fix Home menu size to avoid cutting text
+  * Fix Pictures submenu
+  * Fix Home menu logic to avoid ending up in the middle of nowhere after using pictures.
 
  -- Michael Zanetti <michael_zanetti@gmx.net>  Sun, 25 Sep 2011 15:14:39 +0200
