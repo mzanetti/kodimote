@@ -34,6 +34,7 @@ QString vfsPath();
 
 bool connected();
 QString connectionError();
+QDate xbmcVersion();
 
 QNetworkAccessManager *nam();
 

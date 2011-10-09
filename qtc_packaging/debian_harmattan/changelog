@@ -1,8 +1,5 @@
-xbmcremote (0.5.1-harmattan0) unstable; urgency=low
+xbmcremote (0.5.4-harmattan0) unstable; urgency=low
 
-  * Updated to work with the latest Xbmc API
-  * Added support for picture controls
-  * Added support for authentication
-  * Make version check more accurate
+  * Fix connection to XBMC installations which do not report their version correctly.
 
- -- Michael Zanetti <michael_zanetti@gmx.net>  Sun, 25 Sep 2011 15:14:39 +0200
+ -- Michael Zanetti <michael_zanetti@gmx.net>  Sun, 09 Oct 2011 20:48:39 +0200

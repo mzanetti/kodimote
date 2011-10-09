@@ -7,7 +7,7 @@
 #include <QDesktopServices>
 #include <QUrl>
 
-#define VERSION_STRING "0.5.1"
+#define VERSION_STRING "0.5.4"
 
 AboutDialog::AboutDialog(QWidget *parent) :
     QDialog(parent)
@@ -55,6 +55,10 @@ AboutDialog::AboutDialog(QWidget *parent) :
     buttonLayout->addWidget(donateButton);
     connect(donateButton, SIGNAL(clicked()), SLOT(openDonationPage()));
 
+    QPushButton *flattrButton = new QPushButton(tr("Flattr"));
+    buttonLayout->addWidget(flattrButton);
+    connect(flattrButton, SIGNAL(clicked()), SLOT(openFlattrPage()));
+
     vlayout->addLayout(buttonLayout);
 
     setLayout(hlayout);
@@ -63,4 +67,9 @@ AboutDialog::AboutDialog(QWidget *parent) :
 void AboutDialog::openDonationPage()
 {
     QDesktopServices::openUrl(QUrl("https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=CWFYRZH8XNYF2"));
+}
+
+void AboutDialog::openFlattrPage()
+{
+    QDesktopServices::openUrl(QUrl("http://flattr.com/thing/412274/Xbmcremote"));
 }

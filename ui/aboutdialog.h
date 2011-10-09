@@ -13,6 +13,7 @@ signals:
 
 private slots:
     void openDonationPage();
+    void openFlattrPage();
 
 };
 

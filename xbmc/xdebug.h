@@ -3,12 +3,13 @@
 
 #include <QDebug>
 
-#define XDAREA_GENERAL    0
-#define XDAREA_CONNECTION 1
-#define XDAREA_PLAYER     2
-#define XDAREA_LIBRARY    3
-#define XDAREA_FILES      4
-#define XDAREA_PLAYLIST   5
+#define XDAREA_GENERAL     0
+#define XDAREA_CONNECTION  1
+#define XDAREA_PLAYER      2
+#define XDAREA_LIBRARY     3
+#define XDAREA_FILES       4
+#define XDAREA_PLAYLIST    5
+#define XDAREA_NETWORKDATA 6
 
 #define xDebug(a) XDebug::check(a)
 

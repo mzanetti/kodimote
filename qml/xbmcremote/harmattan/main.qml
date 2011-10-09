@@ -145,7 +145,7 @@ PageStackWindow {
                 anchors.topMargin: 20
                 color: "white"
                 font.pixelSize: 32
-                text: "Xbmcremote 0.5.1"
+                text: "Xbmcremote 0.5.4"
             }
 
         }
@@ -159,7 +159,7 @@ PageStackWindow {
                 font.pixelSize: 22
                 anchors.centerIn: parent
                 color: "white"
-                text: "Copyright\n Michael Zanetti\n michael_zanetti@gmx.net\n\nThanks to\n Xbmc Development Team (artwork)\n Johannes Siipola (artwork)"
+                text: "Copyright\n Michael Zanetti\n michael_zanetti@gmx.net\n\nThanks to\n Xbmc Development Team\n Johannes Siipola (artwork)"
             }
         }
 
@@ -169,10 +169,17 @@ PageStackWindow {
                 text: "close"; onClicked: aboutDialog.close()
             }
             Button {
+                id: donateButton
                 anchors.top: closeButton.bottom
                 anchors.topMargin: 10
                 text: "donate";
                 onClicked: Qt.openUrlExternally("https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=CWFYRZH8XNYF2")
+            }
+            Button {
+                anchors.top: donateButton.bottom
+                anchors.topMargin: 10
+                text: "flattr";
+                onClicked: Qt.openUrlExternally("http://flattr.com/thing/412274/Xbmcremote")
             }
         }
     }

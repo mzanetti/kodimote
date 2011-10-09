@@ -27,6 +27,7 @@
 #include <QTcpSocket>
 #include <QTimer>
 #include <QNetworkAccessManager>
+#include <QDate>
 
 namespace XbmcConnection
 {
@@ -69,6 +70,8 @@ public:
 
     QNetworkAccessManager *nam();
 
+    QDate xbmcVersion();
+
 private slots:
     void readData();
     void clearPending();
@@ -83,6 +86,7 @@ private:
     int m_commandId;
     Notifier *m_notifier;
     int m_versionRequestId;
+    QDate m_xbmcVersion;
 
     QList<Command> m_commandQueue;
     Command m_currentPendingCommand;
