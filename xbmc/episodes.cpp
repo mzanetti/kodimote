@@ -38,10 +38,11 @@ Episodes::Episodes(int tvshowid, int seasonid, const QString &seasonString, Xbmc
     }
     QVariantList properties;
     properties.append("showtitle");
+    properties.append("episode");
     params.insert("properties", properties);
 
     QVariantMap sort;
-    sort.insert("method", "label");
+    sort.insert("method", "episode");
     sort.insert("order", "ascending");
     params.insert("sort", sort);
 
@@ -61,7 +62,7 @@ void Episodes::responseReceived(int id, const QVariantMap &rsp)
     foreach(const QVariant &itemVariant, responseList) {
         QVariantMap itemMap = itemVariant.toMap();
         QStandardItem *item = new QStandardItem();
-        item->setText(itemMap.value("label").toString());
+        item->setText(itemMap.value("episode").toString() + ". " + itemMap.value("label").toString());
 //        item->setData(itemMap.value("showtitle").toString() + " - " + itemMap.value("season").toString(), Qt::UserRole+2);
         item->setData(itemMap.value("showtitle").toString() + " - " + m_seasonString, RoleSubtitle);
         item->setData(itemMap.value("episodeid").toInt(), RoleEpisodeId);
