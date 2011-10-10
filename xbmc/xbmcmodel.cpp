@@ -30,6 +30,7 @@ XbmcModel::XbmcModel(XbmcModel *parent) :
     roleNames.insert(RoleSubtitle, "subtitle");
     roleNames.insert(RoleDuration, "duration");
     roleNames.insert(RolePlayable, "playable");
+    roleNames.insert(RoleFileName, "filename");
     setRoleNames(roleNames);
 }
 

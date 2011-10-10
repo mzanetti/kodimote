@@ -23,6 +23,7 @@ protected:
 
 private slots:
     void openSettingsDialog();
+    void openConnectDialog();
     void openAboutDialog();
 
 #ifdef Q_WS_MAEMO_5

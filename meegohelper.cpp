@@ -18,6 +18,8 @@
 
 #include "meegohelper.h"
 #include "xbmc/xbmc.h"
+#include "xbmc/videoplayer.h"
+#include "settings.h"
 
 #include <QDebug>
 #include <QApplication>
@@ -74,7 +76,14 @@ void MeeGoHelper::keyEvent(MeeGo::QmKeys::Key key, MeeGo::QmKeys::State state)
 void MeeGoHelper::callEvent(const QDBusObjectPath &param1, const QString &param2)
 {
     qDebug() << "phone call event" << param1.path() << param2;
-    Xbmc::instance()->dimVolumeTo(0);
+    Settings settings;
+    if(settings.changeVolumeOnCall()) {
+        Xbmc::instance()->dimVolumeTo(settings.volumeOnCall());
+    }
+
+    if(settings.pauseOnCall() && Xbmc::instance()->videoPlayer()->state() == "playing") {
+        Xbmc::instance()->videoPlayer()->playPause();
+    }
 
     QDBusConnection::systemBus().connect(QString(), param1.path(), "com.nokia.csd.Call.Instance", "Terminated", this, SLOT(callTerminated()));
 
@@ -82,5 +91,12 @@ void MeeGoHelper::callEvent(const QDBusObjectPath &param1, const QString &param2
 
 void MeeGoHelper::callTerminated()
 {
-    Xbmc::instance()->restoreVolume();
+    Settings settings;
+    if(settings.changeVolumeOnCall()) {
+        Xbmc::instance()->restoreVolume();
+    }
+
+    if(settings.pauseOnCall() && Xbmc::instance()->videoPlayer()->state() != "playing") {
+        Xbmc::instance()->videoPlayer()->playPause();
+    }
 }

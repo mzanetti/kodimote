@@ -1,5 +1,6 @@
 #include "mainwindow.h"
 #include "settingsdialog.h"
+#include "connectdialog.h"
 #include "aboutdialog.h"
 #include "settings.h"
 #include "networkaccessmanagerfactory.h"
@@ -7,6 +8,7 @@
 #include "qmlapplicationviewer.h"
 
 #include "xbmc/xbmc.h"
+#include "xbmc/videoplayer.h"
 
 #include <QMenuBar>
 #include <QDeclarativeContext>
@@ -40,7 +42,8 @@ MainWindow::MainWindow(QWidget *parent) :
 
     QMenuBar *menuBar = new QMenuBar();
     QMenu *menu = menuBar->addMenu("Xbmc");
-    menu->addAction("Connect...", this, SLOT(openSettingsDialog()));
+    menu->addAction("Connect...", this, SLOT(openConnectDialog()));
+    menu->addAction("Settings", this, SLOT(openSettingsDialog()));
 
     QAction *quitAction = menu->addAction("Quit xbmc", Xbmc::instance(), SLOT(quit()));
     Xbmc::instance()->connect(Xbmc::instance(), SIGNAL(connectedChanged(bool)), quitAction, SLOT(setEnabled(bool)));
@@ -69,6 +72,12 @@ MainWindow::~MainWindow()
 void MainWindow::openSettingsDialog()
 {
     SettingsDialog *settings = new SettingsDialog();
+    settings->exec();
+}
+
+void MainWindow::openConnectDialog()
+{
+    ConnectDialog *settings = new ConnectDialog();
     settings->exec();
 }
 
@@ -122,7 +131,14 @@ void MainWindow::grabZoomKeys(bool grab) {
 void MainWindow::callEvent(const QDBusObjectPath &param1, const QString &param2)
 {
     qDebug() << "phone call event" << param1.path() << param2;
-    Xbmc::instance()->dimVolumeTo(0);
+    Settings settings;
+    if(settings.changeVolumeOnCall()) {
+        Xbmc::instance()->dimVolumeTo(settings.volumeOnCall());
+    }
+
+    if(settings.pauseOnCall() && Xbmc::instance()->videoPlayer()->state() == "playing") {
+        Xbmc::instance()->videoPlayer()->playPause();
+    }
 
     QDBusConnection::systemBus().connect(QString(), param1.path(), "com.nokia.csd.Call.Instance", "Terminated", this, SLOT(callTerminated()));
 
@@ -130,6 +146,13 @@ void MainWindow::callEvent(const QDBusObjectPath &param1, const QString &param2)
 
 void MainWindow::callTerminated()
 {
-    Xbmc::instance()->restoreVolume();
+    Settings settings;
+    if(settings.changeVolumeOnCall()) {
+        Xbmc::instance()->restoreVolume();
+    }
+
+    if(settings.pauseOnCall() && Xbmc::instance()->videoPlayer()->state() != "playing") {
+        Xbmc::instance()->videoPlayer()->playPause();
+    }
 }
 #endif

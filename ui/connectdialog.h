@@ -16,28 +16,40 @@
  *                                                                           *
  ****************************************************************************/
 
-#ifndef SETTINGSDIALOG_H
-#define SETTINGSDIALOG_H
+#ifndef CONNECTDIALOG_H
+#define CONNECTDIALOG_H
 
 #include <QDialog>
-#include <QCheckBox>
-#include <QSlider>
+#include <QLineEdit>
 
-class SettingsDialog : public QDialog
+class ConnectDialog : public QDialog
 {
     Q_OBJECT
 
 public:
-    explicit SettingsDialog(QWidget *parent = 0);
+    explicit ConnectDialog(QWidget *parent = 0);
+
+    void setHostname(const QString &hostname);
+    QString hostname();
+
+    void setPort(int port);
+    int port();
+
+    void setUsername(const QString &username);
+    QString username();
+
+    void setPassword(const QString &password);
+    QString password();
 
 public slots:
     void accept();
 
 private:
-    QCheckBox *m_cbVolume;
-    QSlider *m_slVolume;
-    QCheckBox *m_cbPause;
+    QLineEdit *m_hostName;
+    QLineEdit *m_port;
+    QLineEdit *m_userName;
+    QLineEdit *m_password;
 
 };
 
-#endif // SETTINGSDIALOG_H
+#endif // CONNECTDIALOG_H

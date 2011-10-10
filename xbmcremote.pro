@@ -20,6 +20,7 @@ MOBILITY += systeminfo
 
 SOURCES += main.cpp \
     ui/settingsdialog.cpp \
+    ui/connectdialog.cpp \
     xbmc/xbmc.cpp \
     xbmc/xbmcconnection.cpp \
     xbmc/xbmcmodel.cpp \
@@ -59,6 +60,7 @@ qtcAddDeployment()
 
 
 HEADERS += ui/settingsdialog.h \
+    ui/connectdialog.h \
     xbmc/xbmc.h \
     xbmc/xbmcconnection.h \
     xbmc/xbmcmodel.h \

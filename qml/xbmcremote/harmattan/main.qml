@@ -74,10 +74,16 @@ PageStackWindow {
                 }
             }
             MenuItem {
-                text: "Invert theme"
+                text: "Settings"
                 onClicked: {
-                    theme.inverted = !theme.inverted;
-                    settings.themeInverted = theme.inverted;
+                    onClicked: {
+                        var component = Qt.createComponent("SettingsSheet.qml")
+                        if (component.status == Component.Ready) {
+                            component.createObject(myMenu).open()
+                        } else {
+                            console.log("Error loading component:", component.errorString());
+                        }
+                    }
                 }
             }
             MenuItem {

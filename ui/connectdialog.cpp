@@ -16,28 +16,25 @@
  *                                                                           *
  ****************************************************************************/
 
-#include "settingsdialog.h"
+#include "connectdialog.h"
 
 #include <QGridLayout>
 #include <QDialogButtonBox>
 #include <QStandardItemModel>
 #include <QLabel>
 #include <QIntValidator>
-#include <QCheckBox>
-#include <QSlider>
 
 #include "xbmc/xbmc.h"
-#include "settings.h"
 
-SettingsDialog::SettingsDialog(QWidget *parent) :
+ConnectDialog::ConnectDialog(QWidget *parent) :
     QDialog(parent)
 {
 
     setAttribute(Qt::WA_DeleteOnClose, true);
-    setWindowTitle("XbmcRemote - " + tr("Settings"));
+    setWindowTitle("XbmcRemote - " + tr("Connect to Xbmc"));
 
     QHBoxLayout *hLayout = new QHBoxLayout();
-    QVBoxLayout *gridLayout = new QVBoxLayout();
+    QGridLayout *gridLayout = new QGridLayout();
     hLayout->addLayout(gridLayout);
 
 #ifdef Q_WS_MAEMO_5
@@ -48,22 +45,27 @@ SettingsDialog::SettingsDialog(QWidget *parent) :
     setLayout(vLayout);
 #endif
 
-    Settings settings;
+    gridLayout->addWidget(new QLabel("Host:"), 0, 0);
 
-    m_cbVolume = new QCheckBox("Change volume during calls");
-    gridLayout->addWidget(m_cbVolume, 0, 0);
-    m_cbVolume->setChecked(settings.changeVolumeOnCall());
+    m_hostName = new QLineEdit(Xbmc::instance()->hostname());
+    gridLayout->addWidget(m_hostName, 0, 1);
 
-    m_slVolume = new QSlider(Qt::Horizontal);
-    m_slVolume->setMaximum(100);
-    gridLayout->addWidget(m_slVolume, 1, 0);
-    m_slVolume->setValue(settings.volumeOnCall());
+    gridLayout->addWidget(new QLabel("Http Port:"), 1, 0);
 
-    m_cbPause = new QCheckBox("Pause video during calls");
-    gridLayout->addWidget(m_cbPause, 2, 0);
-    m_cbPause->setChecked(settings.pauseOnCall());
+    m_port = new QLineEdit(QString::number(Xbmc::instance()->port()));
+    m_port->setValidator(new QIntValidator());
+    gridLayout->addWidget(m_port, 1, 1);
 
-    connect(m_cbVolume, SIGNAL(clicked(bool)), m_slVolume, SLOT(setEnabled(bool)));
+    gridLayout->addWidget(new QLabel("Username:"), 2, 0);
+
+    m_userName = new QLineEdit(Xbmc::instance()->username());
+    gridLayout->addWidget(m_userName, 2, 1);
+
+    gridLayout->addWidget(new QLabel("Password:"), 3, 0);
+
+    m_password = new QLineEdit(Xbmc::instance()->password());
+    gridLayout->addWidget(m_password, 3, 1);
+
 
 #ifdef Q_WS_MAEMO_5
     QDialogButtonBox *buttonBox = new QDialogButtonBox(QDialogButtonBox::Ok | QDialogButtonBox::Cancel, Qt::Vertical);
@@ -78,11 +80,52 @@ SettingsDialog::SettingsDialog(QWidget *parent) :
     connect(buttonBox, SIGNAL(rejected()), this, SLOT(reject()));
 }
 
-void SettingsDialog::accept()
+void ConnectDialog::setHostname(const QString &hostname)
 {
-    Settings settings;
-    settings.setChangeVolumeOnCall(m_cbVolume->isChecked());
-    settings.setVolumeOnCall(m_slVolume->value());
-    settings.setPauseOnCall(m_cbPause->isChecked());
+    m_hostName->setText(hostname);
+}
+
+QString ConnectDialog::hostname()
+{
+    return m_hostName->text();
+}
+
+void ConnectDialog::setPort(int port)
+{
+    m_port->setText(QString::number(port));
+}
+
+int ConnectDialog::port()
+{
+    return m_port->text().toInt();
+}
+
+void ConnectDialog::setUsername(const QString &username)
+{
+    m_userName->setText(username);
+}
+
+QString ConnectDialog::username()
+{
+    return m_userName->text();
+}
+
+void ConnectDialog::setPassword(const QString &password)
+{
+    m_password->setText(password);
+}
+
+QString ConnectDialog::password()
+{
+    return m_password->text();
+}
+
+void ConnectDialog::accept()
+{
+    Xbmc::instance()->setHostname(m_hostName->text());
+    Xbmc::instance()->setPort(m_port->text().toInt());
+    Xbmc::instance()->setUsername(m_userName->text());
+    Xbmc::instance()->setPassword(m_password->text());
+    Xbmc::instance()->connectToHost();
     QDialog::accept();
 }
