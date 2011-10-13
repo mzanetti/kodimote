@@ -23,6 +23,7 @@ FocusScope {
             contextMenuList.decrementCurrentIndex();
             break;
         case Qt.Key_Escape:
+        case Qt.Key_Backspace:
             contextMenu.rejected();
              break;
         case Qt.Key_Enter:

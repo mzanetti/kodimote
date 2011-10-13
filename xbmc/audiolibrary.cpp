@@ -42,7 +42,7 @@ QVariant AudioLibrary::data(const QModelIndex &index, int role) const
     switch(role) {
     case Qt::DisplayRole:
         return m_list.at(index.row())->data(Qt::DisplayRole);
-    case Qt::UserRole+1:
+    case XbmcModel::RoleFileType:
         return "directory";
     }
     return QVariant();

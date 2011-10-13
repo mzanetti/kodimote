@@ -1,5 +1,7 @@
-xbmcremote (0.5.4-fremantle0) unstable; urgency=low
+xbmcremote (0.6.0-fremantle0) unstable; urgency=low
 
-  * Fix connection to XBMC installations which do not report their version correctly.
+  * Added keyboard navigation capabilites
+  * Added ability to pause the video during phonecalls
+  * Added settings dialog to configure call behavior
 
  -- Michael Zanetti <michael_zanetti@gmx.net>  Sun, 09 Oct 2011 20:48:39 +0200

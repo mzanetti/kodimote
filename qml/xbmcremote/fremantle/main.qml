@@ -75,10 +75,12 @@ Rectangle {
                 itemModel.currentView.incrementCurrentIndex();
             } else if(event.key == Qt.Key_Right || event.key == Qt.Key_Return) {
                 itemModel.currentView.selectItem(itemModel.currentView.view.currentIndex);
-            } else if(event.key == Qt.Key_Left || event.key == Qt.Key_Escape) {
+            } else if(event.key == Qt.Key_Left || event.key == Qt.Key_Escape || event.key == Qt.Key_Backspace) {
                 itemModel.currentView.goUp();
             } else if(event.key == Qt.Key_Space) {
                 itemModel.currentView.showContextMenu();
+            } else if(event.key == Qt.Key_AltGr) {
+                // eat the FN key to prevent jumping to index 0
             }else {
                 inputTimer.stop();
                 inputText += event.text;

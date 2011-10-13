@@ -38,7 +38,7 @@ Item {
         if(library.get(list.currentIndex, "playable")) {
             contextMenuModel.append({ "entryId": 0, "menuEntry": "Play"})
             contextMenuModel.append({ "entryId": 1, "menuEntry": "Add to playlist"})
-            contextMenuModel.append({ "entryId": 3, "menuEntry": "Details"})
+//            contextMenuModel.append({ "entryId": 3, "menuEntry": "Details"})
         }
         if(xbmcBrowser.viewState === "library" && list.model.parentModel() === null) {
             contextMenuModel.append({ "entryId": 2, "menuEntry": "Rescan library"})
@@ -159,7 +159,7 @@ Item {
         ListElement { entryId: 0; menuEntry: "Play"}
         ListElement { entryId: 1; menuEntry: "Add to playlist"}
         ListElement { entryId: 2; menuEntry: "Rescan library"}
-        ListElement { entryId: 3; menuEntry: "Details"}
+//        ListElement { entryId: 3; menuEntry: "Details"}
     }
 
     ContextMenu {
