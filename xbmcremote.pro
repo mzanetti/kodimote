@@ -52,7 +52,8 @@ SOURCES += main.cpp \
     xbmc/pictureplayer.cpp \
     xbmc/xdebug.cpp \
     xbmc/xbmclibrary.cpp \
-    xbmc/pictureplaylist.cpp
+    xbmc/pictureplaylist.cpp \
+    xbmc/libraryitem.cpp
 
 # Please do not modify the following two lines. Required for deployment.
 include(qmlapplicationviewer/qmlapplicationviewer.pri)
@@ -93,7 +94,8 @@ HEADERS += ui/settingsdialog.h \
     xbmc/pictureplayer.h \
     xbmc/xdebug.h \
     xbmc/xbmclibrary.h \
-    xbmc/pictureplaylist.h
+    xbmc/pictureplaylist.h \
+    xbmc/libraryitem.h
 
 LIBS += -lqjson
 
@@ -143,6 +145,8 @@ symbian:TARGET.CAPABILITY += NetworkServices
 
 RESOURCES += \
     xbmcremote.qrc
+
+
 
 
 

@@ -1,14 +1,37 @@
 import Qt 4.7
 
-Item {
+FocusScope {
     id: contextMenu
     opacity: 0
     anchors.centerIn: parent
     width: 400; height: topImage.height + middleImage.height + bottomImage.height
-    state: "hidden"
     property alias model: contextMenuList.model
 
-    signal clicked(int index)
+    function open() {
+        forceActiveFocus();
+    }
+
+    signal accepted(int index)
+    signal rejected()
+
+    Keys.onPressed: {
+        switch(event.key) {
+        case Qt.Key_Down:
+            contextMenuList.incrementCurrentIndex();
+            break;
+        case Qt.Key_Up:
+            contextMenuList.decrementCurrentIndex();
+            break;
+        case Qt.Key_Escape:
+            contextMenu.rejected();
+             break;
+        case Qt.Key_Enter:
+        case Qt.Key_Return:
+            contextMenu.accepted(model.get(contextMenuList.currentIndex).entryId);
+            break;
+        }
+        event.accepted = true;
+    }
 
     MouseArea {
         anchors.fill: contextMenu
@@ -46,7 +69,7 @@ Item {
     MouseArea {
         id: closeButtonArea
         anchors.fill: closeButton
-        onClicked: contextMenu.state = "hidden"
+        onClicked: contextMenu.rejected();
     }
 
     ListView {
@@ -54,6 +77,7 @@ Item {
         anchors.fill: middleImage
         anchors.margins: 5
         interactive: false
+        currentIndex: 0
 
         delegate: Item {
             width: parent.width
@@ -64,7 +88,7 @@ Item {
                 anchors.fill: parent
                 anchors.leftMargin: 15
                 anchors.rightMargin: 15
-                source: delegateArea.pressed ? "images/button-focus.png" : "images/button-nofocus.png"
+                source: index == contextMenuList.currentIndex ? "images/button-focus.png" : "images/button-nofocus.png"
             }
             Text {
                 text: menuEntry
@@ -76,8 +100,7 @@ Item {
                 id: delegateArea
                 anchors.fill: parent
                 onClicked: {
-                    contextMenu.clicked(entryId)
-                    contextMenu.state = "hidden"
+                    contextMenu.accepted(entryId);
                 }
             }
 
@@ -86,7 +109,7 @@ Item {
 
     states: [
         State {
-            name: "visible"
+            name: "visible"; when: activeFocus
             PropertyChanges { target: contextMenu; opacity: 1 }
         }
 

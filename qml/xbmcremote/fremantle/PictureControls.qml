@@ -13,6 +13,51 @@ BorderImage {
     property QtObject player: xbmc.picturePlayer()
     property string orientation: width > height ? "landscape" : "portrait"
 
+    function keyPressed(event) {
+        if(event.modifiers == Qt.ShiftModifier) {
+            switch(event.key) {
+            case Qt.Key_Left:
+                player.skipPrevious();
+                break;
+            case Qt.Key_Right:
+                player.skipNext();
+                break;
+            case Qt.Key_Up:
+                player.zoomIn();
+                break;
+            case Qt.Key_Down:
+                player.zoomOut();
+                break;
+            }
+        } else {
+
+            switch(event.key) {
+            case Qt.Key_Left:
+                player.moveLeft()
+                break;
+            case Qt.Key_Right:
+                player.moveRight();
+                break;
+            case Qt.Key_Up:
+                player.moveUp();
+                break;
+            case Qt.Key_Down:
+                player.moveDown();
+                break;
+            case Qt.Key_Return:
+            case Qt.Key_Enter:
+            case Qt.Key_Space:
+                player.playPause();
+                break;
+            case Qt.Key_Back:
+            case Qt.Key_Backspace:
+            case Qt.Key_Escape:
+                player.stop();
+                break;
+            }
+        }
+    }
+
     Grid {
         anchors.fill: parent
         anchors.margins: 30

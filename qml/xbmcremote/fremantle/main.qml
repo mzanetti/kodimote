@@ -12,6 +12,7 @@ Rectangle {
         color: "black"
     }
 
+    Component.onCompleted: homeMenu.forceActiveFocus();
 
     Image  {
         id: backgroundImageMusic
@@ -50,6 +51,7 @@ Rectangle {
     }
 
     FocusScope {
+        id: mainFocusArea
         anchors.fill: parent
         focus: true
         property string inputText
@@ -63,13 +65,28 @@ Rectangle {
         }
 
         Keys.onPressed: {
-            inputTimer.stop();
-            inputText += event.text;
-            itemModel.currentView.view.positionViewAtIndex(itemModel.currentView.library.findItem(inputText), ListView.Beginning)
-            inputTimer.start();
+            if(event.modifiers == Qt.ControlModifier) {
+                if(event.key == Qt.Key_Right){
+                    view.incrementCurrentIndex();
+                }
+            } else if(event.key == Qt.Key_Up) {
+                itemModel.currentView.decrementCurrentIndex();
+            } else if(event.key == Qt.Key_Down) {
+                itemModel.currentView.incrementCurrentIndex();
+            } else if(event.key == Qt.Key_Right || event.key == Qt.Key_Return) {
+                itemModel.currentView.selectItem(itemModel.currentView.view.currentIndex);
+            } else if(event.key == Qt.Key_Left || event.key == Qt.Key_Escape) {
+                itemModel.currentView.goUp();
+            } else if(event.key == Qt.Key_Space) {
+                itemModel.currentView.showContextMenu();
+            }else {
+                inputTimer.stop();
+                inputText += event.text;
+                itemModel.currentView.view.currentIndex = itemModel.currentView.library.findItem(inputText);
+                itemModel.currentView.view.positionViewAtIndex(itemModel.currentView.library.findItem(inputText), ListView.Beginning)
+                inputTimer.start();
+            }
         }
-
-
     }
 
     VisualItemModel {
@@ -86,6 +103,7 @@ Rectangle {
 
 //            Component.onDestruction: print("destroyed 1")
 //        }
+
         Item {
             id: xbmcBrowser
             width: view.width; height: view.height
@@ -162,18 +180,51 @@ Rectangle {
             width: view.width
             height: view.height
             NowPlaying {
+                id: nowPlaying
                 anchors.fill: parent
                 playlist: xbmc.activePlayer.playlist()
                 state: "nowPlaying"
+                Keys.onPressed: {
+                    if(event.modifiers == Qt.ControlModifier && event.key == Qt.Key_Left) {
+                        view.decrementCurrentIndex();
+                    }
+                    if(event.modifiers == Qt.ControlModifier && event.key == Qt.Key_Right) {
+                        view.incrementCurrentIndex();
+                    }
+                    event.accepted = true;
+                }
             }
         }
 
         Item {
             width: view.width; height: view.height
+
+            FocusScope {
+                id: keypad
+                Keys.onPressed: {
+                    if(event.modifiers == Qt.ControlModifier) {
+                        if(event.key == Qt.Key_Left) {
+                            view.decrementCurrentIndex();
+                        } else if(event.key == Qt.Key_Right) {
+                            view.incrementCurrentIndex();
+                        }
+                    } else {
+                        if(xbmc.picturePlayerActive) {
+                            pictureControls.keyPressed(event);
+                        } else {
+                            keyPadInternal.keyPressed(event);
+                        }
+                    }
+                    event.accepted = true;
+                }
+            }
+
             Keypad {
+                id: keyPadInternal
                 visible: !xbmc.picturePlayerActive
             }
             PictureControls {
+                id: pictureControls
                 visible: xbmc.picturePlayerActive
             }
 
@@ -191,6 +242,21 @@ Rectangle {
         snapMode: ListView.SnapOneItem; flickDeceleration: 300
         highlightMoveSpeed: 1200
         cacheBuffer: 200
+
+        onCurrentIndexChanged: {
+            switch(currentIndex) {
+            case 0:
+                mainFocusArea.forceActiveFocus();
+                break;
+            case 1:
+                nowPlaying.forceActiveFocus();
+                break;
+            case 2:
+                keypad.forceActiveFocus();
+                break;
+            }
+
+        }
     }
 
     Rectangle {
@@ -238,6 +304,13 @@ Rectangle {
     HomeMenu {
         id: homeMenu
         state: "open"
+        onStateChanged: {
+            if(state == "open") {
+                homeMenu.forceActiveFocus();
+            } else {
+                mainFocusArea.forceActiveFocus();
+            }
+        }
     }
 
     states: [

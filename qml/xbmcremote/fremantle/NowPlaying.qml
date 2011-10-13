@@ -1,6 +1,7 @@
 import Qt 4.7
+import Xbmc 1.0
 
-Item {
+FocusScope {
     id: nowPlayling
     anchors.fill: parent
 
@@ -14,9 +15,11 @@ Item {
         id: nowPlayingView
         anchors.fill: parent
         state: "hidden"
+        focus: true
         onOpenPlaylist: {
             console.log("clicked3")
             nowPlayling.state = "playlist"
+            audioPlaylist.forceActiveFocus();
         }
     }
 
@@ -27,6 +30,7 @@ Item {
         state: "hidden"
         onClosePlaylist: {
             nowPlayling.state = "nowPlaying"
+            nowPlayingView.forceActiveFocus();
         }
     }
 

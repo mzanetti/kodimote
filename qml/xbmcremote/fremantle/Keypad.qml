@@ -13,6 +13,38 @@ BorderImage {
     property QtObject keys: xbmc.keys()
     property string orientation: width > height ? "landscape" : "portrait"
 
+    function keyPressed(event) {
+        switch(event.key) {
+        case Qt.Key_Left:
+            keys.left();
+            break;
+        case Qt.Key_Right:
+            keys.right();
+            break;
+        case Qt.Key_Up:
+            keys.up();
+            break;
+        case Qt.Key_Down:
+            keys.down();
+            break;
+        case Qt.Key_Return:
+        case Qt.Key_Enter:
+        case Qt.Key_Space:
+            keys.select();
+            break;
+        case Qt.Key_Back:
+        case Qt.Key_Backspace:
+        case Qt.Key_Escape:
+            keys.back();
+            break;
+        case Qt.Key_M:
+        case Qt.Key_H:
+        case Qt.Key_Home:
+            keys.home();
+            break;
+        }
+    }
+
     Grid {
         anchors.fill: parent
         anchors.margins: 30

@@ -1,20 +1,88 @@
 import Qt 4.7
 
-BorderImage {
+FocusScope {
     id: nowPlayingView
-    border.top: 15
-    border.right: 15
-    border.left: 15
-    border.bottom: 15
-    anchors.margins: 10
     anchors.fill: parent
-    source: "images/ContentPanel.png"
+
+    BorderImage {
+        border.top: 15
+        border.right: 15
+        border.left: 15
+        border.bottom: 15
+        anchors.margins: 10
+        anchors.fill: parent
+        source: "images/ContentPanel.png"
+    }
 
     property QtObject player: xbmc.activePlayer
     property QtObject playlist: player.playlist()
     property QtObject currentItem: playlist.currentItem
 
-    signal openPlaylist
+    Keys.onPressed: {
+        if(event.modifiers == Qt.ShiftModifier) {
+            switch(event.key) {
+            case Qt.Key_Left:
+                xbmc.activePlayer.seek();
+                break;
+            case Qt.Key_Right:
+                xbmc.activePlayer.seek();
+                break;
+            }
+        } else if(event.modifiers == Qt.NoModifier) {
+            switch(event.key) {
+            case Qt.Key_R:
+                if(xbmc.activePlayer.repeat == Player.RepeatNone) {
+                    xbmc.activePlayer.repeat = Player.RepeatOne;
+                } else if(xbmc.activePlayer.repeat == Player.RepeatOne) {
+                    xbmc.activePlayer.repeat = Player.RepeatAll;
+                } else {
+                    xbmc.activePlayer.repeat = Player.RepeatNone;
+                }
+                break;
+            case Qt.Key_S:
+                xbmc.activePlayer.shuffle = ! xbmc.activePlayer.shuffle
+                break;
+            case Qt.Key_P:
+                openPlaylist();
+                break;
+            case Qt.Key_Left:
+                xbmc.activePlayer.skipPrevious();
+                break;
+            case Qt.Key_Right:
+                xbmc.activePlayer.skipNext();
+                break;
+            case Qt.Key_Up:
+                setVolume(xbmc.volume + 5);
+                break;
+            case Qt.Key_Down:
+                setVolume(xbmc.volume-5);
+                break;
+            case Qt.Key_Space:
+                xbmc.activePlayer.playPause();
+                break;
+            case Qt.Key_Escape:
+                xbmc.activePlayer.stop();
+                break;
+            }
+        }
+    }
+
+    function setVolume(value) {
+        volumeBar.state = "volumeVisible";
+        xbmc.setVolume(value);
+        volumeTimer.restart();
+    }
+    Timer {
+        id: volumeTimer
+        interval: 3000
+        repeat: false
+        running: false
+        onTriggered: {
+            volumeBar.state = "";
+        }
+    }
+
+    signal openPlaylist()
 
     VolumeBar {
         id: volumeBar
@@ -51,9 +119,9 @@ BorderImage {
         PlayerControlsTop {
             anchors.fill: parent
 
-            onOpenPlaylist: {
+            onPlaylistButtonClicked: {
                 console.log("clicked2*")
-                nowPlayingView.openPlaylist()
+                nowPlayingView.openPlaylist();
             }
         }
 

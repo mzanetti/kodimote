@@ -9,6 +9,46 @@ Item {
     property alias library: list.model
     property alias view: list
 
+    function incrementCurrentIndex() {
+        list.incrementCurrentIndex();
+    }
+    function decrementCurrentIndex() {
+        list.decrementCurrentIndex();
+    }
+    function selectItem(index) {
+        if(list.model.get(index, "filetype") =="directory") {
+            list.enterItem(index);
+            list.currentIndex = 0;
+        } else {
+            list.model.playItem(index);
+        }
+    }
+    function goUp() {
+        if(library.parentModel() !== null) {
+            library = library.exit()
+        } else {
+            libraryView.goBack()
+        }
+    }
+    function showContextMenu() {
+        // Hack: if we clear the model, the anchors are screwed for some reason. To prevent this
+        // we unset the model and set it back after populating it
+        contextMenu.model = null
+        contextMenuModel.clear();
+        if(library.get(list.currentIndex, "playable")) {
+            contextMenuModel.append({ "entryId": 0, "menuEntry": "Play"})
+            contextMenuModel.append({ "entryId": 1, "menuEntry": "Add to playlist"})
+            contextMenuModel.append({ "entryId": 3, "menuEntry": "Details"})
+        }
+        if(xbmcBrowser.viewState === "library" && list.model.parentModel() === null) {
+            contextMenuModel.append({ "entryId": 2, "menuEntry": "Rescan library"})
+        }
+        if(contextMenuModel.count > 0) {
+            contextMenu.open();
+        }
+        contextMenu.model = contextMenuModel
+    }
+
     BrowsingTopBar {
         id: topBar
         anchors.left: parent.left
@@ -50,14 +90,23 @@ Item {
             //        anchors.rightMargin: 20
             clip: true
             model: library
-            property int selectedIndex: -1
+            currentIndex: 0
+
+            function enterItem(index) {
+                var newModel = list.model.enterItem(index);
+                console.log("newModel: " + newModel);
+                list.model = newModel;
+            }
+            function playItem(index) {
+                list.model.playItem(index);
+            }
 
             delegate: Item {
                 width: parent.width
                 height: 64
                 Image {
                     anchors.fill: parent
-                    source: index == list.selectedIndex ? "images/MenuItemFO.png" : "images/MenuItemNF.png"
+                    source: index == list.currentIndex ? "images/MenuItemFO.png" : "images/MenuItemNF.png"
                 }
 
                 Text {
@@ -73,31 +122,15 @@ Item {
                     anchors.fill: parent
                     enabled: contextMenu.state != "visible"
 
-                    onPressed: list.selectedIndex = index
+                    onPressed: list.currentIndex = index
 
                     onPressAndHold: {
-                        // Hack: if we clear the model, the anchors are screwed for some reason. To prevent this
-                        // we unset the model and set it back after populating it
-                        contextMenu.model = null
-                        contextMenuModel.clear();
-                        if(playable) {
-                            contextMenuModel.append({ "entryId": 0, "menuEntry": "Play"})
-                            contextMenuModel.append({ "entryId": 1, "menuEntry": "Add to playlist"})
-                        }
-                        if(xbmcBrowser.viewState === "library" && list.model.parentModel() === null) {
-                            contextMenuModel.append({ "entryId": 2, "menuEntry": "Rescan library"})
-                        }
-                        if(contextMenuModel.count > 0) {
-                            contextMenu.state = "visible"
-                        }
-                        contextMenu.model = contextMenuModel
+                        showContextMenu();
                     }
 
                     onClicked: {
                         if(filetype=="directory") {
-                            var newModel = list.model.enterItem(index);
-                            console.log("newModel: " + newModel);
-                            list.model = newModel;
+                            list.enterItem(index);
                         } else {
                             list.model.playItem(index);
                         }
@@ -126,6 +159,7 @@ Item {
         ListElement { entryId: 0; menuEntry: "Play"}
         ListElement { entryId: 1; menuEntry: "Add to playlist"}
         ListElement { entryId: 2; menuEntry: "Rescan library"}
+        ListElement { entryId: 3; menuEntry: "Details"}
     }
 
     ContextMenu {
@@ -133,18 +167,23 @@ Item {
 
         model: contextMenuModel
 
-        onClicked: {
+        onAccepted: {
             switch(index) {
             case 0:
-                list.model.playItem(list.selectedIndex);
+                list.model.playItem(list.currentIndex);
                 break;
             case 1:
-                list.model.addToPlaylist(list.selectedIndex);
+                list.model.addToPlaylist(list.currentIndex);
                 break;
             case 2:
                 list.model.scanForContent();
                 break;
             }
+            mainFocusArea.forceActiveFocus();
+        }
+
+        onRejected: {
+            mainFocusArea.forceActiveFocus();
         }
     }
 

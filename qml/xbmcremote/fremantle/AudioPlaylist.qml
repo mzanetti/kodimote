@@ -1,12 +1,34 @@
 import Qt 4.7
 
-Item {
+FocusScope {
     id: playlist
     anchors.fill: parent
     property QtObject player: xbmc.activePlayer
     property alias model: list.model
+    property alias view: list
 
     signal closePlaylist
+
+    Keys.onPressed: {
+        switch(event.key) {
+        case Qt.Key_Down:
+            audioPlaylist.view.incrementCurrentIndex();
+            break;
+        case Qt.Key_Up:
+            audioPlaylist.view.decrementCurrentIndex();
+            break;
+        case Qt.Key_Enter:
+        case Qt.Key_Return:
+            player.playItem(audioPlaylist.view.currentIndex);
+            break;
+        case Qt.Key_Space:
+            contextMenu.forceActiveFocus();
+            break;
+        case Qt.Key_Escape:
+            playlist.closePlaylist();
+            break;
+        }
+    }
 
     Image {
         id: header
@@ -71,7 +93,7 @@ Item {
             anchors.margins: 25
             clip: true
             model: playlist.model
-            property int selectedIndex: -1
+            currentIndex: 0
 
             delegate: Item {
                 width: list.width
@@ -86,14 +108,14 @@ Item {
                 //            }
                 Image {
                     anchors.fill: parent
-                    source: itemArea.pressed || index == list.selectedIndex ? "images/MenuItemFO.png" : "images/MenuItemNF.png"
+                    source: itemArea.pressed || index == list.currentIndex ? "images/MenuItemFO.png" : "images/MenuItemNF.png"
                 }
                 Image {
                     anchors {top: parent.top; right: parent.right; bottom: parent.bottom }
                     anchors.topMargin: 10
                     anchors.bottomMargin: 10
                     source: "images/MediaItemDetailBG.png"
-                    visible: itemArea.pressed || index == list.selectedIndex
+                    visible: itemArea.pressed || index == list.currentIndex
                 }
 
                 Text {
@@ -107,7 +129,7 @@ Item {
                 }
                 Text {
                     id: durationText
-                    color: "white"
+                    color: list.model.currentTrackNumber - 1 == index ? "yellow" : "white"
                     text: duration
                     font.pixelSize: 28
                     anchors { top: parent.top; right: parent.right; bottom: parent.bottom }
@@ -122,11 +144,11 @@ Item {
                     enabled: contextMenu.state != "visible"
 
                     onPressed: {
-                        list.selectedIndex = index
+                        list.currentIndex = index
                     }
 
                     onPressAndHold: {
-                        contextMenu.state = "visible"
+                        contextMenu.open();
                     }
 
                     onClicked: {
@@ -156,18 +178,26 @@ Item {
             ListElement { entryId: 2; menuEntry: "Clear playlist"}
         }
 
-        onClicked: {
+        onAccepted: {
             switch(index) {
             case 0:
-                list.model.playItem(list.selectedIndex);
+                list.model.playItem(list.currentIndex);
                 break;
             case 1:
-                list.model.removeItem(list.selectedIndex);
+                list.model.removeItem(list.currentIndex);
                 break;
             case 2:
                 list.model.clear();
                 break;
             }
+            print("blablalb")
+            contextMenu.focus = false;
+            playlist.forceActiveFocus();
+        }
+
+        onRejected: {
+            contextMenu.focus = false;
+            playlist.forceActiveFocus();
         }
     }
 

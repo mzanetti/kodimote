@@ -18,6 +18,12 @@ BorderImage {
 
     property alias subMenuState: subMenu.state
 
+    onActiveFocusChanged: {
+        if(focus) {
+            homeMenuList.forceActiveFocus();
+        }
+    }
+
     ListModel {
         id: homeMenuModel
         ListElement { label: "Music"; stateName: "audio"}
@@ -33,7 +39,40 @@ BorderImage {
         preferredHighlightBegin: height / 2 - 55
         preferredHighlightEnd: height / 2
         highlightRangeMode: ListView.StrictlyEnforceRange
-        currentIndex: 0
+        currentIndex: xbmcBrowser.mediaState == "audio" ? 0 : xbmcBrowser.mediaState == "video" ? 1 : 2
+        focus: true
+
+        Keys.onDownPressed: {
+            incrementCurrentIndex();
+//            selected(currentIndex);
+        }
+        Keys.onUpPressed: {
+            decrementCurrentIndex();
+//            selected(currentIndex);
+        }
+        Keys.onRightPressed: {
+            subMenuList.forceActiveFocus();
+            selected(currentIndex);
+        }
+
+        function selected(index) {
+            homeMenuList.currentIndex = index
+            switch(index) {
+            case 0:
+                xbmcBrowser.mediaState = "audio"
+                break;
+            case 1:
+                xbmcBrowser.mediaState = "video"
+                break;
+            case 2:
+                xbmcBrowser.mediaState = "pictures"
+                xbmcBrowser.viewState = "files"
+                homeMenu.state = "closed"
+                return;
+            }
+//                    homeMenu.state = "closed"
+            subMenu.state = "open"
+        }
 
         delegate: Item {
             anchors.left: parent.left
@@ -54,11 +93,11 @@ BorderImage {
                 Behavior on color { ColorAnimation { duration: 200 } }
                 states: [
                     State {
-                        name: "unselected"; when: xbmcBrowser.mediaState != stateName
+                        name: "unselected"; when: index != homeMenuList.currentIndex
                         PropertyChanges { target: textLabel; font.pixelSize: 40; color: "grey" }
                     },
                     State {
-                        name: "selected"; when: xbmcBrowser.mediaState == stateName
+                        name: "selected"; when: index == homeMenuList.currentIndex
                         PropertyChanges { target: textLabel; font.pixelSize: 48; color: "white" }
                     }
                 ]
@@ -67,22 +106,7 @@ BorderImage {
             MouseArea {
                 anchors.fill: parent
                 onClicked: {
-                    homeMenuList.currentIndex = index
-                    switch(index) {
-                    case 0:
-                        xbmcBrowser.mediaState = "audio"
-                        break;
-                    case 1:
-                        xbmcBrowser.mediaState = "video"
-                        break;
-                    case 2:
-                        xbmcBrowser.mediaState = "pictures"
-                        xbmcBrowser.viewState = "files"
-                        homeMenu.state = "closed"
-                        return;
-                    }
-//                    homeMenu.state = "closed"
-                    subMenu.state = "open"
+                    homeMenuList.selected(index);
                 }
             }
         }
@@ -108,7 +132,6 @@ BorderImage {
         width: 200
         state: "closed"
         clip: true
-
 
         BorderImage {
             id: subMenuBackground
@@ -140,7 +163,33 @@ BorderImage {
             preferredHighlightBegin: height / 2 - 55
             preferredHighlightEnd: height / 2
             highlightRangeMode: ListView.StrictlyEnforceRange
-            currentIndex: 0
+            currentIndex: xbmcBrowser.viewState == "Library" ? 0 : 1
+
+            Keys.onDownPressed: {
+                incrementCurrentIndex();
+            }
+            Keys.onUpPressed: {
+                decrementCurrentIndex();
+            }
+            Keys.onLeftPressed: {
+                subMenu.state = "closed"
+                homeMenuList.forceActiveFocus();
+            }
+            Keys.onRightPressed: {
+                enter(currentIndex);
+            }
+            function enter(index) {
+                switch(index) {
+                case 0:
+                    xbmcBrowser.viewState = "files"
+                    break;
+                case 1:
+                    xbmcBrowser.viewState = "library"
+                    break;
+                }
+                homeMenu.state = "closed"
+                subMenu.state = "closed"
+            }
 
             delegate: Item {
                 anchors.left: parent.left
@@ -166,25 +215,16 @@ BorderImage {
                 MouseArea {
                     anchors.fill: parent
                     onClicked: {
-                        switch(index) {
-                        case 0:
-                            xbmcBrowser.viewState = "files"
-                            break;
-                        case 1:
-                            xbmcBrowser.viewState = "library"
-                            break;
-                        }
-                        homeMenu.state = "closed"
-                        subMenu.state = "closed"
+                        subMenuList.enter(index);
                     }
                 }
                 states: [
                     State {
-                        name: "unselected"; when: xbmcBrowser.viewState != stateName
+                        name: "unselected"; when: index != currentIndex
                         PropertyChanges { target: buttonBg; source: "images/button-nofocus.png" }
                     },
                     State {
-                        name: "selected"; when: xbmcBrowser.viewState == stateName
+                        name: "selected"; when: index == subMenuList.currentIndex
                         PropertyChanges { target: buttonBg; source: "images/button-focus.png" }
                     }
                 ]
