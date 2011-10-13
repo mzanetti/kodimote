@@ -297,7 +297,17 @@
 },
 
 "Playlist.Insert":{"description":"Insert item(s) into playlist. Does not work for picture playlists (aka slideshows).","params":[{"$ref":"Playlist.Id","name":"playlistid","required":true},{"$ref":"Playlist.Position","name":"position","required":true},{"$ref":"Playlist.Item","name":"item","required":true}],"returns":{"type":"string"},"type":"method"},
-"Playlist.Remove":{"description":"Remove item from playlist. Does not work for picture playlists (aka slideshows).","params":[{"$ref":"Playlist.Id","name":"playlistid","required":true},{"$ref":"Playlist.Position","name":"position","required":true}],"returns":{"type":"string"},"type":"method"},
+
+"Playlist.Remove":{
+  "description":"Remove item from playlist. Does not work for picture playlists (aka slideshows).",
+  "params":[
+    {"$ref":"Playlist.Id","name":"playlistid","required":true},
+    {"$ref":"Playlist.Position","name":"position","required":true}
+  ],
+  "returns":{"type":"string"},
+  "type":"method"
+},
+
 "Playlist.Swap":{"description":"Swap items in the playlist. Does not work for picture playlists (aka slideshows).","params":[{"$ref":"Playlist.Id","name":"playlistid","required":true},{"$ref":"Playlist.Position","name":"position1","required":true},{"$ref":"Playlist.Position","name":"position2","required":true}],"returns":{"type":"string"},"type":"method"},
 "System.GetProperties":{"description":"Retrieves the values of the given properties","params":[{"items":{"$ref":"System.Property.Name"},"name":"properties","required":true,"type":"array","uniqueItems":true}],"returns":{"$ref":"System.Property.Value"},"type":"method"},
 "System.Hibernate":{"description":"Puts the system running XBMC into hibernate mode","params":[],"returns":{"type":"string"},"type":"method"},

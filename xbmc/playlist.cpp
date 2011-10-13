@@ -49,7 +49,7 @@ void Playlist::addItems(const PlaylistItem &item)
 void Playlist::removeItem(int index)
 {
     QVariantMap params;
-    params.insert("item", index);
+    params.insert("position", index);
     params.insert("playlistid", playlistId());
     XbmcConnection::sendCommand("Playlist.Remove", params);
 
