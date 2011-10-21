@@ -1,6 +1,6 @@
 import QtQuick 1.1
 import com.meego 1.0
-//import Xbmc 1.0
+import Xbmc 1.0
 
 Page {
     id: mainPage
@@ -22,31 +22,49 @@ Page {
     ToolBarLayout {
         id: nowPlayingToolbar
         ToolIcon { platformIconId: "toolbar-column";
-             anchors.left: parent===undefined ? undefined : parent.left
-             onClicked: {
-                 pageStack.pop()
-             }
+            onClicked: {
+                pageStack.pop()
+            }
+        }
+        ToolIcon {
+            iconSource: "image://theme/icon-m-toolbar-shuffle" + (theme.inverted ? "-white" : "") + (xbmc.activePlayer.shuffle ? "-selected" : "" )
+            onClicked: {
+                xbmc.activePlayer.shuffle = ! xbmc.activePlayer.shuffle
+            }
         }
         ToolIcon { platformIconId: "toolbar-dialer";
-             anchors.horizontalCenter: parent===undefined ? undefined : parent.horizontalCenter
-             onClicked: {
-                 if(xbmc.picturePlayerActive) {
-                     pageStack.replace(pictureControlsPage);
-                 } else {
-                     pageStack.replace(keypadPage);
-                 }
-             }
+            onClicked: {
+                if(xbmc.picturePlayerActive) {
+                    pageStack.replace(pictureControlsPage);
+                } else {
+                    pageStack.replace(keypadPage);
+                }
+            }
+        }
+        ToolIcon {
+            iconSource: "image://theme/icon-m-toolbar-repeat" +
+                        (xbmc.activePlayer.repeat ==  Player.RepeatOne ? "-dimmed" : "") +
+                        (theme.inverted ? "-white" : "") +
+                        (xbmc.activePlayer.repeat == Player.RepeatAll ? "-selected" : "")
+            onClicked: {
+                if(xbmc.activePlayer.repeat == Player.RepeatNone) {
+                    xbmc.activePlayer.repeat = Player.RepeatOne;
+                } else if(xbmc.activePlayer.repeat == Player.RepeatOne) {
+                    xbmc.activePlayer.repeat = Player.RepeatAll;
+                } else {
+                    xbmc.activePlayer.repeat = Player.RepeatNone;
+                }
+            }
         }
         ToolIcon { platformIconId: "toolbar-view-menu";
-             anchors.right: parent===undefined ? undefined : parent.right
-             onClicked: {
-                 var component = Qt.createComponent("PlaylistPage.qml")
-                 if (component.status == Component.Ready) {
-                     pageStack.push(component);
-                 } else {
-                     console.log("Error loading component:", component.errorString());
-                 }
-             }
+            onClicked: {
+                var component = Qt.createComponent("PlaylistPage.qml")
+                if (component.status == Component.Ready) {
+                    pageStack.push(component);
+                } else {
+                    console.log("Error loading component:", component.errorString());
+                }
+            }
         }
     }
 
@@ -64,10 +82,10 @@ Page {
             id: imageItem
             height: mainPage.orientation == "portrait" ? parent.width : parent.height
             width: mainPage.orientation == "portrait" ? parent.width : height
-//            Rectangle {
-//                color: "blue"
-//                anchors.fill: parent
-//            }
+            //            Rectangle {
+            //                color: "blue"
+            //                anchors.fill: parent
+            //            }
 
             Rectangle {
                 id: defaultFanart
@@ -180,5 +198,5 @@ Page {
                 text: playlist.currentTrackNumber + "/" + playlist.count
             }
         }
-    }    
+    }
 }

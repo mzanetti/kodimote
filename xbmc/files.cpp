@@ -52,7 +52,6 @@ Files::Files(const QString &mediaType, const QString &dir, XbmcModel *parent):
 
 void Files::responseReceived(int id, const QVariantMap &rsp)
 {
-//    qDebug() << "Files reponse:" << response;
     if(id != m_requestId) {
         return;
     }

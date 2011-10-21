@@ -44,7 +44,7 @@ Shares::Shares(const QString &mediatype):
 void Shares::responseReceived(int id, const QVariantMap &rsp)
 {
 
-//    xDebug(XDAREA_FILES) << "Files reponse:" << response;
+    xDebug(XDAREA_FILES) << "Files reponse:" << rsp;
     if(id != m_requestId) {
         return;
     }
