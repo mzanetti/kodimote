@@ -77,6 +77,8 @@ public:
     Repeat repeat() const;
     void setRepeat(Repeat repeat);
 
+    Q_INVOKABLE void seek(int position);
+
 signals:
     void stateChanged();
     void speedChanged();

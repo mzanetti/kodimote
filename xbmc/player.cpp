@@ -342,3 +342,11 @@ Player::Repeat Player::repeat() const
     return m_repeat;
 }
 
+void Player::seek(int position)
+{
+    QVariantMap params;
+    params.insert("playerid", playerId());
+    params.insert("value", position);
+
+    XbmcConnection::sendCommand("Player.Seek", params);
+}
