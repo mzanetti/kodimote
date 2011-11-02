@@ -37,7 +37,7 @@ PageStackWindow {
         visible: false
         ToolIcon { platformIconId: "toolbar-settings";
             anchors.left: parent===undefined ? undefined : parent.left
-            onClicked: myMenu.state == "open" ? myMenu.close() : myMenu.open()
+            onClicked: (myMenu.status == DialogStatus.Closed || myMenu.status == DialogStatus.Closing) ? myMenu.open() : myMenu.close()
         }
         ToolIcon { platformIconId: "toolbar-dialer";
             anchors.horizontalCenter: parent===undefined ? undefined : parent.horizontalCenter
