@@ -75,6 +75,7 @@ Page {
             }
 
             Row {
+                id: itemRow
                 anchors.fill: parent
                 anchors.leftMargin: thumbnailImage.width + 5
 
@@ -86,7 +87,7 @@ Page {
                         text: title
                         font.weight: Font.Bold
                         font.pixelSize: 26
-                        width: listView.width - arrow.width
+                        width: itemRow.width - (arrow.visible ? arrow.width : 0)
                         elide: Text.ElideRight
                     }
 
@@ -96,7 +97,7 @@ Page {
                         font.weight: Font.Light
                         font.pixelSize: 24
                         color: theme.inverted ? "#7b797b" : "#848684"
-                        width: listView.width - arrow.width
+                        width: itemRow.width - (arrow.visible ? arrow.width : 0)
                         elide: Text.ElideRight
                         visible: text != ""
                     }

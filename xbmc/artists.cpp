@@ -34,8 +34,12 @@ Artists::Artists(XbmcModel *parent) :
     QVariantMap sort;
     sort.insert("ignorearticle", true);
     sort.insert("method", "label");
-
     params.insert("sort", sort);
+
+    QVariantList properties;
+    properties.append("thumbnail");
+    params.insert("properties", properties);
+
 
     m_request = XbmcConnection::sendCommand("AudioLibrary.GetArtists", params);
 }
@@ -59,6 +63,7 @@ void Artists::responseReceived(int id, const QVariantMap &rsp)
         item->setText(itemMap.value("label").toString());
         item->setData("directory", Qt::UserRole);
         item->setData(itemMap.value("artistid").toInt(), RoleArtistId);
+        item->setData(itemMap.value("thumbnail").toString(), RoleThumbnail);
         list.append(item);
     }
     beginInsertRows(QModelIndex(), 0, list.count() - 1);
@@ -75,8 +80,6 @@ int Artists::rowCount(const QModelIndex &parent) const
 QVariant Artists::data(const QModelIndex &index, int role) const
 {
     switch(role) {
-    case Qt::DisplayRole:
-        return m_list.at(index.row())->text();
     case RoleFileType:
         return "directory";
     case RoleSubtitle:
@@ -84,7 +87,7 @@ QVariant Artists::data(const QModelIndex &index, int role) const
     case RolePlayable:
         return true;
     }
-    return QVariant();
+    return m_list.at(index.row())->data(role);
 }
 
 XbmcModel *Artists::enterItem(int index)

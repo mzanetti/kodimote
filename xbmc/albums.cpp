@@ -35,6 +35,7 @@ Albums::Albums(int artistId, XbmcModel *parent) :
     }
     QVariantList properties;
     properties.append("artist");
+    properties.append("thumbnail");
     params.insert("properties", properties);
 
     QVariantMap sort;
@@ -65,6 +66,7 @@ void Albums::responseReceived(int id, const QVariantMap &rsp)
         item->setText(itemMap.value("label").toString());
         item->setData(itemMap.value("artist").toString(), RoleSubtitle);
         item->setData(itemMap.value("albumid").toInt(), RoleAlbumId);
+        item->setData(itemMap.value("thumbnail").toString(), RoleThumbnail);
         list.append(item);
     }
     beginInsertRows(QModelIndex(), 0, list.count() - 1);

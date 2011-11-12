@@ -101,12 +101,14 @@ Page {
                     font.pixelSize: 85
                     font.capitalization: Font.AllUppercase
                     clip: true
+                    visible: currentItem.thumbnail.length === 0
                 }
             }
 
             Image {
                 anchors.fill: parent
-                source: currentItem.thumbnail.empty ? "" : xbmc.vfsPath + currentItem.thumbnail
+                source: currentItem.thumbnail.length === 0 ? "" : xbmc.vfsPath + currentItem.thumbnail
+                fillMode: Image.PreserveAspectFit
             }
         }
 
@@ -160,7 +162,7 @@ Page {
                 anchors.bottom: controlButtons.top
                 height: albumLabel.height
                 anchors.left: parent.left
-                anchors.bottomMargin: 20
+                anchors.bottomMargin: 10
                 Label {
                     id: albumLabel
                     text: xbmc.state == "audio" ? currentItem.album : (currentItem.type == "episode" ? "Season: " + currentItem.season : "Rating: ")
@@ -186,7 +188,7 @@ Page {
                 anchors.left: parent.left
                 anchors.right: trackNumLabel.right
                 anchors.bottom: artistLabel.top
-                anchors.bottomMargin: 20
+                anchors.bottomMargin: 10
                 text: currentItem.title
                 font.bold: true
             }
@@ -194,7 +196,7 @@ Page {
                 id: trackNumLabel
                 anchors.right: parent.right
                 anchors.bottom: artistLabel.top
-                anchors.bottomMargin: 20
+                anchors.bottomMargin: 10
                 text: playlist.currentTrackNumber + "/" + playlist.count
             }
         }

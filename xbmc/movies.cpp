@@ -54,7 +54,7 @@ void Movies::responseReceived(int id, const QVariantMap &rsp)
         QStandardItem *item = new QStandardItem();
         item->setText(itemMap.value("label").toString());
         item->setData(itemMap.value("movieid").toInt(), RoleMovieId);
-        item->setData(itemMap.value("fanart").toInt(), RoleThumbnail);
+        item->setData(itemMap.value("fanart").toString(), RoleThumbnail);
         list.append(item);
     }
     beginInsertRows(QModelIndex(), 0, list.count() - 1);
