@@ -109,6 +109,8 @@ Page {
                 anchors.fill: parent
                 source: currentItem.thumbnail.length === 0 ? "" : xbmc.vfsPath + currentItem.thumbnail
                 fillMode: Image.PreserveAspectFit
+
+                onSourceChanged: print("thumbnail source is now:" + currentItem.thumbnail)
             }
         }
 
