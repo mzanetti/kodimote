@@ -53,7 +53,8 @@ SOURCES += main.cpp \
     xbmc/xdebug.cpp \
     xbmc/xbmclibrary.cpp \
     xbmc/pictureplaylist.cpp \
-    xbmc/libraryitem.cpp
+    xbmc/libraryitem.cpp \
+    nfchandler.cpp
 
 # Please do not modify the following two lines. Required for deployment.
 include(qmlapplicationviewer/qmlapplicationviewer.pri)
@@ -95,7 +96,8 @@ HEADERS += ui/settingsdialog.h \
     xbmc/xdebug.h \
     xbmc/xbmclibrary.h \
     xbmc/pictureplaylist.h \
-    xbmc/libraryitem.h
+    xbmc/libraryitem.h \
+    nfchandler.h
 
 LIBS += -lqjson
 
@@ -120,7 +122,8 @@ exists($$QMAKE_INCDIR_QT"/../qmsystem2/qmkeys.h") {
     message(Harmattan build)
     target.path = /opt/usr/bin
     QT += dbus
-    CONFIG += qmsystem2
+    CONFIG += qmsystem2 mobility
+    MOBILITY = connectivity
     DEFINES += Q_WS_MAEMO_6
     SOURCES += meegohelper.cpp
     HEADERS += meegohelper.h
@@ -145,6 +148,14 @@ symbian:TARGET.CAPABILITY += NetworkServices
 
 RESOURCES += \
     xbmcremote.qrc
+
+
+
+
+
+
+
+
 
 
 

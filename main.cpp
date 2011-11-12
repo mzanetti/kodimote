@@ -25,6 +25,14 @@
 
 #ifdef Q_WS_MAEMO_6
 #include "meegohelper.h"
+#include "nfchandler.h"
+
+#include <QtConnectivity/QNearFieldManager>
+#include <QtConnectivity/QNdefNfcTextRecord>
+#include <QtConnectivity/QNdefNfcUriRecord>
+
+QTM_USE_NAMESPACE
+
 #endif
 
 #include <QtGui/QApplication>
@@ -70,6 +78,16 @@ int main(int argc, char *argv[])
     view->engine()->setNetworkAccessManagerFactory(new NetworkAccessManagerFactory());
     view->showFullScreen();
     MeeGoHelper *helper = new MeeGoHelper(&app);
+
+    QNearFieldManager manager;
+    NfcHandler nfcHandler;
+    view->rootContext()->setContextProperty("nfcHandler", &nfcHandler);
+
+    manager.setTargetAccessModes(QNearFieldManager::NdefReadTargetAccess | QNearFieldManager::NdefWriteTargetAccess);
+    manager.startTargetDetection();
+
+    QObject::connect(&manager, SIGNAL(targetDetected(QNearFieldTarget*)), &nfcHandler, SLOT(tagDetected(QNearFieldTarget*)));
+
 
 #else
 

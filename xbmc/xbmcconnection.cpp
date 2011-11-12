@@ -237,6 +237,7 @@ void XbmcConnectionPrivate::replyReceived()
 
         if(rsp.value("id").toInt() == m_versionRequestId) {
             // If the remote xbmc has the version field not compiled in, assume its the latest known one
+            xDebug(XDAREA_CONNECTION) << "Parsing XBMC version:" << rsp.value("result").toMap().value("version");
             if(rsp.value("result").toMap().value("version").toMap().value("revision").toString() == "Unknown") {
                 m_xbmcVersion.setDate(2011, 10, 8);
                 qDebug() << "WARNING: Cannot determine Xbmc version. Assuming" << m_xbmcVersion.toString(Qt::SystemLocaleLongDate);
@@ -246,18 +247,12 @@ void XbmcConnectionPrivate::replyReceived()
                                       rsp.value("result").toMap().value("version").toMap().value("revision").toString().left(8).right(2).toInt());
                 xDebug(XDAREA_CONNECTION) << "Connected to XBMC version:" << m_xbmcVersion.toString(Qt::SystemLocaleLongDate);
             }
-            if(m_xbmcVersion >= QDate(2011, 9, 23)) {
-                sendNextCommand2();
-                m_connected = true;
-                m_connectionError.clear();
-            } else {
-                xDebug(XDAREA_CONNECTION) << "XBMC is too old!";
-                m_socket->disconnectFromHost();
-                m_connectionError = "Connection failed: This version of xbmc is too old. " \
-                        "Please upgrade to a newer version (at least from " +
-                        QDate(2011, 9, 23).toString(Qt::SystemLocaleLongDate) +
-                        ") which can be downloaded from http://mirrors.xbmc.org/nightlies/.";
+            if(m_xbmcVersion <= QDate(2011, 9, 23)) {
+                qDebug() << "WARNING! XBMC is too old or version field not valid! Some features might not work";
             }
+            sendNextCommand2();
+            m_connected = true;
+            m_connectionError.clear();
             emit m_notifier->connectionChanged();
             return;
         }

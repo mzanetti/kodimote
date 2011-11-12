@@ -74,6 +74,17 @@ PageStackWindow {
                 }
             }
             MenuItem {
+                text: "Write NFC Tag"
+                onClicked: {
+                    var component = Qt.createComponent("WriteNfcTagSheet.qml")
+                    if (component.status == Component.Ready) {
+                        component.createObject(myMenu).open();
+                    } else {
+                        console.log("Error loading component:", component.errorString());
+                    }
+                }
+            }
+            MenuItem {
                 text: "Settings"
                 onClicked: {
                     onClicked: {
@@ -151,7 +162,7 @@ PageStackWindow {
                 anchors.topMargin: 20
                 color: "white"
                 font.pixelSize: 32
-                text: "Xbmcremote 0.5.4"
+                text: "Xbmcremote 0.6.1"
             }
 
         }
