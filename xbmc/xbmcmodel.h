@@ -41,7 +41,8 @@ public:
         RoleTvShowId = Qt::UserRole + 105,
         RoleSeasonId = Qt::UserRole + 106,
         RoleEpisodeId = Qt::UserRole + 107,
-        RoleMusicVideoId = Qt::UserRole + 108
+        RoleMusicVideoId = Qt::UserRole + 108,
+        RoleThumbnail = Qt::UserRole + 109
     };
 
     explicit XbmcModel(XbmcModel *parent = 0);

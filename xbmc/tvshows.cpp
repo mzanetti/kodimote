@@ -28,7 +28,13 @@ TvShows::TvShows(XbmcModel *parent) :
     XbmcLibrary(parent)
 {
     connect(XbmcConnection::notifier(), SIGNAL(responseReceived(int,QVariantMap)), SLOT(responseReceived(int,QVariantMap)));
-    m_request = XbmcConnection::sendCommand("VideoLibrary.GetTVShows");
+
+    QVariantMap params;
+    QVariantList properties;
+    properties.append("fanart");
+    params.insert("properties", properties);
+
+    m_request = XbmcConnection::sendCommand("VideoLibrary.GetTVShows", params);
 }
 
 TvShows::~TvShows()
@@ -49,6 +55,7 @@ void TvShows::responseReceived(int id, const QVariantMap &rsp)
         QStandardItem *item = new QStandardItem();
         item->setText(itemMap.value("label").toString());
         item->setData(itemMap.value("tvshowid").toInt(), RoleTvShowId);
+        item->setData(itemMap.value("fanart").toString(), RoleThumbnail);
         list.append(item);
     }
     beginInsertRows(QModelIndex(), 0, list.count() - 1);
@@ -65,16 +72,12 @@ int TvShows::rowCount(const QModelIndex &parent) const
 QVariant TvShows::data(const QModelIndex &index, int role) const
 {
     switch(role) {
-    case Qt::DisplayRole:
-        return m_list.at(index.row())->text();
     case RoleFileType:
         return "directory";
-    case RoleSubtitle:
-        return "";
     case RolePlayable:
         return false;
     }
-    return QVariant();
+    return m_list.at(index.row())->data(role);
 }
 
 XbmcModel *TvShows::enterItem(int index)

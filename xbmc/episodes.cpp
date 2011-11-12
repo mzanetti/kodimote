@@ -39,6 +39,8 @@ Episodes::Episodes(int tvshowid, int seasonid, const QString &seasonString, Xbmc
     QVariantList properties;
     properties.append("showtitle");
     properties.append("episode");
+    properties.append("thumbnail");
+//    properties.append("fanart");
     params.insert("properties", properties);
 
     QVariantMap sort;
@@ -66,6 +68,8 @@ void Episodes::responseReceived(int id, const QVariantMap &rsp)
 //        item->setData(itemMap.value("showtitle").toString() + " - " + itemMap.value("season").toString(), Qt::UserRole+2);
         item->setData(itemMap.value("showtitle").toString() + " - " + m_seasonString, RoleSubtitle);
         item->setData(itemMap.value("episodeid").toInt(), RoleEpisodeId);
+        item->setData(itemMap.value("thumbnail").toString(), RoleThumbnail);
+//        item->setData(itemMap.value("fanart").toString(), RoleThumbnail);
         list.append(item);
     }
     beginInsertRows(QModelIndex(), 0, list.count() - 1);

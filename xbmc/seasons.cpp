@@ -35,6 +35,7 @@ Seasons::Seasons(int tvshowid, XbmcModel *parent):
     QVariantList properties;
     properties.append("showtitle");
     properties.append("season");
+    properties.append("fanart");
     params.insert("properties", properties);
 
     QVariantMap sort;
@@ -61,6 +62,7 @@ void Seasons::responseReceived(int id, const QVariantMap &rsp)
         item->setText(itemMap.value("label").toString());
         item->setData(itemMap.value("showtitle").toString(), RoleSubtitle);
         item->setData(itemMap.value("season").toInt(), RoleSeasonId);
+        item->setData(itemMap.value("fanart").toString(), RoleThumbnail);
         list.append(item);
     }
     beginInsertRows(QModelIndex(), 0, list.count() - 1);

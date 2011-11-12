@@ -65,8 +65,18 @@ Page {
                 source: "image://theme/meegotouch-list-background-pressed-center"
             }
 
+            Image {
+                id: thumbnailImage
+                height: parent.height - 2
+//                width: height
+                fillMode: Image.PreserveAspectFit
+
+                source: xbmc.vfsPath + thumbnail
+            }
+
             Row {
                 anchors.fill: parent
+                anchors.leftMargin: thumbnailImage.width + 5
 
                 Column {
                     anchors.verticalCenter: parent.verticalCenter

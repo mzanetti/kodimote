@@ -2,6 +2,7 @@
 
 XbmcLibrary::XbmcLibrary(XbmcModel *parent) :XbmcModel(parent)
 {
+
 }
 
 XbmcModel* XbmcLibrary::exit()

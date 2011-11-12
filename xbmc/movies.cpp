@@ -27,7 +27,13 @@ Movies::Movies(XbmcModel *parent) :
     XbmcLibrary(parent)
 {
     connect(XbmcConnection::notifier(), SIGNAL(responseReceived(int,QVariantMap)), SLOT(responseReceived(int,QVariantMap)));
-    m_request = XbmcConnection::sendCommand("VideoLibrary.GetMovies");
+
+    QVariantMap params;
+    QVariantList properties;
+    properties.append("fanart");
+    params.insert("properties", properties);
+
+    m_request = XbmcConnection::sendCommand("VideoLibrary.GetMovies", params);
 }
 
 Movies::~Movies()
@@ -48,6 +54,7 @@ void Movies::responseReceived(int id, const QVariantMap &rsp)
         QStandardItem *item = new QStandardItem();
         item->setText(itemMap.value("label").toString());
         item->setData(itemMap.value("movieid").toInt(), RoleMovieId);
+        item->setData(itemMap.value("fanart").toInt(), RoleThumbnail);
         list.append(item);
     }
     beginInsertRows(QModelIndex(), 0, list.count() - 1);
@@ -64,8 +71,6 @@ int Movies::rowCount(const QModelIndex &parent) const
 QVariant Movies::data(const QModelIndex &index, int role) const
 {
     switch(role) {
-    case Qt::DisplayRole:
-        return m_list.at(index.row())->text();
     case RoleFileType:
         return "file";
     case RoleSubtitle:
@@ -73,7 +78,7 @@ QVariant Movies::data(const QModelIndex &index, int role) const
     case RolePlayable:
         return true;
     }
-    return QVariant();
+    return m_list.at(index.row())->data(role);
 }
 
 XbmcModel *Movies::enterItem(int index)
