@@ -170,21 +170,22 @@ Page {
         MenuLayout {
             MenuItem {
                 text: "Show files"
-                visible: mainMenuModel.get(listView.currentIndex).mode != "files"
+                visible: mainMenuModel.get(listView.currentSelected).mode != "files"
                 onClicked: {
-                    mainMenuModel.setProperty(listView.currentIndex, "mode", "files");
+                    mainMenuModel.setProperty(listView.currentSelected, "mode", "files");
                 }
             }
             MenuItem {
                 text: "Show library"
-                visible: mainMenuModel.get(listView.currentIndex).mode != "library"
+                visible: mainMenuModel.get(listView.currentSelected).mode != "library"
                 onClicked: {
-                    mainMenuModel.setProperty(listView.currentIndex, "mode", "library");
+                    mainMenuModel.setProperty(listView.currentSelected, "mode", "library");
                 }
             }
             MenuItem {
                 text: "Rescan library"
                 onClicked: {
+                    print("current selected is" + listView.currentSelected)
                     var lib = xbmc.audioLibrary();
                     switch(listView.currentSelected) {
                     case 0:
