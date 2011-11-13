@@ -78,6 +78,7 @@ int main(int argc, char *argv[])
     view->engine()->setNetworkAccessManagerFactory(new NetworkAccessManagerFactory());
     view->showFullScreen();
     MeeGoHelper *helper = new MeeGoHelper(&app);
+    Q_UNUSED(helper)
 
     QNearFieldManager manager;
     NfcHandler nfcHandler;

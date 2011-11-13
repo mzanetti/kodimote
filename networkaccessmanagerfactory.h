@@ -9,5 +9,4 @@ public:
     virtual QNetworkAccessManager *create(QObject *parent);
 };
 
-
 #endif // NETWORKACCESSMANAGERFACTORY_H

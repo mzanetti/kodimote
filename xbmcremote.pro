@@ -54,7 +54,8 @@ SOURCES += main.cpp \
     xbmc/xbmclibrary.cpp \
     xbmc/pictureplaylist.cpp \
     xbmc/libraryitem.cpp \
-    nfchandler.cpp
+    nfchandler.cpp \
+    networkauthhandler.cpp
 
 # Please do not modify the following two lines. Required for deployment.
 include(qmlapplicationviewer/qmlapplicationviewer.pri)
@@ -97,7 +98,8 @@ HEADERS += ui/settingsdialog.h \
     xbmc/xbmclibrary.h \
     xbmc/pictureplaylist.h \
     xbmc/libraryitem.h \
-    nfchandler.h
+    nfchandler.h \
+    networkauthhandler.h
 
 LIBS += -lqjson
 
@@ -148,6 +150,8 @@ symbian:TARGET.CAPABILITY += NetworkServices
 
 RESOURCES += \
     xbmcremote.qrc
+
+
 
 
 

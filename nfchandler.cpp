@@ -37,6 +37,8 @@ void NfcHandler::tagDetected(QNearFieldTarget *tag)
 
 void NfcHandler::requestCompleted(const QNearFieldTarget::RequestId &id)
 {
+    Q_UNUSED(id)
+    qDebug() << "NFC request completed";
 }
 
 void NfcHandler::ndefMessageRead(QNdefMessage message)

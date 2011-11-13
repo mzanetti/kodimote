@@ -35,8 +35,6 @@ Page {
     Component.onCompleted: {
         console.log("setting model " + model)
         listView.model = model
-        scroller.listView = undefined;
-        scroller.listView = listView;
     }
 
     Component.onDestruction: {
@@ -70,6 +68,7 @@ Page {
             id: listItem
             height: 88
             width: parent.width
+            ListView.delayRemove: thumbnailImage.status == Image.Loading
 
             BorderImage {
                 id: background

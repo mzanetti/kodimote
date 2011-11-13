@@ -93,7 +93,7 @@ XbmcConnectionPrivate::XbmcConnectionPrivate(QObject *parent) :
     QObject::connect(m_socket, SIGNAL(connected()), SLOT(slotConnected()));
     QObject::connect(m_socket, SIGNAL(disconnected()), SLOT(slotDisconnected()));
 
-    m_timeoutTimer.setInterval(1000);
+    m_timeoutTimer.setInterval(5000);
     m_timeoutTimer.setSingleShot(true);
     QObject::connect(&m_timeoutTimer, SIGNAL(timeout()), SLOT(clearPending()));
 
@@ -426,7 +426,6 @@ QString XbmcConnectionPrivate::connectionError()
 
 void XbmcConnectionPrivate::authenticationRequired(QNetworkReply *reply, QAuthenticator *authenticator)
 {
-    Q_UNUSED(reply)
     if(reply == m_lastAuthRequest) {
         m_connectionError = "Wrong username or password";
         emit m_notifier->connectionChanged();
