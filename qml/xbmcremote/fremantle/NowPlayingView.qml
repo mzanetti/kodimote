@@ -157,6 +157,7 @@ FocusScope {
                 height: Math.min(parent.height, parent.width)
                 width: Math.min(parent.height, parent.width)
                 source: xbmc.vfsPath + currentItem.thumbnail
+                fillMode: Image.PreserveAspectFit
             }
         }
 
