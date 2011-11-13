@@ -68,9 +68,9 @@ Item {
     //                width: height
                     fillMode: Image.PreserveAspectFit
                     smooth: false
-                    source: thumbnail
+                    source: settings.useThumbnails ? thumbnail : ""
                     sourceSize.height: parent.height - 2
-                    //visible: settings.useThumbnails
+                    visible: settings.useThumbnails
                 }
 
                 Text {

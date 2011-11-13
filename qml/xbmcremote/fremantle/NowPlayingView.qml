@@ -90,8 +90,8 @@ FocusScope {
         anchors.right: parent.right
         anchors.top: topBar.bottom
         anchors.topMargin: -height
-        anchors.leftMargin: 20
-        anchors.rightMargin: 20
+        anchors.leftMargin: 25
+        anchors.rightMargin: 25
         opacity: 0
 
         states: [
@@ -113,7 +113,7 @@ FocusScope {
         anchors.left: parent.left
         anchors.right: parent.right
         anchors.top: parent.top
-        anchors.topMargin: 15
+        anchors.margins: 25
         height: 60
 
         PlayerControlsTop {
@@ -130,8 +130,8 @@ FocusScope {
     Rectangle {
         anchors.left: parent.left
         anchors.right: parent.right
-        anchors.leftMargin: 15
-        anchors.rightMargin: 15
+        anchors.leftMargin: 25
+        anchors.rightMargin: 25
         anchors.bottom: topBar.bottom
         height: 1
         color: "#ffffff";
@@ -144,7 +144,10 @@ FocusScope {
         anchors.bottom: audioPlayerControls.top
         anchors.left: parent.left
         anchors.right: parent.right
-        anchors.margins: 20
+        anchors.leftMargin: 25
+        anchors.rightMargin: 25
+        anchors.topMargin: 15
+        anchors.bottomMargin: 15
         spacing: 15
 
         Image {
@@ -164,7 +167,7 @@ FocusScope {
 
         Item {
             id: nowPlayingText
-            width: screen.orientation == "portrait" ? nowPlayingFlow.width : nowPlayingFlow.width - imageItem.width - nowPlayingFlow.anchors.margins
+            width: screen.orientation == "portrait" ? nowPlayingFlow.width : nowPlayingFlow.width - imageItem.width - nowPlayingFlow.anchors.rightMargin
             height: 40 * 3 + 20
 
             anchors.bottom: nowPlayingFlow.bottom
@@ -272,8 +275,8 @@ FocusScope {
     Rectangle {
         anchors.left: parent.left
         anchors.right: parent.right
-        anchors.leftMargin: 15
-        anchors.rightMargin: 15
+        anchors.leftMargin: 25
+        anchors.rightMargin: 25
         anchors.bottom: audioPlayerControls.top
         height: 1
         color: "#ffffff";
@@ -283,7 +286,7 @@ FocusScope {
         anchors.left: parent.left
         anchors.right: parent.right
         anchors.bottom: parent.bottom
-        anchors.bottomMargin: 15
+        anchors.margins: 25
         height: 60
         id: audioPlayerControls
     }
