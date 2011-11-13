@@ -16,6 +16,11 @@ Sheet {
             checked: settings.themeInverted
         }
         CheckBox {
+            id: cbUseThumbnails
+            text: "Use Thumbnails"
+            checked: settings.useThumbnails
+        }
+        CheckBox {
             id: cbChangeVol
             text: "Change volume during calls"
             checked: settings.changeVolumeOnCall
@@ -41,5 +46,6 @@ Sheet {
         settings.changeVolumeOnCall = cbChangeVol.checked
         settings.volumeOnCall = slVolume.value
         settings.pauseOnCall = cbPause.checked
+        settings.useThumbnails = cbUseThumbnails.checked
     }
 }

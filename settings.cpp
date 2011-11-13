@@ -25,12 +25,27 @@ void Settings::setThemeInverted(bool inverted)
 {
     QSettings settings("xbmcremote");
     settings.setValue("InvertTheme", inverted);
+    emit themeInvertedChanged();
+}
+
+bool Settings::useThumbnails() const
+{
+    QSettings settings("xbmcremote");
+    return settings.value("UseThumbnails", false).toBool();
+}
+
+void Settings::setUseThumbnails(bool useThumbnails)
+{
+    QSettings settings("xbmcremote");
+    settings.setValue("UseThumbnails", useThumbnails);
+    emit useThumbnailsChanged();
 }
 
 void Settings::setVolumeUpCommand(const QString &volumeUpCommand)
 {
     QSettings settings("xbmcremote");
     settings.setValue("VolumeUpCommand", volumeUpCommand);
+    emit volumeUpCommandChanged();
 }
 
 QString Settings::volumeUpCommand() const
@@ -43,6 +58,7 @@ void Settings::setVolumeDownCommand(const QString &volumeDownCommand)
 {
     QSettings settings("xbmcremote");
     settings.setValue("VolumeDownCommand", volumeDownCommand);
+    emit volumeDownCommandChanged();
 }
 
 QString Settings::volumeDownCommand() const
@@ -55,6 +71,7 @@ void Settings::setVolumeOnCall(int volume)
 {
     QSettings settings("xbmcremote");
     settings.setValue("VolumeOnCall", volume);
+    emit volumeOnCallChanged();
 }
 
 int Settings::volumeOnCall() const
@@ -73,6 +90,7 @@ void Settings::setChangeVolumeOnCall(bool changeVolume)
 {
     QSettings settings("xbmcremote");
     settings.setValue("ChangeVolumeOnCall", changeVolume);
+    emit changeVolumeOnCallChanged();
 }
 
 bool Settings::pauseOnCall() const
@@ -85,5 +103,6 @@ void Settings::setPauseOnCall(bool pause)
 {
     QSettings settings("xbmcremote");
     settings.setValue("PauseOnCall", pause);
+    emit pauseOnCallChanged();
 }
 
