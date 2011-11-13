@@ -54,7 +54,6 @@ SOURCES += main.cpp \
     xbmc/xbmclibrary.cpp \
     xbmc/pictureplaylist.cpp \
     xbmc/libraryitem.cpp \
-    nfchandler.cpp \
     networkauthhandler.cpp \
     xbmc/xbmcmodelitem.cpp
 
@@ -99,7 +98,6 @@ HEADERS += ui/settingsdialog.h \
     xbmc/xbmclibrary.h \
     xbmc/pictureplaylist.h \
     xbmc/libraryitem.h \
-    nfchandler.h \
     networkauthhandler.h \
     xbmc/xbmcmodelitem.h
 
@@ -129,8 +127,12 @@ exists($$QMAKE_INCDIR_QT"/../qmsystem2/qmkeys.h") {
     CONFIG += qmsystem2 mobility
     MOBILITY = connectivity
     DEFINES += Q_WS_MAEMO_6
-    SOURCES += meegohelper.cpp
-    HEADERS += meegohelper.h
+    SOURCES += meegohelper.cpp \
+            nfchandler.cpp
+
+    HEADERS += meegohelper.h \
+            nfchandler.h
+
     INCLUDEPATH += /usr/include/resource/qt4
     LIBS += -lresourceqt
 } else {

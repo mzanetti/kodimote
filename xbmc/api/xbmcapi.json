@@ -454,7 +454,13 @@
 
 "Configuration.Notifications":{"additionalProperties":false,"id":"Configuration.Notifications","properties":{"audiolibrary":{"required":true,"type":"boolean"},"gui":{"required":true,"type":"boolean"},"other":{"required":true,"type":"boolean"},"player":{"required":true,"type":"boolean"},"system":{"required":true,"type":"boolean"},"videolibrary":{"required":true,"type":"boolean"}},"type":"object"},
 "Files.Media":{"default":"video","enums":["video","music","pictures","files","programs"],"id":"Files.Media","type":"string"},"Global.Time":{"additionalProperties":false,"id":"Global.Time","properties":{"hours":{"maximum":23,"minimum":0,"required":true,"type":"integer"},"milliseconds":{"maximum":999,"minimum":0,"required":true,"type":"integer"},"minutes":{"maximum":59,"minimum":0,"required":true,"type":"integer"},"seconds":{"maximum":59,"minimum":0,"required":true,"type":"integer"}},"type":"object"},
-"Item.Details.Base":{"id":"Item.Details.Base","properties":{"label":{"required":true,"type":"string"}},"type":"object"},
+"Item.Details.Base":{
+  "id":"Item.Details.Base",
+  "properties":{
+    "label":{"required":true,"type":"string"}
+  },
+  "type":"object"
+},
 
 "Item.Fields.Base":{
   "id":"Item.Fields.Base",
