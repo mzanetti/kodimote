@@ -32,6 +32,7 @@ XbmcModel::XbmcModel(XbmcModel *parent) :
     roleNames.insert(RolePlayable, "playable");
     roleNames.insert(RoleFileName, "filename");
     roleNames.insert(RoleThumbnail, "thumbnail");
+    roleNames.insert(RoleSortingTitle, "sortingTitle");
     setRoleNames(roleNames);
 }
 
@@ -79,4 +80,13 @@ int XbmcModel::findItem(const QString &string, bool caseSensitive)
         }
     }
     return -1;
+}
+
+QString XbmcModel::ignoreArticle(const QString &text)
+{
+    QString ret = text;
+    if(ret.startsWith("The ")) {
+        ret.remove("The ");
+    }
+    return ret;
 }

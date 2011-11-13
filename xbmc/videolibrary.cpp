@@ -25,22 +25,16 @@
 VideoLibrary::VideoLibrary(XbmcModel *parent) :
     XbmcLibrary(parent)
 {
-    m_list.append("Movies");
-    m_list.append("TV Shows");
-    m_list.append("Music Videos");
-}
-
-int VideoLibrary::rowCount(const QModelIndex &parent) const
-{
-    Q_UNUSED(parent)
-    return m_list.count();
+    m_list.append(new QStandardItem("Movies"));
+    m_list.append(new QStandardItem("TV Shows"));
+    m_list.append(new QStandardItem("Music Videos"));
 }
 
 QVariant VideoLibrary::data(const QModelIndex &index, int role) const
 {
     switch(role) {
     case Qt::DisplayRole:
-        return m_list.at(index.row());
+        return m_list.at(index.row())->data(Qt::DisplayRole).toString();
     case RoleFileType:
         return "directory";
     case RolePlayable:

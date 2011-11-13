@@ -63,6 +63,7 @@ void Seasons::responseReceived(int id, const QVariantMap &rsp)
         item->setData(itemMap.value("showtitle").toString(), RoleSubtitle);
         item->setData(itemMap.value("season").toInt(), RoleSeasonId);
         item->setData(itemMap.value("fanart").toString(), RoleThumbnail);
+        item->setData(itemMap.value("label").toString(), RoleSortingTitle);
         list.append(item);
     }
     beginInsertRows(QModelIndex(), 0, list.count() - 1);

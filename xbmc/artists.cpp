@@ -64,11 +64,13 @@ void Artists::responseReceived(int id, const QVariantMap &rsp)
         item->setData("directory", Qt::UserRole);
         item->setData(itemMap.value("artistid").toInt(), RoleArtistId);
         item->setData(itemMap.value("thumbnail").toString(), RoleThumbnail);
+        item->setData(ignoreArticle(itemMap.value("label").toString()), RoleSortingTitle);
         list.append(item);
     }
     beginInsertRows(QModelIndex(), 0, list.count() - 1);
     m_list = list;
     endInsertRows();
+    emit layoutChanged();
 }
 
 int Artists::rowCount(const QModelIndex &parent) const

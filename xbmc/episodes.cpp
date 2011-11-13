@@ -70,6 +70,7 @@ void Episodes::responseReceived(int id, const QVariantMap &rsp)
         item->setData(itemMap.value("episodeid").toInt(), RoleEpisodeId);
         item->setData(itemMap.value("thumbnail").toString(), RoleThumbnail);
 //        item->setData(itemMap.value("fanart").toString(), RoleThumbnail);
+        item->setData(itemMap.value("label").toString(), RoleSortingTitle);
         list.append(item);
     }
     beginInsertRows(QModelIndex(), 0, list.count() - 1);

@@ -21,11 +21,13 @@
 
 #include <QAbstractItemModel>
 #include <QStandardItem>
+#include <QDebug>
 
 class XbmcModel : public QAbstractItemModel
 {
     Q_OBJECT
     Q_PROPERTY(QString title READ title NOTIFY titleChanged)
+    Q_PROPERTY(int count READ rowCount NOTIFY layoutChanged)
 public:
     enum Roles {
         RoleFileType = Qt::UserRole + 1,
@@ -42,7 +44,8 @@ public:
         RoleSeasonId = Qt::UserRole + 106,
         RoleEpisodeId = Qt::UserRole + 107,
         RoleMusicVideoId = Qt::UserRole + 108,
-        RoleThumbnail = Qt::UserRole + 109
+        RoleThumbnail = Qt::UserRole + 109,
+        RoleSortingTitle = Qt::UserRole + 110
     };
 
     explicit XbmcModel(XbmcModel *parent = 0);
@@ -57,8 +60,18 @@ public:
 
     Q_INVOKABLE int findItem(const QString &string, bool caseSensitive = false);
 
+    Q_INVOKABLE virtual int rowCount(const QModelIndex &parent = QModelIndex()) const
+    {
+        Q_UNUSED(parent)
+        return m_list.count();
+    }
+
+    /** returns the same text with removed article */
+    QString ignoreArticle(const QString &text);
+
 signals:
     void titleChanged();
+    void layoutChanged();
 
 protected:
     XbmcModel *m_parentModel;

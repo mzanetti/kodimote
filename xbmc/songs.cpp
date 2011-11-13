@@ -66,6 +66,7 @@ void Songs::responseReceived(int id, const QVariantMap &rsp)
         item->setText(itemMap.value("label").toString());
         item->setData(itemMap.value("artist").toString() + " - " + itemMap.value("album").toString(), RoleSubtitle);
         item->setData(itemMap.value("songid").toInt(), RoleSongId);
+        item->setData(itemMap.value("label").toString(), RoleSortingTitle);
         list.append(item);
     }
     beginInsertRows(QModelIndex(), 0, list.count() - 1);

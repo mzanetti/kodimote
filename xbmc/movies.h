@@ -30,7 +30,6 @@ public:
     explicit Movies(XbmcModel *parent = 0);
     ~Movies();
 
-    int rowCount(const QModelIndex &parent) const;
     QVariant data(const QModelIndex &index, int role) const;
 
     XbmcModel *enterItem(int index);

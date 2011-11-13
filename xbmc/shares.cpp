@@ -56,6 +56,7 @@ void Shares::responseReceived(int id, const QVariantMap &rsp)
         QStandardItem *item = new QStandardItem();
         item->setText(itemMap.value("label").toString());
         item->setData(itemMap.value("file").toString(), Qt::UserRole + 100);
+        item->setData(ignoreArticle(itemMap.value("label").toString()), RoleSortingTitle);
         list.append(item);
     }
     beginInsertRows(QModelIndex(), 0, list.count() - 1);

@@ -96,5 +96,7 @@ int main(int argc, char *argv[])
 
 #endif
 
+    qRegisterMetaType<QNetworkReply::NetworkError>("QNetworkReply::NetworkError");
+
     return app.exec();
 }

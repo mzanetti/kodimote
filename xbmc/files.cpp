@@ -64,6 +64,7 @@ void Files::responseReceived(int id, const QVariantMap &rsp)
         item->setText(itemMap.value("label").toString());
         item->setData(itemMap.value("filetype").toString(), RoleFileType);
         item->setData(itemMap.value("file").toString(), RoleFileName);
+        item->setData(ignoreArticle(itemMap.value("label").toString()), RoleSortingTitle);
         list.append(item);
     }
     beginInsertRows(QModelIndex(), 0, list.count() - 1);

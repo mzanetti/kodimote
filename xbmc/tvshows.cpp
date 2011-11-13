@@ -34,6 +34,12 @@ TvShows::TvShows(XbmcModel *parent) :
     properties.append("fanart");
     params.insert("properties", properties);
 
+    QVariantMap sort;
+    sort.insert("method", "label");
+    sort.insert("order", "ascending");
+    sort.insert("ignorearticle", true);
+    params.insert("sort", sort);
+
     m_request = XbmcConnection::sendCommand("VideoLibrary.GetTVShows", params);
 }
 
@@ -56,6 +62,7 @@ void TvShows::responseReceived(int id, const QVariantMap &rsp)
         item->setText(itemMap.value("label").toString());
         item->setData(itemMap.value("tvshowid").toInt(), RoleTvShowId);
         item->setData(itemMap.value("fanart").toString(), RoleThumbnail);
+        item->setData(ignoreArticle(itemMap.value("label").toString()), RoleSortingTitle);
         list.append(item);
     }
     beginInsertRows(QModelIndex(), 0, list.count() - 1);

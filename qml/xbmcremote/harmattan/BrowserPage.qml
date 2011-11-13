@@ -5,7 +5,6 @@ import com.nokia.meego 1.0
 Page {
     id: browserPage
     tools: toolBarBack
-    anchors.margins: appWindow.pageMargin
     property QtObject model
 
     ToolBarLayout {
@@ -36,11 +35,28 @@ Page {
     Component.onCompleted: {
         console.log("setting model " + model)
         listView.model = model
+        scroller.listView = undefined;
+        scroller.listView = listView;
     }
 
     Component.onDestruction: {
         console.log("model is " + model)
         model.exit();
+    }
+
+    // The delegate for each section header
+    Component {
+        id: sectionHeading
+        Rectangle {
+            width: listView.width
+            height: childrenRect.height
+            color: "lightsteelblue"
+
+            Text {
+                text: section
+                font.bold: true
+            }
+        }
     }
 
     ListView {
@@ -59,8 +75,8 @@ Page {
                 id: background
                 anchors.fill: parent
                 // Fill page borders
-                anchors.leftMargin: -browserPage.anchors.leftMargin
-                anchors.rightMargin: -browserPage.anchors.rightMargin
+//                anchors.leftMargin: -browserPage.anchors.leftMargin
+//                anchors.rightMargin: -browserPage.anchors.rightMargin
                 visible: mouseArea.pressed
                 source: "image://theme/meegotouch-list-background-pressed-center"
             }
@@ -70,8 +86,9 @@ Page {
                 height: parent.height - 2
 //                width: height
                 fillMode: Image.PreserveAspectFit
-
+                smooth: false
                 source: xbmc.vfsPath + thumbnail
+                sourceSize.height: parent.height - 2
             }
 
             Row {
@@ -139,19 +156,80 @@ Page {
                 }
             }
         }
+        section.property: "sortingTitle"
+        section.criteria: ViewSection.FirstCharacter
+//        section.delegate: sectionHeading
     }
     ScrollDecorator {
         flickableItem: listView
     }
+
+    MouseArea {
+        id:fastScroller
+        anchors {top: listHeader.bottom; right: parent.right; bottom: parent.bottom }
+        width: 75
+
+        Rectangle {
+            id: scrollBackground
+            color: "black"
+            opacity: 0
+            anchors.fill: parent
+
+            Behavior on opacity {
+                NumberAnimation {
+                    easing.type: Easing.InQuad
+                    duration: 200
+                }
+            }
+        }
+
+        onReleased: {
+            scrollBackground.opacity = 0;
+        }
+
+        onCanceled: {
+            scrollBackground.opacity = 0;
+        }
+
+        onMouseYChanged: {
+            scrollBackground.opacity = 0.2;
+            var percent = Math.min(model.count - 1, Math.max(0, Math.round((mouseY) / fastScroller.height * (listView.count - 1))))
+            scrollIndicatorLabel.text = model.get(percent, "sortingTitle").substring(0, 1);
+            listView.positionViewAtIndex(percent, ListView.Center);
+            scrollIndicator.y = Math.min(listView.height - scrollIndicator.height + listView.y, Math.max(listView.y, mouseY + fastScroller.y - scrollIndicator.height / 2))
+        }
+
+    }
+    Item {
+        id: scrollIndicator
+        opacity: scrollBackground.opacity * 4
+        anchors.left: parent.left
+        anchors.right: parent.right
+        height: 150
+
+        Rectangle {
+            anchors.fill: parent
+            color: "black"
+        }
+        Label {
+            id: scrollIndicatorLabel
+            anchors.fill: scrollIndicator
+            verticalAlignment: Text.AlignVCenter
+            anchors.margins: 10
+            color: "white"
+            font.pixelSize: 64
+        }
+    }
+
     Image {
         id: listHeader
         anchors {left: parent.left; top: parent.top; right: parent.right }
-        anchors.leftMargin: -browserPage.anchors.leftMargin
-        anchors.rightMargin: -browserPage.anchors.rightMargin
-        anchors.topMargin: -browserPage.anchors.topMargin
+//        anchors.leftMargin: -browserPage.anchors.leftMargin
+//        anchors.rightMargin: -browserPage.anchors.rightMargin
+//        anchors.topMargin: -browserPage.anchors.topMargin
         source: "image://theme/meegotouch-view-header-fixed" + (theme.inverted ? "-inverted" : "")
         Label {
-            anchors.margins: browserPage.anchors.margins
+            anchors.margins: 10
             anchors.fill: parent
             anchors.verticalCenter: listHeader.verticalCenter
             font.pixelSize: 28

@@ -44,6 +44,7 @@ void MusicVideos::responseReceived(int id, const QVariantMap &rsp)
         QStandardItem *item = new QStandardItem();
         item->setText(itemMap.value("label").toString());
         item->setData(itemMap.value("musicvideoid").toInt(), RoleMusicVideoId);
+        item->setData(itemMap.value("label").toString(), RoleSortingTitle);
         list.append(item);
     }
     beginInsertRows(QModelIndex(), 0, list.count() - 1);
