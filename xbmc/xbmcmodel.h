@@ -19,8 +19,9 @@
 #ifndef XBMCMODEL_H
 #define XBMCMODEL_H
 
+#include "xbmcmodelitem.h"
+
 #include <QAbstractItemModel>
-#include <QStandardItem>
 #include <QDebug>
 
 class XbmcModel : public QAbstractItemModel
@@ -30,6 +31,7 @@ class XbmcModel : public QAbstractItemModel
     Q_PROPERTY(int count READ rowCount NOTIFY layoutChanged)
 public:
     enum Roles {
+        RoleTitle = Qt::DisplayRole,
         RoleFileType = Qt::UserRole + 1,
         RoleSubtitle = Qt::UserRole + 2,
         RoleDuration = Qt::UserRole + 3,
@@ -66,16 +68,13 @@ public:
         return m_list.count();
     }
 
-    /** returns the same text with removed article */
-    QString ignoreArticle(const QString &text);
-
 signals:
     void titleChanged();
     void layoutChanged();
 
 protected:
     XbmcModel *m_parentModel;
-    QList<QStandardItem*> m_list;
+    QList<XbmcModelItem*> m_list;
 };
 
 #endif // XBMCMODEL_H

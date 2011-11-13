@@ -54,42 +54,25 @@ void Artists::responseReceived(int id, const QVariantMap &rsp)
         return;
     }
 
-    QList<QStandardItem*> list;
+    QList<XbmcModelItem*> list;
     qDebug() << "got artists:" << rsp.value("result");
     QVariantList responseList = rsp.value("result").toMap().value("artists").toList();
     foreach(const QVariant &itemVariant, responseList) {
         QVariantMap itemMap = itemVariant.toMap();
-        QStandardItem *item = new QStandardItem();
-        item->setText(itemMap.value("label").toString());
-        item->setData("directory", Qt::UserRole);
-        item->setData(itemMap.value("artistid").toInt(), RoleArtistId);
-        item->setData(itemMap.value("thumbnail").toString(), RoleThumbnail);
-        item->setData(ignoreArticle(itemMap.value("label").toString()), RoleSortingTitle);
+        LibraryItem *item = new LibraryItem();
+        item->setTitle(itemMap.value("label").toString());
+        item->setFileName("directory");
+        item->setArtistId(itemMap.value("artistid").toInt());
+        item->setThumbnail(itemMap.value("thumbnail").toString());
+        item->setIgnoreArticle(true);
+        item->setFileType("directory");
+        item->setPlayable(true);
         list.append(item);
     }
     beginInsertRows(QModelIndex(), 0, list.count() - 1);
     m_list = list;
     endInsertRows();
     emit layoutChanged();
-}
-
-int Artists::rowCount(const QModelIndex &parent) const
-{
-    Q_UNUSED(parent)
-    return m_list.count();
-}
-
-QVariant Artists::data(const QModelIndex &index, int role) const
-{
-    switch(role) {
-    case RoleFileType:
-        return "directory";
-    case RoleSubtitle:
-        return "";
-    case RolePlayable:
-        return true;
-    }
-    return m_list.at(index.row())->data(role);
 }
 
 XbmcModel *Artists::enterItem(int index)

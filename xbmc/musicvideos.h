@@ -29,9 +29,6 @@ class MusicVideos : public XbmcLibrary
 public:
     explicit MusicVideos(XbmcModel *parent = 0);
 
-    int rowCount(const QModelIndex &parent) const;
-    QVariant data(const QModelIndex &index, int role) const;
-
     XbmcModel *enterItem(int index);
     void playItem(int index);
     void addToPlaylist(int index);

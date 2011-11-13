@@ -53,17 +53,19 @@ void Seasons::responseReceived(int id, const QVariantMap &rsp)
         return;
     }
 
-    QList<QStandardItem*> list;
+    QList<XbmcModelItem*> list;
     qDebug() << "got Seasons:" << rsp.value("result");
     QVariantList responseList = rsp.value("result").toMap().value("seasons").toList();
     foreach(const QVariant &itemVariant, responseList) {
         QVariantMap itemMap = itemVariant.toMap();
-        QStandardItem *item = new QStandardItem();
-        item->setText(itemMap.value("label").toString());
-        item->setData(itemMap.value("showtitle").toString(), RoleSubtitle);
-        item->setData(itemMap.value("season").toInt(), RoleSeasonId);
-        item->setData(itemMap.value("fanart").toString(), RoleThumbnail);
-        item->setData(itemMap.value("label").toString(), RoleSortingTitle);
+        LibraryItem *item = new LibraryItem();
+        item->setTitle(itemMap.value("label").toString());
+        item->setSubtitle(itemMap.value("showtitle").toString());
+        item->setSeasonId(itemMap.value("season").toInt());
+        item->setThumbnail(itemMap.value("fanart").toString());
+        item->setIgnoreArticle(false);
+        item->setFileType("directory");
+        item->setPlayable(false);
         list.append(item);
     }
     beginInsertRows(QModelIndex(), 0, list.count() - 1);
@@ -71,26 +73,9 @@ void Seasons::responseReceived(int id, const QVariantMap &rsp)
     endInsertRows();
 }
 
-int Seasons::rowCount(const QModelIndex &parent) const
-{
-    Q_UNUSED(parent)
-    return m_list.count();
-}
-
-QVariant Seasons::data(const QModelIndex &index, int role) const
-{
-    switch(role) {
-    case RoleFileType:
-        return "directory";
-    case RolePlayable:
-        return false;
-    }
-    return m_list.at(index.row())->data(role);
-}
-
 XbmcModel *Seasons::enterItem(int index)
 {
-    return new Episodes(m_tvshowid, m_list.at(index)->data(RoleSeasonId).toInt(), m_list.at(index)->text(), this);
+    return new Episodes(m_tvshowid, m_list.at(index)->data(RoleSeasonId).toInt(), m_list.at(index)->title(), this);
 }
 
 void Seasons::playItem(int index)

@@ -36,41 +36,22 @@ void MusicVideos::responseReceived(int id, const QVariantMap &rsp)
         return;
     }
 
-    QList<QStandardItem*> list;
+    QList<XbmcModelItem*> list;
     qDebug() << "got MusicCideos:" << rsp.value("result");
     QVariantList responseList = rsp.value("result").toMap().value("musicvideos").toList();
     foreach(const QVariant &itemVariant, responseList) {
         QVariantMap itemMap = itemVariant.toMap();
-        QStandardItem *item = new QStandardItem();
-        item->setText(itemMap.value("label").toString());
-        item->setData(itemMap.value("musicvideoid").toInt(), RoleMusicVideoId);
-        item->setData(itemMap.value("label").toString(), RoleSortingTitle);
+        LibraryItem *item = new LibraryItem();
+        item->setTitle(itemMap.value("label").toString());
+        item->setMusicvideoId(itemMap.value("musicvideoid").toInt());
+        item->setIgnoreArticle(false);
+        item->setFileType("file");
+        item->setPlayable(true);
         list.append(item);
     }
     beginInsertRows(QModelIndex(), 0, list.count() - 1);
     m_list = list;
     endInsertRows();
-}
-
-int MusicVideos::rowCount(const QModelIndex &parent) const
-{
-    Q_UNUSED(parent)
-    return m_list.count();
-}
-
-QVariant MusicVideos::data(const QModelIndex &index, int role) const
-{
-    switch(role) {
-    case Qt::DisplayRole:
-        return m_list.at(index.row())->text();
-    case RoleFileType:
-        return "file";
-    case RoleSubtitle:
-        return "";
-    case RolePlayable:
-        return true;
-    }
-    return QVariant();
 }
 
 XbmcModel *MusicVideos::enterItem(int index)

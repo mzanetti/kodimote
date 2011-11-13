@@ -30,9 +30,6 @@ public:
     // seasonstring is a workaround to pass the label of the season because there is no sane way to qery the label here
     explicit Episodes(int tvshowid = -1, int seasonid = -1, const QString &seasonString = QString(), XbmcModel *parent = 0);
 
-    int rowCount(const QModelIndex &parent) const;
-    QVariant data(const QModelIndex &index, int role) const;
-
     XbmcModel *enterItem(int index);
     void playItem(int index);
     void addToPlaylist(int index);

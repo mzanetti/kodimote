@@ -27,8 +27,6 @@ class Files : public XbmcLibrary
 public:
     explicit Files(const QString &mediaType, const QString &dir, XbmcModel *parent = 0);
 
-    int rowCount(const QModelIndex &parent) const;
-    QVariant data(const QModelIndex &index, int role) const;
     XbmcModel *enterItem(int index);
     void playItem(int index);
     void addToPlaylist(int index);

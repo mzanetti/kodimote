@@ -52,35 +52,24 @@ void Movies::responseReceived(int id, const QVariantMap &rsp)
         return;
     }
 
-    QList<QStandardItem*> list;
+    QList<XbmcModelItem*> list;
     qDebug() << "got movies:" << rsp.value("result");
     QVariantList responseList = rsp.value("result").toMap().value("movies").toList();
     foreach(const QVariant &itemVariant, responseList) {
         QVariantMap itemMap = itemVariant.toMap();
-        QStandardItem *item = new QStandardItem();
-        item->setText(itemMap.value("label").toString());
-        item->setData(itemMap.value("movieid").toInt(), RoleMovieId);
-        item->setData(itemMap.value("fanart").toString(), RoleThumbnail);
-        item->setData(ignoreArticle(itemMap.value("label").toString()), RoleSortingTitle);
+        LibraryItem *item = new LibraryItem();
+        item->setTitle(itemMap.value("label").toString());
+        item->setMovieId(itemMap.value("movieid").toInt());
+        item->setThumbnail(itemMap.value("fanart").toString());
+        item->setIgnoreArticle(true);
+        item->setFileType("file");
+        item->setPlayable(true);
         list.append(item);
     }
     beginInsertRows(QModelIndex(), 0, list.count() - 1);
     m_list = list;
     endInsertRows();
     emit layoutChanged();
-}
-
-QVariant Movies::data(const QModelIndex &index, int role) const
-{
-    switch(role) {
-    case RoleFileType:
-        return "file";
-    case RoleSubtitle:
-        return "";
-    case RolePlayable:
-        return true;
-    }
-    return m_list.at(index.row())->data(role);
 }
 
 XbmcModel *Movies::enterItem(int index)

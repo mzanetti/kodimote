@@ -37,6 +37,9 @@ Files::Files(const QString &mediaType, const QString &dir, XbmcModel *parent):
 
     QVariantList properties;
     properties.append("file");
+    if(mediaType != "pictures") {
+        properties.append("thumbnail");
+    }
     params.insert("properties", properties);
 
     QVariantMap sort;
@@ -55,37 +58,29 @@ void Files::responseReceived(int id, const QVariantMap &rsp)
     if(id != m_requestId) {
         return;
     }
-    QList<QStandardItem*> list;
+    QList<XbmcModelItem*> list;
     qDebug() << "got files:" << rsp.value("result");
     QVariantList responseList = rsp.value("result").toMap().value("files").toList();
     foreach(const QVariant &itemVariant, responseList) {
         QVariantMap itemMap = itemVariant.toMap();
-        QStandardItem *item = new QStandardItem();
-        item->setText(itemMap.value("label").toString());
-        item->setData(itemMap.value("filetype").toString(), RoleFileType);
-        item->setData(itemMap.value("file").toString(), RoleFileName);
-        item->setData(ignoreArticle(itemMap.value("label").toString()), RoleSortingTitle);
+        LibraryItem *item = new LibraryItem();
+        item->setTitle(itemMap.value("label").toString());
+        item->setFileType(itemMap.value("filetype").toString());
+        item->setFileName(itemMap.value("file").toString());
+        if(m_mediaType == "pictures") {
+            item->setThumbnail(itemMap.value("file").toString());
+        } else {
+            item->setThumbnail(itemMap.value("thumbnail").toString());
+        }
+        item->setIgnoreArticle(true);
+        item->setPlayable(true);
         list.append(item);
     }
     beginInsertRows(QModelIndex(), 0, list.count() - 1);
-    foreach(QStandardItem *item, list) {
+    foreach(XbmcModelItem *item, list) {
         m_list.append(item);
     }
     endInsertRows();
-}
-
-int Files::rowCount(const QModelIndex &parent) const
-{
-    Q_UNUSED(parent)
-    return m_list.count();
-}
-
-QVariant Files::data(const QModelIndex &index, int role) const
-{
-    if(role == RolePlayable) {
-        return true;
-    }
-    return m_list.at(index.row())->data(role);
 }
 
 XbmcModel *Files::enterItem(int index)

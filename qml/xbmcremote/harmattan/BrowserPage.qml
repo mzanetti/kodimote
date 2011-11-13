@@ -86,7 +86,7 @@ Page {
 //                width: height
                 fillMode: Image.PreserveAspectFit
                 smooth: false
-                source: settings.useThumbnails ? xbmc.vfsPath + thumbnail : ""
+                source: thumbnail
                 sourceSize.height: parent.height - 2
                 visible: settings.useThumbnails
             }

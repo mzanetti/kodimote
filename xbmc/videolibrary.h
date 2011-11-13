@@ -29,8 +29,6 @@ class VideoLibrary : public XbmcLibrary
 public:
     explicit VideoLibrary(XbmcModel *parent = 0);
 
-    QVariant data(const QModelIndex &index, int role) const;
-
     XbmcModel *enterItem(int index);
     void playItem(int index);
     void addToPlaylist(int index);

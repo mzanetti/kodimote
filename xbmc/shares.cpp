@@ -48,41 +48,28 @@ void Shares::responseReceived(int id, const QVariantMap &rsp)
     if(id != m_requestId) {
         return;
     }
-    QList<QStandardItem*> list;
+    QList<XbmcModelItem*> list;
     xDebug(XDAREA_FILES) << "got shares:" << rsp.value("result");
     QVariantList responseList = rsp.value("result").toMap().value("sources").toList();
     foreach(const QVariant &itemVariant, responseList) {
         QVariantMap itemMap = itemVariant.toMap();
-        QStandardItem *item = new QStandardItem();
-        item->setText(itemMap.value("label").toString());
-        item->setData(itemMap.value("file").toString(), Qt::UserRole + 100);
-        item->setData(ignoreArticle(itemMap.value("label").toString()), RoleSortingTitle);
+        LibraryItem *item = new LibraryItem();
+        item->setTitle(itemMap.value("label").toString());
+        item->setFileName(itemMap.value("file").toString());
+        item->setIgnoreArticle(true);
+        item->setFileType("directory");
         list.append(item);
     }
     beginInsertRows(QModelIndex(), 0, list.count() - 1);
-    foreach(QStandardItem *item, list) {
+    foreach(XbmcModelItem *item, list) {
         m_list.append(item);
     }
     endInsertRows();
 }
 
-int Shares::rowCount(const QModelIndex &parent) const
-{
-    Q_UNUSED(parent)
-    return m_list.count();
-}
-
-QVariant Shares::data(const QModelIndex &index, int role) const
-{
-    if(role == Qt::UserRole+1) {
-        return "directory";
-    }
-    return m_list.at(index.row())->data(role);
-}
-
 XbmcModel *Shares::enterItem(int index)
 {
-    return new Files(m_mediaType, m_list.at(index)->data(Qt::UserRole+100).toString(), this);
+    return new Files(m_mediaType, m_list.at(index)->data(RoleFileName).toString(), this);
 }
 
 void Shares::playItem(int index)

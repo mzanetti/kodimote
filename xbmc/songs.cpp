@@ -38,6 +38,7 @@ Songs::Songs(int artistid, int albumid, XbmcModel *parent):
     QVariantList properties;
     properties.append("artist");
     properties.append("album");
+    properties.append("thumbnail");
     params.insert("properties", properties);
 
     QVariantMap sort;
@@ -57,41 +58,27 @@ void Songs::responseReceived(int id, const QVariantMap &rsp)
     if(id != m_requestId) {
         return;
     }
-    QList<QStandardItem*> list;
+    QList<XbmcModelItem*> list;
 //    qDebug() << "got songs:" << rsp.value("result");
     QVariantList responseList = rsp.value("result").toMap().value("songs").toList();
     foreach(const QVariant &itemVariant, responseList) {
         QVariantMap itemMap = itemVariant.toMap();
-        QStandardItem *item = new QStandardItem();
-        item->setText(itemMap.value("label").toString());
-        item->setData(itemMap.value("artist").toString() + " - " + itemMap.value("album").toString(), RoleSubtitle);
-        item->setData(itemMap.value("songid").toInt(), RoleSongId);
-        item->setData(itemMap.value("label").toString(), RoleSortingTitle);
+        LibraryItem *item = new LibraryItem();
+        item->setTitle(itemMap.value("label").toString());
+        item->setSubtitle(itemMap.value("artist").toString() + " - " + itemMap.value("album").toString());
+        item->setSongId(itemMap.value("songid").toInt());
+        item->setThumbnail(itemMap.value("thumbnail").toString());
+        item->setIgnoreArticle(false);
+        item->setFileType("file");
+        item->setPlayable(true);
         list.append(item);
     }
     beginInsertRows(QModelIndex(), 0, list.count() - 1);
-    foreach(QStandardItem *item, list) {
+    foreach(XbmcModelItem *item, list) {
         m_list.append(item);
     }
     endInsertRows();
 
-}
-
-int Songs::rowCount(const QModelIndex &parent) const
-{
-    Q_UNUSED(parent)
-    return m_list.count();
-}
-
-QVariant Songs::data(const QModelIndex &index, int role) const
-{
-    switch(role) {
-    case RoleFileType:
-        return "file";
-    case RolePlayable:
-        return true;
-    }
-    return m_list.at(index.row())->data(role);
 }
 
 XbmcModel* Songs::enterItem(int index)

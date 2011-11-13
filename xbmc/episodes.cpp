@@ -58,41 +58,26 @@ void Episodes::responseReceived(int id, const QVariantMap &rsp)
         return;
     }
 
-    QList<QStandardItem*> list;
+    QList<XbmcModelItem*> list;
     qDebug() << "got Episodes:" << rsp.value("result");
     QVariantList responseList = rsp.value("result").toMap().value("episodes").toList();
     foreach(const QVariant &itemVariant, responseList) {
         QVariantMap itemMap = itemVariant.toMap();
-        QStandardItem *item = new QStandardItem();
-        item->setText(itemMap.value("episode").toString() + ". " + itemMap.value("label").toString());
+        LibraryItem *item = new LibraryItem();
+        item->setTitle(itemMap.value("episode").toString() + ". " + itemMap.value("label").toString());
 //        item->setData(itemMap.value("showtitle").toString() + " - " + itemMap.value("season").toString(), Qt::UserRole+2);
-        item->setData(itemMap.value("showtitle").toString() + " - " + m_seasonString, RoleSubtitle);
-        item->setData(itemMap.value("episodeid").toInt(), RoleEpisodeId);
-        item->setData(itemMap.value("thumbnail").toString(), RoleThumbnail);
+        item->setSubtitle(itemMap.value("showtitle").toString() + " - " + m_seasonString);
+        item->setEpisodeId(itemMap.value("episodeid").toInt());
+        item->setThumbnail(itemMap.value("thumbnail").toString());
 //        item->setData(itemMap.value("fanart").toString(), RoleThumbnail);
-        item->setData(itemMap.value("label").toString(), RoleSortingTitle);
+        item->setIgnoreArticle(false);
+        item->setFileType("file");
+        item->setPlayable(true);
         list.append(item);
     }
     beginInsertRows(QModelIndex(), 0, list.count() - 1);
     m_list = list;
     endInsertRows();
-}
-
-int Episodes::rowCount(const QModelIndex &parent) const
-{
-    Q_UNUSED(parent)
-    return m_list.count();
-}
-
-QVariant Episodes::data(const QModelIndex &index, int role) const
-{
-    switch(role) {
-    case RoleFileType:
-        return "file";
-    case RolePlayable:
-        return true;
-    }
-    return m_list.at(index.row())->data(role);
 }
 
 XbmcModel *Episodes::enterItem(int index)

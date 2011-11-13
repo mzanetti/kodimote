@@ -25,7 +25,7 @@ XbmcModel::XbmcModel(XbmcModel *parent) :
     m_parentModel(parent)
 {
     QHash<int, QByteArray> roleNames;
-    roleNames.insert(Qt::DisplayRole, "title");
+    roleNames.insert(RoleTitle, "title");
     roleNames.insert(RoleFileType, "filetype");
     roleNames.insert(RoleSubtitle, "subtitle");
     roleNames.insert(RoleDuration, "duration");
@@ -68,25 +68,16 @@ QModelIndex XbmcModel::parent(const QModelIndex &child) const
 
 int XbmcModel::findItem(const QString &string, bool caseSensitive)
 {
-    foreach(QStandardItem* item, m_list) {
+    foreach(XbmcModelItem* item, m_list) {
         if(caseSensitive) {
-            if(item->data(Qt::DisplayRole).toString().startsWith(string)) {
+            if(item->data(RoleTitle).toString().startsWith(string)) {
                 return m_list.indexOf(item);
             }
         } else {
-            if(item->data(Qt::DisplayRole).toString().toLower().startsWith(string.toLower())) {
+            if(item->data(RoleTitle).toString().toLower().startsWith(string.toLower())) {
                 return m_list.indexOf(item);
             }
         }
     }
     return -1;
-}
-
-QString XbmcModel::ignoreArticle(const QString &text)
-{
-    QString ret = text;
-    if(ret.startsWith("The ")) {
-        ret.remove("The ");
-    }
-    return ret;
 }

@@ -21,31 +21,25 @@
 #include "albums.h"
 #include "songs.h"
 #include "xbmcconnection.h"
+#include "libraryitem.h"
 
 AudioLibrary::AudioLibrary() :
     XbmcLibrary(0)
 {
-    m_list.append(new QStandardItem("Artists"));
-    m_list.append(new QStandardItem("Albums"));
-    m_list.append(new QStandardItem("Titles"));
+    LibraryItem *item = new LibraryItem("Artists");
+    item->setFileType("directory");
+    item->setPlayable(false);
+    m_list.append(item);
 
-}
+    item = new LibraryItem("Albums");
+    item->setFileType("directory");
+    item->setPlayable(false);
+    m_list.append(item);
 
-int AudioLibrary::rowCount(const QModelIndex &parent) const
-{
-    Q_UNUSED(parent)
-    return m_list.count();
-}
-
-QVariant AudioLibrary::data(const QModelIndex &index, int role) const
-{
-    switch(role) {
-    case Qt::DisplayRole:
-        return m_list.at(index.row())->data(Qt::DisplayRole);
-    case XbmcModel::RoleFileType:
-        return "directory";
-    }
-    return QVariant();
+    item = new LibraryItem("Titles");
+    item->setFileType("directory");
+    item->setPlayable(false);
+    m_list.append(item);
 }
 
 XbmcModel *AudioLibrary::enterItem(int index)

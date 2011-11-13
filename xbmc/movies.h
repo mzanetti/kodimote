@@ -30,8 +30,6 @@ public:
     explicit Movies(XbmcModel *parent = 0);
     ~Movies();
 
-    QVariant data(const QModelIndex &index, int role) const;
-
     XbmcModel *enterItem(int index);
     void playItem(int index);
     void addToPlaylist(int index);

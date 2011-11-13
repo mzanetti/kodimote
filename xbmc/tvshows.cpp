@@ -53,38 +53,23 @@ void TvShows::responseReceived(int id, const QVariantMap &rsp)
         return;
     }
 
-    QList<QStandardItem*> list;
+    QList<XbmcModelItem*> list;
     qDebug() << "got TvShows:" << rsp.value("result");
     QVariantList responseList = rsp.value("result").toMap().value("tvshows").toList();
     foreach(const QVariant &itemVariant, responseList) {
         QVariantMap itemMap = itemVariant.toMap();
-        QStandardItem *item = new QStandardItem();
-        item->setText(itemMap.value("label").toString());
-        item->setData(itemMap.value("tvshowid").toInt(), RoleTvShowId);
-        item->setData(itemMap.value("fanart").toString(), RoleThumbnail);
-        item->setData(ignoreArticle(itemMap.value("label").toString()), RoleSortingTitle);
+        LibraryItem *item = new LibraryItem();
+        item->setTitle(itemMap.value("label").toString());
+        item->setTvshowId(itemMap.value("tvshowid").toInt());
+        item->setThumbnail(itemMap.value("fanart").toString());
+        item->setIgnoreArticle(true);
+        item->setFileType("directory");
+        item->setPlayable(false);
         list.append(item);
     }
     beginInsertRows(QModelIndex(), 0, list.count() - 1);
     m_list = list;
     endInsertRows();
-}
-
-int TvShows::rowCount(const QModelIndex &parent) const
-{
-    Q_UNUSED(parent)
-    return m_list.count();
-}
-
-QVariant TvShows::data(const QModelIndex &index, int role) const
-{
-    switch(role) {
-    case RoleFileType:
-        return "directory";
-    case RolePlayable:
-        return false;
-    }
-    return m_list.at(index.row())->data(role);
 }
 
 XbmcModel *TvShows::enterItem(int index)
