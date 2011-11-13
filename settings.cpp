@@ -31,7 +31,7 @@ void Settings::setThemeInverted(bool inverted)
 bool Settings::useThumbnails() const
 {
     QSettings settings("xbmcremote");
-    return settings.value("UseThumbnails", false).toBool();
+    return settings.value("UseThumbnails", true).toBool();
 }
 
 void Settings::setUseThumbnails(bool useThumbnails)

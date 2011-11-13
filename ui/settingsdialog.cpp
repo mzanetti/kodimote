@@ -50,6 +50,10 @@ SettingsDialog::SettingsDialog(QWidget *parent) :
 
     Settings settings;
 
+    m_cbThumbnails = new QCheckBox("Use Thumbnails");
+    gridLayout->addWidget(m_cbThumbnails, 0, 0);
+    m_cbThumbnails->setChecked(settings.useThumbnails());
+
     m_cbVolume = new QCheckBox("Change volume during calls");
     gridLayout->addWidget(m_cbVolume, 0, 0);
     m_cbVolume->setChecked(settings.changeVolumeOnCall());
@@ -81,6 +85,7 @@ SettingsDialog::SettingsDialog(QWidget *parent) :
 void SettingsDialog::accept()
 {
     Settings settings;
+    settings.setUseThumbnails(m_cbThumbnails->isChecked());
     settings.setChangeVolumeOnCall(m_cbVolume->isChecked());
     settings.setVolumeOnCall(m_slVolume->value());
     settings.setPauseOnCall(m_cbPause->isChecked());

@@ -37,6 +37,7 @@ private:
     QCheckBox *m_cbVolume;
     QSlider *m_slVolume;
     QCheckBox *m_cbPause;
+    QCheckBox *m_cbThumbnails;
 
 };
 

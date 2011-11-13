@@ -62,11 +62,23 @@ Item {
                     source: "images/MenuItemNF.png"
                 }
 
+                Image {
+                    id: thumbnailImage
+                    height: parent.height - 2
+    //                width: height
+                    fillMode: Image.PreserveAspectFit
+                    smooth: false
+                    source: thumbnail
+                    sourceSize.height: parent.height - 2
+                    //visible: settings.useThumbnails
+                }
+
                 Text {
                     color: "white"
                     text: title
                     font.pixelSize: 28
                     anchors.fill: parent
+                    anchors.leftMargin: thumbnailImage.width + 10
                     horizontalAlignment: Text.AlignLeft
                     verticalAlignment: Text.AlignVCenter
                     elide: Text.ElideRight
