@@ -142,6 +142,12 @@ Item {
                 Label { text: playcount }
             }
 
+            Row {
+                width: parent.width; spacing: 10; visible: cast.length > 0
+                Label { text: "Cast:"; font.bold: true }
+                Label { text: cast }
+            }
+
 
             Label {
                 id: plotLabel; width: parent.width; visible: plot.length > 0
@@ -162,6 +168,14 @@ Item {
         anchors.bottom: parent.bottom
         width: parent.width
         exclusive: false
+
+        states: [
+            State {
+                name: "hidden"; when: !playable
+                PropertyChanges { target: buttonRow; visible: false; height: 0 }
+            }
+        ]
+
         Button {
             text: "Play"
             onClicked: itemDetails.playItem()

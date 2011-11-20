@@ -19,8 +19,10 @@ public:
     virtual QVariant data(const QModelIndex &index, int role) const;
 
     Q_INVOKABLE QVariant get(int index, const QString &roleName);
+    Q_INVOKABLE XbmcModelItem *getItem(int index);
 
-    Q_INVOKABLE virtual void fetchItemDetails(int index) {}
+    Q_INVOKABLE virtual void fetchItemDetails(int index) { Q_UNUSED(index) }
+    Q_INVOKABLE virtual bool hasDetails() { return false; }
 
 };
 

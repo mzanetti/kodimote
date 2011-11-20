@@ -67,7 +67,8 @@ public:
         RoleDied,
         RoleDisbanded,
         RoleComment,
-        RolePlaycount
+        RolePlaycount,
+        RoleCast
     };
 
     explicit XbmcModel(XbmcModel *parent = 0);

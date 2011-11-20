@@ -40,36 +40,88 @@ TvShows::TvShows(XbmcModel *parent) :
     sort.insert("ignorearticle", true);
     params.insert("sort", sort);
 
-    m_request = XbmcConnection::sendCommand("VideoLibrary.GetTVShows", params);
+    m_requestList.insert(XbmcConnection::sendCommand("VideoLibrary.GetTVShows", params), RequestList);
 }
 
 TvShows::~TvShows()
 {
 }
 
+void TvShows::fetchItemDetails(int index)
+{
+    QVariantMap params;
+    params.insert("tvshowid", m_list.at(index)->data(RoleTvShowId).toInt());
+
+    QVariantList properties;
+//    properties.append("title");
+    properties.append("genre");
+    properties.append("year");
+    properties.append("rating");
+    properties.append("plot");
+//    properties.append("studio");
+    properties.append("mpaa");
+    properties.append("cast");
+//    properties.append("playcount");
+//    properties.append("episode");
+//    properties.append("imdbnumber");
+//    properties.append("premiered");
+//    properties.append("votes");
+//    properties.append("lastplayed");
+//    properties.append("fanart");
+//    properties.append("thumbnail");
+//    properties.append("file");
+//    properties.append("originaltitle");
+//    properties.append("sorttitle");
+//    properties.append("episodeguide");
+
+    params.insert("properties", properties);
+
+    connect(XbmcConnection::notifier(), SIGNAL(responseReceived(int,QVariantMap)), SLOT(responseReceived(int,QVariantMap)));
+    int id = XbmcConnection::sendCommand("VideoLibrary.GetTVShowDetails", params);
+    m_requestList.insert(id, RequestDetails);
+    m_detailsRequestMap.insert(id, index);
+}
+
 void TvShows::responseReceived(int id, const QVariantMap &rsp)
 {
-    if(id != m_request) {
+    if(!m_requestList.contains(id)) {
         return;
     }
 
-    QList<XbmcModelItem*> list;
-    qDebug() << "got TvShows:" << rsp.value("result");
-    QVariantList responseList = rsp.value("result").toMap().value("tvshows").toList();
-    foreach(const QVariant &itemVariant, responseList) {
-        QVariantMap itemMap = itemVariant.toMap();
-        LibraryItem *item = new LibraryItem();
-        item->setTitle(itemMap.value("label").toString());
-        item->setTvshowId(itemMap.value("tvshowid").toInt());
-        item->setThumbnail(itemMap.value("fanart").toString());
-        item->setIgnoreArticle(true);
-        item->setFileType("directory");
-        item->setPlayable(false);
-        list.append(item);
+    switch(m_requestList.value(id)) {
+    case RequestList: {
+        QList<XbmcModelItem*> list;
+        qDebug() << "got TvShows:" << rsp.value("result");
+        QVariantList responseList = rsp.value("result").toMap().value("tvshows").toList();
+        foreach(const QVariant &itemVariant, responseList) {
+            QVariantMap itemMap = itemVariant.toMap();
+            LibraryItem *item = new LibraryItem();
+            item->setTitle(itemMap.value("label").toString());
+            item->setTvshowId(itemMap.value("tvshowid").toInt());
+            item->setThumbnail(itemMap.value("fanart").toString());
+            item->setIgnoreArticle(true);
+            item->setFileType("directory");
+            item->setPlayable(false);
+            list.append(item);
+        }
+        beginInsertRows(QModelIndex(), 0, list.count() - 1);
+        m_list = list;
+        endInsertRows();
+        }
+        break;
+    case RequestDetails:
+        qDebug() << "got item details:" << rsp;
+        LibraryItem *item = qobject_cast<LibraryItem*>(m_list.at(m_detailsRequestMap.value(id)));
+        QVariantMap details = rsp.value("result").toMap().value("tvshowdetails").toMap();
+        item->setGenre(details.value("genre").toString());
+        item->setPlot(details.value("plot").toString());
+        item->setRating(details.value("rating").toInt());
+        item->setYear(details.value("year").toString());
+        item->setFirstAired(details.value("firstaired").toString());
+        item->setMpaa(details.value("mpaa").toString());
+        item->setCast(details.value("cast").toString());
+        emit dataChanged(index(m_detailsRequestMap.value(id), 0, QModelIndex()), index(m_detailsRequestMap.value(id), 0, QModelIndex()));
     }
-    beginInsertRows(QModelIndex(), 0, list.count() - 1);
-    m_list = list;
-    endInsertRows();
 }
 
 XbmcModel *TvShows::enterItem(int index)

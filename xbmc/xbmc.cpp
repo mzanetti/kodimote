@@ -62,6 +62,9 @@ Xbmc::Xbmc(QObject *parent) :
     qmlRegisterType<VideoLibrary>();
     qmlRegisterType<Artists>();
     qmlRegisterType<XbmcModel>();
+    qmlRegisterType<LibraryItem>();
+    qmlRegisterType<XbmcModelItem>();
+    qmlRegisterType<XbmcLibrary>();
     qmlRegisterType<Player>();
     qmlRegisterType<AudioPlayer>();
     qmlRegisterType<VideoPlayer>();

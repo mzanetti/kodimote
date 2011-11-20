@@ -13,7 +13,7 @@ Page {
         ToolIcon { platformIconId: "toolbar-back";
             anchors.left: parent===undefined ? undefined : parent.left
             onClicked: {
-                if(listView.currentItem.state == "expanded" ) {
+                if(listView.currentItem && listView.currentItem.state == "expanded" ) {
                     listView.currentItem.state = "collapsed"
                 } else {
                     pageStack.pop();
@@ -85,13 +85,11 @@ Page {
                 onPressed: listView.currentIndex = index
 
                 onPressAndHold: {
-                    if(playable) {
+                    if(listView.model.hasDetails()) {
                         listView.model.fetchItemDetails(listView.currentIndex)
-                        //                        listView.positionViewAtIndex(listView.currentIndex, ListView.Beginning)
-                        print("positioning at: " + listView.currentIndex + " " + index)
                         listItem.state = "expanded"
-//                        listView.contentY = 88 * listView.currentIndex
-                        //longTapMenu.open();
+                    } else if(playable) {
+                        longTapMenu.open();
                     }
                 }
 
@@ -319,13 +317,6 @@ Page {
         id: longTapMenu
         visualParent: pageStack
         MenuLayout {
-            MenuItem {
-                text: "Details"
-                onClicked: {
-                    listView.currentItem.state = "expanded"
-                    listView.positionViewAtIndex(listView.currentIndex, ListView.Beginning)
-                }
-            }
             MenuItem {
                 text: "Play"
                 onClicked: {

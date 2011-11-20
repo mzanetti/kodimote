@@ -43,6 +43,7 @@ class LibraryItem : public XbmcModelItem
     Q_PROPERTY(QString duration READ duration WRITE setDuration NOTIFY durationChanged)
     Q_PROPERTY(QString comment READ comment WRITE setComment NOTIFY commentChanged)
     Q_PROPERTY(int playcount READ playcount WRITE setPlaycount NOTIFY playcountChanged)
+    Q_PROPERTY(QString cast READ cast WRITE setCast NOTIFY castChanged)
 
 public:
     explicit LibraryItem(const QString &title = QString(), const QString &subTitle = QString());
@@ -146,6 +147,9 @@ public:
     int playcount() const;
     void setPlaycount(int playcount);
 
+    QString cast() const;
+    void setCast(const QString &cast);
+
     virtual QVariant data(int role) const;
 
 signals:
@@ -182,6 +186,7 @@ signals:
     void durationChanged();
     void commentChanged();
     void playcountChanged();
+    void castChanged();
 
 private:
     QString m_fileName;
@@ -217,6 +222,7 @@ private:
     QString m_duration;
     QString m_comment;
     int m_playcount;
+    QString m_cast;
 };
 
 #endif // LIBRARYITEM_H

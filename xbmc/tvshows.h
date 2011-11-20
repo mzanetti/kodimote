@@ -36,11 +36,20 @@ public:
 
     QString title() const;
 
+    Q_INVOKABLE void fetchItemDetails(int index);
+    Q_INVOKABLE bool hasDetails() { return true; }
+
 private slots:
     void responseReceived(int id, const QVariantMap &rsp);
 
 private:
-    int m_request;
+    enum Request {
+        RequestList,
+        RequestDetails
+    };
+
+    QMap<int, Request> m_requestList;
+    QMap<int, int> m_detailsRequestMap;
 };
 
 #endif // TVSHOWS_H

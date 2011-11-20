@@ -43,6 +43,10 @@ Item {
         if(xbmcBrowser.viewState === "library" && list.model.parentModel() === null) {
             contextMenuModel.append({ "entryId": 2, "menuEntry": "Rescan library"})
         }
+        if(library.hasDetails()) {
+            contextMenuModel.append({ "entryId": 3, "menuEntry": "Details"});
+        }
+
         if(contextMenuModel.count > 0) {
             contextMenu.open();
         }
@@ -172,7 +176,7 @@ Item {
         ListElement { entryId: 0; menuEntry: "Play"}
         ListElement { entryId: 1; menuEntry: "Add to playlist"}
         ListElement { entryId: 2; menuEntry: "Rescan library"}
-//        ListElement { entryId: 3; menuEntry: "Details"}
+        ListElement { entryId: 3; menuEntry: "Details"}
     }
 
     ContextMenu {
@@ -191,8 +195,20 @@ Item {
             case 2:
                 list.model.scanForContent();
                 break;
+            case 3:
+                itemDetails.forceActiveFocus();
+                break;
             }
-            mainFocusArea.forceActiveFocus();
+            if(index < 3) {
+                mainFocusArea.forceActiveFocus();
+            } else {
+                list.model.fetchItemDetails(list.currentIndex);
+                itemDetails.item = list.model.getItem(list.currentIndex);
+                print("******index is: " + list.currentIndex)
+                print("******list.model: " + list.model);
+                print("******list.model: " + list.model.getItem(list.currentIndex));
+                print("******item set to: " + itemDetails.item);
+            }
         }
 
         onRejected: {
@@ -233,5 +249,11 @@ Item {
             NumberAnimation { target: topBar; property: "opacity"; duration: 300; easing.type: Easing.OutQuad}
         }
     ]
+
+    ItemDetails {
+        id: itemDetails
+        anchors.fill: parent
+//        opacity: 0
+    }
 
 }

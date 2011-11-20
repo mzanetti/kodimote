@@ -27,31 +27,91 @@ MusicVideos::MusicVideos(XbmcModel *parent) :
     XbmcLibrary(parent)
 {
     connect(XbmcConnection::notifier(), SIGNAL(responseReceived(int,QVariantMap)), SLOT(responseReceived(int,QVariantMap)));
-    m_request = XbmcConnection::sendCommand("VideoLibrary.GetMusicVideos");
+
+    QVariantMap params;
+    QVariantList properties;
+    properties.append("fanart");
+    params.insert("properties", properties);
+
+    QVariantMap sort;
+    sort.insert("method", "label");
+    sort.insert("order", "ascending");
+    sort.insert("ignorearticle", true);
+    params.insert("sort", sort);
+
+    m_requestList.insert(XbmcConnection::sendCommand("VideoLibrary.GetMusicVideos", params), RequestList);
 }
+
+void MusicVideos::fetchItemDetails(int index)
+{
+    QVariantMap params;
+    params.insert("musicvideoid", m_list.at(index)->data(RoleMusicVideoId).toInt());
+
+    QVariantList properties;
+//    properties.append("title");
+//    properties.append("playcount");
+    properties.append("runtime");
+//    properties.append("director");
+//    properties.append("studio");
+    properties.append("year");
+    properties.append("plot");
+//    properties.append("album");
+//    properties.append("artist");
+    properties.append("genre");
+//    properties.append("track");
+//    properties.append("streamdetails");
+//    properties.append("lastplayed");
+//    properties.append("fanart");
+//    properties.append("thumbnail");
+//    properties.append("file");
+//    properties.append("resume");
+
+    params.insert("properties", properties);
+
+    connect(XbmcConnection::notifier(), SIGNAL(responseReceived(int,QVariantMap)), SLOT(responseReceived(int,QVariantMap)));
+    int id = XbmcConnection::sendCommand("VideoLibrary.GetMusicVideoDetails", params);
+    m_requestList.insert(id, RequestDetails);
+    m_detailsRequestMap.insert(id, index);
+}
+
 
 void MusicVideos::responseReceived(int id, const QVariantMap &rsp)
 {
-    if(id != m_request) {
+    if(!m_requestList.contains(id)) {
         return;
     }
 
-    QList<XbmcModelItem*> list;
-    qDebug() << "got MusicCideos:" << rsp.value("result");
-    QVariantList responseList = rsp.value("result").toMap().value("musicvideos").toList();
-    foreach(const QVariant &itemVariant, responseList) {
-        QVariantMap itemMap = itemVariant.toMap();
-        LibraryItem *item = new LibraryItem();
-        item->setTitle(itemMap.value("label").toString());
-        item->setMusicvideoId(itemMap.value("musicvideoid").toInt());
-        item->setIgnoreArticle(false);
-        item->setFileType("file");
-        item->setPlayable(true);
-        list.append(item);
+    switch(m_requestList.value(id)) {
+    case RequestList: {
+        QList<XbmcModelItem*> list;
+        qDebug() << "got MusicCideos:" << rsp.value("result");
+        QVariantList responseList = rsp.value("result").toMap().value("musicvideos").toList();
+        foreach(const QVariant &itemVariant, responseList) {
+            QVariantMap itemMap = itemVariant.toMap();
+            LibraryItem *item = new LibraryItem();
+            item->setTitle(itemMap.value("label").toString());
+            item->setMusicvideoId(itemMap.value("musicvideoid").toInt());
+            item->setThumbnail(itemMap.value("fanart").toString());
+            item->setIgnoreArticle(false);
+            item->setFileType("file");
+            item->setPlayable(true);
+            list.append(item);
+        }
+        beginInsertRows(QModelIndex(), 0, list.count() - 1);
+        m_list = list;
+        endInsertRows();
+        }
+        break;
+    case RequestDetails:
+        qDebug() << "got item details:" << rsp;
+        LibraryItem *item = qobject_cast<LibraryItem*>(m_list.at(m_detailsRequestMap.value(id)));
+        QVariantMap details = rsp.value("result").toMap().value("musicvideodetails").toMap();
+        //item->setRuntime(details.value("runtime").toInt());
+        item->setYear(details.value("year").toString());
+        item->setPlot(details.value("plot").toString());
+        item->setGenre(details.value("genre").toString());
+        emit dataChanged(index(m_detailsRequestMap.value(id), 0, QModelIndex()), index(m_detailsRequestMap.value(id), 0, QModelIndex()));
     }
-    beginInsertRows(QModelIndex(), 0, list.count() - 1);
-    m_list = list;
-    endInsertRows();
 }
 
 XbmcModel *MusicVideos::enterItem(int index)

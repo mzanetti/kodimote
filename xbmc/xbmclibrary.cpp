@@ -20,3 +20,9 @@ QVariant XbmcLibrary::get(int row, const QString &roleName)
 {
     return data(index(row, 0, QModelIndex()), roleNames().key(roleName.toAscii()));
 }
+
+XbmcModelItem *XbmcLibrary::getItem(int index)
+{
+    qDebug() << "returning: " << m_list.at(index);
+    return m_list.at(index);
+}

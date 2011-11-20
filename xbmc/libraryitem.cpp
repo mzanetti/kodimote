@@ -35,7 +35,8 @@ LibraryItem::LibraryItem(const QString &title, const QString &subTitle):
     m_disbanded(QString()),
     m_duration(QString()),
     m_comment(QString()),
-    m_playcount(-1)
+    m_playcount(-1),
+    m_cast(QString())
 {
 }
 
@@ -111,6 +112,8 @@ QVariant LibraryItem::data(int role) const
         return m_disbanded;
     case XbmcModel::RolePlaycount:
         return m_playcount;
+    case XbmcModel::RoleCast:
+        return m_cast;
     }
 
     return XbmcModelItem::data(role);
@@ -477,5 +480,16 @@ void LibraryItem::setPlaycount(int playcount)
 {
     m_playcount = playcount;
     emit playcountChanged();
+}
+
+QString LibraryItem::cast() const
+{
+    return m_cast;
+}
+
+void LibraryItem::setCast(const QString &cast)
+{
+    m_cast = cast;
+    emit castChanged();
 }
 

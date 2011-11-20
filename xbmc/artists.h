@@ -37,6 +37,7 @@ public:
     QString title() const;
 
     Q_INVOKABLE void fetchItemDetails(int index);
+    Q_INVOKABLE bool hasDetails() { return true; }
 
 private slots:
     void responseReceived(int id, const QVariantMap &map);

@@ -425,7 +425,20 @@
 "VideoLibrary.GetMovieSetDetails":{"description":"Retrieve details about a specific movie set","params":[{"$ref":"Library.Id","name":"setid","required":true},{"$ref":"Video.Fields.MovieSet","name":"properties"},{"name":"movies","properties":{"limits":{"$ref":"List.Limits"},"properties":{"$ref":"Video.Fields.Movie"},"sort":{"$ref":"List.Sort"}},"type":"object"}],"returns":{"properties":{"setdetails":{"$ref":"Video.Details.MovieSet.Extended"}},"type":"object"},"type":"method"},
 "VideoLibrary.GetMovieSets":{"description":"Retrieve all movie sets","params":[{"$ref":"Video.Fields.MovieSet","name":"properties"},{"$ref":"List.Limits","name":"limits"},{"$ref":"List.Sort","name":"sort"}],"returns":{"properties":{"limits":{"$ref":"List.LimitsReturned","required":true},"sets":{"items":{"$ref":"Video.Details.MovieSet"},"type":"array"}},"type":"object"},"type":"method"},
 "VideoLibrary.GetMovies":{"description":"Retrieve all movies","params":[{"$ref":"Video.Fields.Movie","name":"properties"},{"$ref":"List.Limits","name":"limits"},{"$ref":"List.Sort","name":"sort"}],"returns":{"properties":{"limits":{"$ref":"List.LimitsReturned","required":true},"movies":{"items":{"$ref":"Video.Details.Movie"},"type":"array"}},"type":"object"},"type":"method"},
-"VideoLibrary.GetMusicVideoDetails":{"description":"Retrieve details about a specific music video","params":[{"$ref":"Library.Id","name":"musicvideoid","required":true},{"$ref":"Video.Fields.MusicVideo","name":"properties"}],"returns":{"properties":{"musicvideodetails":{"$ref":"Video.Details.MusicVideo"}},"type":"object"},"type":"method"},
+
+"VideoLibrary.GetMusicVideoDetails":{
+  "description":"Retrieve details about a specific music video",
+  "params":[
+    {"$ref":"Library.Id","name":"musicvideoid","required":true},
+    {"$ref":"Video.Fields.MusicVideo","name":"properties"}
+  ],
+  "returns":{
+    "properties":{"musicvideodetails":{"$ref":"Video.Details.MusicVideo"}},
+    "type":"object"
+  },
+  "type":"method"
+},
+
 "VideoLibrary.GetMusicVideos":{"description":"Retrieve all music videos","params":[{"$ref":"Library.Id","default":-1,"name":"artistid"},{"$ref":"Library.Id","default":-1,"name":"albumid"},{"$ref":"Video.Fields.MusicVideo","name":"properties"},{"$ref":"List.Limits","name":"limits"},{"$ref":"List.Sort","name":"sort"}],"returns":{"properties":{"limits":{"$ref":"List.LimitsReturned","required":true},"musicvideos":{"items":{"$ref":"Video.Details.MusicVideo"},"type":"array"}},"type":"object"},"type":"method"},
 "VideoLibrary.GetRecentlyAddedEpisodes":{"description":"Retrieve all recently added tv episodes","params":[{"$ref":"Video.Fields.Episode","name":"properties"},{"$ref":"List.Limits","name":"limits"},{"$ref":"List.Sort","name":"sort"}],"returns":{"properties":{"episodes":{"items":{"$ref":"Video.Details.Episode"},"type":"array"},"limits":{"$ref":"List.LimitsReturned","required":true}},"type":"object"},"type":"method"},
 "VideoLibrary.GetRecentlyAddedMovies":{"description":"Retrieve all recently added movies","params":[{"$ref":"Video.Fields.Movie","name":"properties"},{"$ref":"List.Limits","name":"limits"},{"$ref":"List.Sort","name":"sort"}],"returns":{"properties":{"limits":{"$ref":"List.LimitsReturned","required":true},"movies":{"items":{"$ref":"Video.Details.Movie"},"type":"array"}},"type":"object"},"type":"method"},
@@ -452,7 +465,21 @@
   "type":"method"
 },
 
-"VideoLibrary.GetTVShowDetails":{"description":"Retrieve details about a specific tv show","params":[{"$ref":"Library.Id","name":"tvshowid","required":true},{"$ref":"Video.Fields.TVShow","name":"properties"}],"returns":{"properties":{"tvshowdetails":{"$ref":"Video.Details.TVShow"}},"type":"object"},"type":"method"},
+"VideoLibrary.GetTVShowDetails":{
+  "description":"Retrieve details about a specific tv show",
+  "params":[
+    {"$ref":"Library.Id","name":"tvshowid","required":true},
+    {"$ref":"Video.Fields.TVShow","name":"properties"}
+  ],
+  "returns":{
+    "properties":{
+      "tvshowdetails":{"$ref":"Video.Details.TVShow"}
+    },
+    "type":"object"
+  },
+  "type":"method"
+},
+
 "VideoLibrary.GetTVShows":{"description":"Retrieve all tv shows","params":[{"$ref":"Video.Fields.TVShow","name":"properties"},{"$ref":"List.Limits","name":"limits"},{"$ref":"List.Sort","name":"sort"}],"returns":{"properties":{"limits":{"$ref":"List.LimitsReturned","required":true},"tvshows":{"items":{"$ref":"Video.Details.TVShow"},"type":"array"}},"type":"object"},"type":"method"},
 "VideoLibrary.Scan":{"description":"Scans the video sources for new library items","params":[],"returns":{"type":"string"},"type":"method"},
 "XBMC.GetInfoBooleans":{"description":"Retrieve info booleans about XBMC and the system","params":[{"items":{"type":"string"},"name":"booleans","required":true,"type":"array"}],"returns":{"description":"List of key-value pairs of the retrieved info booleans","type":"object"},"type":"method"},
@@ -748,7 +775,20 @@
 },
 
 "Video.Details.Movie":{"extends":"Video.Details.File","id":"Video.Details.Movie","properties":{"cast":{"$ref":"Video.Cast"},"country":{"default":"","type":"string"},"genre":{"default":"","type":"string"},"imdbnumber":{"default":"","type":"string"},"movieid":{"$ref":"Library.Id","required":true},"mpaa":{"default":"","type":"string"},"originaltitle":{"default":"","type":"string"},"plotoutline":{"default":"","type":"string"},"premiered":{"default":"","type":"string"},"productioncode":{"default":"","type":"string"},"rating":{"default":0,"type":"number"},"set":{"$ref":"Array.String"},"setid":{"$ref":"Array.Integer"},"showlink":{"default":"","type":"string"},"sorttitle":{"default":"","type":"string"},"studio":{"default":"","type":"string"},"tagline":{"default":"","type":"string"},"top250":{"default":0,"type":"integer"},"trailer":{"default":"","type":"string"},"votes":{"default":"","type":"string"},"writer":{"default":"","type":"string"},"year":{"default":0,"type":"integer"}}},"Video.Details.MovieSet":{"extends":"Video.Details.Media","id":"Video.Details.MovieSet","properties":{"setid":{"$ref":"Library.Id","required":true}}},"Video.Details.MovieSet.Extended":{"extends":"Video.Details.MovieSet","id":"Video.Details.MovieSet.Extended","properties":{"movies":{"items":{"$ref":"Video.Details.Movie"},"type":"array"}}},
-"Video.Details.MusicVideo":{"extends":"Video.Details.File","id":"Video.Details.MusicVideo","properties":{"album":{"default":"","type":"string"},"artist":{"default":"","type":"string"},"genre":{"default":"","type":"string"},"musicvideoid":{"$ref":"Library.Id","required":true},"studio":{"default":"","type":"string"},"track":{"default":0,"type":"integer"},"year":{"default":0,"type":"integer"}}},"Video.Details.Season":{"extends":"Video.Details.Base","id":"Video.Details.Season","properties":{"episode":{"default":0,"type":"integer"},"season":{"required":true,"type":"integer"},"showtitle":{"default":"","type":"string"},"tvshowid":{"$ref":"Library.Id","default":-1}}},"Video.Details.TVShow":{"extends":"Video.Details.Item","id":"Video.Details.TVShow","properties":{"cast":{"$ref":"Video.Cast"},"episode":{"default":0,"type":"integer"},"episodeguide":{"default":"","type":"string"},"genre":{"default":"","type":"string"},"imdbnumber":{"default":"","type":"string"},"mpaa":{"default":"","type":"string"},"originaltitle":{"default":"","type":"string"},"premiered":{"default":"","type":"string"},"rating":{"default":0,"type":"number"},"sorttitle":{"default":"","type":"string"},"studio":{"default":"","type":"string"},"tvshowid":{"$ref":"Library.Id","required":true},"votes":{"default":"","type":"string"},"year":{"default":0,"type":"integer"}}},
+"Video.Details.MusicVideo":{"extends":"Video.Details.File","id":"Video.Details.MusicVideo","properties":{"album":{"default":"","type":"string"},"artist":{"default":"","type":"string"},"genre":{"default":"","type":"string"},"musicvideoid":{"$ref":"Library.Id","required":true},"studio":{"default":"","type":"string"},"track":{"default":0,"type":"integer"},"year":{"default":0,"type":"integer"}}},
+
+"Video.Details.Season":{
+  "extends":"Video.Details.Base",
+  "id":"Video.Details.Season",
+  "properties":{
+    "episode":{"default":0,"type":"integer"},
+    "season":{"required":true,"type":"integer"},
+    "showtitle":{"default":"","type":"string"},
+    "tvshowid":{"$ref":"Library.Id","default":-1}
+  }
+},
+
+"Video.Details.TVShow":{"extends":"Video.Details.Item","id":"Video.Details.TVShow","properties":{"cast":{"$ref":"Video.Cast"},"episode":{"default":0,"type":"integer"},"episodeguide":{"default":"","type":"string"},"genre":{"default":"","type":"string"},"imdbnumber":{"default":"","type":"string"},"mpaa":{"default":"","type":"string"},"originaltitle":{"default":"","type":"string"},"premiered":{"default":"","type":"string"},"rating":{"default":0,"type":"number"},"sorttitle":{"default":"","type":"string"},"studio":{"default":"","type":"string"},"tvshowid":{"$ref":"Library.Id","required":true},"votes":{"default":"","type":"string"},"year":{"default":0,"type":"integer"}}},
 
 "Video.Fields.Episode":{
   "extends":"Item.Fields.Base",
@@ -773,7 +813,17 @@
   }
 },
 
-"Video.Fields.MovieSet":{"extends":"Item.Fields.Base","id":"Video.Fields.MovieSet","items":{"enums":["title","playcount","fanart","thumbnail"],"type":"string"}},"Video.Fields.MusicVideo":{"extends":"Item.Fields.Base","id":"Video.Fields.MusicVideo","items":{"description":"Requesting the resume field will result in increased response times","enums":["title","playcount","runtime","director","studio","year","plot","album","artist","genre","track","streamdetails","lastplayed","fanart","thumbnail","file","resume"],"type":"string"}},
+"Video.Fields.MovieSet":{"extends":"Item.Fields.Base","id":"Video.Fields.MovieSet","items":{"enums":["title","playcount","fanart","thumbnail"],"type":"string"}},
+
+"Video.Fields.MusicVideo":{
+  "extends":"Item.Fields.Base",
+  "id":"Video.Fields.MusicVideo",
+  "items":{
+    "description":"Requesting the resume field will result in increased response times",
+    "enums":["title","playcount","runtime","director","studio","year","plot","album","artist","genre","track","streamdetails","lastplayed","fanart","thumbnail","file","resume"],
+    "type":"string"
+  }
+},
 
 "Video.Fields.Season":{
   "extends":"Item.Fields.Base",

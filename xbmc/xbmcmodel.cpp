@@ -54,6 +54,7 @@ XbmcModel::XbmcModel(XbmcModel *parent) :
     roleNames.insert(RoleDuration, "duration");
     roleNames.insert(RoleComment, "comment");
     roleNames.insert(RolePlaycount, "playcount");
+    roleNames.insert(RoleCast, "cast");
 
     setRoleNames(roleNames);
 }
