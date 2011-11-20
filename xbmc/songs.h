@@ -34,12 +34,20 @@ public:
     void addToPlaylist(int index);
 
     QString title() const;
+    Q_INVOKABLE void fetchItemDetails(int index);
 
 private slots:
-    void responseReceived(int id, const QVariantMap &rsp);
+    void responseReceived(int id, const QVariantMap &map);
 
 private:
-    int m_requestId;
+    enum Request {
+        RequestList,
+        RequestDetails
+    };
+
+    QMap<int, Request> m_requestList;
+    QMap<int, int> m_detailsRequestMap;
+
     int m_artistId;
     int m_albumId;
 };

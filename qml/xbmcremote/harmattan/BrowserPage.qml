@@ -12,7 +12,13 @@ Page {
         visible: false
         ToolIcon { platformIconId: "toolbar-back";
             anchors.left: parent===undefined ? undefined : parent.left
-            onClicked: pageStack.pop();
+            onClicked: {
+                if(listView.currentItem.state == "expanded" ) {
+                    listView.currentItem.state = "collapsed"
+                } else {
+                    pageStack.pop();
+                }
+            }
         }
         ToolIcon { platformIconId: "toolbar-dialer";
             anchors.horizontalCenter: parent===undefined ? undefined : parent.horizontalCenter
@@ -60,9 +66,10 @@ Page {
     ListView {
         id: listView
         anchors {left: parent.left; top: listHeader.bottom; right: parent.right; bottom: parent.bottom }
+        //snapMode: ListView.SnapToItem
         //        header: listHeader
-        property int currentSelected
-
+        highlightFollowsCurrentItem: true
+        cacheBuffer: 88 * 3
 
         delegate:  Item {
             id: listItem
@@ -70,30 +77,67 @@ Page {
             width: parent.width
             ListView.delayRemove: thumbnailImage.status == Image.Loading
 
+            MouseArea {
+                id: mouseArea
+                anchors.fill: background
+
+                onPressed: listView.currentIndex = index
+
+                onPressAndHold: {
+                    if(playable) {
+                        listView.model.fetchItemDetails(listView.currentIndex)
+                        //                        listView.positionViewAtIndex(listView.currentIndex, ListView.Beginning)
+                        print("positioning at: " + listView.currentIndex + " " + index)
+                        listItem.state = "expanded"
+//                        listView.contentY = 88 * listView.currentIndex
+                        //longTapMenu.open();
+                    }
+                }
+
+                onClicked: {
+                    if(filetype=="directory") {
+                        var component = Qt.createComponent("BrowserPage.qml")
+                        if (component.status == Component.Ready) {
+                            var newModel = browserPage.model.enterItem(index);
+                            pageStack.push(component, {model: newModel});
+                        } else {
+                            console.log("Error loading component:", component.errorString());
+                        }
+                    } else {
+                        if(listItem.state == "expanded") {
+                            listItem.state = "collapsed"
+                        } else {
+                            browserPage.model.playItem(index);
+                        }
+                    }
+                }
+            }
+
             BorderImage {
                 id: background
                 anchors.fill: parent
                 // Fill page borders
-//                anchors.leftMargin: -browserPage.anchors.leftMargin
-//                anchors.rightMargin: -browserPage.anchors.rightMargin
+                //                anchors.leftMargin: -browserPage.anchors.leftMargin
+                //                anchors.rightMargin: -browserPage.anchors.rightMargin
                 visible: mouseArea.pressed
                 source: "image://theme/meegotouch-list-background-pressed-center"
             }
 
             Image {
                 id: thumbnailImage
-                height: parent.height - 2
-//                width: height
+                height: 86
+                //                width: height
                 fillMode: Image.PreserveAspectFit
                 smooth: false
                 source: settings.useThumbnails ? thumbnail : ""
-                sourceSize.height: parent.height - 2
+                sourceSize.height: 86
                 visible: settings.useThumbnails
             }
 
             Row {
                 id: itemRow
-                anchors.fill: parent
+                anchors {left: parent.left; top: parent.top; right: parent.right }
+                height: 88
                 anchors.leftMargin: thumbnailImage.width + 5
 
                 Column {
@@ -118,6 +162,38 @@ Page {
                         elide: Text.ElideRight
                         visible: text != ""
                     }
+
+
+                }
+            }
+
+
+            Item {
+                id: expandedContent
+                anchors {left: parent.left; top: itemRow.bottom; right: parent.right}
+                anchors.bottom: parent.bottom
+                width: parent.width
+
+                Loader {
+                    id: contentLoader
+                    anchors.fill: parent
+                    onLoaded: print("loaderheight: " + childrenRect.height)
+
+                    Connections {
+                        target: contentLoader.item
+
+                        onPlayItem: {
+                            print("playItem()!")
+                            browserPage.model.playItem(index)
+                        }
+
+                        onAddToPlaylist: {
+                            browserPage.model.addToPlaylist(index)
+                        }
+                    }
+                }
+                Behavior on opacity {
+                    NumberAnimation { duration: 300 }
                 }
             }
 
@@ -129,36 +205,39 @@ Page {
                 visible: filetype == "directory" ? true : false;
             }
 
-            MouseArea {
-                id: mouseArea
-                anchors.fill: background
 
-                onPressed: listView.currentSelected = index
-
-                onPressAndHold: {
-                    if(playable) {
-                        longTapMenu.open();
-                    }
+            states: [
+                State {
+                    name: "expanded"
+                    PropertyChanges { target: listItem; height: listView.height; clip: true }
+                    //                    PropertyChanges { target: listView; snapMode: ListView.SnapOneItem }
+                    PropertyChanges { target: background; visible: false }
+                    PropertyChanges { target: expandedContent; opacity: 1 }
+                    PropertyChanges { target: contentLoader; source: "ItemDetails.qml" }
+                    PropertyChanges { target: listView; interactive: false; contentY: 88 * listView.currentIndex }
+//                    PropertyChanges { target: mouseArea; enabled: false }
                 }
 
-                onClicked: {
-                    if(filetype=="directory") {
-                        var component = Qt.createComponent("BrowserPage.qml")
-                        if (component.status == Component.Ready) {
-                            var newModel = browserPage.model.enterItem(index);
-                            pageStack.push(component, {model: newModel});
-                        } else {
-                            console.log("Error loading component:", component.errorString());
-                        }
-                    } else {
-                        browserPage.model.playItem(index);
-                    }
+            ]
+
+            Behavior on height {
+                NumberAnimation {
+                    easing.type: Easing.InOutQuad
+                    duration: 300
                 }
             }
         }
         section.property: "sortingTitle"
         section.criteria: ViewSection.FirstCharacter
-//        section.delegate: sectionHeading
+        //section.delegate: sectionHeading
+
+        Behavior on contentY {
+            NumberAnimation {
+                easing.type: Easing.OutQuad
+                duration: 300
+            }
+        }
+
     }
     ScrollDecorator {
         flickableItem: listView
@@ -224,9 +303,6 @@ Page {
     Image {
         id: listHeader
         anchors {left: parent.left; top: parent.top; right: parent.right }
-//        anchors.leftMargin: -browserPage.anchors.leftMargin
-//        anchors.rightMargin: -browserPage.anchors.rightMargin
-//        anchors.topMargin: -browserPage.anchors.topMargin
         source: "image://theme/meegotouch-view-header-fixed" + (theme.inverted ? "-inverted" : "")
         Label {
             anchors.margins: 10
@@ -243,15 +319,22 @@ Page {
         visualParent: pageStack
         MenuLayout {
             MenuItem {
+                text: "Details"
+                onClicked: {
+                    listView.currentItem.state = "expanded"
+                    listView.positionViewAtIndex(listView.currentIndex, ListView.Beginning)
+                }
+            }
+            MenuItem {
                 text: "Play"
                 onClicked: {
-                    browserPage.model.playItem(listView.currentSelected)
+                    browserPage.model.playItem(listView.currentIndex)
                 }
             }
             MenuItem {
                 text: "Add to playlist"
                 onClicked: {
-                    browserPage.model.addToPlaylist(listView.currentSelected)
+                    browserPage.model.addToPlaylist(listView.currentIndex)
                 }
             }
         }

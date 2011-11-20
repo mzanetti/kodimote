@@ -47,7 +47,27 @@ public:
         RoleEpisodeId = Qt::UserRole + 107,
         RoleMusicVideoId = Qt::UserRole + 108,
         RoleThumbnail = Qt::UserRole + 109,
-        RoleSortingTitle = Qt::UserRole + 110
+        RoleSortingTitle = Qt::UserRole + 110,
+        RolePlot = Qt::UserRole + 111,
+        RoleRating = Qt::UserRole + 112,
+        RoleSeason = Qt::UserRole + 113,
+        RoleEpisode = Qt::UserRole + 114,
+        RoleFirstAired = Qt::UserRole + 115,
+        RoleGenre,
+        RoleYear,
+        RoleDirector,
+        RoleTagline,
+        RoleMpaa,
+        RoleDescription,
+        RoleInstrument,
+        RoleStyle,
+        RoleMood,
+        RoleBorn,
+        RoleFormed,
+        RoleDied,
+        RoleDisbanded,
+        RoleComment,
+        RolePlaycount
     };
 
     explicit XbmcModel(XbmcModel *parent = 0);

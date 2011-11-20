@@ -43,7 +43,7 @@ Albums::Albums(int artistId, XbmcModel *parent) :
     sort.insert("order", "ascending");
     sort.insert("ignorearticle", true);
     params.insert("sort", sort);
-    m_request = XbmcConnection::sendCommand("AudioLibrary.GetAlbums", params);
+    m_requestList.insert(XbmcConnection::sendCommand("AudioLibrary.GetAlbums", params), RequestList);
     connect(XbmcConnection::notifier(), SIGNAL(responseReceived(int,QVariantMap)), SLOT(responseReceived(int,QVariantMap)));
 }
 
@@ -51,31 +51,76 @@ Albums::~Albums()
 {
 }
 
+void Albums::fetchItemDetails(int index)
+{
+    QVariantMap params;
+    params.insert("albumid", m_list.at(index)->data(RoleAlbumId).toInt());
+
+    QVariantList properties;
+//    properties.append("title");
+    properties.append("description");
+//    properties.append("artist");
+    properties.append("genre");
+//    properties.append("theme");
+//    properties.append("mood");
+//    properties.append("style");
+//    properties.append("type");
+//    properties.append("albumlabel");
+    properties.append("rating");
+    properties.append("year");
+//    properties.append("musicbrainzalbumid");
+//    properties.append("musicbrainzalbumartistid");
+//    properties.append("fanart");
+//    properties.append("thumbnail");
+//    properties.append("artistid");
+
+    params.insert("properties", properties);
+
+    connect(XbmcConnection::notifier(), SIGNAL(responseReceived(int,QVariantMap)), SLOT(responseReceived(int,QVariantMap)));
+    int id = XbmcConnection::sendCommand("AudioLibrary.GetAlbumDetails", params);
+    m_requestList.insert(id, RequestDetails);
+    m_detailsRequestMap.insert(id, index);
+}
+
 void Albums::responseReceived(int id, const QVariantMap &rsp)
 {
-    if(id != m_request) {
+    if(!m_requestList.contains(id)) {
         return;
     }
 
-    QList<XbmcModelItem*> list;
-    qDebug() << "got albums:" << rsp.value("result");
-    QVariantList responseList = rsp.value("result").toMap().value("albums").toList();
-    foreach(const QVariant &itemVariant, responseList) {
-        QVariantMap itemMap = itemVariant.toMap();
-        LibraryItem *item = new LibraryItem();
-        item->setTitle(itemMap.value("label").toString());
-        item->setSubtitle(itemMap.value("artist").toString());
-        item->setAlbumId(itemMap.value("albumid").toInt());
-        item->setThumbnail(itemMap.value("thumbnail").toString());
-        item->setFileType("directory");
-        item->setPlayable(true);
-        item->setIgnoreArticle(true);
+    switch(m_requestList.value(id)) {
+    case RequestList: {
+        QList<XbmcModelItem*> list;
+        qDebug() << "got albums:" << rsp.value("result");
+        QVariantList responseList = rsp.value("result").toMap().value("albums").toList();
+        foreach(const QVariant &itemVariant, responseList) {
+            QVariantMap itemMap = itemVariant.toMap();
+            LibraryItem *item = new LibraryItem();
+            item->setTitle(itemMap.value("label").toString());
+            item->setSubtitle(itemMap.value("artist").toString());
+            item->setAlbumId(itemMap.value("albumid").toInt());
+            item->setThumbnail(itemMap.value("thumbnail").toString());
+            item->setFileType("directory");
+            item->setPlayable(true);
+            item->setIgnoreArticle(true);
 
-        list.append(item);
+            list.append(item);
+        }
+        beginInsertRows(QModelIndex(), 0, list.count() - 1);
+        m_list = list;
+        endInsertRows();
+        }
+        break;
+    case RequestDetails:
+        qDebug() << "got item details:" << rsp;
+        LibraryItem *item = qobject_cast<LibraryItem*>(m_list.at(m_detailsRequestMap.value(id)));
+        QVariantMap details = rsp.value("result").toMap().value("albumdetails").toMap();
+        item->setDescription(details.value("description").toString());
+        item->setRating(details.value("rating").toInt());
+        item->setGenre(details.value("genre").toString());
+        item->setYear(details.value("year").toString());
+        emit dataChanged(index(m_detailsRequestMap.value(id), 0, QModelIndex()), index(m_detailsRequestMap.value(id), 0, QModelIndex()));
     }
-    beginInsertRows(QModelIndex(), 0, list.count() - 1);
-    m_list = list;
-    endInsertRows();
 }
 
 XbmcModel* Albums::enterItem(int index)

@@ -41,38 +41,86 @@ Artists::Artists(XbmcModel *parent) :
     params.insert("properties", properties);
 
 
-    m_request = XbmcConnection::sendCommand("AudioLibrary.GetArtists", params);
+    m_requestList.insert(XbmcConnection::sendCommand("AudioLibrary.GetArtists", params), RequestList);
 }
 
 Artists::~Artists()
 {
 }
 
+void Artists::fetchItemDetails(int index)
+{
+    QVariantMap params;
+    params.insert("artistid", m_list.at(index)->data(RoleArtistId).toInt());
+
+    QVariantList properties;
+    properties.append("instrument");
+    properties.append("style");
+    properties.append("mood");
+    properties.append("born");
+    properties.append("formed");
+    properties.append("description");
+    properties.append("genre");
+    properties.append("died");
+    properties.append("disbanded");
+//    properties.append("yearsactive");
+//    properties.append("musicbrainzartistid");
+//    properties.append("fanart");
+//    properties.append("thumbnail");
+
+    params.insert("properties", properties);
+
+    connect(XbmcConnection::notifier(), SIGNAL(responseReceived(int,QVariantMap)), SLOT(responseReceived(int,QVariantMap)));
+    int id = XbmcConnection::sendCommand("AudioLibrary.GetArtistDetails", params);
+    m_requestList.insert(id, RequestDetails);
+    m_detailsRequestMap.insert(id, index);
+}
+
+
 void Artists::responseReceived(int id, const QVariantMap &rsp)
 {
-    if(id != m_request) {
+    if(!m_requestList.contains(id)) {
         return;
     }
 
-    QList<XbmcModelItem*> list;
-    qDebug() << "got artists:" << rsp.value("result");
-    QVariantList responseList = rsp.value("result").toMap().value("artists").toList();
-    foreach(const QVariant &itemVariant, responseList) {
-        QVariantMap itemMap = itemVariant.toMap();
-        LibraryItem *item = new LibraryItem();
-        item->setTitle(itemMap.value("label").toString());
-        item->setFileName("directory");
-        item->setArtistId(itemMap.value("artistid").toInt());
-        item->setThumbnail(itemMap.value("thumbnail").toString());
-        item->setIgnoreArticle(true);
-        item->setFileType("directory");
-        item->setPlayable(true);
-        list.append(item);
+    switch(m_requestList.value(id)) {
+    case RequestList: {
+        QList<XbmcModelItem*> list;
+        qDebug() << "got artists:" << rsp.value("result");
+        QVariantList responseList = rsp.value("result").toMap().value("artists").toList();
+        foreach(const QVariant &itemVariant, responseList) {
+            QVariantMap itemMap = itemVariant.toMap();
+            LibraryItem *item = new LibraryItem();
+            item->setTitle(itemMap.value("label").toString());
+            item->setFileName("directory");
+            item->setArtistId(itemMap.value("artistid").toInt());
+            item->setThumbnail(itemMap.value("thumbnail").toString());
+            item->setIgnoreArticle(true);
+            item->setFileType("directory");
+            item->setPlayable(true);
+            list.append(item);
+        }
+        beginInsertRows(QModelIndex(), 0, list.count() - 1);
+        m_list = list;
+        endInsertRows();
+        emit layoutChanged();
+        }
+        break;
+    case RequestDetails:
+        qDebug() << "got item details:" << rsp;
+        LibraryItem *item = qobject_cast<LibraryItem*>(m_list.at(m_detailsRequestMap.value(id)));
+        QVariantMap details = rsp.value("result").toMap().value("artistdetails").toMap();
+        item->setDescription(details.value("description").toString());
+        item->setInstrument(details.value("instrument").toString());
+        item->setStyle(details.value("style").toString());
+        item->setMood(details.value("mood").toString());
+        item->setBorn(details.value("born").toString());
+        item->setFormed(details.value("formed").toString());
+        item->setGenre(details.value("genre").toString());
+        item->setDied(details.value("died").toString());
+        item->setDisbanded(details.value("disbanded").toString());
+        emit dataChanged(index(m_detailsRequestMap.value(id), 0, QModelIndex()), index(m_detailsRequestMap.value(id), 0, QModelIndex()));
     }
-    beginInsertRows(QModelIndex(), 0, list.count() - 1);
-    m_list = list;
-    endInsertRows();
-    emit layoutChanged();
 }
 
 XbmcModel *Artists::enterItem(int index)

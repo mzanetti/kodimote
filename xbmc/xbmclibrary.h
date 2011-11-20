@@ -20,6 +20,8 @@ public:
 
     Q_INVOKABLE QVariant get(int index, const QString &roleName);
 
+    Q_INVOKABLE virtual void fetchItemDetails(int index) {}
+
 };
 
 #endif // XBMCLIBRARY_H

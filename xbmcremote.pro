@@ -55,7 +55,8 @@ SOURCES += main.cpp \
     xbmc/pictureplaylist.cpp \
     xbmc/libraryitem.cpp \
     networkauthhandler.cpp \
-    xbmc/xbmcmodelitem.cpp
+    xbmc/xbmcmodelitem.cpp \
+    xbmc/episodeitem.cpp
 
 # Please do not modify the following two lines. Required for deployment.
 include(qmlapplicationviewer/qmlapplicationviewer.pri)
@@ -99,7 +100,8 @@ HEADERS += ui/settingsdialog.h \
     xbmc/pictureplaylist.h \
     xbmc/libraryitem.h \
     networkauthhandler.h \
-    xbmc/xbmcmodelitem.h
+    xbmc/xbmcmodelitem.h \
+    xbmc/episodeitem.h
 
 LIBS += -lqjson
 
@@ -120,7 +122,7 @@ OTHER_FILES += \
 
 
 #contains (MEEGO_FLAVOR, "harmattan") { # This will be added soon, in the meantime use workaround
-exists($$QMAKE_INCDIR_QT"/../qmsystem2/qmkeys.h") {
+contains(MEEGO_EDITION,harmattan) {
     message(Harmattan build)
     target.path = /opt/usr/bin
     QT += dbus
@@ -154,6 +156,8 @@ symbian:TARGET.CAPABILITY += NetworkServices
 
 RESOURCES += \
     xbmcremote.qrc
+
+
 
 
 

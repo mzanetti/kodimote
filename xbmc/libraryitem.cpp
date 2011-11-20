@@ -3,8 +3,8 @@
 
 LibraryItem::LibraryItem(const QString &title, const QString &subTitle):
     XbmcModelItem(title, subTitle),
-    m_fileName(""),
-    m_thumbnail(""),
+    m_fileName(QString()),
+    m_thumbnail(QString()),
     m_fileType("directory"),
     m_playable(false),
     m_artistId(-1),
@@ -14,7 +14,28 @@ LibraryItem::LibraryItem(const QString &title, const QString &subTitle):
     m_tvshowId(-1),
     m_seasonId(-1),
     m_episodeId(-1),
-    m_movieId(-1)
+    m_movieId(-1),
+    m_plot(QString()),
+    m_rating(-1),
+    m_season(-1),
+    m_episode(-1),
+    m_firstAired(QString()),
+    m_genre(QString()),
+    m_year(QString()),
+    m_director(QString()),
+    m_tagline(QString()),
+    m_mpaa(QString()),
+    m_description(QString()),
+    m_instrument(QString()),
+    m_style(QString()),
+    m_mood(QString()),
+    m_born(QString()),
+    m_formed(QString()),
+    m_died(QString()),
+    m_disbanded(QString()),
+    m_duration(QString()),
+    m_comment(QString()),
+    m_playcount(-1)
 {
 }
 
@@ -48,6 +69,48 @@ QVariant LibraryItem::data(int role) const
         return m_episodeId;
     case XbmcModel::RoleMovieId:
         return m_movieId;
+    case XbmcModel::RolePlot:
+        return m_plot;
+    case XbmcModel::RoleRating:
+        return m_rating;
+    case XbmcModel::RoleSeason:
+        return m_season;
+    case XbmcModel::RoleEpisode:
+        return m_episode;
+    case XbmcModel::RoleFirstAired:
+        return m_firstAired;
+    case XbmcModel::RoleGenre:
+        return m_genre;
+    case XbmcModel::RoleYear:
+        return m_year;
+    case XbmcModel::RoleDirector:
+        return m_director;
+    case XbmcModel::RoleTagline:
+        return m_tagline;
+    case XbmcModel::RoleMpaa:
+        return m_mpaa;
+    case XbmcModel::RoleDescription:
+        return m_description;
+    case XbmcModel::RoleInstrument:
+        return m_instrument;
+    case XbmcModel::RoleStyle:
+        return m_style;
+    case XbmcModel::RoleMood:
+        return m_mood;
+    case XbmcModel::RoleBorn:
+        return m_born;
+    case XbmcModel::RoleFormed:
+        return m_formed;
+    case XbmcModel::RoleDied:
+        return m_died;
+    case XbmcModel::RoleDisbanded:
+        return m_disbanded;
+    case XbmcModel::RoleDuration:
+        return m_duration;
+    case XbmcModel::RoleComment:
+        return m_disbanded;
+    case XbmcModel::RolePlaycount:
+        return m_playcount;
     }
 
     return XbmcModelItem::data(role);
@@ -184,3 +247,235 @@ void LibraryItem::setMovieId(int movieId)
     m_movieId = movieId;
     emit movieIdChanged();
 }
+
+QString LibraryItem::plot() const
+{
+    return m_plot;
+}
+
+void LibraryItem::setPlot(const QString &plot)
+{
+    m_plot = plot;
+    emit plotChanged();
+}
+
+int LibraryItem::rating() const
+{
+    return m_rating;
+}
+
+void LibraryItem::setRating(int rating)
+{
+    m_rating = rating;
+    emit ratingChanged();
+}
+
+int LibraryItem::season() const
+{
+    return m_season;
+}
+
+void LibraryItem::setSeason(int season)
+{
+    m_season = season;
+    emit seasonChanged();
+}
+
+int LibraryItem::episode() const
+{
+    return m_episode;
+}
+
+void LibraryItem::setEpisode(int episode)
+{
+    m_episode = episode;
+    emit episodeChanged();
+}
+
+QString LibraryItem::firstAired() const
+{
+    return m_firstAired;
+}
+
+void LibraryItem::setFirstAired(const QString &firstAired)
+{
+    m_firstAired = firstAired;
+    emit firstAiredChanged();
+}
+
+QString LibraryItem::genre() const
+{
+    return m_genre;
+}
+
+void LibraryItem::setGenre(const QString &genre)
+{
+    m_genre = genre;
+    emit genreChanged();
+}
+
+QString LibraryItem::year() const
+{
+    return m_year;
+}
+
+void LibraryItem::setYear(const QString &year)
+{
+    m_year = year;
+    emit yearChanged();
+}
+
+QString LibraryItem::director() const
+{
+    return m_director;
+}
+
+void LibraryItem::setDirector(const QString &director)
+{
+    m_director = director;
+    emit directorChanged();
+}
+
+QString LibraryItem::tagline() const
+{
+    return m_tagline;
+}
+
+void LibraryItem::setTagline(const QString &tagline)
+{
+    m_tagline = tagline;
+    emit taglineChanged();
+}
+
+QString LibraryItem::mpaa() const
+{
+    return m_mpaa;
+}
+
+void LibraryItem::setMpaa(const QString &mpaa)
+{
+    m_mpaa = mpaa;
+    emit mpaaChanged();
+}
+
+QString LibraryItem::description() const
+{
+    return m_description;
+}
+
+void LibraryItem::setDescription(const QString &description)
+{
+    m_description = description;
+    emit descriptionChanged();
+}
+
+QString LibraryItem::instrument() const
+{
+    return m_instrument;
+}
+
+void LibraryItem::setInstrument(const QString &instrument)
+{
+    m_instrument = instrument;
+    emit instrumentChanged();
+}
+
+QString LibraryItem::style() const
+{
+    return m_style;
+}
+
+void LibraryItem::setStyle(const QString &style)
+{
+    m_style = style;
+    emit styleChanged();
+}
+
+QString LibraryItem::mood() const
+{
+    return m_mood;
+}
+
+void LibraryItem::setMood(const QString &mood)
+{
+    m_mood = mood;
+    emit moodChanged();
+}
+
+QString LibraryItem::born() const
+{
+    return m_born;
+}
+
+void LibraryItem::setBorn(const QString &born)
+{
+    m_born = born;
+    emit bornChanged();
+}
+
+QString LibraryItem::formed() const
+{
+    return m_formed;
+}
+
+void LibraryItem::setFormed(const QString &formed)
+{
+    m_formed = formed;
+    emit formedChanged();
+}
+
+QString LibraryItem::died() const
+{
+    return m_died;
+}
+
+void LibraryItem::setDied(const QString &died)
+{
+    m_died = died;
+    emit diedChanged();
+}
+
+QString LibraryItem::disbanded() const
+{
+    return m_disbanded;
+}
+
+void LibraryItem::setDisbanded(const QString &disbanded)
+{
+    m_disbanded = disbanded;
+    emit disbandedChanged();
+}
+
+QString LibraryItem::duration() const
+{
+    return m_duration;
+}
+
+void LibraryItem::setDuration(const QString &duration)
+{
+    m_duration = duration;
+    emit durationChanged();
+}
+
+QString LibraryItem::comment() const
+{
+    return m_comment;
+}
+
+void LibraryItem::setComment(const QString &comment)
+{
+    m_comment = comment;
+    emit commentChanged();
+}
+
+int LibraryItem::playcount() const
+{
+    return m_playcount;
+}
+
+void LibraryItem::setPlaycount(int playcount)
+{
+    m_playcount = playcount;
+    emit playcountChanged();
+}
+

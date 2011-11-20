@@ -74,6 +74,10 @@ void VideoPlaylist::responseReveiced(int id, const QVariantMap &response)
     }
 
     xDebug(XDAREA_PLAYLIST) << "VideoPlaylist response:" << response;
+    if(response.contains("error")) {
+        xDebug(XDAREA_PLAYLIST) << "Failed to fetch itemdata";
+        return;
+    }
 
     QVariant rsp = response.value("result");
 

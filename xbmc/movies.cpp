@@ -39,37 +39,102 @@ Movies::Movies(XbmcModel *parent) :
     sort.insert("ignorearticle", true);
     params.insert("sort", sort);
 
-    m_request = XbmcConnection::sendCommand("VideoLibrary.GetMovies", params);
+    m_requestList.insert(XbmcConnection::sendCommand("VideoLibrary.GetMovies", params), RequestList);
 }
 
 Movies::~Movies()
 {
 }
 
+void Movies::fetchItemDetails(int index)
+{
+    QVariantMap params;
+    params.insert("movieid", m_list.at(index)->data(RoleMovieId).toInt());
+
+    QVariantList properties;
+
+//    properties.append("title");
+    properties.append("genre");
+    properties.append("year");
+    properties.append("rating");
+    properties.append("director");
+//    properties.append("trailer");
+    properties.append("tagline");
+    properties.append("plot");
+//    properties.append("plotoutline");
+//    properties.append("originaltitle");
+//    properties.append("lastplayed");
+//    properties.append("playcount");
+//    properties.append("writer");
+//    properties.append("studio");
+    properties.append("mpaa");
+//    properties.append("cast");
+//    properties.append("country");
+//    properties.append("imdbnumber");
+//    properties.append("premiered");
+//    properties.append("productioncode");
+    properties.append("runtime");
+//    properties.append("set");
+//    properties.append("showlink");
+//    properties.append("streamdetails");
+//    properties.append("top250");
+//    properties.append("votes");
+//    properties.append("fanart");
+//    properties.append("thumbnail");
+//    properties.append("file");
+//    properties.append("sorttitle");
+//    properties.append("resume");
+//    properties.append("setid");
+
+    params.insert("properties", properties);
+
+    connect(XbmcConnection::notifier(), SIGNAL(responseReceived(int,QVariantMap)), SLOT(responseReceived(int,QVariantMap)));
+    int id = XbmcConnection::sendCommand("VideoLibrary.GetMovieDetails", params);
+    m_requestList.insert(id, RequestDetails);
+    m_detailsRequestMap.insert(id, index);
+}
+
 void Movies::responseReceived(int id, const QVariantMap &rsp)
 {
-    if(id != m_request) {
+    if(!m_requestList.contains(id)) {
         return;
     }
 
-    QList<XbmcModelItem*> list;
-    qDebug() << "got movies:" << rsp.value("result");
-    QVariantList responseList = rsp.value("result").toMap().value("movies").toList();
-    foreach(const QVariant &itemVariant, responseList) {
-        QVariantMap itemMap = itemVariant.toMap();
-        LibraryItem *item = new LibraryItem();
-        item->setTitle(itemMap.value("label").toString());
-        item->setMovieId(itemMap.value("movieid").toInt());
-        item->setThumbnail(itemMap.value("fanart").toString());
-        item->setIgnoreArticle(true);
-        item->setFileType("file");
-        item->setPlayable(true);
-        list.append(item);
+    switch(m_requestList.value(id)) {
+    case RequestList: {
+        QList<XbmcModelItem*> list;
+        qDebug() << "got movies:" << rsp.value("result");
+        QVariantList responseList = rsp.value("result").toMap().value("movies").toList();
+        foreach(const QVariant &itemVariant, responseList) {
+            QVariantMap itemMap = itemVariant.toMap();
+            LibraryItem *item = new LibraryItem();
+            item->setTitle(itemMap.value("label").toString());
+            item->setMovieId(itemMap.value("movieid").toInt());
+            item->setThumbnail(itemMap.value("fanart").toString());
+            item->setIgnoreArticle(true);
+            item->setFileType("file");
+            item->setPlayable(true);
+            list.append(item);
+        }
+        beginInsertRows(QModelIndex(), 0, list.count() - 1);
+        m_list = list;
+        endInsertRows();
+        emit layoutChanged();
+        }
+        break;
+    case RequestDetails:
+        qDebug() << "got item details:" << rsp;
+        LibraryItem *item = qobject_cast<LibraryItem*>(m_list.at(m_detailsRequestMap.value(id)));
+        QVariantMap details = rsp.value("result").toMap().value("moviedetails").toMap();
+        item->setGenre(details.value("genre").toString());
+        item->setYear(details.value("year").toString());
+        item->setRating(details.value("rating").toInt());
+        item->setDirector(details.value("director").toString());
+        item->setTagline(details.value("tagline").toString());
+        item->setPlot(details.value("plot").toString());
+        item->setMpaa(details.value("mpaa").toString());
+        emit dataChanged(index(m_detailsRequestMap.value(id), 0, QModelIndex()), index(m_detailsRequestMap.value(id), 0, QModelIndex()));
     }
-    beginInsertRows(QModelIndex(), 0, list.count() - 1);
-    m_list = list;
-    endInsertRows();
-    emit layoutChanged();
 }
 
 XbmcModel *Movies::enterItem(int index)

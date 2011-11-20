@@ -33,6 +33,28 @@ XbmcModel::XbmcModel(XbmcModel *parent) :
     roleNames.insert(RoleFileName, "filename");
     roleNames.insert(RoleThumbnail, "thumbnail");
     roleNames.insert(RoleSortingTitle, "sortingTitle");
+    roleNames.insert(RolePlot, "plot");
+    roleNames.insert(RoleRating, "rating");
+    roleNames.insert(RoleSeason, "season");
+    roleNames.insert(RoleEpisode, "episode");
+    roleNames.insert(RoleFirstAired, "firstaired");
+    roleNames.insert(RoleGenre, "genre");
+    roleNames.insert(RoleYear, "year");
+    roleNames.insert(RoleDirector, "director");
+    roleNames.insert(RoleTagline, "tagline");
+    roleNames.insert(RoleMpaa, "mpaa");
+    roleNames.insert(RoleDescription, "description");
+    roleNames.insert(RoleInstrument, "instrument");
+    roleNames.insert(RoleStyle, "style");
+    roleNames.insert(RoleMood, "mood");
+    roleNames.insert(RoleBorn, "born");
+    roleNames.insert(RoleFormed, "formed");
+    roleNames.insert(RoleDied, "died");
+    roleNames.insert(RoleDisbanded, "disbanded");
+    roleNames.insert(RoleDuration, "duration");
+    roleNames.insert(RoleComment, "comment");
+    roleNames.insert(RolePlaycount, "playcount");
+
     setRoleNames(roleNames);
 }
 

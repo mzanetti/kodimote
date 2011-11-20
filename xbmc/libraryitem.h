@@ -22,6 +22,27 @@ class LibraryItem : public XbmcModelItem
     Q_PROPERTY(int seasonId READ seasonId WRITE setSeasonId NOTIFY seasonIdChanged)
     Q_PROPERTY(int episodeId READ episodeId WRITE setEpisodeId NOTIFY episodeIdChanged)
     Q_PROPERTY(int movieId READ movieId WRITE setMovieId NOTIFY movieIdChanged)
+    Q_PROPERTY(QString plot READ plot WRITE setPlot NOTIFY plotChanged)
+    Q_PROPERTY(int rating READ rating WRITE setRating NOTIFY ratingChanged)
+    Q_PROPERTY(int season READ season WRITE setSeason NOTIFY seasonChanged)
+    Q_PROPERTY(int episode READ episode WRITE setEpisode NOTIFY episodeChanged)
+    Q_PROPERTY(QString firstAired READ firstAired WRITE setFirstAired NOTIFY firstAiredChanged)
+    Q_PROPERTY(QString genre READ genre WRITE setGenre NOTIFY genreChanged)
+    Q_PROPERTY(QString year READ year WRITE setYear NOTIFY yearChanged)
+    Q_PROPERTY(QString director READ director WRITE setDirector NOTIFY directorChanged)
+    Q_PROPERTY(QString tagline READ tagline WRITE setTagline NOTIFY taglineChanged)
+    Q_PROPERTY(QString mpaa READ mpaa WRITE setMpaa NOTIFY mpaaChanged)
+    Q_PROPERTY(QString description READ description WRITE setDescription NOTIFY descriptionChanged)
+    Q_PROPERTY(QString instrument READ instrument WRITE setInstrument NOTIFY instrumentChanged)
+    Q_PROPERTY(QString style READ style WRITE setStyle NOTIFY styleChanged)
+    Q_PROPERTY(QString mood READ mood WRITE setMood NOTIFY moodChanged)
+    Q_PROPERTY(QString born READ born WRITE setBorn NOTIFY bornChanged)
+    Q_PROPERTY(QString formed READ formed WRITE setFormed NOTIFY formedChanged)
+    Q_PROPERTY(QString died READ died WRITE setDied NOTIFY diedChanged)
+    Q_PROPERTY(QString disbanded READ disbanded WRITE setDisbanded NOTIFY disbandedChanged)
+    Q_PROPERTY(QString duration READ duration WRITE setDuration NOTIFY durationChanged)
+    Q_PROPERTY(QString comment READ comment WRITE setComment NOTIFY commentChanged)
+    Q_PROPERTY(int playcount READ playcount WRITE setPlaycount NOTIFY playcountChanged)
 
 public:
     explicit LibraryItem(const QString &title = QString(), const QString &subTitle = QString());
@@ -62,6 +83,69 @@ public:
     int movieId() const;
     void setMovieId(int movieId);
 
+    QString plot() const;
+    void setPlot(const QString &plot);
+
+    int rating() const;
+    void setRating(int rating);
+
+    int season() const;
+    void setSeason(int season);
+
+    int episode() const;
+    void setEpisode(int episode);
+
+    QString firstAired() const;
+    void setFirstAired(const QString &firstAired);
+
+    QString genre() const;
+    void setGenre(const QString &genre);
+
+    QString year() const;
+    void setYear(const QString &year);
+
+    QString director() const;
+    void setDirector(const QString &director);
+
+    QString tagline() const;
+    void setTagline(const QString &tagline);
+
+    QString mpaa() const;
+    void setMpaa(const QString &mpaa);
+
+    QString description() const;
+    void setDescription(const QString &description);
+
+    QString instrument() const;
+    void setInstrument(const QString &instrument);
+
+    QString style() const;
+    void setStyle(const QString &style);
+
+    QString mood() const;
+    void setMood(const QString &mood);
+
+    QString born() const;
+    void setBorn(const QString &born);
+
+    QString formed() const;
+    void setFormed(const QString &formed);
+
+    QString died() const;
+    void setDied(const QString &died);
+
+    QString disbanded() const;
+    void setDisbanded(const QString &disbanded);
+
+    QString duration() const;
+    void setDuration(const QString &duration);
+
+    QString comment() const;
+    void setComment(const QString &comment);
+
+    int playcount() const;
+    void setPlaycount(int playcount);
+
     virtual QVariant data(int role) const;
 
 signals:
@@ -77,6 +161,27 @@ signals:
     void seasonIdChanged();
     void episodeIdChanged();
     void movieIdChanged();
+    void plotChanged();
+    void ratingChanged();
+    void seasonChanged();
+    void episodeChanged();
+    void firstAiredChanged();
+    void genreChanged();
+    void yearChanged();
+    void directorChanged();
+    void taglineChanged();
+    void mpaaChanged();
+    void descriptionChanged();
+    void instrumentChanged();
+    void styleChanged();
+    void moodChanged();
+    void bornChanged();
+    void formedChanged();
+    void diedChanged();
+    void disbandedChanged();
+    void durationChanged();
+    void commentChanged();
+    void playcountChanged();
 
 private:
     QString m_fileName;
@@ -91,6 +196,27 @@ private:
     int m_seasonId;
     int m_episodeId;
     int m_movieId;
+    QString m_plot;
+    int m_rating;
+    int m_season;
+    int m_episode;
+    QString m_firstAired;
+    QString m_genre;
+    QString m_year;
+    QString m_director;
+    QString m_tagline;
+    QString m_mpaa;
+    QString m_description;
+    QString m_instrument;
+    QString m_style;
+    QString m_mood;
+    QString m_born;
+    QString m_formed;
+    QString m_died;
+    QString m_disbanded;
+    QString m_duration;
+    QString m_comment;
+    int m_playcount;
 };
 
 #endif // LIBRARYITEM_H

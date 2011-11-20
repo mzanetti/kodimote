@@ -36,13 +36,21 @@ public:
 
     QString title() const;
 
+    Q_INVOKABLE void fetchItemDetails(int index);
+
 private slots:
     void responseReceived(int id, const QVariantMap &map);
 
 private:
-    int m_request;
-    int m_artistId;
+    enum Request {
+        RequestList,
+        RequestDetails
+    };
 
+    QMap<int, Request> m_requestList;
+    QMap<int, int> m_detailsRequestMap;
+
+    int m_artistId;
 };
 
 #endif // ALBUMS_H
