@@ -1,5 +1,7 @@
-xbmcremote (0.6.1-harmattan0) unstable; urgency=low
+xbmcremote (0.7.0-harmattan0) unstable; urgency=low
 
-  * Make version check a warning instead of a failure
+  * Added thumbnails
+  * Added item details
+  * Added scrollbar to lists
 
- -- Michael Zanetti <michael_zanetti@gmx.net>  Sun, 09 Oct 2011 20:48:39 +0200
+ -- Michael Zanetti <michael_zanetti@gmx.net>  Sun, 20 Nov 2011 21:04:39 +0100

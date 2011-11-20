@@ -1,5 +1,6 @@
-xbmcremote (0.6.1-fremantle0) unstable; urgency=low
+xbmcremote (0.7.0-fremantle0) unstable; urgency=low
 
-  * Make version check a warning instead of a failure
+  * Added Thumbnails
+  * Added Item details
 
- -- Michael Zanetti <michael_zanetti@gmx.net>  Sun, 05 Nov 2011 08:35:39 +0200
+ -- Michael Zanetti <michael_zanetti@gmx.net>  Sun, 20 Nov 2011 21:02:39 +0100
