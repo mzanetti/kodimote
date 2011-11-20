@@ -76,6 +76,7 @@ Page {
             height: 88
             width: parent.width
             ListView.delayRemove: thumbnailImage.status == Image.Loading
+            state: "collapsed"
 
             MouseArea {
                 id: mouseArea
@@ -95,17 +96,17 @@ Page {
                 }
 
                 onClicked: {
-                    if(filetype=="directory") {
-                        var component = Qt.createComponent("BrowserPage.qml")
-                        if (component.status == Component.Ready) {
-                            var newModel = browserPage.model.enterItem(index);
-                            pageStack.push(component, {model: newModel});
-                        } else {
-                            console.log("Error loading component:", component.errorString());
-                        }
+                    if(listItem.state == "expanded") {
+                        listItem.state = "collapsed"
                     } else {
-                        if(listItem.state == "expanded") {
-                            listItem.state = "collapsed"
+                        if(filetype=="directory") {
+                            var component = Qt.createComponent("BrowserPage.qml")
+                            if (component.status == Component.Ready) {
+                                var newModel = browserPage.model.enterItem(index);
+                                pageStack.push(component, {model: newModel});
+                            } else {
+                                console.log("Error loading component:", component.errorString());
+                            }
                         } else {
                             browserPage.model.playItem(index);
                         }
@@ -202,7 +203,7 @@ Page {
                 source: "image://theme/icon-m-common-drilldown-arrow" + (theme.inverted ? "-inverse" : "")
                 anchors.right: parent.right;
                 anchors.verticalCenter: parent.verticalCenter
-                visible: filetype == "directory" ? true : false;
+                visible: filetype == "directory" && listItem.state == "collapsed" ? true : false;
             }
 
 

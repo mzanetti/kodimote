@@ -154,8 +154,8 @@ void Episodes::playItem(int index)
 void Episodes::addToPlaylist(int row)
 {
     VideoPlaylistItem pItem;
-    pItem.setTvShowId(m_tvshowid);
-    pItem.setSeasonId(m_seasonid);
+//    pItem.setTvShowId(m_tvshowid);
+//    pItem.setSeasonId(m_seasonid);
     pItem.setEpisodeId(index(row, 0, QModelIndex()).data(RoleEpisodeId).toInt());
     Xbmc::instance()->videoPlayer()->playlist()->addItems(pItem);
 }
