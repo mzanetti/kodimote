@@ -31,6 +31,7 @@ MusicVideos::MusicVideos(XbmcModel *parent) :
     QVariantMap params;
     QVariantList properties;
     properties.append("fanart");
+    properties.append("playcount");
     params.insert("properties", properties);
 
     QVariantMap sort;
@@ -92,6 +93,7 @@ void MusicVideos::responseReceived(int id, const QVariantMap &rsp)
             item->setTitle(itemMap.value("label").toString());
             item->setMusicvideoId(itemMap.value("musicvideoid").toInt());
             item->setThumbnail(itemMap.value("fanart").toString());
+            item->setPlaycount(itemMap.value("playcount").toInt());
             item->setIgnoreArticle(false);
             item->setFileType("file");
             item->setPlayable(true);

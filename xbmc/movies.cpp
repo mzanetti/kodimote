@@ -31,6 +31,7 @@ Movies::Movies(XbmcModel *parent) :
     QVariantMap params;
     QVariantList properties;
     properties.append("fanart");
+    properties.append("playcount");
     params.insert("properties", properties);
 
     QVariantMap sort;
@@ -111,6 +112,7 @@ void Movies::responseReceived(int id, const QVariantMap &rsp)
             item->setTitle(itemMap.value("label").toString());
             item->setMovieId(itemMap.value("movieid").toInt());
             item->setThumbnail(itemMap.value("fanart").toString());
+            item->setPlaycount(itemMap.value("playcount").toInt());
             item->setIgnoreArticle(true);
             item->setFileType("file");
             item->setPlayable(true);
