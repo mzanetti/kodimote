@@ -122,10 +122,23 @@ Page {
                 source: "image://theme/meegotouch-list-background-pressed-center"
             }
 
+            Rectangle {
+                id: highlightBar
+                color: "#0067bd"
+                height: parent.height - 4
+                anchors.verticalCenter: parent.verticalCenter
+                width: 8
+                anchors.left: parent.left
+                visible: playcount === 0
+            }
+
             Image {
                 id: thumbnailImage
                 height: 86
-                //                width: height
+                anchors.left: highlightBar.right
+                anchors.leftMargin: 2
+                anchors.top: parent.top
+                anchors.topMargin: 1
                 fillMode: Image.PreserveAspectFit
                 smooth: false
                 source: settings.useThumbnails ? thumbnail : ""
@@ -137,7 +150,8 @@ Page {
                 id: itemRow
                 anchors {left: parent.left; top: parent.top; right: parent.right }
                 height: 88
-                anchors.leftMargin: thumbnailImage.width + 5
+                anchors.leftMargin: thumbnailImage.width + 15
+                anchors.rightMargin: 15
 
                 Column {
                     anchors.verticalCenter: parent.verticalCenter
@@ -161,17 +175,15 @@ Page {
                         elide: Text.ElideRight
                         visible: text != ""
                     }
-
-
                 }
             }
-
 
             Item {
                 id: expandedContent
                 anchors {left: parent.left; top: itemRow.bottom; right: parent.right}
                 anchors.bottom: parent.bottom
-                width: parent.width
+                anchors.leftMargin: 15
+                width: parent.width - 20
 
                 Loader {
                     id: contentLoader

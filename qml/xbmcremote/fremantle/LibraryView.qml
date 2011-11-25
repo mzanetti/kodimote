@@ -116,6 +116,8 @@ Item {
                 Image {
                     id: thumbnailImage
                     height: parent.height - 2
+                    anchors.top: parent.top
+                    anchors.topMargin: 1
     //                width: height
                     fillMode: Image.PreserveAspectFit
                     smooth: false
@@ -129,10 +131,19 @@ Item {
                     color: "white"
                     text: title
                     font.pixelSize: 28
-                    anchors.fill: parent
+                    anchors {left: parent.left; top: parent.top; bottom: parent.bottom; right: watchedImage.left }
                     anchors.leftMargin: thumbnailImage.width > 0 ? thumbnailImage.width + 10 : 0
                     horizontalAlignment: Text.AlignLeft
                     verticalAlignment: Text.AlignVCenter
+                    elide: Text.ElideRight
+                }
+
+                Image {
+                    id: watchedImage
+                    source: "images/OverlayWatched.png"
+                    anchors.right: parent.right
+                    anchors.verticalCenter: parent.verticalCenter
+                    visible: playcount > 0
                 }
 
                 MouseArea {

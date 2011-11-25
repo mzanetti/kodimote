@@ -40,7 +40,7 @@ Episodes::Episodes(int tvshowid, int seasonid, const QString &seasonString, Xbmc
     properties.append("showtitle");
     properties.append("episode");
     properties.append("thumbnail");
-    //    properties.append("fanart");
+    properties.append("playcount");
     params.insert("properties", properties);
 
     QVariantMap sort;
@@ -111,7 +111,7 @@ void Episodes::responseReceived(int id, const QVariantMap &rsp)
             item->setSubtitle(itemMap.value("showtitle").toString() + " - " + m_seasonString);
             item->setEpisodeId(itemMap.value("episodeid").toInt());
             item->setThumbnail(itemMap.value("thumbnail").toString());
-            //        item->setData(itemMap.value("fanart").toString(), RoleThumbnail);
+            item->setPlaycount(itemMap.value("playcount").toInt());
             item->setIgnoreArticle(false);
             item->setFileType("file");
             item->setPlayable(true);
