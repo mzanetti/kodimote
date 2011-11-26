@@ -22,6 +22,7 @@ protected:
     void keyPressEvent(QKeyEvent* event);
 
 private slots:
+    void orientationChanged();
     void openSettingsDialog();
     void openConnectDialog();
     void openAboutDialog();

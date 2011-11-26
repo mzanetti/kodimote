@@ -15,6 +15,8 @@
 #include <QDeclarativeEngine>
 #include <QProcess>
 #include <QDebug>
+#include <QApplication>
+#include <QDesktopWidget>
 
 #ifdef Q_WS_MAEMO_5
     #include <QtGui/QX11Info>
@@ -34,6 +36,8 @@ MainWindow::MainWindow(QWidget *parent) :
     QDBusConnection::systemBus().connect(QString(), "/com/nokia/csd/call", "com.nokia.csd.Call", "Created", this, SLOT(callEvent(QDBusObjectPath,QString)));
 
     grabZoomKeys(true);
+
+    connect(QApplication::desktop(), SIGNAL(resized(int)), this, SLOT(orientationChanged()));
 #endif
 
     viewer = new QmlApplicationViewer;
@@ -66,6 +70,22 @@ MainWindow::~MainWindow()
 {
 #ifdef Q_WS_MAEMO_5
     grabZoomKeys(false);
+#endif
+}
+
+void MainWindow::orientationChanged(){
+#ifdef Q_WS_MAEMO_5
+    QRect screenGeometry = QApplication::desktop()->screenGeometry();
+    if (screenGeometry.width() > screenGeometry.height()) {
+        qDebug() << "In Landscape Mode";
+        showFullScreen();
+    } else {
+        qDebug() << "In Portrait Mode";
+        showNormal();
+    }
+//    if(m_itemDialog) {
+//        m_itemDialog->rotate(m_orientation);
+//    }
 #endif
 }
 
