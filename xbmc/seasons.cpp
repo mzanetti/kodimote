@@ -36,6 +36,7 @@ Seasons::Seasons(int tvshowid, XbmcModel *parent):
     properties.append("showtitle");
     properties.append("season");
     properties.append("fanart");
+    properties.append("playcount");
     params.insert("properties", properties);
 
     QVariantMap sort;
@@ -63,6 +64,7 @@ void Seasons::responseReceived(int id, const QVariantMap &rsp)
         item->setSubtitle(itemMap.value("showtitle").toString());
         item->setSeasonId(itemMap.value("season").toInt());
         item->setThumbnail(itemMap.value("fanart").toString());
+        item->setPlaycount(itemMap.value("playcount").toInt());
         item->setIgnoreArticle(false);
         item->setFileType("directory");
         item->setPlayable(false);

@@ -480,7 +480,25 @@
   "type":"method"
 },
 
-"VideoLibrary.GetTVShows":{"description":"Retrieve all tv shows","params":[{"$ref":"Video.Fields.TVShow","name":"properties"},{"$ref":"List.Limits","name":"limits"},{"$ref":"List.Sort","name":"sort"}],"returns":{"properties":{"limits":{"$ref":"List.LimitsReturned","required":true},"tvshows":{"items":{"$ref":"Video.Details.TVShow"},"type":"array"}},"type":"object"},"type":"method"},
+"VideoLibrary.GetTVShows":{
+  "description":"Retrieve all tv shows",
+  "params":[
+    {"$ref":"Video.Fields.TVShow","name":"properties"},
+    {"$ref":"List.Limits","name":"limits"},
+    {"$ref":"List.Sort","name":"sort"}
+  ],
+  "returns":{
+    "properties":{
+      "limits":{"$ref":"List.LimitsReturned","required":true},
+      "tvshows":{
+        "items":{"$ref":"Video.Details.TVShow"},
+        "type":"array"
+      }
+    },
+    "type":"object"
+  },
+  "type":"method"
+},
 "VideoLibrary.Scan":{"description":"Scans the video sources for new library items","params":[],"returns":{"type":"string"},"type":"method"},
 "XBMC.GetInfoBooleans":{"description":"Retrieve info booleans about XBMC and the system","params":[{"items":{"type":"string"},"name":"booleans","required":true,"type":"array"}],"returns":{"description":"List of key-value pairs of the retrieved info booleans","type":"object"},"type":"method"},
 "XBMC.GetInfoLabels":{"description":"Retrieve info labels about XBMC and the system","params":[{"description":"See http://wiki.xbmc.org/index.php?title=InfoLabels for a list of possible info labels","items":{"type":"string"},"name":"labels","required":true,"type":"array"}],"returns":{"description":"List of key-value pairs of the retrieved info labels","type":"object"},"type":"method"}

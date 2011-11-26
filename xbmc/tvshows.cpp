@@ -32,6 +32,7 @@ TvShows::TvShows(XbmcModel *parent) :
     QVariantMap params;
     QVariantList properties;
     properties.append("fanart");
+    properties.append("playcount");
     params.insert("properties", properties);
 
     QVariantMap sort;
@@ -99,6 +100,7 @@ void TvShows::responseReceived(int id, const QVariantMap &rsp)
             item->setTitle(itemMap.value("label").toString());
             item->setTvshowId(itemMap.value("tvshowid").toInt());
             item->setThumbnail(itemMap.value("fanart").toString());
+            item->setPlaycount(itemMap.value("playcount").toInt());
             item->setIgnoreArticle(true);
             item->setFileType("directory");
             item->setPlayable(false);
