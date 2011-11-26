@@ -240,10 +240,12 @@ Page {
             Label {
                 id: trackLabel
                 anchors.left: parent.left
-                anchors.right: trackNumLabel.right
+                //anchors.right: trackNumLabel.right
+                width: parent.width - trackNumLabel.width
                 anchors.bottom: artistLabel.top
                 anchors.bottomMargin: 10
                 text: currentItem.title
+                elide: Text.ElideRight
                 font.bold: true
             }
             Label {
