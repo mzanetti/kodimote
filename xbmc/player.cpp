@@ -241,6 +241,9 @@ void Player::responseReceived(int id, const QVariantMap &response)
         m_shuffle = rsp.toMap().value("shuffled").toBool();
         emit shuffleChanged();
         break;
+    case SetPercentage:
+        m_requestMap.remove(id);
+        break;
     }
 }
 
@@ -344,9 +347,12 @@ Player::Repeat Player::repeat() const
 
 void Player::seek(int position)
 {
+    if(!m_requestMap.keys(SetPercentage).isEmpty() && position != m_percentage) {
+        return;
+    }
     QVariantMap params;
     params.insert("playerid", playerId());
     params.insert("value", position);
 
-    XbmcConnection::sendCommand("Player.Seek", params);
+    m_requestMap.insert(XbmcConnection::sendCommand("Player.Seek", params), SetPercentage);
 }

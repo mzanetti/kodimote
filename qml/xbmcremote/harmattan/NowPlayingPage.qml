@@ -131,16 +131,6 @@ Page {
                 text: currentItem.durationString
             }
 
-            ProgressBar {
-                id: progressBar
-                anchors { left: parent.left; right: parent.right; bottom: currentTime.top }
-                anchors.bottomMargin: 10
-                width: 300
-                minimumValue: 0
-                maximumValue: 100
-                value: player.percentage
-            }
-
             ButtonRow {
                 id: controlButtons
                 anchors {left:parent.left; right: parent.right; bottom: progressBar.top }
@@ -156,6 +146,68 @@ Page {
                 ToolIcon { platformIconId: "toolbar-mediacontrol-next"
                     anchors.right: parent.right
                     onClicked: player.skipNext();
+                }
+            }
+
+            ProgressBar {
+                id: progressBar
+                anchors { left: parent.left; right: parent.right; bottom: currentTime.top }
+                anchors.bottomMargin: 10
+                width: 300
+                minimumValue: 0
+                maximumValue: 100
+                value: player.percentage
+
+                Rectangle {
+                    color: theme.inverted ? "white" : "black"
+                    rotation: 45
+                    width: 10
+                    height: 10
+                    anchors.horizontalCenter: progressBarLabel.horizontalCenter
+                    anchors.verticalCenter: progressBarLabel.bottom
+                    visible: progressBarLabel.visible
+                }
+
+                Rectangle {
+                    id: progressBarLabel
+                    color: theme.inverted ? "white" : "black"
+                    anchors.bottom: parent.top
+                    anchors.bottomMargin: 40
+                    height: 40
+                    width: progressBarLabelText.width + 20
+                    radius: 5
+                    visible: progressBarMouseArea.pressed
+
+                    Label {
+                        id: progressBarLabelText
+                        anchors.centerIn: parent
+                        color: theme.inverted ? "black" : "white"
+                    }
+                }
+
+                MouseArea {
+                    id: progressBarMouseArea
+                    anchors.fill: progressBar
+                    anchors.topMargin: -10
+                    anchors.bottomMargin: -10
+
+                    onMouseXChanged: {
+                        progressBarLabel.x = mouseX - progressBarLabel.width / 2
+                        var ct = (progressBarLabel.x + progressBarLabel.width / 2) * currentItem.durationInSecs / progressBar.width
+                        var hours = Math.round(ct / 60 / 60);
+                        var minutes = Math.round(ct / 60) % 60;
+                        if(minutes < 10) minutes = "0" + minutes;
+                        var seconds = Math.round(ct) % 60;
+                        if(seconds < 10) seconds = "0" + seconds;
+                        if(currentItem.durationInSecs < 60 * 60) {
+                            progressBarLabelText.text = minutes + ":" + seconds;
+                        } else {
+                            progressBarLabelText.text = hours + ":" + minutes + ":" + seconds;
+                        }
+                    }
+                    onReleased: {
+                        player.seek(mouseX * 100 / width)
+                    }
                 }
             }
 

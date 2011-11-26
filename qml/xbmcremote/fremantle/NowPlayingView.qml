@@ -245,9 +245,18 @@ FocusScope {
                 elide: Text.ElideRight
             }
 
+            Text {
+                id: runtimeText
+                anchors.bottom: nowPlayingText.bottom
+                anchors.right: nowPlayingText.right
+                color: "white"
+                font.pixelSize: progressBar.height - 2
+                text: currentItem.durationString
+            }
+
             Rectangle {
                 id: progressBar
-                width: nowPlayingText.width
+                width: nowPlayingText.width - runtimeText.width - 5
                 height: 15
                 anchors.bottom: nowPlayingText.bottom
                 color: "#1d1d1d"
@@ -267,6 +276,68 @@ FocusScope {
 
                 Behavior on width {
                     NumberAnimation {duration: 500; easing.type: Easing.Linear }
+                }
+            }
+
+            Rectangle {
+                id: seekTimeTag
+                color: "black"
+                visible: seekSlider.opacity > 0.5
+                anchors.bottom: seekSlider.top
+                anchors.bottomMargin: 20
+                anchors.horizontalCenter: seekSlider.horizontalCenter
+                height: childrenRect.height + 10
+                width: childrenRect.width + 10
+                radius: 5
+
+                Text {
+                    id: seekTimeTagText
+                    anchors.centerIn: parent
+                    color: "white"
+                    text: "00:00:00"
+                }
+            }
+
+            Rectangle {
+                id: seekSlider
+                color: "#c7d9e2"
+                border.color: "#c7d9e2"
+                border.width: 2
+                height: progressBar.height * 2
+                width: height
+                radius: height / 2
+                anchors.verticalCenter: progressBar.verticalCenter
+                x: dragging ? x : (progressBar.width - height) * xbmc.activePlayer.percentage / 100
+                opacity: dragging ? .8 : .001
+                property bool dragging: false
+
+                MouseArea {
+                    anchors.fill: seekSlider
+                    drag.target: parent; drag.axis: Drag.XAxis
+                    drag.minimumX: 2; drag.maximumX: progressBar.width - seekSlider.width - 2
+                    onPressed: seekSlider.dragging = true
+                    onReleased: {
+                        player.seek((seekSlider.x) * 100 / (progressBar.width - seekSlider.width))
+                        seekSlider.dragging = false
+                        print("should seek to" + (seekSlider.x) * 100 / (progressBar.width - seekSlider.width))
+                    }
+                    onMouseXChanged: {
+                        onMouseXChanged: {
+                            var ct = (seekTimeTag.x + seekTimeTag.width / 2) * currentItem.durationInSecs / progressBar.width
+                            print("ct " + ct);
+                            var hours = Math.round(ct / 60 / 60);
+                            var minutes = Math.round(ct / 60) % 60;
+                            if(minutes < 10) minutes = "0" + minutes;
+                            var seconds = Math.round(ct) % 60;
+                            if(seconds < 10) seconds = "0" + seconds;
+                            if(currentItem.durationInSecs < 60 * 60) {
+                                seekTimeTagText.text = minutes + ":" + seconds;
+                            } else {
+                                seekTimeTagText.text = hours + ":" + minutes + ":" + seconds;
+                            }
+                        }
+                    }
+
                 }
             }
         }

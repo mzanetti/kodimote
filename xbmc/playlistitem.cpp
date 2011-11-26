@@ -97,6 +97,11 @@ QTime PlaylistItem::duration() const
     return m_duration;
 }
 
+int PlaylistItem::durationInSecs() const
+{
+    return m_duration.hour() * 60 * 60 + m_duration.minute() * 60 + m_duration.second();
+}
+
 QString PlaylistItem::durationString() const
 {
     if(m_duration.hour() > 0) {

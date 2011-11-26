@@ -27,6 +27,7 @@ class PlaylistItem: public QObject
 {
     Q_OBJECT
     Q_PROPERTY(QString title READ title NOTIFY titleChanged)
+    Q_PROPERTY(int durationInSecs READ durationInSecs NOTIFY durationChanged)
     Q_PROPERTY(QString durationString READ durationString NOTIFY durationChanged)
     Q_PROPERTY(QString fanart READ fanart NOTIFY fanartChanged)
     Q_PROPERTY(QString thumbnail READ thumbnail NOTIFY thumbnailChanged)
@@ -55,6 +56,7 @@ public:
 
     QString label() const;
     QTime duration() const;
+    int durationInSecs() const;
     QString durationString() const;
     QString title() const;
     QString fanart() const;

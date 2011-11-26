@@ -110,7 +110,8 @@ protected:
         RequestSpeed,
         RequestPercentage,
         RequestPosition,
-        RequestRepeatShuffle
+        RequestRepeatShuffle,
+        SetPercentage
     };
     QMap<int, Request> m_requestMap;
 
