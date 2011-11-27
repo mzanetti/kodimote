@@ -51,14 +51,26 @@ Page {
     // The delegate for each section header
     Component {
         id: sectionHeading
-        Rectangle {
+        Row {
             width: listView.width
-            height: childrenRect.height
-            color: "lightsteelblue"
+            height: 20
+            Item {
+                width: listView.width - 25
+                height: parent.height
+                Rectangle {
+                    width: parent.width - 50
+                    height: 1
+                    color: theme.inverted ? "#7b797b" : "#848684"
+                    anchors.centerIn: parent
+                }
+            }
 
-            Text {
+            Label {
                 text: section
                 font.bold: true
+                font.pixelSize: 16
+                anchors.verticalCenter: parent.verticalCenter
+                color: theme.inverted ? "#7b797b" : "#848684"
             }
         }
     }
@@ -151,7 +163,7 @@ Page {
                 anchors {left: parent.left; top: parent.top; right: parent.right }
                 height: 88
                 anchors.leftMargin: thumbnailImage.width + 15
-                anchors.rightMargin: 15
+                anchors.rightMargin: 5
 
                 Column {
                     anchors.verticalCenter: parent.verticalCenter
@@ -214,6 +226,7 @@ Page {
                 anchors.right: parent.right;
                 anchors.verticalCenter: parent.verticalCenter
                 visible: filetype == "directory" && listItem.state == "collapsed" ? true : false;
+                opacity: .5
             }
 
 
@@ -240,7 +253,7 @@ Page {
         }
         section.property: "sortingTitle"
         section.criteria: ViewSection.FirstCharacter
-        //section.delegate: sectionHeading
+        section.delegate: model.parentModel() != null ? sectionHeading : undefined
 
         Behavior on contentY {
             NumberAnimation {
@@ -261,7 +274,7 @@ Page {
 
         Rectangle {
             id: scrollBackground
-            color: "black"
+            color: theme.inverted ? "white" : "black"
             opacity: 0
             anchors.fill: parent
 
@@ -299,14 +312,14 @@ Page {
 
         Rectangle {
             anchors.fill: parent
-            color: "black"
+            color: theme.inverted ? "white" : "black"
         }
         Label {
             id: scrollIndicatorLabel
             anchors.fill: scrollIndicator
             verticalAlignment: Text.AlignVCenter
             anchors.margins: 10
-            color: "white"
+            color: theme.inverted ? "black" : "white"
             font.pixelSize: 64
         }
     }
