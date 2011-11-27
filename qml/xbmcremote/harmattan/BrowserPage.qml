@@ -253,7 +253,7 @@ Page {
         }
         section.property: "sortingTitle"
         section.criteria: ViewSection.FirstCharacter
-        section.delegate: model.parentModel() != null ? sectionHeading : undefined
+        // section.delegate: model.parentModel() != null ? sectionHeading : undefined
 
         Behavior on contentY {
             NumberAnimation {
