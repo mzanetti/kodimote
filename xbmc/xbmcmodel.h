@@ -29,6 +29,8 @@ class XbmcModel : public QAbstractItemModel
     Q_OBJECT
     Q_PROPERTY(QString title READ title NOTIFY titleChanged)
     Q_PROPERTY(int count READ rowCount NOTIFY layoutChanged)
+    Q_PROPERTY(bool busy READ busy NOTIFY busyChanged)
+
 public:
     enum Roles {
         RoleTitle = Qt::DisplayRole,
@@ -36,7 +38,6 @@ public:
         RoleSubtitle = Qt::UserRole + 2,
         RoleDuration = Qt::UserRole + 3,
         RolePlayable = Qt::UserRole + 4,
-
         RoleSongId = Qt::UserRole + 100,
         RoleAlbumId = Qt::UserRole + 101,
         RoleArtistId = Qt::UserRole + 102,
@@ -89,13 +90,18 @@ public:
         return m_list.count();
     }
 
+    bool busy() const;
+    void setBusy(bool busy);
+
 signals:
     void titleChanged();
     void layoutChanged();
+    void busyChanged();
 
 protected:
     XbmcModel *m_parentModel;
     QList<XbmcModelItem*> m_list;
+    bool m_busy;
 };
 
 #endif // XBMCMODEL_H

@@ -100,6 +100,7 @@ void Episodes::responseReceived(int id, const QVariantMap &rsp)
 
     switch(m_requestList.value(id)) {
     case RequestList: {
+        setBusy(false);
         QList<XbmcModelItem*> list;
         qDebug() << "got Episodes:" << rsp.value("result");
         QVariantList responseList = rsp.value("result").toMap().value("episodes").toList();

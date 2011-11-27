@@ -22,7 +22,8 @@
 
 XbmcModel::XbmcModel(XbmcModel *parent) :
     QAbstractItemModel(parent),
-    m_parentModel(parent)
+    m_parentModel(parent),
+    m_busy(true)
 {
     QHash<int, QByteArray> roleNames;
     roleNames.insert(RoleTitle, "title");
@@ -103,4 +104,15 @@ int XbmcModel::findItem(const QString &string, bool caseSensitive)
         }
     }
     return -1;
+}
+
+bool XbmcModel::busy() const
+{
+    return m_busy;
+}
+
+void XbmcModel::setBusy(bool busy)
+{
+    m_busy = busy;
+    emit busyChanged();
 }

@@ -26,6 +26,7 @@
 AudioLibrary::AudioLibrary() :
     XbmcLibrary(0)
 {
+    setBusy(false);
     LibraryItem *item = new LibraryItem("Artists");
     item->setFileType("directory");
     item->setPlayable(false);

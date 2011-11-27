@@ -85,6 +85,7 @@ void Artists::responseReceived(int id, const QVariantMap &rsp)
 
     switch(m_requestList.value(id)) {
     case RequestList: {
+        setBusy(false);
         QList<XbmcModelItem*> list;
         qDebug() << "got artists:" << rsp.value("result");
         QVariantList responseList = rsp.value("result").toMap().value("artists").toList();

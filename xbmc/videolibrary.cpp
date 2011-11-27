@@ -25,6 +25,7 @@
 VideoLibrary::VideoLibrary(XbmcModel *parent) :
     XbmcLibrary(parent)
 {
+    setBusy(false);
     LibraryItem *item = new LibraryItem("Movies");
     item->setFileType("directory");
     item->setPlayable(false);

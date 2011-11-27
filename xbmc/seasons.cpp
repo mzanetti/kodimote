@@ -54,6 +54,7 @@ void Seasons::responseReceived(int id, const QVariantMap &rsp)
         return;
     }
 
+    setBusy(false);
     QList<XbmcModelItem*> list;
     qDebug() << "got Seasons:" << rsp.value("result");
     QVariantList responseList = rsp.value("result").toMap().value("seasons").toList();

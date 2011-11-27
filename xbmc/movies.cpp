@@ -103,6 +103,7 @@ void Movies::responseReceived(int id, const QVariantMap &rsp)
 
     switch(m_requestList.value(id)) {
     case RequestList: {
+        setBusy(false);
         QList<XbmcModelItem*> list;
         qDebug() << "got movies:" << rsp.value("result");
         QVariantList responseList = rsp.value("result").toMap().value("movies").toList();

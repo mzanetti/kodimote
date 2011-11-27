@@ -90,6 +90,7 @@ void Albums::responseReceived(int id, const QVariantMap &rsp)
 
     switch(m_requestList.value(id)) {
     case RequestList: {
+        setBusy(false);
         QList<XbmcModelItem*> list;
         qDebug() << "got albums:" << rsp.value("result");
         QVariantList responseList = rsp.value("result").toMap().value("albums").toList();

@@ -344,4 +344,12 @@ Page {
         }
     }
 
+    BusyIndicator {
+        id: busyIndicator
+        anchors.centerIn: parent
+        platformStyle: BusyIndicatorStyle { size: "large" }
+        running: model.busy
+        visible: model.busy
+    }
+
 }

@@ -58,6 +58,7 @@ void Files::responseReceived(int id, const QVariantMap &rsp)
     if(id != m_requestId) {
         return;
     }
+    setBusy(false);
     QList<XbmcModelItem*> list;
     qDebug() << "got files:" << rsp.value("result");
     QVariantList responseList = rsp.value("result").toMap().value("files").toList();
