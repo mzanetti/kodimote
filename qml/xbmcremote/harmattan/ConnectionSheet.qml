@@ -142,6 +142,7 @@ Sheet {
     onAccepted: {
         console.log("sheet accepted")
         if(itemView.currentIndex == 0) {
+            xbmc.hostModel().wakeup(hostList.currentIndex);
             xbmc.hostModel().connectToHost(hostList.currentIndex);
         } else {
             xbmc.hostModel().createHost(hostnameTextField.text, hostnameTextField.text, hostnameTextField.port)

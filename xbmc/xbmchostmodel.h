@@ -24,6 +24,7 @@ public:
 
     Q_INVOKABLE QVariant get(int row, const QString &roleName);
     Q_INVOKABLE void connectToHost(int row);
+    Q_INVOKABLE void wakeup(int row);
 
     // inserts or updates the host and returns its index
     int insertOrUpdateHost(const XbmcHost &host);

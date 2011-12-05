@@ -4,6 +4,8 @@
 #include <QObject>
 #include <QUdpSocket>
 
+class XbmcHost;
+
 class XbmcDiscovery : public QObject
 {
     Q_OBJECT
@@ -11,7 +13,7 @@ public:
     explicit XbmcDiscovery(QObject *parent = 0);
     ~XbmcDiscovery();
 
-    void discover();
+    Q_INVOKABLE void discover();
 
 signals:
 

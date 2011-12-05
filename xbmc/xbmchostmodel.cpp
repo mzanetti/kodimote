@@ -1,6 +1,8 @@
 #include "xbmchostmodel.h"
 #include "xbmcconnection.h"
 
+#include <QUdpSocket>
+
 XbmcHostModel::XbmcHostModel(QObject *parent) :
     QAbstractListModel(parent)
 {
@@ -92,6 +94,24 @@ QVariant XbmcHostModel::get(int row, const QString &roleName)
 
 void XbmcHostModel::connectToHost(int row) {
     XbmcConnection::connect(m_hosts.at(row));
+}
+
+void XbmcHostModel::wakeup(int row)
+{
+    XbmcHost *host = m_hosts.at(row);
+    if(host->hwAddr().isEmpty()) {
+        qDebug() << "don't know MAC address of host" << host->hostname();
+        return;
+    }
+    const char header[] = {0xff, 0xff, 0xff, 0xff, 0xff, 0xff};
+    QByteArray packet = QByteArray::fromRawData(header, sizeof(header));
+    for(int i = 0; i < 16; ++i) {
+        packet.append(QByteArray::fromHex(host->hwAddr().remove(':').toAscii()));
+    }
+    qDebug() << "created magic packet:" << packet.toHex();
+
+    QUdpSocket udpSocket;
+    udpSocket.writeDatagram(packet.data(), packet.size(), QHostAddress::Broadcast, 9);
 }
 
 /*******************************************************
