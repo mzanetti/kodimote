@@ -38,6 +38,8 @@ private slots:
     void callEvent(const QDBusObjectPath &, const QString &);
     void callTerminated();
 
+    void connectionChanged(bool connected);
+
 private:
     MeeGo::QmKeys m_keys;
     ResourcePolicy::ResourceSet *m_resouceSet;

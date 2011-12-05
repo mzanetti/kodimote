@@ -47,24 +47,24 @@ ConnectDialog::ConnectDialog(QWidget *parent) :
 
     gridLayout->addWidget(new QLabel("Host:"), 0, 0);
 
-    m_hostName = new QLineEdit(Xbmc::instance()->hostname());
-    gridLayout->addWidget(m_hostName, 0, 1);
+//    m_hostName = new QLineEdit(Xbmc::instance()->hostname());
+//    gridLayout->addWidget(m_hostName, 0, 1);
 
-    gridLayout->addWidget(new QLabel("Http Port:"), 1, 0);
+//    gridLayout->addWidget(new QLabel("Http Port:"), 1, 0);
 
-    m_port = new QLineEdit(QString::number(Xbmc::instance()->port()));
-    m_port->setValidator(new QIntValidator());
-    gridLayout->addWidget(m_port, 1, 1);
+//    m_port = new QLineEdit(QString::number(Xbmc::instance()->port()));
+//    m_port->setValidator(new QIntValidator());
+//    gridLayout->addWidget(m_port, 1, 1);
 
-    gridLayout->addWidget(new QLabel("Username:"), 2, 0);
+//    gridLayout->addWidget(new QLabel("Username:"), 2, 0);
 
-    m_userName = new QLineEdit(Xbmc::instance()->username());
-    gridLayout->addWidget(m_userName, 2, 1);
+//    m_userName = new QLineEdit(Xbmc::instance()->username());
+//    gridLayout->addWidget(m_userName, 2, 1);
 
-    gridLayout->addWidget(new QLabel("Password:"), 3, 0);
+//    gridLayout->addWidget(new QLabel("Password:"), 3, 0);
 
-    m_password = new QLineEdit(Xbmc::instance()->password());
-    gridLayout->addWidget(m_password, 3, 1);
+//    m_password = new QLineEdit(Xbmc::instance()->password());
+//    gridLayout->addWidget(m_password, 3, 1);
 
 
 #ifdef Q_WS_MAEMO_5
@@ -122,10 +122,10 @@ QString ConnectDialog::password()
 
 void ConnectDialog::accept()
 {
-    Xbmc::instance()->setHostname(m_hostName->text());
-    Xbmc::instance()->setPort(m_port->text().toInt());
-    Xbmc::instance()->setUsername(m_userName->text());
-    Xbmc::instance()->setPassword(m_password->text());
-    Xbmc::instance()->connectToHost();
+//    Xbmc::instance()->setHostname(m_hostName->text());
+//    Xbmc::instance()->setPort(m_port->text().toInt());
+//    Xbmc::instance()->setUsername(m_userName->text());
+//    Xbmc::instance()->setPassword(m_password->text());
+//    Xbmc::instance()->connectToHost();
     QDialog::accept();
 }

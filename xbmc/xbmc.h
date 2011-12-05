@@ -24,6 +24,8 @@
 #include <QPropertyAnimation>
 
 class XbmcModel;
+class XbmcHost;
+class XbmcHostModel;
 class AudioLibrary;
 class VideoLibrary;
 
@@ -40,10 +42,6 @@ class Xbmc : public QObject
     Q_OBJECT
     Q_PROPERTY(bool connected READ connected NOTIFY connectedChanged)
     Q_PROPERTY(QString connectionError READ connectionError NOTIFY connectedChanged)
-    Q_PROPERTY(QString hostname READ hostname WRITE setHostname NOTIFY hostnameChanged)
-    Q_PROPERTY(int port READ port WRITE setPort NOTIFY portChanged)
-    Q_PROPERTY(QString username READ username WRITE setUsername)
-    Q_PROPERTY(QString password READ password WRITE setPassword)
     Q_PROPERTY(QString vfsPath READ vfsPath NOTIFY vfsPathChanged)
     Q_PROPERTY(Player* activePlayer READ activePlayer NOTIFY activePlayerChanged)
     Q_PROPERTY(bool picturePlayerActive READ picturePlayerActive NOTIFY picturePlayerActiveChanged)
@@ -68,17 +66,10 @@ public:
     Q_INVOKABLE Keys *keys();
 
     bool connected();
+    XbmcHost *connectedHost();
     QString connectionError();
-    Q_INVOKABLE void connectToHost();
-
-    QString hostname();
-    void setHostname(const QString &hostname);
-    int port();
-    void setPort(int port);
-    QString username();
-    void setUsername(const QString &username);
-    QString password();
-    void setPassword(const QString &password);
+    Q_INVOKABLE XbmcHostModel* hostModel();
+    Q_INVOKABLE void setAuthCredentials(const QString &username, const QString &password);
 
     QString state();
 
@@ -95,15 +86,13 @@ public slots:
     void queryActivePlayers();
 
 signals:
+    void authenticationRequired(const QString &hostname, const QString &address);
     void connectedChanged(bool connected);
     void activePlayerChanged();
     void volumeChanged(int volume);
     void vfsPathChanged();
     void stateChanged();
-    void hostnameChanged();
     void portChanged();
-    void usernameChanged();
-    void passwordChanged();
     void picturePlayerActiveChanged();
 
 private slots:
@@ -137,6 +126,7 @@ private:
     int m_port;
     QString m_username;
     QString m_password;
+    XbmcHostModel *m_hosts;
 
     int m_originalVolume;
     int m_targetVolume;

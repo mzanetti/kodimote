@@ -1,5 +1,7 @@
 #include "nfchandler.h"
 #include "xbmc/xbmc.h"
+#include "xbmc/xbmcconnection.h"
+#include "xbmc/xbmchostmodel.h"
 
 #include <QDebug>
 #include <QUrl>
@@ -24,7 +26,7 @@ void NfcHandler::tagDetected(QNearFieldTarget *tag)
 
     if(m_writeNextTag) {
         QNdefNfcTextRecord record;
-        record.setText("xbmc:" + Xbmc::instance()->hostname() + ':' + QString::number(Xbmc::instance()->port()));
+        record.setText("xbmc:" + XbmcConnection::connectedHost()->hostname() + ':' + QString::number(XbmcConnection::connectedHost()->port()));
         QNdefMessage message(record);
         qDebug() << "writing record:" << record.text();
         tag->writeNdefMessages(QList<QNdefMessage>() << message);
@@ -50,9 +52,11 @@ void NfcHandler::ndefMessageRead(QNdefMessage message)
                 QString hostname = textRecord.text().split(':').at(1);
                 QString port = textRecord.text().split(':').at(2);
                 qDebug() << "Should connect to" << hostname << ':' << port;
-                Xbmc::instance()->setHostname(hostname);
-                Xbmc::instance()->setPort(port.toInt());
-                Xbmc::instance()->connectToHost();
+                XbmcHost host;
+                host.setHostname(hostname);
+                host.setPort(port.toInt());
+                int index = Xbmc::instance()->hostModel()->insertOrUpdateHost(host);
+                Xbmc::instance()->hostModel()->connectToHost(index);
             } else {
                 qDebug() << "NDEF text record not compatible with xbmcremote:" << textRecord.text();
             }

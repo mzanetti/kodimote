@@ -1,6 +1,7 @@
 #include "settings.h"
 
 #include <QSettings>
+#include <QStringList>
 
 Settings::Settings(QObject *parent) :
     QObject(parent)
@@ -106,3 +107,71 @@ void Settings::setPauseOnCall(bool pause)
     emit pauseOnCallChanged();
 }
 
+void Settings::addHost(const XbmcHost &host)
+{
+    QSettings settings("xbmcremote");
+    settings.beginGroup("Hosts");
+    settings.beginGroup(host.address());
+    settings.setValue("Hostname", host.hostname());
+    settings.setValue("Username", host.username());
+    settings.setValue("Password", host.password());
+    settings.setValue("MAC", host.hwAddr());
+    settings.setValue("Port", host.port());
+}
+
+void Settings::removeHost(const XbmcHost &host)
+{
+    QSettings settings("xbmcremote");
+    settings.beginGroup("Hosts");
+    settings.beginGroup(host.address());
+    settings.remove("");
+}
+
+QList<XbmcHost> Settings::hostList() const
+{
+    QList<XbmcHost> list;
+
+    QSettings settings("xbmcremote");
+    settings.beginGroup("Hosts");
+    foreach(const QString &hostGroup, settings.childGroups()) {
+        settings.beginGroup(hostGroup);
+        XbmcHost host;
+        host.setAddress(hostGroup);
+        host.setHostname(settings.value("Hostname").toString());
+        host.setHwAddr(settings.value("MAC").toString());
+        host.setUsername(settings.value("Username").toString());
+        host.setPassword(settings.value("Password").toString());
+        host.setPort(settings.value("Port").toInt());
+        host.setXbmcHttpSupported(true);
+        host.setXbmcJsonrpcSupported(true);
+        list.append(host);
+        settings.endGroup();
+    }
+    return list;
+}
+
+XbmcHost Settings::lastHost() const
+{
+    QSettings settings("xbmcremote");
+    XbmcHost host;
+    if(settings.contains("LastHost")) {
+        QString lastHost = settings.value("LastHost").toString();
+        settings.beginGroup("Hosts");
+        settings.beginGroup(lastHost);
+        host.setAddress(lastHost);
+        host.setHostname(settings.value("Hostname").toString());
+        host.setHwAddr(settings.value("MAC").toString());
+        host.setPassword(settings.value("Password").toString());
+        host.setPort(settings.value("Port").toInt());
+        host.setUsername(settings.value("Username").toString());
+        host.setXbmcHttpSupported(true);
+        host.setXbmcJsonrpcSupported(true);
+    }
+    return host;
+}
+
+void Settings::setLastHost(const XbmcHost &host)
+{
+    QSettings settings("xbmcremote");
+    settings.setValue("LastHost", host.address());
+}

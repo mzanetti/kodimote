@@ -17,8 +17,10 @@
  ****************************************************************************/
 
 #include "xbmc.h"
+#include "xbmchostmodel.h"
 #include "xbmcconnection.h"
 #include "xdebug.h"
+#include "xbmcdiscovery.h"
 
 #include "audiolibrary.h"
 #include "artists.h"
@@ -79,18 +81,17 @@ Xbmc::Xbmc(QObject *parent) :
 
     qmlRegisterType<AudioPlayer>("Xbmc", 1, 0, "Player");
 
-    QSettings settings("xbmcremote");
-    m_hostname = settings.value("Host").toString();
-    m_port = settings.value("Port", 8080).toInt();
-    m_username = settings.value("Username").toString();
-    m_password = settings.value("Password").toString();
+    qmlRegisterType<XbmcHostModel>();
+    qmlRegisterType<XbmcDiscovery>("Xbmc", 1, 0, "XbmcDiscovery");
 
-    XbmcConnection::connect(m_hostname, m_port, m_username, m_password);
-//    XbmcConnection::connect("10.10.10.10", 8080);
+    QSettings settings("xbmcremote");
+
+    m_hosts = new XbmcHostModel(this);
 
     connect(XbmcConnection::notifier(), SIGNAL(connectionChanged()), SLOT(connectionChanged()));
     connect(XbmcConnection::notifier(), SIGNAL(receivedAnnouncement(QVariantMap)), SLOT(parseAnnouncement(QVariantMap)));
     connect(XbmcConnection::notifier(), SIGNAL(responseReceived(int,QVariantMap)), SLOT(responseReceived(int,QVariantMap)));
+    connect(XbmcConnection::notifier(), SIGNAL(authenticationRequired(QString,QString)), SIGNAL(authenticationRequired(QString, QString)));
 
     m_audioPlayer = new AudioPlayer(this);
     m_videoPlayer = new VideoPlayer(this);
@@ -128,6 +129,16 @@ bool Xbmc::connected()
     return XbmcConnection::connected();
 }
 
+XbmcHost *Xbmc::connectedHost()
+{
+    return XbmcConnection::connectedHost();
+}
+
+void Xbmc::setAuthCredentials(const QString &username, const QString &password)
+{
+    XbmcConnection::setAuthCredentials(username, password);
+}
+
 QString Xbmc::connectionError()
 {
     return XbmcConnection::connectionError();
@@ -163,61 +174,9 @@ PicturePlayer *Xbmc::picturePlayer()
     return m_picturePlayer;
 }
 
-QString Xbmc::hostname()
+XbmcHostModel *Xbmc::hostModel()
 {
-    return m_hostname;
-}
-
-void Xbmc::setHostname(const QString &hostname)
-{
-    QSettings settings("xbmcremote");
-    settings.setValue("Host", hostname);
-    m_hostname = hostname;
-    emit hostnameChanged();
-}
-
-int Xbmc::port(){
-    qDebug() << "port" << m_port;
-    return m_port;
-}
-
-void Xbmc::setPort(int port)
-{
-    QSettings settings("xbmcremote");
-    settings.setValue("Port", port);
-    m_port = port;
-    emit portChanged();
-}
-
-QString Xbmc::username()
-{
-    return m_username;
-}
-
-void Xbmc::setUsername(const QString &username)
-{
-    QSettings settings("xbmcremote");
-    settings.setValue("Username", username);
-    m_username = username;
-    emit usernameChanged();
-}
-
-QString Xbmc::password()
-{
-    return m_password;
-}
-
-void Xbmc::setPassword(const QString &password)
-{
-    QSettings settings("xbmcremote");
-    settings.setValue("Password", password);
-    m_password = password;
-    emit passwordChanged();
-}
-
-void Xbmc::connectToHost()
-{
-    XbmcConnection::connect(m_hostname, m_port, m_username, m_password);
+    return m_hosts;
 }
 
 Player *Xbmc::activePlayer()
@@ -291,7 +250,11 @@ void Xbmc::responseReceived(int id, const QVariantMap &response)
 
 QString Xbmc::vfsPath()
 {
-    return XbmcConnection::vfsPath();
+    if(XbmcConnection::connectedHost()) {
+        //xDebug(XDAREA_CONNECTION) << "returning vfs:" << "http://" + m_hostName + ':' + QString::number(m_port) + "/vfs/";
+        return "http://" + XbmcConnection::connectedHost()->address() + ':' + QString::number(XbmcConnection::connectedHost()->port()) + "/vfs/";
+    }
+    return QString();
 }
 
 QString Xbmc::state()

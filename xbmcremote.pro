@@ -56,7 +56,9 @@ SOURCES += main.cpp \
     xbmc/libraryitem.cpp \
     networkauthhandler.cpp \
     xbmc/xbmcmodelitem.cpp \
-    xbmc/episodeitem.cpp
+    xbmc/episodeitem.cpp \
+    xbmc/xbmcdiscovery.cpp \
+    xbmc/xbmchostmodel.cpp
 
 # Please do not modify the following two lines. Required for deployment.
 include(qmlapplicationviewer/qmlapplicationviewer.pri)
@@ -101,7 +103,9 @@ HEADERS += ui/settingsdialog.h \
     xbmc/libraryitem.h \
     networkauthhandler.h \
     xbmc/xbmcmodelitem.h \
-    xbmc/episodeitem.h
+    xbmc/episodeitem.h \
+    xbmc/xbmcdiscovery.h \
+    xbmc/xbmchostmodel.h
 
 LIBS += -lqjson
 
@@ -156,6 +160,10 @@ symbian:TARGET.CAPABILITY += NetworkServices
 
 RESOURCES += \
     xbmcremote.qrc
+
+
+
+
 
 
 

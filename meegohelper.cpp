@@ -41,6 +41,19 @@ MeeGoHelper::MeeGoHelper(QObject *parent) :
 
     QDBusConnection::systemBus().connect(QString(), "/com/nokia/csd/call", "com.nokia.csd.Call", "Coming", this, SLOT(callEvent(QDBusObjectPath,QString)));
     QDBusConnection::systemBus().connect(QString(), "/com/nokia/csd/call", "com.nokia.csd.Call", "Created", this, SLOT(callEvent(QDBusObjectPath,QString)));
+
+    Settings settings;
+    // Load stored hosts
+    foreach(const XbmcHost &host, settings.hostList()) {
+        int index = Xbmc::instance()->hostModel()->insertOrUpdateHost(host);
+        if(host.address() == settings.lastHost().address()) {
+            qDebug() << "reconnecting to" << host.hostname() << host.address() << host.username() << host.password();
+            Xbmc::instance()->hostModel()->connectToHost(index);
+        }
+    }
+
+    connect(Xbmc::instance(), SIGNAL(connectedChanged(bool)), SLOT(connectionChanged(bool)));
+
 }
 
 bool MeeGoHelper::eventFilter(QObject *obj, QEvent *event)
@@ -69,6 +82,8 @@ void MeeGoHelper::keyEvent(MeeGo::QmKeys::Key key, MeeGo::QmKeys::State state)
         break;
     case MeeGo::QmKeys::VolumeDown:
         Xbmc::instance()->setVolume(Xbmc::instance()->volume() - 5);
+        break;
+    default:
         break;
     }
 }
@@ -99,4 +114,14 @@ void MeeGoHelper::callTerminated()
     if(settings.pauseOnCall() && Xbmc::instance()->videoPlayer()->state() != "playing") {
         Xbmc::instance()->videoPlayer()->playPause();
     }
+}
+
+void MeeGoHelper::connectionChanged(bool connected)
+{
+    if(connected) {
+        Settings settings;
+        settings.addHost(*Xbmc::instance()->connectedHost());
+        settings.setLastHost(*Xbmc::instance()->connectedHost());
+    }
+
 }

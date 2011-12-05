@@ -1,6 +1,8 @@
 #ifndef SETTINGS_H
 #define SETTINGS_H
 
+#include "xbmc/xbmchostmodel.h"
+
 #include <QObject>
 
 class Settings : public QObject
@@ -35,6 +37,13 @@ public:
 
     void setPauseOnCall(bool pauseOnCall);
     bool pauseOnCall() const;
+
+    QList<XbmcHost> hostList() const;
+    void addHost(const XbmcHost &host);
+    void removeHost(const XbmcHost &host);
+
+    XbmcHost lastHost() const;
+    void setLastHost(const XbmcHost &host);
 
 signals:
     void themeInvertedChanged();

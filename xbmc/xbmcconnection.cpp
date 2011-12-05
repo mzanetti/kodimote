@@ -29,24 +29,30 @@
 #include <QNetworkRequest>
 #include <QNetworkReply>
 #include <QAuthenticator>
+#include <QHostInfo>
 
 #define DEBUGJSON
 
 namespace XbmcConnection
 {
-void connect(const QString &hostname, int port, const QString &username, const QString &password)
+void connect(XbmcHost *host)
 {
-    instance()->connect(hostname, port, username, password);
+    instance()->connect(host);
+}
+
+XbmcHost *connectedHost()
+{
+    return instance()->connectedHost();
+}
+
+void setAuthCredentials(const QString &username, const QString &password)
+{
+    instance()->setAuthCredentials(username, password);
 }
 
 int sendCommand(const QString &command, const QVariant &params)
 {
    return instance()->sendCommand(command, params);
-}
-
-QString vfsPath()
-{
-    return instance()->vfsPath();
 }
 
 Notifier *notifier()
@@ -101,21 +107,23 @@ XbmcConnectionPrivate::XbmcConnectionPrivate(QObject *parent) :
     QObject::connect(m_network, SIGNAL(authenticationRequired(QNetworkReply*,QAuthenticator*)), SLOT(authenticationRequired(QNetworkReply*,QAuthenticator*)));
 }
 
-void XbmcConnectionPrivate::connect(const QString &hostname, int port, const QString &username, const QString &password)
+void XbmcConnectionPrivate::connect(XbmcHost *host)
 {
     m_socket->disconnectFromHost();
 
-    m_hostName = hostname;
-    m_port = port;
-    m_username = username;
-    m_password = password;
+    m_host = host;
 
-    xDebug(XDAREA_CONNECTION) << "connecting to" << hostname;
+    xDebug(XDAREA_CONNECTION) << "connecting to" << host->hostname() << host->address() << host->username() << host->password();
     // We connect to telnet on port 9090 for the announcements
-    m_socket->connectToHost(hostname, 9090);
+    m_socket->connectToHost(host->address(), 9090);
 
-    m_connectionError = "Connecting to " + hostname + "...";
+    m_connectionError = "Connecting to " + host->hostname() + "...";
     emit m_notifier->connectionChanged();
+}
+
+XbmcHost* XbmcConnectionPrivate::connectedHost()
+{
+    return m_host;
 }
 
 void XbmcConnectionPrivate::slotConnected()
@@ -151,12 +159,6 @@ void XbmcConnectionPrivate::socketError()
     emit m_notifier->connectionChanged();
 }
 
-QString XbmcConnectionPrivate::vfsPath()
-{
-//    xDebug(XDAREA_CONNECTION) << "returning vfs:" << "http://" + m_hostName + ':' + QString::number(m_port) + "/vfs/";
-    return "http://" + m_hostName + ':' + QString::number(m_port) + "/vfs/";
-}
-
 void XbmcConnectionPrivate::sendNextCommand2() {
 
     if(m_currentPendingCommand.id() >= 0 || m_socket->state() != QAbstractSocket::ConnectedState) {
@@ -167,7 +169,7 @@ void XbmcConnectionPrivate::sendNextCommand2() {
         Command command = m_commandQueue.takeFirst();
 
         QNetworkRequest request;
-        request.setUrl(QUrl("http://" + m_hostName + ":" + QString::number(m_port) + "/jsonrpc"));
+        request.setUrl(QUrl("http://" + m_host->address() + ":" + QString::number(m_host->port()) + "/jsonrpc"));
 
         QVariantMap map;
         map.insert("jsonrpc", "2.0");
@@ -401,7 +403,7 @@ void XbmcConnectionPrivate::clearPending()
     xDebug(XDAREA_CONNECTION) << "timeouttimer hit for comman" << m_commandId;
     if(m_commandId == m_versionRequestId) {
         xDebug(XDAREA_CONNECTION) << "cannot ask for remote version... ";
-        m_connectionError = "Connection to " + m_hostName + " timed out...";
+        m_connectionError = "Connection to " + m_host->hostname() + " timed out...";
         emit m_notifier->connectionChanged();
         m_commandQueue.clear();
     }
@@ -428,12 +430,24 @@ void XbmcConnectionPrivate::authenticationRequired(QNetworkReply *reply, QAuthen
 {
     if(reply == m_lastAuthRequest) {
         m_connectionError = "Wrong username or password";
-        emit m_notifier->connectionChanged();
+//        emit m_notifier->connectionChanged();
+//        emit m_notifier->authenticationRequired(m_host->hostname(), m_host->address());
     }
-    if(!m_username.isEmpty() && !m_password.isEmpty()) {
-        authenticator->setUser(m_username);
-        authenticator->setPassword(m_password);
+    if(!m_host->username().isEmpty() && !m_host->password().isEmpty()) {
+        authenticator->setUser(m_host->username());
+        authenticator->setPassword(m_host->password());
         m_lastAuthRequest = reply;
+    } else {
+        emit m_notifier->authenticationRequired(m_host->hostname(), m_host->address());
+    }
+}
+
+void XbmcConnectionPrivate::setAuthCredentials(const QString &username, const QString &password)
+{
+    if(m_host) {
+        m_host->setUsername(username);
+        m_host->setPassword(password);
+        connect(m_host);
     }
 }
 

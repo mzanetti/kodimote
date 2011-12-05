@@ -20,6 +20,7 @@
 #define XBMC_P_H
 
 #include "xbmcconnection.h"
+#include "xbmchostmodel.h"
 //#include "player.h"
 
 #include <QString>
@@ -57,20 +58,18 @@ class XbmcConnectionPrivate : public QObject
 public:
     explicit XbmcConnectionPrivate(QObject *parent = 0);
 
-    void connect(const QString &hostname, int port, const QString &username, const QString &password);
+    void connect(XbmcHost *host);
+    XbmcHost *connectedHost();
+    bool connected();
+    QString connectionError();
+    void setAuthCredentials(const QString &username, const QString &password);
+
+    QDate xbmcVersion();
 
     int sendCommand(const QString &command, const QVariant &parms = QVariant());
 
-    QString vfsPath();
-
-    Notifier *notifier();
-
-    bool connected();
-    QString connectionError();
-
     QNetworkAccessManager *nam();
-
-    QDate xbmcVersion();
+    Notifier *notifier();
 
 private slots:
     void readData();
@@ -95,10 +94,7 @@ private:
     void sendNextCommand();
     void sendNextCommand2();
 
-    QString m_hostName;
-    int m_port;
-    QString m_username;
-    QString m_password;
+    XbmcHost *m_host;
 
     QNetworkAccessManager *m_network;
     QNetworkReply *m_lastAuthRequest;

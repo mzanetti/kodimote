@@ -23,18 +23,20 @@
 #include <QTcpSocket>
 #include <QNetworkAccessManager>
 
+class XbmcHost;
+
 namespace XbmcConnection
 {
 
-void connect(const QString &hostname, int port, const QString &username = QString(), const QString &password = QString());
-
-int sendCommand(const QString &command, const QVariant &params = QVariant());
-
-QString vfsPath();
+void connect(XbmcHost *host);
+XbmcHost *connectedHost();
+void setAuthCredentials(const QString &username, const QString &password);
 
 bool connected();
 QString connectionError();
 QDate xbmcVersion();
+
+int sendCommand(const QString &command, const QVariant &params = QVariant());
 
 QNetworkAccessManager *nam();
 
@@ -47,6 +49,7 @@ signals:
     void connectionChanged();
     void receivedAnnouncement(const QVariantMap &announcement);
     void responseReceived(int id, const QVariantMap &response);
+    void authenticationRequired(const QString &hostname, const QString &address);
 };
 Notifier *notifier();
 }

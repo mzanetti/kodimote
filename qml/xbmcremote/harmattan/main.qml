@@ -133,6 +133,21 @@ PageStackWindow {
         }
     }
 
+    Connections {
+        target: xbmc
+        onAuthenticationRequired: {
+            print("auth required");
+            var component = Qt.createComponent("AuthenticationSheet.qml")
+            if (component.status == Component.Ready) {
+                var authSheet = component.createObject(mainPage);
+                authSheet.hostname = hostname;
+                authSheet.open();
+            } else {
+                console.log("Error loading component:", component.errorString());
+            }
+        }
+    }
+
     QueryDialog {
         id: quitDialog
         message: "Do you want to quit xbmc?"

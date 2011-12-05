@@ -1,6 +1,8 @@
 #include "networkauthhandler.h"
 
 #include "xbmc/xbmc.h"
+#include "xbmc/xbmcconnection.h"
+#include "xbmc/xbmchostmodel.h"
 
 #include <QDebug>
 
@@ -13,8 +15,8 @@ void NetworkAuthHandler::authenticationRequired(QNetworkReply *reply, QAuthentic
 {
     qDebug() << "***************auth required!";
     Q_UNUSED(reply)
-    if(!Xbmc::instance()->username().isEmpty() && !Xbmc::instance()->password().isEmpty()) {
-        authenticator->setUser(Xbmc::instance()->username());
-        authenticator->setPassword(Xbmc::instance()->password());
+    if(XbmcConnection::connectedHost() && !XbmcConnection::connectedHost()->username().isEmpty() && !XbmcConnection::connectedHost()->password().isEmpty()) {
+        authenticator->setUser(XbmcConnection::connectedHost()->username());
+        authenticator->setPassword(XbmcConnection::connectedHost()->password());
     }
 }
