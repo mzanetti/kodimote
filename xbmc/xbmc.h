@@ -48,10 +48,10 @@ class Xbmc : public QObject
     Q_PROPERTY(QString state READ state NOTIFY stateChanged)
     Q_PROPERTY(int volume READ volume WRITE setVolume NOTIFY volumeChanged)
 
-    Q_PROPERTY(bool canShutdown READ canShutdown NOTIFY canShutdownChanged)
-    Q_PROPERTY(bool canReboot READ canReboot NOTIFY canRebootChanged)
-    Q_PROPERTY(bool canHibernate READ canHibernate NOTIFY canHibernateChanged)
-    Q_PROPERTY(bool canSuspend READ canSuspend NOTIFY canSuspendChanged)
+    Q_PROPERTY(bool canShutdown READ canShutdown NOTIFY systemPropertiesChanged)
+    Q_PROPERTY(bool canReboot READ canReboot NOTIFY systemPropertiesChanged)
+    Q_PROPERTY(bool canHibernate READ canHibernate NOTIFY systemPropertiesChanged)
+    Q_PROPERTY(bool canSuspend READ canSuspend NOTIFY systemPropertiesChanged)
 
 public:
     static Xbmc *instance();
@@ -109,10 +109,7 @@ signals:
     void portChanged();
     void picturePlayerActiveChanged();
 
-    void canShutdownChanged();
-    void canRebootChanged();
-    void canHibernateChanged();
-    void canSuspendChanged();
+    void systemPropertiesChanged();
 
 private slots:
     void parseAnnouncement(const QVariantMap &map);

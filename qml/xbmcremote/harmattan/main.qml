@@ -148,15 +148,44 @@ PageStackWindow {
         }
     }
 
-    QueryDialog {
+    Dialog {
         id: quitDialog
-        message: "Do you want to quit xbmc?"
-        acceptButtonText: "Yes"
-        rejectButtonText: "No"
-        titleText: "Are you sure?"
-        onAccepted:
-        {
-            xbmc.quit();
+        buttons {
+            Column {
+                spacing: 30
+                Column {
+                    spacing: 10
+                    Button {
+                        text: "Quit"
+                        onClicked: xbmc.quit();
+                    }
+                    Button {
+                        text: "Shutdown"
+                        visible: xbmc.canShutdown
+                        onClicked: xbmc.shutdown();
+                    }
+                    Button {
+                        text: "Reboot"
+                        visible: xbmc.canReboot
+                        onClicked: xbmc.reboot();
+                    }
+                    Button {
+                        text: "Suspend"
+                        visible: xbmc.canSuspend
+                        onClicked: xbmc.suspend();
+                    }
+                    Button {
+                        text: "Hibernate"
+                        visible: xbmc.canHibernate
+                        onClicked: xbmc.hibernate();
+                    }
+                }
+
+                Button {
+                    text: "Cancel"
+                    onClicked: quitDialog.close();
+                }
+            }
         }
     }
 

@@ -262,6 +262,7 @@ void Xbmc::responseReceived(int id, const QVariantMap &response)
         m_canReboot = rsp.toMap().value("canreboot").toBool();
         m_canHibernate = rsp.toMap().value("canhibernate").toBool();
         m_canSuspend = rsp.toMap().value("cansuspend").toBool();
+        emit systemPropertiesChanged();
         qDebug() << m_canShutdown << m_canReboot << m_canHibernate << m_canSuspend;
     }
 

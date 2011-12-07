@@ -68,7 +68,6 @@ int XbmcHostModel::createHost(const QString &hostname, const QString &ip, int po
 
 int XbmcHostModel::rowCount(const QModelIndex &) const
 {
-    qDebug() << "returning rows:" << m_hosts.count();
     return m_hosts.count();
 }
 

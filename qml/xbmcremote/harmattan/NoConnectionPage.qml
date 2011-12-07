@@ -31,8 +31,4 @@ Page {
     XbmcDiscovery {
         id: discovery
     }
-
-    Button {
-        onClicked: discovery.wakeup();
-    }
 }
