@@ -360,7 +360,20 @@
 },
 
 "Playlist.Swap":{"description":"Swap items in the playlist. Does not work for picture playlists (aka slideshows).","params":[{"$ref":"Playlist.Id","name":"playlistid","required":true},{"$ref":"Playlist.Position","name":"position1","required":true},{"$ref":"Playlist.Position","name":"position2","required":true}],"returns":{"type":"string"},"type":"method"},
-"System.GetProperties":{"description":"Retrieves the values of the given properties","params":[{"items":{"$ref":"System.Property.Name"},"name":"properties","required":true,"type":"array","uniqueItems":true}],"returns":{"$ref":"System.Property.Value"},"type":"method"},
+
+"System.GetProperties":{
+  "description":"Retrieves the values of the given properties",
+  "params":[
+    {"items":
+      {"$ref":"System.Property.Name"},"name":"properties","required":true,"type":"array","uniqueItems":true
+    }
+  ],
+  "returns":{
+    "$ref":"System.Property.Value"
+  },
+  "type":"method"
+},
+
 "System.Hibernate":{"description":"Puts the system running XBMC into hibernate mode","params":[],"returns":{"type":"string"},"type":"method"},
 "System.Reboot":{"description":"Reboots the system running XBMC","params":[],"returns":{"type":"string"},"type":"method"},
 "System.Shutdown":{"description":"Shuts the system running XBMC down","params":[],"returns":{"type":"string"},"type":"method"},
@@ -738,7 +751,14 @@
 "Playlist.Property.Name":{"default":"type","enums":["type","size"],"id":"Playlist.Property.Name","type":"string"},
 "Playlist.Property.Value":{"id":"Playlist.Property.Value","properties":{"size":{"default":0,"minimum":0,"type":"integer"},"type":{"$ref":"Playlist.Type","default":"unknown"}},"type":"object"},
 "Playlist.Type":{"default":"unknown","enums":["unknown","video","audio","picture","mixed"],"id":"Playlist.Type","type":"string"},
-"System.Property.Name":{"default":"canshutdown","enums":["canshutdown","cansuspend","canhibernate","canreboot"],"id":"System.Property.Name","type":"string"},
+
+"System.Property.Name":{
+  "default":"canshutdown",
+  "enums":["canshutdown","cansuspend","canhibernate","canreboot"],
+  "id":"System.Property.Name",
+  "type":"string"
+},
+
 "System.Property.Value":{"id":"System.Property.Value","properties":{"canhibernate":{"default":false,"type":"boolean"},"canreboot":{"default":false,"type":"boolean"},"canshutdown":{"default":false,"type":"boolean"},"cansuspend":{"default":false,"type":"boolean"}},"type":"object"},
 "Video.Cast":{"id":"Video.Cast","items":{"additionalProperties":false,"properties":{"name":{"required":true,"type":"string"},"role":{"required":true,"type":"string"},"thumbnail":{"default":"","type":"string"}},"type":"object"},"type":"array"},
 

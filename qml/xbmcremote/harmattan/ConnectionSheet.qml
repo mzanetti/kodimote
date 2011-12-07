@@ -110,7 +110,6 @@ Sheet {
                 TextField {
                     width: parent.width
                     id: hostnameTextField
-                    text: xbmc.hostname
 
                 }
                 Label {
@@ -119,7 +118,6 @@ Sheet {
                 TextField {
                     width: parent.width
                     id: portTextField
-                    text: xbmc.port
                 }
             }
 
@@ -145,7 +143,8 @@ Sheet {
             xbmc.hostModel().wakeup(hostList.currentIndex);
             xbmc.hostModel().connectToHost(hostList.currentIndex);
         } else {
-            xbmc.hostModel().createHost(hostnameTextField.text, hostnameTextField.text, hostnameTextField.port)
+            var newIndex = xbmc.hostModel().createHost(hostnameTextField.text, hostnameTextField.text, portTextField.text);
+            xbmc.hostModel().connectToHost(newIndex);
         }
         connectionSheet.destroy();
     }

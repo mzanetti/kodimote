@@ -48,6 +48,11 @@ class Xbmc : public QObject
     Q_PROPERTY(QString state READ state NOTIFY stateChanged)
     Q_PROPERTY(int volume READ volume WRITE setVolume NOTIFY volumeChanged)
 
+    Q_PROPERTY(bool canShutdown READ canShutdown NOTIFY canShutdownChanged)
+    Q_PROPERTY(bool canReboot READ canReboot NOTIFY canRebootChanged)
+    Q_PROPERTY(bool canHibernate READ canHibernate NOTIFY canHibernateChanged)
+    Q_PROPERTY(bool canSuspend READ canSuspend NOTIFY canSuspendChanged)
+
 public:
     static Xbmc *instance();
     ~Xbmc();
@@ -81,8 +86,17 @@ public:
     Q_INVOKABLE void dimVolumeTo(int newVolume);
     Q_INVOKABLE void restoreVolume();
 
+    bool canShutdown();
+    bool canReboot();
+    bool canHibernate();
+    bool canSuspend();
+
 public slots:
     void quit();
+    void suspend();
+    void hibernate();
+    void shutdown();
+    void reboot();
     void queryActivePlayers();
 
 signals:
@@ -94,6 +108,11 @@ signals:
     void stateChanged();
     void portChanged();
     void picturePlayerActiveChanged();
+
+    void canShutdownChanged();
+    void canRebootChanged();
+    void canHibernateChanged();
+    void canSuspendChanged();
 
 private slots:
     void parseAnnouncement(const QVariantMap &map);
@@ -107,7 +126,8 @@ private:
 
     enum Request {
         RequestActivePlayer,
-        RequestVolume
+        RequestVolume,
+        RequestSystemProperties
     };
     QMap<int, Request> m_requestMap;
 
@@ -133,6 +153,10 @@ private:
 
     QPropertyAnimation m_volumeAnimation;
 
+    bool m_canShutdown;
+    bool m_canReboot;
+    bool m_canHibernate;
+    bool m_canSuspend;
 };
 
 #endif // XBMC_H

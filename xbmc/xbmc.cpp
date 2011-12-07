@@ -58,7 +58,11 @@ Xbmc *Xbmc::instance()
 }
 
 Xbmc::Xbmc(QObject *parent) :
-    QObject(parent)
+    QObject(parent),
+    m_canShutdown(false),
+    m_canReboot(false),
+    m_canHibernate(false),
+    m_canSuspend(false)
 {
     qmlRegisterType<AudioLibrary>();
     qmlRegisterType<VideoLibrary>();
@@ -122,6 +126,15 @@ void Xbmc::init()
     int id = XbmcConnection::sendCommand("Application.GetProperties", params);
     m_requestMap.insert(id, RequestVolume);
 
+    params.clear();
+    list.clear();
+    list.append("canshutdown");
+    list.append("canhibernate");
+    list.append("cansuspend");
+    list.append("canreboot");
+    params.insert("properties", list);
+    id = XbmcConnection::sendCommand("System.GetProperties", params);
+    m_requestMap.insert(id, RequestSystemProperties);
 }
 
 bool Xbmc::connected()
@@ -243,7 +256,13 @@ void Xbmc::responseReceived(int id, const QVariantMap &response)
 //        qDebug() << "Volume received" << m_volume;
         emit volumeChanged(m_volume);
         break;
-
+    case RequestSystemProperties:
+        qDebug() << "Got system properties:" << rsp.toMap();
+        m_canShutdown = rsp.toMap().value("canshutdown").toBool();
+        m_canReboot = rsp.toMap().value("canreboot").toBool();
+        m_canHibernate = rsp.toMap().value("canhibernate").toBool();
+        m_canSuspend = rsp.toMap().value("cansuspend").toBool();
+        qDebug() << m_canShutdown << m_canReboot << m_canHibernate << m_canSuspend;
     }
 
 }
@@ -313,6 +332,26 @@ void Xbmc::quit()
     XbmcConnection::sendCommand("Application.Quit");
 }
 
+void Xbmc::suspend()
+{
+    XbmcConnection::sendCommand("System.Suspend");
+}
+
+void Xbmc::hibernate()
+{
+    XbmcConnection::sendCommand("System.Hibernate");
+}
+
+void Xbmc::shutdown()
+{
+    XbmcConnection::sendCommand("System.Shutdown");
+}
+
+void Xbmc::reboot()
+{
+    XbmcConnection::sendCommand("System.Reboot");
+}
+
 void Xbmc::dimVolumeTo(int newVolume)
 {
     m_volumeAnimation.setDirection(QAbstractAnimation::Forward);
@@ -336,4 +375,22 @@ void Xbmc::queryActivePlayers()
 {
     int id = XbmcConnection::sendCommand("Player.GetActivePlayers");
     m_requestMap.insert(id, RequestActivePlayer);
+}
+
+bool Xbmc::canShutdown()
+{
+    return m_canShutdown;
+}
+
+bool Xbmc::canReboot()
+{
+    return m_canReboot;
+}
+bool Xbmc::canHibernate()
+{
+    return m_canHibernate;
+}
+bool Xbmc::canSuspend()
+{
+    return m_canSuspend;
 }
