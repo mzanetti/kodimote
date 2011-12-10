@@ -22,6 +22,11 @@
 #include <QDialog>
 #include <QLineEdit>
 
+class QStackedLayout;
+class QGridLayout;
+class QListView;
+class QDialogButtonBox;
+
 class ConnectDialog : public QDialog
 {
     Q_OBJECT
@@ -44,7 +49,18 @@ public:
 public slots:
     void accept();
 
+private slots:
+    void showManualLayout();
+    void showHostList();
+    void enableOkButton();
+
 private:
+    QStackedLayout *m_stackedLayout;
+    QGridLayout *m_manualLayout;
+    QListView *m_hostView;
+    QDialogButtonBox *m_buttonBox;
+    QPushButton *m_manualButton;
+
     QLineEdit *m_hostName;
     QLineEdit *m_port;
     QLineEdit *m_userName;

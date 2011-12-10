@@ -33,11 +33,12 @@ private slots:
     void callTerminated();
 #endif
 
-private:
+    void authenticationRequired(const QString &hostname, const QString &address);
+    void connectionChanged(bool connected);
 
+private:
     QmlApplicationViewer *viewer;
     Settings *m_settings;
-
 };
 
 #endif // MAINWINDOW_H

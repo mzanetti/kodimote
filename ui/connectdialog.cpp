@@ -23,8 +23,13 @@
 #include <QStandardItemModel>
 #include <QLabel>
 #include <QIntValidator>
+#include <QListView>
+#include <QStackedLayout>
+#include <QPushButton>
 
 #include "xbmc/xbmc.h"
+#include "xbmc/xbmchostmodel.h"
+#include "xbmc/xbmcdiscovery.h"
 
 ConnectDialog::ConnectDialog(QWidget *parent) :
     QDialog(parent)
@@ -33,28 +38,42 @@ ConnectDialog::ConnectDialog(QWidget *parent) :
     setAttribute(Qt::WA_DeleteOnClose, true);
     setWindowTitle("XbmcRemote - " + tr("Connect to Xbmc"));
 
-    QHBoxLayout *hLayout = new QHBoxLayout();
-    QGridLayout *gridLayout = new QGridLayout();
-    hLayout->addLayout(gridLayout);
+    m_stackedLayout = new QStackedLayout();
 
+    XbmcDiscovery *discovery = new XbmcDiscovery(this);
+
+    m_hostView = new QListView();
+    m_hostView->setModel(Xbmc::instance()->hostModel());
+    m_stackedLayout->addWidget(m_hostView);
+
+    QLabel *infoLabel = new QLabel("No XBMC hosts found.\nMake sure that remote controlling\ncapabilities are enabled and\nannounced using Zeroconf\nor connect to the host manually.");
+    infoLabel->setAlignment(Qt::AlignCenter);
+    m_stackedLayout->addWidget(infoLabel);
+
+    m_manualLayout = new QGridLayout();
+    QWidget *manualWidget = new QWidget();
+    manualWidget->setLayout(m_manualLayout);
+    m_stackedLayout->addWidget(manualWidget);
 #ifdef Q_WS_MAEMO_5
+    QHBoxLayout *hLayout = new QHBoxLayout();
+    hLayout->addLayout(m_stackedLayout);
     setLayout(hLayout);
 #else
     QVBoxLayout *vLayout = new QVBoxLayout();
-    vLayout->addLayout(hLayout);
+    vLayout->addLayout(m_stackedLayout);
     setLayout(vLayout);
 #endif
 
-    gridLayout->addWidget(new QLabel("Host:"), 0, 0);
+    m_manualLayout->addWidget(new QLabel("Host:"), 0, 0);
 
-//    m_hostName = new QLineEdit(Xbmc::instance()->hostname());
-//    gridLayout->addWidget(m_hostName, 0, 1);
+    m_hostName = new QLineEdit();
+    m_manualLayout->addWidget(m_hostName, 0, 1);
 
-//    gridLayout->addWidget(new QLabel("Http Port:"), 1, 0);
+    m_manualLayout->addWidget(new QLabel("Http Port:"), 1, 0);
 
-//    m_port = new QLineEdit(QString::number(Xbmc::instance()->port()));
-//    m_port->setValidator(new QIntValidator());
-//    gridLayout->addWidget(m_port, 1, 1);
+    m_port = new QLineEdit();
+    m_port->setValidator(new QIntValidator());
+    m_manualLayout->addWidget(m_port, 1, 1);
 
 //    gridLayout->addWidget(new QLabel("Username:"), 2, 0);
 
@@ -68,64 +87,77 @@ ConnectDialog::ConnectDialog(QWidget *parent) :
 
 
 #ifdef Q_WS_MAEMO_5
-    QDialogButtonBox *buttonBox = new QDialogButtonBox(QDialogButtonBox::Ok | QDialogButtonBox::Cancel, Qt::Vertical);
-    hLayout->addWidget(buttonBox);
+    m_buttonBox = new QDialogButtonBox(QDialogButtonBox::Ok | QDialogButtonBox::Cancel, Qt::Vertical);
+    hLayout->addWidget(m_buttonBox);
 #else
-    QDialogButtonBox *buttonBox = new QDialogButtonBox(QDialogButtonBox::Ok | QDialogButtonBox::Cancel, Qt::Horizontal);
-    vLayout->addWidget(buttonBox);
+    m_buttonBox = new QDialogButtonBox(QDialogButtonBox::Ok | QDialogButtonBox::Cancel, Qt::Horizontal);
+    vLayout->addWidget(m_buttonBox);
 #endif
+    m_manualButton = m_buttonBox->addButton("Manual connection", QDialogButtonBox::ActionRole);
+    connect(m_manualButton, SIGNAL(clicked()), SLOT(showManualLayout()));
+    m_buttonBox->button(QDialogButtonBox::Ok)->setEnabled(false);
 
 
-    connect(buttonBox, SIGNAL(accepted()), this, SLOT(accept()));
-    connect(buttonBox, SIGNAL(rejected()), this, SLOT(reject()));
-}
+    connect(m_buttonBox, SIGNAL(accepted()), this, SLOT(accept()));
+    connect(m_buttonBox, SIGNAL(rejected()), this, SLOT(reject()));
 
-void ConnectDialog::setHostname(const QString &hostname)
-{
-    m_hostName->setText(hostname);
-}
-
-QString ConnectDialog::hostname()
-{
-    return m_hostName->text();
-}
-
-void ConnectDialog::setPort(int port)
-{
-    m_port->setText(QString::number(port));
-}
-
-int ConnectDialog::port()
-{
-    return m_port->text().toInt();
-}
-
-void ConnectDialog::setUsername(const QString &username)
-{
-    m_userName->setText(username);
-}
-
-QString ConnectDialog::username()
-{
-    return m_userName->text();
-}
-
-void ConnectDialog::setPassword(const QString &password)
-{
-    m_password->setText(password);
-}
-
-QString ConnectDialog::password()
-{
-    return m_password->text();
+    if(Xbmc::instance()->hostModel()->rowCount(QModelIndex()) > 0) {
+        showHostList();
+    } else {
+        m_stackedLayout->setCurrentIndex(1);
+    }
+    connect(Xbmc::instance()->hostModel(), SIGNAL(rowsInserted(QModelIndex, int, int)), SLOT(showHostList()));
+    connect(m_hostView, SIGNAL(clicked(QModelIndex)), SLOT(enableOkButton()));
 }
 
 void ConnectDialog::accept()
 {
-//    Xbmc::instance()->setHostname(m_hostName->text());
-//    Xbmc::instance()->setPort(m_port->text().toInt());
-//    Xbmc::instance()->setUsername(m_userName->text());
-//    Xbmc::instance()->setPassword(m_password->text());
-//    Xbmc::instance()->connectToHost();
+    if(m_stackedLayout->currentIndex() == 0) {
+        Xbmc::instance()->hostModel()->wakeup(m_hostView->currentIndex().row());
+        Xbmc::instance()->hostModel()->connectToHost(m_hostView->currentIndex().row());
+    } else {
+        XbmcHost host;
+        host.setHostname(m_hostName->text());
+        host.setAddress(m_hostName->text());
+        host.setPort(m_port->text().toInt());
+        int newHostIndex = Xbmc::instance()->hostModel()->insertOrUpdateHost(host);
+        Xbmc::instance()->hostModel()->connectToHost(newHostIndex);
+    }
     QDialog::accept();
+}
+
+void ConnectDialog::showManualLayout()
+{
+    if(m_stackedLayout->currentIndex() != 2) {
+        m_stackedLayout->setCurrentIndex(2);
+        m_manualButton->setText("Show host list");
+    } else {
+        if(Xbmc::instance()->hostModel()->rowCount(QModelIndex()) > 0) {
+            m_stackedLayout->setCurrentIndex(0);
+        } else {
+            m_stackedLayout->setCurrentIndex(1);
+        }
+        m_manualButton->setText("Manual connection");
+    }
+    enableOkButton();
+}
+
+void ConnectDialog::showHostList()
+{
+    m_stackedLayout->setCurrentIndex(0);
+}
+
+void ConnectDialog::enableOkButton()
+{
+    switch(m_stackedLayout->currentIndex()) {
+    case 0:
+        m_buttonBox->button(QDialogButtonBox::Ok)->setEnabled(m_hostView->currentIndex().isValid());
+        break;
+    case 1:
+        m_buttonBox->button(QDialogButtonBox::Ok)->setEnabled(false);
+        break;
+    case 2:
+        m_buttonBox->button(QDialogButtonBox::Ok)->setEnabled(true);
+        break;
+    }
 }

@@ -4,6 +4,7 @@
 #include "aboutdialog.h"
 #include "settings.h"
 #include "networkaccessmanagerfactory.h"
+#include "authenticationdialog.h"
 
 #include "qmlapplicationviewer.h"
 
@@ -37,7 +38,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
     grabZoomKeys(true);
 
-    connect(QApplication::desktop(), SIGNAL(resized(int)), this, SLOT(orientationChanged()));
+//    connect(QApplication::desktop(), SIGNAL(resized(int)), this, SLOT(orientationChanged()));
 #endif
 
     viewer = new QmlApplicationViewer;
@@ -64,6 +65,24 @@ MainWindow::MainWindow(QWidget *parent) :
     viewer->setMainQmlFile(QLatin1String("qml/xbmcremote/fremantle/main.qml"));
     viewer->engine()->setNetworkAccessManagerFactory(new NetworkAccessManagerFactory());
 
+    connect(Xbmc::instance(), SIGNAL(authenticationRequired(QString,QString)), SLOT(authenticationRequired(QString,QString)), Qt::QueuedConnection);
+
+    Settings settings;
+    // Load stored hosts
+    bool connecting = false;
+    foreach(const XbmcHost &host, settings.hostList()) {
+        int index = Xbmc::instance()->hostModel()->insertOrUpdateHost(host);
+        if(host.address() == settings.lastHost().address()) {
+            qDebug() << "reconnecting to" << host.hostname() << host.address() << host.username() << host.password();
+            Xbmc::instance()->hostModel()->connectToHost(index);
+            connecting = true;
+        }
+    }
+    connect(Xbmc::instance(), SIGNAL(connectedChanged(bool)), SLOT(connectionChanged(bool)));
+
+    if(!connecting) {
+        openConnectDialog();
+    }
 }
 
 MainWindow::~MainWindow()
@@ -175,4 +194,22 @@ void MainWindow::callTerminated()
         Xbmc::instance()->videoPlayer()->playPause();
     }
 }
+
 #endif
+
+void MainWindow::authenticationRequired(const QString &hostname, const QString &address)
+{
+    Q_UNUSED(address);
+    AuthenticationDialog *dialog = new AuthenticationDialog(hostname, this);
+    dialog->exec();
+}
+
+void MainWindow::connectionChanged(bool connected)
+{
+    if(connected) {
+        Settings settings;
+        settings.addHost(*Xbmc::instance()->connectedHost());
+        settings.setLastHost(*Xbmc::instance()->connectedHost());
+    }
+
+}

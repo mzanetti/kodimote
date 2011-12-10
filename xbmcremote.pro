@@ -58,7 +58,8 @@ SOURCES += main.cpp \
     xbmc/xbmcmodelitem.cpp \
     xbmc/episodeitem.cpp \
     xbmc/xbmcdiscovery.cpp \
-    xbmc/xbmchostmodel.cpp
+    xbmc/xbmchostmodel.cpp \
+    ui/authenticationdialog.cpp
 
 # Please do not modify the following two lines. Required for deployment.
 include(qmlapplicationviewer/qmlapplicationviewer.pri)
@@ -105,7 +106,8 @@ HEADERS += ui/settingsdialog.h \
     xbmc/xbmcmodelitem.h \
     xbmc/episodeitem.h \
     xbmc/xbmcdiscovery.h \
-    xbmc/xbmchostmodel.h
+    xbmc/xbmchostmodel.h \
+    ui/authenticationdialog.h
 
 LIBS += -lqjson
 
@@ -160,6 +162,8 @@ symbian:TARGET.CAPABILITY += NetworkServices
 
 RESOURCES += \
     xbmcremote.qrc
+
+
 
 
 

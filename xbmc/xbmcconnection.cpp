@@ -88,7 +88,8 @@ XbmcConnectionPrivate::XbmcConnectionPrivate(QObject *parent) :
     QObject(parent),
     m_commandId(0),
     m_versionRequestId(-1),
-    m_connected(false)
+    m_connected(false),
+    m_host(0)
 {
     m_socket = new QTcpSocket();
     m_notifier = new XbmcConnection::Notifier();
@@ -162,7 +163,7 @@ void XbmcConnectionPrivate::socketError()
 void XbmcConnectionPrivate::sendNextCommand2() {
 
     if(m_currentPendingCommand.id() >= 0 || m_socket->state() != QAbstractSocket::ConnectedState) {
-//        xDebug(XDAREA_CONNECTION) << "cannot send... busy";
+        xDebug(XDAREA_CONNECTION) << "cannot send... busy";
         return;
     }
     if(m_commandQueue.count() > 0) {
@@ -206,7 +207,8 @@ void XbmcConnectionPrivate::replyReceived()
         emit m_notifier->connectionChanged();
     }
 
-//    xDebug(XDAREA_CONNECTION) << "received reply:" << commands;
+    qDebug() << "received reply:" << commands;
+    xDebug(XDAREA_CONNECTION) << "received reply:" << commands;
 
     QStringList commandsList = commands.split("}{");
 
