@@ -1,3 +1,13 @@
+xbmcremote (0.8.0-harmattan0) unstable; urgency=low
+  * Added autodetection of xbmc boxes using zeroconf
+  * Added wakeonlan
+  * Added shutdown/reboot/suspend/hibernate commands
+  * Added watched/unwatched flags to movies and episodes
+  * Added seeking feature
+  * Added fullscreen mode when in landscape
+
+ -- Michael Zanetti <michael_zanetti@gmx.net>  Sat, 10 Dec 2011 22:10:16 +0100
+
 xbmcremote (0.7.0-harmattan0) unstable; urgency=low
 
   * Added thumbnails
