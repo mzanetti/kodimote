@@ -82,6 +82,7 @@ void XbmcDiscovery::readDatagram()
         char *data = (char*)malloc(size);
         m_socket->readDatagram(data, size);
         QByteArray datagram = QByteArray(data, size).toHex();
+        free(data);
 
         // ignore transaction id
         datagram = datagram.right(datagram.length() - 4);
