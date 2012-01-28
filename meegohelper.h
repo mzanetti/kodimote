@@ -20,15 +20,20 @@
 #define MEEGOHELPER_H
 
 #include <QObject>
+#include <QTimer>
 #include <qmsystem2/qmkeys.h>
+#include <qmsystem2/qmdisplaystate.h>
+#include <qmsystem2/qmbattery.h>
 #include <resource/qt4/policy/resource-set.h>
 #include <QtDBus/QDBusObjectPath>
+
+class Settings;
 
 class MeeGoHelper : public QObject
 {
     Q_OBJECT
 public:
-    explicit MeeGoHelper(QObject *parent = 0);
+    explicit MeeGoHelper(Settings *settings, QObject *parent = 0);
 
 signals:
 
@@ -40,10 +45,18 @@ private slots:
 
     void connectionChanged(bool connected);
 
+    void displaySettingChanged();
+
+    void setBlankingPause();
+
 private:
+    Settings *m_settings;
     MeeGo::QmKeys m_keys;
     ResourcePolicy::ResourceSet *m_resouceSet;
     bool m_buttonsAcquired;
+    QTimer m_displayBlankingTimer;
+    MeeGo::QmDisplayState m_disaplyState;
+    MeeGo::QmBattery *m_battery;
 };
 
 #endif // MEEGOHELPER_H

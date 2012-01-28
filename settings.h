@@ -13,6 +13,7 @@ class Settings : public QObject
     Q_PROPERTY(bool changeVolumeOnCall READ changeVolumeOnCall WRITE setChangeVolumeOnCall NOTIFY changeVolumeOnCallChanged)
     Q_PROPERTY(int volumeOnCall READ volumeOnCall WRITE setVolumeOnCall NOTIFY volumeOnCallChanged)
     Q_PROPERTY(bool pauseOnCall READ pauseOnCall WRITE setPauseOnCall NOTIFY pauseOnCallChanged)
+    Q_PROPERTY(bool keepDisplayLit READ keepDisplayLit WRITE setKeepDisplayLit NOTIFY keepDisplayLitChanged)
 
 public:
     explicit Settings(QObject *parent = 0);
@@ -45,6 +46,9 @@ public:
     XbmcHost lastHost() const;
     void setLastHost(const XbmcHost &host);
 
+    bool keepDisplayLit() const;
+    void setKeepDisplayLit(bool keepLit);
+
 signals:
     void themeInvertedChanged();
     void useThumbnailsChanged();
@@ -53,6 +57,7 @@ signals:
     void changeVolumeOnCallChanged();
     void volumeOnCallChanged();
     void pauseOnCallChanged();
+    void keepDisplayLitChanged();
 };
 
 #endif // SETTINGS_H

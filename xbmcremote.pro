@@ -17,6 +17,7 @@ QT += network
 # MOBILITY variable. 
 CONFIG += mobility
 MOBILITY += systeminfo
+LIBS += -lQtSystemInfo
 
 SOURCES += main.cpp \
     ui/settingsdialog.cpp \
@@ -124,7 +125,8 @@ OTHER_FILES += \
     qtc_packaging/debian_fremantle/copyright \
     qtc_packaging/debian_fremantle/control \
     qtc_packaging/debian_fremantle/compat \
-    qtc_packaging/debian_fremantle/changelog
+    qtc_packaging/debian_fremantle/changelog \
+    qml/harmattan/main.qml
 
 
 #contains (MEEGO_FLAVOR, "harmattan") { # This will be added soon, in the meantime use workaround
@@ -159,6 +161,12 @@ symbian:TARGET.UID3 = 0xE1297420
 
 # Allow network access on Symbian
 symbian:TARGET.CAPABILITY += NetworkServices
+
+
+symbian {
+myembeddedsis.pkg_postrules = "@/"/home/micha/Develop/qjson-build-remote/qjson_qt-4_7_4_symbianBelle.sis",(0xEF76E062)"\
+DEPLOYMENT += myembeddedsis
+}
 
 RESOURCES += \
     xbmcremote.qrc

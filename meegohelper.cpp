@@ -26,9 +26,10 @@
 #include <policy/audio-resource.h>
 #include <QtDBus/QDBusConnection>
 
-MeeGoHelper::MeeGoHelper(QObject *parent) :
+MeeGoHelper::MeeGoHelper(Settings *settings, QObject *parent) :
     QObject(parent),
-    m_resouceSet(new ResourcePolicy::ResourceSet("player"))
+    m_resouceSet(new ResourcePolicy::ResourceSet("player")),
+    m_settings(settings)
 {
     connect(&m_keys, SIGNAL(keyEvent(MeeGo::QmKeys::Key,MeeGo::QmKeys::State)), SLOT(keyEvent(MeeGo::QmKeys::Key,MeeGo::QmKeys::State)));
 
@@ -42,11 +43,10 @@ MeeGoHelper::MeeGoHelper(QObject *parent) :
     QDBusConnection::systemBus().connect(QString(), "/com/nokia/csd/call", "com.nokia.csd.Call", "Coming", this, SLOT(callEvent(QDBusObjectPath,QString)));
     QDBusConnection::systemBus().connect(QString(), "/com/nokia/csd/call", "com.nokia.csd.Call", "Created", this, SLOT(callEvent(QDBusObjectPath,QString)));
 
-    Settings settings;
     // Load stored hosts
-    foreach(const XbmcHost &host, settings.hostList()) {
+    foreach(const XbmcHost &host, settings->hostList()) {
         int index = Xbmc::instance()->hostModel()->insertOrUpdateHost(host);
-        if(host.address() == settings.lastHost().address()) {
+        if(host.address() == settings->lastHost().address()) {
             qDebug() << "reconnecting to" << host.hostname() << host.address() << host.username() << host.password();
             Xbmc::instance()->hostModel()->connectToHost(index);
         }
@@ -54,6 +54,14 @@ MeeGoHelper::MeeGoHelper(QObject *parent) :
 
     connect(Xbmc::instance(), SIGNAL(connectedChanged(bool)), SLOT(connectionChanged(bool)));
 
+    m_displayBlankingTimer.setInterval(60000);
+    connect(&m_displayBlankingTimer, SIGNAL(timeout()), SLOT(setBlankingPause()));
+
+    m_battery = new MeeGo::QmBattery(this);
+    connect(m_battery, SIGNAL(chargerEvent(MeeGo::QmBattery::ChargerType)), SLOT(displaySettingChanged()));
+    connect(settings, SIGNAL(keepDisplayLitChanged()), SLOT(displaySettingChanged()));
+
+    displaySettingChanged();
 }
 
 bool MeeGoHelper::eventFilter(QObject *obj, QEvent *event)
@@ -106,12 +114,11 @@ void MeeGoHelper::callEvent(const QDBusObjectPath &param1, const QString &param2
 
 void MeeGoHelper::callTerminated()
 {
-    Settings settings;
-    if(settings.changeVolumeOnCall()) {
+    if(m_settings->changeVolumeOnCall()) {
         Xbmc::instance()->restoreVolume();
     }
 
-    if(settings.pauseOnCall() && Xbmc::instance()->videoPlayer()->state() != "playing") {
+    if(m_settings->pauseOnCall() && Xbmc::instance()->videoPlayer()->state() != "playing") {
         Xbmc::instance()->videoPlayer()->playPause();
     }
 }
@@ -119,9 +126,27 @@ void MeeGoHelper::callTerminated()
 void MeeGoHelper::connectionChanged(bool connected)
 {
     if(connected) {
-        Settings settings;
-        settings.addHost(*Xbmc::instance()->connectedHost());
-        settings.setLastHost(*Xbmc::instance()->connectedHost());
+        m_settings->addHost(*Xbmc::instance()->connectedHost());
+        m_settings->setLastHost(*Xbmc::instance()->connectedHost());
     }
 
+}
+
+void MeeGoHelper::displaySettingChanged()
+{
+    qDebug() << m_battery->getChargerType();
+    if(m_settings->keepDisplayLit() &&
+            (m_battery->getChargerType() != MeeGo::QmBattery::None)) {
+        qDebug() << "Disabling display blanking";
+        m_displayBlankingTimer.start();
+        setBlankingPause();
+    } else {
+        qDebug() << "Enabling display blanking";
+        m_displayBlankingTimer.stop();
+    }
+}
+
+void MeeGoHelper::setBlankingPause()
+{
+    m_disaplyState.setBlankingPause();
 }

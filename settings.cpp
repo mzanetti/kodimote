@@ -175,3 +175,16 @@ void Settings::setLastHost(const XbmcHost &host)
     QSettings settings("xbmcremote");
     settings.setValue("LastHost", host.address());
 }
+
+bool Settings::keepDisplayLit() const
+{
+    QSettings settings("xbmcremote");
+    return settings.value("KeepDisplayLit", false).toBool();
+}
+
+void Settings::setKeepDisplayLit(bool keepLit)
+{
+    QSettings settings("xbmcremote");
+    settings.setValue("KeepDisplayLit", keepLit);
+    emit keepDisplayLitChanged();
+}

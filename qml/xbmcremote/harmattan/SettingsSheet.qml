@@ -37,6 +37,11 @@ Sheet {
             text: "Pause video during calls"
             checked: settings.changeVolumeOnCall
         }
+        CheckBox {
+            id: cbKeepDisplayLit
+            text: "Keep display on when charging"
+            checked: settings.keepDisplayLit
+        }
     }
 
     onAccepted: {
@@ -47,5 +52,6 @@ Sheet {
         settings.volumeOnCall = slVolume.value
         settings.pauseOnCall = cbPause.checked
         settings.useThumbnails = cbUseThumbnails.checked
+        settings.keepDisplayLit = cbKeepDisplayLit.checked
     }
 }
