@@ -47,14 +47,14 @@ MainWindow::MainWindow(QWidget *parent) :
 
     QMenuBar *menuBar = new QMenuBar();
     QMenu *menu = menuBar->addMenu("Xbmc");
-    menu->addAction("Connect...", this, SLOT(openConnectDialog()));
-    menu->addAction("Settings", this, SLOT(openSettingsDialog()));
+    menu->addAction(tr("Connect..."), this, SLOT(openConnectDialog()));
+    menu->addAction(tr("Settings"), this, SLOT(openSettingsDialog()));
 
     QAction *quitAction = menu->addAction("Quit xbmc", Xbmc::instance(), SLOT(quit()));
     Xbmc::instance()->connect(Xbmc::instance(), SIGNAL(connectedChanged(bool)), quitAction, SLOT(setEnabled(bool)));
 
     QMenu *helpMenu = menuBar->addMenu("Help");
-    helpMenu->addAction("About", this, SLOT(openAboutDialog()));
+    helpMenu->addAction(tr("About"), this, SLOT(openAboutDialog()));
 
     setMenuBar(menuBar);
 

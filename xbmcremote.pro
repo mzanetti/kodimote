@@ -66,6 +66,9 @@ SOURCES += main.cpp \
 include(qmlapplicationviewer/qmlapplicationviewer.pri)
 qtcAddDeployment()
 
+translations.files = i18n/xbmcremote_de.qm
+translations.path = /opt/xbmcremote/i18n/
+INSTALLS += translations
 
 HEADERS += ui/settingsdialog.h \
     ui/connectdialog.h \
@@ -125,9 +128,27 @@ OTHER_FILES += \
     qtc_packaging/debian_fremantle/copyright \
     qtc_packaging/debian_fremantle/control \
     qtc_packaging/debian_fremantle/compat \
-    qtc_packaging/debian_fremantle/changelog \
-    qml/harmattan/main.qml
+    qtc_packaging/debian_fremantle/changelog
 
+lupdate {
+    SOURCES += qml/xbmcremote/harmattan/main.qml \
+        qml/xbmcremote/harmattan/AuthenticationSheet.qml \
+        qml/xbmcremote/harmattan/ConnectionSheet.qml \
+        qml/xbmcremote/harmattan/ItemDetails.qml \
+        qml/xbmcremote/harmattan/MainPage.qml \
+        qml/xbmcremote/harmattan/NoConnectionPage.qml \
+        qml/xbmcremote/harmattan/NowPlayingPage.qml \
+        qml/xbmcremote/harmattan/BrowserPage.qml \
+        qml/xbmcremote/harmattan/Keypad.qml \
+        qml/xbmcremote/harmattan/PictureControlsPage.qml \
+        qml/xbmcremote/harmattan/PlaylistPage.qml \
+        qml/xbmcremote/harmattan/SettingsSheet.qml \
+        qml/xbmcremote/harmattan/WriteNfcTagSheet.qml \
+        qml/xbmcremote/fremantle/AudioPlaylist.qml \
+        qml/xbmcremote/fremantle/ItemDetails.qml \
+        qml/xbmcremote/fremantle/LibraryView.qml \
+        qml/xbmcremote/fremantle/NowPlayingView.qml \
+}
 
 #contains (MEEGO_FLAVOR, "harmattan") { # This will be added soon, in the meantime use workaround
 contains(MEEGO_EDITION,harmattan) {

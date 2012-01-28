@@ -118,7 +118,7 @@ void XbmcConnectionPrivate::connect(XbmcHost *host)
     // We connect to telnet on port 9090 for the announcements
     m_socket->connectToHost(host->address(), 9090);
 
-    m_connectionError = "Connecting to " + host->hostname() + "...";
+    m_connectionError = tr("Connecting to %1...").arg(host->hostname());
     emit m_notifier->connectionChanged();
 }
 
@@ -148,7 +148,7 @@ void XbmcConnectionPrivate::slotDisconnected()
     }
     xDebug(XDAREA_CONNECTION) << "Disconnected";
     m_connected = false;
-    m_connectionError = "The connection has been disconnected";
+    m_connectionError = tr("The connection has been disconnected");
     emit m_notifier->connectionChanged();
 }
 
@@ -156,7 +156,7 @@ void XbmcConnectionPrivate::socketError()
 {
     QString errorString = m_socket->errorString();
     xDebug(XDAREA_CONNECTION) << "connection error:" << errorString;
-    m_connectionError = "Connection failed: " + errorString;
+    m_connectionError = tr("Connection failed: %1").arg(errorString);
     emit m_notifier->connectionChanged();
 }
 
@@ -203,7 +203,7 @@ void XbmcConnectionPrivate::replyReceived()
     QString commands = reply->readAll();
     if(reply->error() != QNetworkReply::NoError) {
         m_socket->disconnectFromHost();
-        m_connectionError = "Connection failed: " + reply->errorString();
+        m_connectionError = tr("Connection failed: %1").arg(reply->errorString());
         emit m_notifier->connectionChanged();
     }
 
@@ -405,7 +405,7 @@ void XbmcConnectionPrivate::clearPending()
     xDebug(XDAREA_CONNECTION) << "timeouttimer hit for comman" << m_commandId;
     if(m_commandId == m_versionRequestId) {
         xDebug(XDAREA_CONNECTION) << "cannot ask for remote version... ";
-        m_connectionError = "Connection to " + m_host->hostname() + " timed out...";
+        m_connectionError = tr("Connection to %1 timed out...").arg(m_host->hostname());
         emit m_notifier->connectionChanged();
         m_commandQueue.clear();
     }

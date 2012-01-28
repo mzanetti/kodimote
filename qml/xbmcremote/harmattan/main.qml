@@ -64,7 +64,7 @@ PageStackWindow {
         visualParent: pageStack
         MenuLayout {
             MenuItem {
-                text: "Connect..."
+                text: qsTr("Connect...")
                 onClicked: {
                     var component = Qt.createComponent("ConnectionSheet.qml")
                     if (component.status == Component.Ready) {
@@ -75,7 +75,7 @@ PageStackWindow {
                 }
             }
             MenuItem {
-                text: "Write NFC Tag"
+                text: qsTr("Write NFC Tag")
                 onClicked: {
                     var component = Qt.createComponent("WriteNfcTagSheet.qml")
                     if (component.status == Component.Ready) {
@@ -86,7 +86,7 @@ PageStackWindow {
                 }
             }
             MenuItem {
-                text: "Settings"
+                text: qsTr("Settings")
                 onClicked: {
                     onClicked: {
                         var component = Qt.createComponent("SettingsSheet.qml")
@@ -99,13 +99,13 @@ PageStackWindow {
                 }
             }
             MenuItem {
-                text: "About"
+                text: qsTr("About")
                 onClicked: {
                     aboutDialog.open();
                 }
             }
             MenuItem {
-                text: "Quit xbmc"
+                text: qsTr("Quit xbmc")
                 onClicked: {
                     quitDialog.open();
                 }
@@ -156,33 +156,33 @@ PageStackWindow {
                 Column {
                     spacing: 10
                     Button {
-                        text: "Quit"
+                        text: qsTr("Quit")
                         onClicked: xbmc.quit();
                     }
                     Button {
-                        text: "Shutdown"
+                        text: qsTr("Shutdown")
                         visible: xbmc.canShutdown
                         onClicked: xbmc.shutdown();
                     }
                     Button {
-                        text: "Reboot"
+                        text: qsTr("Reboot")
                         visible: xbmc.canReboot
                         onClicked: xbmc.reboot();
                     }
                     Button {
-                        text: "Suspend"
+                        text: qsTr("Suspend")
                         visible: xbmc.canSuspend
                         onClicked: xbmc.suspend();
                     }
                     Button {
-                        text: "Hibernate"
+                        text: qsTr("Hibernate")
                         visible: xbmc.canHibernate
                         onClicked: xbmc.hibernate();
                     }
                 }
 
                 Button {
-                    text: "Cancel"
+                    text: qsTr("Cancel")
                     onClicked: quitDialog.close();
                 }
             }
@@ -234,13 +234,13 @@ PageStackWindow {
                 id: donateButton
                 anchors.top: closeButton.bottom
                 anchors.topMargin: 10
-                text: "donate";
+                text: qsTr("donate")
                 onClicked: Qt.openUrlExternally("https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=CWFYRZH8XNYF2")
             }
             Button {
                 anchors.top: donateButton.bottom
                 anchors.topMargin: 10
-                text: "flattr";
+                text: qsTr("flattr")
                 onClicked: Qt.openUrlExternally("http://flattr.com/thing/412274/Xbmcremote")
             }
         }

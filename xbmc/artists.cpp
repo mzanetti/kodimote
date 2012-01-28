@@ -147,5 +147,5 @@ void Artists::addToPlaylist(int index)
 
 QString Artists::title() const
 {
-    return "Artists";
+    return tr("Artists");
 }

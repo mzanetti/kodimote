@@ -5,8 +5,8 @@ import Xbmc 1.0
 
 Sheet {
     id: connectionSheet
-    acceptButtonText: "Connect"
-    rejectButtonText: "Cancel"
+    acceptButtonText: qsTr("Connect")
+    rejectButtonText: qsTr("Cancel")
 
     XbmcDiscovery {
         id: discovery
@@ -32,7 +32,7 @@ Sheet {
 
                     Label {
                         anchors.centerIn: parent
-                        text: "No XBMC hosts found.\nMake sure that remote controlling\ncapabilities are enabled and\nannounced using Zeroconf\nor connect to the host manually."
+                        text: qsTr("No XBMC hosts found.\nMake sure that remote controlling\ncapabilities are enabled and\nannounced using Zeroconf\nor connect to the host manually.")
                         visible: hostList.count == 0
                     }
 
@@ -65,7 +65,7 @@ Sheet {
 
                                     Label {
                                         id: mainText
-                                        text: "XBMC on " + hostname
+                                        text: qsTr("XBMC on %1").arg(hostname)
                                         font.weight: Font.Bold
                                         font.pixelSize: 26
                                         width: itemRow.width
@@ -95,7 +95,7 @@ Sheet {
                 }
                 Button {
                     id: manualAdd
-                    text: "Manual connection"
+                    text: qsTr("Manual connection")
                     anchors.horizontalCenter: parent.horizontalCenter
                     onClicked: itemView.incrementCurrentIndex()
                 }
@@ -105,7 +105,7 @@ Sheet {
                 width: itemView.width
 
                 Label {
-                    text: "Host:"
+                    text: qsTr("Host:")
                 }
                 TextField {
                     width: parent.width
@@ -113,7 +113,7 @@ Sheet {
 
                 }
                 Label {
-                    text: "HTTP Port:"
+                    text: qsTr("HTTP Port:")
                 }
                 TextField {
                     width: parent.width

@@ -184,10 +184,10 @@ Item {
 
     ListModel {
         id: contextMenuModel
-        ListElement { entryId: 0; menuEntry: "Play"}
-        ListElement { entryId: 1; menuEntry: "Add to playlist"}
-        ListElement { entryId: 2; menuEntry: "Rescan library"}
-        ListElement { entryId: 3; menuEntry: "Details"}
+        ListElement { entryId: 0; menuEntry: qsTr("Play")}
+        ListElement { entryId: 1; menuEntry: qsTr("Add to playlist")}
+        ListElement { entryId: 2; menuEntry: qsTr("Rescan library")}
+        ListElement { entryId: 3; menuEntry: qsTr("Details")}
     }
 
     ContextMenu {

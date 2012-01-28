@@ -46,7 +46,7 @@ ConnectDialog::ConnectDialog(QWidget *parent) :
     m_hostView->setModel(Xbmc::instance()->hostModel());
     m_stackedLayout->addWidget(m_hostView);
 
-    QLabel *infoLabel = new QLabel("No XBMC hosts found.\nMake sure that remote controlling\ncapabilities are enabled and\nannounced using Zeroconf\nor connect to the host manually.");
+    QLabel *infoLabel = new QLabel(tr("No XBMC hosts found.\nMake sure that remote controlling\ncapabilities are enabled and\nannounced using Zeroconf\nor connect to the host manually."));
     infoLabel->setAlignment(Qt::AlignCenter);
     m_stackedLayout->addWidget(infoLabel);
 
@@ -64,12 +64,12 @@ ConnectDialog::ConnectDialog(QWidget *parent) :
     setLayout(vLayout);
 #endif
 
-    m_manualLayout->addWidget(new QLabel("Host:"), 0, 0);
+    m_manualLayout->addWidget(new QLabel(tr("Host:")), 0, 0);
 
     m_hostName = new QLineEdit();
     m_manualLayout->addWidget(m_hostName, 0, 1);
 
-    m_manualLayout->addWidget(new QLabel("Http Port:"), 1, 0);
+    m_manualLayout->addWidget(new QLabel(tr("Http Port:")), 1, 0);
 
     m_port = new QLineEdit();
     m_port->setValidator(new QIntValidator());
@@ -93,7 +93,7 @@ ConnectDialog::ConnectDialog(QWidget *parent) :
     m_buttonBox = new QDialogButtonBox(QDialogButtonBox::Ok | QDialogButtonBox::Cancel, Qt::Horizontal);
     vLayout->addWidget(m_buttonBox);
 #endif
-    m_manualButton = m_buttonBox->addButton("Manual connection", QDialogButtonBox::ActionRole);
+    m_manualButton = m_buttonBox->addButton(tr("Manual connection"), QDialogButtonBox::ActionRole);
     connect(m_manualButton, SIGNAL(clicked()), SLOT(showManualLayout()));
     m_buttonBox->button(QDialogButtonBox::Ok)->setEnabled(false);
 
@@ -130,14 +130,14 @@ void ConnectDialog::showManualLayout()
 {
     if(m_stackedLayout->currentIndex() != 2) {
         m_stackedLayout->setCurrentIndex(2);
-        m_manualButton->setText("Show host list");
+        m_manualButton->setText(tr("Show host list"));
     } else {
         if(Xbmc::instance()->hostModel()->rowCount(QModelIndex()) > 0) {
             m_stackedLayout->setCurrentIndex(0);
         } else {
             m_stackedLayout->setCurrentIndex(1);
         }
-        m_manualButton->setText("Manual connection");
+        m_manualButton->setText(tr("Manual connection"));
     }
     enableOkButton();
 }

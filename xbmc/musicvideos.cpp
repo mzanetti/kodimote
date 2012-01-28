@@ -143,5 +143,5 @@ void MusicVideos::addToPlaylist(int row)
 
 QString MusicVideos::title() const
 {
-    return "Music Videos";
+    return tr("Music Videos");
 }

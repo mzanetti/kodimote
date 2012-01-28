@@ -149,5 +149,5 @@ PlaylistItem* AudioPlaylist::at(int index) const
 
 QString AudioPlaylist::title() const
 {
-    return "Now Playing - Music";
+    return tr("Now Playing") + " - " + tr("Music");
 }

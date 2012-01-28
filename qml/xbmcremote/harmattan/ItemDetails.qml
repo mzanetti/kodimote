@@ -30,121 +30,121 @@ Item {
 
             Row {
                 width: parent.width; spacing: 10; visible: rating > -1
-                Label { text: "Rating:"; font.bold: true }
+                Label { text: qsTr("Rating:"); font.bold: true }
                 Label { text: rating }
             }
 
             Row {
                 width: parent.width; spacing: 10; visible: season > -1
-                Label { text: "Season:"; font.bold: true }
+                Label { text: qsTr("Season:"); font.bold: true }
                 Label { text: season }
             }
 
             Row {
                 width: parent.width; spacing: 10; visible: episode > 1
-                Label { text: "Episode:"; font.bold: true }
+                Label { text: qsTr("Episode:"); font.bold: true }
                 Label { text: episode }
             }
 
             Row {
                 width: parent.width; spacing: 10; visible: firstaired.length > 0
-                Label { text: "First aired:"; font.bold: true }
+                Label { text: qsTr("First aired:"); font.bold: true }
                 Label { text: firstaired }
             }
 
             Row {
                 width: parent.width; spacing: 10; visible: genre.length > 0
-                Label { text: "Genre:"; font.bold: true }
+                Label { text: qsTr("Genre:"); font.bold: true }
                 Label { text: genre }
             }
 
             Row {
                 width: parent.width; spacing: 10; visible: year.length > 0
-                Label { text: "Year:"; font.bold: true }
+                Label { text: qsTr("Year:"); font.bold: true }
                 Label { text: year }
             }
 
             Row {
                 width: parent.width; spacing: 10; visible: director.length > 0
-                Label { text: "Director:"; font.bold: true }
+                Label { text: qsTr("Director:"); font.bold: true }
                 Label { text: director }
             }
 
             Row {
                 width: parent.width; spacing: 10; visible: tagline.length > 0
-                Label { text: "Tagline:"; font.bold: true }
+                Label { text: qsTr("Tagline:"); font.bold: true }
                 Label { text: tagline }
             }
 
             Row {
                 width: parent.width; spacing: 10; visible: mpaa.length > 0
-                Label { text: "MPAA:"; font.bold: true }
+                Label { text: qsTr("MPAA:"); font.bold: true }
                 Label { text: mpaa }
             }
 
             Row {
                 width: parent.width; spacing: 10; visible: instrument.length > 0
-                Label { text: "Instrument:"; font.bold: true }
+                Label { text: qsTr("Instrument:"); font.bold: true }
                 Label { text: instrument }
             }
 
             Row {
                 width: parent.width; spacing: 10; visible: style.length > 0
-                Label { text: "Style:"; font.bold: true }
+                Label { text: qsTr("Style:"); font.bold: true }
                 Label { text: model.style }
             }
 
             Row {
                 width: parent.width; spacing: 10; visible: mood.length > 0
-                Label { text: "Mood:"; font.bold: true }
+                Label { text: qsTr("Mood:"); font.bold: true }
                 Label { text: mood }
             }
 
             Row {
                 width: parent.width; spacing: 10; visible: born.length > 0
-                Label { text: "Born:"; font.bold: true }
+                Label { text: qsTr("Born:"); font.bold: true }
                 Label { text: born }
             }
 
             Row {
                 width: parent.width; spacing: 10; visible: formed.length > 0
-                Label { text: "Formed:"; font.bold: true }
+                Label { text: qsTr("Formed:"); font.bold: true }
                 Label { text: formed }
             }
 
             Row {
                 width: parent.width; spacing: 10; visible: died.length > 0
-                Label { text: "Died:"; font.bold: true }
+                Label { text: qsTr("Died:"); font.bold: true }
                 Label { text: died }
             }
 
             Row {
                 width: parent.width; spacing: 10; visible: disbanded.length > 0
-                Label { text: "Disbanded:"; font.bold: true }
+                Label { text: qsTr("Disbanded:"); font.bold: true }
                 Label { text: disbanded }
             }
 
             Row {
                 width: parent.width; spacing: 10; visible: duration.length > 0
-                Label { text: "Duration:"; font.bold: true }
+                Label { text: qsTr("Duration:"); font.bold: true }
                 Label { text: duration }
             }
 
             Row {
                 width: parent.width; spacing: 10; visible: comment.length > 0
-                Label { text: "Comment:"; font.bold: true }
+                Label { text: qsTr("Comment:"); font.bold: true }
                 Label { text: comment }
             }
 
             Row {
                 width: parent.width; spacing: 10; visible: playcount.length > 0
-                Label { text: "Playcount:"; font.bold: true }
+                Label { text: qsTr("Playcount:"); font.bold: true }
                 Label { text: playcount }
             }
 
             Row {
                 width: parent.width; spacing: 10; visible: cast.length > 0
-                Label { text: "Cast:"; font.bold: true }
+                Label { text: qsTr("Cast:"); font.bold: true }
                 Label { text: cast }
             }
 
@@ -177,11 +177,11 @@ Item {
         ]
 
         Button {
-            text: "Play"
+            text: qsTr("Play")
             onClicked: itemDetails.playItem()
         }
         Button {
-            text: "Add to playlist"
+            text: qsTr("Add to playlist")
             onClicked: itemDetails.addToPlaylist()
         }
     }

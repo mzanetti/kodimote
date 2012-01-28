@@ -183,7 +183,7 @@ FocusScope {
                     height:  40
                     anchors.fill: line1
                     color: "#0084ff"
-                    text: "Now playing:"
+                    text: qsTr("Now playing:")
                     font.pixelSize: 22
                 }
 
@@ -193,7 +193,7 @@ FocusScope {
                     anchors.rightMargin: trackNumText.width + 20
                     height:  40
                     color: "#0084ff"
-                    text: "Track:"
+                    text: qsTr("Track:")
                     font.pixelSize: 22
 //                    visible: ActivePlayer.type == AudioPlayer.PlayerTypeAudio
                 }

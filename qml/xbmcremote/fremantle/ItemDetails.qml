@@ -83,121 +83,121 @@ FocusScope {
 
             Row {
                 width: parent.width; spacing: 10; visible: item.rating > -1
-                Text { text: "Rating:"; font.bold: true; color: "white" }
+                Text { text: qsTr("Rating:"); font.bold: true; color: "white" }
                 Text { text: item.rating; color: "white" }
             }
 
             Row {
                 width: parent.width; spacing: 10; visible: item.season > -1
-                Text { text: "Season:"; font.bold: true; color: "white" }
+                Text { text: asTr("Season:"); font.bold: true; color: "white" }
                 Text { text: item.season; color: "white" }
             }
 
             Row {
                 width: parent.width; spacing: 10; visible: item.episode > 1
-                Text { text: "Episode:"; font.bold: true; color: "white" }
+                Text { text: qsTr("Episode:"); font.bold: true; color: "white" }
                 Text { text: item.episode; color: "white" }
             }
 
             Row {
                 width: parent.width; spacing: 10; visible: item.firstAired.length > 0
-                Text { text: "First aired:"; font.bold: true; color: "white" }
+                Text { text: qsTr("First aired:"); font.bold: true; color: "white" }
                 Text { text: item.firstAired; color: "white" }
             }
 
             Row {
                 width: parent.width; spacing: 10; visible: item.genre.length > 0
-                Text { text: "Genre:"; font.bold: true; color: "white" }
+                Text { text: qsTr("Genre:"); font.bold: true; color: "white" }
                 Text { text: item.genre; color: "white" }
             }
 
             Row {
                 width: parent.width; spacing: 10; visible: item.year.length > 0
-                Text { text: "Year:"; font.bold: true; color: "white" }
+                Text { text: qsTr("Year:"); font.bold: true; color: "white" }
                 Text { text: item.year; color: "white" }
             }
 
             Row {
                 width: parent.width; spacing: 10; visible: item.director.length > 0
-                Text { text: "Director:"; font.bold: true; color: "white" }
+                Text { text: qsTr("Director:"); font.bold: true; color: "white" }
                 Text { text: item.director; color: "white" }
             }
 
             Row {
                 width: parent.width; spacing: 10; visible: item.tagline.length > 0
-                Text { text: "Tagline:"; font.bold: true; color: "white" }
+                Text { text: qsTr("Tagline:"); font.bold: true; color: "white" }
                 Text { text: item.tagline; color: "white" }
             }
 
             Row {
                 width: parent.width; spacing: 10; visible: item.mpaa.length > 0
-                Text { text: "MPAA:"; font.bold: true; color: "white" }
+                Text { text: qsTr("MPAA:"); font.bold: true; color: "white" }
                 Text { text: item.mpaa; color: "white" }
             }
 
             Row {
                 width: parent.width; spacing: 10; visible: item.instrument.length > 0
-                Text { text: "Instrument:"; font.bold: true; color: "white" }
+                Text { text: qsTr("Instrument:"); font.bold: true; color: "white" }
                 Text { text: item.instrument; color: "white" }
             }
 
             Row {
                 width: parent.width; spacing: 10; visible: item.style.length > 0
-                Text { text: "Style:"; font.bold: true; color: "white" }
+                Text { text: qsTr("Style:"); font.bold: true; color: "white" }
                 Text { text: item.style; color: "white" }
             }
 
             Row {
                 width: parent.width; spacing: 10; visible: item.mood.length > 0
-                Text { text: "Mood:"; font.bold: true; color: "white" }
+                Text { text: qsTr("Mood:"); font.bold: true; color: "white" }
                 Text { text: item.mood; color: "white" }
             }
 
             Row {
                 width: parent.width; spacing: 10; visible: item.born.length > 0
-                Text { text: "Born:"; font.bold: true; color: "white" }
+                Text { text: qsTr("Born:"); font.bold: true; color: "white" }
                 Text { text: item.born; color: "white" }
             }
 
             Row {
                 width: parent.width; spacing: 10; visible: item.formed.length > 0
-                Text { text: "Formed:"; font.bold: true; color: "white" }
+                Text { text: qsTr("Formed:"); font.bold: true; color: "white" }
                 Text { text: item.formed; color: "white" }
             }
 
             Row {
                 width: parent.width; spacing: 10; visible: item.died.length > 0
-                Text { text: "Died:"; font.bold: true; color: "white" }
+                Text { text: qsTr("Died:"); font.bold: true; color: "white" }
                 Text { text: item.died; color: "white" }
             }
 
             Row {
                 width: parent.width; spacing: 10; visible: item.disbanded.length > 0
-                Text { text: "Disbanded:"; font.bold: true; color: "white" }
+                Text { text: qsTr("Disbanded:"); font.bold: true; color: "white" }
                 Text { text: item.disbanded; color: "white" }
             }
 
             Row {
                 width: parent.width; spacing: 10; visible: item.duration.length > 0
-                Text { text: "Duration:"; font.bold: true; color: "white" }
+                Text { text: qsTr("Duration:"); font.bold: true; color: "white" }
                 Text { text: item.duration; color: "white" }
             }
 
             Row {
                 width: parent.width; spacing: 10; visible: item.comment.length > 0
-                Text { text: "Comment:"; font.bold: true; color: "white" }
+                Text { text: qsTr("Comment:"); font.bold: true; color: "white" }
                 Text { text: item.comment; color: "white" }
             }
 
             Row {
                 width: parent.width; spacing: 10; visible: item.playcount.length > 0
-                Text { text: "Playcount:"; font.bold: true; color: "white" }
+                Text { text: qsTr("Playcount:"); font.bold: true; color: "white" }
                 Text { text: item.playcount; color: "white" }
             }
 
             Row {
                 width: parent.width; spacing: 10; visible: item.cast.length > 0
-                Text { text: "Cast:"; font.bold: true; color: "white" }
+                Text { text: qsTr("Cast:"); font.bold: true; color: "white" }
                 Text { text: item.cast; color: "white" }
             }
 

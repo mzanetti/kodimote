@@ -165,5 +165,5 @@ void Songs::addToPlaylist(int row)
 
 QString Songs::title() const
 {
-    return "Songs";
+    return tr("Songs");
 }

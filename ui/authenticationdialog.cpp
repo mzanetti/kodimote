@@ -24,19 +24,19 @@ AuthenticationDialog::AuthenticationDialog(const QString &hostname, QWidget *par
     setLayout(layout);
 
     QVBoxLayout *vLayout = new QVBoxLayout();
-    QLabel *mainLabel = new QLabel(QString("Host %1 requires authentication").arg(hostname));
+    QLabel *mainLabel = new QLabel(tr("Host %1 requires authentication").arg(hostname));
     vLayout->addWidget(mainLabel);
 
     QGridLayout *gridLayout = new QGridLayout();
     vLayout->addLayout(gridLayout);
 
-    QLabel *userLabel = new QLabel("Username");
+    QLabel *userLabel = new QLabel(tr("Username"));
     gridLayout->addWidget(userLabel, 0, 0);
 
     m_userEdit = new QLineEdit();
     gridLayout->addWidget(m_userEdit, 0, 1);
 
-    QLabel *passwordLabel = new QLabel("Password");
+    QLabel *passwordLabel = new QLabel(tr("Password"));
     gridLayout->addWidget(passwordLabel, 1, 0);
 
     m_passwordEdit = new QLineEdit();

@@ -146,5 +146,5 @@ void TvShows::addToPlaylist(int row)
 
 QString TvShows::title() const
 {
-    return "TV Shows";
+    return tr("TV Shows");
 }

@@ -127,13 +127,13 @@ Page {
         visualParent: pageStack
         MenuLayout {
             MenuItem {
-                text: "Play"
+                text: qsTr("Play")
                 onClicked: {
                     player.playItem(listView.currentSelected)
                 }
             }
             MenuItem {
-                text: "Remove from playlist"
+                text: qsTr("Remove from playlist")
                 onClicked: {
                     playlist.removeItem(listView.currentSelected)
                 }

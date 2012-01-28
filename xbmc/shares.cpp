@@ -87,11 +87,11 @@ void Shares::addToPlaylist(int index)
 QString Shares::title() const
 {
     if(m_mediaType == "music") {
-        return "Music Files";
+        return tr("Music Files");
     } else if(m_mediaType == "video"){
-        return "Video Files";
+        return tr("Video Files");
     } else if(m_mediaType == "pictures") {
-        return "Picture Files";
+        return tr("Picture Files");
     }
     return "";
 }

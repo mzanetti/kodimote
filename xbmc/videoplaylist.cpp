@@ -160,5 +160,5 @@ PlaylistItem* VideoPlaylist::at(int index) const
 
 QString VideoPlaylist::title() const
 {
-    return "Now Playing - Videos";
+    return tr("Now Playing") + " - " + tr("Videos");
 }

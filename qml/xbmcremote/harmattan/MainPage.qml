@@ -9,28 +9,31 @@ Page {
     ListModel {
         id: mainMenuModel
         ListElement {
-            title: "Music"
             icon: "icon-m-content-audio"
             subtitle: ""
             mode: "library"
         }
         ListElement {
-            title: "Videos"
             icon: "icon-m-content-videos"
             subtitle: ""
             mode: "library"
         }
         ListElement {
-            title: "Pictures"
             icon: "icon-m-content-image"
             subtitle: ""
             mode: "files"
         }
-//        ListElement {
-//            title: "Video Files"
-//            icon: "content-videos"
-//            subtitle: ""
-//        }
+        // workaround: its not possible to have qsTr() in ListElements for now...
+        function title(index) {
+            if (title["text"] === undefined) {
+                title.text = [
+                    qsTr("Music"),
+                    qsTr("Videos"),
+                    qsTr("Pictures")
+                ]
+            }
+            return title.text[index];
+        }
     }
 
 
@@ -87,14 +90,14 @@ Page {
 
                     Label {
                         id: mainText
-                        text: title
+                        text: listView.model.title(index)
                         font.weight: Font.Bold
                         font.pixelSize: 26
                     }
 
                     Label {
                         id: subText
-                        text: mode == "library" ? "Library" : "Files"
+                        text: mode == "library" ? qsTr("Library") : qsTr("Files")
                         font.weight: Font.Light
                         font.pixelSize: 24
                         color: theme.inverted ? "#7b797b" : "#848684"
@@ -169,21 +172,21 @@ Page {
 
         MenuLayout {
             MenuItem {
-                text: "Show files"
+                text: qsTr("Show files")
                 visible: mainMenuModel.get(listView.currentSelected).mode != "files"
                 onClicked: {
                     mainMenuModel.setProperty(listView.currentSelected, "mode", "files");
                 }
             }
             MenuItem {
-                text: "Show library"
+                text: qsTr("Show library")
                 visible: mainMenuModel.get(listView.currentSelected).mode != "library"
                 onClicked: {
                     mainMenuModel.setProperty(listView.currentSelected, "mode", "library");
                 }
             }
             MenuItem {
-                text: "Rescan library"
+                text: qsTr("Rescan library")
                 onClicked: {
                     print("current selected is" + listView.currentSelected)
                     var lib = xbmc.audioLibrary();

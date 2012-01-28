@@ -27,17 +27,17 @@ AudioLibrary::AudioLibrary() :
     XbmcLibrary(0)
 {
     setBusy(false);
-    LibraryItem *item = new LibraryItem("Artists");
+    LibraryItem *item = new LibraryItem(tr("Artists"));
     item->setFileType("directory");
     item->setPlayable(false);
     m_list.append(item);
 
-    item = new LibraryItem("Albums");
+    item = new LibraryItem(tr("Albums"));
     item->setFileType("directory");
     item->setPlayable(false);
     m_list.append(item);
 
-    item = new LibraryItem("Titles");
+    item = new LibraryItem(tr("Titles"));
     item->setFileType("directory");
     item->setPlayable(false);
     m_list.append(item);
@@ -69,7 +69,7 @@ void AudioLibrary::addToPlaylist(int index)
 
 QString AudioLibrary::title() const
 {
-    return "Audio Library";
+    return tr("Audio Library");
 }
 
 void AudioLibrary::scanForContent()

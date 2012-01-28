@@ -32,15 +32,26 @@
 #include <QtConnectivity/QNdefNfcUriRecord>
 
 QTM_USE_NAMESPACE
-
 #endif
 
 #include <QtGui/QApplication>
 #include <QtDeclarative>
 
+#include <QtSystemInfo/QSystemInfo>
+
 int main(int argc, char *argv[])
 {
-    QApplication app(argc, argv);
+    QTranslator translator;
+    QSystemInfo info;
+    QApplication app( argc, argv );
+
+
+    if (!translator.load("xbmcremote_" + info.currentLanguage() + ".qm", QString::fromLatin1("/opt/xbmcremote/i18n/"))) {
+        qDebug() << "Cannot load translation file" << "/opt/xbmcremote/xbmcremote_" + info.currentLanguage() + ".ts";
+    }
+
+    qDebug() << "language:" << info.currentLanguage();
+    app.installTranslator(&translator);
 
     XDebug::addAllowedArea(XDAREA_GENERAL);
     for(int i = 1; i < app.arguments().count(); ++i ) {
@@ -77,7 +88,7 @@ int main(int argc, char *argv[])
     view->setSource(QUrl("/opt/xbmcremote/qml/xbmcremote/harmattan/main.qml"));
     view->engine()->setNetworkAccessManagerFactory(new NetworkAccessManagerFactory());
     view->showFullScreen();
-    MeeGoHelper *helper = new MeeGoHelper(&app);
+    MeeGoHelper *helper = new MeeGoHelper(&settings, &app);
     Q_UNUSED(helper)
 
     QNearFieldManager manager;

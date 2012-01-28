@@ -24,6 +24,7 @@
 
 class VideoPlaylist : public Playlist
 {
+    Q_OBJECT
 public:
     VideoPlaylist(Player *parent = 0);
 

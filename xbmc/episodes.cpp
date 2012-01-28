@@ -163,5 +163,5 @@ void Episodes::addToPlaylist(int row)
 
 QString Episodes::title() const
 {
-    return "Episodes";
+    return tr("Episodes");
 }

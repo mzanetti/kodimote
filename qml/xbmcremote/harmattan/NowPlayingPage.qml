@@ -228,7 +228,7 @@ Page {
                 anchors.bottomMargin: 10
                 Label {
                     id: albumLabel
-                    text: xbmc.state == "audio" ? currentItem.album : (currentItem.type == "episode" ? "Season: " + currentItem.season : "Rating: ")
+                    text: xbmc.state == "audio" ? currentItem.album : (currentItem.type == "episode" ? qsTr("Season:") + " " + currentItem.season : qsTr("Rating:") + " ")
                 }
                 Repeater {
                     model: Math.floor(currentItem.rating / 2)
@@ -244,7 +244,7 @@ Page {
                 anchors.left: parent.left
                 anchors.bottom: albumRow.top
                 anchors.right: parent.right
-                text: xbmc.state == "audio" ? currentItem.artist : (currentItem.type == "episode" ? currentItem.tvShow : "Year: " + currentItem.year)
+                text: xbmc.state == "audio" ? currentItem.artist : (currentItem.type == "episode" ? currentItem.tvShow : qsTr("Year:") + " " + currentItem.year)
             }
             Label {
                 id: trackLabel

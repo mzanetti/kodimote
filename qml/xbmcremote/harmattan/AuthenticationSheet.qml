@@ -4,8 +4,8 @@ import Xbmc 1.0
 
 Sheet {
     id: connectionSheet
-    acceptButtonText: "OK"
-    rejectButtonText: "Cancel"
+    acceptButtonText: qsTr("OK")
+    rejectButtonText: qsTr("Cancel")
 
     property string hostname
 
@@ -15,7 +15,7 @@ Sheet {
         spacing: 10
 
         Label {
-            text: "XBMC on " + hostname + "requires authentication:"
+            text: qsTr("XBMC on %1 requires authentication:").arg(hostname);
         }
         Label {
             text: "Username:"
@@ -27,7 +27,7 @@ Sheet {
 
         }
         Label {
-            text: "Password:"
+            text: qsTr("Password:")
         }
         TextField {
             width: parent.width

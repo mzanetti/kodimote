@@ -26,17 +26,17 @@ VideoLibrary::VideoLibrary(XbmcModel *parent) :
     XbmcLibrary(parent)
 {
     setBusy(false);
-    LibraryItem *item = new LibraryItem("Movies");
+    LibraryItem *item = new LibraryItem(tr("Movies"));
     item->setFileType("directory");
     item->setPlayable(false);
     m_list.append(item);
 
-    item = new LibraryItem("TV Shows");
+    item = new LibraryItem(tr("TV Shows"));
     item->setFileType("directory");
     item->setPlayable(false);
     m_list.append(item);
 
-    item = new LibraryItem("Music Videos");
+    item = new LibraryItem(tr("Music Videos"));
     item->setFileType("directory");
     item->setPlayable(false);
     m_list.append(item);
@@ -68,7 +68,7 @@ void VideoLibrary::addToPlaylist(int index)
 
 QString VideoLibrary::title() const
 {
-    return "Video Library";
+    return tr("Video Library");
 }
 
 void VideoLibrary::scanForContent()

@@ -50,11 +50,11 @@ SettingsDialog::SettingsDialog(QWidget *parent) :
 
     Settings settings;
 
-    m_cbThumbnails = new QCheckBox("Use Thumbnails");
+    m_cbThumbnails = new QCheckBox(tr("Use Thumbnails"));
     gridLayout->addWidget(m_cbThumbnails, 0, 0);
     m_cbThumbnails->setChecked(settings.useThumbnails());
 
-    m_cbVolume = new QCheckBox("Change volume during calls");
+    m_cbVolume = new QCheckBox(tr("Change volume during calls"));
     gridLayout->addWidget(m_cbVolume, 0, 0);
     m_cbVolume->setChecked(settings.changeVolumeOnCall());
 
@@ -63,7 +63,7 @@ SettingsDialog::SettingsDialog(QWidget *parent) :
     gridLayout->addWidget(m_slVolume, 1, 0);
     m_slVolume->setValue(settings.volumeOnCall());
 
-    m_cbPause = new QCheckBox("Pause video during calls");
+    m_cbPause = new QCheckBox(tr("Pause video during calls"));
     gridLayout->addWidget(m_cbPause, 2, 0);
     m_cbPause->setChecked(settings.pauseOnCall());
 

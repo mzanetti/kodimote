@@ -95,5 +95,5 @@ void Seasons::addToPlaylist(int row)
 
 QString Seasons::title() const
 {
-    return "Seasons";
+    return tr("Seasons");
 }

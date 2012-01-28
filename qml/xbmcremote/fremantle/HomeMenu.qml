@@ -196,7 +196,7 @@ BorderImage {
                 anchors.right: parent.right
                 anchors.rightMargin: -15
                 height: 70
-                visible: (stateName == "library" && xbmcBrowser.mediaState == "pictures") ? false : true
+                visible: (stateName === "library" && xbmcBrowser.mediaState == "pictures") ? false : true
                 Image {
                     id: buttonBg
                     anchors.fill: parent
@@ -220,11 +220,11 @@ BorderImage {
                 }
                 states: [
                     State {
-                        name: "unselected"; when: index != currentIndex
+                        name: "unselected"; when: index !== currentIndex
                         PropertyChanges { target: buttonBg; source: "images/button-nofocus.png" }
                     },
                     State {
-                        name: "selected"; when: index == subMenuList.currentIndex
+                        name: "selected"; when: index === subMenuList.currentIndex
                         PropertyChanges { target: buttonBg; source: "images/button-focus.png" }
                     }
                 ]
