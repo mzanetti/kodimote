@@ -233,7 +233,7 @@ Page {
                 Repeater {
                     model: Math.floor(currentItem.rating / 2)
                     Image {
-                        source: "image://theme/meegotouch-indicator-rating-star"
+                        source: theme.inverted ? "image://theme/meegotouch-indicator-rating-inverted-background-star" : "image://theme/meegotouch-indicator-rating-star"
                     }
                 }
             }
