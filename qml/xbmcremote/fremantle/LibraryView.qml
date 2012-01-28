@@ -36,14 +36,14 @@ Item {
         contextMenu.model = null
         contextMenuModel.clear();
         if(library.get(list.currentIndex, "playable")) {
-            contextMenuModel.append({ "entryId": 0, "menuEntry": qsTr("Play")})
-            contextMenuModel.append({ "entryId": 1, "menuEntry": qsTr("Add to playlist")})
+            contextMenuModel.append({ "entryId": 0 })
+            contextMenuModel.append({ "entryId": 1 })
         }
         if(xbmcBrowser.viewState === "library" && list.model.parentModel() === null) {
-            contextMenuModel.append({ "entryId": 2, "menuEntry": qsTr("Rescan library")})
+            contextMenuModel.append({ "entryId": 2 })
         }
         if(library.hasDetails()) {
-            contextMenuModel.append({ "entryId": 3, "menuEntry": qsTr("Details")});
+            contextMenuModel.append({ "entryId": 3 });
         }
 
         if(contextMenuModel.count > 0) {

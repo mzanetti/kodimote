@@ -67,6 +67,10 @@
         <source>Music</source>
         <translation>Musik</translation>
     </message>
+    <message>
+        <source>Playlist</source>
+        <translation>Abspielliste</translation>
+    </message>
 </context>
 <context>
     <name>AuthenticationDialog</name>
@@ -648,6 +652,10 @@ zu verbinden.</translation>
     <message>
         <source>flattr</source>
         <translation>flattr</translation>
+    </message>
+    <message>
+        <source>close</source>
+        <translation>schließen</translation>
     </message>
 </context>
 </TS>

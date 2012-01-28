@@ -41,9 +41,9 @@ FocusScope {
         Text {
             anchors.fill: parent
             anchors.margins: 10
-            text: qsTr("Now Playing") + " - " + qStr("Playlist")
+            text: qsTr("Now Playing") + " - " + qsTr("Playlist")
             color: "white"
-            font.pixelSize: 16
+//            font.pixelSize: 16
             verticalAlignment: Text.AlignVCenter
 
         }

@@ -43,20 +43,25 @@ QTM_USE_NAMESPACE
 int main(int argc, char *argv[])
 {
     QTranslator translator;
-    QSystemInfo info;http://developer.qt.nokia.com/doc/qt-4.8/qmake-using.html
+    QString language;
 
 #if defined Q_WS_MAEMO_6
+    QSystemInfo info;
+    language = info.currentLanguage();
     QScopedPointer<QApplication> app(createApplication(argc, argv));
 #else
     QApplication *app = new QApplication( argc, argv );
+    language = QLocale::system().name();
 #endif
 
 
-    if (!translator.load("xbmcremote_" + info.currentLanguage() + ".qm", QString::fromLatin1("/opt/xbmcremote/i18n/"))) {
-        qDebug() << "Cannot load translation file" << "/opt/xbmcremote/xbmcremote_" + info.currentLanguage() + ".ts";
-    }
+    QTranslator qtTranslator;
+    qtTranslator.load("qt_" + language, QLibraryInfo::location(QLibraryInfo::TranslationsPath));
+    app->installTranslator(&qtTranslator);
 
-    qDebug() << "language:" << info.currentLanguage();
+    if (!translator.load("xbmcremote_" + language + ".qm", QString::fromLatin1("/opt/xbmcremote/i18n/"))) {
+        qDebug() << "Cannot load translation file" << "/opt/xbmcremote/xbmcremote_" + language + ".ts";
+    }
     app->installTranslator(&translator);
 
     XDebug::addAllowedArea(XDAREA_GENERAL);

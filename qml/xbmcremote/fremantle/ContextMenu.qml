@@ -50,7 +50,7 @@ FocusScope {
         id: middleImage
         source: "images/DialogContextMiddle.png"
         anchors { left: parent.left; top: topImage.bottom; right: parent.right }
-        height: contextMenuList.model.count * 64
+        height: contextMenu.model.count * 64
     }
     Image {
         id: bottomImage
@@ -92,7 +92,7 @@ FocusScope {
                 source: index === contextMenuList.currentIndex ? "images/button-focus.png" : "images/button-nofocus.png"
             }
             Text {
-                text: menuEntry
+                text: contextMenu.model.title(entryId)
                 color: "white"
                 anchors.centerIn: parent
                 font.pixelSize: 28

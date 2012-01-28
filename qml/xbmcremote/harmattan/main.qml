@@ -228,7 +228,8 @@ PageStackWindow {
         buttons {
             Button {
                 id: closeButton
-                text: "close"; onClicked: aboutDialog.close()
+                text: qsTr("close")
+                onClicked: aboutDialog.close()
             }
             Button {
                 id: donateButton
