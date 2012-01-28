@@ -65,21 +65,21 @@ Rectangle {
         }
 
         Keys.onPressed: {
-            if(event.modifiers == Qt.ControlModifier) {
-                if(event.key == Qt.Key_Right){
+            if(event.modifiers === Qt.ControlModifier) {
+                if(event.key === Qt.Key_Right){
                     view.incrementCurrentIndex();
                 }
-            } else if(event.key == Qt.Key_Up) {
+            } else if(event.key === Qt.Key_Up) {
                 itemModel.currentView.decrementCurrentIndex();
-            } else if(event.key == Qt.Key_Down) {
+            } else if(event.key === Qt.Key_Down) {
                 itemModel.currentView.incrementCurrentIndex();
-            } else if(event.key == Qt.Key_Right || event.key == Qt.Key_Return) {
+            } else if(event.key === Qt.Key_Right || event.key === Qt.Key_Return) {
                 itemModel.currentView.selectItem(itemModel.currentView.view.currentIndex);
-            } else if(event.key == Qt.Key_Left || event.key == Qt.Key_Escape || event.key == Qt.Key_Backspace) {
+            } else if(event.key === Qt.Key_Left || event.key === Qt.Key_Escape || event.key === Qt.Key_Backspace) {
                 itemModel.currentView.goUp();
-            } else if(event.key == Qt.Key_Space) {
+            } else if(event.key === Qt.Key_Space) {
                 itemModel.currentView.showContextMenu();
-            } else if(event.key == Qt.Key_AltGr) {
+            } else if(event.key === Qt.Key_AltGr) {
                 // eat the FN key to prevent jumping to index 0
             }else {
                 inputTimer.stop();
@@ -187,10 +187,10 @@ Rectangle {
                 playlist: xbmc.activePlayer.playlist()
                 state: "nowPlaying"
                 Keys.onPressed: {
-                    if(event.modifiers == Qt.ControlModifier && event.key == Qt.Key_Left) {
+                    if(event.modifiers === Qt.ControlModifier && event.key === Qt.Key_Left) {
                         view.decrementCurrentIndex();
                     }
-                    if(event.modifiers == Qt.ControlModifier && event.key == Qt.Key_Right) {
+                    if(event.modifiers === Qt.ControlModifier && event.key === Qt.Key_Right) {
                         view.incrementCurrentIndex();
                     }
                     event.accepted = true;
@@ -204,10 +204,10 @@ Rectangle {
             FocusScope {
                 id: keypad
                 Keys.onPressed: {
-                    if(event.modifiers == Qt.ControlModifier) {
-                        if(event.key == Qt.Key_Left) {
+                    if(event.modifiers === Qt.ControlModifier) {
+                        if(event.key === Qt.Key_Left) {
                             view.decrementCurrentIndex();
-                        } else if(event.key == Qt.Key_Right) {
+                        } else if(event.key === Qt.Key_Right) {
                             view.incrementCurrentIndex();
                         }
                     } else {

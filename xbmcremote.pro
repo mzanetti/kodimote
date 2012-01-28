@@ -150,7 +150,6 @@ lupdate {
         qml/xbmcremote/fremantle/NowPlayingView.qml \
 }
 
-#contains (MEEGO_FLAVOR, "harmattan") { # This will be added soon, in the meantime use workaround
 contains(MEEGO_EDITION,harmattan) {
     message(Harmattan build)
     target.path = /opt/usr/bin

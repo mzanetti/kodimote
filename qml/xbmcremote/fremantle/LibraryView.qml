@@ -16,7 +16,7 @@ Item {
         list.decrementCurrentIndex();
     }
     function selectItem(index) {
-        if(list.model.get(index, "filetype") =="directory") {
+        if(list.model.get(index, "filetype") ==="directory") {
             list.enterItem(index);
             list.currentIndex = 0;
         } else {
@@ -36,15 +36,14 @@ Item {
         contextMenu.model = null
         contextMenuModel.clear();
         if(library.get(list.currentIndex, "playable")) {
-            contextMenuModel.append({ "entryId": 0, "menuEntry": "Play"})
-            contextMenuModel.append({ "entryId": 1, "menuEntry": "Add to playlist"})
-//            contextMenuModel.append({ "entryId": 3, "menuEntry": "Details"})
+            contextMenuModel.append({ "entryId": 0, "menuEntry": qsTr("Play")})
+            contextMenuModel.append({ "entryId": 1, "menuEntry": qsTr("Add to playlist")})
         }
         if(xbmcBrowser.viewState === "library" && list.model.parentModel() === null) {
-            contextMenuModel.append({ "entryId": 2, "menuEntry": "Rescan library"})
+            contextMenuModel.append({ "entryId": 2, "menuEntry": qsTr("Rescan library")})
         }
         if(library.hasDetails()) {
-            contextMenuModel.append({ "entryId": 3, "menuEntry": "Details"});
+            contextMenuModel.append({ "entryId": 3, "menuEntry": qsTr("Details")});
         }
 
         if(contextMenuModel.count > 0) {
@@ -110,7 +109,7 @@ Item {
                 height: 64
                 Image {
                     anchors.fill: parent
-                    source: index == list.currentIndex ? "images/MenuItemFO.png" : "images/MenuItemNF.png"
+                    source: index === list.currentIndex ? "images/MenuItemFO.png" : "images/MenuItemNF.png"
                 }
 
                 Image {
@@ -157,7 +156,7 @@ Item {
                     }
 
                     onClicked: {
-                        if(filetype=="directory") {
+                        if(filetype === "directory") {
                             list.enterItem(index);
                         } else {
                             list.model.playItem(index);
@@ -184,10 +183,23 @@ Item {
 
     ListModel {
         id: contextMenuModel
-        ListElement { entryId: 0; menuEntry: qsTr("Play")}
-        ListElement { entryId: 1; menuEntry: qsTr("Add to playlist")}
-        ListElement { entryId: 2; menuEntry: qsTr("Rescan library")}
-        ListElement { entryId: 3; menuEntry: qsTr("Details")}
+        ListElement { entryId: 0 }
+        ListElement { entryId: 1 }
+        ListElement { entryId: 2 }
+        ListElement { entryId: 3 }
+        // workaround: its not possible to have qsTr() in ListElements for now...
+        function title(index) {
+            if (title["text"] === undefined) {
+                title.text = [
+                    qsTr("Play"),
+                    qsTr("Add to playlist"),
+                    qsTr("Rescan library"),
+                    qsTr("Details")
+                ]
+            }
+            return title.text[index];
+        }
+
     }
 
     ContextMenu {

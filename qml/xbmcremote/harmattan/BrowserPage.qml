@@ -109,9 +109,9 @@ Page {
                     if(listItem.state == "expanded") {
                         listItem.state = "collapsed"
                     } else {
-                        if(filetype=="directory") {
+                        if(filetype === "directory") {
                             var component = Qt.createComponent("BrowserPage.qml")
-                            if (component.status == Component.Ready) {
+                            if (component.status === Component.Ready) {
                                 var newModel = browserPage.model.enterItem(index);
                                 pageStack.push(component, {model: newModel});
                             } else {
@@ -225,7 +225,7 @@ Page {
                 source: "image://theme/icon-m-common-drilldown-arrow" + (theme.inverted ? "-inverse" : "")
                 anchors.right: parent.right;
                 anchors.verticalCenter: parent.verticalCenter
-                visible: filetype == "directory" && listItem.state == "collapsed" ? true : false;
+                visible: filetype === "directory" && listItem.state == "collapsed" ? true : false;
                 opacity: .5
             }
 

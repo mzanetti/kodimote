@@ -15,7 +15,9 @@ Sheet {
         spacing: 10
 
         Label {
+            width: parent.width
             text: qsTr("XBMC on %1 requires authentication:").arg(hostname);
+            wrapMode: Text.WordWrap
         }
         Label {
             text: "Username:"

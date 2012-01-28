@@ -43,7 +43,7 @@ Row {
         width: parent.width / 6
 
         Image {
-            source: (player.speed != 1 || player.state != "playing") ? "images/OSDPlayNF.png" : "images/OSDPauseNF.png"
+            source: (player.speed !== 1 || player.state !== "playing") ? "images/OSDPlayNF.png" : "images/OSDPauseNF.png"
             anchors.centerIn: parent
         }
 

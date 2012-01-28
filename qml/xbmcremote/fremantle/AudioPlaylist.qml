@@ -109,18 +109,18 @@ FocusScope {
                 //            }
                 Image {
                     anchors.fill: parent
-                    source: itemArea.pressed || index == list.currentIndex ? "images/MenuItemFO.png" : "images/MenuItemNF.png"
+                    source: itemArea.pressed || index === list.currentIndex ? "images/MenuItemFO.png" : "images/MenuItemNF.png"
                 }
                 Image {
                     anchors {top: parent.top; right: parent.right; bottom: parent.bottom }
                     anchors.topMargin: 10
                     anchors.bottomMargin: 10
                     source: "images/MediaItemDetailBG.png"
-                    visible: itemArea.pressed || index == list.currentIndex
+                    visible: itemArea.pressed || index === list.currentIndex
                 }
 
                 Text {
-                    color: list.model.currentTrackNumber - 1 == index ? "yellow" : "white"
+                    color: list.model.currentTrackNumber - 1 === index ? "yellow" : "white"
                     text: title
                     font.pixelSize: 28
                     anchors {left: parent.left; top:  parent.top; bottom: parent.bottom; right: durationText.left }
@@ -130,7 +130,7 @@ FocusScope {
                 }
                 Text {
                     id: durationText
-                    color: list.model.currentTrackNumber - 1 == index ? "yellow" : "white"
+                    color: list.model.currentTrackNumber - 1 === index ? "yellow" : "white"
                     text: duration
                     font.pixelSize: 28
                     anchors { top: parent.top; right: parent.right; bottom: parent.bottom }

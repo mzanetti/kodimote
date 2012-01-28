@@ -14,7 +14,7 @@ BorderImage {
     property string orientation: width > height ? "landscape" : "portrait"
 
     function keyPressed(event) {
-        if(event.modifiers == Qt.ShiftModifier) {
+        if(event.modifiers === Qt.ShiftModifier) {
             switch(event.key) {
             case Qt.Key_Left:
                 player.skipPrevious();

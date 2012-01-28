@@ -97,7 +97,7 @@ Page {
 
                     Label {
                         id: subText
-                        text: mode == "library" ? qsTr("Library") : qsTr("Files")
+                        text: mode === "library" ? qsTr("Library") : qsTr("Files")
                         font.weight: Font.Light
                         font.pixelSize: 24
                         color: theme.inverted ? "#7b797b" : "#848684"
@@ -119,7 +119,7 @@ Page {
                 onPressed: listView.currentSelected = index;
 
                 onPressAndHold: {
-                    if(index == 0 || index  == 1) {
+                    if(index === 0 || index  === 1) {
                         longTapMenu.open();
                     }
                 }
@@ -127,17 +127,17 @@ Page {
                 onClicked: {
                     var component = Qt.createComponent("BrowserPage.qml")
                     var newModel;
-                    if (component.status == Component.Ready) {
+                    if (component.status === Component.Ready) {
                         switch(index) {
                         case 0:
-                            if(mode == "library") {
+                            if(mode === "library") {
                                 newModel = xbmc.audioLibrary();
                             } else {
                                 newModel = xbmc.shares("music");
                             }
                             break
                         case 1:
-                            if(mode == "library") {
+                            if(mode === "library") {
                                 newModel = xbmc.videoLibrary();
                             } else {
                                 newModel = xbmc.shares("video");
@@ -173,14 +173,14 @@ Page {
         MenuLayout {
             MenuItem {
                 text: qsTr("Show files")
-                visible: mainMenuModel.get(listView.currentSelected).mode != "files"
+                visible: mainMenuModel.get(listView.currentSelected).mode !== "files"
                 onClicked: {
                     mainMenuModel.setProperty(listView.currentSelected, "mode", "files");
                 }
             }
             MenuItem {
                 text: qsTr("Show library")
-                visible: mainMenuModel.get(listView.currentSelected).mode != "library"
+                visible: mainMenuModel.get(listView.currentSelected).mode !== "library"
                 onClicked: {
                     mainMenuModel.setProperty(listView.currentSelected, "mode", "library");
                 }

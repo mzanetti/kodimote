@@ -21,7 +21,7 @@ Page {
         text: qsTr("Connect")
         onClicked: {
             var component = Qt.createComponent("ConnectionSheet.qml")
-            if (component.status == Component.Ready) {
+            if (component.status === Component.Ready) {
                 component.createObject(mainPage).open()
             } else {
                 console.log("Error loading component:", component.errorString());

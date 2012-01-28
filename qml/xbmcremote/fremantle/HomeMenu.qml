@@ -93,11 +93,11 @@ BorderImage {
                 Behavior on color { ColorAnimation { duration: 200 } }
                 states: [
                     State {
-                        name: "unselected"; when: index != homeMenuList.currentIndex
+                        name: "unselected"; when: index !== homeMenuList.currentIndex
                         PropertyChanges { target: textLabel; font.pixelSize: 40; color: "grey" }
                     },
                     State {
-                        name: "selected"; when: index == homeMenuList.currentIndex
+                        name: "selected"; when: index === homeMenuList.currentIndex
                         PropertyChanges { target: textLabel; font.pixelSize: 48; color: "white" }
                     }
                 ]

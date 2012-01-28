@@ -19,7 +19,7 @@ FocusScope {
     property QtObject currentItem: playlist.currentItem
 
     Keys.onPressed: {
-        if(event.modifiers == Qt.ShiftModifier) {
+        if(event.modifiers === Qt.ShiftModifier) {
             switch(event.key) {
             case Qt.Key_Left:
                 xbmc.activePlayer.seek();
@@ -28,12 +28,12 @@ FocusScope {
                 xbmc.activePlayer.seek();
                 break;
             }
-        } else if(event.modifiers == Qt.NoModifier) {
+        } else if(event.modifiers === Qt.NoModifier) {
             switch(event.key) {
             case Qt.Key_R:
-                if(xbmc.activePlayer.repeat == Player.RepeatNone) {
+                if(xbmc.activePlayer.repeat === Player.RepeatNone) {
                     xbmc.activePlayer.repeat = Player.RepeatOne;
-                } else if(xbmc.activePlayer.repeat == Player.RepeatOne) {
+                } else if(xbmc.activePlayer.repeat === Player.RepeatOne) {
                     xbmc.activePlayer.repeat = Player.RepeatAll;
                 } else {
                     xbmc.activePlayer.repeat = Player.RepeatNone;
@@ -219,7 +219,7 @@ FocusScope {
 //                    anchors {left: parent.left; top: parent.top; bottom: parent.bottom; right: ratingStars.left }
                     width: parent.width - ratingStars.width
                     color: "white"
-                    text: (xbmc.state == "audio" ? currentItem.artist : (currentItem.type == "episode" ? currentItem.tvShow : "Year: " + currentItem.year)) + (xbmc.state == "audio" ? " - " + currentItem.album : (currentItem.type == "episode" ? " - Season: " + currentItem.season : ""))
+                    text: (xbmc.state == "audio" ? currentItem.artist : (currentItem.type === "episode" ? currentItem.tvShow : "Year: " + currentItem.year)) + (xbmc.state == "audio" ? " - " + currentItem.album : (currentItem.type === "episode" ? " - Season: " + currentItem.season : ""))
                     font.pixelSize: 22
                     elide: Text.ElideRight
     //                visible: ActivePlayer.type == AudioPlayer.PlayerTypeAudio
@@ -228,7 +228,7 @@ FocusScope {
                 Image {
                     id: ratingStars
                     source: "images/rating" + Math.floor(currentItem.rating / 2) + ".png"
-                    visible: currentItem.type == "movie"
+                    visible: currentItem.type === "movie"
                 }
             }
 

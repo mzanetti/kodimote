@@ -43,13 +43,13 @@ Page {
         }
         ToolIcon {
             iconSource: "image://theme/icon-m-toolbar-repeat" +
-                        (xbmc.activePlayer.repeat ==  Player.RepeatOne ? "-dimmed" : "") +
+                        (xbmc.activePlayer.repeat ===  Player.RepeatOne ? "-dimmed" : "") +
                         (theme.inverted ? "-white" : "") +
-                        (xbmc.activePlayer.repeat == Player.RepeatAll ? "-selected" : "")
+                        (xbmc.activePlayer.repeat === Player.RepeatAll ? "-selected" : "")
             onClicked: {
-                if(xbmc.activePlayer.repeat == Player.RepeatNone) {
+                if(xbmc.activePlayer.repeat === Player.RepeatNone) {
                     xbmc.activePlayer.repeat = Player.RepeatOne;
-                } else if(xbmc.activePlayer.repeat == Player.RepeatOne) {
+                } else if(xbmc.activePlayer.repeat === Player.RepeatOne) {
                     xbmc.activePlayer.repeat = Player.RepeatAll;
                 } else {
                     xbmc.activePlayer.repeat = Player.RepeatNone;
@@ -59,7 +59,7 @@ Page {
         ToolIcon { platformIconId: "toolbar-view-menu";
             onClicked: {
                 var component = Qt.createComponent("PlaylistPage.qml")
-                if (component.status == Component.Ready) {
+                if (component.status === Component.Ready) {
                     pageStack.push(component);
                 } else {
                     console.log("Error loading component:", component.errorString());

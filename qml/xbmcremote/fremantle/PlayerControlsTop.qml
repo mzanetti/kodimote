@@ -30,15 +30,15 @@ Row {
 
         Image {
             anchors.centerIn: parent
-            source: xbmc.activePlayer.repeat == Player.RepeatNone ? "images/OSDRepeatNF.png" : (xbmc.activePlayer.repeat == Player.RepeatOne ? "images/OSDRepeatOneFO.png" : "images/OSDRepeatAllFO.png")
+            source: xbmc.activePlayer.repeat === Player.RepeatNone ? "images/OSDRepeatNF.png" : (xbmc.activePlayer.repeat === Player.RepeatOne ? "images/OSDRepeatOneFO.png" : "images/OSDRepeatAllFO.png")
         }
 
         MouseArea {
             anchors.fill: parent
             onClicked: {
-                if(xbmc.activePlayer.repeat == Player.RepeatNone) {
+                if(xbmc.activePlayer.repeat === Player.RepeatNone) {
                     xbmc.activePlayer.repeat = Player.RepeatOne;
-                } else if(xbmc.activePlayer.repeat == Player.RepeatOne) {
+                } else if(xbmc.activePlayer.repeat === Player.RepeatOne) {
                     xbmc.activePlayer.repeat = Player.RepeatAll;
                 } else {
                     xbmc.activePlayer.repeat = Player.RepeatNone;

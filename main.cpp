@@ -31,19 +31,25 @@
 #include <QtConnectivity/QNdefNfcTextRecord>
 #include <QtConnectivity/QNdefNfcUriRecord>
 
-QTM_USE_NAMESPACE
 #endif
 
+#include "qmlapplicationviewer.h"
 #include <QtGui/QApplication>
 #include <QtDeclarative>
-
+#include <QScopedPointer>
 #include <QtSystemInfo/QSystemInfo>
+QTM_USE_NAMESPACE
 
 int main(int argc, char *argv[])
 {
     QTranslator translator;
-    QSystemInfo info;
-    QApplication app( argc, argv );
+    QSystemInfo info;http://developer.qt.nokia.com/doc/qt-4.8/qmake-using.html
+
+#if defined Q_WS_MAEMO_6
+    QScopedPointer<QApplication> app(createApplication(argc, argv));
+#else
+    QApplication *app = new QApplication( argc, argv );
+#endif
 
 
     if (!translator.load("xbmcremote_" + info.currentLanguage() + ".qm", QString::fromLatin1("/opt/xbmcremote/i18n/"))) {
@@ -51,13 +57,13 @@ int main(int argc, char *argv[])
     }
 
     qDebug() << "language:" << info.currentLanguage();
-    app.installTranslator(&translator);
+    app->installTranslator(&translator);
 
     XDebug::addAllowedArea(XDAREA_GENERAL);
-    for(int i = 1; i < app.arguments().count(); ++i ) {
-        if(app.arguments().at(i) == "-d") {
-            if(app.arguments().count() > i) {
-                QStringList debuglist = app.arguments().at(i + 1).split(',');
+    for(int i = 1; i < app->arguments().count(); ++i ) {
+        if(app->arguments().at(i) == "-d") {
+            if(app->arguments().count() > i) {
+                QStringList debuglist = app->arguments().at(i + 1).split(',');
                 foreach(const QString &debugString, debuglist) {
                     if(debugString == "connection") {
                         XDebug::addAllowedArea(XDAREA_CONNECTION);
@@ -79,16 +85,22 @@ int main(int argc, char *argv[])
 
     Settings settings;
 
-#ifdef Q_WS_MAEMO_6
+#if defined Q_WS_MAEMO_6 || defined QT_SIMULATOR
 
-    QDeclarativeView *view;
-    view = new QDeclarativeView;
+    QScopedPointer<QmlApplicationViewer> view(QmlApplicationViewer::create());
+
     view->rootContext()->setContextProperty("settings", &settings);
     view->rootContext()->setContextProperty("xbmc", Xbmc::instance());
+#ifdef QT_SIMULATOR
+    view->setSource(QUrl("qml/xbmcremote/harmattan/main.qml"));
+#else
     view->setSource(QUrl("/opt/xbmcremote/qml/xbmcremote/harmattan/main.qml"));
+#endif
     view->engine()->setNetworkAccessManagerFactory(new NetworkAccessManagerFactory());
     view->showFullScreen();
-    MeeGoHelper *helper = new MeeGoHelper(&settings, &app);
+
+#ifdef Q_WS_MAEMO_6
+    MeeGoHelper *helper = new MeeGoHelper(&settings, app.data());
     Q_UNUSED(helper)
 
     QNearFieldManager manager;
@@ -100,6 +112,7 @@ int main(int argc, char *argv[])
 
     QObject::connect(&manager, SIGNAL(targetDetected(QNearFieldTarget*)), &nfcHandler, SLOT(tagDetected(QNearFieldTarget*)));
 
+#endif
 
 #else
 
@@ -110,5 +123,5 @@ int main(int argc, char *argv[])
 
     qRegisterMetaType<QNetworkReply::NetworkError>("QNetworkReply::NetworkError");
 
-    return app.exec();
+    return app->exec();
 }

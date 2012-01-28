@@ -89,7 +89,7 @@ FocusScope {
                 anchors.fill: parent
                 anchors.leftMargin: 15
                 anchors.rightMargin: 15
-                source: index == contextMenuList.currentIndex ? "images/button-focus.png" : "images/button-nofocus.png"
+                source: index === contextMenuList.currentIndex ? "images/button-focus.png" : "images/button-nofocus.png"
             }
             Text {
                 text: menuEntry
