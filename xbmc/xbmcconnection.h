@@ -34,7 +34,7 @@ void setAuthCredentials(const QString &username, const QString &password);
 
 bool connected();
 QString connectionError();
-QDate xbmcVersion();
+int xbmcVersion();
 
 int sendCommand(const QString &command, const QVariant &params = QVariant());
 

@@ -48,7 +48,7 @@ Sheet {
                         Label {
                             id: searchLabel
                             width: parent.width
-                            text: qsTr("Searching for XBMC hosts. Make sure that remote controlling capabilities are enabled and announced using Zeroconf or add a host manually.")
+                            text: qsTr("Searching for XBMC hosts. Make sure that remote controlling capabilities in XBMC are enabled and announced using Zeroconf. If you don't use Zeroconf, add a host manually.")
                             wrapMode: Text.WordWrap
                             horizontalAlignment: Text.AlignHCenter
                         }

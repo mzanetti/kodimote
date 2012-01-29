@@ -64,7 +64,7 @@ public:
     QString connectionError();
     void setAuthCredentials(const QString &username, const QString &password);
 
-    QDate xbmcVersion();
+    int xbmcVersion();
 
     int sendCommand(const QString &command, const QVariant &parms = QVariant());
 
@@ -85,7 +85,7 @@ private:
     int m_commandId;
     Notifier *m_notifier;
     int m_versionRequestId;
-    QDate m_xbmcVersion;
+    int m_xbmcVersion;
 
     QList<Command> m_commandQueue;
     Command m_currentPendingCommand;

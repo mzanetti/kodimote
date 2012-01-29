@@ -75,7 +75,7 @@ QNetworkAccessManager *nam()
     return instance()->nam();
 }
 
-QDate xbmcVersion()
+int xbmcVersion()
 {
     return instance()->xbmcVersion();
 }
@@ -132,11 +132,7 @@ void XbmcConnectionPrivate::slotConnected()
     xDebug(XDAREA_CONNECTION) << "Connected to remote host. Asking for version...";
 
     m_versionRequestId = m_commandId++;
-    QVariantMap params;
-    QVariantList properties;
-    properties.append("version");
-    params.insert("properties", properties);
-    Command cmd(m_versionRequestId, "Application.GetProperties", params);
+    Command cmd(m_versionRequestId, "JSONRPC.Version");
     m_commandQueue.prepend(cmd);
     sendNextCommand2();
 }
@@ -242,21 +238,16 @@ void XbmcConnectionPrivate::replyReceived()
         if(rsp.value("id").toInt() == m_versionRequestId) {
             // If the remote xbmc has the version field not compiled in, assume its the latest known one
             xDebug(XDAREA_CONNECTION) << "Parsing XBMC version:" << rsp.value("result").toMap().value("version");
-            if(rsp.value("result").toMap().value("version").toMap().value("revision").toString() == "Unknown") {
-                m_xbmcVersion.setDate(2011, 10, 8);
-                qDebug() << "WARNING: Cannot determine Xbmc version. Assuming" << m_xbmcVersion.toString(Qt::SystemLocaleLongDate);
-            } else {
-                m_xbmcVersion.setDate(rsp.value("result").toMap().value("version").toMap().value("revision").toString().left(4).toInt(),
-                                      rsp.value("result").toMap().value("version").toMap().value("revision").toString().left(6).right(2).toInt(),
-                                      rsp.value("result").toMap().value("version").toMap().value("revision").toString().left(8).right(2).toInt());
-                xDebug(XDAREA_CONNECTION) << "Connected to XBMC version:" << m_xbmcVersion.toString(Qt::SystemLocaleLongDate);
-            }
-            if(m_xbmcVersion <= QDate(2011, 9, 23)) {
+            m_xbmcVersion = rsp.value("result").toMap().value("version").toInt();
+            if(m_xbmcVersion < 3) {
                 qDebug() << "WARNING! XBMC is too old or version field not valid! Some features might not work";
+                m_connected = false;
+                m_connectionError = tr("Xbmcremote is designed to work with XBMC Eden (v11.0). It seems you have connected to an older version of XMBC. Please upgrade XBMC in order to use Xbmcremote.");
+            } else {
+                sendNextCommand2();
+                m_connected = true;
+                m_connectionError.clear();
             }
-            sendNextCommand2();
-            m_connected = true;
-            m_connectionError.clear();
             emit m_notifier->connectionChanged();
             return;
         }
@@ -458,7 +449,7 @@ QNetworkAccessManager *XbmcConnectionPrivate::nam()
     return m_network;
 }
 
-QDate XbmcConnectionPrivate::xbmcVersion()
+int XbmcConnectionPrivate::xbmcVersion()
 {
     return m_xbmcVersion;
 }
