@@ -109,26 +109,16 @@
         <source>Password:</source>
         <translation>Passwort:</translation>
     </message>
+    <message>
+        <source>Username:</source>
+        <translation>Benutzername:</translation>
+    </message>
 </context>
 <context>
     <name>ConnectDialog</name>
     <message>
         <source>Connect to Xbmc</source>
         <translation>Verbinde zu XBMC</translation>
-    </message>
-    <message>
-        <source>No XBMC hosts found.
-Make sure that remote controlling
-capabilities are enabled and
-announced using Zeroconf
-or connect to the host manually.</source>
-        <translation>Kein XBMC gefunden.
-Stellen Sie sicher, dass die
-Fernsteuerungsschnittstelle 
-eingerichtet ist und Zeroconf 
-verfügbar ist oder richten Sie 
-die Verbindung manuell ein.
-</translation>
     </message>
     <message>
         <source>Host:</source>
@@ -139,12 +129,28 @@ die Verbindung manuell ein.
         <translation>HTTP Port:</translation>
     </message>
     <message>
-        <source>Manual connection</source>
-        <translation>Manuelle Einrichtung</translation>
+        <source>Searching for XBMC hosts. Make sure that remote controlling capabilities in XBMC are enabled and announced using Zeroconf. If you don&apos;t use Zeroconf, add a host manually.</source>
+        <translation>Suche nach XBMC Rechnern. Stellen Sie sicher, dass Fernsteuerungsschnittstelle und Zeroconf-Veröffentlichung in XBMC aktiviert sind. Wenn Sie Zeroconf nicht verwenden, fügen Sie den Rechner manuell hinzu.</translation>
     </message>
     <message>
-        <source>Show host list</source>
-        <translation>Zeige Liste</translation>
+        <source>MAC Address (optional):</source>
+        <translation>MAC Adresse (optional):</translation>
+    </message>
+    <message>
+        <source>Connect</source>
+        <translation>Verbinden</translation>
+    </message>
+    <message>
+        <source>Add Host</source>
+        <translation>Hinzufügen</translation>
+    </message>
+    <message>
+        <source>Remove Host</source>
+        <translation>Entfernen</translation>
+    </message>
+    <message>
+        <source>Back</source>
+        <translation>Zurück</translation>
     </message>
 </context>
 <context>
@@ -158,26 +164,8 @@ die Verbindung manuell ein.
         <translation>Abbrechen</translation>
     </message>
     <message>
-        <source>No XBMC hosts found.
-Make sure that remote controlling
-capabilities are enabled and
-announced using Zeroconf
-or connect to the host manually.</source>
-        <translation>Kein XBMC gefunden.
-Stellen Sie sicher, dass die
-Fernsteuerungsschnittstelle 
-eingerichtet ist und Zeroconf 
-verfügbar ist oder richten Sie 
-die Verbindung manuell ein.
-</translation>
-    </message>
-    <message>
         <source>XBMC on %1</source>
         <translation>XBMC auf %1</translation>
-    </message>
-    <message>
-        <source>Manual connection</source>
-        <translation>Manuelle Einrichtung</translation>
     </message>
     <message>
         <source>Host:</source>
@@ -186,6 +174,26 @@ die Verbindung manuell ein.
     <message>
         <source>HTTP Port:</source>
         <translation>HTTP Port:</translation>
+    </message>
+    <message>
+        <source>Searching for XBMC hosts. Make sure that remote controlling capabilities in XBMC are enabled and announced using Zeroconf. If you don&apos;t use Zeroconf, add a host manually.</source>
+        <translation>Suche nach XBMC Rechnern. Stellen Sie sicher, dass Fernsteuerungsschnittstelle und Zeroconf-Veröffentlichung in XBMC aktiviert sind. Wenn Sie Zeroconf nicht verwenden, fügen Sie den Rechner manuell hinzu.</translation>
+    </message>
+    <message>
+        <source>Remove Host</source>
+        <translation>Entfernen</translation>
+    </message>
+    <message>
+        <source>Add Host</source>
+        <translation>Hinzufügen</translation>
+    </message>
+    <message>
+        <source>MAC Address for WakeOnLan (optional):</source>
+        <translation>MAC Adresse (optional):</translation>
+    </message>
+    <message>
+        <source>Back</source>
+        <translation>Zurück</translation>
     </message>
 </context>
 <context>
@@ -458,14 +466,6 @@ die Verbindung manuell ein.
         <translation>Vorschaubilder benutzen</translation>
     </message>
     <message>
-        <source>Change volume during calls</source>
-        <translation type="obsolete">Ändere Lautstärke währen Telefongesprächen</translation>
-    </message>
-    <message>
-        <source>Pause video during calls</source>
-        <translation type="obsolete">Pausiere Video währen Telefongesprächen</translation>
-    </message>
-    <message>
         <source>Keep display on when charging</source>
         <translation>Bildschirm an wenn angesteckt</translation>
     </message>
@@ -537,10 +537,6 @@ die Verbindung manuell ein.
 <context>
     <name>VideoPlaylist</name>
     <message>
-        <source>Now Playing - Videos</source>
-        <translation type="obsolete">Jetzt gespielt</translation>
-    </message>
-    <message>
         <source>Now Playing</source>
         <translation>Jetzt gespielt</translation>
     </message>
@@ -574,13 +570,6 @@ zu verbinden.</translation>
     </message>
 </context>
 <context>
-    <name>XbmcConnection</name>
-    <message>
-        <source>Connection to %1 timed out...</source>
-        <translation type="obsolete">Zeitüberschreitung bei Verbindung zu %1</translation>
-    </message>
-</context>
-<context>
     <name>XbmcConnection::XbmcConnectionPrivate</name>
     <message>
         <source>Connecting to %1...</source>
@@ -597,6 +586,10 @@ zu verbinden.</translation>
     <message>
         <source>Connection to %1 timed out...</source>
         <translation>Zeitüberschreitung bei Verbindung zu %1...</translation>
+    </message>
+    <message>
+        <source>Xbmcremote is designed to work with XBMC Eden (v11.0). It seems you have connected to an older version of XMBC. Please upgrade XBMC in order to use Xbmcremote.</source>
+        <translation>Xbmcremote funktioniert nur mit XBMC Eden (v11.0). Sie haben sich zu einer älteren Version von XBMC verbunden. Bitte aktualisieren Sie XBMC um Xbmcremote zu verwenden.</translation>
     </message>
 </context>
 <context>

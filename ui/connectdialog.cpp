@@ -71,7 +71,7 @@ ConnectDialog::ConnectDialog(QWidget *parent) :
     m_hostName = new QLineEdit();
     m_manualLayout->addWidget(m_hostName, 0, 1);
 
-    m_manualLayout->addWidget(new QLabel(tr("Http Port:")), 1, 0);
+    m_manualLayout->addWidget(new QLabel(tr("HTTP Port:")), 1, 0);
 
     m_port = new QLineEdit();
     m_port->setValidator(new QIntValidator());

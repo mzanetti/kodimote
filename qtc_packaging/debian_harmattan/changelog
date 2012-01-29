@@ -1,3 +1,17 @@
+xbmcremote (0.9.0-harmattan0) unstable; urgency=low
+  * Made Xbmcremote translatable
+  * Added feature to keep display lit
+  * Improve connection sheet
+  * Made application boostable
+  * Added splash screen
+
+ -- Michael Zanetti <michael_zanetti@gmx.net>  Sun, 29 Jan 2012 22:57:45 +0100
+
+xbmcremote (0.8.0-harmattan0) unstable; urgency=low
+  * <Add change description here>
+
+ -- Michael Zanetti <michael_zanetti@gmx.net>  Sun, 29 Jan 2012 22:37:32 +0100
+
 xbmcremote (0.8.0-harmattan0) unstable; urgency=low
   * Added autodetection of xbmc boxes using zeroconf
   * Added wakeonlan

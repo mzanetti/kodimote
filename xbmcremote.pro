@@ -19,6 +19,9 @@ CONFIG += mobility
 MOBILITY += systeminfo
 LIBS += -lQtSystemInfo
 
+# Speed up launching on MeeGo/Harmattan when using applauncherd daemon
+CONFIG += qdeclarative-boostable
+
 SOURCES += main.cpp \
     ui/settingsdialog.cpp \
     ui/connectdialog.cpp \
@@ -191,32 +194,6 @@ DEPLOYMENT += myembeddedsis
 RESOURCES += \
     xbmcremote.qrc
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+splash.files = splash.png
+splash.path = /opt/$${TARGET}
+INSTALLS += splash

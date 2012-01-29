@@ -23,7 +23,7 @@
 #include "networkaccessmanagerfactory.h"
 #include "xbmc/xdebug.h"
 
-#ifdef Q_WS_MAEMO_6
+#if defined Q_WS_MAEMO_6
 #include "meegohelper.h"
 #include "nfchandler.h"
 
@@ -40,7 +40,7 @@ QTM_USE_NAMESPACE
 #include <QtDeclarative>
 #include <QScopedPointer>
 
-int main(int argc, char *argv[])
+Q_DECL_EXPORT int main(int argc, char *argv[])
 {
     QTranslator translator;
     QString language;
@@ -99,10 +99,10 @@ int main(int argc, char *argv[])
 #ifdef QT_SIMULATOR
     view->setSource(QUrl("qml/xbmcremote/harmattan/main.qml"));
 #else
-    view->setSource(QUrl("/opt/xbmcremote/qml/xbmcremote/harmattan/main.qml"));
+    view->setMainQmlFile("/opt/xbmcremote/qml/xbmcremote/harmattan/main.qml");
 #endif
     view->engine()->setNetworkAccessManagerFactory(new NetworkAccessManagerFactory());
-    view->showFullScreen();
+    view->showExpanded();
 
 #ifdef Q_WS_MAEMO_6
     MeeGoHelper *helper = new MeeGoHelper(&settings, app.data());

@@ -1,1 +1,1 @@
-lupdate xbmcremote.pro -ts i18n/xbmcremote_de.ts
+lupdate xbmcremote.pro -ts i18n/xbmcremote_de.ts -no-obsolete
