@@ -55,15 +55,23 @@ int XbmcHostModel::insertOrUpdateHost(const XbmcHost &newHost)
     return m_hosts.count() - 1;
 }
 
-int XbmcHostModel::createHost(const QString &hostname, const QString &ip, int port)
+int XbmcHostModel::createHost(const QString &hostname, const QString &ip, int port, const QString &macAddress)
 {
     XbmcHost host;
     host.setHostname(hostname);
     host.setAddress(ip);
+    host.setHwAddr(macAddress);
     host.setPort(port);
     host.setXbmcHttpSupported(true);
     host.setXbmcJsonrpcSupported(true);
     return insertOrUpdateHost(host);
+}
+
+void XbmcHostModel::removeHost(int index)
+{
+    beginRemoveRows(QModelIndex(), index, index);
+    m_hosts.removeAt(index);
+    endRemoveRows();
 }
 
 int XbmcHostModel::rowCount(const QModelIndex &) const

@@ -31,14 +31,14 @@
 #include <QtConnectivity/QNdefNfcTextRecord>
 #include <QtConnectivity/QNdefNfcUriRecord>
 
+#include <QtSystemInfo/QSystemInfo>
+QTM_USE_NAMESPACE
 #endif
 
 #include "qmlapplicationviewer.h"
 #include <QtGui/QApplication>
 #include <QtDeclarative>
 #include <QScopedPointer>
-#include <QtSystemInfo/QSystemInfo>
-QTM_USE_NAMESPACE
 
 int main(int argc, char *argv[])
 {
@@ -121,7 +121,7 @@ int main(int argc, char *argv[])
 
 #else
 
-    MainWindow *mainWindow = new MainWindow();
+    MainWindow *mainWindow = new MainWindow(&settings);
     mainWindow->show();
 
 #endif

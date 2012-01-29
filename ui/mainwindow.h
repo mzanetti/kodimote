@@ -15,7 +15,7 @@ class MainWindow : public QMainWindow
 {
     Q_OBJECT
 public:
-    explicit MainWindow(QWidget *parent = 0);
+    explicit MainWindow(Settings *settings, QWidget *parent = 0);
     ~MainWindow();
 
 protected:
@@ -35,6 +35,7 @@ private slots:
 
     void authenticationRequired(const QString &hostname, const QString &address);
     void connectionChanged(bool connected);
+    void hostRemoved();
 
 private:
     QmlApplicationViewer *viewer;

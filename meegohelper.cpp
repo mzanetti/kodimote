@@ -28,8 +28,8 @@
 
 MeeGoHelper::MeeGoHelper(Settings *settings, QObject *parent) :
     QObject(parent),
-    m_resouceSet(new ResourcePolicy::ResourceSet("player")),
-    m_settings(settings)
+    m_settings(settings),
+    m_resouceSet(new ResourcePolicy::ResourceSet("player"))
 {
     connect(&m_keys, SIGNAL(keyEvent(MeeGo::QmKeys::Key,MeeGo::QmKeys::State)), SLOT(keyEvent(MeeGo::QmKeys::Key,MeeGo::QmKeys::State)));
 
@@ -53,6 +53,7 @@ MeeGoHelper::MeeGoHelper(Settings *settings, QObject *parent) :
     }
 
     connect(Xbmc::instance(), SIGNAL(connectedChanged(bool)), SLOT(connectionChanged(bool)));
+    connect(Xbmc::instance()->hostModel(), SIGNAL(rowsRemoved(QModelIndex, int, int)), SLOT(hostRemoved()));
 
     m_displayBlankingTimer.setInterval(60000);
     connect(&m_displayBlankingTimer, SIGNAL(timeout()), SLOT(setBlankingPause()));
@@ -130,6 +131,26 @@ void MeeGoHelper::connectionChanged(bool connected)
         m_settings->setLastHost(*Xbmc::instance()->connectedHost());
     }
 
+}
+
+void MeeGoHelper::hostRemoved()
+{
+    // We need to check if all our stored hosts are still in hostList
+    for(int i = 0; i < m_settings->hostList().count();) {
+        bool found = false;
+        for(int j = 0; j < Xbmc::instance()->hostModel()->rowCount(QModelIndex()); ++j) {
+            if(m_settings->hostList().at(i).address() == Xbmc::instance()->hostModel()->get(j, "address").toString()) {
+                found = true;
+                break;
+            }
+        }
+        if(!found) {
+            m_settings->removeHost(m_settings->hostList().at(i));
+            qDebug() << "removed host" << i;
+        } else {
+            ++i;
+        }
+    }
 }
 
 void MeeGoHelper::displaySettingChanged()

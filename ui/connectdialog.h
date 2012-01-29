@@ -53,6 +53,7 @@ private slots:
     void showManualLayout();
     void showHostList();
     void enableOkButton();
+    void removeHost();
 
 private:
     QStackedLayout *m_stackedLayout;
@@ -60,12 +61,11 @@ private:
     QListView *m_hostView;
     QDialogButtonBox *m_buttonBox;
     QPushButton *m_manualButton;
+    QPushButton *m_removeButton;
 
     QLineEdit *m_hostName;
     QLineEdit *m_port;
-    QLineEdit *m_userName;
-    QLineEdit *m_password;
-
+    QLineEdit *m_mac;
 };
 
 #endif // CONNECTDIALOG_H

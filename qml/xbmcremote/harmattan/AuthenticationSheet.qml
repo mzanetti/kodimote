@@ -20,7 +20,7 @@ Sheet {
             wrapMode: Text.WordWrap
         }
         Label {
-            text: "Username:"
+            text: qsTr("Username:")
         }
         TextField {
             width: parent.width

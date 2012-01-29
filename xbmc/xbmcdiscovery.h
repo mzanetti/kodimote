@@ -3,19 +3,24 @@
 
 #include <QObject>
 #include <QUdpSocket>
+#include <QTimer>
 
 class XbmcHost;
 
 class XbmcDiscovery : public QObject
 {
     Q_OBJECT
+    Q_PROPERTY(bool continuousDiscovery READ continuousDiscovery WRITE setContinuousDiscovery)
+
 public:
     explicit XbmcDiscovery(QObject *parent = 0);
     ~XbmcDiscovery();
 
-    Q_INVOKABLE void discover();
+    bool continuousDiscovery();
+    void setContinuousDiscovery(bool cd);
 
-signals:
+public slots:
+    void discover();
 
 private slots:
     void readDatagram();
@@ -23,6 +28,7 @@ private slots:
 private:
     bool setMulticastGroup(const QHostAddress &groupAddress, bool join);
 
+    QTimer m_continuousDiscoveryTimer;
     QUdpSocket *m_socket;
     QHostAddress m_multicastAddress;
 };

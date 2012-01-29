@@ -44,6 +44,7 @@ private slots:
     void callTerminated();
 
     void connectionChanged(bool connected);
+    void hostRemoved();
 
     void displaySettingChanged();
 

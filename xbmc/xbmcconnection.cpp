@@ -88,8 +88,8 @@ XbmcConnectionPrivate::XbmcConnectionPrivate(QObject *parent) :
     QObject(parent),
     m_commandId(0),
     m_versionRequestId(-1),
-    m_connected(false),
-    m_host(0)
+    m_host(0),
+    m_connected(false)
 {
     m_socket = new QTcpSocket();
     m_notifier = new XbmcConnection::Notifier();

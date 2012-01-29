@@ -26,8 +26,9 @@
     #include <QtDBus/QDBusConnection>
 #endif
 
-MainWindow::MainWindow(QWidget *parent) :
-    QMainWindow(parent)
+MainWindow::MainWindow(Settings *settings, QWidget *parent) :
+    QMainWindow(parent),
+    m_settings(settings)
 {
 
 #ifdef Q_WS_MAEMO_5
@@ -58,7 +59,6 @@ MainWindow::MainWindow(QWidget *parent) :
 
     setMenuBar(menuBar);
 
-    m_settings = new Settings(this);
     viewer->rootContext()->setContextProperty("settings", m_settings);
     viewer->rootContext()->setContextProperty("xbmc", Xbmc::instance());
     viewer->setOrientation(QmlApplicationViewer::ScreenOrientationAuto);
@@ -67,18 +67,18 @@ MainWindow::MainWindow(QWidget *parent) :
 
     connect(Xbmc::instance(), SIGNAL(authenticationRequired(QString,QString)), SLOT(authenticationRequired(QString,QString)), Qt::QueuedConnection);
 
-    Settings settings;
     // Load stored hosts
     bool connecting = false;
-    foreach(const XbmcHost &host, settings.hostList()) {
+    foreach(const XbmcHost &host, settings->hostList()) {
         int index = Xbmc::instance()->hostModel()->insertOrUpdateHost(host);
-        if(host.address() == settings.lastHost().address()) {
+        if(host.address() == settings->lastHost().address()) {
             qDebug() << "reconnecting to" << host.hostname() << host.address() << host.username() << host.password();
             Xbmc::instance()->hostModel()->connectToHost(index);
             connecting = true;
         }
     }
     connect(Xbmc::instance(), SIGNAL(connectedChanged(bool)), SLOT(connectionChanged(bool)));
+    connect(Xbmc::instance()->hostModel(), SIGNAL(rowsRemoved(QModelIndex, int, int)), SLOT(hostRemoved()));
 
     if(!connecting) {
         openConnectDialog();
@@ -207,9 +207,28 @@ void MainWindow::authenticationRequired(const QString &hostname, const QString &
 void MainWindow::connectionChanged(bool connected)
 {
     if(connected) {
-        Settings settings;
-        settings.addHost(*Xbmc::instance()->connectedHost());
-        settings.setLastHost(*Xbmc::instance()->connectedHost());
+        m_settings->addHost(*Xbmc::instance()->connectedHost());
+        m_settings->setLastHost(*Xbmc::instance()->connectedHost());
     }
 
+}
+
+void MainWindow::hostRemoved()
+{
+    // We need to check if all our stored hosts are still in hostList
+    for(int i = 0; i < m_settings->hostList().count();) {
+        bool found = false;
+        for(int j = 0; j < Xbmc::instance()->hostModel()->rowCount(QModelIndex()); ++j) {
+            if(m_settings->hostList().at(i).address() == Xbmc::instance()->hostModel()->get(j, "address").toString()) {
+                found = true;
+                break;
+            }
+        }
+        if(!found) {
+            m_settings->removeHost(m_settings->hostList().at(i));
+            qDebug() << "removed host" << i;
+        } else {
+            ++i;
+        }
+    }
 }

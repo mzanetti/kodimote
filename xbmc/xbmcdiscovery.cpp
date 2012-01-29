@@ -58,6 +58,8 @@ XbmcDiscovery::XbmcDiscovery(QObject *parent) :
     connect(m_socket, SIGNAL(readyRead()), SLOT(readDatagram()));
 
     discover();
+
+    connect(&m_continuousDiscoveryTimer, SIGNAL(timeout()), SLOT(discover()));
 }
 
 XbmcDiscovery::~XbmcDiscovery()
@@ -70,6 +72,11 @@ void XbmcDiscovery::discover()
 {
     qDebug() << "Sending Zeroconf Query packet";
     m_socket->writeDatagram(QByteArray(query_jsonrpc_http_workstations, 93), m_multicastAddress, 5353);
+}
+
+bool XbmcDiscovery::continuousDiscovery()
+{
+    return m_continuousDiscoveryTimer.isActive();
 }
 
 void XbmcDiscovery::readDatagram()
@@ -383,4 +390,13 @@ bool XbmcDiscovery::setMulticastGroup(const QHostAddress &groupAddress, bool joi
         return false;
     }
     return true;
+}
+
+void XbmcDiscovery::setContinuousDiscovery(bool cd)
+{
+    if(cd) {
+        m_continuousDiscoveryTimer.start(3000);
+    } else {
+        m_continuousDiscoveryTimer.stop();
+    }
 }

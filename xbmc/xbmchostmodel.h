@@ -29,7 +29,8 @@ public:
     // inserts or updates the host and returns its index
     int insertOrUpdateHost(const XbmcHost &host);
 
-    Q_INVOKABLE int createHost(const QString &hostname, const QString &ip, int port);
+    Q_INVOKABLE int createHost(const QString &hostname, const QString &ip, int port, const QString &macAddress = QString());
+    Q_INVOKABLE void removeHost(int index);
 
 private:
     QList<XbmcHost*> m_hosts;

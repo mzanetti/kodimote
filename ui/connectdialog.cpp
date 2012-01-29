@@ -41,12 +41,13 @@ ConnectDialog::ConnectDialog(QWidget *parent) :
     m_stackedLayout = new QStackedLayout();
 
     XbmcDiscovery *discovery = new XbmcDiscovery(this);
+    discovery->setContinuousDiscovery(true);
 
     m_hostView = new QListView();
     m_hostView->setModel(Xbmc::instance()->hostModel());
     m_stackedLayout->addWidget(m_hostView);
 
-    QLabel *infoLabel = new QLabel(tr("No XBMC hosts found.\nMake sure that remote controlling\ncapabilities are enabled and\nannounced using Zeroconf\nor connect to the host manually."));
+    QLabel *infoLabel = new QLabel(tr("Searching for XBMC hosts...\nMake sure that remote controlling\ncapabilities are enabled and\nannounced using Zeroconf\nor add the host manually."));
     infoLabel->setAlignment(Qt::AlignCenter);
     m_stackedLayout->addWidget(infoLabel);
 
@@ -75,6 +76,12 @@ ConnectDialog::ConnectDialog(QWidget *parent) :
     m_port->setValidator(new QIntValidator());
     m_manualLayout->addWidget(m_port, 1, 1);
 
+    m_manualLayout->addWidget(new QLabel(tr("MAC Address (optional):")), 2, 0);
+
+    m_mac = new QLineEdit();
+    m_mac->setInputMask("HH:HH:HH:HH:HH:HH;_");
+    m_manualLayout->addWidget(m_mac, 2, 1);
+
 //    gridLayout->addWidget(new QLabel("Username:"), 2, 0);
 
 //    m_userName = new QLineEdit(Xbmc::instance()->username());
@@ -93,10 +100,15 @@ ConnectDialog::ConnectDialog(QWidget *parent) :
     m_buttonBox = new QDialogButtonBox(QDialogButtonBox::Ok | QDialogButtonBox::Cancel, Qt::Horizontal);
     vLayout->addWidget(m_buttonBox);
 #endif
-    m_manualButton = m_buttonBox->addButton(tr("Manual connection"), QDialogButtonBox::ActionRole);
-    connect(m_manualButton, SIGNAL(clicked()), SLOT(showManualLayout()));
+    m_buttonBox->button(QDialogButtonBox::Ok)->setText(tr("Connect"));
     m_buttonBox->button(QDialogButtonBox::Ok)->setEnabled(false);
 
+    m_manualButton = m_buttonBox->addButton(tr("Add Host"), QDialogButtonBox::ActionRole);
+    connect(m_manualButton, SIGNAL(clicked()), SLOT(showManualLayout()));
+
+    m_removeButton = m_buttonBox->addButton(tr("Remove Host"), QDialogButtonBox::ResetRole);
+    connect(m_removeButton, SIGNAL(clicked()), SLOT(removeHost()));
+    m_removeButton->setEnabled(false);
 
     connect(m_buttonBox, SIGNAL(accepted()), this, SLOT(accept()));
     connect(m_buttonBox, SIGNAL(rejected()), this, SLOT(reject()));
@@ -120,6 +132,7 @@ void ConnectDialog::accept()
         host.setHostname(m_hostName->text());
         host.setAddress(m_hostName->text());
         host.setPort(m_port->text().toInt());
+        host.setHwAddr(m_mac->text());
         int newHostIndex = Xbmc::instance()->hostModel()->insertOrUpdateHost(host);
         Xbmc::instance()->hostModel()->connectToHost(newHostIndex);
     }
@@ -130,14 +143,14 @@ void ConnectDialog::showManualLayout()
 {
     if(m_stackedLayout->currentIndex() != 2) {
         m_stackedLayout->setCurrentIndex(2);
-        m_manualButton->setText(tr("Show host list"));
+        m_manualButton->setText(tr("Back"));
     } else {
         if(Xbmc::instance()->hostModel()->rowCount(QModelIndex()) > 0) {
             m_stackedLayout->setCurrentIndex(0);
         } else {
             m_stackedLayout->setCurrentIndex(1);
         }
-        m_manualButton->setText(tr("Manual connection"));
+        m_manualButton->setText(tr("Add Host"));
     }
     enableOkButton();
 }
@@ -152,12 +165,25 @@ void ConnectDialog::enableOkButton()
     switch(m_stackedLayout->currentIndex()) {
     case 0:
         m_buttonBox->button(QDialogButtonBox::Ok)->setEnabled(m_hostView->currentIndex().isValid());
+        m_removeButton->setVisible(true);
+        m_removeButton->setEnabled(m_hostView->currentIndex().isValid());
         break;
     case 1:
         m_buttonBox->button(QDialogButtonBox::Ok)->setEnabled(false);
+        m_removeButton->setVisible(false);
         break;
     case 2:
         m_buttonBox->button(QDialogButtonBox::Ok)->setEnabled(true);
+        m_removeButton->setVisible(false);
         break;
+    }
+}
+
+void ConnectDialog::removeHost()
+{
+    Xbmc::instance()->hostModel()->removeHost(m_hostView->currentIndex().row());
+    enableOkButton();
+    if(Xbmc::instance()->hostModel()->rowCount(QModelIndex()) == 0) {
+        m_stackedLayout->setCurrentIndex(1);
     }
 }

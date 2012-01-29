@@ -10,6 +10,7 @@ Sheet {
 
     XbmcDiscovery {
         id: discovery
+        continuousDiscovery: true
     }
 
     content: Column {
@@ -30,10 +31,27 @@ Sheet {
                     model: xbmc.hostModel()
                     highlightFollowsCurrentItem: true
 
-                    Label {
+                    Column {
                         anchors.centerIn: parent
-                        text: qsTr("No XBMC hosts found.\nMake sure that remote controlling\ncapabilities are enabled and\nannounced using Zeroconf\nor connect to the host manually.")
+                        width: parent.width - 10
+                        height: searchLabel + busyIndicator + spacing
+                        spacing: 20
                         visible: hostList.count == 0
+
+                        BusyIndicator {
+                            id: busyIndicator
+                            anchors.horizontalCenter: parent.horizontalCenter
+                            platformStyle: BusyIndicatorStyle { size: "large" }
+                            running: visible
+                        }
+
+                        Label {
+                            id: searchLabel
+                            width: parent.width
+                            text: qsTr("Searching for XBMC hosts. Make sure that remote controlling capabilities are enabled and announced using Zeroconf or add a host manually.")
+                            wrapMode: Text.WordWrap
+                            horizontalAlignment: Text.AlignHCenter
+                        }
                     }
 
                     highlight: Rectangle {
@@ -72,15 +90,15 @@ Sheet {
                                         elide: Text.ElideRight
                                     }
 
-        //                            Label {
-        //                                id: subText
-        //                                text: ip + ":" + port
-        //                                font.weight: Font.Light
-        //                                font.pixelSize: 24
-        //                                color: theme.inverted ? "#7b797b" : "#848684"
-        //                                width: itemRow.width
-        //                                elide: Text.ElideRight
-        //                            }
+                                    //                            Label {
+                                    //                                id: subText
+                                    //                                text: ip + ":" + port
+                                    //                                font.weight: Font.Light
+                                    //                                font.pixelSize: 24
+                                    //                                color: theme.inverted ? "#7b797b" : "#848684"
+                                    //                                width: itemRow.width
+                                    //                                elide: Text.ElideRight
+                                    //                            }
                                 }
                             }
 
@@ -93,42 +111,87 @@ Sheet {
                         }
                     }
                 }
-                Button {
-                    id: manualAdd
-                    text: qsTr("Manual connection")
-                    anchors.horizontalCenter: parent.horizontalCenter
-                    onClicked: itemView.incrementCurrentIndex()
+                Row {
+                    width: parent.width
+                    height: manualAdd.height
+                    spacing: 10
+                    Button {
+                        id: removeButton
+                        width: (parent.width - 10) / 2
+                        text: qsTr("Remove Host");
+                        onClicked: xbmc.hostModel().removeHost(hostList.currentIndex);
+                        enabled: hostList.currentIndex !== -1
+                    }
+                    Button {
+                        id: manualAdd
+                        width: (parent.width - 10) / 2
+                        text: qsTr("Add Host")
+                        onClicked: itemView.incrementCurrentIndex()
+                    }
                 }
             }
             Column {
                 height: itemView.height
                 width: itemView.width
-
-                Label {
-                    text: qsTr("Host:")
-                }
-                TextField {
+                Column {
+                    height: parent.height - cancelManualAdd.height
                     width: parent.width
-                    id: hostnameTextField
 
+                    Label {
+                        text: qsTr("Host:")
+                    }
+                    TextField {
+                        width: parent.width
+                        id: hostnameTextField
+
+                    }
+                    Item {
+                        width: parent.width
+                        height: 10
+                    }
+
+                    Label {
+                        text: qsTr("HTTP Port:")
+                    }
+                    TextField {
+                        width: parent.width
+                        id: portTextField
+                        inputMask: "00000"
+                        inputMethodHints: Qt.ImhPreferNumbers
+                    }
+                    Item {
+                        width: parent.width
+                        height: 10
+                    }
+                    Label {
+                        text: qsTr("MAC Address for WakeOnLan (optional):")
+                    }
+                    TextField {
+                        width: parent.width
+                        id: macTextField
+                        inputMask: "HH:HH:HH:HH:HH:HH;_"
+                        inputMethodHints: Qt.ImhPreferNumbers
+                    }
                 }
-                Label {
-                    text: qsTr("HTTP Port:")
-                }
-                TextField {
-                    width: parent.width
-                    id: portTextField
+                Button {
+                    id: cancelManualAdd
+                    text: qsTr("Back")
+                    anchors.horizontalCenter: parent.horizontalCenter
+                    onClicked: itemView.decrementCurrentIndex()
                 }
             }
-
-
         }
         ListView {
             id: itemView
             model: itemModel
             anchors.fill: parent
+
             orientation: ListView.Horizontal
+            highlightRangeMode: ListView.StrictlyEnforceRange
+            preferredHighlightBegin: 0; preferredHighlightEnd: 0
+            highlightFollowsCurrentItem: true
             snapMode: ListView.SnapOneItem
+            highlightMoveDuration: 200
             anchors.margins: appWindow.pageMargin
             interactive: false
         }
@@ -143,7 +206,7 @@ Sheet {
             xbmc.hostModel().wakeup(hostList.currentIndex);
             xbmc.hostModel().connectToHost(hostList.currentIndex);
         } else {
-            var newIndex = xbmc.hostModel().createHost(hostnameTextField.text, hostnameTextField.text, portTextField.text);
+            var newIndex = xbmc.hostModel().createHost(hostnameTextField.text, hostnameTextField.text, portTextField.text, macTextField.text);
             xbmc.hostModel().connectToHost(newIndex);
         }
         connectionSheet.destroy();
