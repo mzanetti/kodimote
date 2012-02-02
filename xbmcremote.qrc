@@ -1,6 +1,5 @@
 <RCC>
     <qresource prefix="/">
         <file alias="logo_l">logo_l.png</file>
-        <file alias="busy">qml/xbmcremote/fremantle/images/busy.png</file>
     </qresource>
 </RCC>

@@ -71,6 +71,18 @@
         <source>Playlist</source>
         <translation>Abspielliste</translation>
     </message>
+    <message>
+        <source>Play</source>
+        <translation>Abspielen</translation>
+    </message>
+    <message>
+        <source>Remove from playlist</source>
+        <translation type="unfinished">Aus Liste entfernen</translation>
+    </message>
+    <message>
+        <source>Clear playlist</source>
+        <translation>Liste löschen</translation>
+    </message>
 </context>
 <context>
     <name>AuthenticationDialog</name>
@@ -125,10 +137,6 @@
         <translation>Rechner:</translation>
     </message>
     <message>
-        <source>Http Port:</source>
-        <translation>HTTP Port:</translation>
-    </message>
-    <message>
         <source>Searching for XBMC hosts. Make sure that remote controlling capabilities in XBMC are enabled and announced using Zeroconf. If you don&apos;t use Zeroconf, add a host manually.</source>
         <translation>Suche nach XBMC Rechnern. Stellen Sie sicher, dass Fernsteuerungsschnittstelle und Zeroconf-Veröffentlichung in XBMC aktiviert sind. Wenn Sie Zeroconf nicht verwenden, fügen Sie den Rechner manuell hinzu.</translation>
     </message>
@@ -151,6 +159,10 @@
     <message>
         <source>Back</source>
         <translation>Zurück</translation>
+    </message>
+    <message>
+        <source>HTTP Port:</source>
+        <translation>HTTP Port:</translation>
     </message>
 </context>
 <context>
@@ -201,6 +213,29 @@
     <message>
         <source>Episodes</source>
         <translation>Episoden</translation>
+    </message>
+</context>
+<context>
+    <name>HomeMenu</name>
+    <message>
+        <source>Music</source>
+        <translation>Musik</translation>
+    </message>
+    <message>
+        <source>Videos</source>
+        <translation>Videos</translation>
+    </message>
+    <message>
+        <source>Pictures</source>
+        <translation>Bilder</translation>
+    </message>
+    <message>
+        <source>Files</source>
+        <translation>Dateien</translation>
+    </message>
+    <message>
+        <source>Library</source>
+        <translation>Bibliothek</translation>
     </message>
 </context>
 <context>

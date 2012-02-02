@@ -174,9 +174,20 @@ FocusScope {
         id: contextMenu
 
         model: ListModel {
-            ListElement { entryId: 0; menuEntry: "Play"}
-            ListElement { entryId: 1; menuEntry: "Remove from playlist"}
-            ListElement { entryId: 2; menuEntry: "Clear playlist"}
+            ListElement { entryId: 0;}
+            ListElement { entryId: 1;}
+            ListElement { entryId: 2;}
+            // workaround: its not possible to have qsTr() in ListElements for now...
+            function title(index) {
+                if (title["text"] === undefined) {
+                    title.text = [
+                        qsTr("Play"),
+                        qsTr("Remove from playlist"),
+                        qsTr("Clear playlist")
+                    ]
+                }
+                return title.text[index];
+            }
         }
 
         onAccepted: {

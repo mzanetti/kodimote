@@ -89,7 +89,7 @@ FocusScope {
 
             Row {
                 width: parent.width; spacing: 10; visible: item.season > -1
-                Text { text: asTr("Season:"); font.bold: true; color: "white" }
+                Text { text: qsTr("Season:"); font.bold: true; color: "white" }
                 Text { text: item.season; color: "white" }
             }
 

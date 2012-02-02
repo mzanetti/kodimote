@@ -26,9 +26,21 @@ BorderImage {
 
     ListModel {
         id: homeMenuModel
-        ListElement { label: "Music"; stateName: "audio"}
-        ListElement { label: "Video"; stateName: "video"}
-        ListElement { label: "Pictures"; stateName: "pictures"}
+        ListElement { stateName: "audio"}
+        ListElement { stateName: "video"}
+        ListElement { stateName: "pictures"}
+        // workaround: its not possible to have qsTr() in ListElements for now...
+        function title(index) {
+            if (title["text"] === undefined) {
+                title.text = [
+                    qsTr("Music"),
+                    qsTr("Videos"),
+                    qsTr("Pictures")
+                ]
+            }
+            return title.text[index];
+        }
+
     }
     ListView {
         id: homeMenuList
@@ -81,7 +93,7 @@ BorderImage {
 
             Text {
                 id: textLabel
-                text: label
+                text: homeMenuModel.title(index)
                 anchors.fill: parent
                 font.weight: Font.Bold
                 horizontalAlignment: Text.AlignRight
@@ -151,8 +163,18 @@ BorderImage {
 
         ListModel {
             id: subMenuModel
-            ListElement { label: "Files"; stateName: "files"}
-            ListElement { label: "Library"; stateName: "library"}
+            ListElement { stateName: "files"}
+            ListElement { stateName: "library"}
+            // workaround: its not possible to have qsTr() in ListElements for now...
+            function title(index) {
+                if (title["text"] === undefined) {
+                    title.text = [
+                        qsTr("Files"),
+                        qsTr("Library")
+                    ]
+                }
+                return title.text[index];
+            }
         }
         ListView {
             id: subMenuList
@@ -163,7 +185,7 @@ BorderImage {
             preferredHighlightBegin: height / 2 - 55
             preferredHighlightEnd: height / 2
             highlightRangeMode: ListView.StrictlyEnforceRange
-            currentIndex: xbmcBrowser.viewState == "Library" ? 0 : 1
+            currentIndex: xbmcBrowser.viewState == "library" ? 1 : 0
 
             Keys.onDownPressed: {
                 incrementCurrentIndex();
@@ -204,7 +226,7 @@ BorderImage {
                 Text {
                     id: subMenuLabel
                     color: "white"
-                    text: label
+                    text: subMenuModel.title(index)
                     font.pixelSize: 32
                     font.weight: Font.Bold
                     anchors.fill: parent

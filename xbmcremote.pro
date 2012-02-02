@@ -70,6 +70,7 @@ include(qmlapplicationviewer/qmlapplicationviewer.pri)
 qtcAddDeployment()
 
 translations.files = i18n/xbmcremote_de.qm
+translations.files += i18n/xbmcremote_nl.qm
 translations.path = /opt/xbmcremote/i18n/
 INSTALLS += translations
 
@@ -151,6 +152,7 @@ lupdate {
         qml/xbmcremote/fremantle/ItemDetails.qml \
         qml/xbmcremote/fremantle/LibraryView.qml \
         qml/xbmcremote/fremantle/NowPlayingView.qml \
+        qml/xbmcremote/fremantle/HomeMenu.qml \
 }
 
 contains(MEEGO_EDITION,harmattan) {

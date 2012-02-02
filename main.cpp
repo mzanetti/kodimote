@@ -44,14 +44,23 @@ Q_DECL_EXPORT int main(int argc, char *argv[])
 {
     QTranslator translator;
     QString language;
+    QString filepath;
 
 #if defined Q_WS_MAEMO_6
     QSystemInfo info;
     language = info.currentLanguage();
     QScopedPointer<QApplication> app(createApplication(argc, argv));
+    filepath = QString::fromLatin1("/opt/xbmcremote/i18n/");
+#elif defined Q_WS_MAEMO_5
+    QApplication *app = new QApplication( argc, argv );
+    language = QString(getenv("LC_NAME")).split('_').first();
+    qDebug() << "language:" << language << getenv("LANG") << getenv("LC_NAME");
+    filepath = QString::fromLatin1("/opt/xbmcremote/i18n/");
 #else
     QApplication *app = new QApplication( argc, argv );
     language = QLocale::system().name();
+    language = QString(getenv("LC_NAME")).split('_').first();
+    filepath = QString::fromLatin1("/home/micha/Develop/xbmcremote/i18n/");
 #endif
 
 
@@ -59,8 +68,8 @@ Q_DECL_EXPORT int main(int argc, char *argv[])
     qtTranslator.load("qt_" + language, QLibraryInfo::location(QLibraryInfo::TranslationsPath));
     app->installTranslator(&qtTranslator);
 
-    if (!translator.load("xbmcremote_" + language + ".qm", QString::fromLatin1("/opt/xbmcremote/i18n/"))) {
-        qDebug() << "Cannot load translation file" << "/opt/xbmcremote/xbmcremote_" + language + ".ts";
+    if (!translator.load("xbmcremote_" + language + ".qm", filepath)) {
+        qDebug() << "Cannot load translation file" << "/opt/xbmcremote/xbmcremote_" + language + ".pm";
     }
     app->installTranslator(&translator);
 

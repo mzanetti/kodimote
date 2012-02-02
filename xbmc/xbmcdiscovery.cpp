@@ -85,7 +85,7 @@ void XbmcDiscovery::readDatagram()
 
     while (m_socket->hasPendingDatagrams()) {
         int size = m_socket->pendingDatagramSize();
-        qDebug() << "**** next datagram **** size:" << size;
+        // qDebug() << "**** next datagram **** size:" << size;
         char *data = (char*)malloc(size);
         m_socket->readDatagram(data, size);
         QByteArray datagram = QByteArray(data, size).toHex();
@@ -130,7 +130,7 @@ void XbmcDiscovery::readDatagram()
         int len = 0;
         bool isXbmcHttpRecord = false;
         while(!datagram.isEmpty()) {
-            qDebug() << "starting record:" << datagram;
+            //qDebug() << "starting record:" << datagram;
             QString currentService;
 
             if(!(datagram.startsWith("c0") || datagram.startsWith("c1"))) {
@@ -187,7 +187,7 @@ void XbmcDiscovery::readDatagram()
                         host.setHwAddr(hwAddr);
                     }
                 } else if(currentService == "_http") {
-                    if(domain.contains("XBMC Web Server")) {
+                    if(domain.contains("XBMC")) {
                         //qDebug() << "is xbmcHttp record!";
                         isXbmcHttpRecord = true;
                         host.setXbmcHttpSupported(true);
@@ -218,7 +218,7 @@ void XbmcDiscovery::readDatagram()
                     datagram = datagram.right(datagram.length() - len * 2);
 
                 } else if(datagram.startsWith("0021")) {
-//                    qDebug() << "got SRV record";
+                    //qDebug() << "got SRV record";
                     datagram = datagram.right(datagram.length() - 4);
 
                     // ignoring flags
@@ -227,6 +227,7 @@ void XbmcDiscovery::readDatagram()
                     // get length
                     len = datagram.left(4).toInt(0, 16);
                     datagram = datagram.right(datagram.length() - 4);
+                    //qDebug() << "record length:" << len;
 
                     // ignoring priority
                     if(len > 0) {
