@@ -228,20 +228,20 @@ PageStackWindow {
         buttons {
             Button {
                 id: closeButton
-                text: qsTr("close")
+                text: qsTr("Close")
                 onClicked: aboutDialog.close()
             }
             Button {
                 id: donateButton
                 anchors.top: closeButton.bottom
                 anchors.topMargin: 10
-                text: qsTr("donate")
+                text: qsTr("Donate")
                 onClicked: Qt.openUrlExternally("https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=CWFYRZH8XNYF2")
             }
             Button {
                 anchors.top: donateButton.bottom
                 anchors.topMargin: 10
-                text: qsTr("flattr")
+                text: qsTr("Flattr")
                 onClicked: Qt.openUrlExternally("http://flattr.com/thing/412274/Xbmcremote")
             }
         }

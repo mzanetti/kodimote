@@ -47,7 +47,7 @@ Page {
 
         delegate:  Item {
             id: listItem
-            height: 100
+            height: 150
             width: parent.width
             clip: true
 

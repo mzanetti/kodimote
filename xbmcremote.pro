@@ -27,8 +27,10 @@ include(qmlapplicationviewer/qmlapplicationviewer.pri)
 qtcAddDeployment()
 
 # translations
-translations.files = i18n/xbmcremote_de.qm
-translations.files += i18n/xbmcremote_nl.qm
+translations.files = i18n/xbmcremote_de.qm \
+    i18n/xbmcremote_nl.qm \
+    i18n/xbmcremote_pt.qm \
+
 translations.path = /opt/xbmcremote/i18n/
 INSTALLS += translations
 
@@ -142,13 +144,13 @@ lupdate {
 
 # MeeGo 1.2 Harmattan specific stuff
 contains(MEEGO_EDITION,harmattan) {
-
     message(Harmattan build)
     target.path = /opt/usr/bin
     QT += dbus
     CONFIG += qmsystem2 mobility
     MOBILITY = connectivity
     DEFINES += Q_WS_MAEMO_6
+
     SOURCES += meegohelper.cpp \
             nfchandler.cpp
 

@@ -36,7 +36,7 @@ ConnectDialog::ConnectDialog(QWidget *parent) :
 {
 
     setAttribute(Qt::WA_DeleteOnClose, true);
-    setWindowTitle("XbmcRemote - " + tr("Connect to Xbmc"));
+    setWindowTitle("XbmcRemote - " + tr("Connect to XBMC"));
 
     m_stackedLayout = new QStackedLayout();
 
