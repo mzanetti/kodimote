@@ -23,8 +23,6 @@ LIBS += -lQtSystemInfo
 CONFIG += qdeclarative-boostable
 
 SOURCES += main.cpp \
-    ui/settingsdialog.cpp \
-    ui/connectdialog.cpp \
     xbmc/xbmc.cpp \
     xbmc/xbmcconnection.cpp \
     xbmc/xbmcmodel.cpp \
@@ -61,9 +59,8 @@ SOURCES += main.cpp \
     networkauthhandler.cpp \
     xbmc/xbmcmodelitem.cpp \
     xbmc/episodeitem.cpp \
-    xbmc/xbmcdiscovery.cpp \
     xbmc/xbmchostmodel.cpp \
-    ui/authenticationdialog.cpp
+    ui/authenticationdialog.cpp \
 
 # Please do not modify the following two lines. Required for deployment.
 include(qmlapplicationviewer/qmlapplicationviewer.pri)
@@ -74,9 +71,7 @@ translations.files += i18n/xbmcremote_nl.qm
 translations.path = /opt/xbmcremote/i18n/
 INSTALLS += translations
 
-HEADERS += ui/settingsdialog.h \
-    ui/connectdialog.h \
-    xbmc/xbmc.h \
+HEADERS += xbmc/xbmc.h \
     xbmc/xbmcconnection.h \
     xbmc/xbmcmodel.h \
     xbmc/player.h \
@@ -113,9 +108,8 @@ HEADERS += ui/settingsdialog.h \
     networkauthhandler.h \
     xbmc/xbmcmodelitem.h \
     xbmc/episodeitem.h \
-    xbmc/xbmcdiscovery.h \
     xbmc/xbmchostmodel.h \
-    ui/authenticationdialog.h
+    ui/authenticationdialog.h \
 
 LIBS += -lqjson
 
@@ -170,7 +164,17 @@ contains(MEEGO_EDITION,harmattan) {
 
     INCLUDEPATH += /usr/include/resource/qt4
     LIBS += -lresourceqt
-} else {
+}
+
+maemo5 {
+    QT += dbus
+
+SOURCES += ui/settingsdialog.cpp \
+        ui/connectdialog.cpp \
+
+HEADERS += ui/settingsdialog.h \
+        ui/connectdialog.h \
+
     SOURCES += ui/aboutdialog.cpp \
                ui/mainwindow.cpp
 
@@ -178,20 +182,30 @@ contains(MEEGO_EDITION,harmattan) {
                ui/mainwindow.h
 }
 
-maemo5 {
-    QT += dbus
+!symbian {
+HEADERS +=     xbmc/xbmcdiscovery.h \
+SOURCES +=     xbmc/xbmcdiscovery.cpp \
 }
-
-symbian:TARGET.UID3 = 0xE1297420
-
-# Allow network access on Symbian
-symbian:TARGET.CAPABILITY += NetworkServices
-
 
 symbian {
-myembeddedsis.pkg_postrules = "@/"/home/micha/Develop/qjson-build-remote/qjson_qt-4_7_4_symbianBelle.sis",(0xEF76E062)"\
-DEPLOYMENT += myembeddedsis
+TARGET.UID3 = 0xE1297420
+
+SOURCES += symbianhelper.cpp
+HEADERS += symbianhelper.h
+
+# Allow network access on Symbian
+TARGET.CAPABILITY += NetworkServices LocalServices ReadDeviceData WriteDeviceData
+LIBS += -lqjson
+
+addFiles.sources = qjson.dll
+addFiles.path = /sys/bin
+DEPLOYMENT += addFiles
+
+
+#myembeddedsis.pkg_postrules = "@/"/tmp/qjson.sisx/",(0xE55B574E)"\
+#DEPLOYMENT += myembeddedsis
 }
+
 
 RESOURCES += \
     xbmcremote.qrc
@@ -199,3 +213,5 @@ RESOURCES += \
 splash.files = splash.png
 splash.path = /opt/$${TARGET}
 INSTALLS += splash
+
+

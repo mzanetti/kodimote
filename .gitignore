@@ -1,2 +1,16 @@
 *.user
 *~
+Makefile
+.make.cache
+bld.inf
+moc
+rcc
+xbmcremote.loc
+xbmcremote.rss
+xbmcremote.sis
+xbmcremote_exe.mmp
+xbmcremote_installer.pkg
+xbmcremote_installer.sis
+xbmcremote_reg.rss
+xbmcremote_stub.pkg
+xbmcremote_template.pkg

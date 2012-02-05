@@ -35,6 +35,10 @@
 QTM_USE_NAMESPACE
 #endif
 
+#if defined Q_WS_S60
+#include "symbianhelper.h"
+#endif
+
 #include "qmlapplicationviewer.h"
 #include <QtGui/QApplication>
 #include <QtDeclarative>
@@ -46,16 +50,19 @@ Q_DECL_EXPORT int main(int argc, char *argv[])
     QString language;
     QString filepath;
 
+// Load language file depending on platform
 #if defined Q_WS_MAEMO_6
     QSystemInfo info;
     language = info.currentLanguage();
     QScopedPointer<QApplication> app(createApplication(argc, argv));
     filepath = QString::fromLatin1("/opt/xbmcremote/i18n/");
+
 #elif defined Q_WS_MAEMO_5
     QApplication *app = new QApplication( argc, argv );
     language = QString(getenv("LC_NAME")).split('_').first();
     qDebug() << "language:" << language << getenv("LANG") << getenv("LC_NAME");
     filepath = QString::fromLatin1("/opt/xbmcremote/i18n/");
+
 #else
     QApplication *app = new QApplication( argc, argv );
     language = QLocale::system().name();
@@ -99,20 +106,35 @@ Q_DECL_EXPORT int main(int argc, char *argv[])
 
     Settings settings;
 
-#if defined Q_WS_MAEMO_6 || defined QT_SIMULATOR
+// Create QML Viewer for all QML based platforms
+#if defined Q_WS_MAEMO_6 || defined QT_SIMULATOR || defined Q_WS_S60
 
     QScopedPointer<QmlApplicationViewer> view(QmlApplicationViewer::create());
 
     view->rootContext()->setContextProperty("settings", &settings);
     view->rootContext()->setContextProperty("xbmc", Xbmc::instance());
+
+
+// Set the main QML file for all the QML based platforms
 #ifdef QT_SIMULATOR
     view->setSource(QUrl("qml/xbmcremote/harmattan/main.qml"));
-#else
+#elif defined Q_WS_MAEMO_6
     view->setMainQmlFile("/opt/xbmcremote/qml/xbmcremote/harmattan/main.qml");
+#elif defined Q_WS_S60
+    view->setMainQmlFile("qml/xbmcremote/symbian/main.qml");
 #endif
+
     view->engine()->setNetworkAccessManagerFactory(new NetworkAccessManagerFactory());
     view->showExpanded();
+#else
 
+    MainWindow *mainWindow = new MainWindow(&settings);
+    mainWindow->show();
+
+#endif
+
+
+// Create platform helpers
 #ifdef Q_WS_MAEMO_6
     MeeGoHelper *helper = new MeeGoHelper(&settings, app.data());
     Q_UNUSED(helper)
@@ -126,13 +148,10 @@ Q_DECL_EXPORT int main(int argc, char *argv[])
 
     QObject::connect(&manager, SIGNAL(targetDetected(QNearFieldTarget*)), &nfcHandler, SLOT(tagDetected(QNearFieldTarget*)));
 
-#endif
+#elif defined Q_WS_S60
 
-#else
-
-    MainWindow *mainWindow = new MainWindow(&settings);
-    mainWindow->show();
-
+    SymbianHelper *helper = new SymbianHelper(&settings, app);
+    Q_UNUSED(helper);
 #endif
 
     qRegisterMetaType<QNetworkReply::NetworkError>("QNetworkReply::NetworkError");

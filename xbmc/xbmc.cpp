@@ -86,7 +86,9 @@ Xbmc::Xbmc(QObject *parent) :
     qmlRegisterType<AudioPlayer>("Xbmc", 1, 0, "Player");
 
     qmlRegisterType<XbmcHostModel>();
+#if defined Q_WS_MAEMO_5 || defined Q_WS_MAEMO_6
     qmlRegisterType<XbmcDiscovery>("Xbmc", 1, 0, "XbmcDiscovery");
+#endif
 
     QSettings settings("xbmcremote");
 
