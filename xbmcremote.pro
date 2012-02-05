@@ -22,6 +22,17 @@ LIBS += -lQtSystemInfo
 # Speed up launching on MeeGo/Harmattan when using applauncherd daemon
 CONFIG += qdeclarative-boostable
 
+# Please do not modify the following two lines. Required for deployment.
+include(qmlapplicationviewer/qmlapplicationviewer.pri)
+qtcAddDeployment()
+
+# translations
+translations.files = i18n/xbmcremote_de.qm
+translations.files += i18n/xbmcremote_nl.qm
+translations.path = /opt/xbmcremote/i18n/
+INSTALLS += translations
+
+# Sources used on all platforms
 SOURCES += main.cpp \
     xbmc/xbmc.cpp \
     xbmc/xbmcconnection.cpp \
@@ -62,15 +73,8 @@ SOURCES += main.cpp \
     xbmc/xbmchostmodel.cpp \
     ui/authenticationdialog.cpp \
 
-# Please do not modify the following two lines. Required for deployment.
-include(qmlapplicationviewer/qmlapplicationviewer.pri)
-qtcAddDeployment()
 
-translations.files = i18n/xbmcremote_de.qm
-translations.files += i18n/xbmcremote_nl.qm
-translations.path = /opt/xbmcremote/i18n/
-INSTALLS += translations
-
+# header used on all platforms
 HEADERS += xbmc/xbmc.h \
     xbmc/xbmcconnection.h \
     xbmc/xbmcmodel.h \
@@ -113,21 +117,8 @@ HEADERS += xbmc/xbmc.h \
 
 LIBS += -lqjson
 
-OTHER_FILES += \
-    qtc_packaging/meego.spec \
-    qtc_packaging/debian_harmattan/rules \
-    qtc_packaging/debian_harmattan/README \
-    qtc_packaging/debian_harmattan/copyright \
-    qtc_packaging/debian_harmattan/control \
-    qtc_packaging/debian_harmattan/compat \
-    qtc_packaging/debian_harmattan/changelog \
-    qtc_packaging/debian_fremantle/rules \
-    qtc_packaging/debian_fremantle/README \
-    qtc_packaging/debian_fremantle/copyright \
-    qtc_packaging/debian_fremantle/control \
-    qtc_packaging/debian_fremantle/compat \
-    qtc_packaging/debian_fremantle/changelog
-
+# to make lupdate parse QML files AND a pro file, the QML files need to be added here.
+# edit and/or call ./messages.sh to extend/update the translations
 lupdate {
     SOURCES += qml/xbmcremote/harmattan/main.qml \
         qml/xbmcremote/harmattan/AuthenticationSheet.qml \
@@ -149,7 +140,9 @@ lupdate {
         qml/xbmcremote/fremantle/HomeMenu.qml \
 }
 
+# MeeGo 1.2 Harmattan specific stuff
 contains(MEEGO_EDITION,harmattan) {
+
     message(Harmattan build)
     target.path = /opt/usr/bin
     QT += dbus
@@ -164,54 +157,71 @@ contains(MEEGO_EDITION,harmattan) {
 
     INCLUDEPATH += /usr/include/resource/qt4
     LIBS += -lresourceqt
+
+    OTHER_FILES += \
+        qtc_packaging/meego.spec \
+        qtc_packaging/debian_harmattan/rules \
+        qtc_packaging/debian_harmattan/README \
+        qtc_packaging/debian_harmattan/copyright \
+        qtc_packaging/debian_harmattan/control \
+        qtc_packaging/debian_harmattan/compat \
+        qtc_packaging/debian_harmattan/changelog \
+        qtc_packaging/debian_fremantle/rules \
+        qtc_packaging/debian_fremantle/README \
+        qtc_packaging/debian_fremantle/copyright \
+        qtc_packaging/debian_fremantle/control \
+        qtc_packaging/debian_fremantle/compat \
+        qtc_packaging/debian_fremantle/changelog
+
+    splash.files = splash.png
+    splash.path = /opt/$${TARGET}
+    INSTALLS += splash
+
 }
 
+# Maemo 5 specific stuff
 maemo5 {
     QT += dbus
 
-SOURCES += ui/settingsdialog.cpp \
+    SOURCES += ui/settingsdialog.cpp \
         ui/connectdialog.cpp \
+        ui/aboutdialog.cpp \
+        ui/mainwindow.cpp
 
-HEADERS += ui/settingsdialog.h \
+    HEADERS += ui/settingsdialog.h \
         ui/connectdialog.h \
+        ui/aboutdialog.h \
+        ui/mainwindow.h
 
-    SOURCES += ui/aboutdialog.cpp \
-               ui/mainwindow.cpp
-
-    HEADERS += ui/aboutdialog.h \
-               ui/mainwindow.h
 }
 
+# Currently disabled on symbian as it requires either Unix or Qt 4.8
 !symbian {
-HEADERS +=     xbmc/xbmcdiscovery.h \
-SOURCES +=     xbmc/xbmcdiscovery.cpp \
+    HEADERS += xbmc/xbmcdiscovery.h \
+
+    SOURCES += xbmc/xbmcdiscovery.cpp \
 }
 
+
+# Symbian specific stuff (currently Symbian Anna)
 symbian {
-TARGET.UID3 = 0xE1297420
+    TARGET.UID3 = 0xE1297420
 
-SOURCES += symbianhelper.cpp
-HEADERS += symbianhelper.h
+    SOURCES += symbianhelper.cpp
+    HEADERS += symbianhelper.h
 
-# Allow network access on Symbian
-TARGET.CAPABILITY += NetworkServices LocalServices ReadDeviceData WriteDeviceData
-LIBS += -lqjson
+    # Allow network access on Symbian
+    TARGET.CAPABILITY += NetworkServices LocalServices ReadDeviceData WriteDeviceData
 
-addFiles.sources = qjson.dll
-addFiles.path = /sys/bin
-DEPLOYMENT += addFiles
-
-
-#myembeddedsis.pkg_postrules = "@/"/tmp/qjson.sisx/",(0xE55B574E)"\
-#DEPLOYMENT += myembeddedsis
+    # You need to compile libqjson and deploy it to Symbian sysroot on your own for now
+    # Don't forget to edit the capabilities there to the same as here.
+    # This will add the lib from the sysroot to the package.
+    addFiles.sources = qjson.dll
+    addFiles.path = /sys/bin
+    DEPLOYMENT += addFiles
 }
-
 
 RESOURCES += \
     xbmcremote.qrc
-
-splash.files = splash.png
-splash.path = /opt/$${TARGET}
-INSTALLS += splash
 
 
