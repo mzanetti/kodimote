@@ -20,11 +20,13 @@
 #include "xbmc/xbmc.h"
 #include "xbmc/videoplayer.h"
 #include "settings.h"
+#include "xbmc/xbmcmodel.h"
 
 #include <QDebug>
 #include <QApplication>
 #include <policy/audio-resource.h>
 #include <QtDBus/QDBusConnection>
+#include <QUrl>
 
 MeeGoHelper::MeeGoHelper(Settings *settings, QObject *parent) :
     QObject(parent),
@@ -43,13 +45,38 @@ MeeGoHelper::MeeGoHelper(Settings *settings, QObject *parent) :
     QDBusConnection::systemBus().connect(QString(), "/com/nokia/csd/call", "com.nokia.csd.Call", "Coming", this, SLOT(callEvent(QDBusObjectPath,QString)));
     QDBusConnection::systemBus().connect(QString(), "/com/nokia/csd/call", "com.nokia.csd.Call", "Created", this, SLOT(callEvent(QDBusObjectPath,QString)));
 
+    // Are we launched with an URI as argument? e.g. by an NFC chip?
+    // We support this URL format: xbmc://host:port/hostname/macaddr where hostname and macaddr are optional
+    int connectToIndex = -1;
+    QStringList argList = QApplication::arguments();
+    if(argList.count() > 1) {
+        QUrl uri = QUrl(argList.at(1));
+        if(uri.isValid()) {
+            XbmcHost host;
+            host.setAddress(uri.host());
+            host.setPort(uri.port());
+            QString path = uri.path().right(uri.path().length() - 1);
+            if(path.split('/').count() >= 1) {
+                host.setHostname(path.split('/').first());
+            }
+            if(path.split('/').count() >= 2) {
+                host.setHwAddr(path.split('/').at(1));
+            }
+            qDebug() << "Connecting to" << host.address() << ':' << host.port() << host.hostname() << host.hwAddr();
+            connectToIndex = Xbmc::instance()->hostModel()->insertOrUpdateHost(host);
+        }
+    }
+
     // Load stored hosts
     foreach(const XbmcHost &host, settings->hostList()) {
         int index = Xbmc::instance()->hostModel()->insertOrUpdateHost(host);
-        if(host.address() == settings->lastHost().address()) {
+        if(connectToIndex == -1 && host.address() == settings->lastHost().address()) {
             qDebug() << "reconnecting to" << host.hostname() << host.address() << host.username() << host.password();
-            Xbmc::instance()->hostModel()->connectToHost(index);
+            connectToIndex = index;
         }
+    }
+    if(connectToIndex != -1) {
+        Xbmc::instance()->hostModel()->connectToHost(connectToIndex);
     }
 
     connect(Xbmc::instance(), SIGNAL(connectedChanged(bool)), SLOT(connectionChanged(bool)));

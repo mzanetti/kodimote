@@ -4,13 +4,17 @@ import com.nokia.meego 1.0
 Dialog {
     id: writeNfcTagSheet
     //acceptButtonText: "Close"
+    property string errorMessage
 
     Component.onCompleted: {
-        nfcHandler.writeTag();
+        if(writeNfcTagSheet.errorMessage.length == 0) {
+            nfcHandler.writeTag();
+        }
     }
 
     Component.onDestruction: {
         print("nfc sheet destroyed");
+        appWindow.nfcSheetOpen = false;
         nfcHandler.cancelWriteTag();
     }
 
@@ -19,7 +23,7 @@ Dialog {
         width: 400
         anchors.centerIn: parent
         id: textLabel
-        text: qsTr("Tap a NFC tag to write XBMC connection information to it. You can then use the tag to connect to XBMC.")
+        text: writeNfcTagSheet.errorMessage.length == 0 ? qsTr("Tap a NFC tag to write XBMC connection information to it. You can then use the tag to connect to XBMC.") : writeNfcTagSheet.errorMessage
         color: "white"
         horizontalAlignment: Text.AlignHCenter
         wrapMode: Text.WordWrap
@@ -43,8 +47,15 @@ Dialog {
     buttons {
         Button {
             id: closeButton
-            text: qsTr("Cancel")
-            onClicked: writeNfcTagSheet.reject();
+            text: writeNfcTagSheet.errorMessage.length == 0 ? qsTr("Cancel") : qsTr("Write NFC Tag");
+            onClicked: {
+                if(writeNfcTagSheet.errorMessage.length == 0) {
+                    writeNfcTagSheet.reject();
+                } else {
+                    writeNfcTagSheet.errorMessage = "";
+                    nfcHandler.writeTag();
+                }
+            }
         }
     }
 }

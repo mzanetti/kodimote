@@ -1,10 +1,12 @@
 import QtQuick 1.1
 import com.nokia.meego 1.0
+import com.nokia.extras 1.0
 
 PageStackWindow {
     id: appWindow
     property int pageMargin: 16
     property bool connected: xbmc.connected
+    property bool nfcSheetOpen: false
     initialPage: connected ? mainPage : noConnectionPage
     showStatusBar: pageStack.currentPage.height > pageStack.currentPage.width ? true : false
 
@@ -63,6 +65,9 @@ PageStackWindow {
         id: myMenu
         visualParent: pageStack
         MenuLayout {
+            MenuItem {
+                text: debugString
+            }
             MenuItem {
                 text: qsTr("Connect...")
                 onClicked: {
@@ -144,6 +149,22 @@ PageStackWindow {
                 authSheet.open();
             } else {
                 console.log("Error loading component:", component.errorString());
+            }
+        }
+    }
+
+    Connections {
+        target: nfcHandler
+        onTagError: {
+            if(!appWindow.nfcSheetOpen) {
+                var component = Qt.createComponent("WriteNfcTagSheet.qml")
+                if (component.status === Component.Ready) {
+                    var sheet = component.createObject(myMenu, { errorMessage: errorMessage });
+                    sheet.open();
+                    appWindow.nfcSheetOpen = true;
+                } else {
+                    console.log("Error loading component:", component.errorString());
+                }
             }
         }
     }

@@ -25,10 +25,14 @@ void NfcHandler::tagDetected(QNearFieldTarget *tag)
     }
 
     if(m_writeNextTag) {
-        QNdefNfcTextRecord record;
-        record.setText("xbmc:" + XbmcConnection::connectedHost()->hostname() + ':' + QString::number(XbmcConnection::connectedHost()->port()));
+        QNdefNfcUriRecord record;
+        XbmcHost *currentHost = XbmcConnection::connectedHost();
+        record.setUri(QUrl("xbmc://" + currentHost->address()
+                           + ':' + QString::number(currentHost->port())
+                           + '/' + currentHost->hostname()
+                           + '/' + currentHost->hwAddr().remove(':')));
         QNdefMessage message(record);
-        qDebug() << "writing record:" << record.text();
+        qDebug() << "writing record:" << record.uri();
         tag->writeNdefMessages(QList<QNdefMessage>() << message);
         m_writeNextTag = false;
         return;
@@ -46,36 +50,54 @@ void NfcHandler::requestCompleted(const QNearFieldTarget::RequestId &id)
 void NfcHandler::ndefMessageRead(QNdefMessage message)
 {
     foreach (const QNdefRecord &record, message) {
-        if (record.isRecordType<QNdefNfcTextRecord>()) {
-            QNdefNfcTextRecord textRecord(record);
-            if(textRecord.text().startsWith("xbmc:") && textRecord.text().split(':').count() == 3) {
-                QString hostname = textRecord.text().split(':').at(1);
-                QString port = textRecord.text().split(':').at(2);
-                qDebug() << "Should connect to" << hostname << ':' << port;
+        if (record.isRecordType<QNdefNfcUriRecord>()) {
+            QNdefNfcUriRecord uriRecord(record);
+            qDebug() << "********** Got URI record:" << uriRecord.uri();
+            QUrl uri = uriRecord.uri();
+            if(uri.scheme() == "xbmc") {
+                qDebug() << "Got and xmbc:// uri" << uri.host() << uri.port() << uri.path();
+
                 XbmcHost host;
-                host.setHostname(hostname);
-                host.setPort(port.toInt());
+                host.setAddress(uri.host());
+                host.setPort(uri.port());
+                QString path = uri.path().right(uri.path().length() - 1);
+                if(path.split('/').count() >= 1) {
+                    host.setHostname(path.split('/').first());
+                }
+                if(path.split('/').count() >= 2) {
+                    host.setHwAddr(path.split('/').at(1));
+                }
+                qDebug() << "Should connect to" << host.address() << ':' << host.port() << host.hostname() << host.hwAddr();
                 int index = Xbmc::instance()->hostModel()->insertOrUpdateHost(host);
                 Xbmc::instance()->hostModel()->connectToHost(index);
             } else {
-                qDebug() << "NDEF text record not compatible with xbmcremote:" << textRecord.text();
+                qDebug() << "NDEF uri record not compatible with xbmcremote:" << uriRecord.uri();
+                emit tagError(tr("NFC tag is not compatible with Xbmcremote. In order to use it with Xbmcremote you need to write connection information to it."));
             }
-        } else if (record.isRecordType<QNdefNfcUriRecord>()) {
-            QNdefNfcUriRecord uriRecord(record);
-            qDebug() << "********** Got URI record:" << uriRecord.uri();
-        }else if (record.typeNameFormat() == QNdefRecord::Mime &&
-                  record.type().startsWith("image/")) {
-            qDebug() << "got image...";
-        }else if (record.typeNameFormat() == QNdefRecord::NfcRtd ) {
-            qDebug() << "Got Rtd tag" << record.payload();
-            QNdefNfcUriRecord uri(record);
-            qDebug() << "uri:" << uri.uri();
-        }else if (record.typeNameFormat() == QNdefRecord::ExternalRtd ){
-            qDebug() << "Got ExtRtd tag";
-        } else if (record.isEmpty()) {
-            qDebug() << "got empty record...";
-        } else {
-            qDebug() << "got unknown ndef message type";
+        } else if (record.isRecordType<QNdefNfcTextRecord>()) {
+            QNdefNfcTextRecord textRecord(record);
+            qDebug() << "********** Got Text record:" << textRecord.text();
+            if(textRecord.text().startsWith("xbmc:")) {
+                qDebug() << "outdated tag detected";
+                emit tagError(tr("NFC tag is outdated. In order to use it with Xbmcremote you need to update it by rewriting connection information to it."));
+            }
+
+        }else {
+            if (record.typeNameFormat() == QNdefRecord::Mime &&
+                    record.type().startsWith("image/")) {
+                qDebug() << "got image...";
+            }else if (record.typeNameFormat() == QNdefRecord::NfcRtd ) {
+                qDebug() << "Got Rtd tag" << record.payload();
+                QNdefNfcUriRecord uri(record);
+                qDebug() << "uri:" << uri.uri();
+            }else if (record.typeNameFormat() == QNdefRecord::ExternalRtd ){
+                qDebug() << "Got ExtRtd tag";
+            } else if (record.isEmpty()) {
+                qDebug() << "got empty record...";
+            } else {
+                qDebug() << "got unknown ndef message type";
+            }
+            emit tagError(tr("NFC tag is not compatible with Xbmcremote. In order to use it with Xbmcremote you need to write connection information to it."));
         }
     }
 }

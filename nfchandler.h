@@ -18,15 +18,16 @@ public:
 
 signals:
     void tagWritten();
+    void tagError(const QString &errorMessage);
 
 public slots:
      void tagDetected(QNearFieldTarget* tag);
      void writeTag();
      void cancelWriteTag();
+     void ndefMessageRead(QNdefMessage);
 
 private slots:
      void requestCompleted(const QNearFieldTarget::RequestId &id);
-     void ndefMessageRead(QNdefMessage);
      void ndefMessageWritten();
 
 private:
