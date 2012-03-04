@@ -117,8 +117,6 @@ HEADERS += xbmc/xbmc.h \
     xbmc/xbmchostmodel.h \
     ui/authenticationdialog.h \
 
-LIBS += -lqjson
-
 # to make lupdate parse QML files AND a pro file, the QML files need to be added here.
 # edit and/or call ./messages.sh to extend/update the translations
 lupdate {
@@ -158,7 +156,7 @@ contains(MEEGO_EDITION,harmattan) {
             nfchandler.h
 
     INCLUDEPATH += /usr/include/resource/qt4
-    LIBS += -lresourceqt
+    LIBS += -lresourceqt -lqjson
 
     OTHER_FILES += \
         qtc_packaging/meego.spec \
@@ -185,6 +183,8 @@ contains(MEEGO_EDITION,harmattan) {
 maemo5 {
     QT += dbus
 
+    LIBS += -lqjson
+
     SOURCES += ui/settingsdialog.cpp \
         ui/connectdialog.cpp \
         ui/aboutdialog.cpp \
@@ -205,7 +205,8 @@ maemo5 {
 }
 
 
-# Symbian specific stuff (currently Symbian Anna)
+# Symbian specific stuff
+# Currently tested on Symbian Anna and Belle - You need to create a smart installer for Anna which pulls in Qt. Belle comes with Qt preinstalled)
 symbian {
     TARGET.UID3 = 0xE1297420
 
@@ -213,12 +214,13 @@ symbian {
     HEADERS += symbianhelper.h
 
     # Allow network access on Symbian
-    TARGET.CAPABILITY += NetworkServices LocalServices ReadDeviceData WriteDeviceData
+    TARGET.CAPABILITY += NetworkServices ReadDeviceData WriteDeviceData
 
     # You need to compile libqjson and deploy it to Symbian sysroot on your own for now
     # Don't forget to edit the capabilities there to the same as here.
     # This will add the lib from the sysroot to the package.
-    addFiles.sources = qjson.dll
+    LIBS += -lxbmc_qjson
+    addFiles.sources = xbmc_qjson.dll
     addFiles.path = /sys/bin
     DEPLOYMENT += addFiles
 }
