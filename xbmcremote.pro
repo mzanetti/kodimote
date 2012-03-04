@@ -30,6 +30,7 @@ qtcAddDeployment()
 translations.files = i18n/xbmcremote_de.qm \
     i18n/xbmcremote_nl.qm \
     i18n/xbmcremote_pt.qm \
+    i18n/xbmcremote_el.qm \
 
 translations.path = /opt/xbmcremote/i18n/
 INSTALLS += translations
