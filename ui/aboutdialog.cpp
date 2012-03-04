@@ -37,11 +37,11 @@ AboutDialog::AboutDialog(QWidget *parent) :
     label->setFont(font);
     vlayout->addWidget(label);
 
-    QLabel *label1 = new QLabel("Copyright\nMichael Zanetti <michael_zanetti@gmx.net>");
+    QLabel *label1 = new QLabel(tr("Copyright") + "\nMichael Zanetti <michael_zanetti@gmx.net>");
     vlayout->addWidget(label1);
 
     QLabel *label2 = new QLabel(tr("Thanks to") + "\n" \
-                                "Xbmc Development Team\n" \
+                                "XBMC Development Team\n" \
                                 "Johannes Siipola (artwork)");
     vlayout->addWidget(label2);
 

@@ -66,9 +66,6 @@ PageStackWindow {
         visualParent: pageStack
         MenuLayout {
             MenuItem {
-                text: debugString
-            }
-            MenuItem {
                 text: qsTr("Connect...")
                 onClicked: {
                     var component = Qt.createComponent("ConnectionSheet.qml")
@@ -242,7 +239,7 @@ PageStackWindow {
                 font.pixelSize: 22
                 anchors.centerIn: parent
                 color: "white"
-                text: "Copyright\n Michael Zanetti\n michael_zanetti@gmx.net\n\nThanks to\n Xbmc Development Team\n Johannes Siipola (artwork)"
+                text: qsTr("Copyright") + "\n Michael Zanetti\n michael_zanetti@gmx.net\n\n" + qsTr("Thanks to") + "\n XBMC Development Team\n Johannes Siipola (" + qsTr("artwork") +")"
             }
         }
 

@@ -9,6 +9,11 @@
         <translation>Over</translation>
     </message>
     <message>
+        <location filename="../ui/aboutdialog.cpp" line="40"/>
+        <source>Copyright</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <location filename="../ui/aboutdialog.cpp" line="43"/>
         <source>Thanks to</source>
         <translation>Met dank aan</translation>
@@ -111,18 +116,18 @@
     </message>
     <message>
         <location filename="../ui/authenticationdialog.cpp" line="27"/>
-        <source>Host %1 requires authentication</source>
-        <translation>Host %1 vereist authenticatie</translation>
+        <source>XBMC on %1 requires authentication:</source>
+        <translation type="unfinished">XBMC op %1 vereist authenticatie:</translation>
     </message>
     <message>
         <location filename="../ui/authenticationdialog.cpp" line="33"/>
-        <source>Username</source>
-        <translation>Gebruikersnaam</translation>
+        <source>Username:</source>
+        <translation type="unfinished">Gebruikersnaam:</translation>
     </message>
     <message>
         <location filename="../ui/authenticationdialog.cpp" line="39"/>
-        <source>Password</source>
-        <translation>Wachtwoord</translation>
+        <source>Password:</source>
+        <translation type="unfinished">Wachtwoord:</translation>
     </message>
 </context>
 <context>
@@ -157,49 +162,68 @@
     <name>ConnectDialog</name>
     <message>
         <location filename="../ui/connectdialog.cpp" line="39"/>
-        <source>Connect to Xbmc</source>
-        <translation>Verbinden met XBMC</translation>
+        <source>Connect to XBMC</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../ui/connectdialog.cpp" line="50"/>
-        <source>Searching for XBMC hosts. Make sure that remote controlling capabilities in XBMC are enabled and announced using Zeroconf. If you don&apos;t use Zeroconf, add a host manually.</source>
-        <translation>Bezig met zoeken naar XBMC hosts. Zorg ervoor dat &quot;remote control&quot; opties in XBMC geactiveerd zijn en aangekondigd met Zeroconf. Als je geen gebruik maakt van Zeroconf, moet je manueel een host toevoegen.</translation>
+        <source>Searching for XBMC hosts.</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/connectdialog.cpp" line="69"/>
+        <location filename="../ui/connectdialog.cpp" line="51"/>
+        <source>Please enable the following options in the Network settings of XBMC:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../ui/connectdialog.cpp" line="52"/>
+        <source>Allow control of XBMC via HTTP</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../ui/connectdialog.cpp" line="53"/>
+        <source>Allow programs on other systems to control XBMC</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../ui/connectdialog.cpp" line="54"/>
+        <source>Announce these services to other systems via Zeroconf</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../ui/connectdialog.cpp" line="55"/>
+        <source>If you don&apos;t use Zeroconf, add a host manually.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../ui/connectdialog.cpp" line="74"/>
         <source>Host:</source>
         <translation>Host:</translation>
     </message>
     <message>
-        <location filename="../ui/connectdialog.cpp" line="74"/>
+        <location filename="../ui/connectdialog.cpp" line="79"/>
         <source>HTTP Port:</source>
         <translation>HTTP poort:</translation>
     </message>
     <message>
-        <location filename="../ui/connectdialog.cpp" line="80"/>
+        <location filename="../ui/connectdialog.cpp" line="85"/>
         <source>MAC Address (optional):</source>
         <translation>MAC adres (optioneel):</translation>
     </message>
     <message>
-        <location filename="../ui/connectdialog.cpp" line="104"/>
+        <location filename="../ui/connectdialog.cpp" line="109"/>
         <source>Connect</source>
         <translation>Verbinden</translation>
     </message>
     <message>
-        <location filename="../ui/connectdialog.cpp" line="107"/>
-        <location filename="../ui/connectdialog.cpp" line="154"/>
+        <location filename="../ui/connectdialog.cpp" line="112"/>
         <source>Add Host</source>
         <translation>Host toevoegen</translation>
     </message>
     <message>
-        <location filename="../ui/connectdialog.cpp" line="110"/>
+        <location filename="../ui/connectdialog.cpp" line="115"/>
         <source>Remove Host</source>
         <translation>Host verwijderen</translation>
-    </message>
-    <message>
-        <location filename="../ui/connectdialog.cpp" line="147"/>
-        <source>Back</source>
-        <translation>Vorige</translation>
     </message>
 </context>
 <context>
@@ -216,41 +240,66 @@
     </message>
     <message>
         <location filename="../qml/xbmcremote/harmattan/ConnectionSheet.qml" line="51"/>
-        <source>Searching for XBMC hosts. Make sure that remote controlling capabilities in XBMC are enabled and announced using Zeroconf. If you don&apos;t use Zeroconf, add a host manually.</source>
-        <translation>Bezig met zoeken naar XBMC hosts. Zorg ervoor dat &quot;remote control&quot; opties in XBMC geactiveerd zijn en aangekondigd met Zeroconf. Als je geen gebruik maakt van Zeroconf, moet je manueel een host toevoegen.</translation>
+        <source>Searching for XBMC hosts.</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/xbmcremote/harmattan/ConnectionSheet.qml" line="86"/>
+        <location filename="../qml/xbmcremote/harmattan/ConnectionSheet.qml" line="52"/>
+        <source>Please enable the following options in the Network settings of XBMC:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/xbmcremote/harmattan/ConnectionSheet.qml" line="53"/>
+        <source>Allow control of XBMC via HTTP</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/xbmcremote/harmattan/ConnectionSheet.qml" line="54"/>
+        <source>Allow programs on other systems to control XBMC</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/xbmcremote/harmattan/ConnectionSheet.qml" line="55"/>
+        <source>Announce these services to other systems via Zeroconf</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/xbmcremote/harmattan/ConnectionSheet.qml" line="56"/>
+        <source>If you don&apos;t use Zeroconf, add a host manually.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/xbmcremote/harmattan/ConnectionSheet.qml" line="91"/>
         <source>XBMC on %1</source>
         <translation>XBMC op %1</translation>
     </message>
     <message>
-        <location filename="../qml/xbmcremote/harmattan/ConnectionSheet.qml" line="121"/>
+        <location filename="../qml/xbmcremote/harmattan/ConnectionSheet.qml" line="126"/>
         <source>Remove Host</source>
         <translation>Host verwijderen</translation>
     </message>
     <message>
-        <location filename="../qml/xbmcremote/harmattan/ConnectionSheet.qml" line="128"/>
+        <location filename="../qml/xbmcremote/harmattan/ConnectionSheet.qml" line="133"/>
         <source>Add Host</source>
         <translation>Host toevoegen</translation>
     </message>
     <message>
-        <location filename="../qml/xbmcremote/harmattan/ConnectionSheet.qml" line="141"/>
+        <location filename="../qml/xbmcremote/harmattan/ConnectionSheet.qml" line="146"/>
         <source>Host:</source>
         <translation>Host:</translation>
     </message>
     <message>
-        <location filename="../qml/xbmcremote/harmattan/ConnectionSheet.qml" line="154"/>
+        <location filename="../qml/xbmcremote/harmattan/ConnectionSheet.qml" line="159"/>
         <source>HTTP Port:</source>
         <translation>HTTP poort:</translation>
     </message>
     <message>
-        <location filename="../qml/xbmcremote/harmattan/ConnectionSheet.qml" line="167"/>
+        <location filename="../qml/xbmcremote/harmattan/ConnectionSheet.qml" line="172"/>
         <source>MAC Address for WakeOnLan (optional):</source>
         <translation>MAC Adres voor WakeOnLan (optioneel):</translation>
     </message>
     <message>
-        <location filename="../qml/xbmcremote/harmattan/ConnectionSheet.qml" line="178"/>
+        <location filename="../qml/xbmcremote/harmattan/ConnectionSheet.qml" line="183"/>
         <source>Back</source>
         <translation>Vorige</translation>
     </message>
@@ -526,6 +575,20 @@
     </message>
 </context>
 <context>
+    <name>NfcHandler</name>
+    <message>
+        <location filename="../nfchandler.cpp" line="75"/>
+        <location filename="../nfchandler.cpp" line="100"/>
+        <source>NFC tag is not compatible with Xbmcremote. In order to use it with Xbmcremote you need to write connection information to it.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../nfchandler.cpp" line="82"/>
+        <source>NFC tag is outdated. In order to use it with Xbmcremote you need to update it by rewriting connection information to it.</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>NoConnectionPage</name>
     <message>
         <location filename="../qml/xbmcremote/harmattan/NoConnectionPage.qml" line="21"/>
@@ -729,28 +792,29 @@
 <context>
     <name>WriteNfcTagSheet</name>
     <message>
-        <location filename="../qml/xbmcremote/harmattan/WriteNfcTagSheet.qml" line="22"/>
-        <source>Tap a NFC tag to write XBMC connection information to it. You can then use the tag to connect to XBMC.</source>
-        <translation>Kies een NFC tag om er XBMC verbindingsinfo te schrijven. Dan kan je deze tag gebruiken om te verbinden met XBMC.</translation>
+        <location filename="../qml/xbmcremote/harmattan/WriteNfcTagSheet.qml" line="26"/>
+        <source>Tap a NFC tag to write XBMC connection information to it. You can then use the tag to connect to this XBMC.</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/xbmcremote/harmattan/WriteNfcTagSheet.qml" line="33"/>
-        <source>Tag written successfully.
-You can now use this tag
-to connect to XBMC.</source>
-        <translation>Tag met succes geschreven.
-Je kan de tag nu gebruiken
-om met XBMC te verbinden.</translation>
+        <location filename="../qml/xbmcremote/harmattan/WriteNfcTagSheet.qml" line="37"/>
+        <source>Tag written successfully.</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/xbmcremote/harmattan/WriteNfcTagSheet.qml" line="34"/>
+        <location filename="../qml/xbmcremote/harmattan/WriteNfcTagSheet.qml" line="38"/>
         <source>Close</source>
         <translation>Sluiten</translation>
     </message>
     <message>
-        <location filename="../qml/xbmcremote/harmattan/WriteNfcTagSheet.qml" line="46"/>
+        <location filename="../qml/xbmcremote/harmattan/WriteNfcTagSheet.qml" line="50"/>
         <source>Cancel</source>
         <translation>Annuleren</translation>
+    </message>
+    <message>
+        <location filename="../qml/xbmcremote/harmattan/WriteNfcTagSheet.qml" line="50"/>
+        <source>Write NFC Tag</source>
+        <translation type="unfinished">NFC tag schrijven</translation>
     </message>
 </context>
 <context>
@@ -785,75 +849,90 @@ om met XBMC te verbinden.</translation>
 <context>
     <name>main</name>
     <message>
-        <location filename="../qml/xbmcremote/harmattan/main.qml" line="67"/>
+        <location filename="../qml/xbmcremote/harmattan/main.qml" line="69"/>
         <source>Connect...</source>
         <translation>Verbinden...</translation>
     </message>
     <message>
-        <location filename="../qml/xbmcremote/harmattan/main.qml" line="78"/>
+        <location filename="../qml/xbmcremote/harmattan/main.qml" line="80"/>
         <source>Write NFC Tag</source>
         <translation>NFC tag schrijven</translation>
     </message>
     <message>
-        <location filename="../qml/xbmcremote/harmattan/main.qml" line="89"/>
+        <location filename="../qml/xbmcremote/harmattan/main.qml" line="91"/>
         <source>Settings</source>
         <translatorcomment>Could translate this to &quot;opties&quot; too, but &quot;instellingen&quot; is a more litteral translation</translatorcomment>
         <translation>Instellingen</translation>
     </message>
     <message>
-        <location filename="../qml/xbmcremote/harmattan/main.qml" line="102"/>
+        <location filename="../qml/xbmcremote/harmattan/main.qml" line="104"/>
         <source>About</source>
         <translation>Over</translation>
     </message>
     <message>
-        <location filename="../qml/xbmcremote/harmattan/main.qml" line="108"/>
+        <location filename="../qml/xbmcremote/harmattan/main.qml" line="110"/>
         <source>Quit xbmc</source>
         <translation>XBMC afsluiten</translation>
     </message>
     <message>
-        <location filename="../qml/xbmcremote/harmattan/main.qml" line="159"/>
+        <location filename="../qml/xbmcremote/harmattan/main.qml" line="177"/>
         <source>Quit</source>
         <translation>Afsluiten</translation>
     </message>
     <message>
-        <location filename="../qml/xbmcremote/harmattan/main.qml" line="163"/>
+        <location filename="../qml/xbmcremote/harmattan/main.qml" line="181"/>
         <source>Shutdown</source>
         <translation>Systeem afsluiten</translation>
     </message>
     <message>
-        <location filename="../qml/xbmcremote/harmattan/main.qml" line="168"/>
+        <location filename="../qml/xbmcremote/harmattan/main.qml" line="186"/>
         <source>Reboot</source>
         <translation>Opnieuw opstarten</translation>
     </message>
     <message>
-        <location filename="../qml/xbmcremote/harmattan/main.qml" line="173"/>
+        <location filename="../qml/xbmcremote/harmattan/main.qml" line="191"/>
         <source>Suspend</source>
         <translation>Sluimerstand</translation>
     </message>
     <message>
-        <location filename="../qml/xbmcremote/harmattan/main.qml" line="178"/>
+        <location filename="../qml/xbmcremote/harmattan/main.qml" line="196"/>
         <source>Hibernate</source>
         <translation>Slaapstand</translation>
     </message>
     <message>
-        <location filename="../qml/xbmcremote/harmattan/main.qml" line="185"/>
+        <location filename="../qml/xbmcremote/harmattan/main.qml" line="203"/>
         <source>Cancel</source>
         <translation>Annuleren</translation>
     </message>
     <message>
-        <location filename="../qml/xbmcremote/harmattan/main.qml" line="231"/>
-        <source>close</source>
-        <translation>sluiten</translation>
+        <location filename="../qml/xbmcremote/harmattan/main.qml" line="242"/>
+        <source>Copyright</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/xbmcremote/harmattan/main.qml" line="238"/>
-        <source>donate</source>
-        <translation>schenken</translation>
+        <location filename="../qml/xbmcremote/harmattan/main.qml" line="242"/>
+        <source>Thanks to</source>
+        <translation type="unfinished">Met dank aan</translation>
     </message>
     <message>
-        <location filename="../qml/xbmcremote/harmattan/main.qml" line="244"/>
-        <source>flattr</source>
-        <translation>flattr</translation>
+        <location filename="../qml/xbmcremote/harmattan/main.qml" line="242"/>
+        <source>artwork</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/xbmcremote/harmattan/main.qml" line="249"/>
+        <source>Close</source>
+        <translation type="unfinished">Sluiten</translation>
+    </message>
+    <message>
+        <location filename="../qml/xbmcremote/harmattan/main.qml" line="256"/>
+        <source>Donate</source>
+        <translation type="unfinished">Schenken</translation>
+    </message>
+    <message>
+        <location filename="../qml/xbmcremote/harmattan/main.qml" line="262"/>
+        <source>Flattr</source>
+        <translation type="unfinished">Flattr</translation>
     </message>
 </context>
 </TS>

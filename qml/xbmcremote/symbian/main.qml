@@ -75,24 +75,24 @@ PageStackWindow {
                     }
                 }
             }
-            MenuItem {
-                text: qsTr("Write NFC Tag")
-                onClicked: {
-                    var component = Qt.createComponent("WriteNfcTagSheet.qml")
-                    if (component.status == Component.Ready) {
-                        component.createObject(myMenu).open();
-                    } else {
-                        console.log("Error loading component:", component.errorString());
-                    }
-                }
-            }
+//            MenuItem {
+//                text: qsTr("Write NFC Tag")
+//                onClicked: {
+//                    var component = Qt.createComponent("WriteNfcTagSheet.qml")
+//                    if (component.status == Component.Ready) {
+//                        component.createObject(myMenu).open();
+//                    } else {
+//                        console.log("Error loading component:", component.errorString());
+//                    }
+//                }
+//            }
             MenuItem {
                 text: qsTr("Settings")
                 onClicked: {
                     onClicked: {
                         var component = Qt.createComponent("SettingsSheet.qml")
                         if (component.status == Component.Ready) {
-                            component.createObject(myMenu).open()
+                            pageStack.push(component);
                         } else {
                             console.log("Error loading component:", component.errorString());
                         }
@@ -220,7 +220,7 @@ PageStackWindow {
                 font.pixelSize: 22
                 anchors.centerIn: parent
                 color: "white"
-                text: "Copyright\n Michael Zanetti\n michael_zanetti@gmx.net\n\nThanks to\n Xbmc Development Team\n Johannes Siipola (artwork)"
+                text: "Copyright\n Michael Zanetti\n michael_zanetti@gmx.net\n\nThanks to\n XBMC Development Team\n Johannes Siipola (artwork)"
             }
         }
 

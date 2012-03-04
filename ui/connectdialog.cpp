@@ -47,7 +47,12 @@ ConnectDialog::ConnectDialog(QWidget *parent) :
     m_hostView->setModel(Xbmc::instance()->hostModel());
     m_stackedLayout->addWidget(m_hostView);
 
-    QLabel *infoLabel = new QLabel(tr("Searching for XBMC hosts. Make sure that remote controlling capabilities in XBMC are enabled and announced using Zeroconf. If you don't use Zeroconf, add a host manually."));
+    QLabel *infoLabel = new QLabel(tr("Searching for XBMC hosts.") + "\n"
+      + tr("Please enable the following options in the Network settings of XBMC:") + "\n- "
+      + tr("Allow control of XBMC via HTTP") + "\n- "
+      + tr("Allow programs on other systems to control XBMC") + "\n- "
+      + tr("Announce these services to other systems via Zeroconf") + "\n"
+      + tr("If you don't use Zeroconf, add a host manually.");
     infoLabel->setWordWrap(true);
     infoLabel->setAlignment(Qt::AlignCenter);
     m_stackedLayout->addWidget(infoLabel);

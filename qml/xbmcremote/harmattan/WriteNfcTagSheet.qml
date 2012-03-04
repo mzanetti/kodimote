@@ -23,7 +23,7 @@ Dialog {
         width: 400
         anchors.centerIn: parent
         id: textLabel
-        text: writeNfcTagSheet.errorMessage.length == 0 ? qsTr("Tap a NFC tag to write XBMC connection information to it. You can then use the tag to connect to XBMC.") : writeNfcTagSheet.errorMessage
+        text: writeNfcTagSheet.errorMessage.length == 0 ? qsTr("Tap a NFC tag to write XBMC connection information to it. You can then use the tag to connect to this XBMC.") : writeNfcTagSheet.errorMessage
         color: "white"
         horizontalAlignment: Text.AlignHCenter
         wrapMode: Text.WordWrap
@@ -34,7 +34,7 @@ Dialog {
         target: nfcHandler
 
         onTagWritten: {
-            textLabel.text = qsTr("Tag written successfully.\nYou can now use this tag\nto connect to XBMC.")
+            textLabel.text = qsTr("Tag written successfully.")
             closeButton.text = qsTr("Close")
         }
     }

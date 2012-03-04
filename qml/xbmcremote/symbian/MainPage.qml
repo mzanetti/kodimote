@@ -40,7 +40,7 @@ Page {
     ListView {
         id: listView
         anchors.fill: parent
-//        header: headerLayout
+        anchors.margins: 20
         model: mainMenuModel
         spacing: 20
         property int currentSelected

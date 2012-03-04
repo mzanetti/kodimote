@@ -5,8 +5,6 @@ import Xbmc 1.0
 
 Page {
     id: connectionSheet
-//    acceptButtonText: qsTr("Connect")
-//    rejectButtonText: qsTr("Cancel")
 
 //    XbmcDiscovery {
 //        id: discovery
@@ -19,39 +17,24 @@ Page {
         id: toolBarEntry
         visible: false
         ToolButton {
-            text: "Connect"
-            anchors.left: parent===undefined ? undefined : parent.left
+            iconSource: "toolbar-back"
             onClicked: {
-                console.log("sheet accepted")
                 if(itemView.currentIndex == 0) {
-                    xbmc.hostModel().wakeup(hostList.currentIndex);
-                    xbmc.hostModel().connectToHost(hostList.currentIndex);
+                    pageStack.pop();
                 } else {
-                    var newIndex = xbmc.hostModel().createHost(hostnameTextField.text, hostnameTextField.text, portTextField.text, macTextField.text);
-                    xbmc.hostModel().connectToHost(newIndex);
+                    itemView.decrementCurrentIndex();
                 }
-                pageStack.pop();
             }
         }
         ToolButton {
-            text: "Back"
-            anchors.horizontalCenter: parent===undefined ? undefined : parent.horizontalCenter
+            iconSource: "toolbar-add"
+            visible: itemView.currentIndex == 0
             onClicked: {
-                if(xbmc.picturePlayerActive) {
-                    pageStack.push(pictureControlsPage);
-                } else {
-                    pageStack.push(keypadPage);
-                }
-
+                itemView.incrementCurrentIndex();
             }
         }
-//        ToolButton {
-//            iconSource: "toolbar-mediacontrol-play" + (enabled ? "" : "-dimmed");
-//            enabled: xbmc.activePlayer !== null
-//            anchors.right: parent===undefined ? undefined : parent.right
-//            onClicked: pageStack.push(nowPlayingPage);
-//        }
     }
+
 
         VisualItemModel {
             id: itemModel
@@ -63,7 +46,7 @@ Page {
                 ListView {
                     id: hostList
                     width: itemView.width
-                    height: itemView.height - manualAdd.height
+                    height: itemView.height
                     model: xbmc.hostModel()
                     highlightFollowsCurrentItem: true
 
@@ -77,7 +60,6 @@ Page {
                         BusyIndicator {
                             id: busyIndicator
                             anchors.horizontalCenter: parent.horizontalCenter
-//                            platformStyle: BusyIndicatorStyle { size: "large" }
                             running: visible
                         }
 
@@ -97,8 +79,6 @@ Page {
                             GradientStop { position: 0.0; color: theme.inverted ? "#4269a5" : "#3996e7" }
                             GradientStop { position: 1.0; color: theme.inverted ? "#29599c" : "#1082de" }
                         }
-
-                        //color: theme.inverted ? "#1d87e0"
                     }
 
                     delegate: Item {
@@ -125,44 +105,23 @@ Page {
                                         width: itemRow.width
                                         elide: Text.ElideRight
                                     }
-
-                                    //                            Label {
-                                    //                                id: subText
-                                    //                                text: ip + ":" + port
-                                    //                                font.weight: Font.Light
-                                    //                                font.pixelSize: 24
-                                    //                                color: theme.inverted ? "#7b797b" : "#848684"
-                                    //                                width: itemRow.width
-                                    //                                elide: Text.ElideRight
-                                    //                            }
                                 }
                             }
 
                             MouseArea {
                                 anchors.fill: parent
                                 onClicked: {
-                                    hostList.currentIndex = index;
+                                    xbmc.hostModel().wakeup(index);
+                                    xbmc.hostModel().connectToHost(index);
+                                }
+                                onPressAndHold: {
+                                    onClicked: {
+                                        deleteQuestion.text = qsTr("Remove %1").arg(hostname);
+                                        deleteQuestion.open();
+                                    }
                                 }
                             }
                         }
-                    }
-                }
-                Row {
-                    width: parent.width
-                    height: manualAdd.height
-                    spacing: 10
-                    Button {
-                        id: removeButton
-                        width: (parent.width - 10) / 2
-                        text: qsTr("Remove Host");
-                        onClicked: xbmc.hostModel().removeHost(hostList.currentIndex);
-                        enabled: hostList.currentIndex !== -1
-                    }
-                    Button {
-                        id: manualAdd
-                        width: (parent.width - 10) / 2
-                        text: qsTr("Add Host")
-                        onClicked: itemView.incrementCurrentIndex()
                     }
                 }
             }
@@ -211,9 +170,12 @@ Page {
                 }
                 Button {
                     id: cancelManualAdd
-                    text: qsTr("Back")
+                    text: qsTr("Connect")
                     anchors.horizontalCenter: parent.horizontalCenter
-                    onClicked: itemView.decrementCurrentIndex()
+                    onClicked: {
+                        var newIndex = xbmc.hostModel().createHost(hostnameTextField.text, hostnameTextField.text, portTextField.text, macTextField.text);
+                        xbmc.hostModel().connectToHost(newIndex);
+                    }
                 }
             }
         }
@@ -249,4 +211,26 @@ Page {
 //        print("rejected");
 //        connectionSheet.destroy();
 //    }
+
+        Dialog {
+            id: deleteQuestion
+            property alias text: label.text
+            content: Label {
+                id: label
+            }
+            buttons: ButtonRow {
+                width: parent.width
+                Button {
+                    text: qsTr("Yes")
+                    onClicked: {
+                        xbmc.hostModel().removeHost(hostList.currentIndex);
+                        deleteQuestion.close();
+                    }
+                }
+                Button {
+                    text: qsTr("No")
+                    onClicked: deleteQuestion.close();
+                }
+            }
+        }
 }

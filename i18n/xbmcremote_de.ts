@@ -23,6 +23,10 @@
         <source>Thanks to</source>
         <translation>Danke an</translation>
     </message>
+    <message>
+        <source>Copyright</source>
+        <translation>Copyright</translation>
+    </message>
 </context>
 <context>
     <name>Albums</name>
@@ -77,7 +81,7 @@
     </message>
     <message>
         <source>Remove from playlist</source>
-        <translation type="unfinished">Aus Liste entfernen</translation>
+        <translation>Aus Liste entfernen</translation>
     </message>
     <message>
         <source>Clear playlist</source>
@@ -91,16 +95,16 @@
         <translation>Authentifizierung</translation>
     </message>
     <message>
-        <source>Host %1 requires authentication</source>
-        <translation>Rechner %1 benötigt authentifizierung</translation>
+        <source>XBMC on %1 requires authentication:</source>
+        <translation>XBMC auf %1 verlangt authentifizierung:</translation>
     </message>
     <message>
-        <source>Username</source>
-        <translation>Benutzername</translation>
+        <source>Username:</source>
+        <translation>Benutzername:</translation>
     </message>
     <message>
-        <source>Password</source>
-        <translation>Passwort</translation>
+        <source>Password:</source>
+        <translation>Passwort:</translation>
     </message>
 </context>
 <context>
@@ -129,16 +133,8 @@
 <context>
     <name>ConnectDialog</name>
     <message>
-        <source>Connect to Xbmc</source>
-        <translation>Verbinde zu XBMC</translation>
-    </message>
-    <message>
         <source>Host:</source>
         <translation>Rechner:</translation>
-    </message>
-    <message>
-        <source>Searching for XBMC hosts. Make sure that remote controlling capabilities in XBMC are enabled and announced using Zeroconf. If you don&apos;t use Zeroconf, add a host manually.</source>
-        <translation>Suche nach XBMC Rechnern. Stellen Sie sicher, dass Fernsteuerungsschnittstelle und Zeroconf-Veröffentlichung in XBMC aktiviert sind. Wenn Sie Zeroconf nicht verwenden, fügen Sie den Rechner manuell hinzu.</translation>
     </message>
     <message>
         <source>MAC Address (optional):</source>
@@ -157,12 +153,36 @@
         <translation>Entfernen</translation>
     </message>
     <message>
-        <source>Back</source>
-        <translation>Zurück</translation>
-    </message>
-    <message>
         <source>HTTP Port:</source>
         <translation>HTTP Port:</translation>
+    </message>
+    <message>
+        <source>Connect to XBMC</source>
+        <translation>Verbinde mit XBMC</translation>
+    </message>
+    <message>
+        <source>Searching for XBMC hosts.</source>
+        <translation>Suche XBMC.</translation>
+    </message>
+    <message>
+        <source>Please enable the following options in the Network settings of XBMC:</source>
+        <translation>Bitte aktivieren Sie die folgenden Funktionen in den XBMC-Netzwerkeinstellungen:</translation>
+    </message>
+    <message>
+        <source>If you don&apos;t use Zeroconf, add a host manually.</source>
+        <translation>Wenn Sie Zeroconf nicht benutzen, fügen Sie den Ihr XBMC manuell hinzu.</translation>
+    </message>
+    <message>
+        <source>Allow control of XBMC via HTTP</source>
+        <translation>Steuerung über Webinterface zulassen</translation>
+    </message>
+    <message>
+        <source>Allow programs on other systems to control XBMC</source>
+        <translation>Stuerung über entfernte Programme zulassen</translation>
+    </message>
+    <message>
+        <source>Announce these services to other systems via Zeroconf</source>
+        <translation>Zeroconf-Veröffentlichung</translation>
     </message>
 </context>
 <context>
@@ -188,10 +208,6 @@
         <translation>HTTP Port:</translation>
     </message>
     <message>
-        <source>Searching for XBMC hosts. Make sure that remote controlling capabilities in XBMC are enabled and announced using Zeroconf. If you don&apos;t use Zeroconf, add a host manually.</source>
-        <translation>Suche nach XBMC Rechnern. Stellen Sie sicher, dass Fernsteuerungsschnittstelle und Zeroconf-Veröffentlichung in XBMC aktiviert sind. Wenn Sie Zeroconf nicht verwenden, fügen Sie den Rechner manuell hinzu.</translation>
-    </message>
-    <message>
         <source>Remove Host</source>
         <translation>Entfernen</translation>
     </message>
@@ -206,6 +222,30 @@
     <message>
         <source>Back</source>
         <translation>Zurück</translation>
+    </message>
+    <message>
+        <source>Searching for XBMC hosts.</source>
+        <translation>Suche XBMC.</translation>
+    </message>
+    <message>
+        <source>Please enable the following options in the Network settings of XBMC:</source>
+        <translation>Bitte aktivieren Sie die folgenden Funktionen in den XBMC-Netzwerkeinstellungen:</translation>
+    </message>
+    <message>
+        <source>If you don&apos;t use Zeroconf, add a host manually.</source>
+        <translation>Wenn Sie Zeroconf nicht benutzen, fügen Sie den Ihr XBMC manuell hinzu.</translation>
+    </message>
+    <message>
+        <source>Allow control of XBMC via HTTP</source>
+        <translation>Steuerung über Webinterface zulassen</translation>
+    </message>
+    <message>
+        <source>Allow programs on other systems to control XBMC</source>
+        <translation>Stuerung über entfernte Programme zulassen</translation>
+    </message>
+    <message>
+        <source>Announce these services to other systems via Zeroconf</source>
+        <translation>Zeroconf-Veröffentlichung</translation>
     </message>
 </context>
 <context>
@@ -413,6 +453,17 @@
     </message>
 </context>
 <context>
+    <name>NfcHandler</name>
+    <message>
+        <source>NFC tag is not compatible with Xbmcremote. In order to use it with Xbmcremote you need to write connection information to it.</source>
+        <translation>NFC Tag ist nicht mit Xbmcremote kompatibel. Um dieses Tag mit Xbmcremote zu verwenden, müsses Sie es vorher beschreiben.</translation>
+    </message>
+    <message>
+        <source>NFC tag is outdated. In order to use it with Xbmcremote you need to update it by rewriting connection information to it.</source>
+        <translation>NFC Tag ist veraltet. Um dieses Tag weiterhin mit Xbmcremote zu verwenden, müsses Sie es erneut beschreiben.</translation>
+    </message>
+</context>
+<context>
     <name>NoConnectionPage</name>
     <message>
         <source>Connect</source>
@@ -583,25 +634,24 @@
 <context>
     <name>WriteNfcTagSheet</name>
     <message>
-        <source>Tap a NFC tag to write XBMC connection information to it. You can then use the tag to connect to XBMC.</source>
-        <translation>NFC Tag berühren um Schreibvorgang zu starten. Nach dem Beschreiben können Sie den NFC Tag dazu verwenden sich schnell mit XBMC zu verbinden.</translation>
-    </message>
-    <message>
-        <source>Tag written successfully.
-You can now use this tag
-to connect to XBMC.</source>
-        <translation>Tag erfolgreich geschrieben. 
-Sie konnen dieses Tag nun 
-benutzen um sich mit XBMC 
-zu verbinden.</translation>
-    </message>
-    <message>
         <source>Close</source>
         <translation>Schließen</translation>
     </message>
     <message>
         <source>Cancel</source>
         <translation>Abbrechen</translation>
+    </message>
+    <message>
+        <source>Tap a NFC tag to write XBMC connection information to it. You can then use the tag to connect to this XBMC.</source>
+        <translation>Berühren Sie ein NFC Tag um Verbindungsinformationen darauf zu speichern. Danach können Sie es zum Verbinden benutzen.</translation>
+    </message>
+    <message>
+        <source>Write NFC Tag</source>
+        <translation>NFC Tag schreiben</translation>
+    </message>
+    <message>
+        <source>Tag written successfully.</source>
+        <translation>Tag erfolgreich beschrieben.</translation>
     </message>
 </context>
 <context>
@@ -674,16 +724,28 @@ zu verbinden.</translation>
         <translation>Abbrechen</translation>
     </message>
     <message>
-        <source>donate</source>
-        <translation>spenden</translation>
+        <source>Copyright</source>
+        <translation>Copyright</translation>
     </message>
     <message>
-        <source>flattr</source>
-        <translation>flattr</translation>
+        <source>Thanks to</source>
+        <translation>Danke an</translation>
     </message>
     <message>
-        <source>close</source>
-        <translation>schließen</translation>
+        <source>artwork</source>
+        <translation>Grafik</translation>
+    </message>
+    <message>
+        <source>Close</source>
+        <translation>Schließen</translation>
+    </message>
+    <message>
+        <source>Donate</source>
+        <translation>Spenden</translation>
+    </message>
+    <message>
+        <source>Flattr</source>
+        <translation>Flattr</translation>
     </message>
 </context>
 </TS>

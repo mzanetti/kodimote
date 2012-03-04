@@ -49,7 +49,8 @@ MeeGoHelper::MeeGoHelper(Settings *settings, QObject *parent) :
     // We support this URL format: xbmc://host:port/hostname/macaddr where hostname and macaddr are optional
     int connectToIndex = -1;
     QStringList argList = QApplication::arguments();
-    if(argList.count() > 1) {
+    qDebug() << "got command line arguments:" << argList;
+    if(argList.count() > 1 && !argList.at(1).startsWith('-')) {
         QUrl uri = QUrl(argList.at(1));
         if(uri.isValid()) {
             XbmcHost host;
