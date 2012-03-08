@@ -37,6 +37,7 @@ QString connectionError();
 int xbmcVersion();
 
 int sendCommand(const QString &command, const QVariant &params = QVariant());
+void sendLegacyCommand(const QString &command);
 
 QNetworkAccessManager *nam();
 

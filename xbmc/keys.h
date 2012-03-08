@@ -36,6 +36,10 @@ public slots:
     void home();
     void select();
     void back();
+    void menu();
+    void contextMenu();
+    void info();
+    void fullscreen();
 
 private slots:
     void responseReceived(int id, const QVariantMap &map);

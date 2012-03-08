@@ -184,7 +184,7 @@ Page {
 
                 Image {
                     id: homeButton
-                    source: "icons/button2_u.png"
+                    source: "icons/home_u.png"
                     MouseArea {
                         id: homeMouseArea
                         anchors.fill: parent
@@ -193,7 +193,67 @@ Page {
                     states: [
                         State {
                             when: homeMouseArea.pressed;
-                            PropertyChanges { target: homeButton; source: "icons/button2_d.png" }
+                            PropertyChanges { target: homeButton; source: "icons/home_d.png" }
+                        }
+                    ]
+                }
+                Image {
+                    id: menuButton
+                    source: "icons/button2_u.png"
+                    MouseArea {
+                        id: menuMouseArea
+                        anchors.fill: parent
+                        onClicked: keys.menu();
+                    }
+                    states: [
+                        State {
+                            when: menuMouseArea.pressed;
+                            PropertyChanges { target: menuButton; source: "icons/button2_d.png" }
+                        }
+                    ]
+                }
+                Image {
+                    id: contextMenuButton
+                    source: "icons/button2_u.png"
+                    MouseArea {
+                        id: contextMenuMouseArea
+                        anchors.fill: parent
+                        onClicked: keys.contextMenu();
+                    }
+                    states: [
+                        State {
+                            when: contextMenuMouseArea.pressed;
+                            PropertyChanges { target: menuButton; source: "icons/button2_d.png" }
+                        }
+                    ]
+                }
+                Image {
+                    id: infoButton
+                    source: "icons/button2_u.png"
+                    MouseArea {
+                        id: infoMouseArea
+                        anchors.fill: parent
+                        onClicked: keys.info();
+                    }
+                    states: [
+                        State {
+                            when: infoMouseArea.pressed;
+                            PropertyChanges { target: menuButton; source: "icons/button2_d.png" }
+                        }
+                    ]
+                }
+                Image {
+                    id: fullscreenButton
+                    source: "icons/button2_u.png"
+                    MouseArea {
+                        id: fusscreenMouseArea
+                        anchors.fill: parent
+                        onClicked: keys.fullscreen();
+                    }
+                    states: [
+                        State {
+                            when: fulscreenMouseArea.pressed;
+                            PropertyChanges { target: menuButton; source: "icons/button2_d.png" }
                         }
                     ]
                 }

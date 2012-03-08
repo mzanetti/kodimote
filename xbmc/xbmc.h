@@ -86,6 +86,9 @@ public:
     Q_INVOKABLE void dimVolumeTo(int newVolume);
     Q_INVOKABLE void restoreVolume();
 
+    Q_INVOKABLE void showNotification(const QString &header, const QString &text);
+
+
     bool canShutdown();
     bool canReboot();
     bool canHibernate();

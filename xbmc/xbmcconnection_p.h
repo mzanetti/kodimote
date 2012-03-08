@@ -67,6 +67,7 @@ public:
     int xbmcVersion();
 
     int sendCommand(const QString &command, const QVariant &parms = QVariant());
+    void sendLegacyCommand(const QString &command);
 
     QNetworkAccessManager *nam();
     Notifier *notifier();

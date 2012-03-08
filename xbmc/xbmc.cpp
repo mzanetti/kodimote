@@ -365,6 +365,11 @@ void Xbmc::restoreVolume()
     m_volumeAnimation.start();
 }
 
+void Xbmc::showNotification(const QString &header, const QString &text)
+{
+    XbmcConnection::sendLegacyCommand("ExecBuiltIn(Notification(" + header + ", " + text + ",5000,DefaultIconInfo.png))");
+}
+
 bool Xbmc::picturePlayerActive()
 {
     return m_picturePlayerActive;

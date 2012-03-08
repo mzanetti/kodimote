@@ -49,6 +49,26 @@ void Keys::back()
     XbmcConnection::sendCommand("Input.Back");
 }
 
+void Keys::menu()
+{
+    XbmcConnection::sendLegacyCommand("SendKey(0xF04D)");
+}
+
+void Keys::contextMenu()
+{
+    XbmcConnection::sendLegacyCommand("SendKey(0xF043)");
+}
+
+void Keys::info()
+{
+    XbmcConnection::sendLegacyCommand("SendKey(0xF049)");
+}
+
+void Keys::fullscreen()
+{
+    XbmcConnection::sendLegacyCommand("SendKey(0xF009)");
+}
+
 void Keys::home()
 {
     XbmcConnection::sendCommand("Input.Home");

@@ -55,6 +55,11 @@ int sendCommand(const QString &command, const QVariant &params)
    return instance()->sendCommand(command, params);
 }
 
+void sendLegacyCommand(const QString &command)
+{
+   return instance()->sendLegacyCommand(command);
+}
+
 Notifier *notifier()
 {
     return instance()->notifier();
@@ -197,6 +202,8 @@ void XbmcConnectionPrivate::replyReceived()
 {
     QNetworkReply *reply = static_cast<QNetworkReply*>(sender());
     QString commands = reply->readAll();
+    //reply->deleteLater();
+
     if(reply->error() != QNetworkReply::NoError) {
         m_socket->disconnectFromHost();
         m_connectionError = tr("Connection failed: %1").arg(reply->errorString());
@@ -291,6 +298,15 @@ int XbmcConnectionPrivate::sendCommand(const QString &command, const QVariant &p
         m_commandId = 0;
     }
     return id;
+}
+
+void XbmcConnectionPrivate::sendLegacyCommand(const QString &command)
+{
+    QNetworkRequest request;
+    request.setUrl(QUrl("http://" + m_host->address() + ':' + QString::number(m_host->port()) + "/xbmcCmds/xbmcHttp?command=" + command));
+    qDebug() << "sending legacy command:" << request.url().toString();
+    QNetworkReply *reply = m_network->get(request);
+    QObject::connect(reply, SIGNAL(finished()), reply, SLOT(deleteLater()));
 }
 
 void XbmcConnectionPrivate::sendNextCommand()
