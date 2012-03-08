@@ -81,6 +81,19 @@ int Settings::volumeOnCall() const
     return settings.value("VolumeOnCall", 10).toInt();
 }
 
+void Settings::setShowCallNotifications(bool show)
+{
+    QSettings settings("xbmcremote");
+    settings.setValue("ShowCallNotifications", show);
+    emit showCallNotificationsChanged();
+}
+
+bool Settings::showCallNotifications()
+{
+    QSettings settings("xbmcremote");
+    return settings.value("ShowCallNotifications", true).toBool();
+}
+
 bool Settings::changeVolumeOnCall() const
 {
     QSettings settings("xbmcremote");

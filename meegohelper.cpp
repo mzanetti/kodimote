@@ -26,7 +26,13 @@
 #include <QApplication>
 #include <policy/audio-resource.h>
 #include <QtDBus/QDBusConnection>
+#include <QDBusMessage>
 #include <QUrl>
+#include <QtContacts/QContactManager>
+#include <QtContacts/QContactDetailFilter>
+#include <QtContacts/QContactPhoneNumber>
+
+QTM_USE_NAMESPACE
 
 MeeGoHelper::MeeGoHelper(Settings *settings, QObject *parent) :
     QObject(parent),
@@ -128,7 +134,36 @@ void MeeGoHelper::keyEvent(MeeGo::QmKeys::Key key, MeeGo::QmKeys::State state)
 void MeeGoHelper::callEvent(const QDBusObjectPath &param1, const QString &param2)
 {
     qDebug() << "phone call event" << param1.path() << param2;
+
     Settings settings;
+
+    if(settings.showCallNotifications()) {
+
+        QDBusMessage msg = QDBusMessage::createMethodCall("com.nokia.csd", param1.path(), "com.nokia.csd.Call.Instance", "GetStatus");
+        QDBusMessage reply = QDBusConnection::systemBus().call(msg);
+        qDebug() << "call status:" << reply.arguments();
+
+        if(reply.arguments().first().toInt() == 3) {
+
+            QContactDetailFilter phoneFilter;
+            phoneFilter.setDetailDefinitionName(QContactPhoneNumber::DefinitionName, QContactPhoneNumber::FieldNumber);
+            phoneFilter.setValue(param2.right(6));
+            phoneFilter.setMatchFlags(QContactFilter::MatchContains);
+            qDebug() << "search contact";
+            QContactManager contactManager;
+
+            QString caller;
+            if(contactManager.contacts(phoneFilter).count() > 0) {
+                caller = contactManager.contacts(phoneFilter).first().displayLabel();
+            } else {
+                caller = param2;
+            }
+
+            qDebug() << "got contact" << caller;
+            Xbmc::instance()->showNotification(tr("Incoming call"), caller);
+        }
+    }
+
     if(settings.changeVolumeOnCall()) {
         Xbmc::instance()->dimVolumeTo(settings.volumeOnCall());
     }

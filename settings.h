@@ -14,6 +14,7 @@ class Settings : public QObject
     Q_PROPERTY(int volumeOnCall READ volumeOnCall WRITE setVolumeOnCall NOTIFY volumeOnCallChanged)
     Q_PROPERTY(bool pauseOnCall READ pauseOnCall WRITE setPauseOnCall NOTIFY pauseOnCallChanged)
     Q_PROPERTY(bool keepDisplayLit READ keepDisplayLit WRITE setKeepDisplayLit NOTIFY keepDisplayLitChanged)
+    Q_PROPERTY(bool showCallNotifications READ showCallNotifications WRITE setShowCallNotifications NOTIFY showCallNotificationsChanged)
 
 public:
     explicit Settings(QObject *parent = 0);
@@ -35,6 +36,9 @@ public:
 
     void setVolumeOnCall(int volume);
     int volumeOnCall() const;
+
+    void setShowCallNotifications(bool show);
+    bool showCallNotifications();
 
     void setPauseOnCall(bool pauseOnCall);
     bool pauseOnCall() const;
@@ -58,6 +62,7 @@ signals:
     void volumeOnCallChanged();
     void pauseOnCallChanged();
     void keepDisplayLitChanged();
+    void showCallNotificationsChanged();
 };
 
 #endif // SETTINGS_H
