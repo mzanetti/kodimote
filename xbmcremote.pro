@@ -16,8 +16,8 @@ QT += network
 # the following lines and add the respective components to the 
 # MOBILITY variable. 
 CONFIG += mobility
-MOBILITY += systeminfo
-LIBS += -lQtSystemInfo
+MOBILITY += systeminfo contacts
+LIBS += -lQtSystemInfo -lQtContacts
 
 # Speed up launching on MeeGo/Harmattan when using applauncherd daemon
 CONFIG += qdeclarative-boostable
@@ -141,12 +141,13 @@ lupdate {
         qml/xbmcremote/fremantle/HomeMenu.qml \
 }
 
+
 # MeeGo 1.2 Harmattan specific stuff
 contains(MEEGO_EDITION,harmattan) {
     message(Harmattan build)
     target.path = /opt/usr/bin
     QT += dbus
-    CONFIG += qmsystem2 mobility
+    CONFIG += qmsystem2 mobility meego
     MOBILITY = connectivity
     DEFINES += Q_WS_MAEMO_6
 
@@ -178,6 +179,20 @@ contains(MEEGO_EDITION,harmattan) {
     splash.path = /opt/$${TARGET}
     INSTALLS += splash
 
+}
+
+unix:!meego:!maemo5:!symbian {
+    SOURCES += ui/mainwindow.cpp \
+        ui/settingsdialog.cpp \
+        ui/connectdialog.cpp \
+        ui/aboutdialog.cpp
+
+    HEADERS += ui/mainwindow.h \
+        ui/settingsdialog.h \
+        ui/connectdialog.h \
+        ui/aboutdialog.h
+
+    LIBS += -lqjson
 }
 
 # Maemo 5 specific stuff

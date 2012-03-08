@@ -52,7 +52,7 @@ ConnectDialog::ConnectDialog(QWidget *parent) :
       + tr("Allow control of XBMC via HTTP") + "\n- "
       + tr("Allow programs on other systems to control XBMC") + "\n- "
       + tr("Announce these services to other systems via Zeroconf") + "\n"
-      + tr("If you don't use Zeroconf, add a host manually.");
+      + tr("If you don't use Zeroconf, add a host manually."));
     infoLabel->setWordWrap(true);
     infoLabel->setAlignment(Qt::AlignCenter);
     m_stackedLayout->addWidget(infoLabel);
