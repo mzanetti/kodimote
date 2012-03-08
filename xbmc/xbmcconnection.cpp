@@ -202,7 +202,7 @@ void XbmcConnectionPrivate::replyReceived()
 {
     QNetworkReply *reply = static_cast<QNetworkReply*>(sender());
     QString commands = reply->readAll();
-    //reply->deleteLater();
+    reply->deleteLater();
 
     if(reply->error() != QNetworkReply::NoError) {
         m_socket->disconnectFromHost();
