@@ -53,7 +53,7 @@ Sheet {
             CheckBox {
                 id: cbPause
                 text: qsTr("Pause video")
-                checked: settings.changeVolumeOnCall
+                checked: settings.pauseOnCall
             }
         }
     }
