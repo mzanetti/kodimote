@@ -7,6 +7,7 @@ Page {
     Label {
         id: label
         anchors.centerIn: parent
+        anchors.verticalCenterOffset: -150
         width: parent.width - 100
         text: xbmc.connectionError
         wrapMode: Text.WordWrap
@@ -16,7 +17,8 @@ Page {
     }
     Button{
         anchors.horizontalCenter: parent.horizontalCenter
-        anchors.top: label.bottom
+        anchors.bottom: parent.bottom
+        anchors.bottomMargin: 250
         anchors.topMargin: 10
         text: qsTr("Connect")
         onClicked: {

@@ -58,7 +58,6 @@ class XbmcConnectionPrivate : public QObject
 public:
     explicit XbmcConnectionPrivate(QObject *parent = 0);
 
-    void connect(XbmcHost *host);
     XbmcHost *connectedHost();
     bool connected();
     QString connectionError();
@@ -71,6 +70,9 @@ public:
 
     QNetworkAccessManager *nam();
     Notifier *notifier();
+
+public slots:
+    void connect(XbmcHost *host = 0);
 
 private slots:
     void readData();
@@ -91,6 +93,7 @@ private:
     QList<Command> m_commandQueue;
     Command m_currentPendingCommand;
     QTimer m_timeoutTimer;
+    QTimer m_reconnectTimer;
 
     void sendNextCommand();
     void sendNextCommand2();

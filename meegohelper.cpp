@@ -71,6 +71,9 @@ MeeGoHelper::MeeGoHelper(Settings *settings, QObject *parent) :
             }
             qDebug() << "Connecting to" << host.address() << ':' << host.port() << host.hostname() << host.hwAddr();
             connectToIndex = Xbmc::instance()->hostModel()->insertOrUpdateHost(host);
+
+            // In case of a NFC chip we really want to connect, so wake up the target host.
+            Xbmc::instance()->hostModel()->wakeup(connectToIndex);
         }
     }
 

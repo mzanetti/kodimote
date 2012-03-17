@@ -14,7 +14,7 @@
   "returns":{
     "$ref":"Application.Property.Value"
   },
-  "type":"method"
+  "type":"method"Play
 },
 
 "Application.Quit":{"description":"Quit application","params":[],"returns":{"type":"string"},"type":"method"},

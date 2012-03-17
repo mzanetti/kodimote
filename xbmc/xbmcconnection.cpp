@@ -111,19 +111,34 @@ XbmcConnectionPrivate::XbmcConnectionPrivate(QObject *parent) :
 
     m_network = new QNetworkAccessManager();
     QObject::connect(m_network, SIGNAL(authenticationRequired(QNetworkReply*,QAuthenticator*)), SLOT(authenticationRequired(QNetworkReply*,QAuthenticator*)));
+
+    m_reconnectTimer.setInterval(5000);
+    m_reconnectTimer.setSingleShot(true);
+    QObject::connect(&m_reconnectTimer, SIGNAL(timeout()), SLOT(connect()));
 }
 
 void XbmcConnectionPrivate::connect(XbmcHost *host)
 {
-    m_socket->disconnectFromHost();
+    // Stop the reconnect timer in case someone else triggers the connect
+    m_reconnectTimer.stop();
 
-    m_host = host;
+    if(m_socket->state() == QAbstractSocket::ConnectedState) {
+        m_socket->disconnectFromHost();
+    }
 
-    xDebug(XDAREA_CONNECTION) << "connecting to" << host->hostname() << host->address() << host->username() << host->password();
+    if(m_socket->state() == QAbstractSocket::ConnectingState) {
+        m_socket->abort();
+    }
+
+    if(host != 0) {
+        m_host = host;
+    }
+
+    xDebug(XDAREA_CONNECTION) << "connecting to" << m_host->hostname() << m_host->address() << m_host->username() << m_host->password();
     // We connect to telnet on port 9090 for the announcements
-    m_socket->connectToHost(host->address(), 9090);
+    m_socket->connectToHost(m_host->address(), 9090);
 
-    m_connectionError = tr("Connecting to %1...").arg(host->hostname());
+    m_connectionError = tr("Connecting to %1...").arg(m_host->hostname());
     emit m_notifier->connectionChanged();
 }
 
@@ -159,6 +174,8 @@ void XbmcConnectionPrivate::socketError()
     xDebug(XDAREA_CONNECTION) << "connection error:" << errorString;
     m_connectionError = tr("Connection failed: %1").arg(errorString);
     emit m_notifier->connectionChanged();
+    // silently try to reconnect
+    m_reconnectTimer.start();
 }
 
 void XbmcConnectionPrivate::sendNextCommand2() {
@@ -210,7 +227,6 @@ void XbmcConnectionPrivate::replyReceived()
         emit m_notifier->connectionChanged();
     }
 
-    qDebug() << "received reply:" << commands;
     xDebug(XDAREA_CONNECTION) << "received reply:" << commands;
 
     QStringList commandsList = commands.split("}{");
@@ -251,12 +267,14 @@ void XbmcConnectionPrivate::replyReceived()
                 m_connected = false;
                 m_connectionError = tr("Xbmcremote is designed to work with XBMC Eden (v11.0). It seems you have connected to an older version of XMBC. Please upgrade XBMC in order to use Xbmcremote.");
             } else {
+                m_timeoutTimer.stop();
+                m_currentPendingCommand = Command();
                 sendNextCommand2();
                 m_connected = true;
                 m_connectionError.clear();
             }
             emit m_notifier->connectionChanged();
-            return;
+            continue;
         }
 
         if(rsp.value("params").toMap().value("sender").toString() == "xbmc") {
@@ -409,7 +427,7 @@ void XbmcConnectionPrivate::readData()
 
 void XbmcConnectionPrivate::clearPending()
 {
-    xDebug(XDAREA_CONNECTION) << "timeouttimer hit for comman" << m_commandId;
+    xDebug(XDAREA_CONNECTION) << "timeouttimer hit for comman" << m_commandId << m_currentPendingCommand.id() << m_currentPendingCommand.command();
     if(m_commandId == m_versionRequestId) {
         xDebug(XDAREA_CONNECTION) << "cannot ask for remote version... ";
         m_connectionError = tr("Connection to %1 timed out...").arg(m_host->hostname());
