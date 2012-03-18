@@ -239,7 +239,7 @@ PageStackWindow {
                 font.pixelSize: 22
                 anchors.centerIn: parent
                 color: "white"
-                text: qsTr("Copyright") + "\n Michael Zanetti\n michael_zanetti@gmx.net\n\n" + qsTr("Thanks to") + "\n XBMC Development Team\n Johannes Siipola (" + qsTr("artwork") +")"
+                text: qsTr("Copyright") + "\n Michael Zanetti\n michael_zanetti@gmx.net\n\n"
             }
         }
 
