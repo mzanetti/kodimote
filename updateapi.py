@@ -34,7 +34,7 @@ def printFile(filename, output):
 
 host="localhost"
 port=8080
-outputfile="xbmc/api/testapi.json"
+outputfile="xbmc/api/xbmcapi.json"
 
 config_file = '.fetchapi_config.py'
 execfile(config_file)
