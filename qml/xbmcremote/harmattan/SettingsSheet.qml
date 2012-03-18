@@ -51,9 +51,14 @@ Sheet {
                 maximumValue: 100
             }
             CheckBox {
-                id: cbPause
+                id: cbPauseVideo
                 text: qsTr("Pause video")
-                checked: settings.pauseOnCall
+                checked: settings.pauseVideoOnCall
+            }
+            CheckBox {
+                id: cbPauseMusic
+                text: qsTr("Pause music")
+                checked: settings.pauseMusicOnCall
             }
         }
     }

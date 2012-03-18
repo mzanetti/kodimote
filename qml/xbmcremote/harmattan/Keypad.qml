@@ -116,17 +116,17 @@ Page {
                 onPressed: keys.menu();
             }
             KeypadButton {
-                id: fullscreenButton
-                icon: "fullscreen"
-                onPressed: keys.fullscreen();
+                icon: "menu"
+                onPressed: keys.contextMenu();
             }
             KeypadButton {
                 icon: "home"
                 onPressed: keys.home();
             }
             KeypadButton {
-                icon: "menu"
-                onPressed: keys.contextMenu();
+                id: fullscreenButton
+                icon: "fullscreen"
+                onPressed: keys.fullscreen();
             }
         }
     }

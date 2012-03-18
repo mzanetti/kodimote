@@ -107,17 +107,30 @@ void Settings::setChangeVolumeOnCall(bool changeVolume)
     emit changeVolumeOnCallChanged();
 }
 
-bool Settings::pauseOnCall() const
+bool Settings::pauseVideoOnCall() const
 {
     QSettings settings("xbmcremote");
-    return settings.value("PauseOnCall", true).toBool();
+    return settings.value("PauseVideoOnCall", true).toBool();
 }
 
-void Settings::setPauseOnCall(bool pause)
+void Settings::setPauseVideoOnCall(bool pause)
 {
     QSettings settings("xbmcremote");
-    settings.setValue("PauseOnCall", pause);
-    emit pauseOnCallChanged();
+    settings.setValue("PauseVideoOnCall", pause);
+    emit pauseVideoOnCallChanged();
+}
+
+bool Settings::pauseMusicOnCall() const
+{
+    QSettings settings("xbmcremote");
+    return settings.value("PauseMusicOnCall", false).toBool();
+}
+
+void Settings::setPauseMusicOnCall(bool pause)
+{
+    QSettings settings("xbmcremote");
+    settings.setValue("PauseMusicOnCall", pause);
+    emit pauseMusicOnCallChanged();
 }
 
 void Settings::addHost(const XbmcHost &host)

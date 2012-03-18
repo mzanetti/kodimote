@@ -58,6 +58,9 @@ private:
     QTimer m_displayBlankingTimer;
     MeeGo::QmDisplayState m_disaplyState;
     MeeGo::QmBattery *m_battery;
+
+    bool m_videoPaused;
+    bool m_musicPaused;
 };
 
 #endif // MEEGOHELPER_H

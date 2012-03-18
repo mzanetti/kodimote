@@ -19,6 +19,7 @@
 #include "meegohelper.h"
 #include "xbmc/xbmc.h"
 #include "xbmc/videoplayer.h"
+#include "xbmc/audioplayer.h"
 #include "settings.h"
 #include "xbmc/xbmcmodel.h"
 
@@ -37,7 +38,9 @@ QTM_USE_NAMESPACE
 MeeGoHelper::MeeGoHelper(Settings *settings, QObject *parent) :
     QObject(parent),
     m_settings(settings),
-    m_resouceSet(new ResourcePolicy::ResourceSet("player"))
+    m_resouceSet(new ResourcePolicy::ResourceSet("player")),
+    m_videoPaused(false),
+    m_musicPaused(false)
 {
     connect(&m_keys, SIGNAL(keyEvent(MeeGo::QmKeys::Key,MeeGo::QmKeys::State)), SLOT(keyEvent(MeeGo::QmKeys::Key,MeeGo::QmKeys::State)));
 
@@ -171,8 +174,14 @@ void MeeGoHelper::callEvent(const QDBusObjectPath &param1, const QString &param2
         Xbmc::instance()->dimVolumeTo(settings.volumeOnCall());
     }
 
-    if(settings.pauseOnCall() && Xbmc::instance()->videoPlayer()->state() == "playing") {
+    if(settings.pauseVideoOnCall() && Xbmc::instance()->videoPlayer()->state() == "playing") {
         Xbmc::instance()->videoPlayer()->playPause();
+        m_videoPaused = true;
+    }
+
+    if(settings.pauseMusicOnCall() && Xbmc::instance()->audioPlayer()->state() == "playing") {
+        Xbmc::instance()->audioPlayer()->playPause();
+        m_musicPaused = true;
     }
 
     QDBusConnection::systemBus().connect(QString(), param1.path(), "com.nokia.csd.Call.Instance", "Terminated", this, SLOT(callTerminated()));
@@ -185,8 +194,11 @@ void MeeGoHelper::callTerminated()
         Xbmc::instance()->restoreVolume();
     }
 
-    if(m_settings->pauseOnCall() && Xbmc::instance()->videoPlayer()->state() != "playing") {
+    if(m_videoPaused) {
         Xbmc::instance()->videoPlayer()->playPause();
+    }
+    if(m_musicPaused) {
+        Xbmc::instance()->audioPlayer()->playPause();
     }
 }
 

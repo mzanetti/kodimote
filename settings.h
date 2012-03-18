@@ -12,7 +12,8 @@ class Settings : public QObject
     Q_PROPERTY(bool useThumbnails READ useThumbnails WRITE setUseThumbnails NOTIFY useThumbnailsChanged)
     Q_PROPERTY(bool changeVolumeOnCall READ changeVolumeOnCall WRITE setChangeVolumeOnCall NOTIFY changeVolumeOnCallChanged)
     Q_PROPERTY(int volumeOnCall READ volumeOnCall WRITE setVolumeOnCall NOTIFY volumeOnCallChanged)
-    Q_PROPERTY(bool pauseOnCall READ pauseOnCall WRITE setPauseOnCall NOTIFY pauseOnCallChanged)
+    Q_PROPERTY(bool pauseVideoOnCall READ pauseVideoOnCall WRITE setPauseVideoOnCall NOTIFY pauseVideoOnCallChanged)
+    Q_PROPERTY(bool pauseMusicOnCall READ pauseMusicOnCall WRITE setPauseMusicOnCall NOTIFY pauseMusicOnCallChanged)
     Q_PROPERTY(bool keepDisplayLit READ keepDisplayLit WRITE setKeepDisplayLit NOTIFY keepDisplayLitChanged)
     Q_PROPERTY(bool showCallNotifications READ showCallNotifications WRITE setShowCallNotifications NOTIFY showCallNotificationsChanged)
 
@@ -40,8 +41,11 @@ public:
     void setShowCallNotifications(bool show);
     bool showCallNotifications();
 
-    void setPauseOnCall(bool pauseOnCall);
-    bool pauseOnCall() const;
+    void setPauseVideoOnCall(bool pauseOnCall);
+    bool pauseVideoOnCall() const;
+
+    void setPauseMusicOnCall(bool pauseOnCall);
+    bool pauseMusicOnCall() const;
 
     QList<XbmcHost> hostList() const;
     void addHost(const XbmcHost &host);
@@ -60,7 +64,8 @@ signals:
     void volumeDownCommandChanged();
     void changeVolumeOnCallChanged();
     void volumeOnCallChanged();
-    void pauseOnCallChanged();
+    void pauseVideoOnCallChanged();
+    void pauseMusicOnCallChanged();
     void keepDisplayLitChanged();
     void showCallNotificationsChanged();
 };
