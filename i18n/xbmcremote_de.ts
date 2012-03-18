@@ -184,6 +184,10 @@
         <source>Announce these services to other systems via Zeroconf</source>
         <translation>Zeroconf-Veröffentlichung</translation>
     </message>
+    <message>
+        <source>Back</source>
+        <translation>Zurück</translation>
+    </message>
 </context>
 <context>
     <name>ConnectionSheet</name>
@@ -439,6 +443,13 @@
     </message>
 </context>
 <context>
+    <name>MeeGoHelper</name>
+    <message>
+        <source>Incoming call</source>
+        <translation>Eingehender Anruf</translation>
+    </message>
+</context>
+<context>
     <name>Movies</name>
     <message>
         <source>Movies</source>
@@ -570,6 +581,10 @@
     <message>
         <source>Pause video</source>
         <translation>Pausiere Videos</translation>
+    </message>
+    <message>
+        <source>Pause music</source>
+        <translation>Pausiere Musik</translation>
     </message>
 </context>
 <context>
@@ -726,14 +741,6 @@
     <message>
         <source>Copyright</source>
         <translation>Copyright</translation>
-    </message>
-    <message>
-        <source>Thanks to</source>
-        <translation>Danke an</translation>
-    </message>
-    <message>
-        <source>artwork</source>
-        <translation>Grafik</translation>
     </message>
     <message>
         <source>Close</source>

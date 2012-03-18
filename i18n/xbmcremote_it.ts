@@ -217,12 +217,18 @@
     </message>
     <message>
         <location filename="../ui/connectdialog.cpp" line="112"/>
+        <location filename="../ui/connectdialog.cpp" line="159"/>
         <source>Add Host</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../ui/connectdialog.cpp" line="115"/>
         <source>Remove Host</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../ui/connectdialog.cpp" line="152"/>
+        <source>Back</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -558,6 +564,14 @@
     </message>
 </context>
 <context>
+    <name>MeeGoHelper</name>
+    <message>
+        <location filename="../meegohelper.cpp" line="169"/>
+        <source>Incoming call</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>Movies</name>
     <message>
         <location filename="../xbmc/movies.cpp" line="167"/>
@@ -590,7 +604,7 @@
 <context>
     <name>NoConnectionPage</name>
     <message>
-        <location filename="../qml/xbmcremote/harmattan/NoConnectionPage.qml" line="21"/>
+        <location filename="../qml/xbmcremote/harmattan/NoConnectionPage.qml" line="23"/>
         <source>Connect</source>
         <translation type="unfinished"></translation>
     </message>
@@ -717,6 +731,11 @@
         <source>Pause video</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <location filename="../qml/xbmcremote/harmattan/SettingsSheet.qml" line="60"/>
+        <source>Pause music</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>Shares</name>
@@ -819,28 +838,28 @@
 <context>
     <name>XbmcConnection::XbmcConnectionPrivate</name>
     <message>
-        <location filename="../xbmc/xbmcconnection.cpp" line="121"/>
+        <location filename="../xbmc/xbmcconnection.cpp" line="142"/>
         <source>Connecting to %1...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../xbmc/xbmcconnection.cpp" line="147"/>
+        <location filename="../xbmc/xbmcconnection.cpp" line="168"/>
         <source>The connection has been disconnected</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../xbmc/xbmcconnection.cpp" line="155"/>
-        <location filename="../xbmc/xbmcconnection.cpp" line="202"/>
+        <location filename="../xbmc/xbmcconnection.cpp" line="178"/>
+        <location filename="../xbmc/xbmcconnection.cpp" line="230"/>
         <source>Connection failed: %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../xbmc/xbmcconnection.cpp" line="245"/>
+        <location filename="../xbmc/xbmcconnection.cpp" line="272"/>
         <source>Xbmcremote is designed to work with XBMC Eden (v11.0). It seems you have connected to an older version of XMBC. Please upgrade XBMC in order to use Xbmcremote.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../xbmc/xbmcconnection.cpp" line="399"/>
+        <location filename="../xbmc/xbmcconnection.cpp" line="437"/>
         <source>Connection to %1 timed out...</source>
         <translation type="unfinished"></translation>
     </message>
@@ -905,16 +924,6 @@
     <message>
         <location filename="../qml/xbmcremote/harmattan/main.qml" line="242"/>
         <source>Copyright</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../qml/xbmcremote/harmattan/main.qml" line="242"/>
-        <source>Thanks to</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../qml/xbmcremote/harmattan/main.qml" line="242"/>
-        <source>artwork</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
