@@ -119,6 +119,7 @@ XbmcConnectionPrivate::XbmcConnectionPrivate(QObject *parent) :
 
 void XbmcConnectionPrivate::connect(XbmcHost *host)
 {
+    qDebug() << "connecting";
     // Stop the reconnect timer in case someone else triggers the connect
     m_reconnectTimer.stop();
 
@@ -171,11 +172,14 @@ void XbmcConnectionPrivate::slotDisconnected()
 void XbmcConnectionPrivate::socketError()
 {
     QString errorString = m_socket->errorString();
-    xDebug(XDAREA_CONNECTION) << "connection error:" << errorString;
-    m_connectionError = tr("Connection failed: %1").arg(errorString);
-    emit m_notifier->connectionChanged();
-    // silently try to reconnect
-    m_reconnectTimer.start();
+    xDebug(XDAREA_CONNECTION) << "socket error:" << errorString;
+
+    if(m_socket->state() != QAbstractSocket::ConnectedState) {
+        m_connectionError = tr("Connection failed: %1").arg(errorString);
+        emit m_notifier->connectionChanged();
+        // silently try to reconnect if the connection failed
+        m_reconnectTimer.start();
+    }
 }
 
 void XbmcConnectionPrivate::sendNextCommand2() {
@@ -471,6 +475,7 @@ void XbmcConnectionPrivate::authenticationRequired(QNetworkReply *reply, QAuthen
 
 void XbmcConnectionPrivate::setAuthCredentials(const QString &username, const QString &password)
 {
+    qDebug() << "setting auth credentials";
     if(m_host) {
         m_host->setUsername(username);
         m_host->setPassword(password);
