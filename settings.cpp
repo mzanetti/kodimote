@@ -19,7 +19,7 @@ Settings::Settings(QObject *parent) :
 bool Settings::themeInverted() const
 {
     QSettings settings("xbmcremote");
-    return settings.value("InvertTheme", false).toBool();
+    return settings.value("InvertTheme", true).toBool();
 }
 
 void Settings::setThemeInverted(bool inverted)
