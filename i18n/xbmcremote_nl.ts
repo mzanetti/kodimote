@@ -572,7 +572,7 @@
     <message>
         <location filename="../meegohelper.cpp" line="169"/>
         <source>Incoming call</source>
-        <translation type="unfinished"></translation>
+        <translation>Inkomende oproep</translation>
     </message>
 </context>
 <context>
@@ -738,7 +738,7 @@
     <message>
         <location filename="../qml/xbmcremote/harmattan/SettingsSheet.qml" line="60"/>
         <source>Pause music</source>
-        <translation type="unfinished"></translation>
+        <translation>Pauzeer Muziek</translation>
     </message>
 </context>
 <context>
