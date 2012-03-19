@@ -173,6 +173,26 @@ void XbmcHost::setPassword(const QString &password)
     m_password = password;
 }
 
+QString XbmcHost::volumeUpCommand() const
+{
+    return m_volumeUpCommand;
+}
+
+void XbmcHost::setVolumeUpCommand(const QString &command)
+{
+    m_volumeUpCommand = command;
+}
+
+QString XbmcHost::volumeDownCommand() const
+{
+    return m_volumeDownCommand;
+}
+
+void XbmcHost::setVolumeDownCommand(const QString &command)
+{
+    m_volumeDownCommand = command;
+}
+
 bool XbmcHost::xbmcJsonrpcSupported() const
 {
     return m_xbmcJsonrpcSupported;

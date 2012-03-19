@@ -42,31 +42,6 @@ void Settings::setUseThumbnails(bool useThumbnails)
     emit useThumbnailsChanged();
 }
 
-void Settings::setVolumeUpCommand(const QString &volumeUpCommand)
-{
-    QSettings settings("xbmcremote");
-    settings.setValue("VolumeUpCommand", volumeUpCommand);
-    emit volumeUpCommandChanged();
-}
-
-QString Settings::volumeUpCommand() const
-{
-    QSettings settings("xbmcremote");
-    return settings.value("VolumeUpCommand", QString()).toString();
-}
-
-void Settings::setVolumeDownCommand(const QString &volumeDownCommand)
-{
-    QSettings settings("xbmcremote");
-    settings.setValue("VolumeDownCommand", volumeDownCommand);
-    emit volumeDownCommandChanged();
-}
-
-QString Settings::volumeDownCommand() const
-{
-    QSettings settings("xbmcremote");
-    return settings.value("VolumeDownCommand", QString()).toString();
-}
 
 void Settings::setVolumeOnCall(int volume)
 {
@@ -143,6 +118,8 @@ void Settings::addHost(const XbmcHost &host)
     settings.setValue("Password", host.password());
     settings.setValue("MAC", host.hwAddr());
     settings.setValue("Port", host.port());
+    settings.setValue("VolumeUpCommand", host.volumeUpCommand());
+    settings.setValue("VolumeDownCommand", host.volumeDownCommand());
 }
 
 void Settings::removeHost(const XbmcHost &host)
@@ -170,6 +147,8 @@ QList<XbmcHost> Settings::hostList() const
         host.setPort(settings.value("Port").toInt());
         host.setXbmcHttpSupported(true);
         host.setXbmcJsonrpcSupported(true);
+        host.setVolumeUpCommand(settings.value("VolumeUpCommand").toString());
+        host.setVolumeDownCommand(settings.value("VolumeDownCommand").toString());
         list.append(host);
         settings.endGroup();
     }

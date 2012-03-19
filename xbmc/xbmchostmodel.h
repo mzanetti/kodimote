@@ -65,6 +65,12 @@ public:
     QString password() const;
     void setPassword(const QString &password);
 
+    QString volumeUpCommand() const;
+    void setVolumeUpCommand(const QString &command);
+
+    QString volumeDownCommand() const;
+    void setVolumeDownCommand(const QString &command);
+
 private:
     QString m_hostname;
     QString m_address;
@@ -74,6 +80,8 @@ private:
     bool m_xbmcHttpSupported;
     QString m_hwAddr;
     int m_port;
+    QString m_volumeUpCommand;
+    QString m_volumeDownCommand;
 };
 
 #endif // XBMCHOSTMODEL_H

@@ -26,12 +26,6 @@ public:
     void setUseThumbnails(bool useThumbnails);
     bool useThumbnails() const;
 
-    void setVolumeUpCommand(const QString &volumeUpCommand);
-    QString volumeUpCommand() const;
-
-    void setVolumeDownCommand(const QString &volumeDownCommand);
-    QString volumeDownCommand() const;
-
     void setChangeVolumeOnCall(bool changeVolume);
     bool changeVolumeOnCall() const;
 

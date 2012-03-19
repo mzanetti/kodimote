@@ -306,10 +306,9 @@ void Xbmc::setVolume(int volume)
         volume = 100;
     }
 
-    Settings settings;
-    if(!settings.volumeUpCommand().isEmpty()) {
+    if(!XbmcConnection::connectedHost()->volumeUpCommand().isEmpty()) {
         QProcess p;
-        p.execute(settings.volumeUpCommand(), QStringList() << QString::number(volume));
+        p.execute(XbmcConnection::connectedHost()->volumeUpCommand(), QStringList() << QString::number(volume));
     } else {
         if(volume != m_volume) {
             QVariantMap map;
