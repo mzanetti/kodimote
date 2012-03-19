@@ -306,7 +306,7 @@ void Xbmc::setVolume(int volume)
         volume = 100;
     }
 
-    if(!XbmcConnection::connectedHost()->volumeUpCommand().isEmpty()) {
+    if(XbmcConnection::connectedHost() && !XbmcConnection::connectedHost()->volumeUpCommand().isEmpty()) {
         QProcess p;
         p.execute(XbmcConnection::connectedHost()->volumeUpCommand(), QStringList() << QString::number(volume));
     } else {
