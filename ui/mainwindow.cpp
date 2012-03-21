@@ -21,10 +21,17 @@
 #include <QDesktopWidget>
 
 #ifdef Q_WS_MAEMO_5
-    #include <QtGui/QX11Info>
-    #include <X11/Xlib.h>
-    #include <X11/Xatom.h>
-    #include <QtDBus/QDBusConnection>
+
+#include <QtGui/QX11Info>
+#include <X11/Xlib.h>
+#include <X11/Xatom.h>
+#include <QtDBus/QDBusConnection>
+#include <QtDBus/QDBusMessage>
+#include <QtContacts/QContactDetailFilter>
+#include <QtContacts/QContactPhoneNumber>
+#include <QtContacts/QContactManager>
+QTM_USE_NAMESPACE
+
 #endif
 
 MainWindow::MainWindow(Settings *settings, QWidget *parent) :
@@ -65,7 +72,7 @@ MainWindow::MainWindow(Settings *settings, QWidget *parent) :
     viewer->rootContext()->setContextProperty("settings", m_settings);
     viewer->rootContext()->setContextProperty("xbmc", Xbmc::instance());
     viewer->setOrientation(QmlApplicationViewer::ScreenOrientationAuto);
-    viewer->setMainQmlFile(QLatin1String("qml/xbmcremote/fremantle/main.qml"));
+    viewer->setMainQmlFile(QLatin1String("qml/fremantle/main.qml"));
     viewer->engine()->setNetworkAccessManagerFactory(new NetworkAccessManagerFactory());
 
     connect(Xbmc::instance(), SIGNAL(authenticationRequired(QString,QString)), SLOT(authenticationRequired(QString,QString)), Qt::QueuedConnection);
@@ -170,10 +177,39 @@ void MainWindow::grabZoomKeys(bool grab) {
              1);
 }
 
+#ifdef Q_WS_MAEMO_5
 void MainWindow::callEvent(const QDBusObjectPath &param1, const QString &param2)
 {
     qDebug() << "phone call event" << param1.path() << param2;
     Settings settings;
+
+    if(settings.showCallNotifications()) {
+
+        QDBusMessage msg = QDBusMessage::createMethodCall("com.nokia.csd", param1.path(), "com.nokia.csd.Call.Instance", "GetStatus");
+        QDBusMessage reply = QDBusConnection::systemBus().call(msg);
+        qDebug() << "call status:" << reply.arguments();
+
+        if(reply.arguments().first().toInt() == 3) {
+
+            QContactDetailFilter phoneFilter;
+            phoneFilter.setDetailDefinitionName(QContactPhoneNumber::DefinitionName, QContactPhoneNumber::FieldNumber);
+            phoneFilter.setValue(param2.right(6));
+            phoneFilter.setMatchFlags(QContactFilter::MatchContains);
+            qDebug() << "search contact";
+            QContactManager contactManager;
+
+            QString caller;
+            if(contactManager.contacts(phoneFilter).count() > 0) {
+                caller = contactManager.contacts(phoneFilter).first().displayLabel();
+            } else {
+                caller = param2;
+            }
+
+            qDebug() << "got contact" << caller;
+            Xbmc::instance()->showNotification(tr("Incoming call"), caller);
+        }
+    }
+
     if(settings.changeVolumeOnCall()) {
         Xbmc::instance()->dimVolumeTo(settings.volumeOnCall());
         m_videoPaused = true;
@@ -191,6 +227,7 @@ void MainWindow::callEvent(const QDBusObjectPath &param1, const QString &param2)
     QDBusConnection::systemBus().connect(QString(), param1.path(), "com.nokia.csd.Call.Instance", "Terminated", this, SLOT(callTerminated()));
 
 }
+#endif
 
 void MainWindow::callTerminated()
 {

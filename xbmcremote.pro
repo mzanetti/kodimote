@@ -1,10 +1,3 @@
-# Add more folders to ship with the application, here
-folder_01.source = qml/xbmcremote
-folder_01.target = qml
-DEPLOYMENTFOLDERS = folder_01
-
-# Additional import path used to resolve QML modules in Creator's code model
-QML_IMPORT_PATH =
 
 QT += network
 
@@ -18,13 +11,6 @@ QT += network
 CONFIG += mobility
 MOBILITY += systeminfo contacts
 LIBS += -lQtSystemInfo -lQtContacts
-
-# Speed up launching on MeeGo/Harmattan when using applauncherd daemon
-CONFIG += qdeclarative-boostable
-
-# Please do not modify the following two lines. Required for deployment.
-include(qmlapplicationviewer/qmlapplicationviewer.pri)
-qtcAddDeployment()
 
 # translations
 translations.files = i18n/xbmcremote_de.qm \
@@ -151,6 +137,9 @@ contains(MEEGO_EDITION,harmattan) {
     MOBILITY = connectivity
     DEFINES += Q_WS_MAEMO_6
 
+    # Speed up launching on MeeGo/Harmattan when using applauncherd daemon
+    CONFIG += qdeclarative-boostable
+
     SOURCES += meegohelper.cpp \
             nfchandler.cpp
 
@@ -174,6 +163,9 @@ contains(MEEGO_EDITION,harmattan) {
         qtc_packaging/debian_fremantle/control \
         qtc_packaging/debian_fremantle/compat \
         qtc_packaging/debian_fremantle/changelog
+
+    qmldir.source = qml/xbmcremote/harmattan
+    qmldir.target = qml
 
     splash.files = splash.png
     splash.path = /opt/$${TARGET}
@@ -211,6 +203,8 @@ maemo5 {
         ui/aboutdialog.h \
         ui/mainwindow.h
 
+    qmldir.source = qml/xbmcremote/fremantle
+    qmldir.target = qml
 }
 
 # Currently disabled on symbian as it requires either Unix or Qt 4.8
@@ -245,3 +239,7 @@ RESOURCES += \
     xbmcremote.qrc
 
 
+DEPLOYMENTFOLDERS = qmldir
+# Please do not modify the following two lines. Required for deployment.
+include(qmlapplicationviewer/qmlapplicationviewer.pri)
+qtcAddDeployment()
