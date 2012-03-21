@@ -145,7 +145,7 @@ Rectangle {
             }
 
             states: [
-                State { name: "none"; when: homeMenu.state == "open"
+                State { name: "none"; when: homeMenu.state == "open" || homeMenu.state == "halfopen"
                     PropertyChanges {target:  musicBrowser; visible: false }
                     PropertyChanges {target:  musicLibraryView; visible: false }
                     PropertyChanges {target:  videoBrowser; visible: false }

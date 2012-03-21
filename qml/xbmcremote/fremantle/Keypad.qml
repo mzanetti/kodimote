@@ -38,10 +38,20 @@ BorderImage {
             keys.back();
             break;
         case Qt.Key_M:
+            keys.menu();
+            break;
         case Qt.Key_H:
         case Qt.Key_Home:
             keys.home();
             break;
+        case Qt.Key_C:
+            keys.contextMenu();
+            break;
+        case Qt.Key_I:
+            keys.info();
+            break;
+        case Qt.Key_F:
+            keys.fullscreen();
         }
     }
 

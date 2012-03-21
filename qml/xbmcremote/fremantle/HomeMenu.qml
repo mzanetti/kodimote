@@ -12,7 +12,7 @@ BorderImage {
     anchors.top: parent.top
     anchors.bottom: parent.bottom
     anchors.right: parent.left
-    width: 250
+    width: 290
     state: "closed"
     opacity: anchors.rightMargin == 0 ? 0 : 1
 
@@ -63,8 +63,8 @@ BorderImage {
 //            selected(currentIndex);
         }
         Keys.onRightPressed: {
-            subMenuList.forceActiveFocus();
             selected(currentIndex);
+            subMenuList.forceActiveFocus();
         }
 
         function selected(index) {
@@ -82,7 +82,7 @@ BorderImage {
                 homeMenu.state = "closed"
                 return;
             }
-//                    homeMenu.state = "closed"
+            homeMenu.state = "halfopen"
             subMenu.state = "open"
         }
 
@@ -132,6 +132,10 @@ BorderImage {
         State { name: "open"
             PropertyChanges { target: homeMenu; anchors.rightMargin: -homeMenu.width }
             PropertyChanges { target: cancelArea; anchors.leftMargin: 0 }
+        },
+        State { name: "halfopen"
+            PropertyChanges { target: homeMenu; anchors.rightMargin: -homeMenu.width + 100; }
+            PropertyChanges { target: cancelArea; anchors.leftMargin: 0 }
         }
     ]
 
@@ -141,7 +145,7 @@ BorderImage {
         anchors.bottom: parent.bottom
         anchors.left: parent.right
         anchors.leftMargin: -10
-        width: 200
+        width: 240
         state: "closed"
         clip: true
 
@@ -152,7 +156,7 @@ BorderImage {
             border.left: 15
             border.bottom: 15
             source: "images/HomeBladeSub.png"
-            width: 200
+            width: parent.width
 
             anchors {top: parent.top; bottom: parent.bottom; right: parent.left }
 
@@ -194,9 +198,14 @@ BorderImage {
                 decrementCurrentIndex();
             }
             Keys.onLeftPressed: {
+                openSubMenu();
+            }
+            function openSubMenu() {
                 subMenu.state = "closed"
+                homeMenu.state = "open"
                 homeMenuList.forceActiveFocus();
             }
+
             Keys.onRightPressed: {
                 enter(currentIndex);
             }
@@ -276,8 +285,12 @@ BorderImage {
                 onClicked: {
                     if(subMenu.state == "open") {
                         subMenu.state = "closed"
+                        homeMenu.state = "open"
+                        homeMenuList.forceActiveFocus();
                     } else {
                         subMenu.state = "open"
+                        homeMenu.state = "halfopen"
+                        subMenuList.forceActiveFocus();
                     }
                 }
             }

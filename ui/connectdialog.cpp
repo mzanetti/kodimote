@@ -126,6 +126,10 @@ ConnectDialog::ConnectDialog(QWidget *parent) :
     }
     connect(Xbmc::instance()->hostModel(), SIGNAL(rowsInserted(QModelIndex, int, int)), SLOT(showHostList()));
     connect(m_hostView, SIGNAL(clicked(QModelIndex)), SLOT(enableOkButton()));
+
+#ifdef Q_WS_MAEMO_5
+    setMinimumHeight(400);
+#endif
 }
 
 void ConnectDialog::accept()
