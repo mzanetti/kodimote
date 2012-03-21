@@ -78,93 +78,43 @@ BorderImage {
                     width: arrowLeft.width
                     height: arrowUp.height
                 }
-                Image {
+                KeypadButton {
                     id: arrowUp
-                    source: "images/up_u.png"
-                    MouseArea {
-                        id: upMouseArea
-                        anchors.fill: parent
-                        onClicked: player.moveUp()
-                    }
-                    states: [
-                        State {
-                            when: upMouseArea.pressed;
-                            PropertyChanges { target: arrowUp; source: "images/up_d.png" }
-                        }
-                    ]
+                    icon: "up"
+                    onPressed: player.moveUp();
                 }
                 Item {
                     width: arrowRight.width
                     height: arrowUp.height
                 }
-                Image {
+                KeypadButton {
                     id: arrowLeft
-                    source: "images/left_u.png"
-                    MouseArea {
-                        id: leftMouseArea
-                        anchors.fill: parent
-                        onClicked: player.moveLeft()
-                    }
-                    states: [
-                        State {
-                            when: leftMouseArea.pressed;
-                            PropertyChanges { target: arrowLeft; source: "images/left_d.png" }
-                        }
-                    ]
+                    icon: "left"
+                    onPressed: player.moveLeft();
                 }
                 Item {
                     height: arrowLeft.height
                     width: arrowUp.width
-                    Image {
+                    KeypadButton {
                         anchors.centerIn: parent
                         id: okButton
-                        source: "images/rotate_u.png"
-                        MouseArea {
-                            id: okMouseArea
-                            anchors.fill: parent
-                            onClicked: player.rotate();
-                        }
-                        states: [
-                            State {
-                                when: okMouseArea.pressed;
-                                PropertyChanges { target: okButton; source: "images/rotate_d.png" }
-                            }
-                        ]
+                        icon: "rotate"
+                        onPressed: player.rotate();
                     }
                 }
-                Image {
+                KeypadButton {
                     id: arrowRight
-                    source: "images/right_u.png"
-                    MouseArea {
-                        id: rightMouseArea
-                        anchors.fill: parent
-                        onClicked: player.moveRight();
-                    }
-                    states: [
-                        State {
-                            when: rightMouseArea.pressed;
-                            PropertyChanges { target: arrowRight; source: "images/right_d.png" }
-                        }
-                    ]
+                    icon: "right"
+                    onPressed: player.moveRight();
                 }
                 Item {
                     width: arrowLeft.width
                     height: arrowDown.height
                 }
-                Image {
+                KeypadButton {
                     id: arrowDown
-                    source: "images/down_u.png"
-                    MouseArea {
-                        id: downMouseArea
-                        anchors.fill: parent
-                        onClicked: player.moveDown();
-                    }
-                    states: [
-                        State {
-                            when: downMouseArea.pressed;
-                            PropertyChanges { target: arrowDown; source: "images/down_d.png" }
-                        }
-                    ]
+                    icon: "down"
+                    onPressed: player.moveDown();
                 }
                 Item {
                     width: arrowRight.width
@@ -183,108 +133,47 @@ BorderImage {
             width: orientation == "portrait" ? parent.width : buttonRowGrid.width
             height: orientation == "portrait" ? buttonRowGrid.height : parent.height
             //            Rectangle {color: "blue"; anchors.fill: parent }
-            Column {
+            Grid {
                 anchors.centerIn: parent
                 id: buttonRowGrid
                 spacing: 20
+                columns: orientation == "portrait" ? 2 : 4
 
-                Row {
-                    anchors.horizontalCenter: parent.horizontalCenter
-                    spacing: 20
-                    Image {
-                        id: previousButton
-                        source: "images/previous_u.png"
-                        MouseArea {
-                            id: previousMouseArea
-                            anchors.fill: parent
-                            onClicked: player.skipPrevious();
-                        }
-                        states: [
-                            State {
-                                when: previousMouseArea.pressed;
-                                PropertyChanges { target: previousButton; source: "images/previous_d.png" }
-                            }
-                        ]
-                    }
-                    Image {
-                        id: nextButton
-                        source: "images/next_u.png"
-                        MouseArea {
-                            id: nextMouseArea
-                            anchors.fill: parent
-                            onClicked: player.skipNext();
-                        }
-                        states: [
-                            State {
-                                when: nextMouseArea.pressed;
-                                PropertyChanges { target: nextButton; source: "images/next_d.png" }
-                            }
-                        ]
-                    }
-                    Image {
-                        id: playPauseButton
-                        source: "images/playpause_u.png"
-                        MouseArea {
-                            id: playPauseMouseArea
-                            anchors.fill: parent
-                            onClicked: player.playPause();
-                        }
-                        states: [
-                            State {
-                                when: playPauseMouseArea.pressed;
-                                PropertyChanges { target: playPauseButton; source: "images/playpause_d.png" }
-                            }
-                        ]
-                    }
+                KeypadButton {
+                    id: previousButton
+                    icon: "rewind"
+                    onPressed: player.skipPrevious();
                 }
-                Row{
-                    spacing: 20
-                    anchors.horizontalCenter: parent.horizontalCenter
-                    Image {
-                        id: zoomOutButton
-                        source: "images/zoomOut_u.png"
-                        MouseArea {
-                            id: zoomOutMouseArea
-                            anchors.fill: parent
-                            onClicked: player.zoomOut();
-                        }
-                        states: [
-                            State {
-                                when: zoomOutMouseArea.pressed;
-                                PropertyChanges { target: zoomOutButton; source: "images/zoomOut_d.png" }
-                            }
-                        ]
-                    }
-                    Image {
-                        id: zoomInButton
-                        source: "images/zoomIn_u.png"
-                        MouseArea {
-                            id: zoomInMouseArea
-                            anchors.fill: parent
-                            onClicked: player.zoomIn();
-                        }
-                        states: [
-                            State {
-                                when: zoomInMouseArea.pressed;
-                                PropertyChanges { target: zoomInButton; source: "images/zoomIn_d.png" }
-                            }
-                        ]
-                    }
-                    Image {
-                        id: stopButton
-                        source: "images/stop_u.png"
-                        MouseArea {
-                            id: stopMouseArea
-                            anchors.fill: parent
-                            onClicked: player.stop();
-                        }
-                        states: [
-                            State {
-                                when: stopMouseArea.pressed;
-                                PropertyChanges { target: stopButton; source: "images/stop_d.png" }
-                            }
-                        ]
-                    }
+                KeypadButton {
+                    id: nextButton
+                    icon: "forward"
+                    onPressed: player.skipNext();
+                }
+                KeypadButton {
+                    id: playPauseButton
+                    icon: "playpause"
+                    onPressed: player.playPause();
+                }
+                KeypadButton {
+                    id: stopButton
+                    icon: "stop"
+                    onPressed: player.stop();
+                }
+                Item {
+                    width: zoomOutButton.width
+                    height: zoomInButton.width
+                    visible: orientation != "portrait"
+                }
+
+                KeypadButton {
+                    id: zoomOutButton
+                    icon: "minus"
+                    onPressed: player.zoomOut();
+                }
+                KeypadButton {
+                    id: zoomInButton
+                    icon: "plus"
+                    onPressed: player.zoomIn();
                 }
             }
         }
