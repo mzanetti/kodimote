@@ -40,6 +40,9 @@ private slots:
 private:
     QmlApplicationViewer *viewer;
     Settings *m_settings;
+
+    bool m_videoPaused;
+    bool m_audioPaused;
 };
 
 #endif // MAINWINDOW_H

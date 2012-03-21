@@ -10,6 +10,7 @@
 
 #include "xbmc/xbmc.h"
 #include "xbmc/videoplayer.h"
+#include "xbmc/audioplayer.h"
 
 #include <QMenuBar>
 #include <QDeclarativeContext>
@@ -28,7 +29,9 @@
 
 MainWindow::MainWindow(Settings *settings, QWidget *parent) :
     QMainWindow(parent),
-    m_settings(settings)
+    m_settings(settings),
+    m_videoPaused(false),
+    m_audioPaused(false)
 {
 
 #ifdef Q_WS_MAEMO_5
@@ -173,10 +176,16 @@ void MainWindow::callEvent(const QDBusObjectPath &param1, const QString &param2)
     Settings settings;
     if(settings.changeVolumeOnCall()) {
         Xbmc::instance()->dimVolumeTo(settings.volumeOnCall());
+        m_videoPaused = true;
     }
 
-    if(settings.pauseOnCall() && Xbmc::instance()->videoPlayer()->state() == "playing") {
+    if(settings.pauseVideoOnCall() && Xbmc::instance()->videoPlayer()->state() == "playing") {
         Xbmc::instance()->videoPlayer()->playPause();
+        m_audioPaused = true;
+    }
+
+    if(settings.pauseMusicOnCall() && Xbmc::instance()->audioPlayer()->state() == "playing") {
+        Xbmc::instance()->audioPlayer()->playPause();
     }
 
     QDBusConnection::systemBus().connect(QString(), param1.path(), "com.nokia.csd.Call.Instance", "Terminated", this, SLOT(callTerminated()));
@@ -190,8 +199,11 @@ void MainWindow::callTerminated()
         Xbmc::instance()->restoreVolume();
     }
 
-    if(settings.pauseOnCall() && Xbmc::instance()->videoPlayer()->state() != "playing") {
+    if(m_videoPaused && Xbmc::instance()->videoPlayer()->state() != "playing") {
         Xbmc::instance()->videoPlayer()->playPause();
+    }
+    if(m_audioPaused && Xbmc::instance()->audioPlayer()->state() != "playing") {
+        Xbmc::instance()->audioPlayer()->playPause();
     }
 }
 

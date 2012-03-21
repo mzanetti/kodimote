@@ -63,9 +63,13 @@ SettingsDialog::SettingsDialog(QWidget *parent) :
     gridLayout->addWidget(m_slVolume, 1, 0);
     m_slVolume->setValue(settings.volumeOnCall());
 
-    m_cbPause = new QCheckBox(tr("Pause video during calls"));
-    gridLayout->addWidget(m_cbPause, 2, 0);
-    m_cbPause->setChecked(settings.pauseOnCall());
+    m_cbPauseVideo = new QCheckBox(tr("Pause video during calls"));
+    gridLayout->addWidget(m_cbPauseVideo, 2, 0);
+    m_cbPauseVideo->setChecked(settings.pauseVideoOnCall());
+
+    m_cbPauseMusic = new QCheckBox(tr("Pause music during calls"));
+    gridLayout->addWidget(m_cbPauseMusic, 2, 0);
+    m_cbPauseMusic->setChecked(settings.pauseMusicOnCall());
 
     connect(m_cbVolume, SIGNAL(clicked(bool)), m_slVolume, SLOT(setEnabled(bool)));
 
@@ -88,6 +92,7 @@ void SettingsDialog::accept()
     settings.setUseThumbnails(m_cbThumbnails->isChecked());
     settings.setChangeVolumeOnCall(m_cbVolume->isChecked());
     settings.setVolumeOnCall(m_slVolume->value());
-    settings.setPauseOnCall(m_cbPause->isChecked());
+    settings.setPauseVideoOnCall(m_cbPauseVideo->isChecked());
+    settings.setPauseMusicOnCall(m_cbPauseMusic->isChecked());
     QDialog::accept();
 }

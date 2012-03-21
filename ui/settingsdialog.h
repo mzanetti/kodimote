@@ -36,7 +36,8 @@ public slots:
 private:
     QCheckBox *m_cbVolume;
     QSlider *m_slVolume;
-    QCheckBox *m_cbPause;
+    QCheckBox *m_cbPauseVideo;
+    QCheckBox *m_cbPauseMusic;
     QCheckBox *m_cbThumbnails;
 
 };
