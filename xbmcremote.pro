@@ -5,13 +5,6 @@ QT += network
 # (This might significantly increase build time)
 # DEFINES += QMLJSDEBUGGER
 
-# If your application uses the Qt Mobility libraries, uncomment
-# the following lines and add the respective components to the 
-# MOBILITY variable. 
-CONFIG += mobility
-MOBILITY += systeminfo contacts
-LIBS += -lQtSystemInfo -lQtContacts
-
 # translations
 translations.files = i18n/xbmcremote_de.qm \
     i18n/xbmcremote_nl.qm \
@@ -134,7 +127,7 @@ contains(MEEGO_EDITION,harmattan) {
     target.path = /opt/usr/bin
     QT += dbus
     CONFIG += qmsystem2 mobility meego
-    MOBILITY = connectivity
+    MOBILITY = connectivity systeminfo contacts
     DEFINES += Q_WS_MAEMO_6
 
     # Speed up launching on MeeGo/Harmattan when using applauncherd daemon
@@ -190,6 +183,9 @@ unix:!meego:!maemo5:!symbian {
 # Maemo 5 specific stuff
 maemo5 {
     QT += dbus
+    CONFIG += mobility12
+    MOBILITY += contacts
+    LIBS += -lQtContacts
 
     LIBS += -lqjson
 

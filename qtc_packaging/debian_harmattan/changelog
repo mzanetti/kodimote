@@ -1,3 +1,14 @@
+xbmcremote (1.0.0-harmattan0) unstable; urgency=low
+  * extended keypad
+  * add notifications on incoming calls
+  * make library/files selection persistent
+  * New Translation: Greek
+  * Add option to pause music on calls
+  * Improved NFC feature
+  * Automatically try to reconnect on connection failures
+
+ -- Michael Zanetti <michael_zanetti@gmx.net>  Sun, 25 Mar 2012 17:35:15 +0200
+
 xbmcremote (0.9.99-harmattan0) unstable; urgency=low
   * 1.0 RC1
 
