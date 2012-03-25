@@ -441,6 +441,10 @@
         <source>About</source>
         <translation>Über</translation>
     </message>
+    <message>
+        <source>Incoming call</source>
+        <translation>Eingehender Anruf</translation>
+    </message>
 </context>
 <context>
     <name>MeeGoHelper</name>
@@ -542,6 +546,10 @@
     <message>
         <source>Pause video during calls</source>
         <translation>Pausiere Video währen Telefongesprächen</translation>
+    </message>
+    <message>
+        <source>Pause music during calls</source>
+        <translation>Pausiere Musik währen Telefongesprächen</translation>
     </message>
 </context>
 <context>

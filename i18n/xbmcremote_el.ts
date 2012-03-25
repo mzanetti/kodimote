@@ -19,17 +19,17 @@
         <translation>Ευχαριστίες</translation>
     </message>
     <message>
-        <location filename="../ui/aboutdialog.cpp" line="50"/>
+        <location filename="../ui/aboutdialog.cpp" line="49"/>
         <source>Close</source>
         <translation>Κλείσιμο</translation>
     </message>
     <message>
-        <location filename="../ui/aboutdialog.cpp" line="54"/>
+        <location filename="../ui/aboutdialog.cpp" line="53"/>
         <source>Donate</source>
         <translation>Δωρεά</translation>
     </message>
     <message>
-        <location filename="../ui/aboutdialog.cpp" line="58"/>
+        <location filename="../ui/aboutdialog.cpp" line="57"/>
         <source>Flattr</source>
         <translation></translation>
     </message>
@@ -217,7 +217,7 @@
     </message>
     <message>
         <location filename="../ui/connectdialog.cpp" line="112"/>
-        <location filename="../ui/connectdialog.cpp" line="159"/>
+        <location filename="../ui/connectdialog.cpp" line="163"/>
         <source>Add Host</source>
         <translation>Προσθήκη Υπολογιστή</translation>
     </message>
@@ -227,7 +227,7 @@
         <translation>Διαγραφή Υπολογιστή</translation>
     </message>
     <message>
-        <location filename="../ui/connectdialog.cpp" line="152"/>
+        <location filename="../ui/connectdialog.cpp" line="156"/>
         <source>Back</source>
         <translation>Πίσω</translation>
     </message>
@@ -336,12 +336,12 @@
         <translation>Εικόνες</translation>
     </message>
     <message>
-        <location filename="../qml/xbmcremote/fremantle/HomeMenu.qml" line="172"/>
+        <location filename="../qml/xbmcremote/fremantle/HomeMenu.qml" line="176"/>
         <source>Files</source>
         <translation>Αρχεία</translation>
     </message>
     <message>
-        <location filename="../qml/xbmcremote/fremantle/HomeMenu.qml" line="173"/>
+        <location filename="../qml/xbmcremote/fremantle/HomeMenu.qml" line="177"/>
         <source>Library</source>
         <translation>Βιβλιοθήκη</translation>
     </message>
@@ -505,42 +505,42 @@
 <context>
     <name>MainPage</name>
     <message>
-        <location filename="../qml/xbmcremote/harmattan/MainPage.qml" line="30"/>
+        <location filename="../qml/xbmcremote/harmattan/MainPage.qml" line="39"/>
         <source>Music</source>
         <translation>Μουσική</translation>
     </message>
     <message>
-        <location filename="../qml/xbmcremote/harmattan/MainPage.qml" line="31"/>
+        <location filename="../qml/xbmcremote/harmattan/MainPage.qml" line="40"/>
         <source>Videos</source>
         <translation>Βίντεο</translation>
     </message>
     <message>
-        <location filename="../qml/xbmcremote/harmattan/MainPage.qml" line="32"/>
+        <location filename="../qml/xbmcremote/harmattan/MainPage.qml" line="41"/>
         <source>Pictures</source>
         <translation>Εικόνες</translation>
     </message>
     <message>
-        <location filename="../qml/xbmcremote/harmattan/MainPage.qml" line="100"/>
+        <location filename="../qml/xbmcremote/harmattan/MainPage.qml" line="109"/>
         <source>Library</source>
         <translation>Βιβλιοθήκη</translation>
     </message>
     <message>
-        <location filename="../qml/xbmcremote/harmattan/MainPage.qml" line="100"/>
+        <location filename="../qml/xbmcremote/harmattan/MainPage.qml" line="109"/>
         <source>Files</source>
         <translation>Αρχεία</translation>
     </message>
     <message>
-        <location filename="../qml/xbmcremote/harmattan/MainPage.qml" line="175"/>
+        <location filename="../qml/xbmcremote/harmattan/MainPage.qml" line="184"/>
         <source>Show files</source>
         <translation>Εμφάνιση αρχείων</translation>
     </message>
     <message>
-        <location filename="../qml/xbmcremote/harmattan/MainPage.qml" line="182"/>
+        <location filename="../qml/xbmcremote/harmattan/MainPage.qml" line="197"/>
         <source>Show library</source>
         <translation>Εμφάνιση βιβλιοθήκης</translation>
     </message>
     <message>
-        <location filename="../qml/xbmcremote/harmattan/MainPage.qml" line="189"/>
+        <location filename="../qml/xbmcremote/harmattan/MainPage.qml" line="210"/>
         <source>Rescan library</source>
         <translation>Ανανέωση βιβλιοθήκης</translation>
     </message>
@@ -548,19 +548,24 @@
 <context>
     <name>MainWindow</name>
     <message>
-        <location filename="../ui/mainwindow.cpp" line="51"/>
+        <location filename="../ui/mainwindow.cpp" line="61"/>
         <source>Connect...</source>
         <translation>Σύνδεση...</translation>
     </message>
     <message>
-        <location filename="../ui/mainwindow.cpp" line="52"/>
+        <location filename="../ui/mainwindow.cpp" line="62"/>
         <source>Settings</source>
         <translation>Ρυθμίσεις</translation>
     </message>
     <message>
-        <location filename="../ui/mainwindow.cpp" line="58"/>
+        <location filename="../ui/mainwindow.cpp" line="68"/>
         <source>About</source>
         <translation>Σχετικά</translation>
+    </message>
+    <message>
+        <location filename="../ui/mainwindow.cpp" line="209"/>
+        <source>Incoming call</source>
+        <translation>Εισερχόμεμη κλήση</translation>
     </message>
 </context>
 <context>
@@ -568,7 +573,7 @@
     <message>
         <location filename="../meegohelper.cpp" line="169"/>
         <source>Incoming call</source>
-        <translation type="unfinished"></translation>
+        <translation>Εισερχόμεμη κλήση</translation>
     </message>
 </context>
 <context>
@@ -683,6 +688,11 @@
         <source>Pause video during calls</source>
         <translation>Παύση βίντεο κατά τη διάρκεια κλήσεων</translation>
     </message>
+    <message>
+        <location filename="../ui/settingsdialog.cpp" line="70"/>
+        <source>Pause music during calls</source>
+        <translation>Παύση αναπαραγωγής κατά τη διάρκεια κλήσεων</translation>
+    </message>
 </context>
 <context>
     <name>SettingsSheet</name>
@@ -734,7 +744,7 @@
     <message>
         <location filename="../qml/xbmcremote/harmattan/SettingsSheet.qml" line="60"/>
         <source>Pause music</source>
-        <translation type="unfinished"></translation>
+        <translation>Παύση αναπαραγωγής</translation>
     </message>
 </context>
 <context>

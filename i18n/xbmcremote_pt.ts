@@ -19,17 +19,17 @@
         <translation>Agradecimentos</translation>
     </message>
     <message>
-        <location filename="../ui/aboutdialog.cpp" line="50"/>
+        <location filename="../ui/aboutdialog.cpp" line="49"/>
         <source>Close</source>
         <translation>Fechar</translation>
     </message>
     <message>
-        <location filename="../ui/aboutdialog.cpp" line="54"/>
+        <location filename="../ui/aboutdialog.cpp" line="53"/>
         <source>Donate</source>
         <translation>Donativos</translation>
     </message>
     <message>
-        <location filename="../ui/aboutdialog.cpp" line="58"/>
+        <location filename="../ui/aboutdialog.cpp" line="57"/>
         <source>Flattr</source>
         <translation>Flattr</translation>
     </message>
@@ -218,17 +218,17 @@
     </message>
     <message>
         <location filename="../ui/connectdialog.cpp" line="112"/>
-        <location filename="../ui/connectdialog.cpp" line="159"/>
+        <location filename="../ui/connectdialog.cpp" line="163"/>
         <source>Add Host</source>
-        <translation>Adicionar Anf.</translation>
+        <translation>Adicionar XBMC</translation>
     </message>
     <message>
         <location filename="../ui/connectdialog.cpp" line="115"/>
         <source>Remove Host</source>
-        <translation>Remover Anf.</translation>
+        <translation>Remover XBMC</translation>
     </message>
     <message>
-        <location filename="../ui/connectdialog.cpp" line="152"/>
+        <location filename="../ui/connectdialog.cpp" line="156"/>
         <source>Back</source>
         <translation>Voltar</translation>
     </message>
@@ -337,12 +337,12 @@
         <translation>Imagens</translation>
     </message>
     <message>
-        <location filename="../qml/xbmcremote/fremantle/HomeMenu.qml" line="172"/>
+        <location filename="../qml/xbmcremote/fremantle/HomeMenu.qml" line="176"/>
         <source>Files</source>
         <translation>Ficheiros</translation>
     </message>
     <message>
-        <location filename="../qml/xbmcremote/fremantle/HomeMenu.qml" line="173"/>
+        <location filename="../qml/xbmcremote/fremantle/HomeMenu.qml" line="177"/>
         <source>Library</source>
         <translation>Biblioteca</translation>
     </message>
@@ -506,42 +506,42 @@
 <context>
     <name>MainPage</name>
     <message>
-        <location filename="../qml/xbmcremote/harmattan/MainPage.qml" line="30"/>
+        <location filename="../qml/xbmcremote/harmattan/MainPage.qml" line="39"/>
         <source>Music</source>
         <translation>Música</translation>
     </message>
     <message>
-        <location filename="../qml/xbmcremote/harmattan/MainPage.qml" line="31"/>
+        <location filename="../qml/xbmcremote/harmattan/MainPage.qml" line="40"/>
         <source>Videos</source>
         <translation>Vídeos</translation>
     </message>
     <message>
-        <location filename="../qml/xbmcremote/harmattan/MainPage.qml" line="32"/>
+        <location filename="../qml/xbmcremote/harmattan/MainPage.qml" line="41"/>
         <source>Pictures</source>
         <translation>Imagens</translation>
     </message>
     <message>
-        <location filename="../qml/xbmcremote/harmattan/MainPage.qml" line="100"/>
+        <location filename="../qml/xbmcremote/harmattan/MainPage.qml" line="109"/>
         <source>Library</source>
         <translation>Biblioteca</translation>
     </message>
     <message>
-        <location filename="../qml/xbmcremote/harmattan/MainPage.qml" line="100"/>
+        <location filename="../qml/xbmcremote/harmattan/MainPage.qml" line="109"/>
         <source>Files</source>
         <translation>Ficheiros</translation>
     </message>
     <message>
-        <location filename="../qml/xbmcremote/harmattan/MainPage.qml" line="175"/>
+        <location filename="../qml/xbmcremote/harmattan/MainPage.qml" line="184"/>
         <source>Show files</source>
         <translation>Mostrar ficheiros</translation>
     </message>
     <message>
-        <location filename="../qml/xbmcremote/harmattan/MainPage.qml" line="182"/>
+        <location filename="../qml/xbmcremote/harmattan/MainPage.qml" line="197"/>
         <source>Show library</source>
         <translation>Mostrar biblioteca</translation>
     </message>
     <message>
-        <location filename="../qml/xbmcremote/harmattan/MainPage.qml" line="189"/>
+        <location filename="../qml/xbmcremote/harmattan/MainPage.qml" line="210"/>
         <source>Rescan library</source>
         <translation>Refrescar biblioteca</translation>
     </message>
@@ -549,19 +549,24 @@
 <context>
     <name>MainWindow</name>
     <message>
-        <location filename="../ui/mainwindow.cpp" line="51"/>
+        <location filename="../ui/mainwindow.cpp" line="61"/>
         <source>Connect...</source>
         <translation>Ligar...</translation>
     </message>
     <message>
-        <location filename="../ui/mainwindow.cpp" line="52"/>
+        <location filename="../ui/mainwindow.cpp" line="62"/>
         <source>Settings</source>
         <translation>Definições</translation>
     </message>
     <message>
-        <location filename="../ui/mainwindow.cpp" line="58"/>
+        <location filename="../ui/mainwindow.cpp" line="68"/>
         <source>About</source>
         <translation>Acerca</translation>
+    </message>
+    <message>
+        <location filename="../ui/mainwindow.cpp" line="209"/>
+        <source>Incoming call</source>
+        <translation>A receber chamada</translation>
     </message>
 </context>
 <context>
@@ -569,7 +574,8 @@
     <message>
         <location filename="../meegohelper.cpp" line="169"/>
         <source>Incoming call</source>
-        <translation type="unfinished"></translation>
+        <translatorcomment>Same string as the system prompt</translatorcomment>
+        <translation>A receber chamada</translation>
     </message>
 </context>
 <context>
@@ -684,6 +690,11 @@
         <source>Pause video during calls</source>
         <translation>Pausar vídeo durante chamadas</translation>
     </message>
+    <message>
+        <location filename="../ui/settingsdialog.cpp" line="70"/>
+        <source>Pause music during calls</source>
+        <translation>Pausar música durante chamadas</translation>
+    </message>
 </context>
 <context>
     <name>SettingsSheet</name>
@@ -735,7 +746,7 @@
     <message>
         <location filename="../qml/xbmcremote/harmattan/SettingsSheet.qml" line="60"/>
         <source>Pause music</source>
-        <translation type="unfinished"></translation>
+        <translation>Pausar música</translation>
     </message>
 </context>
 <context>
@@ -813,7 +824,7 @@
     <message>
         <location filename="../qml/xbmcremote/harmattan/WriteNfcTagSheet.qml" line="26"/>
         <source>Tap a NFC tag to write XBMC connection information to it. You can then use the tag to connect to this XBMC.</source>
-        <translation>Toque numa etiqueta NFC para guardar nela as informaçõe de ligaçao a XBMC. Assim pode usar a tag para ligar a este XBMC.</translation>
+        <translation>Toque numa etiqueta NFC para guardar nela as informações de ligação ao XBMC. Assim pode usar a tag para ligar a este XBMC.</translation>
     </message>
     <message>
         <location filename="../qml/xbmcremote/harmattan/WriteNfcTagSheet.qml" line="37"/>
