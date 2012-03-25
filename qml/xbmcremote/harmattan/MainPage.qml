@@ -6,6 +6,15 @@ Page {
     tools: toolBarEntry
     anchors.margins: appWindow.pageMargin
 
+    Component.onCompleted: {
+        if(settings.musicShowsFiles) {
+           mainMenuModel.setProperty(0, "mode", "files");
+        }
+        if(settings.videoShowsFiles) {
+            mainMenuModel.setProperty(1, "mode", "files");
+        }
+    }
+
     ListModel {
         id: mainMenuModel
         ListElement {
@@ -176,6 +185,12 @@ Page {
                 visible: mainMenuModel.get(listView.currentSelected).mode !== "files"
                 onClicked: {
                     mainMenuModel.setProperty(listView.currentSelected, "mode", "files");
+                    if(listView.currentSelected == 0) {
+                        settings.musicShowsFiles = true;
+                    }
+                    if(listView.currentSelected == 1) {
+                        settings.videoShowsFiles = true;
+                    }
                 }
             }
             MenuItem {
@@ -183,6 +198,12 @@ Page {
                 visible: mainMenuModel.get(listView.currentSelected).mode !== "library"
                 onClicked: {
                     mainMenuModel.setProperty(listView.currentSelected, "mode", "library");
+                    if(listView.currentSelected == 0) {
+                        settings.musicShowsFiles = false;
+                    }
+                    if(listView.currentSelected == 1) {
+                        settings.videoShowsFiles = false;
+                    }
                 }
             }
             MenuItem {

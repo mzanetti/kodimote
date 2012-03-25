@@ -193,3 +193,29 @@ void Settings::setKeepDisplayLit(bool keepLit)
     settings.setValue("KeepDisplayLit", keepLit);
     emit keepDisplayLitChanged();
 }
+
+bool Settings::musicShowsFiles() const
+{
+    QSettings settings("xbmcremote");
+    return settings.value("MusicShowsFiles", false).toBool();
+}
+
+void Settings::setMusicShowsFiles(bool showFiles)
+{
+    QSettings settings("xbmcremote");
+    settings.setValue("MusicShowsFiles", showFiles);
+    emit musicShowsFilesChanged();
+}
+
+bool Settings::videoShowsFiles() const
+{
+    QSettings settings("xbmcremote");
+    return settings.value("VideoShowsFiles", false).toBool();
+}
+
+void Settings::setVideoShowsFiles(bool showFiles)
+{
+    QSettings settings("xbmcremote");
+    settings.setValue("VideoShowsFiles", showFiles);
+    emit videoShowsFilesChanged();
+}

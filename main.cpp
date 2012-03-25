@@ -119,7 +119,7 @@ Q_DECL_EXPORT int main(int argc, char *argv[])
 #ifdef QT_SIMULATOR
     view->setSource(QUrl("qml/xbmcremote/harmattan/main.qml"));
 #elif defined Q_WS_MAEMO_6
-    view->setMainQmlFile("/opt/xbmcremote/qml/xbmcremote/harmattan/main.qml");
+    view->setMainQmlFile("/opt/xbmcremote/qml/harmattan/main.qml");
 #elif defined Q_WS_S60
     view->setMainQmlFile("qml/xbmcremote/symbian/main.qml");
 #endif
