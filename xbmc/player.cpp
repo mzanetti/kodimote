@@ -18,8 +18,10 @@
 
 #include "player.h"
 #include "playlist.h"
+#include "libraryitem.h"
 
 #include "xbmcconnection.h"
+#include "xbmc.h"
 
 #include "xdebug.h"
 
@@ -32,7 +34,8 @@ Player::Player(PlayerType type, QObject *parent) :
     m_speed(1),
     m_percentage(0),
     m_shuffle(false),
-    m_repeat(RepeatNone)
+    m_repeat(RepeatNone),
+    m_currentItem(0)
 {
     connect(XbmcConnection::notifier(), SIGNAL(receivedAnnouncement(QVariantMap)), SLOT(receivedAnnouncement(QVariantMap)));
     connect(XbmcConnection::notifier(), SIGNAL(responseReceived(int,QVariantMap)), SLOT(responseReceived(int,QVariantMap)));
@@ -90,12 +93,50 @@ void Player::getRepeatShuffle()
     m_requestMap.insert(id, RequestRepeatShuffle);
 }
 
+void Player::getCurrentItemDetails()
+{
+    QVariantMap params;
+    params.insert("playerid", playerId());
+
+    QVariantList properties;
+    properties.append("title");
+    properties.append("artist");
+    properties.append("comment");
+    properties.append("genre");
+    properties.append("season");
+    properties.append("rating");
+    properties.append("episode");
+    properties.append("year");
+    properties.append("director");
+    properties.append("tagline");
+    properties.append("mpaa");
+
+//    properties.append("instrument");
+//    properties.append("style");
+//    properties.append("mood");
+//    properties.append("born");
+//    properties.append("formed");
+//    properties.append("died");
+//    properties.append("disbanded");
+    properties.append("duration");
+    properties.append("playcount");
+    properties.append("cast");
+    properties.append("plot");
+//    properties.append("description");
+    properties.append("thumbnail");
+    params.insert("properties", properties);
+
+    int id = XbmcConnection::sendCommand("Player.GetItem", params);
+    m_requestMap.insert(id, RequestCurrentItemDetails);
+}
+
 void Player::refresh()
 {
     getSpeed();
     getPercentage();
     getPosition();
     getRepeatShuffle();
+    getCurrentItemDetails();
     playlist()->refresh();
 }
 
@@ -244,6 +285,41 @@ void Player::responseReceived(int id, const QVariantMap &response)
     case SetPercentage:
         m_requestMap.remove(id);
         break;
+    case RequestCurrentItemDetails:
+        xDebug(XDAREA_PLAYER) << "got current item details:" << rsp;
+        QVariantMap itemMap = rsp.toMap().value("item").toMap();
+
+        if(m_currentItem) {
+            m_currentItem->deleteLater();
+        }
+        m_currentItem = new LibraryItem();
+        m_currentItem->setTitle(itemMap.value("label").toString());
+        if(itemMap.value("type").toString() == "song") {
+            m_currentItem->setSubtitle(itemMap.value("artist").toString());
+        }
+        m_currentItem->setComment(itemMap.value("comment").toString());
+        m_currentItem->setGenre(itemMap.value("genre").toString());
+        m_currentItem->setSeason(itemMap.value("season").toInt());
+        m_currentItem->setRating(itemMap.value("rating").toInt());
+        m_currentItem->setEpisode(itemMap.value("episode").toInt());
+        m_currentItem->setYear(itemMap.value("year").toString());
+        m_currentItem->setDirector(itemMap.value("director").toString());
+        m_currentItem->setTagline(itemMap.value("tagline").toString());
+        m_currentItem->setMpaa(itemMap.value("mpaa").toString());
+        m_currentItem->setInstrument(itemMap.value("instrument").toString());
+        m_currentItem->setStyle(itemMap.value("style").toString());
+        m_currentItem->setMood(itemMap.value("mood").toString());
+        m_currentItem->setBorn(itemMap.value("born").toString());
+        m_currentItem->setFormed(itemMap.value("formed").toString());
+        m_currentItem->setDied(itemMap.value("died").toString());
+        m_currentItem->setDisbanded(itemMap.value("disbanded").toString());
+        m_currentItem->setDuration(itemMap.value("duration").toString());
+        m_currentItem->setPlaycount(itemMap.value("playcount").toInt());
+        m_currentItem->setCast(itemMap.value("cast").toString());
+        m_currentItem->setPlot(itemMap.value("plot").toString());
+        m_currentItem->setThumbnail(Xbmc::instance()->vfsPath() + itemMap.value("thumbnail").toString());
+        emit currentItemChanged();
+        break;
     }
 }
 
@@ -355,4 +431,9 @@ void Player::seek(int position)
     params.insert("value", position);
 
     m_requestMap.insert(XbmcConnection::sendCommand("Player.Seek", params), SetPercentage);
+}
+
+LibraryItem *Player::currentItem() const
+{
+    return m_currentItem;
 }

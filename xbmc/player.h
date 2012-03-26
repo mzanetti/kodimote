@@ -24,6 +24,7 @@
 #include <QTimer>
 
 class Playlist;
+class LibraryItem;
 
 class Player : public QObject
 {
@@ -39,6 +40,8 @@ class Player : public QObject
     Q_PROPERTY(QString time READ time NOTIFY timeChanged)
     Q_PROPERTY(bool shuffle READ shuffle WRITE setShuffle NOTIFY shuffleChanged)
     Q_PROPERTY(Repeat repeat READ repeat WRITE setRepeat NOTIFY repeatChanged)
+
+    Q_PROPERTY(LibraryItem* currentItem READ currentItem NOTIFY currentItemChanged)
 
 public:
     enum PlayerType {
@@ -79,6 +82,8 @@ public:
 
     Q_INVOKABLE void seek(int position);
 
+    LibraryItem* currentItem() const;
+
 signals:
     void stateChanged();
     void speedChanged();
@@ -87,6 +92,7 @@ signals:
     void timeChanged();
     void shuffleChanged();
     void repeatChanged();
+    void currentItemChanged();
 
 public slots:
     void playPause();
@@ -105,13 +111,16 @@ private slots:
     void setPercentage();
     void getRepeatShuffle();
 
+    void getCurrentItemDetails();
+
 protected:
     enum Request {
         RequestSpeed,
         RequestPercentage,
         RequestPosition,
         RequestRepeatShuffle,
-        SetPercentage
+        SetPercentage,
+        RequestCurrentItemDetails
     };
     QMap<int, Request> m_requestMap;
 
@@ -120,7 +129,7 @@ protected:
     int m_speed;
     double m_percentage;
     QTimer m_percentageTimer;
-    int m_currentItem;
+    LibraryItem* m_currentItem;
 
     bool m_shuffle;
     Repeat m_repeat;

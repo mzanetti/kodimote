@@ -243,9 +243,23 @@ Page {
                 anchors.bottomMargin: 10
                 anchors.left: parent.left
                 anchors.bottom: albumRow.top
-                anchors.right: parent.right
+                anchors.right: infoButton.left
                 text: xbmc.state == "audio" ? currentItem.artist : (currentItem.type == "episode" ? currentItem.tvShow : qsTr("Year:") + " " + currentItem.year)
             }
+            Button {
+                id: infoButton
+                text: "i"
+                width: height
+//                height: 60
+                anchors.bottom: albumRow.top
+                anchors.right: parent.right
+
+                onClicked: {
+                    //listView.model.fetchItemDetails(listView.currentIndex)
+                    pageStack.push(Qt.createComponent(Qt.resolvedUrl("NowPlayingDetails.qml")));
+                }
+            }
+
             Label {
                 id: trackLabel
                 anchors.left: parent.left
