@@ -132,6 +132,7 @@ void Player::getCurrentItemDetails()
 
 void Player::refresh()
 {
+    xDebug(XDAREA_PLAYER) << "player" << playerId() << "refreshing";
     getSpeed();
     getPercentage();
     getPosition();
@@ -228,6 +229,7 @@ void Player::receivedAnnouncement(const QVariantMap &map)
         emit speedChanged();
         getPosition();
         getPercentage();
+        getCurrentItemDetails();
         m_percentageTimer.start();
     } else if(map.value("method").toString() == "Player.OnSeek") {
         getPercentage();
