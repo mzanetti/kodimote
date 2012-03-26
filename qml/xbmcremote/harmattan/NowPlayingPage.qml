@@ -101,7 +101,7 @@ Page {
                     font.pixelSize: 85
                     font.capitalization: Font.AllUppercase
                     clip: true
-                    visible: currentItem.thumbnail.length === 0
+                    visible: currentItem.thumbnail.length === 0 || currentItem.thumbnail === "DefaultAlbumCover.png" || currentItem.thumbnail === "DefaultVideoCover.png"
                 }
             }
 
