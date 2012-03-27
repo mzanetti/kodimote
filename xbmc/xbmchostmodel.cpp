@@ -48,6 +48,8 @@ int XbmcHostModel::insertOrUpdateHost(const XbmcHost &newHost)
     host->setPassword(newHost.password());
     host->setXbmcHttpSupported(newHost.xbmcHttpSupported());
     host->setXbmcJsonrpcSupported(newHost.xbmcJsonrpcSupported());
+    host->setVolumeUpCommand(newHost.volumeUpCommand());
+    host->setVolumeDownCommand(newHost.volumeDownCommand());
     m_hosts.append(host);
     endInsertRows();
 
