@@ -312,11 +312,15 @@ void Xbmc::setVolume(int volume)
         volume = 100;
     }
 
-    if(XbmcConnection::connectedHost() && !XbmcConnection::connectedHost()->volumeUpCommand().isEmpty()) {
-        QProcess p;
-        p.execute(XbmcConnection::connectedHost()->volumeUpCommand(), QStringList() << QString::number(volume));
-    } else {
-        if(volume != m_volume) {
+    if(volume != m_volume && XbmcConnection::connectedHost()) {
+        if(!XbmcConnection::connectedHost()->volumeUpCommand().isEmpty() && !XbmcConnection::connectedHost()->volumeUpCommand().isEmpty()) {
+            QProcess p;
+            if(volume < m_volume) {
+                p.execute(XbmcConnection::connectedHost()->volumeDownCommand(), QStringList() << QString::number(volume));
+            } else {
+                p.execute(XbmcConnection::connectedHost()->volumeUpCommand(), QStringList() << QString::number(volume));
+            }
+        } else {
             QVariantMap map;
             map.insert("volume", volume);
             XbmcConnection::sendCommand("Application.SetVolume", map);
