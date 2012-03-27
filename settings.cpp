@@ -169,6 +169,8 @@ XbmcHost Settings::lastHost() const
         host.setPassword(settings.value("Password").toString());
         host.setPort(settings.value("Port").toInt());
         host.setUsername(settings.value("Username").toString());
+        host.setVolumeUpCommand(settings.value("VolumeUpCommand").toString());
+        host.setVolumeDownCommand(settings.value("VolumeDownCommand").toString());
         host.setXbmcHttpSupported(true);
         host.setXbmcJsonrpcSupported(true);
     }
