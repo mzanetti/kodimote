@@ -323,14 +323,15 @@ void Xbmc::setVolume(int volume)
                 args = XbmcConnection::connectedHost()->volumeUpCommand().split(" ");
                 cmd = args.takeFirst();
             }
-            QProcess::execute(cmd, args << QString::number(volume));
+            args << QString::number(volume);
+            qDebug() << "executing command:" << cmd << args << QProcess::execute(cmd, args);
         } else {
             QVariantMap map;
             map.insert("volume", volume);
             XbmcConnection::sendCommand("Application.SetVolume", map);
-            m_volume = volume;
-            emit volumeChanged(m_volume);
         }
+        m_volume = volume;
+        emit volumeChanged(m_volume);
     }
 }
 
