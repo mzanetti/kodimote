@@ -312,26 +312,27 @@ void Xbmc::setVolume(int volume)
         volume = 100;
     }
 
-    if(volume != m_volume && XbmcConnection::connectedHost()) {
-        if(!XbmcConnection::connectedHost()->volumeUpCommand().isEmpty() && !XbmcConnection::connectedHost()->volumeUpCommand().isEmpty()) {
-            QString cmd;
-            QStringList args;
-            if(volume < m_volume) {
-                args = XbmcConnection::connectedHost()->volumeDownCommand().split(" ");
-                cmd = args.takeFirst();
-            } else {
-                args = XbmcConnection::connectedHost()->volumeUpCommand().split(" ");
-                cmd = args.takeFirst();
-            }
-            args << QString::number(volume);
-            qDebug() << "executing command:" << cmd << args << QProcess::execute(cmd, args);
+    if(XbmcConnection::connectedHost() && !XbmcConnection::connectedHost()->volumeUpCommand().isEmpty() && !XbmcConnection::connectedHost()->volumeUpCommand().isEmpty()) {
+        QString cmd;
+        QStringList args;
+        if(volume < m_volume) {
+            args = XbmcConnection::connectedHost()->volumeDownCommand().split(" ");
+            cmd = args.takeFirst();
         } else {
+            args = XbmcConnection::connectedHost()->volumeUpCommand().split(" ");
+            cmd = args.takeFirst();
+        }
+        args << QString::number(volume);
+        qDebug() << "executing command:" << cmd << args << QProcess::execute(cmd, args);
+
+    } else {
+        if(volume != m_volume) {
             QVariantMap map;
             map.insert("volume", volume);
             XbmcConnection::sendCommand("Application.SetVolume", map);
+            m_volume = volume;
+            emit volumeChanged(m_volume);
         }
-        m_volume = volume;
-        emit volumeChanged(m_volume);
     }
 }
 
