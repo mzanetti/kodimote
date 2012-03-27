@@ -320,8 +320,8 @@ void Xbmc::setVolume(int volume)
                 args = XbmcConnection::connectedHost()->volumeDownCommand().split(" ");
                 cmd = args.takeFirst();
             } else {
-                QStringList args = XbmcConnection::connectedHost()->volumeUpCommand().split(" ");
-                QString cmd = args.takeFirst();
+                args = XbmcConnection::connectedHost()->volumeUpCommand().split(" ");
+                cmd = args.takeFirst();
             }
             QProcess::execute(cmd, args << QString::number(volume));
         } else {
