@@ -7,6 +7,7 @@ Page {
     property QtObject player: xbmc.activePlayer
     property QtObject playlist: player.playlist()
     property QtObject currentItem: player.currentItem
+    clip: true
 
     Component.onCompleted: print("currentitem is", currentItem)
 
@@ -21,38 +22,44 @@ Page {
         }
     }
 
-    Flickable {
+    Image {
+        source: currentItem.thumbnail
         width: parent.width
-        anchors.top: parent.top
-        anchors.bottom: parent.bottom
+        height: parent.height
+        anchors.centerIn: parent
+        fillMode: Image.PreserveAspectCrop
+        opacity: .35
+    }
+    Flickable {
+        anchors.fill: parent
+        anchors.margins: 10
         contentWidth: parent.width
         contentHeight: labelColumn.height
         clip: true
         z: 5
+        flickableDirection: Flickable.VerticalFlick
 
         Column {
             id: labelColumn
             spacing: 5
             height: childrenRect.height
-            width: parent.width
+            anchors.left: parent.left
+            anchors.right: parent.right
 
-            Image {
-                source: currentItem.thumbnail
-                anchors.left: parent.left
-                height: 100
-                fillMode: Image.PreserveAspectFit
-            }
 
             Label {
                 text: currentItem.title
                 width: parent.width
                 elide: Text.ElideRight
+                font.pixelSize: 32
+                font.bold: true
             }
 
             Label {
                 text: currentItem.subtitle
                 width: parent.width
                 elide: Text.ElideRight
+                visible: text.length > 0
             }
 
             Row {
