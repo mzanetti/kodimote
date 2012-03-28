@@ -28,12 +28,12 @@ Page {
         height: parent.height
         anchors.centerIn: parent
         fillMode: Image.PreserveAspectCrop
-        opacity: .35
+        opacity: .3
     }
     Flickable {
         anchors.fill: parent
         anchors.margins: 10
-        contentWidth: parent.width
+        contentWidth: parent.width - anchors.margins * 2
         contentHeight: labelColumn.height
         clip: true
         z: 5
@@ -60,6 +60,7 @@ Page {
                 width: parent.width
                 elide: Text.ElideRight
                 visible: text.length > 0
+                font.bold: true
             }
 
             Row {
