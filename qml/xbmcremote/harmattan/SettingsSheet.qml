@@ -69,7 +69,8 @@ Sheet {
         settings.themeInverted = cbInvertTheme.checked
         settings.changeVolumeOnCall = cbChangeVol.checked
         settings.volumeOnCall = slVolume.value
-        settings.pauseOnCall = cbPause.checked
+        settings.pauseMusicOnCall = cbPauseMusic.checked
+        settings.pauseVideoOnCall = cbPauseVideo.checked
         settings.useThumbnails = cbUseThumbnails.checked
         settings.keepDisplayLit = cbKeepDisplayLit.checked
     }
