@@ -72,8 +72,8 @@ Item {
 
             Row {
                 width: parent.width; spacing: 10; visible: tagline.length > 0
-                Label { text: qsTr("Tagline:"); font.bold: true }
-                Label { text: tagline }
+                Label { id: taglineLabel; text: qsTr("Tagline:"); font.bold: true }
+                Label { text: tagline; width: parent.width - taglineLabel.width; wrapMode: Text.WordWrap }
             }
 
             Row {

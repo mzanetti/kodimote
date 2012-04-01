@@ -129,8 +129,8 @@ Page {
 
             Row {
                 width: parent.width; spacing: 10; visible: currentItem.tagline.length > 0
-                Label { text: qsTr("Tagline:"); font.bold: true }
-                Label { text: currentItem.tagline }
+                Label { id: taglineLabel; text: qsTr("Tagline:"); font.bold: true }
+                Label { text: currentItem.tagline; width: parent.width - taglineLabel.width; wrapMode: Text.WordWrap }
             }
 
             Row {

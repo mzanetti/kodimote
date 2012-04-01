@@ -243,12 +243,14 @@ Page {
                 Repeater {
                     model: parent.starCount
                     Image {
+                        visible: currentItem.type === "movie"
                         source: theme.inverted ? "image://theme/meegotouch-indicator-rating-inverted-background-star" : "image://theme/meegotouch-indicator-rating-star"
                     }
                 }
                 Repeater {
                     model: 5 - parent.starCount
                     Image {
+                        visible: currentItem.type === "movie"
                         source: theme.inverted ? "image://theme/meegotouch-indicator-rating-background-star" : "image://theme/meegotouch-indicator-rating-background-star"
                     }
                 }
