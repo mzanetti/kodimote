@@ -37,7 +37,7 @@
 <context>
     <name>Albums</name>
     <message>
-        <location filename="../xbmc/albums.cpp" line="151"/>
+        <location filename="../xbmc/albums.cpp" line="152"/>
         <source>Albums</source>
         <translation type="unfinished"></translation>
     </message>
@@ -45,7 +45,7 @@
 <context>
     <name>Artists</name>
     <message>
-        <location filename="../xbmc/artists.cpp" line="150"/>
+        <location filename="../xbmc/artists.cpp" line="151"/>
         <source>Artists</source>
         <translation type="unfinished"></translation>
     </message>
@@ -313,7 +313,7 @@
 <context>
     <name>Episodes</name>
     <message>
-        <location filename="../xbmc/episodes.cpp" line="166"/>
+        <location filename="../xbmc/episodes.cpp" line="167"/>
         <source>Episodes</source>
         <translation type="unfinished"></translation>
     </message>
@@ -579,7 +579,7 @@
 <context>
     <name>Movies</name>
     <message>
-        <location filename="../xbmc/movies.cpp" line="167"/>
+        <location filename="../xbmc/movies.cpp" line="168"/>
         <source>Movies</source>
         <translation type="unfinished"></translation>
     </message>
@@ -587,7 +587,7 @@
 <context>
     <name>MusicVideos</name>
     <message>
-        <location filename="../xbmc/musicvideos.cpp" line="146"/>
+        <location filename="../xbmc/musicvideos.cpp" line="147"/>
         <source>Music Videos</source>
         <translation type="unfinished"></translation>
     </message>
@@ -615,19 +615,127 @@
     </message>
 </context>
 <context>
-    <name>NowPlayingPage</name>
+    <name>NowPlayingDetails</name>
     <message>
-        <location filename="../qml/xbmcremote/harmattan/NowPlayingPage.qml" line="231"/>
-        <source>Season:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../qml/xbmcremote/harmattan/NowPlayingPage.qml" line="231"/>
+        <location filename="../qml/xbmcremote/harmattan/NowPlayingDetails.qml" line="78"/>
         <source>Rating:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/xbmcremote/harmattan/NowPlayingPage.qml" line="247"/>
+        <location filename="../qml/xbmcremote/harmattan/NowPlayingDetails.qml" line="96"/>
+        <source>Season:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/xbmcremote/harmattan/NowPlayingDetails.qml" line="102"/>
+        <source>Episode:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/xbmcremote/harmattan/NowPlayingDetails.qml" line="108"/>
+        <source>First aired:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/xbmcremote/harmattan/NowPlayingDetails.qml" line="114"/>
+        <source>Genre:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/xbmcremote/harmattan/NowPlayingDetails.qml" line="120"/>
+        <source>Year:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/xbmcremote/harmattan/NowPlayingDetails.qml" line="126"/>
+        <source>Director:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/xbmcremote/harmattan/NowPlayingDetails.qml" line="132"/>
+        <source>Tagline:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/xbmcremote/harmattan/NowPlayingDetails.qml" line="138"/>
+        <source>MPAA:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/xbmcremote/harmattan/NowPlayingDetails.qml" line="144"/>
+        <source>Instrument:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/xbmcremote/harmattan/NowPlayingDetails.qml" line="150"/>
+        <source>Style:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/xbmcremote/harmattan/NowPlayingDetails.qml" line="156"/>
+        <source>Mood:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/xbmcremote/harmattan/NowPlayingDetails.qml" line="162"/>
+        <source>Born:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/xbmcremote/harmattan/NowPlayingDetails.qml" line="168"/>
+        <source>Formed:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/xbmcremote/harmattan/NowPlayingDetails.qml" line="174"/>
+        <source>Died:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/xbmcremote/harmattan/NowPlayingDetails.qml" line="180"/>
+        <source>Disbanded:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/xbmcremote/harmattan/NowPlayingDetails.qml" line="186"/>
+        <source>Duration:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/xbmcremote/harmattan/NowPlayingDetails.qml" line="192"/>
+        <source>Comment:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/xbmcremote/harmattan/NowPlayingDetails.qml" line="198"/>
+        <source>Playcount:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/xbmcremote/harmattan/NowPlayingDetails.qml" line="204"/>
+        <source>Cast:</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>NowPlayingPage</name>
+    <message>
+        <location filename="../qml/xbmcremote/harmattan/NowPlayingPage.qml" line="240"/>
+        <source>Season:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/xbmcremote/harmattan/NowPlayingPage.qml" line="240"/>
+        <source>Rating:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/xbmcremote/harmattan/NowPlayingPage.qml" line="240"/>
+        <source>Episode:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/xbmcremote/harmattan/NowPlayingPage.qml" line="265"/>
         <source>Year:</source>
         <translation type="unfinished"></translation>
     </message>
@@ -661,7 +769,7 @@
 <context>
     <name>Seasons</name>
     <message>
-        <location filename="../xbmc/seasons.cpp" line="98"/>
+        <location filename="../xbmc/seasons.cpp" line="99"/>
         <source>Seasons</source>
         <translation type="unfinished"></translation>
     </message>
@@ -750,17 +858,17 @@
 <context>
     <name>Shares</name>
     <message>
-        <location filename="../xbmc/shares.cpp" line="90"/>
+        <location filename="../xbmc/shares.cpp" line="91"/>
         <source>Music Files</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../xbmc/shares.cpp" line="92"/>
+        <location filename="../xbmc/shares.cpp" line="93"/>
         <source>Video Files</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../xbmc/shares.cpp" line="94"/>
+        <location filename="../xbmc/shares.cpp" line="95"/>
         <source>Picture Files</source>
         <translation type="unfinished"></translation>
     </message>
@@ -768,7 +876,7 @@
 <context>
     <name>Songs</name>
     <message>
-        <location filename="../xbmc/songs.cpp" line="168"/>
+        <location filename="../xbmc/songs.cpp" line="169"/>
         <source>Songs</source>
         <translation type="unfinished"></translation>
     </message>
@@ -776,7 +884,7 @@
 <context>
     <name>TvShows</name>
     <message>
-        <location filename="../xbmc/tvshows.cpp" line="149"/>
+        <location filename="../xbmc/tvshows.cpp" line="150"/>
         <source>TV Shows</source>
         <translation type="unfinished"></translation>
     </message>
@@ -784,22 +892,22 @@
 <context>
     <name>VideoLibrary</name>
     <message>
-        <location filename="../xbmc/videolibrary.cpp" line="29"/>
+        <location filename="../xbmc/videolibrary.cpp" line="30"/>
         <source>Movies</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../xbmc/videolibrary.cpp" line="34"/>
+        <location filename="../xbmc/videolibrary.cpp" line="35"/>
         <source>TV Shows</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../xbmc/videolibrary.cpp" line="39"/>
+        <location filename="../xbmc/videolibrary.cpp" line="40"/>
         <source>Music Videos</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../xbmc/videolibrary.cpp" line="71"/>
+        <location filename="../xbmc/videolibrary.cpp" line="72"/>
         <source>Video Library</source>
         <translation type="unfinished"></translation>
     </message>

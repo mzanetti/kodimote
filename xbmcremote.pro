@@ -107,6 +107,7 @@ lupdate {
         qml/xbmcremote/harmattan/MainPage.qml \
         qml/xbmcremote/harmattan/NoConnectionPage.qml \
         qml/xbmcremote/harmattan/NowPlayingPage.qml \
+        qml/xbmcremote/harmattan/NowPlayingDetails.qml \
         qml/xbmcremote/harmattan/BrowserPage.qml \
         qml/xbmcremote/harmattan/Keypad.qml \
         qml/xbmcremote/harmattan/PictureControlsPage.qml \

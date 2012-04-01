@@ -486,6 +486,89 @@
     </message>
 </context>
 <context>
+    <name>NowPlayingDetails</name>
+    <message>
+        <source>Rating:</source>
+        <translation>Bewertung:</translation>
+    </message>
+    <message>
+        <source>Season:</source>
+        <translation>Staffel:</translation>
+    </message>
+    <message>
+        <source>Episode:</source>
+        <translation>Folge:</translation>
+    </message>
+    <message>
+        <source>First aired:</source>
+        <translation>Erstausstrahlung:</translation>
+    </message>
+    <message>
+        <source>Genre:</source>
+        <translation>Genre:</translation>
+    </message>
+    <message>
+        <source>Year:</source>
+        <translation>Jahr:</translation>
+    </message>
+    <message>
+        <source>Director:</source>
+        <translation>Direktor:</translation>
+    </message>
+    <message>
+        <source>Tagline:</source>
+        <translation>Titelzeile:</translation>
+    </message>
+    <message>
+        <source>MPAA:</source>
+        <translation>Altersfreigabe:</translation>
+    </message>
+    <message>
+        <source>Instrument:</source>
+        <translation>Instrument:</translation>
+    </message>
+    <message>
+        <source>Style:</source>
+        <translation>Stil:</translation>
+    </message>
+    <message>
+        <source>Mood:</source>
+        <translation>Stimmung:</translation>
+    </message>
+    <message>
+        <source>Born:</source>
+        <translation>Geboren:</translation>
+    </message>
+    <message>
+        <source>Formed:</source>
+        <translation>Formiert:</translation>
+    </message>
+    <message>
+        <source>Died:</source>
+        <translation>Gestorben:</translation>
+    </message>
+    <message>
+        <source>Disbanded:</source>
+        <translation>Auflösung:</translation>
+    </message>
+    <message>
+        <source>Duration:</source>
+        <translation>Dauer:</translation>
+    </message>
+    <message>
+        <source>Comment:</source>
+        <translation>Kommentar:</translation>
+    </message>
+    <message>
+        <source>Playcount:</source>
+        <translation>Zähler:</translation>
+    </message>
+    <message>
+        <source>Cast:</source>
+        <translation>Besetzung:</translation>
+    </message>
+</context>
+<context>
     <name>NowPlayingPage</name>
     <message>
         <source>Season:</source>
@@ -498,6 +581,10 @@
     <message>
         <source>Year:</source>
         <translation>Jahr:</translation>
+    </message>
+    <message>
+        <source>Episode:</source>
+        <translation>Folge:</translation>
     </message>
 </context>
 <context>
