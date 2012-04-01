@@ -41,7 +41,7 @@ Item {
             }
 
             Row {
-                width: parent.width; spacing: 10; visible: episode > 1
+                width: parent.width; spacing: 10; visible: episode > -1
                 Label { text: qsTr("Episode:"); font.bold: true }
                 Label { text: episode }
             }

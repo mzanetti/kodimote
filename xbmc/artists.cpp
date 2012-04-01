@@ -23,6 +23,7 @@
 #include "audioplaylistitem.h"
 #include "audioplayer.h"
 #include "playlist.h"
+#include "libraryitem.h"
 
 Artists::Artists(XbmcModel *parent) :
     XbmcLibrary(parent)

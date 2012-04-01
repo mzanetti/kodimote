@@ -22,6 +22,7 @@
 #include "videoplayer.h"
 #include "videoplaylist.h"
 #include "videoplaylistitem.h"
+#include "libraryitem.h"
 
 Movies::Movies(XbmcModel *parent) :
     XbmcLibrary(parent)

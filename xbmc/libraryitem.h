@@ -3,6 +3,7 @@
 
 #include "xbmcmodel.h"
 
+#include <QTime>
 #include <QObject>
 #include <QStandardItem>
 
@@ -10,15 +11,20 @@ class LibraryItem : public XbmcModelItem
 {
     Q_OBJECT
 
+    Q_PROPERTY(QString type READ type WRITE setType NOTIFY typeChanged)
     Q_PROPERTY(QString filename READ fileName WRITE setFileName NOTIFY fileNameChanged)
     Q_PROPERTY(QString thumbnail READ thumbnail WRITE setThumbnail NOTIFY thumbnailChanged)
+    Q_PROPERTY(QString fanart READ fanart WRITE setFanart NOTIFY fanartChanged)
     Q_PROPERTY(QString filetype READ fileType WRITE setFileType NOTIFY fileTypeChanged)
     Q_PROPERTY(bool playable READ playable WRITE setPlayable NOTIFY playableChanged)
     Q_PROPERTY(int artistId READ artistId WRITE setArtistId NOTIFY artistIdChanged)
+    Q_PROPERTY(QString artist READ artist WRITE setArtist NOTIFY artistChanged)
     Q_PROPERTY(int albumId READ albumId WRITE setAlbumId NOTIFY albumIdChanged)
+    Q_PROPERTY(QString album READ album WRITE setAlbum NOTIFY albumChanged)
     Q_PROPERTY(int songId READ songId WRITE setSongId NOTIFY songIdChanged)
     Q_PROPERTY(int musicvideoId READ musicvideoId WRITE setMusicvideoId NOTIFY musicvideoIdChanged)
     Q_PROPERTY(int tvshowId READ tvshowId WRITE setTvshowId NOTIFY tvshowIdChanged)
+    Q_PROPERTY(QString tvShow READ tvShow WRITE setTvShow NOTIFY tvShowChanged)
     Q_PROPERTY(int seasonId READ seasonId WRITE setSeasonId NOTIFY seasonIdChanged)
     Q_PROPERTY(int episodeId READ episodeId WRITE setEpisodeId NOTIFY episodeIdChanged)
     Q_PROPERTY(int movieId READ movieId WRITE setMovieId NOTIFY movieIdChanged)
@@ -40,7 +46,8 @@ class LibraryItem : public XbmcModelItem
     Q_PROPERTY(QString formed READ formed WRITE setFormed NOTIFY formedChanged)
     Q_PROPERTY(QString died READ died WRITE setDied NOTIFY diedChanged)
     Q_PROPERTY(QString disbanded READ disbanded WRITE setDisbanded NOTIFY disbandedChanged)
-    Q_PROPERTY(QString duration READ duration WRITE setDuration NOTIFY durationChanged)
+    Q_PROPERTY(QTime duration READ duration WRITE setDuration NOTIFY durationChanged)
+    Q_PROPERTY(QString durationString READ durationString NOTIFY durationChanged)
     Q_PROPERTY(QString comment READ comment WRITE setComment NOTIFY commentChanged)
     Q_PROPERTY(int playcount READ playcount WRITE setPlaycount NOTIFY playcountChanged)
     Q_PROPERTY(QString cast READ cast WRITE setCast NOTIFY castChanged)
@@ -48,11 +55,17 @@ class LibraryItem : public XbmcModelItem
 public:
     explicit LibraryItem(const QString &title = QString(), const QString &subTitle = QString());
 
+    QString type() const;
+    void setType(const QString &type);
+
     QString fileName() const;
     void setFileName(const QString &fileName);
 
     QString thumbnail() const;
     void setThumbnail(const QString &thumbnail);
+
+    QString fanart() const;
+    void setFanart(const QString &fanart);
 
     QString fileType() const;
     void setFileType(const QString &fileType);
@@ -63,8 +76,14 @@ public:
     int artistId() const;
     void setArtistId(int artistId);
 
+    QString artist() const;
+    void setArtist(const QString &artist);
+
     int albumId() const;
     void setAlbumId(int albumId);
+
+    QString album() const;
+    void setAlbum(const QString &album);
 
     int songId() const;
     void setSongId(int songId);
@@ -74,6 +93,9 @@ public:
 
     int tvshowId() const;
     void setTvshowId(int tvshowId);
+
+    QString tvShow() const;
+    void setTvShow(QString tvShow);
 
     int seasonId() const;
     void setSeasonId(int seasonId);
@@ -138,8 +160,9 @@ public:
     QString disbanded() const;
     void setDisbanded(const QString &disbanded);
 
-    QString duration() const;
-    void setDuration(const QString &duration);
+    QTime duration() const;
+    QString durationString() const;
+    void setDuration(const QTime &duration);
 
     QString comment() const;
     void setComment(const QString &comment);
@@ -153,15 +176,20 @@ public:
     virtual QVariant data(int role) const;
 
 signals:
+    void typeChanged();
     void fileNameChanged();
     void thumbnailChanged();
+    void fanartChanged();
     void fileTypeChanged();
     void playableChanged();
     void artistIdChanged();
+    void artistChanged();
     void albumIdChanged();
+    void albumChanged();
     void songIdChanged();
     void musicvideoIdChanged();
     void tvshowIdChanged();
+    void tvShowChanged();
     void seasonIdChanged();
     void episodeIdChanged();
     void movieIdChanged();
@@ -189,15 +217,20 @@ signals:
     void castChanged();
 
 private:
+    QString m_type;
     QString m_fileName;
     QString m_thumbnail;
+    QString m_fanart;
     QString m_fileType;
     bool m_playable;
     int m_artistId;
+    QString m_artist;
     int m_albumId;
+    QString m_album;
     int m_songId;
     int m_musicvideoId;
     int m_tvshowId;
+    QString m_tvShow;
     int m_seasonId;
     int m_episodeId;
     int m_movieId;
@@ -219,7 +252,7 @@ private:
     QString m_formed;
     QString m_died;
     QString m_disbanded;
-    QString m_duration;
+    QTime m_duration;
     QString m_comment;
     int m_playcount;
     QString m_cast;

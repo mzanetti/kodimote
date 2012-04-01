@@ -37,6 +37,7 @@
 #include "videoplayer.h"
 #include "pictureplayer.h"
 
+#include "libraryitem.h"
 #include "audioplaylistitem.h"
 #include "videoplaylistitem.h"
 
@@ -137,6 +138,8 @@ void Xbmc::init()
     params.insert("properties", list);
     id = XbmcConnection::sendCommand("System.GetProperties", params);
     m_requestMap.insert(id, RequestSystemProperties);
+
+    queryActivePlayers();
 }
 
 bool Xbmc::connected()
@@ -205,9 +208,9 @@ void Xbmc::parseAnnouncement(const QVariantMap &map)
     if(map.value("method").toString() == "Player.OnPlay") {
         QVariantMap data= map.value("params").toMap().value("data").toMap();
         qDebug() << "************************************************" << data.value("player").toMap().value("playerid") << m_activePlayer->playerId();
-        if(data.value("player").toMap().value("playerid").toInt() != m_activePlayer->playerId()) {
+//        if(data.value("player").toMap().value("playerid").toInt() != m_activePlayer->playerId()) {
             queryActivePlayers();
-        }
+//        }
     }
 }
 

@@ -33,11 +33,22 @@ LibraryItem::LibraryItem(const QString &title, const QString &subTitle):
     m_formed(QString()),
     m_died(QString()),
     m_disbanded(QString()),
-    m_duration(QString()),
+    m_duration(QTime()),
     m_comment(QString()),
     m_playcount(-1),
     m_cast(QString())
 {
+}
+
+QString LibraryItem::type() const
+{
+    return m_type;
+}
+
+void LibraryItem::setType(const QString &type)
+{
+    m_type = type;
+    emit typeChanged();
 }
 
 QVariant LibraryItem::data(int role) const
@@ -141,6 +152,17 @@ void LibraryItem::setThumbnail(const QString &thumbnail)
     emit thumbnailChanged();
 }
 
+QString LibraryItem::fanart() const
+{
+    return m_fanart;
+}
+
+void LibraryItem::setFanart(const QString &fanart)
+{
+    m_fanart = fanart;
+    emit fanartChanged();
+}
+
 QString LibraryItem::fileType() const
 {
     return m_fileType;
@@ -174,6 +196,17 @@ void LibraryItem::setArtistId(int artistId)
     emit artistIdChanged();
 }
 
+QString LibraryItem::artist() const
+{
+    return m_artist;
+}
+
+void LibraryItem::setArtist(const QString &artist)
+{
+    m_artist = artist;
+    emit artistChanged();
+}
+
 int LibraryItem::albumId() const
 {
     return m_albumId;
@@ -183,6 +216,17 @@ void LibraryItem::setAlbumId(int albumId)
 {
     m_albumId = albumId;
     emit albumIdChanged();
+}
+
+QString LibraryItem::album() const
+{
+    return m_album;
+}
+
+void LibraryItem::setAlbum(const QString &album)
+{
+    m_album = album;
+    emit albumChanged();
 }
 
 int LibraryItem::songId() const
@@ -216,6 +260,17 @@ void LibraryItem::setTvshowId(int tvshowId)
 {
     m_tvshowId = tvshowId;
     emit tvshowIdChanged();
+}
+
+QString LibraryItem::tvShow() const
+{
+    return m_tvShow;
+}
+
+void LibraryItem::setTvShow(QString tvShow)
+{
+    m_tvShow = tvShow;
+    emit tvShowChanged();
 }
 
 int LibraryItem::seasonId() const
@@ -449,12 +504,20 @@ void LibraryItem::setDisbanded(const QString &disbanded)
     emit disbandedChanged();
 }
 
-QString LibraryItem::duration() const
+QTime LibraryItem::duration() const
 {
     return m_duration;
 }
 
-void LibraryItem::setDuration(const QString &duration)
+QString LibraryItem::durationString() const
+{
+    if(m_duration.hour() > 0) {
+        return m_duration.toString("hh:mm:ss");
+    }
+    return m_duration.toString("mm:ss");
+}
+
+void LibraryItem::setDuration(const QTime &duration)
 {
     m_duration = duration;
     emit durationChanged();

@@ -2,7 +2,8 @@
 #define XBMCLIBRARY_H
 
 #include "xbmcmodel.h"
-#include "libraryitem.h"
+
+class LibraryItem;
 
 class XbmcLibrary : public XbmcModel
 {

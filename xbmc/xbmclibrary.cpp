@@ -1,4 +1,5 @@
 #include "xbmclibrary.h"
+#include "libraryitem.h"
 
 XbmcLibrary::XbmcLibrary(XbmcModel *parent) :XbmcModel(parent)
 {

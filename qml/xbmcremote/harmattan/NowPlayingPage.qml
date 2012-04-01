@@ -8,7 +8,7 @@ Page {
     anchors.margins: appWindow.pageMargin
     property QtObject player: xbmc.activePlayer
     property QtObject playlist: player.playlist()
-    property QtObject currentItem: playlist.currentItem
+    property QtObject currentItem: player.currentItem
 
     property string orientation: width > height ? "landscape" : "portrait"
 
@@ -18,6 +18,14 @@ Page {
             }while(pageStack.pop() !== mainPage);
         }
     }
+
+
+   Connections {
+       target: xbmc
+       onStateChanged: {
+           print("!*!*! state:", xbmc.state);
+       }
+   }
 
     ToolBarLayout {
         id: nowPlayingToolbar
@@ -95,7 +103,8 @@ Page {
                 Text {
                     anchors.fill: parent
                     textFormat: Text.StyledText
-                    text: "<b>" + currentItem.album + "</b> " + currentItem.album + " " + currentItem.album
+                    property string coverText: xbmc.state == "audio" ? currentItem.album : currentItem.title
+                    text: "<b>" + coverText + "</b> " + coverText + " " + coverText
                     wrapMode: Text.WrapAnywhere
                     color: "lightblue"
                     font.pixelSize: 85
@@ -228,19 +237,26 @@ Page {
                 anchors.bottomMargin: 10
                 Label {
                     id: albumLabel
-                    text: xbmc.state == "audio" ? currentItem.album : (currentItem.type == "episode" ? qsTr("Season:") + " " + currentItem.season : qsTr("Rating:") + " ")
+                    text: xbmc.state == "audio" ? currentItem.album : (currentItem.type == "episode" ? qsTr("Season:") + " " + currentItem.season + "   " + qsTr("Episode:") + " " + currentItem.episode : qsTr("Rating:") + " ")
                 }
+                property int starCount: currentItem.rating > 10 ? Math.floor(currentItem.rating / 20) : Math.floor(currentItem.rating / 2)
                 Repeater {
-                    model: Math.floor(currentItem.rating / 2)
+                    model: parent.starCount
                     Image {
                         source: theme.inverted ? "image://theme/meegotouch-indicator-rating-inverted-background-star" : "image://theme/meegotouch-indicator-rating-star"
+                    }
+                }
+                Repeater {
+                    model: 5 - parent.starCount
+                    Image {
+                        source: theme.inverted ? "image://theme/meegotouch-indicator-rating-background-star" : "image://theme/meegotouch-indicator-rating-background-star"
                     }
                 }
             }
 
             Label {
                 id: artistLabel
-                anchors.bottomMargin: 10
+                anchors.bottomMargin: 6
                 anchors.left: parent.left
                 anchors.bottom: albumRow.top
                 anchors.right: infoButton.left
@@ -250,8 +266,7 @@ Page {
                 id: infoButton
                 text: "i"
                 width: height
-//                height: 60
-                anchors.bottom: albumRow.top
+                anchors.top: trackNumLabel.bottom
                 anchors.right: parent.right
 
                 onClicked: {
@@ -266,7 +281,7 @@ Page {
                 //anchors.right: trackNumLabel.right
                 width: parent.width - trackNumLabel.width
                 anchors.bottom: artistLabel.top
-                anchors.bottomMargin: 10
+                anchors.bottomMargin: 6
                 text: currentItem.title
                 elide: Text.ElideRight
                 font.bold: true
@@ -275,7 +290,7 @@ Page {
                 id: trackNumLabel
                 anchors.right: parent.right
                 anchors.bottom: artistLabel.top
-                anchors.bottomMargin: 10
+                anchors.bottomMargin: 6
                 text: playlist.currentTrackNumber + "/" + playlist.count
             }
         }

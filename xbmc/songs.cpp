@@ -22,6 +22,7 @@
 #include "audioplaylistitem.h"
 #include "xbmc.h"
 #include "xbmcconnection.h"
+#include "libraryitem.h"
 
 Songs::Songs(int artistid, int albumid, XbmcModel *parent):
     XbmcLibrary(parent),
@@ -126,7 +127,7 @@ void Songs::responseReceived(int id, const QVariantMap &rsp)
         QVariantMap details = rsp.value("result").toMap().value("songdetails").toMap();
         item->setYear(details.value("year").toString());
         item->setRating(details.value("rating").toInt());
-        item->setDuration(details.value("duration").toString());
+        item->setDuration(QTime().addSecs(details.value("duration").toInt()));
         item->setComment(details.value("comment").toString());
         item->setPlaycount(details.value("playcount").toInt());
         emit dataChanged(index(m_detailsRequestMap.value(id), 0, QModelIndex()), index(m_detailsRequestMap.value(id), 0, QModelIndex()));

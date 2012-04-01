@@ -21,6 +21,7 @@
 #include "tvshows.h"
 #include "musicvideos.h"
 #include "xbmcconnection.h"
+#include "libraryitem.h"
 
 VideoLibrary::VideoLibrary(XbmcModel *parent) :
     XbmcLibrary(parent)

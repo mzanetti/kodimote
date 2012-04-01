@@ -33,9 +33,9 @@ Player::Player(PlayerType type, QObject *parent) :
     m_state("stopped"),
     m_speed(1),
     m_percentage(0),
+    m_currentItem(0),
     m_shuffle(false),
-    m_repeat(RepeatNone),
-    m_currentItem(0)
+    m_repeat(RepeatNone)
 {
     connect(XbmcConnection::notifier(), SIGNAL(receivedAnnouncement(QVariantMap)), SLOT(receivedAnnouncement(QVariantMap)));
     connect(XbmcConnection::notifier(), SIGNAL(responseReceived(int,QVariantMap)), SLOT(responseReceived(int,QVariantMap)));
@@ -110,8 +110,10 @@ void Player::getCurrentItemDetails()
     properties.append("director");
     properties.append("tagline");
     properties.append("mpaa");
+    properties.append("album");
+    properties.append("fanart");
 
-//    properties.append("instrument");
+    properties.append("showtitle");
 //    properties.append("style");
 //    properties.append("mood");
 //    properties.append("born");
@@ -124,6 +126,7 @@ void Player::getCurrentItemDetails()
     properties.append("plot");
 //    properties.append("description");
     properties.append("thumbnail");
+    properties.append("runtime");
     params.insert("properties", properties);
 
     int id = XbmcConnection::sendCommand("Player.GetItem", params);
@@ -295,15 +298,19 @@ void Player::responseReceived(int id, const QVariantMap &response)
             m_currentItem->deleteLater();
         }
         m_currentItem = new LibraryItem();
+        m_currentItem->setType(itemMap.value("type").toString());
         m_currentItem->setTitle(itemMap.value("label").toString());
         if(itemMap.value("type").toString() == "song") {
             m_currentItem->setSubtitle(itemMap.value("artist").toString());
+        } else if(itemMap.value("type").toString() == "episode") {
+            m_currentItem->setSubtitle(itemMap.value("showtitle").toString());
         }
+
         m_currentItem->setComment(itemMap.value("comment").toString());
         m_currentItem->setGenre(itemMap.value("genre").toString());
-        m_currentItem->setSeason(itemMap.value("season").toInt());
-        m_currentItem->setRating(itemMap.value("rating").toInt());
-        m_currentItem->setEpisode(itemMap.value("episode").toInt());
+        m_currentItem->setSeason(itemMap.value("season", -1).toInt());
+        m_currentItem->setRating(itemMap.value("rating", -1).toInt());
+        m_currentItem->setEpisode(itemMap.value("episode", -1).toInt());
         m_currentItem->setYear(itemMap.value("year").toString());
         m_currentItem->setDirector(itemMap.value("director").toString());
         m_currentItem->setTagline(itemMap.value("tagline").toString());
@@ -315,11 +322,19 @@ void Player::responseReceived(int id, const QVariantMap &response)
         m_currentItem->setFormed(itemMap.value("formed").toString());
         m_currentItem->setDied(itemMap.value("died").toString());
         m_currentItem->setDisbanded(itemMap.value("disbanded").toString());
-        m_currentItem->setDuration(itemMap.value("duration").toString());
-        m_currentItem->setPlaycount(itemMap.value("playcount").toInt());
+        if(itemMap.contains("runtime")) {
+            m_currentItem->setDuration(QTime().addSecs(itemMap.value("runtime").toInt() * 60));
+        } else  {
+            m_currentItem->setDuration(QTime().addSecs(itemMap.value("duration").toInt()));
+        }
+        m_currentItem->setPlaycount(itemMap.value("playcount", -1).toInt());
         m_currentItem->setCast(itemMap.value("cast").toString());
         m_currentItem->setPlot(itemMap.value("plot").toString());
-        m_currentItem->setThumbnail(Xbmc::instance()->vfsPath() + itemMap.value("thumbnail").toString());
+        m_currentItem->setThumbnail(itemMap.value("thumbnail").toString());
+        m_currentItem->setAlbum(itemMap.value("album").toString());
+        m_currentItem->setArtist(itemMap.value("artist").toString());
+        m_currentItem->setFanart(itemMap.value("fanart").toString());
+        m_currentItem->setTvShow(itemMap.value("showtitle").toString());
         emit currentItemChanged();
         break;
     }

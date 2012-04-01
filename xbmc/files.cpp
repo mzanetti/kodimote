@@ -25,6 +25,7 @@
 #include "playlist.h"
 #include "audioplaylistitem.h"
 #include "videoplaylistitem.h"
+#include "libraryitem.h"
 
 Files::Files(const QString &mediaType, const QString &dir, XbmcModel *parent):
     XbmcLibrary(parent),

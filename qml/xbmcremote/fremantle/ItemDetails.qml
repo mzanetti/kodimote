@@ -94,7 +94,7 @@ FocusScope {
             }
 
             Row {
-                width: parent.width; spacing: 10; visible: item.episode > 1
+                width: parent.width; spacing: 10; visible: item.episode > -1
                 Text { text: qsTr("Episode:"); font.bold: true; color: "white" }
                 Text { text: item.episode; color: "white" }
             }

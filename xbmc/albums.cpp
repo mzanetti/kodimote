@@ -24,6 +24,7 @@
 #include "xbmc.h"
 #include "audioplayer.h"
 #include "playlist.h"
+#include "libraryitem.h"
 
 Albums::Albums(int artistId, XbmcModel *parent) :
     XbmcLibrary(parent),

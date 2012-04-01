@@ -20,6 +20,7 @@
 #include "files.h"
 #include "xbmcconnection.h"
 #include "xdebug.h"
+#include "libraryitem.h"
 
 Shares::Shares(const QString &mediatype):
     XbmcLibrary(0),

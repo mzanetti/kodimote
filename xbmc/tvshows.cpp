@@ -23,6 +23,7 @@
 #include "videoplayer.h"
 #include "videoplaylist.h"
 #include "videoplaylistitem.h"
+#include "libraryitem.h"
 
 TvShows::TvShows(XbmcModel *parent) :
     XbmcLibrary(parent)

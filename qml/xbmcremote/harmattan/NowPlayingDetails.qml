@@ -10,6 +10,7 @@ Page {
     clip: true
 
     Component.onCompleted: print("currentitem is", currentItem)
+    Component.onDestruction: print("detailspage destruced")
 
     tools: ToolBarLayout {
         id: toolBarBack
@@ -22,14 +23,6 @@ Page {
         }
     }
 
-    Image {
-        source: currentItem.thumbnail
-        width: parent.width
-        height: parent.height
-        anchors.centerIn: parent
-        fillMode: Image.PreserveAspectCrop
-        opacity: .3
-    }
     Flickable {
         anchors.fill: parent
         anchors.margins: 10
@@ -46,6 +39,14 @@ Page {
             anchors.left: parent.left
             anchors.right: parent.right
 
+            Image {
+                source: xbmc.vfsPath + currentItem.fanart
+                width: parent.width
+//                height: parent.height
+//                anchors.centerIn: parent
+                fillMode: Image.PreserveAspectFit
+//                opacity: .3
+            }
 
             Label {
                 text: currentItem.title
@@ -60,13 +61,34 @@ Page {
                 width: parent.width
                 elide: Text.ElideRight
                 visible: text.length > 0
+                font.pixelSize: 28
+                font.bold: true
+            }
+
+            Label {
+                text: currentItem.album
+                width: parent.width
+                elide: Text.ElideRight
+                visible: text.length > 0
                 font.bold: true
             }
 
             Row {
                 width: parent.width; spacing: 10; visible: currentItem.rating > -1
-                Label { text: qsTr("Rating:"); font.bold: true }
-                Label { text: currentItem.rating }
+                Label { id: ratingLabel; text: qsTr("Rating:"); font.bold: true }
+                property int starCount: currentItem.rating > 10 ? Math.floor(currentItem.rating / 20) : Math.floor(currentItem.rating / 2)
+                Repeater {
+                    model: parent.starCount
+                    Image {
+                        source: theme.inverted ? "image://theme/meegotouch-indicator-rating-inverted-background-star" : "image://theme/meegotouch-indicator-rating-star"
+                    }
+                }
+                Repeater {
+                    model: 5 - parent.starCount
+                    Image {
+                        source: theme.inverted ? "image://theme/meegotouch-indicator-rating-background-star" : "image://theme/meegotouch-indicator-rating-background-star"
+                    }
+                }
             }
 
             Row {
@@ -76,7 +98,7 @@ Page {
             }
 
             Row {
-                width: parent.width; spacing: 10; visible: currentItem.episode > 1
+                width: parent.width; spacing: 10; visible: currentItem.episode > -1
                 Label { text: qsTr("Episode:"); font.bold: true }
                 Label { text: currentItem.episode }
             }

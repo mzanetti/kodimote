@@ -93,7 +93,7 @@ void VideoPlaylist::responseReveiced(int id, const QVariantMap &response)
             VideoPlaylistItem *item = new VideoPlaylistItem();
 //            item.setFanart(itemMap.value("fanart").toString());
             item->setLabel(itemMap.value("label").toString());
-            item->setDuration(QTime().addSecs(itemMap.value("runtime").toInt()));
+            item->setDuration(QTime().addSecs(itemMap.value("runtime").toInt() * 60));
 //            item.setTitle(itemMap.value("title").toString());
 //            item.setArtist(itemMap.value("artist").toString());
 //            xDebug(XDAREA_PLAYLIST) << "adding item:" << item.label();
