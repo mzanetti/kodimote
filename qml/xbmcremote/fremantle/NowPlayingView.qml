@@ -16,7 +16,7 @@ FocusScope {
 
     property QtObject player: xbmc.activePlayer
     property QtObject playlist: player.playlist()
-    property QtObject currentItem: playlist.currentItem
+    property QtObject currentItem: player.currentItem
 
     Keys.onPressed: {
         if(event.modifiers === Qt.ShiftModifier) {
