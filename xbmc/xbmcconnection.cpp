@@ -193,6 +193,7 @@ void XbmcConnectionPrivate::sendNextCommand2() {
 
         QNetworkRequest request;
         request.setUrl(QUrl("http://" + m_host->address() + ":" + QString::number(m_host->port()) + "/jsonrpc"));
+        request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
 
         QVariantMap map;
         map.insert("jsonrpc", "2.0");
