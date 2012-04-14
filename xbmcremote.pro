@@ -179,6 +179,9 @@ unix:!meego:!maemo5:!symbian {
         ui/aboutdialog.h
 
     LIBS += -lqjson
+
+    qmldir.source = qml/xbmcremote/fremantle
+    qmldir.target = qml
 }
 
 # Maemo 5 specific stuff
