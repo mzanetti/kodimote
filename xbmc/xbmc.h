@@ -42,6 +42,7 @@ class Xbmc : public QObject
     Q_OBJECT
     Q_PROPERTY(bool connected READ connected NOTIFY connectedChanged)
     Q_PROPERTY(QString connectionError READ connectionError NOTIFY connectedChanged)
+    Q_PROPERTY(QString connectedHostName READ connectedHostName NOTIFY connectedChanged)
     Q_PROPERTY(QString vfsPath READ vfsPath NOTIFY vfsPathChanged)
     Q_PROPERTY(Player* activePlayer READ activePlayer NOTIFY activePlayerChanged)
     Q_PROPERTY(bool picturePlayerActive READ picturePlayerActive NOTIFY picturePlayerActiveChanged)
@@ -72,6 +73,7 @@ public:
 
     bool connected();
     XbmcHost *connectedHost();
+    QString connectedHostName();
     QString connectionError();
     Q_INVOKABLE XbmcHostModel* hostModel();
     Q_INVOKABLE void setAuthCredentials(const QString &username, const QString &password);

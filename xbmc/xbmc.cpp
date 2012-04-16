@@ -152,6 +152,14 @@ XbmcHost *Xbmc::connectedHost()
     return XbmcConnection::connectedHost();
 }
 
+QString Xbmc::connectedHostName()
+{
+    if(XbmcConnection::connected()) {
+        return XbmcConnection::connectedHost()->hostname();
+    }
+    return QString();
+}
+
 void Xbmc::setAuthCredentials(const QString &username, const QString &password)
 {
     XbmcConnection::setAuthCredentials(username, password);

@@ -4,7 +4,7 @@ import com.nokia.meego 1.0
 Page {
     id: mainPage
     tools: toolBarEntry
-    anchors.margins: appWindow.pageMargin
+//    anchors.margins: appWindow.pageMargin
 
     Component.onCompleted: {
         if(settings.musicShowsFiles) {
@@ -12,6 +12,21 @@ Page {
         }
         if(settings.videoShowsFiles) {
             mainMenuModel.setProperty(1, "mode", "files");
+        }
+    }
+
+    Image {
+        id: listHeader
+        anchors {left: parent.left; top: parent.top; right: parent.right }
+        source: "image://theme/meegotouch-view-header-fixed" + (theme.inverted ? "-inverted" : "")
+        z: listView.z + 1
+        Label {
+            anchors.margins: 10
+            anchors.fill: parent
+            anchors.verticalCenter: listHeader.verticalCenter
+            font.pixelSize: 28
+            text: qsTr("XBMC on %1").arg(xbmc.connectedHostName)
+            elide: Text.ElideLeft
         }
     }
 
@@ -48,10 +63,11 @@ Page {
 
     ListView {
         id: listView
-        anchors.fill: parent
+        anchors { top: listHeader.bottom; left: parent.left; right: parent.right; bottom: parent.bottom }
 //        header: headerLayout
         model: mainMenuModel
         spacing: 20
+        anchors.margins: appWindow.pageMargin
         property int currentSelected
 
         delegate:  Item {
