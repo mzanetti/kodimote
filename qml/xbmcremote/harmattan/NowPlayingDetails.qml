@@ -206,6 +206,8 @@ Page {
             }
 
 
+            SectionHeader { width: parent.width }
+
             Label {
                 id: plotLabel; width: parent.width; visible: currentItem.plot.length > 0
                 text: currentItem.plot;
