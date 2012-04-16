@@ -251,6 +251,7 @@ void XbmcDiscovery::readDatagram()
                         //qDebug() << "it is still?" << isXbmcHttpRecord;
 
                         if(isXbmcHttpRecord) {
+                            isXbmcHttpRecord = false;
                             host.setPort(port);
                         }
                     }
