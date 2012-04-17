@@ -38,6 +38,9 @@ public:
     Q_INVOKABLE void fetchItemDetails(int index);
     Q_INVOKABLE bool hasDetails() { return true; }
 
+public slots:
+    void refresh();
+
 private slots:
     void responseReceived(int id, const QVariantMap &rsp);
 

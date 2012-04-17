@@ -29,18 +29,20 @@ Artists::Artists(XbmcModel *parent) :
     XbmcLibrary(parent)
 {
     connect(XbmcConnection::notifier(), SIGNAL(responseReceived(int,QVariantMap)), SLOT(responseReceived(int,QVariantMap)));
+}
 
+void Artists::refresh()
+{
     QVariantMap params;
 
     QVariantMap sort;
-    sort.insert("ignorearticle", true);
+    sort.insert("ignorearticle", ignoreArticle());
     sort.insert("method", "label");
     params.insert("sort", sort);
 
     QVariantList properties;
     properties.append("thumbnail");
     params.insert("properties", properties);
-
 
     m_requestList.insert(XbmcConnection::sendCommand("AudioLibrary.GetArtists", params), RequestList);
 }
@@ -77,7 +79,6 @@ void Artists::fetchItemDetails(int index)
     m_detailsRequestMap.insert(id, index);
 }
 
-
 void Artists::responseReceived(int id, const QVariantMap &rsp)
 {
     if(!m_requestList.contains(id)) {
@@ -97,7 +98,7 @@ void Artists::responseReceived(int id, const QVariantMap &rsp)
             item->setFileName("directory");
             item->setArtistId(itemMap.value("artistid").toInt());
             item->setThumbnail(itemMap.value("thumbnail").toString());
-            item->setIgnoreArticle(true);
+            item->setIgnoreArticle(ignoreArticle());
             item->setFileType("directory");
             item->setPlayable(true);
             list.append(item);

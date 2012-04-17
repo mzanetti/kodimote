@@ -29,6 +29,14 @@ Movies::Movies(XbmcModel *parent) :
 {
     connect(XbmcConnection::notifier(), SIGNAL(responseReceived(int,QVariantMap)), SLOT(responseReceived(int,QVariantMap)));
 
+}
+
+Movies::~Movies()
+{
+}
+
+void Movies::refresh()
+{
     QVariantMap params;
     QVariantList properties;
     properties.append("fanart");
@@ -38,14 +46,10 @@ Movies::Movies(XbmcModel *parent) :
     QVariantMap sort;
     sort.insert("method", "label");
     sort.insert("order", "ascending");
-    sort.insert("ignorearticle", true);
+    sort.insert("ignorearticle", ignoreArticle());
     params.insert("sort", sort);
 
     m_requestList.insert(XbmcConnection::sendCommand("VideoLibrary.GetMovies", params), RequestList);
-}
-
-Movies::~Movies()
-{
 }
 
 void Movies::fetchItemDetails(int index)
@@ -115,7 +119,7 @@ void Movies::responseReceived(int id, const QVariantMap &rsp)
             item->setMovieId(itemMap.value("movieid").toInt());
             item->setThumbnail(itemMap.value("fanart").toString());
             item->setPlaycount(itemMap.value("playcount").toInt());
-            item->setIgnoreArticle(true);
+            item->setIgnoreArticle(ignoreArticle());
             item->setFileType("file");
             item->setPlayable(true);
             list.append(item);

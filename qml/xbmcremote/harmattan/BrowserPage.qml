@@ -113,6 +113,7 @@ Page {
                             var component = Qt.createComponent("BrowserPage.qml")
                             if (component.status === Component.Ready) {
                                 var newModel = browserPage.model.enterItem(index);
+                                newModel.ignoreArticle = settings.ignoreArticle;
                                 pageStack.push(component, {model: newModel});
                             } else {
                                 console.log("Error loading component:", component.errorString());

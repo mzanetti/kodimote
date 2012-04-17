@@ -7,10 +7,13 @@ Sheet {
     rejectButtonText: qsTr("Cancel")
 
     content: Flickable {
-        anchors.fill: parent
-        anchors.margins: appWindow.pageMargin
+        height: parent.height
+        width: parent.width
+        contentHeight: settingsCol.height
         Column {
+            id: settingsCol
             anchors.fill: parent
+            anchors.margins: appWindow.pageMargin
             spacing: 10
             SectionHeader {
                 headerText: qsTr("Look and feel")
@@ -32,6 +35,12 @@ Sheet {
                 text: qsTr("Keep display on when charging")
                 checked: settings.keepDisplayLit
             }
+            CheckBox {
+                id: cbIgnoreArticle
+                text: qsTr("Ignore articles for sorting")
+                checked: settings.ignoreArticle
+            }
+
             SectionHeader {
                 headerText: qsTr("Phone calls")
                 width: parent.width
@@ -60,6 +69,11 @@ Sheet {
                 text: qsTr("Pause music")
                 checked: settings.pauseMusicOnCall
             }
+            CheckBox {
+                id: cbShowNotifications
+                text: qsTr("Show call notifications")
+                checked: settings.showCallNotifications
+            }
         }
     }
 
@@ -67,11 +81,13 @@ Sheet {
         console.log("sheet accepted")
         theme.inverted = cbInvertTheme.checked;
         settings.themeInverted = cbInvertTheme.checked
+        settings.keepDisplayLit = cbKeepDisplayLit.checked
+        settings.ignoreArticle = cbIgnoreArticle.checked
         settings.changeVolumeOnCall = cbChangeVol.checked
         settings.volumeOnCall = slVolume.value
         settings.pauseMusicOnCall = cbPauseMusic.checked
         settings.pauseVideoOnCall = cbPauseVideo.checked
         settings.useThumbnails = cbUseThumbnails.checked
-        settings.keepDisplayLit = cbKeepDisplayLit.checked
+        settings.showCallNotifications = cbShowNotifications.checked
     }
 }

@@ -26,19 +26,23 @@ Shares::Shares(const QString &mediatype):
     XbmcLibrary(0),
     m_mediaType(mediatype)
 {
+    connect(XbmcConnection::notifier(), SIGNAL(responseReceived(int,QVariantMap)), SLOT(responseReceived(int,QVariantMap)));
+}
+
+void Shares::refresh()
+{
     QVariantMap params;
 
 //    QVariant media(mediaString());
-    params.insert("media", mediatype);
+    params.insert("media", m_mediaType);
 
     QVariantMap sort;
     sort.insert("method", "label");
     sort.insert("order", "ascending");
-    sort.insert("ignorearticle", true);
+    sort.insert("ignorearticle", ignoreArticle());
     params.insert("sort", sort);
 
     xDebug(XDAREA_FILES) << "Files.GetShares:" << params;
-    connect(XbmcConnection::notifier(), SIGNAL(responseReceived(int,QVariantMap)), SLOT(responseReceived(int,QVariantMap)));
     m_requestId = XbmcConnection::sendCommand("Files.GetSources", params);
 }
 
@@ -58,7 +62,7 @@ void Shares::responseReceived(int id, const QVariantMap &rsp)
         LibraryItem *item = new LibraryItem();
         item->setTitle(itemMap.value("label").toString());
         item->setFileName(itemMap.value("file").toString());
-        item->setIgnoreArticle(true);
+        item->setIgnoreArticle(ignoreArticle());
         item->setFileType("directory");
         list.append(item);
     }

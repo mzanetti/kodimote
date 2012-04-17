@@ -37,6 +37,7 @@ public:
 
 public slots:
     void scanForContent();
+    void refresh();
 
 private:
     enum Request {

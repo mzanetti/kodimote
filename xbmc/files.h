@@ -33,6 +33,9 @@ public:
 
     QString title() const;
 
+public slots:
+    void refresh();
+
 private slots:
     void responseReceived(int id, const QVariantMap &rsp);
 

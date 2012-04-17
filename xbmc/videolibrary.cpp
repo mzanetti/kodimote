@@ -76,3 +76,8 @@ void VideoLibrary::scanForContent()
 {
     XbmcConnection::sendCommand("VideoLibrary.Scan");
 }
+
+void VideoLibrary::refresh()
+{
+    // Nothing to do here
+}

@@ -35,6 +35,19 @@ bool Settings::useThumbnails() const
     return settings.value("UseThumbnails", true).toBool();
 }
 
+void Settings::setIgnoreArticle(bool ignoreArticle)
+{
+    QSettings settings("xbmcremote");
+    settings.setValue("IgnoreArticle", ignoreArticle);
+    emit ignoreArticleChanged();
+}
+
+bool Settings::ignoreArticle() const
+{
+    QSettings settings("xbmcremote");
+    return settings.value("IgnoreArticle", true).toBool();
+}
+
 void Settings::setUseThumbnails(bool useThumbnails)
 {
     QSettings settings("xbmcremote");

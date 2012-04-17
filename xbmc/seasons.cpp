@@ -29,9 +29,14 @@ Seasons::Seasons(int tvshowid, XbmcModel *parent):
     XbmcLibrary(parent),
     m_tvshowid(tvshowid)
 {
+    connect(XbmcConnection::notifier(), SIGNAL(responseReceived(int,QVariantMap)), SLOT(responseReceived(int,QVariantMap)));
+}
+
+void Seasons::refresh()
+{
     QVariantMap params;
-    if(tvshowid != -1) {
-      params.insert("tvshowid", tvshowid);
+    if(m_tvshowid != -1) {
+      params.insert("tvshowid", m_tvshowid);
     }
     QVariantList properties;
     properties.append("showtitle");
@@ -45,7 +50,6 @@ Seasons::Seasons(int tvshowid, XbmcModel *parent):
     sort.insert("order", "ascending");
     params.insert("sort", sort);
 
-    connect(XbmcConnection::notifier(), SIGNAL(responseReceived(int,QVariantMap)), SLOT(responseReceived(int,QVariantMap)));
     m_request = XbmcConnection::sendCommand("VideoLibrary.GetSeasons", params);
 }
 
@@ -67,7 +71,7 @@ void Seasons::responseReceived(int id, const QVariantMap &rsp)
         item->setSeasonId(itemMap.value("season").toInt());
         item->setThumbnail(itemMap.value("thumbnail").toString());
         item->setPlaycount(itemMap.value("playcount").toInt());
-        item->setIgnoreArticle(false);
+        item->setIgnoreArticle(ignoreArticle());
         item->setFileType("directory");
         item->setPlayable(false);
         list.append(item);

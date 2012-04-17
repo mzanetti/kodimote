@@ -30,6 +30,7 @@ class XbmcModel : public QAbstractItemModel
     Q_PROPERTY(QString title READ title NOTIFY titleChanged)
     Q_PROPERTY(int count READ rowCount NOTIFY layoutChanged)
     Q_PROPERTY(bool busy READ busy NOTIFY busyChanged)
+    Q_PROPERTY(bool ignoreArticle READ ignoreArticle WRITE setIgnoreArticle NOTIFY ignoreArticleChanged)
 
 public:
     enum Roles {
@@ -93,15 +94,25 @@ public:
     bool busy() const;
     void setBusy(bool busy);
 
+    bool ignoreArticle() const;
+    void setIgnoreArticle(bool ignoreArticle);
+
+public slots:
+    virtual void refresh() = 0;
+
 signals:
     void titleChanged();
     void layoutChanged();
     void busyChanged();
+    void ignoreArticleChanged();
 
 protected:
     XbmcModel *m_parentModel;
     QList<XbmcModelItem*> m_list;
+
+private:
     bool m_busy;
+    bool m_ignoreArticle;
 };
 
 #endif // XBMCMODEL_H

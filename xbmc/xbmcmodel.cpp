@@ -23,7 +23,8 @@
 XbmcModel::XbmcModel(XbmcModel *parent) :
     QAbstractItemModel(parent),
     m_parentModel(parent),
-    m_busy(true)
+    m_busy(true),
+    m_ignoreArticle(false)
 {
     QHash<int, QByteArray> roleNames;
     roleNames.insert(RoleTitle, "title");
@@ -115,4 +116,15 @@ void XbmcModel::setBusy(bool busy)
 {
     m_busy = busy;
     emit busyChanged();
+}
+
+bool XbmcModel::ignoreArticle() const
+{
+    return m_ignoreArticle;
+}
+
+void XbmcModel::setIgnoreArticle(bool ignoreArticle)
+{
+    m_ignoreArticle = ignoreArticle;
+    emit ignoreArticleChanged();
 }

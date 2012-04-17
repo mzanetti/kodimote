@@ -32,13 +32,18 @@ Files::Files(const QString &mediaType, const QString &dir, XbmcModel *parent):
     m_mediaType(mediaType),
     m_dir(dir)
 {    
+    connect(XbmcConnection::notifier(), SIGNAL(responseReceived(int,QVariantMap)), SLOT(responseReceived(int,QVariantMap)));
+}
+
+void Files::refresh()
+{
     QVariantMap params;
-    params.insert("directory", dir);
-    params.insert("media", mediaType);
+    params.insert("directory", m_dir);
+    params.insert("media", m_mediaType);
 
     QVariantList properties;
     properties.append("file");
-    if(mediaType != "pictures") {
+    if(m_mediaType != "pictures") {
         properties.append("thumbnail");
     }
     params.insert("properties", properties);
@@ -46,12 +51,10 @@ Files::Files(const QString &mediaType, const QString &dir, XbmcModel *parent):
     QVariantMap sort;
     sort.insert("method", "label");
     sort.insert("order", "ascending");
-    sort.insert("ignorearticle", true);
+    sort.insert("ignorearticle", ignoreArticle());
     params.insert("sort", sort);
 
-    connect(XbmcConnection::notifier(), SIGNAL(responseReceived(int,QVariantMap)), SLOT(responseReceived(int,QVariantMap)));
     m_requestId = XbmcConnection::sendCommand("Files.GetDirectory", params);
-
 }
 
 void Files::responseReceived(int id, const QVariantMap &rsp)
@@ -74,7 +77,7 @@ void Files::responseReceived(int id, const QVariantMap &rsp)
         } else {
             item->setThumbnail(itemMap.value("thumbnail").toString());
         }
-        item->setIgnoreArticle(true);
+        item->setIgnoreArticle(ignoreArticle());
         item->setPlayable(true);
         list.append(item);
     }

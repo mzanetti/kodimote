@@ -10,6 +10,7 @@ class Settings : public QObject
     Q_OBJECT
     Q_PROPERTY(bool themeInverted READ themeInverted WRITE setThemeInverted NOTIFY themeInvertedChanged)
     Q_PROPERTY(bool useThumbnails READ useThumbnails WRITE setUseThumbnails NOTIFY useThumbnailsChanged)
+    Q_PROPERTY(bool ignoreArticle READ ignoreArticle WRITE setIgnoreArticle NOTIFY ignoreArticleChanged)
     Q_PROPERTY(bool changeVolumeOnCall READ changeVolumeOnCall WRITE setChangeVolumeOnCall NOTIFY changeVolumeOnCallChanged)
     Q_PROPERTY(int volumeOnCall READ volumeOnCall WRITE setVolumeOnCall NOTIFY volumeOnCallChanged)
     Q_PROPERTY(bool pauseVideoOnCall READ pauseVideoOnCall WRITE setPauseVideoOnCall NOTIFY pauseVideoOnCallChanged)
@@ -27,6 +28,9 @@ public:
 
     void setUseThumbnails(bool useThumbnails);
     bool useThumbnails() const;
+
+    void setIgnoreArticle(bool ignoreArticle);
+    bool ignoreArticle() const;
 
     void setChangeVolumeOnCall(bool changeVolume);
     bool changeVolumeOnCall() const;
@@ -62,6 +66,7 @@ public:
 signals:
     void themeInvertedChanged();
     void useThumbnailsChanged();
+    void ignoreArticleChanged();
     void volumeUpCommandChanged();
     void volumeDownCommandChanged();
     void changeVolumeOnCallChanged();

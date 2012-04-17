@@ -30,6 +30,14 @@ TvShows::TvShows(XbmcModel *parent) :
 {
     connect(XbmcConnection::notifier(), SIGNAL(responseReceived(int,QVariantMap)), SLOT(responseReceived(int,QVariantMap)));
 
+}
+
+TvShows::~TvShows()
+{
+}
+
+void TvShows::refresh()
+{
     QVariantMap params;
     QVariantList properties;
     properties.append("fanart");
@@ -39,14 +47,10 @@ TvShows::TvShows(XbmcModel *parent) :
     QVariantMap sort;
     sort.insert("method", "label");
     sort.insert("order", "ascending");
-    sort.insert("ignorearticle", true);
+    sort.insert("ignorearticle", ignoreArticle());
     params.insert("sort", sort);
 
     m_requestList.insert(XbmcConnection::sendCommand("VideoLibrary.GetTVShows", params), RequestList);
-}
-
-TvShows::~TvShows()
-{
 }
 
 void TvShows::fetchItemDetails(int index)
@@ -103,7 +107,7 @@ void TvShows::responseReceived(int id, const QVariantMap &rsp)
             item->setTvshowId(itemMap.value("tvshowid").toInt());
             item->setThumbnail(itemMap.value("fanart").toString());
             item->setPlaycount(itemMap.value("playcount").toInt());
-            item->setIgnoreArticle(true);
+            item->setIgnoreArticle(ignoreArticle());
             item->setFileType("directory");
             item->setPlayable(false);
             list.append(item);

@@ -1,9 +1,13 @@
 #include "xbmclibrary.h"
 #include "libraryitem.h"
 
+#include <QTimer>
+
 XbmcLibrary::XbmcLibrary(XbmcModel *parent) :XbmcModel(parent)
 {
-
+    // Refresh the model automatically on the next event loop run.
+    // This is to give QML time to create the object and set properties before the refresh
+    QTimer::singleShot(0, this, SLOT(refresh()));
 }
 
 QVariant XbmcLibrary::data(const QModelIndex &index, int role) const

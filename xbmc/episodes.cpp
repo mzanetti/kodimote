@@ -30,12 +30,17 @@ Episodes::Episodes(int tvshowid, int seasonid, const QString &seasonString, Xbmc
     m_seasonid(seasonid),
     m_seasonString(seasonString)
 {
+    connect(XbmcConnection::notifier(), SIGNAL(responseReceived(int,QVariantMap)), SLOT(responseReceived(int,QVariantMap)));
+}
+
+void Episodes::refresh()
+{
     QVariantMap params;
-    if(tvshowid != -1) {
-        params.insert("tvshowid", tvshowid);
+    if(m_tvshowid != -1) {
+        params.insert("tvshowid", m_tvshowid);
     }
-    if(seasonid != -1) {
-        params.insert("season", seasonid);
+    if(m_seasonid != -1) {
+        params.insert("season", m_seasonid);
     }
     QVariantList properties;
     properties.append("showtitle");
@@ -49,7 +54,6 @@ Episodes::Episodes(int tvshowid, int seasonid, const QString &seasonString, Xbmc
     sort.insert("order", "ascending");
     params.insert("sort", sort);
 
-    connect(XbmcConnection::notifier(), SIGNAL(responseReceived(int,QVariantMap)), SLOT(responseReceived(int,QVariantMap)));
     m_requestList.insert(XbmcConnection::sendCommand("VideoLibrary.GetEpisodes", params), RequestList);
 }
 
@@ -114,7 +118,7 @@ void Episodes::responseReceived(int id, const QVariantMap &rsp)
             item->setEpisodeId(itemMap.value("episodeid").toInt());
             item->setThumbnail(itemMap.value("thumbnail").toString());
             item->setPlaycount(itemMap.value("playcount").toInt());
-            item->setIgnoreArticle(false);
+            item->setIgnoreArticle(false); // We ignore the setting here...
             item->setFileType("file");
             item->setPlayable(true);
             list.append(item);
