@@ -70,7 +70,7 @@ PageStackWindow {
                 onClicked: {
                     var component = Qt.createComponent("ConnectionSheet.qml")
                     if (component.status == Component.Ready) {
-                        component.createObject(myMenu).open()
+                        component.createObject(mainPage).open()
                     } else {
                         console.log("Error loading component:", component.errorString());
                     }
@@ -81,7 +81,7 @@ PageStackWindow {
                 onClicked: {
                     var component = Qt.createComponent("WriteNfcTagSheet.qml")
                     if (component.status == Component.Ready) {
-                        component.createObject(myMenu).open();
+                        component.createObject(mainPage).open();
                     } else {
                         console.log("Error loading component:", component.errorString());
                     }
@@ -93,7 +93,7 @@ PageStackWindow {
                     onClicked: {
                         var component = Qt.createComponent("SettingsSheet.qml")
                         if (component.status == Component.Ready) {
-                            component.createObject(myMenu).open()
+                            component.createObject(mainPage).open()
                         } else {
                             console.log("Error loading component:", component.errorString());
                         }

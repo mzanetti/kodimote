@@ -86,7 +86,8 @@ Page {
                 Repeater {
                     model: 5 - parent.starCount
                     Image {
-                        source: theme.inverted ? "image://theme/meegotouch-indicator-rating-background-star" : "image://theme/meegotouch-indicator-rating-background-star"
+                        source: theme.inverted ? "image://theme/meegotouch-indicator-rating-inverted-background-star" : "image://theme/meegotouch-indicator-rating-star"
+                        opacity: .4
                     }
                 }
             }
