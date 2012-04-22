@@ -27,7 +27,10 @@
 #include <resource/qt4/policy/resource-set.h>
 #include <QtDBus/QDBusObjectPath>
 
+#include <TransferUI/Client>
+
 class Settings;
+class XbmcDownload;
 
 class MeeGoHelper : public QObject
 {
@@ -50,6 +53,12 @@ private slots:
 
     void setBlankingPause();
 
+    void downloadAdded(XbmcDownload *download);
+    void downloadProgress();
+    void downloadDone(bool success);
+    void updateTransfers();
+    void cancelTransfer();
+
 private:
     Settings *m_settings;
     MeeGo::QmKeys m_keys;
@@ -61,6 +70,10 @@ private:
 
     bool m_videoPaused;
     bool m_musicPaused;
+
+    TransferUI::Client *m_transferClient;
+    QMap<XbmcDownload*, TransferUI::Transfer*> m_transferMap;
+    QTimer m_transferUpdateTimer;
 };
 
 #endif // MEEGOHELPER_H

@@ -121,7 +121,7 @@ Q_DECL_EXPORT int main(int argc, char *argv[])
 #elif defined Q_WS_MAEMO_6
     view->setMainQmlFile("/opt/xbmcremote/qml/harmattan/main.qml");
 #elif defined Q_WS_S60
-    view->setMainQmlFile("qml/xbmcremote/symbian/main.qml");
+    view->setMainQmlFile("qml/symbian/main.qml");
 #endif
 
     view->engine()->setNetworkAccessManagerFactory(new NetworkAccessManagerFactory());

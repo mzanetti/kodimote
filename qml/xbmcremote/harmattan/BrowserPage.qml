@@ -214,6 +214,10 @@ Page {
                         onAddToPlaylist: {
                             browserPage.model.addToPlaylist(index)
                         }
+
+                        onDownload: {
+                            browserPage.model.download(index, "/home/user/MyDocs/");
+                        }
                     }
                 }
                 Behavior on opacity {

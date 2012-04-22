@@ -29,6 +29,9 @@
 #include <QTimer>
 #include <QNetworkAccessManager>
 #include <QDate>
+#include <QFile>
+
+class XbmcDownload;
 
 namespace XbmcConnection
 {
@@ -71,6 +74,8 @@ public:
     QNetworkAccessManager *nam();
     Notifier *notifier();
 
+    void download(XbmcDownload *download);
+
 public slots:
     void connect(XbmcHost *host = 0);
 
@@ -83,6 +88,13 @@ private slots:
 
     void replyReceived();
     void authenticationRequired(QNetworkReply *reply, QAuthenticator *authenticator);
+
+    void downloadReadyRead();
+    void downloadFinished();
+    void downloadProgress(qint64 progress, qint64 total);
+
+    void cancelDownload();
+
 private:
     QTcpSocket *m_socket;
     int m_commandId;
@@ -104,6 +116,8 @@ private:
     QNetworkReply *m_lastAuthRequest;
     bool m_connected;
     QString m_connectionError;
+
+    QMap<QNetworkReply*, XbmcDownload*> m_downloadsMap;
 
 };
 Q_GLOBAL_STATIC(XbmcConnectionPrivate, instance)

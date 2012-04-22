@@ -22,6 +22,7 @@
 #include "xbmc/audioplayer.h"
 #include "settings.h"
 #include "xbmc/xbmcmodel.h"
+#include "xbmc/xbmcdownload.h"
 
 #include <QDebug>
 #include <QApplication>
@@ -32,6 +33,7 @@
 #include <QtContacts/QContactManager>
 #include <QtContacts/QContactDetailFilter>
 #include <QtContacts/QContactPhoneNumber>
+#include <TransferUI/Transfer>
 
 QTM_USE_NAMESPACE
 
@@ -40,7 +42,8 @@ MeeGoHelper::MeeGoHelper(Settings *settings, QObject *parent) :
     m_settings(settings),
     m_resouceSet(new ResourcePolicy::ResourceSet("player")),
     m_videoPaused(false),
-    m_musicPaused(false)
+    m_musicPaused(false),
+    m_transferClient(new TransferUI::Client(this))
 {
     connect(&m_keys, SIGNAL(keyEvent(MeeGo::QmKeys::Key,MeeGo::QmKeys::State)), SLOT(keyEvent(MeeGo::QmKeys::Key,MeeGo::QmKeys::State)));
 
@@ -94,6 +97,7 @@ MeeGoHelper::MeeGoHelper(Settings *settings, QObject *parent) :
 
     connect(Xbmc::instance(), SIGNAL(connectedChanged(bool)), SLOT(connectionChanged(bool)));
     connect(Xbmc::instance()->hostModel(), SIGNAL(rowsRemoved(QModelIndex, int, int)), SLOT(hostRemoved()));
+    connect(Xbmc::instance(), SIGNAL(downloadAdded(XbmcDownload*)), SLOT(downloadAdded(XbmcDownload*)));
 
     m_displayBlankingTimer.setInterval(60000);
     connect(&m_displayBlankingTimer, SIGNAL(timeout()), SLOT(setBlankingPause()));
@@ -101,6 +105,9 @@ MeeGoHelper::MeeGoHelper(Settings *settings, QObject *parent) :
     m_battery = new MeeGo::QmBattery(this);
     connect(m_battery, SIGNAL(chargerEvent(MeeGo::QmBattery::ChargerType)), SLOT(displaySettingChanged()));
     connect(settings, SIGNAL(keepDisplayLitChanged()), SLOT(displaySettingChanged()));
+
+    m_transferUpdateTimer.setInterval(500);
+    connect(&m_transferUpdateTimer, SIGNAL(timeout()), SLOT(updateTransfers()));
 
     displaySettingChanged();
 }
@@ -248,4 +255,52 @@ void MeeGoHelper::displaySettingChanged()
 void MeeGoHelper::setBlankingPause()
 {
     m_disaplyState.setBlankingPause();
+}
+
+void MeeGoHelper::downloadAdded(XbmcDownload *download)
+{
+    qDebug() << "Download added";
+    TransferUI::Transfer *transfer = m_transferClient->registerTransfer(download->source(), TransferUI::Client::TRANSFER_TYPES_DOWNLOAD, "Xbmcremote");
+    transfer->setIcon(download->iconId());
+    transfer->setName(download->label());
+
+    m_transferMap.insert(download, transfer);
+    transfer->setActive();
+
+    connect(download, SIGNAL(progressChanged()), SLOT(downloadProgress()));
+    connect(download, SIGNAL(finished(bool)), SLOT(downloadDone(bool)));
+    connect(transfer, SIGNAL(cancel()), SLOT(cancelTransfer()));
+    m_transferUpdateTimer.start();
+}
+
+void MeeGoHelper::downloadProgress()
+{
+    XbmcDownload *download = qobject_cast<XbmcDownload*>(sender());
+    TransferUI::Transfer *transfer = m_transferMap.value(download);
+}
+
+void MeeGoHelper::downloadDone(bool success)
+{
+    XbmcDownload *download = qobject_cast<XbmcDownload*>(sender());
+    if(success) {
+        TransferUI::Transfer *transfer = m_transferMap.value(download);
+        transfer->markCompleted(true);
+    }
+
+    m_transferMap.take(download)->deleteLater();
+}
+
+void MeeGoHelper::updateTransfers()
+{
+    foreach(XbmcDownload *download, m_transferMap.keys()) {
+        TransferUI::Transfer *transfer = m_transferMap.value(download);
+        transfer->setSize(download->total());
+        transfer->setProgress(1.0 * download->progress()/ download->total());
+    }
+}
+
+void MeeGoHelper::cancelTransfer()
+{
+    TransferUI::Transfer *transfer = static_cast<TransferUI::Transfer*>(sender());
+    m_transferMap.key(transfer)->cancel();
 }

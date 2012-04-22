@@ -23,6 +23,7 @@
 #include "videoplaylist.h"
 #include "videoplaylistitem.h"
 #include "libraryitem.h"
+#include "xbmcdownload.h"
 
 Movies::Movies(XbmcModel *parent) :
     XbmcLibrary(parent)
@@ -41,6 +42,7 @@ void Movies::refresh()
     QVariantList properties;
     properties.append("fanart");
     properties.append("playcount");
+    properties.append("file");
     params.insert("properties", properties);
 
     QVariantMap sort;
@@ -100,6 +102,21 @@ void Movies::fetchItemDetails(int index)
     m_detailsRequestMap.insert(id, index);
 }
 
+void Movies::download(int index, const QString &path)
+{
+    LibraryItem *item = qobject_cast<LibraryItem*>(m_list.at(index));
+
+    QString destination = path + "/Movies/" + item->title() + '.' + item->fileName().split('.').last();
+    qDebug() << "should download" << destination;
+
+    XbmcDownload *download = new XbmcDownload();
+    download->setDestination(destination);
+    download->setIconId("icon-m-content-videos");
+    download->setLabel(item->title());
+
+    startDownload(index, download);
+}
+
 void Movies::responseReceived(int id, const QVariantMap &rsp)
 {
     if(!m_requestList.contains(id)) {
@@ -119,6 +136,7 @@ void Movies::responseReceived(int id, const QVariantMap &rsp)
             item->setMovieId(itemMap.value("movieid").toInt());
             item->setThumbnail(itemMap.value("fanart").toString());
             item->setPlaycount(itemMap.value("playcount").toInt());
+            item->setFileName(itemMap.value("file").toString());
             item->setIgnoreArticle(ignoreArticle());
             item->setFileType("file");
             item->setPlayable(true);

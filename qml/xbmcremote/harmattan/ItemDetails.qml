@@ -10,6 +10,7 @@ Item {
 
     signal playItem
     signal addToPlaylist
+    signal download
 
     Component.onCompleted: print("**************itemHeight: " + height)
 
@@ -200,6 +201,10 @@ Item {
         Button {
             text: qsTr("Add to playlist")
             onClicked: itemDetails.addToPlaylist()
+        }
+        Button {
+            text: qsTr("Download")
+            onClicked: itemDetails.download()
         }
     }
 }

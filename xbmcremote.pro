@@ -54,6 +54,7 @@ SOURCES += main.cpp \
     xbmc/episodeitem.cpp \
     xbmc/xbmchostmodel.cpp \
     ui/authenticationdialog.cpp \
+    xbmc/xbmcdownload.cpp
 
 
 # header used on all platforms
@@ -96,6 +97,7 @@ HEADERS += xbmc/xbmc.h \
     xbmc/episodeitem.h \
     xbmc/xbmchostmodel.h \
     ui/authenticationdialog.h \
+    xbmc/xbmcdownload.h
 
 # to make lupdate parse QML files AND a pro file, the QML files need to be added here.
 # edit and/or call ./messages.sh to extend/update the translations
@@ -142,6 +144,7 @@ contains(MEEGO_EDITION,harmattan) {
 
     INCLUDEPATH += /usr/include/resource/qt4
     LIBS += -lresourceqt -lqjson
+    PKGCONFIG += libtuiclient
 
     OTHER_FILES += \
         qtc_packaging/meego.spec \
@@ -233,6 +236,10 @@ symbian {
 #    addFiles.sources = xbmc_qjson.dll
 #    addFiles.path = /sys/bin
 #    DEPLOYMENT += addFiles
+
+    qmldir.source = qml/xbmcremote/symbian
+    qmldir.target = qml
+
 }
 
 RESOURCES += \

@@ -24,6 +24,7 @@
 #include <QNetworkAccessManager>
 
 class XbmcHost;
+class XbmcDownload;
 
 namespace XbmcConnection
 {
@@ -41,6 +42,8 @@ void sendLegacyCommand(const QString &command);
 
 QNetworkAccessManager *nam();
 
+void download(XbmcDownload *download);
+
 class Notifier: public QObject
 {
     Q_OBJECT
@@ -51,6 +54,7 @@ signals:
     void receivedAnnouncement(const QVariantMap &announcement);
     void responseReceived(int id, const QVariantMap &response);
     void authenticationRequired(const QString &hostname, const QString &address);
+    void downloadAdded(XbmcDownload *download);
 };
 Notifier *notifier();
 }

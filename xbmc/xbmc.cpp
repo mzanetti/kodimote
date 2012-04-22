@@ -99,6 +99,7 @@ Xbmc::Xbmc(QObject *parent) :
     connect(XbmcConnection::notifier(), SIGNAL(receivedAnnouncement(QVariantMap)), SLOT(parseAnnouncement(QVariantMap)));
     connect(XbmcConnection::notifier(), SIGNAL(responseReceived(int,QVariantMap)), SLOT(responseReceived(int,QVariantMap)));
     connect(XbmcConnection::notifier(), SIGNAL(authenticationRequired(QString,QString)), SIGNAL(authenticationRequired(QString, QString)));
+    connect(XbmcConnection::notifier(), SIGNAL(downloadAdded(XbmcDownload*)), SIGNAL(downloadAdded(XbmcDownload*)));
 
     m_audioPlayer = new AudioPlayer(this);
     m_videoPlayer = new VideoPlayer(this);

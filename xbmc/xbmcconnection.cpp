@@ -20,6 +20,7 @@
 #include "xbmcconnection_p.h"
 
 #include "xdebug.h"
+#include "xbmcdownload.h"
 
 #include <qjson/parser.h>
 #include <qjson/serializer.h>
@@ -30,6 +31,7 @@
 #include <QNetworkReply>
 #include <QAuthenticator>
 #include <QHostInfo>
+#include <QDir>
 
 #define DEBUGJSON
 
@@ -83,6 +85,11 @@ QNetworkAccessManager *nam()
 int xbmcVersion()
 {
     return instance()->xbmcVersion();
+}
+
+void download(XbmcDownload *download)
+{
+    instance()->download(download);
 }
 
 /*****************************************************************
@@ -222,9 +229,9 @@ void XbmcConnectionPrivate::sendNextCommand2() {
 
 void XbmcConnectionPrivate::replyReceived()
 {
-    QNetworkReply *reply = static_cast<QNetworkReply*>(sender());
-    QString commands = reply->readAll();
+    QNetworkReply *reply = static_cast<QNetworkReply*>(sender()); // We know its working... so don't waste time with typesafe casts
     reply->deleteLater();
+    QString commands = reply->readAll();
 
     if(reply->error() != QNetworkReply::NoError) {
         m_socket->disconnectFromHost();
@@ -446,6 +453,95 @@ void XbmcConnectionPrivate::clearPending()
 Notifier *XbmcConnectionPrivate::notifier()
 {
     return m_notifier;
+}
+
+void XbmcConnectionPrivate::download(XbmcDownload *download)
+{
+    QByteArray url = QUrl::toPercentEncoding("http://" + XbmcConnection::connectedHost()->address() + ':' + QString::number(XbmcConnection::connectedHost()->port()) + '/');
+    url.append(download->source());
+    QNetworkRequest request;
+    request.setUrl(QUrl::fromPercentEncoding(url));
+    qDebug() << "getting:" << request.url();
+
+    QFile *file = new QFile(download->destination());
+    QFileInfo fi(download->destination());
+
+    if(!fi.dir().exists()) {
+        if(!fi.dir().mkpath(fi.dir().absolutePath())) {
+            qDebug() << "cannot create dir" << fi.dir().absolutePath();
+            delete download;
+            delete file;
+            return;
+        }
+        if(!file->open(QIODevice::ReadWrite)) {
+            qDebug() << "cannot open destination" << download->destination();
+            delete download;
+            delete file;
+            return;
+        }
+    }
+
+    QNetworkReply *reply = m_network->get(request);
+    QObject::connect(reply, SIGNAL(readyRead()), SLOT(downloadReadyRead()));
+    QObject::connect(reply, SIGNAL(downloadProgress(qint64,qint64)), SLOT(downloadProgress(qint64,qint64)));
+    QObject::connect(reply, SIGNAL(finished()), SLOT(downloadFinished()));
+    QObject::connect(download, SIGNAL(cancelled()), SLOT(cancelDownload()));
+    qDebug() << reply->errorString();
+
+    download->setFile(file);
+    m_downloadsMap.insert(reply,download);
+    emit m_notifier->downloadAdded(download);
+}
+
+void XbmcConnectionPrivate::downloadReadyRead()
+{
+    QNetworkReply *reply = static_cast<QNetworkReply*>(sender());
+    XbmcDownload *download = m_downloadsMap.value(reply);
+    QFile *file = download->file();
+    file->write(reply->readAll());
+}
+
+void XbmcConnectionPrivate::downloadProgress(qint64 progress, qint64 total)
+{
+    QNetworkReply *reply = static_cast<QNetworkReply*>(sender());
+    XbmcDownload *download = m_downloadsMap.value(reply);
+//    qDebug() << "updating progress:" << progress << "/" << total;
+    download->setTotal(total);
+    download->setProgress(progress);
+}
+
+void XbmcConnectionPrivate::cancelDownload()
+{
+    XbmcDownload *download = static_cast<XbmcDownload*>(sender());
+    QNetworkReply *reply = m_downloadsMap.key(download);
+    reply->abort();
+    download->setFinished(false);
+    download->file()->close();
+    delete download->file();
+
+    m_downloadsMap.take(reply);
+    download->deleteLater();
+    reply->deleteLater();
+}
+
+void XbmcConnectionPrivate::downloadFinished()
+{
+    qDebug() << "download finished";
+    QNetworkReply *reply = static_cast<QNetworkReply*>(sender());
+    XbmcDownload *download = m_downloadsMap.value(reply);
+
+    QFile *file = download->file();
+    download->setFile(0);
+
+    file->write(reply->readAll());
+    reply->deleteLater();
+    file->close();
+    delete file;
+
+    download->setFinished(true);
+    download->deleteLater();
+
+    m_downloadsMap.remove(reply);
 }
 
 bool XbmcConnectionPrivate::connected()

@@ -23,6 +23,7 @@
 #include "videoplaylist.h"
 #include "videoplaylistitem.h"
 #include "libraryitem.h"
+#include "xbmcdownload.h"
 
 Episodes::Episodes(int tvshowid, int seasonid, const QString &seasonString, XbmcModel *parent):
     XbmcLibrary(parent),
@@ -47,6 +48,7 @@ void Episodes::refresh()
     properties.append("episode");
     properties.append("thumbnail");
     properties.append("playcount");
+    properties.append("file");
     params.insert("properties", properties);
 
     QVariantMap sort;
@@ -97,6 +99,21 @@ void Episodes::fetchItemDetails(int index)
     m_detailsRequestMap.insert(id, index);
 }
 
+void Episodes::download(int index, const QString &path)
+{
+    LibraryItem *item = qobject_cast<LibraryItem*>(m_list.at(index));
+
+    QString destination = path + "/Movies/" + item->tvShow() + "/Season " + item->season() + '/' + item->title() + '.' + item->fileName().split('.').last();
+    qDebug() << "should download" << destination;
+
+    XbmcDownload *download = new XbmcDownload();
+    download->setDestination(destination);
+    download->setIconId("icon-m-content-videos");
+    download->setLabel(item->title());
+
+    startDownload(index, download);
+}
+
 void Episodes::responseReceived(int id, const QVariantMap &rsp)
 {
     if(!m_requestList.contains(id)) {
@@ -115,9 +132,12 @@ void Episodes::responseReceived(int id, const QVariantMap &rsp)
             item->setTitle(itemMap.value("episode").toString() + ". " + itemMap.value("label").toString());
             //        item->setData(itemMap.value("showtitle").toString() + " - " + itemMap.value("season").toString(), Qt::UserRole+2);
             item->setSubtitle(itemMap.value("showtitle").toString() + " - " + m_seasonString);
+            item->setTvShow(itemMap.value("showtitle").toString());
+            item->setSeason(itemMap.value("season").toInt());
             item->setEpisodeId(itemMap.value("episodeid").toInt());
             item->setThumbnail(itemMap.value("thumbnail").toString());
             item->setPlaycount(itemMap.value("playcount").toInt());
+            item->setFileName(itemMap.value("file").toString());
             item->setIgnoreArticle(false); // We ignore the setting here...
             item->setFileType("file");
             item->setPlayable(true);

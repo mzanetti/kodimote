@@ -21,13 +21,13 @@ Page {
 
     ToolBarLayout {
         id: nowPlayingToolbar
-        ToolButton { iconSource: "toolbar-column";
+        ToolButton { iconSource: "toolbar-list";
             onClicked: {
                 pageStack.pop()
             }
         }
         ToolButton {
-            iconSource: "toolbar-shuffle" + (theme.inverted ? "-white" : "") + (xbmc.activePlayer.shuffle ? "-selected" : "" )
+            iconSource: "toolbar-shuffle"
             onClicked: {
                 xbmc.activePlayer.shuffle = ! xbmc.activePlayer.shuffle
             }
@@ -42,10 +42,7 @@ Page {
             }
         }
         ToolButton {
-            iconSource: "image://theme/icon-m-toolbar-repeat" +
-                        (xbmc.activePlayer.repeat ===  Player.RepeatOne ? "-dimmed" : "") +
-                        (theme.inverted ? "-white" : "") +
-                        (xbmc.activePlayer.repeat === Player.RepeatAll ? "-selected" : "")
+            iconSource: "toolbar-refresh"
             onClicked: {
                 if(xbmc.activePlayer.repeat === Player.RepeatNone) {
                     xbmc.activePlayer.repeat = Player.RepeatOne;
@@ -56,7 +53,7 @@ Page {
                 }
             }
         }
-        ToolButton { iconSource: "toolbar-view-menu";
+        ToolButton { iconSource: "toolbar-list";
             onClicked: {
                 var component = Qt.createComponent("PlaylistPage.qml")
                 if (component.status === Component.Ready) {
@@ -131,11 +128,11 @@ Page {
                 text: currentItem.durationString
             }
 
-            ButtonRow {
+            Row {
                 id: controlButtons
                 anchors {left:parent.left; right: parent.right; bottom: progressBar.top }
                 anchors.bottomMargin: 20
-                ToolButton { iconSource: "toolbar-mediacontrol-previous"
+                ToolButton { iconSource: "toolbar-mediacontrol-backwards"
                     anchors.left: parent.left
                     onClicked: player.skipPrevious();
                 }
@@ -143,7 +140,7 @@ Page {
                     anchors.horizontalCenter: parent.horizontalCenter
                     onClicked: player.playPause();
                 }
-                ToolButton { iconSource: "toolbar-mediacontrol-next"
+                ToolButton { iconSource: "toolbar-mediacontrol-forward"
                     anchors.right: parent.right
                     onClicked: player.skipNext();
                 }
@@ -159,7 +156,7 @@ Page {
                 value: player.percentage
 
                 Rectangle {
-                    color: theme.inverted ? "white" : "black"
+                    color: "white"
                     rotation: 45
                     width: 10
                     height: 10
@@ -170,7 +167,7 @@ Page {
 
                 Rectangle {
                     id: progressBarLabel
-                    color: theme.inverted ? "white" : "black"
+                    color: "white"
                     anchors.bottom: parent.top
                     anchors.bottomMargin: 40
                     height: 40
@@ -181,7 +178,7 @@ Page {
                     Label {
                         id: progressBarLabelText
                         anchors.centerIn: parent
-                        color: theme.inverted ? "black" : "white"
+                        color: "black"
                     }
                 }
 
@@ -233,7 +230,7 @@ Page {
                 Repeater {
                     model: Math.floor(currentItem.rating / 2)
                     Image {
-                        source: theme.inverted ? "image://theme/meegotouch-indicator-rating-inverted-background-star" : "image://theme/meegotouch-indicator-rating-star"
+                        source: "image://theme/meegotouch-indicator-rating-inverted-background-star"
                     }
                 }
             }

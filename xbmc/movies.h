@@ -39,6 +39,8 @@ public:
     Q_INVOKABLE void fetchItemDetails(int index);
     Q_INVOKABLE bool hasDetails() { return true; }
 
+    Q_INVOKABLE virtual void download(int index, const QString &path);
+
 public slots:
     void refresh();
 

@@ -37,6 +37,8 @@ class Shares;
 
 class Keys;
 
+class XbmcDownload;
+
 class Xbmc : public QObject
 {
     Q_OBJECT
@@ -115,6 +117,8 @@ signals:
     void picturePlayerActiveChanged();
 
     void systemPropertiesChanged();
+
+    void downloadAdded(XbmcDownload* download);
 
 private slots:
     void parseAnnouncement(const QVariantMap &map);

@@ -58,7 +58,7 @@ Page {
                 Rectangle {
                     width: parent.width - 50
                     height: 1
-                    color: theme.inverted ? "#7b797b" : "#848684"
+                    color: "#7b797b"
                     anchors.centerIn: parent
                 }
             }
@@ -68,7 +68,7 @@ Page {
                 font.bold: true
                 font.pixelSize: 16
                 anchors.verticalCenter: parent.verticalCenter
-                color: theme.inverted ? "#7b797b" : "#848684"
+                color: "#7b797b"
             }
         }
     }
@@ -196,7 +196,7 @@ Page {
                         text: subtitle
                         font.weight: Font.Light
                         font.pixelSize: 24
-                        color: theme.inverted ? "#7b797b" : "#848684"
+                        color: "#7b797b"
                         width: itemRow.width - (arrow.visible ? arrow.width : 0)
                         elide: Text.ElideRight
                         visible: text != ""
@@ -234,9 +234,10 @@ Page {
                 }
             }
 
-            Image {
+            ToolButton {
                 id: arrow
-                source: "image://theme/icon-m-common-drilldown-arrow" + (theme.inverted ? "-inverse" : "")
+                //source: "image://theme/icon-m-common-drilldown-arrow" + (theme.inverted ? "-inverse" : "")
+                iconSource: "toolbar-next"
                 anchors.right: parent.right;
                 anchors.verticalCenter: parent.verticalCenter
                 visible: filetype === "directory" && listItem.state == "collapsed" ? true : false;
@@ -252,7 +253,7 @@ Page {
                     PropertyChanges { target: background; visible: false }
                     PropertyChanges { target: expandedContent; opacity: 1 }
                     PropertyChanges { target: contentLoader; source: "ItemDetails.qml" }
-                    PropertyChanges { target: listView; interactive: false; contentY: 88 * listView.currentIndex }
+                    PropertyChanges { target: listView; interactive: false; contentY: 60 * listView.currentIndex }
 //                    PropertyChanges { target: mouseArea; enabled: false }
                 }
 
@@ -288,7 +289,7 @@ Page {
 
         Rectangle {
             id: scrollBackground
-            color: theme.inverted ? "white" : "black"
+            color: "white"
             opacity: 0
             anchors.fill: parent
 
@@ -326,14 +327,14 @@ Page {
 
         Rectangle {
             anchors.fill: parent
-            color: theme.inverted ? "white" : "black"
+            color: "white"
         }
         Label {
             id: scrollIndicatorLabel
             anchors.fill: scrollIndicator
             verticalAlignment: Text.AlignVCenter
             anchors.margins: 10
-            color: theme.inverted ? "black" : "white"
+            color: "black"
             font.pixelSize: 56
         }
     }

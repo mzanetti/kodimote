@@ -23,6 +23,7 @@
 #include "xbmc.h"
 #include "xbmcconnection.h"
 #include "libraryitem.h"
+#include "xbmcdownload.h"
 
 Songs::Songs(int artistid, int albumid, XbmcModel *parent):
     XbmcLibrary(parent),
@@ -45,6 +46,8 @@ void Songs::refresh()
     properties.append("artist");
     properties.append("album");
     properties.append("thumbnail");
+    properties.append("file");
+
     params.insert("properties", properties);
 
     QVariantMap sort;
@@ -94,6 +97,21 @@ void Songs::fetchItemDetails(int index)
     m_detailsRequestMap.insert(id, index);
 }
 
+void Songs::download(int index, const QString &path)
+{
+    LibraryItem *item = qobject_cast<LibraryItem*>(m_list.at(index));
+
+    QString destination = path + "/Music/" + item->artist() + '/' + item->album() + '/' + item->title() + '.' + item->fileName().split('.').last();
+    qDebug() << "should download" << destination;
+
+    XbmcDownload *download = new XbmcDownload();
+    download->setDestination(destination);
+    download->setIconId("icon-m-content-audio");
+    download->setLabel(item->title());
+
+    startDownload(index, download);
+}
+
 void Songs::responseReceived(int id, const QVariantMap &rsp)
 {
     if(!m_requestList.contains(id)) {
@@ -111,8 +129,11 @@ void Songs::responseReceived(int id, const QVariantMap &rsp)
             LibraryItem *item = new LibraryItem();
             item->setTitle(itemMap.value("label").toString());
             item->setSubtitle(itemMap.value("artist").toString() + " - " + itemMap.value("album").toString());
+            item->setArtist(itemMap.value("artist").toString());
+            item->setAlbum(itemMap.value("album").toString());
             item->setSongId(itemMap.value("songid").toInt());
             item->setThumbnail(itemMap.value("thumbnail").toString());
+            item->setFileName(itemMap.value("file").toString());
             item->setIgnoreArticle(false); // Ignoring article here...
             item->setFileType("file");
             item->setPlayable(true);

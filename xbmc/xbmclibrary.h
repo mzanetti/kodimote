@@ -4,12 +4,14 @@
 #include "xbmcmodel.h"
 
 class LibraryItem;
+class XbmcDownload;
 
 class XbmcLibrary : public XbmcModel
 {
     Q_OBJECT
 public:
     XbmcLibrary(XbmcModel *parent = 0);
+    ~XbmcLibrary();
 
     Q_INVOKABLE virtual XbmcModel *enterItem(int index) = 0;
     Q_INVOKABLE virtual XbmcModel *exit();
@@ -24,6 +26,21 @@ public:
 
     Q_INVOKABLE virtual void fetchItemDetails(int index) { Q_UNUSED(index) }
     Q_INVOKABLE virtual bool hasDetails() { return false; }
+
+    Q_INVOKABLE virtual void download(int index, const QString &path);
+
+protected:
+    void startDownload(int index, XbmcDownload *download);
+
+private slots:
+    void slotResponseReceived(int, const QVariantMap &rsp);
+
+private:
+    enum Request {
+        RequestDownload
+    };
+    QMap<int, Request> m_requestMap;
+    QMap<int, XbmcDownload*> m_downloadMap;
 
 };
 

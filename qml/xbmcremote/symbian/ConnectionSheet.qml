@@ -76,8 +76,8 @@ Page {
                         width: parent.width
                         height: 88
                         gradient: Gradient {
-                            GradientStop { position: 0.0; color: theme.inverted ? "#4269a5" : "#3996e7" }
-                            GradientStop { position: 1.0; color: theme.inverted ? "#29599c" : "#1082de" }
+                            GradientStop { position: 0.0; color: "#4269a5" }
+                            GradientStop { position: 1.0; color: "#29599c" }
                         }
                     }
 
