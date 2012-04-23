@@ -28,6 +28,8 @@ public:
     Q_INVOKABLE virtual bool hasDetails() { return false; }
 
     Q_INVOKABLE virtual void download(int index, const QString &path);
+    Q_INVOKABLE void setDeleteAfterDownload(bool deleteAfterDownload);
+    Q_INVOKABLE bool deleteAfterDownload() const;
 
 protected:
     void startDownload(int index, XbmcDownload *download);
@@ -41,6 +43,7 @@ private:
     };
     QMap<int, Request> m_requestMap;
     QMap<int, XbmcDownload*> m_downloadMap;
+    bool m_deleteAfterDownload;
 
 };
 

@@ -28,6 +28,7 @@ class Songs : public XbmcLibrary
     Q_OBJECT
 public:
     explicit Songs(int artistid = -1, int albumid = -1, XbmcModel *parent = 0);
+    ~Songs();
 
     XbmcModel* enterItem(int index);
     void playItem(int index);

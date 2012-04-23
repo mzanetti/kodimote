@@ -23,6 +23,8 @@
 
 #include <QStandardItem>
 
+class Albums;
+
 class Artists : public XbmcLibrary
 {
     Q_OBJECT
@@ -39,11 +41,15 @@ public:
     Q_INVOKABLE void fetchItemDetails(int index);
     Q_INVOKABLE bool hasDetails() { return true; }
 
+    Q_INVOKABLE virtual void download(int index, const QString &path);
+
 public slots:
     void refresh();
 
 private slots:
     void responseReceived(int id, const QVariantMap &map);
+
+    void downloadModelFilled();
 
 private:
     enum Request {
@@ -54,7 +60,7 @@ private:
     QMap<int, Request> m_requestList;
     QMap<int, int> m_detailsRequestMap;
 
-
+    QString m_downloadPath;
 };
 
 #endif // ARTISTS_H

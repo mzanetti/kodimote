@@ -29,14 +29,14 @@
 
 Albums::Albums(int artistId, XbmcModel *parent) :
     XbmcLibrary(parent),
-    m_artistId(artistId),
-    m_downloadModel(0)
+    m_artistId(artistId)
 {
     connect(XbmcConnection::notifier(), SIGNAL(responseReceived(int,QVariantMap)), SLOT(responseReceived(int,QVariantMap)));
 }
 
 Albums::~Albums()
 {
+    qDebug() << "deleting album model";
 }
 
 void Albums::refresh()
@@ -93,11 +93,10 @@ void Albums::download(int index, const QString &path)
 {
     qDebug() << "Downloading album";
     m_downloadPath = path;
-    if(m_downloadModel) {
-        m_downloadModel->deleteLater();
-    }
-    m_downloadModel = new Songs(m_artistId, m_list.at(index)->data(RoleAlbumId).toInt(), this);
-    connect(m_downloadModel, SIGNAL(busyChanged()), SLOT(downloadModelFilled()));
+    Songs *downloadModel = new Songs(m_artistId, m_list.at(index)->data(RoleAlbumId).toInt());
+    downloadModel->setDeleteAfterDownload(true);
+    m_downloadList.append(downloadModel);
+    connect(downloadModel, SIGNAL(busyChanged()), SLOT(downloadModelFilled()));
 }
 
 void Albums::responseReceived(int id, const QVariantMap &rsp)
@@ -108,7 +107,6 @@ void Albums::responseReceived(int id, const QVariantMap &rsp)
 
     switch(m_requestList.value(id)) {
     case RequestList: {
-        setBusy(false);
         QList<XbmcModelItem*> list;
         qDebug() << "got albums:" << rsp.value("result");
         QVariantList responseList = rsp.value("result").toMap().value("albums").toList();
@@ -128,6 +126,7 @@ void Albums::responseReceived(int id, const QVariantMap &rsp)
         beginInsertRows(QModelIndex(), 0, list.count() - 1);
         m_list = list;
         endInsertRows();
+        setBusy(false);
         }
         break;
     case RequestDetails:
@@ -145,9 +144,15 @@ void Albums::responseReceived(int id, const QVariantMap &rsp)
 
 void Albums::downloadModelFilled()
 {
-    qDebug() << "starting batch download";
-    for(int i = 0; i < m_downloadModel->rowCount(); ++i) {
-        m_downloadModel->download(i, m_downloadPath);
+    Songs *downloadModel = qobject_cast<Songs*>(sender());
+    qDebug() << "starting batch download of album";
+    for(int i = 0; i < downloadModel->rowCount(); ++i) {
+        downloadModel->download(i, m_downloadPath);
+    }
+
+    m_downloadList.removeAll(downloadModel);
+    if(deleteAfterDownload() && m_downloadList.isEmpty()) {
+        deleteLater();
     }
 }
 

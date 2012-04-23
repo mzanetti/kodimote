@@ -61,8 +61,8 @@ private:
     QMap<int, int> m_detailsRequestMap;
 
     int m_artistId;
+    QList<Songs*> m_downloadList;
     QString m_downloadPath;
-    Songs *m_downloadModel;
 };
 
 #endif // ALBUMS_H

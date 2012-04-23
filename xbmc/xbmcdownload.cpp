@@ -59,6 +59,11 @@ qint64 XbmcDownload::progress() const
     return m_progress;
 }
 
+void XbmcDownload::setStarted()
+{
+    emit started();
+}
+
 void XbmcDownload::setFinished(bool success)
 {
     emit finished(success);

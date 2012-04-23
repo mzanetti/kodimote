@@ -457,6 +457,23 @@ Notifier *XbmcConnectionPrivate::notifier()
 
 void XbmcConnectionPrivate::download(XbmcDownload *download)
 {
+    qDebug() << "added download:" << download->source() << "-->" << download->destination();
+    m_downloadQueue.append(download);
+    emit m_notifier->downloadAdded(download);
+    downloadNext();
+}
+
+void XbmcConnectionPrivate::downloadNext()
+{
+    if(!m_activeDownloadsMap.isEmpty()) {
+        qDebug() << "Download in progress... not starting next one";
+        return;
+    }
+    if(m_downloadQueue.isEmpty()) {
+        qDebug() << "Download queue empty";
+        return;
+    }
+    XbmcDownload *download = m_downloadQueue.takeFirst();
     qDebug() << "Starting download:" << download->source() << "-->" << download->destination();
     QByteArray url = QUrl::toPercentEncoding("http://" + XbmcConnection::connectedHost()->address() + ':' + QString::number(XbmcConnection::connectedHost()->port()) + '/');
     url.append(download->source());
@@ -470,14 +487,16 @@ void XbmcConnectionPrivate::download(XbmcDownload *download)
     if(!fi.dir().exists()) {
         if(!fi.dir().mkpath(fi.dir().absolutePath())) {
             qDebug() << "cannot create dir" << fi.dir().absolutePath();
-            delete download;
+            download->setFinished(false);
+            download->deleteLater();
             delete file;
             return;
         }
     }
     if(!file->open(QIODevice::ReadWrite)) {
         qDebug() << "cannot open destination" << download->destination();
-        delete download;
+        download->setFinished(false);
+        download->deleteLater();
         delete file;
         return;
     }
@@ -490,14 +509,14 @@ void XbmcConnectionPrivate::download(XbmcDownload *download)
     qDebug() << reply->errorString();
 
     download->setFile(file);
-    m_downloadsMap.insert(reply,download);
-    emit m_notifier->downloadAdded(download);
+    download->setStarted();
+    m_activeDownloadsMap.insert(reply,download);
 }
 
 void XbmcConnectionPrivate::downloadReadyRead()
 {
     QNetworkReply *reply = static_cast<QNetworkReply*>(sender());
-    XbmcDownload *download = m_downloadsMap.value(reply);
+    XbmcDownload *download = m_activeDownloadsMap.value(reply);
     QFile *file = download->file();
     file->write(reply->readAll());
 }
@@ -505,7 +524,7 @@ void XbmcConnectionPrivate::downloadReadyRead()
 void XbmcConnectionPrivate::downloadProgress(qint64 progress, qint64 total)
 {
     QNetworkReply *reply = static_cast<QNetworkReply*>(sender());
-    XbmcDownload *download = m_downloadsMap.value(reply);
+    XbmcDownload *download = m_activeDownloadsMap.value(reply);
 //    qDebug() << "updating progress:" << progress << "/" << total;
     download->setTotal(total);
     download->setProgress(progress);
@@ -514,21 +533,22 @@ void XbmcConnectionPrivate::downloadProgress(qint64 progress, qint64 total)
 void XbmcConnectionPrivate::cancelDownload()
 {
     XbmcDownload *download = static_cast<XbmcDownload*>(sender());
-    QNetworkReply *reply = m_downloadsMap.key(download);
-    reply->close();
+    QNetworkReply *reply = m_activeDownloadsMap.key(download);
+    if(reply) {
+        reply->close();
+    }
 }
 
 void XbmcConnectionPrivate::downloadFinished()
 {
     qDebug() << "download finished";
     QNetworkReply *reply = static_cast<QNetworkReply*>(sender());
-    XbmcDownload *download = m_downloadsMap.value(reply);
+    XbmcDownload *download = m_activeDownloadsMap.value(reply);
 
     QFile *file = download->file();
     download->setFile(0);
 
     file->write(reply->readAll());
-    reply->deleteLater();
     file->close();
     delete file;
 
@@ -539,7 +559,10 @@ void XbmcConnectionPrivate::downloadFinished()
     }
     download->deleteLater();
 
-    m_downloadsMap.remove(reply);
+    m_activeDownloadsMap.remove(reply);
+    reply->deleteLater();
+
+    downloadNext();
 }
 
 bool XbmcConnectionPrivate::connected()

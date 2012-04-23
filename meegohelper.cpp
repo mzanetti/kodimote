@@ -106,9 +106,6 @@ MeeGoHelper::MeeGoHelper(Settings *settings, QObject *parent) :
     connect(m_battery, SIGNAL(chargerEvent(MeeGo::QmBattery::ChargerType)), SLOT(displaySettingChanged()));
     connect(settings, SIGNAL(keepDisplayLitChanged()), SLOT(displaySettingChanged()));
 
-    m_transferUpdateTimer.setInterval(500);
-    connect(&m_transferUpdateTimer, SIGNAL(timeout()), SLOT(updateTransfers()));
-
     displaySettingChanged();
 }
 
@@ -263,20 +260,37 @@ void MeeGoHelper::downloadAdded(XbmcDownload *download)
     TransferUI::Transfer *transfer = m_transferClient->registerTransfer(download->source(), TransferUI::Client::TRANSFER_TYPES_DOWNLOAD, "Xbmcremote");
     transfer->setIcon(download->iconId());
     transfer->setName(download->label());
+    transfer->setSize(0);
+    transfer->setProgress(0);
 
     m_transferMap.insert(download, transfer);
-    transfer->setActive();
 
     connect(download, SIGNAL(progressChanged()), SLOT(downloadProgress()));
+    connect(download, SIGNAL(started()), SLOT(downloadStarted()));
     connect(download, SIGNAL(finished(bool)), SLOT(downloadDone(bool)));
     connect(transfer, SIGNAL(cancel()), SLOT(cancelTransfer()));
-    m_transferUpdateTimer.start();
+    m_lastTransferUpdate = QDateTime::currentDateTime();
 }
 
 void MeeGoHelper::downloadProgress()
 {
+    // update the remote transfer window less often as our signal is called
+    if(m_lastTransferUpdate.addMSecs(500) < QDateTime::currentDateTime()) {
+
+        XbmcDownload *download = qobject_cast<XbmcDownload*>(sender());
+        TransferUI::Transfer *transfer = m_transferMap.value(download);
+        transfer->setSize(download->total());
+        transfer->setProgress(1.0 * download->progress()/ download->total());
+
+        m_lastTransferUpdate = QDateTime::currentDateTime();
+    }
+}
+
+void MeeGoHelper::downloadStarted()
+{
     XbmcDownload *download = qobject_cast<XbmcDownload*>(sender());
     TransferUI::Transfer *transfer = m_transferMap.value(download);
+    transfer->setActive();
 }
 
 void MeeGoHelper::downloadDone(bool success)
@@ -288,15 +302,6 @@ void MeeGoHelper::downloadDone(bool success)
     }
 
     m_transferMap.take(download)->deleteLater();
-}
-
-void MeeGoHelper::updateTransfers()
-{
-    foreach(XbmcDownload *download, m_transferMap.keys()) {
-        TransferUI::Transfer *transfer = m_transferMap.value(download);
-        transfer->setSize(download->total());
-        transfer->setProgress(1.0 * download->progress()/ download->total());
-    }
 }
 
 void MeeGoHelper::cancelTransfer()

@@ -89,6 +89,7 @@ private slots:
     void replyReceived();
     void authenticationRequired(QNetworkReply *reply, QAuthenticator *authenticator);
 
+    void downloadNext();
     void downloadReadyRead();
     void downloadFinished();
     void downloadProgress(qint64 progress, qint64 total);
@@ -117,7 +118,8 @@ private:
     bool m_connected;
     QString m_connectionError;
 
-    QMap<QNetworkReply*, XbmcDownload*> m_downloadsMap;
+    QList<XbmcDownload*> m_downloadQueue;
+    QMap<QNetworkReply*, XbmcDownload*> m_activeDownloadsMap;
 
 };
 Q_GLOBAL_STATIC(XbmcConnectionPrivate, instance)

@@ -32,6 +32,7 @@ public:
     void setProgress(qint64 progress);
     qint64 progress() const;
 
+    void setStarted();
     void setFinished(bool success);
 
     void setIconId(const QString &iconId);
@@ -45,6 +46,7 @@ signals:
     void destinationChanged();
     void totalChanged();
     void progressChanged();
+    void started();
     void finished(bool success);
 
     void cancelled();

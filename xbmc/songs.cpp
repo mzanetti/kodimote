@@ -33,6 +33,11 @@ Songs::Songs(int artistid, int albumid, XbmcModel *parent):
     connect(XbmcConnection::notifier(), SIGNAL(responseReceived(int,QVariantMap)), SLOT(responseReceived(int,QVariantMap)));
 }
 
+Songs::~Songs()
+{
+    qDebug() << "deleting songs model";
+}
+
 void Songs::refresh()
 {
     QVariantMap params;

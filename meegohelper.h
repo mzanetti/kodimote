@@ -55,8 +55,8 @@ private slots:
 
     void downloadAdded(XbmcDownload *download);
     void downloadProgress();
+    void downloadStarted();
     void downloadDone(bool success);
-    void updateTransfers();
     void cancelTransfer();
 
 private:
@@ -73,7 +73,7 @@ private:
 
     TransferUI::Client *m_transferClient;
     QMap<XbmcDownload*, TransferUI::Transfer*> m_transferMap;
-    QTimer m_transferUpdateTimer;
+    QDateTime m_lastTransferUpdate;
 };
 
 #endif // MEEGOHELPER_H

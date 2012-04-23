@@ -6,7 +6,7 @@
 
 #include <QTimer>
 
-XbmcLibrary::XbmcLibrary(XbmcModel *parent) :XbmcModel(parent)
+XbmcLibrary::XbmcLibrary(XbmcModel *parent) :XbmcModel(parent), m_deleteAfterDownload(false)
 {
     connect(XbmcConnection::notifier(), SIGNAL(responseReceived(int,QVariantMap)), SLOT(slotResponseReceived(int, QVariantMap)));
 
@@ -46,6 +46,16 @@ void XbmcLibrary::download(int index, const QString &path)
     qDebug() << "This model does not support downloading";
 }
 
+void XbmcLibrary::setDeleteAfterDownload(bool deleteAfterDownload)
+{
+    m_deleteAfterDownload = deleteAfterDownload;
+}
+
+bool XbmcLibrary::deleteAfterDownload() const
+{
+    return m_deleteAfterDownload;
+}
+
 void XbmcLibrary::startDownload(int index, XbmcDownload *download)
 {
     LibraryItem *item = qobject_cast<LibraryItem*>(m_list.at(index));
@@ -76,6 +86,11 @@ void XbmcLibrary::slotResponseReceived(int id, const QVariantMap &rsp)
         download->setSource(path);
 
         XbmcConnection::download(download);
+
+        if(m_deleteAfterDownload && m_downloadMap.isEmpty()) {
+            qDebug() << "Deleting download model";
+            deleteLater();
+        }
     }
     }
 

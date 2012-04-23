@@ -79,6 +79,15 @@ void Artists::fetchItemDetails(int index)
     m_detailsRequestMap.insert(id, index);
 }
 
+void Artists::download(int index, const QString &path)
+{
+    qDebug() << "Downloading artist";
+    m_downloadPath = path;
+    Albums *downloadModel = new Albums(m_list.at(index)->data(RoleArtistId).toInt());
+    downloadModel->setDeleteAfterDownload(true);
+    connect(downloadModel, SIGNAL(busyChanged()), SLOT(downloadModelFilled()));
+}
+
 void Artists::responseReceived(int id, const QVariantMap &rsp)
 {
     if(!m_requestList.contains(id)) {
@@ -123,6 +132,18 @@ void Artists::responseReceived(int id, const QVariantMap &rsp)
         item->setDied(details.value("died").toString());
         item->setDisbanded(details.value("disbanded").toString());
         emit dataChanged(index(m_detailsRequestMap.value(id), 0, QModelIndex()), index(m_detailsRequestMap.value(id), 0, QModelIndex()));
+    }
+}
+
+void Artists::downloadModelFilled()
+{
+    Albums *albums = qobject_cast<Albums*>(sender());
+    qDebug() << "starting batch download of artist";
+    for(int i = 0; i < albums->rowCount(); ++i) {
+        albums->download(i, m_downloadPath);
+    }
+    if(deleteAfterDownload()) {
+        deleteLater();
     }
 }
 
