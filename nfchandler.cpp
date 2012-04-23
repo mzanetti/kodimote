@@ -21,6 +21,7 @@ void NfcHandler::tagDetected(QNearFieldTarget *tag)
         connect(tag, SIGNAL(requestCompleted(QNearFieldTarget::RequestId)), this, SLOT(requestCompleted(QNearFieldTarget::RequestId)));
         connect(tag, SIGNAL(ndefMessageRead(QNdefMessage)), this, SLOT(ndefMessageRead(QNdefMessage)));
         connect(tag, SIGNAL(ndefMessagesWritten()), SLOT(ndefMessageWritten()));
+        connect(tag, SIGNAL(error(QNearFieldTarget::Error,QNearFieldTarget::RequestId)), SLOT(error(QNearFieldTarget::Error,QNearFieldTarget::RequestId)));
         m_tagList.append(tag);
     }
 
@@ -112,6 +113,11 @@ void NfcHandler::ndefMessageWritten()
 {
     qDebug() << "written successfully";
     emit tagWritten();
+}
+
+void NfcHandler::error(QNearFieldTarget::Error error, const QNearFieldTarget::RequestId &id)
+{
+    qDebug() << "tag write error:" << error;
 }
 
 void NfcHandler::cancelWriteTag()

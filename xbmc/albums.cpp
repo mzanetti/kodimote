@@ -25,10 +25,12 @@
 #include "audioplayer.h"
 #include "playlist.h"
 #include "libraryitem.h"
+#include "xbmcdownload.h"
 
 Albums::Albums(int artistId, XbmcModel *parent) :
     XbmcLibrary(parent),
-    m_artistId(artistId)
+    m_artistId(artistId),
+    m_downloadModel(0)
 {
     connect(XbmcConnection::notifier(), SIGNAL(responseReceived(int,QVariantMap)), SLOT(responseReceived(int,QVariantMap)));
 }
@@ -87,6 +89,17 @@ void Albums::fetchItemDetails(int index)
     m_detailsRequestMap.insert(id, index);
 }
 
+void Albums::download(int index, const QString &path)
+{
+    qDebug() << "Downloading album";
+    m_downloadPath = path;
+    if(m_downloadModel) {
+        m_downloadModel->deleteLater();
+    }
+    m_downloadModel = new Songs(m_artistId, m_list.at(index)->data(RoleAlbumId).toInt(), this);
+    connect(m_downloadModel, SIGNAL(busyChanged()), SLOT(downloadModelFilled()));
+}
+
 void Albums::responseReceived(int id, const QVariantMap &rsp)
 {
     if(!m_requestList.contains(id)) {
@@ -126,6 +139,15 @@ void Albums::responseReceived(int id, const QVariantMap &rsp)
         item->setGenre(details.value("genre").toString());
         item->setYear(details.value("year").toString());
         emit dataChanged(index(m_detailsRequestMap.value(id), 0, QModelIndex()), index(m_detailsRequestMap.value(id), 0, QModelIndex()));
+        break;
+    }
+}
+
+void Albums::downloadModelFilled()
+{
+    qDebug() << "starting batch download";
+    for(int i = 0; i < m_downloadModel->rowCount(); ++i) {
+        m_downloadModel->download(i, m_downloadPath);
     }
 }
 

@@ -457,6 +457,7 @@ Notifier *XbmcConnectionPrivate::notifier()
 
 void XbmcConnectionPrivate::download(XbmcDownload *download)
 {
+    qDebug() << "Starting download:" << download->source() << "-->" << download->destination();
     QByteArray url = QUrl::toPercentEncoding("http://" + XbmcConnection::connectedHost()->address() + ':' + QString::number(XbmcConnection::connectedHost()->port()) + '/');
     url.append(download->source());
     QNetworkRequest request;
@@ -473,12 +474,12 @@ void XbmcConnectionPrivate::download(XbmcDownload *download)
             delete file;
             return;
         }
-        if(!file->open(QIODevice::ReadWrite)) {
-            qDebug() << "cannot open destination" << download->destination();
-            delete download;
-            delete file;
-            return;
-        }
+    }
+    if(!file->open(QIODevice::ReadWrite)) {
+        qDebug() << "cannot open destination" << download->destination();
+        delete download;
+        delete file;
+        return;
     }
 
     QNetworkReply *reply = m_network->get(request);
@@ -514,14 +515,7 @@ void XbmcConnectionPrivate::cancelDownload()
 {
     XbmcDownload *download = static_cast<XbmcDownload*>(sender());
     QNetworkReply *reply = m_downloadsMap.key(download);
-    reply->abort();
-    download->setFinished(false);
-    download->file()->close();
-    delete download->file();
-
-    m_downloadsMap.take(reply);
-    download->deleteLater();
-    reply->deleteLater();
+    reply->close();
 }
 
 void XbmcConnectionPrivate::downloadFinished()
@@ -538,7 +532,11 @@ void XbmcConnectionPrivate::downloadFinished()
     file->close();
     delete file;
 
-    download->setFinished(true);
+    if(reply->error() == QNetworkReply::NoError) {
+        download->setFinished(true);
+    } else {
+        download->setFinished(false);
+    }
     download->deleteLater();
 
     m_downloadsMap.remove(reply);

@@ -29,7 +29,7 @@ public slots:
 private slots:
      void requestCompleted(const QNearFieldTarget::RequestId &id);
      void ndefMessageWritten();
-
+     void error(QNearFieldTarget::Error error, const QNearFieldTarget::RequestId & id);
 private:
      QList<QNearFieldTarget *> m_tagList;
      bool m_writeNextTag;
