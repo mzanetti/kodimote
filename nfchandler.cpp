@@ -10,13 +10,15 @@
 
 NfcHandler::NfcHandler(QObject *parent) :
     QObject(parent),
-    m_writeNextTag(false)
+    m_writeNextTag(false),
+    m_writeError(false)
 {
 }
 
 
 void NfcHandler::tagDetected(QNearFieldTarget *tag)
 {
+    qDebug() << "NFC tag detected:" << tag->type();
     if(!m_tagList.contains(tag)) {
         connect(tag, SIGNAL(requestCompleted(QNearFieldTarget::RequestId)), this, SLOT(requestCompleted(QNearFieldTarget::RequestId)));
         connect(tag, SIGNAL(ndefMessageRead(QNdefMessage)), this, SLOT(ndefMessageRead(QNdefMessage)));
@@ -118,6 +120,28 @@ void NfcHandler::ndefMessageWritten()
 void NfcHandler::error(QNearFieldTarget::Error error, const QNearFieldTarget::RequestId &id)
 {
     qDebug() << "tag write error:" << error;
+    if(m_writeError) {
+        qDebug() << "second error... giving up...";
+        m_writeError = false;
+        return;
+    }
+
+    qDebug() << "Failed to write NFC tag for the first time. It might be a 48bytes chip and our URI is too long for it. Retrying without MAC address. WakeonLan will not work with this Tag.";
+    m_writeError = true;
+
+    QNearFieldTarget *tag = qobject_cast<QNearFieldTarget*>(sender());
+
+    QNdefNfcUriRecord record;
+    XbmcHost *currentHost = XbmcConnection::connectedHost();
+    record.setUri(QUrl("xbmc://" + currentHost->address()
+                       + ':' + QString::number(currentHost->port())
+                       + '/' + currentHost->hostname()
+                       + '/'));
+    QNdefMessage message(record);
+    qDebug() << "writing record:" << record.uri();
+
+    tag->writeNdefMessages(QList<QNdefMessage>() << message);
+
 }
 
 void NfcHandler::cancelWriteTag()
