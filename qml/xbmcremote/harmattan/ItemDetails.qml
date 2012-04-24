@@ -7,6 +7,7 @@ Item {
     height: parent.height
     //    height: childrenRect.height
     //    clip: true
+    property string orientation: browserPage.width > browserPage.height ? "landscape" : "portrait"
 
     signal playItem
     signal addToPlaylist
@@ -18,7 +19,7 @@ Item {
         width: parent.width
         anchors.top: parent.top
         anchors.topMargin: 10
-        anchors.bottom: buttonRow.top
+        anchors.bottom: buttonLoader.top
         anchors.bottomMargin: 10
         contentWidth: parent.width
         contentHeight: labelColumn.height
@@ -179,32 +180,80 @@ Item {
         }
 
     }
-
-    ButtonRow {
-        id: buttonRow
+    Loader {
+        id: buttonLoader
         anchors.bottom: parent.bottom
-        anchors.bottomMargin: 10
         width: parent.width
-        exclusive: false
-
         states: [
             State {
                 name: "hidden"; when: !playable
-                PropertyChanges { target: buttonRow; visible: false; height: 0 }
+                PropertyChanges { target: buttonLoader; visible: false; height: 0 }
+            },
+            State {
+                name: "horizontal"; when: itemDetails.orientation === "landscape"
+                PropertyChanges { target: buttonLoader; sourceComponent: horizontalButtons }
+            },
+            State {
+                name: "vertical"; when: itemDetails.orientation === "portrait"
+                PropertyChanges { target: buttonLoader; sourceComponent: verticalbuttons }
             }
-        ]
 
-        Button {
-            text: qsTr("Play")
-            onClicked: itemDetails.playItem()
+        ]
+        onStateChanged: print("loader state is now:", state, itemDetails.orientation)
+    }
+
+    Component {
+        id: horizontalButtons
+        ButtonRow {
+            id: buttonRow
+            anchors.bottom: parent.bottom
+            anchors.bottomMargin: 10
+            width: parent.width
+            exclusive: false
+
+            states: [
+                State {
+                    name: "hidden"; when: !playable
+                    PropertyChanges { target: buttonRow; visible: false; height: 0 }
+                }
+            ]
+
+            Button {
+                text: qsTr("Play")
+                onClicked: itemDetails.playItem()
+            }
+            Button {
+                text: qsTr("Add to playlist")
+                onClicked: itemDetails.addToPlaylist()
+            }
+            Button {
+                text: qsTr("Download")
+                onClicked: itemDetails.download()
+            }
         }
-        Button {
-            text: qsTr("Add to playlist")
-            onClicked: itemDetails.addToPlaylist()
-        }
-        Button {
-            text: qsTr("Download")
-            onClicked: itemDetails.download()
+    }
+
+    Component {
+        id: verticalbuttons
+        ButtonColumn {
+            id: buttonColumn
+            anchors.bottom: parent.bottom
+            anchors.bottomMargin: 10
+            width: parent.width
+            exclusive: false
+
+            Button {
+                text: qsTr("Play")
+                onClicked: itemDetails.playItem()
+            }
+            Button {
+                text: qsTr("Add to playlist")
+                onClicked: itemDetails.addToPlaylist()
+            }
+            Button {
+                text: qsTr("Download")
+                onClicked: itemDetails.download()
+            }
         }
     }
 }

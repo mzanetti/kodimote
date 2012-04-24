@@ -244,6 +244,7 @@ Page {
                     PropertyChanges { target: expandedContent; opacity: 1 }
                     PropertyChanges { target: contentLoader; source: "ItemDetails.qml" }
                     PropertyChanges { target: listView; interactive: false; contentY: 88 * listView.currentIndex }
+                    PropertyChanges { target: fastScroller; enabled: false }
 //                    PropertyChanges { target: mouseArea; enabled: false }
                 }
 
