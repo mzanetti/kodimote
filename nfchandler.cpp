@@ -109,19 +109,24 @@ void NfcHandler::writeTag()
 {
     qDebug() << "should write next tag";
     m_writeNextTag = true;
+    m_writeError = false;
 }
 
 void NfcHandler::ndefMessageWritten()
 {
     qDebug() << "written successfully";
-    emit tagWritten();
+    if(m_writeError) {
+        emit tagWritten(tr("Tag written successfully. NOTE: This tag does not offer enough space to write all informations. Wake on LAN will not work with this tag."));
+    } else {
+        emit tagWritten(tr("Tag written successfully."));
+    }
 }
 
 void NfcHandler::error(QNearFieldTarget::Error error, const QNearFieldTarget::RequestId &id)
 {
     qDebug() << "tag write error:" << error;
     if(m_writeError) {
-        qDebug() << "second error... giving up...";
+        emit tagWritten(tr("Error writing NFC tag."));
         m_writeError = false;
         return;
     }

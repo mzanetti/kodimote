@@ -16,21 +16,21 @@ class NfcHandler : public QObject
     explicit NfcHandler(QObject *parent = 0);
 
 
-    signals:
-    void tagWritten();
+signals:
+    void tagWritten(const QString &statusText);
     void tagError(const QString &errorMessage);
 
-    public slots:
+public slots:
     void tagDetected(QNearFieldTarget* tag);
     void writeTag();
     void cancelWriteTag();
     void ndefMessageRead(QNdefMessage);
 
-    private slots:
+private slots:
     void requestCompleted(const QNearFieldTarget::RequestId &id);
     void ndefMessageWritten();
     void error(QNearFieldTarget::Error error, const QNearFieldTarget::RequestId & id);
-    private:
+private:
     QList<QNearFieldTarget *> m_tagList;
     bool m_writeNextTag;
     bool m_writeError;

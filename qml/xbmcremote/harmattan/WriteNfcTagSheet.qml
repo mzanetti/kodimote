@@ -34,14 +34,14 @@ Dialog {
         target: nfcHandler
 
         onTagWritten: {
-            textLabel.text = qsTr("Tag written successfully.")
+            textLabel.text = statusText
             closeButton.text = qsTr("Close")
         }
     }
 
     onRejected: {
         console.log("sheet accepted")
-        writeNfcTagSheet.destroy();
+        writeNfcTagSheet.deleteLater();
     }
 
     buttons {
