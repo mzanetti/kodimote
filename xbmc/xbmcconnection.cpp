@@ -518,7 +518,14 @@ void XbmcConnectionPrivate::downloadReadyRead()
     QNetworkReply *reply = static_cast<QNetworkReply*>(sender());
     XbmcDownload *download = m_activeDownloadsMap.value(reply);
     QFile *file = download->file();
-    file->write(reply->readAll());
+    if(file->write(reply->readAll()) == -1) {
+        reply->abort();
+        reply->deleteLater();
+        download->setFinished(false);
+        download->deleteLater();
+        file->remove(); // Try to delete the broken file
+        delete file;
+    }
 }
 
 void XbmcConnectionPrivate::downloadProgress(qint64 progress, qint64 total)
@@ -541,9 +548,9 @@ void XbmcConnectionPrivate::cancelDownload()
 
 void XbmcConnectionPrivate::downloadFinished()
 {
-    qDebug() << "download finished";
     QNetworkReply *reply = static_cast<QNetworkReply*>(sender());
     XbmcDownload *download = m_activeDownloadsMap.value(reply);
+    qDebug() << "download finished" << reply->errorString();
 
     QFile *file = download->file();
     download->setFile(0);

@@ -90,7 +90,7 @@ public:
     Q_INVOKABLE void dimVolumeTo(int newVolume);
     Q_INVOKABLE void restoreVolume();
 
-    Q_INVOKABLE void showNotification(const QString &header, const QString &text);
+    Q_INVOKABLE void sendNotification(const QString &header, const QString &text);
 
 
     bool canShutdown();
@@ -120,11 +120,15 @@ signals:
 
     void downloadAdded(XbmcDownload* download);
 
+    void displayNotification(const QString &text);
+
 private slots:
     void parseAnnouncement(const QVariantMap &map);
     void responseReceived(int id, const QVariantMap &rsp);
     void connectionChanged();
     void init();
+    void slotDownloadAdded(XbmcDownload *download);
+    void downloadFinished(bool success);
 
 private:
     static Xbmc *s_instance;

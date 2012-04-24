@@ -41,6 +41,8 @@ public:
     void setLabel(const QString &label);
     QString label() const;
 
+    bool isCancelled() const;
+
 signals:
     void sourceChanged();
     void destinationChanged();
@@ -62,6 +64,7 @@ private:
     qint64 m_progress;
     QString m_icon;
     QString m_label;
+    bool m_cancelled;
     
 };
 

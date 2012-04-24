@@ -1,7 +1,8 @@
 #include "xbmcdownload.h"
 
 XbmcDownload::XbmcDownload(QObject *parent) :
-    QObject(parent)
+    QObject(parent),
+    m_cancelled(false)
 {
 }
 
@@ -89,7 +90,13 @@ QString XbmcDownload::label() const
     return m_label;
 }
 
+bool XbmcDownload::isCancelled() const
+{
+    return m_cancelled;
+}
+
 void XbmcDownload::cancel()
 {
     emit cancelled();
+    m_cancelled = true;
 }

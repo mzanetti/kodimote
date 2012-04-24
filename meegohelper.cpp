@@ -170,7 +170,7 @@ void MeeGoHelper::callEvent(const QDBusObjectPath &param1, const QString &param2
             }
 
             qDebug() << "got contact" << caller;
-            Xbmc::instance()->showNotification(tr("Incoming call"), caller);
+            Xbmc::instance()->sendNotification(tr("Incoming call"), caller);
         }
     }
 
@@ -296,9 +296,9 @@ void MeeGoHelper::downloadStarted()
 void MeeGoHelper::downloadDone(bool success)
 {
     XbmcDownload *download = qobject_cast<XbmcDownload*>(sender());
-    if(success) {
+    if(!download->isCancelled()) {
         TransferUI::Transfer *transfer = m_transferMap.value(download);
-        transfer->markCompleted(true);
+        transfer->markCompleted(success);
     }
 
     m_transferMap.take(download)->deleteLater();

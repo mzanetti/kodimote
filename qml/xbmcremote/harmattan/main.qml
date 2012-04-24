@@ -14,6 +14,11 @@ PageStackWindow {
         theme.inverted = settings.themeInverted
     }
 
+    InfoBanner {
+        id: notificationBanner
+        topMargin: 40
+    }
+
     MainPage{
         id: mainPage
         // model: mainMenuModel
@@ -147,6 +152,11 @@ PageStackWindow {
             } else {
                 console.log("Error loading component:", component.errorString());
             }
+        }
+        onDisplayNotification: {
+            print("************ notification", text, notificationBanner)
+            notificationBanner.text = text;
+            notificationBanner.show();
         }
     }
 

@@ -21,6 +21,7 @@
 #include "xbmcconnection.h"
 #include "xdebug.h"
 #include "xbmcdiscovery.h"
+#include "xbmcdownload.h"
 
 #include "audiolibrary.h"
 #include "artists.h"
@@ -91,15 +92,13 @@ Xbmc::Xbmc(QObject *parent) :
     qmlRegisterType<XbmcDiscovery>("Xbmc", 1, 0, "XbmcDiscovery");
 #endif
 
-    QSettings settings("xbmcremote");
-
     m_hosts = new XbmcHostModel(this);
 
     connect(XbmcConnection::notifier(), SIGNAL(connectionChanged()), SLOT(connectionChanged()));
     connect(XbmcConnection::notifier(), SIGNAL(receivedAnnouncement(QVariantMap)), SLOT(parseAnnouncement(QVariantMap)));
     connect(XbmcConnection::notifier(), SIGNAL(responseReceived(int,QVariantMap)), SLOT(responseReceived(int,QVariantMap)));
     connect(XbmcConnection::notifier(), SIGNAL(authenticationRequired(QString,QString)), SIGNAL(authenticationRequired(QString, QString)));
-    connect(XbmcConnection::notifier(), SIGNAL(downloadAdded(XbmcDownload*)), SIGNAL(downloadAdded(XbmcDownload*)));
+    connect(XbmcConnection::notifier(), SIGNAL(downloadAdded(XbmcDownload*)), SLOT(slotDownloadAdded(XbmcDownload*)));
 
     m_audioPlayer = new AudioPlayer(this);
     m_videoPlayer = new VideoPlayer(this);
@@ -141,6 +140,22 @@ void Xbmc::init()
     m_requestMap.insert(id, RequestSystemProperties);
 
     queryActivePlayers();
+}
+
+void Xbmc::slotDownloadAdded(XbmcDownload *download)
+{
+    connect(download, SIGNAL(finished(bool)), SLOT(downloadFinished(bool)));
+    emit downloadAdded(download);
+}
+
+void Xbmc::downloadFinished(bool success)
+{
+    XbmcDownload *download = qobject_cast<XbmcDownload*>(sender());
+    if(success) {
+        emit displayNotification(tr("Finished downloading %1").arg(download->label()));
+    } else {
+        emit displayNotification(tr("Error downloading %1").arg(download->label()));
+    }
 }
 
 bool Xbmc::connected()
@@ -392,7 +407,7 @@ void Xbmc::restoreVolume()
     m_volumeAnimation.start();
 }
 
-void Xbmc::showNotification(const QString &header, const QString &text)
+void Xbmc::sendNotification(const QString &header, const QString &text)
 {
     XbmcConnection::sendLegacyCommand("ExecBuiltIn(Notification(" + header + ", " + text + ",5000,DefaultIconInfo.png))");
 }
