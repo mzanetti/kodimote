@@ -103,7 +103,7 @@ void Episodes::download(int index, const QString &path)
 {
     LibraryItem *item = qobject_cast<LibraryItem*>(m_list.at(index));
 
-    QString destination = path + "/Movies/" + item->tvShow() + "/Season " + item->season() + '/' + item->title() + '.' + item->fileName().split('.').last();
+    QString destination = path + "/Movies/" + item->tvShow() + "/Season " + item->season() + '/';
     qDebug() << "should download" << destination;
 
     XbmcDownload *download = new XbmcDownload();

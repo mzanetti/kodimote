@@ -106,7 +106,7 @@ void Movies::download(int index, const QString &path)
 {
     LibraryItem *item = qobject_cast<LibraryItem*>(m_list.at(index));
 
-    QString destination = path + "/Movies/" + item->title() + '.' + item->fileName().split('.').last();
+    QString destination = path + "/Movies/";
     qDebug() << "should download" << destination;
 
     XbmcDownload *download = new XbmcDownload();

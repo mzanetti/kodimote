@@ -106,7 +106,7 @@ void Songs::download(int index, const QString &path)
 {
     LibraryItem *item = qobject_cast<LibraryItem*>(m_list.at(index));
 
-    QString destination = path + "/Music/" + item->artist() + '/' + item->album() + '/' + item->title() + '.' + item->fileName().split('.').last();
+    QString destination = path + "/Music/" + item->artist() + '/' + item->album() + '/';
     qDebug() << "should download" << destination;
 
     XbmcDownload *download = new XbmcDownload();

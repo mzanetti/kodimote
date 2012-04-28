@@ -5,6 +5,7 @@
 #include "xbmcdownload.h"
 
 #include <QTimer>
+#include <QFileInfo>
 
 XbmcLibrary::XbmcLibrary(XbmcModel *parent) :XbmcModel(parent), m_deleteAfterDownload(false)
 {
@@ -59,6 +60,10 @@ bool XbmcLibrary::deleteAfterDownload() const
 void XbmcLibrary::startDownload(int index, XbmcDownload *download)
 {
     LibraryItem *item = qobject_cast<LibraryItem*>(m_list.at(index));
+
+    QFileInfo fileInfo(item->fileName());
+    download->setDestination(download->destination() + fileInfo.fileName());
+
     QVariantMap params;
     params.insert("path", item->fileName());
     int id = XbmcConnection::sendCommand("Files.PrepareDownload", params);
