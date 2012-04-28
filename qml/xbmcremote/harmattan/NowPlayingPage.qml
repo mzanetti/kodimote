@@ -205,15 +205,16 @@ Page {
                         progressBarLabel.x = mouseX - progressBarLabel.width / 2;
 
                         // Calculate time under mouseX
-                        var targetTime = (progressBarLabel.x + progressBarLabel.width / 2) * currentItem.durationInSecs / progressBar.width;
+                        var progressedWidth = mouseX - progressBar.x;
+                        var targetTime = progressedWidth * currentItem.durationInSecs / progressBar.width;
                         targetTime = Math.min(targetTime, currentItem.durationInSecs);
                         targetTime = Math.max(targetTime, 0);
 
                         // Translate to human readable time
-                        var hours = Math.round(targetTime / 60 / 60);
-                        var minutes = Math.round(targetTime / 60) % 60;
+                        var hours = Math.floor(targetTime / 60 / 60);
+                        var minutes = Math.floor(targetTime / 60) % 60;
                         if(minutes < 10) minutes = "0" + minutes;
-                        var seconds = Math.round(targetTime) % 60;
+                        var seconds = Math.floor(targetTime) % 60;
                         if(seconds < 10) seconds = "0" + seconds;
 
                         // Write into the label
