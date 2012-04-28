@@ -517,6 +517,12 @@ QString LibraryItem::durationString() const
     return m_duration.toString("mm:ss");
 }
 
+int LibraryItem::durationInSecs() const
+{
+    QTime nullTime;
+    return nullTime.msecsTo(m_duration) / 1000;
+}
+
 void LibraryItem::setDuration(const QTime &duration)
 {
     m_duration = duration;

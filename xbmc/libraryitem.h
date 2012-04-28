@@ -48,6 +48,7 @@ class LibraryItem : public XbmcModelItem
     Q_PROPERTY(QString disbanded READ disbanded WRITE setDisbanded NOTIFY disbandedChanged)
     Q_PROPERTY(QTime duration READ duration WRITE setDuration NOTIFY durationChanged)
     Q_PROPERTY(QString durationString READ durationString NOTIFY durationChanged)
+    Q_PROPERTY(int durationInSecs READ durationInSecs NOTIFY durationChanged)
     Q_PROPERTY(QString comment READ comment WRITE setComment NOTIFY commentChanged)
     Q_PROPERTY(int playcount READ playcount WRITE setPlaycount NOTIFY playcountChanged)
     Q_PROPERTY(QString cast READ cast WRITE setCast NOTIFY castChanged)
@@ -162,6 +163,7 @@ public:
 
     QTime duration() const;
     QString durationString() const;
+    int durationInSecs() const;
     void setDuration(const QTime &duration);
 
     QString comment() const;
