@@ -50,26 +50,14 @@ Page {
                     model: xbmc.hostModel()
                     highlightFollowsCurrentItem: true
 
-                    Column {
+                    Label {
                         anchors.centerIn: parent
-                        width: parent.width - 10
-                        height: searchLabel + busyIndicator + spacing
-                        spacing: 20
-                        visible: hostList.count == 0
-
-                        BusyIndicator {
-                            id: busyIndicator
-                            anchors.horizontalCenter: parent.horizontalCenter
-                            running: visible
-                        }
-
-                        Label {
-                            id: searchLabel
-                            width: parent.width
-                            text: qsTr("Searching for XBMC hosts. Make sure that remote controlling capabilities in XBMC are enabled and announced using Zeroconf. If you don't use Zeroconf, add a host manually.")
-                            wrapMode: Text.WordWrap
-                            horizontalAlignment: Text.AlignHCenter
-                        }
+                        visible: hostList.count === 0
+                        id: searchLabel
+                        width: parent.width
+                        text: qsTr("No XBMC hosts configured yet. Please add a host.")
+                        wrapMode: Text.WordWrap
+                        horizontalAlignment: Text.AlignHCenter
                     }
 
                     highlight: Rectangle {
@@ -215,8 +203,27 @@ Page {
         Dialog {
             id: deleteQuestion
             property alias text: label.text
-            content: Label {
-                id: label
+            title: Column {
+                width: parent.width - 20
+                anchors.horizontalCenter: parent.horizontalCenter
+
+                Label {
+                    text: qsTr("Remove host?")
+                    width: parent.width
+                    font.pixelSize: 40
+                    color: "white"
+                }
+            }
+            content: Column {
+                anchors.fill: parent
+                anchors.margins: 10
+                //anchors.horizontalCenter: parent.horizontalCenter
+                Label {
+                    id: label
+                    width: parent.width
+                    wrapMode: Text.WordWrap
+                    color: "white"
+                }
             }
             buttons: ButtonRow {
                 width: parent.width

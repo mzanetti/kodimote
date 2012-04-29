@@ -16,6 +16,7 @@ SymbianHelper::SymbianHelper(Settings *settings, QObject *parent) :
 
     connect(Xbmc::instance(), SIGNAL(connectedChanged(bool)), SLOT(connectionChanged(bool)));
     connect(Xbmc::instance()->hostModel(), SIGNAL(rowsRemoved(QModelIndex, int, int)), SLOT(hostRemoved()));
+
 }
 
 void SymbianHelper::connectionChanged(bool connected)

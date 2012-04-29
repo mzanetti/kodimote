@@ -8,11 +8,21 @@
 #include <QVariant>
 #include <QStringList>
 
+#include <QNearFieldManager>
+#include <QNdefNfcTextRecord>
+#include <QNdefNfcUriRecord>
+QTM_USE_NAMESPACE
+
 NfcHandler::NfcHandler(QObject *parent) :
     QObject(parent),
     m_writeNextTag(false),
     m_writeError(false)
 {
+    QNearFieldManager manager;
+    manager.setTargetAccessModes(QNearFieldManager::NdefReadTargetAccess | QNearFieldManager::NdefWriteTargetAccess);
+    qDebug() << "Started NFC tag detection with status:" << manager.startTargetDetection();
+
+    connect(&manager, SIGNAL(targetDetected(QNearFieldTarget*)), SLOT(tagDetected(QNearFieldTarget*)));
 }
 
 

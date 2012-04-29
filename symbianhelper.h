@@ -19,7 +19,6 @@ private slots:
 
 private:
     Settings *m_settings;
-
 };
 
 #endif // SYMBIANHELPER_H

@@ -6,11 +6,6 @@ PageStackWindow {
     property int pageMargin: 16
     property bool connected: xbmc.connected
     initialPage: connected ? mainPage : noConnectionPage
-//    showStatusBar: pageStack.currentPage.height > pageStack.currentPage.width ? true : false
-
-    Component.onCompleted: {
-        theme.inverted = settings.themeInverted
-    }
 
     MainPage{
         id: mainPage

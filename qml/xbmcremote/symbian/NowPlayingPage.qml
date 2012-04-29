@@ -8,7 +8,7 @@ Page {
     anchors.margins: appWindow.pageMargin
     property QtObject player: xbmc.activePlayer
     property QtObject playlist: player.playlist()
-    property QtObject currentItem: playlist.currentItem
+    property QtObject currentItem: player.currentItem
 
     property string orientation: width > height ? "landscape" : "portrait"
 
@@ -27,7 +27,7 @@ Page {
             }
         }
         ToolButton {
-            iconSource: "toolbar-shuffle"
+            iconSource: "icons/tools-shuffle" + (xbmc.activePlayer.shuffle ? "-enabled" : "") + ".png"
             onClicked: {
                 xbmc.activePlayer.shuffle = ! xbmc.activePlayer.shuffle
             }
@@ -42,7 +42,7 @@ Page {
             }
         }
         ToolButton {
-            iconSource: "toolbar-refresh"
+            iconSource: xbmc.activePlayer.repeat === Player.RepeatOne ? "icons/tools-repeat.png" : (xbmc.activePlayer.repeat === Player.RepeatAll ? "icons/tools-repeat-all.png" : "icons/tools-repeat-one.png")
             onClicked: {
                 if(xbmc.activePlayer.repeat === Player.RepeatNone) {
                     xbmc.activePlayer.repeat = Player.RepeatOne;
@@ -77,7 +77,7 @@ Page {
 
         Item {
             id: imageItem
-            height: mainPage.orientation == "portrait" ? parent.width : parent.height
+            height: mainPage.orientation == "portrait" ? parent.height - textItem.height - parent.spacing : parent.height
             width: mainPage.orientation == "portrait" ? parent.width : height
             //            Rectangle {
             //                color: "blue"
@@ -114,7 +114,7 @@ Page {
         Item {
             id: textItem
             width: mainPage.orientation == "portrait" ? parent.width : parent.width - imageItem.width - parent.spacing
-            height: mainPage.orientation == "portrait" ? parent.height - imageItem.height - parent.spacing : parent.height
+            height: mainPage.orientation == "portrait" ? 200 : parent.height
             Label {
                 id: currentTime
                 anchors.left: parent.left
@@ -130,18 +130,18 @@ Page {
 
             Row {
                 id: controlButtons
-                anchors {left:parent.left; right: parent.right; bottom: progressBar.top }
-                anchors.bottomMargin: 20
-                ToolButton { iconSource: "toolbar-mediacontrol-backwards"
-                    anchors.left: parent.left
+                anchors { left:parent.left; right: parent.right; bottom: progressBar.top }
+                anchors.leftMargin: 20
+                anchors.bottomMargin: 10
+                anchors.rightMargin: 20
+                spacing: (width - (backButton.width * 3)) / 2
+                ToolButton { id: backButton; iconSource: "toolbar-mediacontrol-backwards"
                     onClicked: player.skipPrevious();
                 }
                 ToolButton { iconSource: player.state == "playing" ? "toolbar-mediacontrol-pause" : "toolbar-mediacontrol-play"
-                    anchors.horizontalCenter: parent.horizontalCenter
                     onClicked: player.playPause();
                 }
                 ToolButton { iconSource: "toolbar-mediacontrol-forward"
-                    anchors.right: parent.right
                     onClicked: player.skipNext();
                 }
             }
@@ -198,10 +198,10 @@ Page {
                         targetTime = Math.max(targetTime, 0);
 
                         // Translate to human readable time
-                        var hours = Math.round(targetTime / 60 / 60);
-                        var minutes = Math.round(targetTime / 60) % 60;
+                        var hours = Math.floor(targetTime / 60 / 60);
+                        var minutes = Math.floor(targetTime / 60) % 60;
                         if(minutes < 10) minutes = "0" + minutes;
-                        var seconds = Math.round(targetTime) % 60;
+                        var seconds = Math.floor(targetTime) % 60;
                         if(seconds < 10) seconds = "0" + seconds;
 
                         // Write into the label
@@ -222,22 +222,32 @@ Page {
                 anchors.bottom: controlButtons.top
                 height: albumLabel.height
                 anchors.left: parent.left
-                anchors.bottomMargin: 10
+//                anchors.bottomMargin: 10
                 Label {
                     id: albumLabel
                     text: xbmc.state == "audio" ? currentItem.album : (currentItem.type == "episode" ? qsTr("Season:") + " " + currentItem.season : qsTr("Rating:") + " ")
                 }
+                property int starCount: currentItem.rating > 10 ? Math.round(currentItem.rating / 20) : Math.round(currentItem.rating / 2)
                 Repeater {
-                    model: Math.floor(currentItem.rating / 2)
+                    model: parent.starCount
                     Image {
-                        source: "image://theme/meegotouch-indicator-rating-inverted-background-star"
+                        visible: currentItem.type === "movie"
+                        source: "icons/rating-star.png"
+                    }
+                }
+                Repeater {
+                    model: 5 - parent.starCount
+                    Image {
+                        visible: currentItem.type == "movie"
+                        source: "icons/rating-star.png"
+                        opacity: .4
                     }
                 }
             }
 
             Label {
                 id: artistLabel
-                anchors.bottomMargin: 10
+//                anchors.bottomMargin: 10
                 anchors.left: parent.left
                 anchors.bottom: albumRow.top
                 anchors.right: parent.right
@@ -249,7 +259,7 @@ Page {
                 //anchors.right: trackNumLabel.right
                 width: parent.width - trackNumLabel.width
                 anchors.bottom: artistLabel.top
-                anchors.bottomMargin: 10
+//                anchors.bottomMargin: 10
                 text: currentItem.title
                 elide: Text.ElideRight
                 font.bold: true
@@ -258,7 +268,7 @@ Page {
                 id: trackNumLabel
                 anchors.right: parent.right
                 anchors.bottom: artistLabel.top
-                anchors.bottomMargin: 10
+//                anchors.bottomMargin: 10
                 text: playlist.currentTrackNumber + "/" + playlist.count
             }
         }

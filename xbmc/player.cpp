@@ -33,7 +33,7 @@ Player::Player(PlayerType type, QObject *parent) :
     m_state("stopped"),
     m_speed(1),
     m_percentage(0),
-    m_currentItem(0),
+    m_currentItem(new LibraryItem()),
     m_shuffle(false),
     m_repeat(RepeatNone)
 {
@@ -212,6 +212,7 @@ void Player::receivedAnnouncement(const QVariantMap &map)
     xDebug(XDAREA_PLAYER) << "Player" << playerId() << "got announcement:" << map.value("method") << data;
 
     if(map.value("method").toString() == "Player.OnStop") {
+        xDebug(XDAREA_PLAYER) << "stopping player";
         m_state = "stopped";
         m_percentageTimer.stop();
         emit stateChanged();
@@ -370,6 +371,7 @@ QString Player::time() const
 
 void Player::setPercentage()
 {
+    xDebug(XDAREA_PLAYER) << "setting percentage";
     if(!playlist()->currentItem()) {
         return;
     }

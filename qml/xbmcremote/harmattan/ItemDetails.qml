@@ -18,8 +18,8 @@ Item {
     Flickable {
         width: parent.width
         anchors.top: parent.top
-        anchors.topMargin: 10
         anchors.bottom: buttonLoader.top
+        anchors.topMargin: 10
         anchors.bottomMargin: 10
         contentWidth: parent.width
         contentHeight: labelColumn.height
@@ -35,7 +35,7 @@ Item {
             Row {
                 width: parent.width; spacing: 10; visible: rating > -1
                 Label { text: qsTr("Rating:"); font.bold: true }
-                property int starCount: rating > 10 ? Math.floor(rating / 20) : Math.floor(rating / 2)
+                property int starCount: rating > 10 ? Math.round(rating / 20) : Math.round(rating / 2)
                 Repeater {
                     model: parent.starCount
                     Image {

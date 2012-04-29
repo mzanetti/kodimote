@@ -54,7 +54,7 @@ SOURCES += main.cpp \
     xbmc/episodeitem.cpp \
     xbmc/xbmchostmodel.cpp \
     ui/authenticationdialog.cpp \
-    xbmc/xbmcdownload.cpp
+    xbmc/xbmcdownload.cpp \
 
 
 # header used on all platforms
@@ -97,7 +97,7 @@ HEADERS += xbmc/xbmc.h \
     xbmc/episodeitem.h \
     xbmc/xbmchostmodel.h \
     ui/authenticationdialog.h \
-    xbmc/xbmcdownload.h
+    xbmc/xbmcdownload.h \
 
 # to make lupdate parse QML files AND a pro file, the QML files need to be added here.
 # edit and/or call ./messages.sh to extend/update the translations
@@ -221,13 +221,20 @@ maemo5 {
 # Symbian specific stuff
 # Currently tested on Symbian Anna and Belle - You need to create a smart installer for Anna which pulls in Qt. Belle comes with Qt preinstalled)
 symbian {
+    message("Symbian build")
     TARGET.UID3 = 0xE1297420
 
-    SOURCES += symbianhelper.cpp
-    HEADERS += symbianhelper.h
+    SOURCES += symbianhelper.cpp \
+            nfchandler.cpp
+
+    HEADERS += symbianhelper.h \
+            nfchandler.h
+
+    CONFIG += mobility
+    MOBILITY += connectivity
 
     # Allow network access on Symbian
-    TARGET.CAPABILITY += NetworkServices ReadDeviceData WriteDeviceData
+    TARGET.CAPABILITY += NetworkServices ReadDeviceData WriteDeviceData LocalServices
 
     # You need to compile libqjson and deploy it to Symbian sysroot on your own for now
     # Don't forget to edit the capabilities there to the same as here.

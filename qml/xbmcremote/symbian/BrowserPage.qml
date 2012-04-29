@@ -73,18 +73,9 @@ Page {
         }
     }
 
-    Item {
+    ListHeader {
         id: listHeader
-        anchors {left: parent.left; top: parent.top; right: parent.right }
-        height: 60
-        Label {
-            anchors.margins: 10
-            anchors.fill: parent
-            anchors.verticalCenter: listHeader.verticalCenter
-            font.pixelSize: 28
-            text: model.title
-            elide: Text.ElideLeft
-        }
+        text: model !== undefined ? model.title : ""
     }
 
 
@@ -138,14 +129,15 @@ Page {
                 }
             }
 
-            BorderImage {
+            Rectangle {
                 id: background
                 anchors.fill: parent
                 // Fill page borders
                 //                anchors.leftMargin: -browserPage.anchors.leftMargin
                 //                anchors.rightMargin: -browserPage.anchors.rightMargin
                 visible: mouseArea.pressed
-                source: "image://theme/meegotouch-list-background-pressed-center"
+                color: "white"
+                opacity: .5
             }
 
             Rectangle {
@@ -186,7 +178,6 @@ Page {
                         id: mainText
                         text: title
                         font.weight: Font.Bold
-                        font.pixelSize: 26
                         width: itemRow.width - (arrow.visible ? arrow.width : 0)
                         elide: Text.ElideRight
                     }
@@ -195,7 +186,6 @@ Page {
                         id: subText
                         text: subtitle
                         font.weight: Font.Light
-                        font.pixelSize: 24
                         color: "#7b797b"
                         width: itemRow.width - (arrow.visible ? arrow.width : 0)
                         elide: Text.ElideRight
@@ -362,8 +352,8 @@ Page {
         id: busyIndicator
         anchors.centerIn: parent
 //        platformStyle: BusyIndicatorStyle { size: "large" }
-        running: model.busy
-        visible: model.busy
+        running: model !== undefined ? model.busy : true
+        visible: running
     }
 
 }

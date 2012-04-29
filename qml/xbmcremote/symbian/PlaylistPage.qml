@@ -24,6 +24,11 @@ Page {
         console.log("playlist is " + playlist)
     }
 
+    ListHeader {
+        id: listHeader
+        text: playlist.title
+    }
+
     ListView {
         id: listView
         anchors {left: parent.left; right: parent.right; top: listHeader.bottom; bottom: parent.bottom }
@@ -32,17 +37,19 @@ Page {
 
         delegate:  Item {
             id: listItem
-            height: 88
-            width: parent.width
+            height: 60
+            width: parent.width - 30
+            anchors.horizontalCenter: parent.horizontalCenter
 
-            BorderImage {
+            Rectangle {
                 id: background
                 anchors.fill: parent
                 // Fill page borders
-                anchors.leftMargin: -mainPage.anchors.leftMargin
-                anchors.rightMargin: -mainPage.anchors.rightMargin
+                anchors.leftMargin: -listView.anchors.leftMargin
+                anchors.rightMargin: -listView.anchors.rightMargin
                 visible: mouseArea.pressed
-                source: "image://theme/meegotouch-list-background-pressed-center"
+                color: "white"
+                opacity: .5
             }
 
             Row {
@@ -51,24 +58,23 @@ Page {
                 Column {
                     anchors.verticalCenter: parent.verticalCenter
 
+
                     Label {
                         id: mainText
                         text: title
                         font.weight: Font.Bold
-                        font.pixelSize: 26
-                        width: listView.width - durationLabel.width
+                        width: listItem.width - 5 - durationLabel.width
                         elide: Text.ElideRight
                     }
 
                     Label {
                         id: subText
-                        text: subtitle
+                        text: subtitle !== undefined ? subtitle : ""
                         font.weight: Font.Light
-                        font.pixelSize: 24
-                        color: theme.inverted ? "#7b797b" : "#848684"
-                        width: listView.width - durationLabel.width
+                        color: "#7b797b"
+                        width: listItem.width - 5 - durationLabel.width
                         elide: Text.ElideRight
-                        visible: text != ""
+                        visible: text !== ""
                     }
                 }
             }
@@ -98,21 +104,6 @@ Page {
     }
     ScrollDecorator {
         flickableItem: listView
-    }
-    Image {
-        id: listHeader
-        anchors {left: parent.left; top: parent.top; right: parent.right }
-        anchors.leftMargin: -mainPage.anchors.leftMargin
-        anchors.rightMargin: -mainPage.anchors.rightMargin
-        anchors.topMargin: -mainPage.anchors.topMargin
-        source: "image://theme/meegotouch-view-header-fixed" + (theme.inverted ? "-inverted" : "")
-        Label {
-            anchors.margins: mainPage.anchors.margins
-            anchors.fill: parent
-            anchors.verticalCenter: listHeader.verticalCenter
-            font.pixelSize: 28
-            text: playlist.title
-        }
     }
 
     ContextMenu {

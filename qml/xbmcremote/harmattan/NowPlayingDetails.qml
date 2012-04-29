@@ -76,7 +76,7 @@ Page {
             Row {
                 width: parent.width; spacing: 10; visible: currentItem.rating > -1
                 Label { id: ratingLabel; text: qsTr("Rating:"); font.bold: true }
-                property int starCount: currentItem.rating > 10 ? Math.floor(currentItem.rating / 20) : Math.floor(currentItem.rating / 2)
+                property int starCount: currentItem.rating > 10 ? Math.round(currentItem.rating / 20) : Math.round(currentItem.rating / 2)
                 Repeater {
                     model: parent.starCount
                     Image {

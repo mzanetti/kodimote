@@ -6,20 +6,25 @@ Page {
     tools: toolBarEntry
     anchors.margins: appWindow.pageMargin
 
+    ListHeader {
+        id: listHeader
+        text: qsTr("XBMC on %1").arg(xbmc.connectedHostName)
+    }
+
     ListModel {
         id: mainMenuModel
         ListElement {
-            icon: "icon-m-content-audio"
+//            icon: "icon-m-content-audio"
             subtitle: ""
             mode: "library"
         }
         ListElement {
-            icon: "icon-m-content-videos"
+//            icon: "icon-m-content-videos"
             subtitle: ""
             mode: "library"
         }
         ListElement {
-            icon: "icon-m-content-image"
+//            icon: "icon-m-content-image"
             subtitle: ""
             mode: "files"
         }
@@ -39,7 +44,7 @@ Page {
 
     ListView {
         id: listView
-        anchors.fill: parent
+        anchors {top: listHeader.bottom; left: parent.left; right: parent.right; bottom: parent.bottom }
         anchors.margins: 20
         model: mainMenuModel
         spacing: 20
@@ -80,11 +85,11 @@ Page {
                 anchors.margins: 20
 
 
-                Image {
-                    id: toolIcon
-                    anchors.verticalCenter: parent.verticalCenter
-                    source: "image://theme/" + icon
-                }
+//                Image {
+//                    id: toolIcon
+//                    anchors.verticalCenter: parent.verticalCenter
+//                    source: "image://theme/" + icon
+//                }
 
                 Column {
                     anchors.verticalCenter: parent.verticalCenter

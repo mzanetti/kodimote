@@ -17,6 +17,8 @@ Item {
         width: parent.width
         anchors.top: parent.top
         anchors.bottom: buttonRow.top
+        anchors.topMargin: 10
+        anchors.bottomMargin: 10
         contentWidth: parent.width
         contentHeight: labelColumn.height
         clip: true
@@ -31,7 +33,20 @@ Item {
             Row {
                 width: parent.width; spacing: 10; visible: rating > -1
                 Label { text: qsTr("Rating:"); font.bold: true }
-                Label { text: rating }
+                property int starCount: rating > 10 ? Math.round(rating / 20) : Math.round(rating / 2)
+                Repeater {
+                    model: parent.starCount
+                    Image {
+                        source: "icons/rating-star.png"
+                    }
+                }
+                Repeater {
+                    model: 5 - parent.starCount
+                    Image {
+                        source: "icons/rating-star.png"
+                        opacity: .4
+                    }
+                }
             }
 
             Row {
@@ -148,6 +163,7 @@ Item {
                 Label { text: cast }
             }
 
+            SectionHeader { width: parent.width }
 
             Label {
                 id: plotLabel; width: parent.width; visible: plot.length > 0
@@ -166,6 +182,7 @@ Item {
     ButtonRow {
         id: buttonRow
         anchors.bottom: parent.bottom
+        anchors.bottomMargin: 10
         width: parent.width
         exclusive: false
 

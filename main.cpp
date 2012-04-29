@@ -25,18 +25,16 @@
 
 #if defined Q_WS_MAEMO_6
 #include "meegohelper.h"
-#include "nfchandler.h"
-
-#include <QtConnectivity/QNearFieldManager>
-#include <QtConnectivity/QNdefNfcTextRecord>
-#include <QtConnectivity/QNdefNfcUriRecord>
-
 #include <QtSystemInfo/QSystemInfo>
 QTM_USE_NAMESPACE
 #endif
 
 #if defined Q_WS_S60
 #include "symbianhelper.h"
+#endif
+
+#if defined Q_WS_MAEMO_6 || defined Q_WS_S60
+#include "nfchandler.h"
 #endif
 
 #include "qmlapplicationviewer.h"
@@ -139,19 +137,16 @@ Q_DECL_EXPORT int main(int argc, char *argv[])
     MeeGoHelper *helper = new MeeGoHelper(&settings, app.data());
     Q_UNUSED(helper)
 
-    QNearFieldManager manager;
-    NfcHandler nfcHandler;
-    view->rootContext()->setContextProperty("nfcHandler", &nfcHandler);
-
-    manager.setTargetAccessModes(QNearFieldManager::NdefReadTargetAccess | QNearFieldManager::NdefWriteTargetAccess);
-    manager.startTargetDetection();
-
-    QObject::connect(&manager, SIGNAL(targetDetected(QNearFieldTarget*)), &nfcHandler, SLOT(tagDetected(QNearFieldTarget*)));
-
 #elif defined Q_WS_S60
 
     SymbianHelper *helper = new SymbianHelper(&settings, app);
     Q_UNUSED(helper);
+#endif
+
+// Load NFC on supported platforma
+#if defined Q_WS_MAEMO_6 || defined Q_WS_S60
+    NfcHandler nfcHandler;
+    view->rootContext()->setContextProperty("nfcHandler", &nfcHandler);
 #endif
 
     qRegisterMetaType<QNetworkReply::NetworkError>("QNetworkReply::NetworkError");
