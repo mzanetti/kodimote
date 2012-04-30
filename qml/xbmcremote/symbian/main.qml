@@ -5,6 +5,7 @@ PageStackWindow {
     id: appWindow
     property int pageMargin: 16
     property bool connected: xbmc.connected
+    property bool nfcSheetOpen: false
     initialPage: connected ? mainPage : noConnectionPage
 
     MainPage{
@@ -70,17 +71,17 @@ PageStackWindow {
                     }
                 }
             }
-//            MenuItem {
-//                text: qsTr("Write NFC Tag")
-//                onClicked: {
-//                    var component = Qt.createComponent("WriteNfcTagSheet.qml")
-//                    if (component.status == Component.Ready) {
-//                        component.createObject(myMenu).open();
-//                    } else {
-//                        console.log("Error loading component:", component.errorString());
-//                    }
-//                }
-//            }
+            MenuItem {
+                text: qsTr("Write NFC Tag")
+                onClicked: {
+                    var component = Qt.createComponent("WriteNfcTagSheet.qml")
+                    if (component.status == Component.Ready) {
+                        component.createObject(myMenu).open();
+                    } else {
+                        console.log("Error loading component:", component.errorString());
+                    }
+                }
+            }
             MenuItem {
                 text: qsTr("Settings")
                 onClicked: {
@@ -104,6 +105,12 @@ PageStackWindow {
                 text: qsTr("Quit xbmc")
                 onClicked: {
                     quitDialog.open();
+                }
+            }
+            MenuItem {
+                text: qsTr("Quit")
+                onClicked: {
+                    Qt.quit();
                 }
             }
         }
@@ -138,6 +145,24 @@ PageStackWindow {
                 pageStack.push(component, {hostname: hostname });
             } else {
                 console.log("Error loading component:", component.errorString());
+            }
+        }
+    }
+
+    Connections {
+        target: nfcHandler
+        onTagError: {
+            print("NFC tag error", errorMessage);
+            if(!appWindow.nfcSheetOpen) {
+                print("opening dialog");
+                var component = Qt.createComponent("WriteNfcTagSheet.qml")
+                if (component.status === Component.Ready) {
+                    component.createObject(myMenu, { errorMessage: errorMessage }).open();
+                    print("opening dialog");
+                    appWindow.nfcSheetOpen = true;
+                } else {
+                    console.log("Error loading component:", component.errorString());
+                }
             }
         }
     }
@@ -186,57 +211,43 @@ PageStackWindow {
     Dialog {
         id: aboutDialog
 
-        title: Item {
-            height: 200
-            width: parent.width
-            Image {
-                id: icon
-                anchors.top: parent.top
-                anchors.horizontalCenter: parent.horizontalCenter
-                source: "icons/xbmcremote_harmattan.png"
-            }
-            Text {
-                anchors.top: icon.bottom
-                anchors.horizontalCenter: parent.horizontalCenter
-                anchors.topMargin: 20
-                color: "white"
-                font.pixelSize: 32
-                text: "Xbmcremote 0.9.0"
-            }
+        title: Column {
+            width: parent.width - 20
+            anchors.horizontalCenter: parent.horizontalCenter
 
+            Label {
+                text: "Xbmcremote 1.1"
+                width: parent.width
+                font.pixelSize: 40
+                color: "white"
+            }
         }
 
-        content:Item {
+        content:Column {
             id: name
             height: 200
             width: parent.width
+            Item { width: parent.width; height: 20 }
+            Image {
+                id: icon
+                anchors.horizontalCenter: parent.horizontalCenter
+                source: "icons/xbmcremote_harmattan.png"
+            }
             Label {
                 id: text
                 font.pixelSize: 22
-                anchors.centerIn: parent
+                anchors.horizontalCenter: parent.horizontalCenter
                 color: "white"
-                text: "Copyright\n Michael Zanetti\n michael_zanetti@gmx.net\n\nThanks to\n XBMC Development Team\n Johannes Siipola (artwork)"
+                text: qsTr("Copyright") + "\n Michael Zanetti\n michael_zanetti@gmx.net\n\n"
             }
         }
 
         buttons {
             Button {
                 id: closeButton
+                width: parent.width
                 text: qsTr("Close")
                 onClicked: aboutDialog.close()
-            }
-            Button {
-                id: donateButton
-                anchors.top: closeButton.bottom
-                anchors.topMargin: 10
-                text: qsTr("Donate")
-                onClicked: Qt.openUrlExternally("https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=CWFYRZH8XNYF2")
-            }
-            Button {
-                anchors.top: donateButton.bottom
-                anchors.topMargin: 10
-                text: qsTr("Flattr")
-                onClicked: Qt.openUrlExternally("http://flattr.com/thing/412274/Xbmcremote")
             }
         }
     }

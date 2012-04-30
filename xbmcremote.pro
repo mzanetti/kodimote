@@ -239,7 +239,7 @@ symbian {
     # You need to compile libqjson and deploy it to Symbian sysroot on your own for now
     # Don't forget to edit the capabilities there to the same as here.
     # This will add the lib from the sysroot to the package.
-    LIBS += -lqjson.lib
+    LIBS += -lqjson.lib -lremconcoreapi -lremconinterfacebase -letel3rdparty
 #    addFiles.sources = xbmc_qjson.dll
 #    addFiles.path = /sys/bin
 #    DEPLOYMENT += addFiles

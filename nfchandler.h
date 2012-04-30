@@ -3,6 +3,7 @@
 
 #include <QObject>
 
+#include <QNearFieldManager>
 #include <QNdefMessage>
 #include <QNearFieldTarget>
 #include <QNdefNfcTextRecord>
@@ -31,6 +32,7 @@ private slots:
     void ndefMessageWritten();
     void error(QNearFieldTarget::Error error, const QNearFieldTarget::RequestId & id);
 private:
+    QNearFieldManager m_manager;
     QList<QNearFieldTarget *> m_tagList;
     bool m_writeNextTag;
     bool m_writeError;

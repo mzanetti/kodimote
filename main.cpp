@@ -112,6 +112,10 @@ Q_DECL_EXPORT int main(int argc, char *argv[])
     view->rootContext()->setContextProperty("settings", &settings);
     view->rootContext()->setContextProperty("xbmc", Xbmc::instance());
 
+    // Load NFC on supported platforma
+    NfcHandler nfcHandler;
+    view->rootContext()->setContextProperty("nfcHandler", &nfcHandler);
+
 
 // Set the main QML file for all the QML based platforms
 #ifdef QT_SIMULATOR
@@ -141,12 +145,6 @@ Q_DECL_EXPORT int main(int argc, char *argv[])
 
     SymbianHelper *helper = new SymbianHelper(&settings, app);
     Q_UNUSED(helper);
-#endif
-
-// Load NFC on supported platforma
-#if defined Q_WS_MAEMO_6 || defined Q_WS_S60
-    NfcHandler nfcHandler;
-    view->rootContext()->setContextProperty("nfcHandler", &nfcHandler);
 #endif
 
     qRegisterMetaType<QNetworkReply::NetworkError>("QNetworkReply::NetworkError");

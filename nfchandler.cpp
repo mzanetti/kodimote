@@ -8,7 +8,6 @@
 #include <QVariant>
 #include <QStringList>
 
-#include <QNearFieldManager>
 #include <QNdefNfcTextRecord>
 #include <QNdefNfcUriRecord>
 QTM_USE_NAMESPACE
@@ -18,11 +17,10 @@ NfcHandler::NfcHandler(QObject *parent) :
     m_writeNextTag(false),
     m_writeError(false)
 {
-    QNearFieldManager manager;
-    manager.setTargetAccessModes(QNearFieldManager::NdefReadTargetAccess | QNearFieldManager::NdefWriteTargetAccess);
-    qDebug() << "Started NFC tag detection with status:" << manager.startTargetDetection();
+    m_manager.setTargetAccessModes(QNearFieldManager::NdefReadTargetAccess | QNearFieldManager::NdefWriteTargetAccess);
+    qDebug() << "Started NFC tag detection with status:" << m_manager.startTargetDetection();
 
-    connect(&manager, SIGNAL(targetDetected(QNearFieldTarget*)), SLOT(tagDetected(QNearFieldTarget*)));
+    connect(&m_manager, SIGNAL(targetDetected(QNearFieldTarget*)), SLOT(tagDetected(QNearFieldTarget*)));
 }
 
 
@@ -93,8 +91,9 @@ void NfcHandler::ndefMessageRead(QNdefMessage message)
             if(textRecord.text().startsWith("xbmc:")) {
                 qDebug() << "outdated tag detected";
                 emit tagError(tr("NFC tag is outdated. In order to use it with Xbmcremote you need to update it by rewriting connection information to it."));
+            } else {
+                emit tagError(tr("NFC tag is not compatible with Xbmcremote. In order to use it with Xbmcremote you need to write connection information to it."));
             }
-
         }else {
             if (record.typeNameFormat() == QNdefRecord::Mime &&
                     record.type().startsWith("image/")) {

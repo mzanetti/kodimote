@@ -8,7 +8,7 @@ Page {
 
     ToolBarLayout {
         id: toolBarKeypad
-        ToolButton { iconSource: "toolbar-menu";
+        ToolButton { iconSource: "icons/tools-columns.png";
             anchors.left: parent===undefined ? undefined : parent.left
             onClicked: {
                 pageStack.pop();
