@@ -35,7 +35,7 @@ Page {
             }
         }
         ToolIcon {
-            iconSource: "image://theme/icon-m-toolbar-shuffle" + (theme.inverted ? "-white" : "") + (xbmc.activePlayer.shuffle ? "-selected" : "" )
+            iconSource: "icons/shuffle" + (xbmc.activePlayer.shuffle ? "-on" : "-off") + (theme.inverted ? "-black" : "-white") + ".png"
             onClicked: {
                 xbmc.activePlayer.shuffle = ! xbmc.activePlayer.shuffle
             }
@@ -50,10 +50,9 @@ Page {
             }
         }
         ToolIcon {
-            iconSource: "image://theme/icon-m-toolbar-repeat" +
-                        (xbmc.activePlayer.repeat ===  Player.RepeatOne ? "-dimmed" : "") +
-                        (theme.inverted ? "-white" : "") +
-                        (xbmc.activePlayer.repeat === Player.RepeatAll ? "-selected" : "")
+            iconSource: "icons/repeat" +
+                        (xbmc.activePlayer.repeat ===  Player.RepeatOne ? "-one" : (xbmc.activePlayer.repeat === Player.RepeatAll ? "-all" : "-none")) +
+                        (theme.inverted ? "-black" : "-white") + ".png"
             onClicked: {
                 if(xbmc.activePlayer.repeat === Player.RepeatNone) {
                     xbmc.activePlayer.repeat = Player.RepeatOne;
