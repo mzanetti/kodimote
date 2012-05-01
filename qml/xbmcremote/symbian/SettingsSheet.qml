@@ -24,11 +24,11 @@ Page {
                 text: qsTr("Use Thumbnails")
                 checked: settings.useThumbnails
             }
-            CheckBox {
-                id: cbKeepDisplayLit
-                text: qsTr("Keep display on when charging")
-                checked: settings.keepDisplayLit
-            }
+//            CheckBox {
+//                id: cbKeepDisplayLit
+//                text: qsTr("Keep display on when charging")
+//                checked: settings.keepDisplayLit
+//            }
             CheckBox {
                 id: cbIgnoreArticle
                 text: qsTr("Ignore articles for sorting")
@@ -78,7 +78,7 @@ Page {
             anchors.left: parent===undefined ? undefined : parent.left
             onClicked: {
                 console.log("sheet accepted")
-                settings.keepDisplayLit = cbKeepDisplayLit.checked
+//                settings.keepDisplayLit = cbKeepDisplayLit.checked
                 settings.ignoreArticle = cbIgnoreArticle.checked
                 settings.changeVolumeOnCall = cbChangeVol.checked
                 settings.volumeOnCall = slVolume.value
