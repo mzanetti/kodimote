@@ -6,7 +6,7 @@ Dialog {
     property string itemName
 
     title: Item {
-        height: 200
+        height: 50
         width: parent.width
         Text {
             anchors.centerIn: parent
