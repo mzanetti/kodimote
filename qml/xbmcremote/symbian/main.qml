@@ -169,44 +169,62 @@ PageStackWindow {
 
     Dialog {
         id: quitDialog
-        buttons {
-            Column {
-                spacing: 30
-                Column {
-                    spacing: 10
-                    Button {
-                        text: qsTr("Quit")
-                        onClicked: xbmc.quit();
-                    }
-                    Button {
-                        text: qsTr("Shutdown")
-                        visible: xbmc.canShutdown
-                        onClicked: xbmc.shutdown();
-                    }
-                    Button {
-                        text: qsTr("Reboot")
-                        visible: xbmc.canReboot
-                        onClicked: xbmc.reboot();
-                    }
-                    Button {
-                        text: qsTr("Suspend")
-                        visible: xbmc.canSuspend
-                        onClicked: xbmc.suspend();
-                    }
-                    Button {
-                        text: qsTr("Hibernate")
-                        visible: xbmc.canHibernate
-                        onClicked: xbmc.hibernate();
-                    }
-                }
+        title: Column {
+            width: parent.width - 20
+            anchors.horizontalCenter: parent.horizontalCenter
 
+            Label {
+                text: qsTr("Quit XBMC?")
+                width: parent.width
+                font.pixelSize: 40
+                color: "white"
+            }
+        }
+
+        content: Column {
+                spacing: 10
+                width: parent.width
+                height: 220
+                Item {width: parent.width; height: 10}
+                Button {
+                    text: qsTr("Quit")
+                    width: parent.width
+                    onClicked: xbmc.quit();
+                }
+                Button {
+                    text: qsTr("Shutdown")
+                    visible: xbmc.canShutdown
+                    width: parent.width
+                    onClicked: xbmc.shutdown();
+                }
+                Button {
+                    text: qsTr("Reboot")
+                    visible: xbmc.canReboot
+                    width: parent.width
+                    onClicked: xbmc.reboot();
+                }
+                Button {
+                    text: qsTr("Suspend")
+                    visible: xbmc.canSuspend
+                    width: parent.width
+                    onClicked: xbmc.suspend();
+                }
+                Button {
+                    text: qsTr("Hibernate")
+                    visible: xbmc.canHibernate
+                    width: parent.width
+                    onClicked: xbmc.hibernate();
+                }
+            }
+
+        buttons {
                 Button {
                     text: qsTr("Cancel")
+                    width: parent.width
                     onClicked: quitDialog.close();
                 }
             }
         }
-    }
 
     Dialog {
         id: aboutDialog
