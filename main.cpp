@@ -35,6 +35,7 @@ QTM_USE_NAMESPACE
 
 #if defined Q_WS_MAEMO_6 || defined Q_WS_S60
 #include "nfchandler.h"
+#include "rumbleeffect.h"
 #endif
 
 #include "qmlapplicationviewer.h"
@@ -144,6 +145,12 @@ Q_DECL_EXPORT int main(int argc, char *argv[])
 #endif
 
     qRegisterMetaType<QNetworkReply::NetworkError>("QNetworkReply::NetworkError");
+
+
+#if defined Q_WS_MAEMO_6 || defined Q_WS_S60
+    RumbleEffect rumble;
+    view->rootContext()->setContextProperty("rumbleEffect", &rumble);
+#endif
 
     return app->exec();
 }

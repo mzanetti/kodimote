@@ -64,6 +64,7 @@ Page {
             KeypadButton {
                 id: arrowUp
                 icon: "up"
+                mouseAreaTopMargin: -70
                 onPressed: player.moveUp();
             }
 
@@ -74,6 +75,7 @@ Page {
             KeypadButton {
                 id: arrowLeft
                 icon: "left"
+                mouseAreaLeftMargin: -100
                 onPressed: player.moveLeft();
             }
 
@@ -86,6 +88,7 @@ Page {
             KeypadButton {
                 id: arrowRight
                 icon: "right"
+                mouseAreaRightMargin: -100
                 onPressed: player.moveRight();
             }
             Item {
@@ -95,6 +98,7 @@ Page {
             KeypadButton {
                 id: arrowDown
                 icon: "down"
+                mouseAreaBottomMargin: -50
                 onPressed: player.moveDown();
             }
             Item {

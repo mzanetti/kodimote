@@ -47,7 +47,6 @@ SOURCES += main.cpp \
     ui/authenticationdialog.cpp \
     xbmc/xbmcdownload.cpp \
 
-
 # header used on all platforms
 HEADERS += xbmc/xbmc.h \
     xbmc/xbmcconnection.h \
@@ -135,17 +134,19 @@ contains(MEEGO_EDITION,harmattan) {
     target.path = /opt/usr/bin
     QT += dbus
     CONFIG += qmsystem2 mobility meego
-    MOBILITY = connectivity systeminfo contacts
+    MOBILITY = connectivity systeminfo contacts feedback
     DEFINES += Q_WS_MAEMO_6
 
     # Speed up launching on MeeGo/Harmattan when using applauncherd daemon
     CONFIG += qdeclarative-boostable
 
     SOURCES += meegohelper.cpp \
-            nfchandler.cpp
+            nfchandler.cpp \
+            rumbleeffect.cpp
 
     HEADERS += meegohelper.h \
-            nfchandler.h
+            nfchandler.h \
+            rumbleeffect.h
 
     INCLUDEPATH += /usr/include/resource/qt4
     LIBS += -lresourceqt -lqjson
@@ -230,13 +231,15 @@ symbian {
     TARGET.UID3 = 0xE1297420
 
     SOURCES += symbianhelper.cpp \
-            nfchandler.cpp
+            nfchandler.cpp \
+            rumbleeffect.cpp
 
     HEADERS += symbianhelper.h \
-            nfchandler.h
+            nfchandler.h \
+            rumbleeffect.h
 
     CONFIG += mobility
-    MOBILITY += connectivity contacts
+    MOBILITY += connectivity contacts feedback
 
     # Allow network access on Symbian
     TARGET.CAPABILITY += NetworkServices ReadDeviceData WriteDeviceData LocalServices ReadUserData

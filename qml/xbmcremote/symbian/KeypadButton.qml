@@ -6,14 +6,25 @@ Image {
     property string icon
     signal pressed()
     source: "icons/" + button.icon + ".png"
+
+    property int mouseAreaLeftMargin: 0
+    property int mouseAreaRightMargin: 0
+    property int mouseAreaTopMargin: 0
+    property int mouseAreaBottomMargin: 0
+
     MouseArea {
-        id: upMouseArea
+        id: mouseArea
         anchors.fill: parent
+        anchors.leftMargin: button.mouseAreaLeftMargin
+        anchors.rightMargin: button.mouseAreaRightMargin
+        anchors.topMargin: button.mouseAreaTopMargin
+        anchors.bottomMargin: button.mouseAreaBottomMargin
+        onPressed: rumbleEffect.start();
         onClicked: button.pressed();
     }
     states: [
         State {
-            when: upMouseArea.pressed;
+            when: mouseArea.pressed;
             PropertyChanges { target: button; source: "icons/" + button.icon + "_pressed.png" }
         }
     ]

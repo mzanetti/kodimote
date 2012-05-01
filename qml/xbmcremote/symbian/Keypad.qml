@@ -71,6 +71,7 @@ Page {
             KeypadButton {
                 id: arrowUp
                 icon: "up"
+                mouseAreaTopMargin: -50
                 onPressed: keys.up();
             }
 
@@ -81,6 +82,7 @@ Page {
             KeypadButton {
                 id: arrowLeft
                 icon: "left"
+                mouseAreaLeftMargin: -70
                 onPressed: keys.left();
             }
 
@@ -97,6 +99,7 @@ Page {
             KeypadButton {
                 id: arrowRight
                 icon: "right"
+                mouseAreaRightMargin: -70
                 onPressed: keys.right();
             }
             Item {
@@ -106,6 +109,7 @@ Page {
             KeypadButton {
                 id: arrowDown
                 icon: "down"
+                mouseAreaBottomMargin: -50
                 onPressed: keys.down();
             }
             Item {
