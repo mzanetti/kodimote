@@ -550,7 +550,6 @@ void XbmcConnectionPrivate::downloadFinished()
 {
     QNetworkReply *reply = static_cast<QNetworkReply*>(sender());
     XbmcDownload *download = m_activeDownloadsMap.value(reply);
-    qDebug() << "download finished" << reply->errorString();
 
     QFile *file = download->file();
     download->setFile(0);
@@ -560,8 +559,10 @@ void XbmcConnectionPrivate::downloadFinished()
     delete file;
 
     if(reply->error() == QNetworkReply::NoError) {
+        qDebug() << "download finished";
         download->setFinished(true);
     } else {
+        qDebug() << "download failed" << reply->error() << reply->errorString();
         download->setFinished(false);
     }
     download->deleteLater();

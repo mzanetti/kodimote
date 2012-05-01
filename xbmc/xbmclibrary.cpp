@@ -61,7 +61,7 @@ void XbmcLibrary::startDownload(int index, XbmcDownload *download)
 {
     LibraryItem *item = qobject_cast<LibraryItem*>(m_list.at(index));
 
-    QFileInfo fileInfo(item->fileName());
+    QFileInfo fileInfo(item->fileName().replace('\\', '/')); // Make sure it works on Windoze too
     download->setDestination(download->destination() + fileInfo.fileName());
 
     QVariantMap params;
