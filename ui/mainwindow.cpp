@@ -206,7 +206,7 @@ void MainWindow::callEvent(const QDBusObjectPath &param1, const QString &param2)
             }
 
             qDebug() << "got contact" << caller;
-            Xbmc::instance()->showNotification(tr("Incoming call"), caller);
+            Xbmc::instance()->sendNotification(tr("Incoming call"), caller);
         }
     }
 
