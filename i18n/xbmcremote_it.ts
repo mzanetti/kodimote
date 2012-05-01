@@ -382,162 +382,162 @@
 <context>
     <name>ItemDetails</name>
     <message>
-        <location filename="../qml/xbmcremote/fremantle/ItemDetails.qml" line="86"/>
-        <location filename="../qml/xbmcremote/harmattan/ItemDetails.qml" line="37"/>
+        <location filename="../qml/xbmcremote/fremantle/ItemDetails.qml" line="93"/>
+        <location filename="../qml/xbmcremote/harmattan/ItemDetails.qml" line="45"/>
         <location filename="../qml/xbmcremote/symbian/ItemDetails.qml" line="35"/>
         <source>Rating:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/xbmcremote/fremantle/ItemDetails.qml" line="92"/>
-        <location filename="../qml/xbmcremote/harmattan/ItemDetails.qml" line="56"/>
+        <location filename="../qml/xbmcremote/fremantle/ItemDetails.qml" line="99"/>
+        <location filename="../qml/xbmcremote/harmattan/ItemDetails.qml" line="64"/>
         <location filename="../qml/xbmcremote/symbian/ItemDetails.qml" line="54"/>
         <source>Season:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/xbmcremote/fremantle/ItemDetails.qml" line="98"/>
-        <location filename="../qml/xbmcremote/harmattan/ItemDetails.qml" line="62"/>
+        <location filename="../qml/xbmcremote/fremantle/ItemDetails.qml" line="105"/>
+        <location filename="../qml/xbmcremote/harmattan/ItemDetails.qml" line="70"/>
         <location filename="../qml/xbmcremote/symbian/ItemDetails.qml" line="60"/>
         <source>Episode:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/xbmcremote/fremantle/ItemDetails.qml" line="104"/>
-        <location filename="../qml/xbmcremote/harmattan/ItemDetails.qml" line="68"/>
+        <location filename="../qml/xbmcremote/fremantle/ItemDetails.qml" line="111"/>
+        <location filename="../qml/xbmcremote/harmattan/ItemDetails.qml" line="76"/>
         <location filename="../qml/xbmcremote/symbian/ItemDetails.qml" line="66"/>
         <source>First aired:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/xbmcremote/fremantle/ItemDetails.qml" line="110"/>
-        <location filename="../qml/xbmcremote/harmattan/ItemDetails.qml" line="74"/>
+        <location filename="../qml/xbmcremote/fremantle/ItemDetails.qml" line="117"/>
+        <location filename="../qml/xbmcremote/harmattan/ItemDetails.qml" line="82"/>
         <location filename="../qml/xbmcremote/symbian/ItemDetails.qml" line="72"/>
         <source>Genre:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/xbmcremote/fremantle/ItemDetails.qml" line="116"/>
-        <location filename="../qml/xbmcremote/harmattan/ItemDetails.qml" line="80"/>
+        <location filename="../qml/xbmcremote/fremantle/ItemDetails.qml" line="123"/>
+        <location filename="../qml/xbmcremote/harmattan/ItemDetails.qml" line="88"/>
         <location filename="../qml/xbmcremote/symbian/ItemDetails.qml" line="78"/>
         <source>Year:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/xbmcremote/fremantle/ItemDetails.qml" line="122"/>
-        <location filename="../qml/xbmcremote/harmattan/ItemDetails.qml" line="86"/>
+        <location filename="../qml/xbmcremote/fremantle/ItemDetails.qml" line="129"/>
+        <location filename="../qml/xbmcremote/harmattan/ItemDetails.qml" line="94"/>
         <location filename="../qml/xbmcremote/symbian/ItemDetails.qml" line="84"/>
         <source>Director:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/xbmcremote/fremantle/ItemDetails.qml" line="128"/>
-        <location filename="../qml/xbmcremote/harmattan/ItemDetails.qml" line="92"/>
+        <location filename="../qml/xbmcremote/fremantle/ItemDetails.qml" line="135"/>
+        <location filename="../qml/xbmcremote/harmattan/ItemDetails.qml" line="100"/>
         <location filename="../qml/xbmcremote/symbian/ItemDetails.qml" line="90"/>
         <source>Tagline:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/xbmcremote/fremantle/ItemDetails.qml" line="134"/>
-        <location filename="../qml/xbmcremote/harmattan/ItemDetails.qml" line="98"/>
+        <location filename="../qml/xbmcremote/fremantle/ItemDetails.qml" line="141"/>
+        <location filename="../qml/xbmcremote/harmattan/ItemDetails.qml" line="106"/>
         <location filename="../qml/xbmcremote/symbian/ItemDetails.qml" line="96"/>
         <source>MPAA:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/xbmcremote/fremantle/ItemDetails.qml" line="140"/>
-        <location filename="../qml/xbmcremote/harmattan/ItemDetails.qml" line="104"/>
+        <location filename="../qml/xbmcremote/fremantle/ItemDetails.qml" line="147"/>
+        <location filename="../qml/xbmcremote/harmattan/ItemDetails.qml" line="112"/>
         <location filename="../qml/xbmcremote/symbian/ItemDetails.qml" line="102"/>
         <source>Instrument:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/xbmcremote/fremantle/ItemDetails.qml" line="146"/>
-        <location filename="../qml/xbmcremote/harmattan/ItemDetails.qml" line="110"/>
+        <location filename="../qml/xbmcremote/fremantle/ItemDetails.qml" line="153"/>
+        <location filename="../qml/xbmcremote/harmattan/ItemDetails.qml" line="118"/>
         <location filename="../qml/xbmcremote/symbian/ItemDetails.qml" line="108"/>
         <source>Style:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/xbmcremote/fremantle/ItemDetails.qml" line="152"/>
-        <location filename="../qml/xbmcremote/harmattan/ItemDetails.qml" line="116"/>
+        <location filename="../qml/xbmcremote/fremantle/ItemDetails.qml" line="159"/>
+        <location filename="../qml/xbmcremote/harmattan/ItemDetails.qml" line="124"/>
         <location filename="../qml/xbmcremote/symbian/ItemDetails.qml" line="114"/>
         <source>Mood:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/xbmcremote/fremantle/ItemDetails.qml" line="158"/>
-        <location filename="../qml/xbmcremote/harmattan/ItemDetails.qml" line="122"/>
+        <location filename="../qml/xbmcremote/fremantle/ItemDetails.qml" line="165"/>
+        <location filename="../qml/xbmcremote/harmattan/ItemDetails.qml" line="130"/>
         <location filename="../qml/xbmcremote/symbian/ItemDetails.qml" line="120"/>
         <source>Born:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/xbmcremote/fremantle/ItemDetails.qml" line="164"/>
-        <location filename="../qml/xbmcremote/harmattan/ItemDetails.qml" line="128"/>
+        <location filename="../qml/xbmcremote/fremantle/ItemDetails.qml" line="171"/>
+        <location filename="../qml/xbmcremote/harmattan/ItemDetails.qml" line="136"/>
         <location filename="../qml/xbmcremote/symbian/ItemDetails.qml" line="126"/>
         <source>Formed:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/xbmcremote/fremantle/ItemDetails.qml" line="170"/>
-        <location filename="../qml/xbmcremote/harmattan/ItemDetails.qml" line="134"/>
+        <location filename="../qml/xbmcremote/fremantle/ItemDetails.qml" line="177"/>
+        <location filename="../qml/xbmcremote/harmattan/ItemDetails.qml" line="142"/>
         <location filename="../qml/xbmcremote/symbian/ItemDetails.qml" line="132"/>
         <source>Died:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/xbmcremote/fremantle/ItemDetails.qml" line="176"/>
-        <location filename="../qml/xbmcremote/harmattan/ItemDetails.qml" line="140"/>
+        <location filename="../qml/xbmcremote/fremantle/ItemDetails.qml" line="183"/>
+        <location filename="../qml/xbmcremote/harmattan/ItemDetails.qml" line="148"/>
         <location filename="../qml/xbmcremote/symbian/ItemDetails.qml" line="138"/>
         <source>Disbanded:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/xbmcremote/fremantle/ItemDetails.qml" line="182"/>
-        <location filename="../qml/xbmcremote/harmattan/ItemDetails.qml" line="146"/>
+        <location filename="../qml/xbmcremote/fremantle/ItemDetails.qml" line="189"/>
+        <location filename="../qml/xbmcremote/harmattan/ItemDetails.qml" line="154"/>
         <location filename="../qml/xbmcremote/symbian/ItemDetails.qml" line="144"/>
         <source>Duration:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/xbmcremote/fremantle/ItemDetails.qml" line="188"/>
-        <location filename="../qml/xbmcremote/harmattan/ItemDetails.qml" line="152"/>
+        <location filename="../qml/xbmcremote/fremantle/ItemDetails.qml" line="195"/>
+        <location filename="../qml/xbmcremote/harmattan/ItemDetails.qml" line="160"/>
         <location filename="../qml/xbmcremote/symbian/ItemDetails.qml" line="150"/>
         <source>Comment:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/xbmcremote/fremantle/ItemDetails.qml" line="194"/>
-        <location filename="../qml/xbmcremote/harmattan/ItemDetails.qml" line="158"/>
+        <location filename="../qml/xbmcremote/fremantle/ItemDetails.qml" line="201"/>
+        <location filename="../qml/xbmcremote/harmattan/ItemDetails.qml" line="166"/>
         <location filename="../qml/xbmcremote/symbian/ItemDetails.qml" line="156"/>
         <source>Playcount:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/xbmcremote/fremantle/ItemDetails.qml" line="200"/>
-        <location filename="../qml/xbmcremote/harmattan/ItemDetails.qml" line="164"/>
+        <location filename="../qml/xbmcremote/fremantle/ItemDetails.qml" line="207"/>
+        <location filename="../qml/xbmcremote/harmattan/ItemDetails.qml" line="172"/>
         <location filename="../qml/xbmcremote/symbian/ItemDetails.qml" line="162"/>
         <source>Cast:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/xbmcremote/harmattan/ItemDetails.qml" line="222"/>
-        <location filename="../qml/xbmcremote/harmattan/ItemDetails.qml" line="246"/>
+        <location filename="../qml/xbmcremote/harmattan/ItemDetails.qml" line="230"/>
+        <location filename="../qml/xbmcremote/harmattan/ItemDetails.qml" line="254"/>
         <location filename="../qml/xbmcremote/symbian/ItemDetails.qml" line="197"/>
         <source>Play</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/xbmcremote/harmattan/ItemDetails.qml" line="226"/>
-        <location filename="../qml/xbmcremote/harmattan/ItemDetails.qml" line="250"/>
+        <location filename="../qml/xbmcremote/harmattan/ItemDetails.qml" line="234"/>
+        <location filename="../qml/xbmcremote/harmattan/ItemDetails.qml" line="258"/>
         <location filename="../qml/xbmcremote/symbian/ItemDetails.qml" line="201"/>
         <source>Add to playlist</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/xbmcremote/harmattan/ItemDetails.qml" line="230"/>
-        <location filename="../qml/xbmcremote/harmattan/ItemDetails.qml" line="254"/>
+        <location filename="../qml/xbmcremote/harmattan/ItemDetails.qml" line="238"/>
+        <location filename="../qml/xbmcremote/harmattan/ItemDetails.qml" line="262"/>
         <source>Download</source>
         <translation type="unfinished"></translation>
     </message>
@@ -834,24 +834,24 @@
 <context>
     <name>NowPlayingPage</name>
     <message>
-        <location filename="../qml/xbmcremote/harmattan/NowPlayingPage.qml" line="241"/>
+        <location filename="../qml/xbmcremote/harmattan/NowPlayingPage.qml" line="240"/>
         <location filename="../qml/xbmcremote/symbian/NowPlayingPage.qml" line="224"/>
         <source>Season:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/xbmcremote/harmattan/NowPlayingPage.qml" line="241"/>
+        <location filename="../qml/xbmcremote/harmattan/NowPlayingPage.qml" line="240"/>
         <location filename="../qml/xbmcremote/symbian/NowPlayingPage.qml" line="224"/>
         <source>Rating:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/xbmcremote/harmattan/NowPlayingPage.qml" line="241"/>
+        <location filename="../qml/xbmcremote/harmattan/NowPlayingPage.qml" line="240"/>
         <source>Episode:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/xbmcremote/harmattan/NowPlayingPage.qml" line="266"/>
+        <location filename="../qml/xbmcremote/harmattan/NowPlayingPage.qml" line="265"/>
         <location filename="../qml/xbmcremote/symbian/NowPlayingPage.qml" line="250"/>
         <source>Year:</source>
         <translation type="unfinished"></translation>
@@ -860,12 +860,12 @@
 <context>
     <name>NowPlayingView</name>
     <message>
-        <location filename="../qml/xbmcremote/fremantle/NowPlayingView.qml" line="186"/>
+        <location filename="../qml/xbmcremote/fremantle/NowPlayingView.qml" line="189"/>
         <source>Now playing:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/xbmcremote/fremantle/NowPlayingView.qml" line="196"/>
+        <location filename="../qml/xbmcremote/fremantle/NowPlayingView.qml" line="199"/>
         <source>Track:</source>
         <translation type="unfinished"></translation>
     </message>
@@ -882,6 +882,12 @@
         <location filename="../qml/xbmcremote/harmattan/PlaylistPage.qml" line="136"/>
         <location filename="../qml/xbmcremote/symbian/PlaylistPage.qml" line="120"/>
         <source>Remove from playlist</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/xbmcremote/harmattan/PlaylistPage.qml" line="142"/>
+        <location filename="../qml/xbmcremote/symbian/PlaylistPage.qml" line="126"/>
+        <source>Clear playlist</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -934,61 +940,60 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/xbmcremote/harmattan/SettingsSheet.qml" line="19"/>
-        <location filename="../qml/xbmcremote/symbian/SettingsSheet.qml" line="17"/>
+        <location filename="../qml/xbmcremote/harmattan/SettingsSheet.qml" line="20"/>
+        <location filename="../qml/xbmcremote/symbian/SettingsSheet.qml" line="18"/>
         <source>Look and feel</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/xbmcremote/harmattan/SettingsSheet.qml" line="25"/>
+        <location filename="../qml/xbmcremote/harmattan/SettingsSheet.qml" line="26"/>
         <source>Invert theme</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/xbmcremote/harmattan/SettingsSheet.qml" line="30"/>
-        <location filename="../qml/xbmcremote/symbian/SettingsSheet.qml" line="23"/>
+        <location filename="../qml/xbmcremote/harmattan/SettingsSheet.qml" line="31"/>
+        <location filename="../qml/xbmcremote/symbian/SettingsSheet.qml" line="24"/>
         <source>Use Thumbnails</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/xbmcremote/harmattan/SettingsSheet.qml" line="35"/>
-        <location filename="../qml/xbmcremote/symbian/SettingsSheet.qml" line="28"/>
+        <location filename="../qml/xbmcremote/harmattan/SettingsSheet.qml" line="36"/>
         <source>Keep display on when charging</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/xbmcremote/harmattan/SettingsSheet.qml" line="40"/>
-        <location filename="../qml/xbmcremote/symbian/SettingsSheet.qml" line="33"/>
+        <location filename="../qml/xbmcremote/harmattan/SettingsSheet.qml" line="41"/>
+        <location filename="../qml/xbmcremote/symbian/SettingsSheet.qml" line="34"/>
         <source>Ignore articles for sorting</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/xbmcremote/harmattan/SettingsSheet.qml" line="45"/>
-        <location filename="../qml/xbmcremote/symbian/SettingsSheet.qml" line="38"/>
+        <location filename="../qml/xbmcremote/harmattan/SettingsSheet.qml" line="46"/>
+        <location filename="../qml/xbmcremote/symbian/SettingsSheet.qml" line="39"/>
         <source>Phone calls</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/xbmcremote/harmattan/SettingsSheet.qml" line="51"/>
-        <location filename="../qml/xbmcremote/symbian/SettingsSheet.qml" line="44"/>
+        <location filename="../qml/xbmcremote/harmattan/SettingsSheet.qml" line="52"/>
+        <location filename="../qml/xbmcremote/symbian/SettingsSheet.qml" line="45"/>
         <source>Change volume</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/xbmcremote/harmattan/SettingsSheet.qml" line="64"/>
-        <location filename="../qml/xbmcremote/symbian/SettingsSheet.qml" line="57"/>
+        <location filename="../qml/xbmcremote/harmattan/SettingsSheet.qml" line="65"/>
+        <location filename="../qml/xbmcremote/symbian/SettingsSheet.qml" line="58"/>
         <source>Pause video</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/xbmcremote/harmattan/SettingsSheet.qml" line="69"/>
-        <location filename="../qml/xbmcremote/symbian/SettingsSheet.qml" line="62"/>
+        <location filename="../qml/xbmcremote/harmattan/SettingsSheet.qml" line="70"/>
+        <location filename="../qml/xbmcremote/symbian/SettingsSheet.qml" line="63"/>
         <source>Pause music</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/xbmcremote/harmattan/SettingsSheet.qml" line="74"/>
-        <location filename="../qml/xbmcremote/symbian/SettingsSheet.qml" line="67"/>
+        <location filename="../qml/xbmcremote/harmattan/SettingsSheet.qml" line="75"/>
+        <location filename="../qml/xbmcremote/symbian/SettingsSheet.qml" line="68"/>
         <source>Show call notifications</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1016,6 +1021,14 @@
     <message>
         <location filename="../xbmc/songs.cpp" line="199"/>
         <source>Songs</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>SymbianHelper</name>
+    <message>
+        <location filename="../symbianhelper.cpp" line="169"/>
+        <source>Incoming call</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

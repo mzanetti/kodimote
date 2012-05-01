@@ -648,6 +648,10 @@
         <source>Remove from playlist</source>
         <translation>Aus Abspielliste entfernen</translation>
     </message>
+    <message>
+        <source>Clear playlist</source>
+        <translation>Liste löschen</translation>
+    </message>
 </context>
 <context>
     <name>Seasons</name>
@@ -750,6 +754,13 @@
     <message>
         <source>Songs</source>
         <translation>Lieder</translation>
+    </message>
+</context>
+<context>
+    <name>SymbianHelper</name>
+    <message>
+        <source>Incoming call</source>
+        <translation>Eingehender Anruf</translation>
     </message>
 </context>
 <context>
