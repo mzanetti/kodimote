@@ -15,12 +15,19 @@ FocusScope {
         detailsScope.forceActiveFocus();
     }
 
+    signal closed()
+
+    function close() {
+        detailsScope.focus = false;
+        closed();
+    }
+
     MouseArea {
         id: backMouseArea
         anchors.fill: parent
         enabled: false
 
-        onClicked: mainFocusArea.forceActiveFocus();
+        onClicked: detailsScope.close();
 
     }
 
@@ -28,7 +35,7 @@ FocusScope {
         switch(event.key) {
         case Qt.Key_Backspace:
         case Qt.Key_Escape:
-            mainFocusArea.forceActiveFocus();
+            detailsScope.close();
             break;
         case Qt.Key_Down:
             if(flickableArea.contentY < flickableArea.contentHeight - height) {
@@ -41,7 +48,7 @@ FocusScope {
             }
             break;
         }
-
+        event.accepted = true;
     }
 
     BorderImage {

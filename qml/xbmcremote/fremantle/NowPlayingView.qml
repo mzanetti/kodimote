@@ -63,6 +63,9 @@ FocusScope {
             case Qt.Key_Escape:
                 xbmc.activePlayer.stop();
                 break;
+            case Qt.Key_I:
+                itemDetails.forceActiveFocus();
+                break;
             }
         }
     }
@@ -232,6 +235,29 @@ FocusScope {
                 }
             }
 
+            Rectangle {
+                id: infoButton
+                height: 36
+                width: height
+                radius: height / 2
+                border.width: 3
+                border.color: "white"
+                color: "black"
+                opacity: .3
+                anchors.right: parent.right
+                anchors.top: line1.bottom
+            }
+            Text {
+                anchors.centerIn: infoButton
+                font.pixelSize: 20
+                text: "i"
+                color: "white"
+            }
+            MouseArea {
+                anchors.fill: infoButton
+                onClicked: itemDetails.open();
+            }
+
             Text {
                 id:titleText
                 width: nowPlayingText.width
@@ -325,10 +351,10 @@ FocusScope {
                         onMouseXChanged: {
                             var ct = (seekTimeTag.x + seekTimeTag.width / 2) * currentItem.durationInSecs / progressBar.width
                             print("ct " + ct);
-                            var hours = Math.round(ct / 60 / 60);
-                            var minutes = Math.round(ct / 60) % 60;
+                            var hours = Math.floor(ct / 60 / 60);
+                            var minutes = Math.floor(ct / 60) % 60;
                             if(minutes < 10) minutes = "0" + minutes;
-                            var seconds = Math.round(ct) % 60;
+                            var seconds = Math.floor(ct) % 60;
                             if(seconds < 10) seconds = "0" + seconds;
                             if(currentItem.durationInSecs < 60 * 60) {
                                 seekTimeTagText.text = minutes + ":" + seconds;
@@ -360,6 +386,13 @@ FocusScope {
         anchors.margins: 25
         height: 60
         id: audioPlayerControls
+    }
+
+    ItemDetails {
+        id: itemDetails
+        anchors.fill: parent
+        item: currentItem
+        onClosed: nowPlayingView.forceActiveFocus();
     }
 
     states: [

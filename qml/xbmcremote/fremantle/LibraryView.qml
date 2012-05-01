@@ -277,6 +277,8 @@ Item {
         id: itemDetails
         anchors.fill: parent
 //        opacity: 0
+
+        onClosed: mainFocusArea.forceActiveFocus();
     }
 
 }
