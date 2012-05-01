@@ -371,7 +371,7 @@ QString Player::time() const
 
 void Player::setPercentage()
 {
-    xDebug(XDAREA_PLAYER) << "setting percentage";
+    //xDebug(XDAREA_PLAYER) << "setting percentage";
     if(!playlist()->currentItem()) {
         return;
     }

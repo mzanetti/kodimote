@@ -49,7 +49,7 @@ Dialog {
         target: nfcHandler
 
         onTagWritten: {
-            textLabel.text = qsTr("Tag written successfully.\nYou can now use this tag\nto connect to XBMC.")
+            textLabel.text = statusText
             closeButton.text = qsTr("Close")
         }
     }

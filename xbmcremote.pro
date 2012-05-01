@@ -5,15 +5,6 @@ QT += network
 # (This might significantly increase build time)
 # DEFINES += QMLJSDEBUGGER
 
-# translations
-translations.files = i18n/xbmcremote_de.qm \
-    i18n/xbmcremote_nl.qm \
-    i18n/xbmcremote_pt.qm \
-    i18n/xbmcremote_el.qm \
-
-translations.path = /opt/xbmcremote/i18n/
-INSTALLS += translations
-
 # Sources used on all platforms
 SOURCES += main.cpp \
     xbmc/xbmc.cpp \
@@ -121,6 +112,20 @@ lupdate {
         qml/xbmcremote/fremantle/LibraryView.qml \
         qml/xbmcremote/fremantle/NowPlayingView.qml \
         qml/xbmcremote/fremantle/HomeMenu.qml \
+        qml/xbmcremote/symbian/main.qml \
+        qml/xbmcremote/symbian/AuthenticationSheet.qml \
+        qml/xbmcremote/symbian/ConnectionSheet.qml \
+        qml/xbmcremote/symbian/ItemDetails.qml \
+        qml/xbmcremote/symbian/MainPage.qml \
+        qml/xbmcremote/symbian/NoConnectionPage.qml \
+        qml/xbmcremote/symbian/NowPlayingPage.qml \
+        qml/xbmcremote/symbian/NowPlayingDetails.qml \
+        qml/xbmcremote/symbian/BrowserPage.qml \
+        qml/xbmcremote/symbian/Keypad.qml \
+        qml/xbmcremote/symbian/PictureControlsPage.qml \
+        qml/xbmcremote/symbian/PlaylistPage.qml \
+        qml/xbmcremote/symbian/SettingsSheet.qml \
+        qml/xbmcremote/symbian/WriteNfcTagSheet.qml \
 }
 
 

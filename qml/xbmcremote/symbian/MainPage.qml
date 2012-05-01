@@ -14,17 +14,17 @@ Page {
     ListModel {
         id: mainMenuModel
         ListElement {
-//            icon: "icon-m-content-audio"
+            icon: "icons/music.png"
             subtitle: ""
             mode: "library"
         }
         ListElement {
-//            icon: "icon-m-content-videos"
+            icon: "icons/video.png"
             subtitle: ""
             mode: "library"
         }
         ListElement {
-//            icon: "icon-m-content-image"
+            icon: "icons/picture.png"
             subtitle: ""
             mode: "files"
         }
@@ -52,7 +52,7 @@ Page {
 
         delegate:  Item {
             id: listItem
-            height: 150
+            height: 100
             width: parent.width
             clip: true
 
@@ -85,11 +85,11 @@ Page {
                 anchors.margins: 20
 
 
-//                Image {
-//                    id: toolIcon
-//                    anchors.verticalCenter: parent.verticalCenter
-//                    source: "image://theme/" + icon
-//                }
+                Image {
+                    id: toolIcon
+                    anchors.verticalCenter: parent.verticalCenter
+                    source: icon
+                }
 
                 Column {
                     anchors.verticalCenter: parent.verticalCenter

@@ -42,7 +42,7 @@ Page {
             }
         }
         ToolButton {
-            iconSource: xbmc.activePlayer.repeat === Player.RepeatOne ? "icons/tools-repeat.png" : (xbmc.activePlayer.repeat === Player.RepeatAll ? "icons/tools-repeat-all.png" : "icons/tools-repeat-one.png")
+            iconSource: xbmc.activePlayer.repeat === Player.RepeatOne ? "icons/tools-repeat-one.png" : (xbmc.activePlayer.repeat === Player.RepeatAll ? "icons/tools-repeat-all.png" : "icons/tools-repeat.png")
             onClicked: {
                 if(xbmc.activePlayer.repeat === Player.RepeatNone) {
                     xbmc.activePlayer.repeat = Player.RepeatOne;
@@ -79,10 +79,6 @@ Page {
             id: imageItem
             height: mainPage.orientation == "portrait" ? parent.height - textItem.height - parent.spacing : parent.height
             width: mainPage.orientation == "portrait" ? parent.width : height
-            //            Rectangle {
-            //                color: "blue"
-            //                anchors.fill: parent
-            //            }
 
             Rectangle {
                 id: defaultFanart
@@ -98,7 +94,7 @@ Page {
                     font.pixelSize: 85
                     font.capitalization: Font.AllUppercase
                     clip: true
-                    visible: currentItem.thumbnail.length === 0
+                    visible: currentItem.thumbnail.length === 0 || currentItem.thumbnail === "DefaultAlbumCover.png" || currentItem.thumbnail === "DefaultVideoCover.png"
                 }
             }
 

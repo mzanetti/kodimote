@@ -251,6 +251,26 @@
         <source>Announce these services to other systems via Zeroconf</source>
         <translation>Zeroconf-Veröffentlichung</translation>
     </message>
+    <message>
+        <source>No XBMC hosts configured yet. Please add a host.</source>
+        <translation>Keine Verbindung zu XBMC eingerichtet. Bitte fügen Sie einen Rechner hinzu.</translation>
+    </message>
+    <message>
+        <source>Remove %1</source>
+        <translation>%1 entfernen</translation>
+    </message>
+    <message>
+        <source>Remove host?</source>
+        <translation>Rechner entfernen?</translation>
+    </message>
+    <message>
+        <source>Yes</source>
+        <translation>Ja</translation>
+    </message>
+    <message>
+        <source>No</source>
+        <translation>Nein</translation>
+    </message>
 </context>
 <context>
     <name>Episodes</name>
@@ -372,6 +392,10 @@
         <source>Add to playlist</source>
         <translation>Zur Playliste</translation>
     </message>
+    <message>
+        <source>Download</source>
+        <translation>Herunterladen</translation>
+    </message>
 </context>
 <context>
     <name>LibraryView</name>
@@ -426,6 +450,10 @@
         <source>Rescan library</source>
         <translation>Bibliothek aktualisieren</translation>
     </message>
+    <message>
+        <source>XBMC on %1</source>
+        <translation>XBMC auf %1</translation>
+    </message>
 </context>
 <context>
     <name>MainWindow</name>
@@ -476,6 +504,18 @@
     <message>
         <source>NFC tag is outdated. In order to use it with Xbmcremote you need to update it by rewriting connection information to it.</source>
         <translation>NFC Tag ist veraltet. Um dieses Tag weiterhin mit Xbmcremote zu verwenden, müsses Sie es erneut beschreiben.</translation>
+    </message>
+    <message>
+        <source>Tag written successfully. NOTE: This tag does not offer enough space to write all informations. Wake on LAN will not work with this tag.</source>
+        <translation>Tag erfolgreich beschrieben. ACHTUNG: Dieses Tag bietet nicht genug speicherplatz für alle Informationen. Wake on LAN wird damit nicht funktionieren.</translation>
+    </message>
+    <message>
+        <source>Tag written successfully.</source>
+        <translation>Tag erfolgreich beschrieben.</translation>
+    </message>
+    <message>
+        <source>Error writing NFC tag.</source>
+        <translation>Fehler beim Schreiben des NFC Tags.</translation>
     </message>
 </context>
 <context>
@@ -681,6 +721,14 @@
         <source>Pause music</source>
         <translation>Pausiere Musik</translation>
     </message>
+    <message>
+        <source>Ignore articles for sorting</source>
+        <translation>Artikel für Sortierung ignorieren</translation>
+    </message>
+    <message>
+        <source>Show call notifications</source>
+        <translation>Anrufbenachrichtigung anzeigen</translation>
+    </message>
 </context>
 <context>
     <name>Shares</name>
@@ -760,8 +808,19 @@
         <translation>NFC Tag schreiben</translation>
     </message>
     <message>
-        <source>Tag written successfully.</source>
-        <translation>Tag erfolgreich beschrieben.</translation>
+        <source>Write NFC tag</source>
+        <translation>NFC Tag schreiben</translation>
+    </message>
+</context>
+<context>
+    <name>Xbmc</name>
+    <message>
+        <source>Finished downloading %1</source>
+        <translation>Laden von %1 beendet</translation>
+    </message>
+    <message>
+        <source>Error downloading %1</source>
+        <translation>Fehler beim Laden von %1</translation>
     </message>
 </context>
 <context>
@@ -848,6 +907,10 @@
     <message>
         <source>Flattr</source>
         <translation>Flattr</translation>
+    </message>
+    <message>
+        <source>Quit XBMC?</source>
+        <translation>XBMC beenden?</translation>
     </message>
 </context>
 </TS>

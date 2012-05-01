@@ -1,5 +1,10 @@
 <RCC>
     <qresource prefix="/">
         <file alias="logo_l">logo_l.png</file>
+        <file>i18n/xbmcremote_de.qm</file>
+        <file>i18n/xbmcremote_el.qm</file>
+        <file>i18n/xbmcremote_it.qm</file>
+        <file>i18n/xbmcremote_nl.qm</file>
+        <file>i18n/xbmcremote_pt.qm</file>
     </qresource>
 </RCC>
