@@ -10,7 +10,8 @@ Page {
         contentHeight: settingsCol.height
         Column {
             id: settingsCol
-            anchors.fill: parent
+            anchors.left: parent.left
+            anchors.right: parent.right
             anchors.margins: appWindow.pageMargin
             spacing: 10
             SectionHeader {

@@ -13,6 +13,14 @@ Item {
     signal addToPlaylist
     signal download
 
+    function askDownload() {
+        var component = Qt.createComponent(Qt.resolvedUrl("DownloadDialog.qml"));
+        var dialog = component.createObject(itemDetails);
+        dialog.itemName = title
+        dialog.accepted.connect(download);
+        dialog.open();
+    }
+
     Component.onCompleted: print("**************itemHeight: " + height)
 
     Flickable {
@@ -228,7 +236,7 @@ Item {
             }
             Button {
                 text: qsTr("Download")
-                onClicked: itemDetails.download()
+                onClicked: itemDetails.askDownload()
             }
         }
     }
@@ -252,8 +260,9 @@ Item {
             }
             Button {
                 text: qsTr("Download")
-                onClicked: itemDetails.download()
+                onClicked: itemDetails.askDownload()
             }
         }
     }
+
 }
