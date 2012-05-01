@@ -138,6 +138,12 @@ Page {
                     playlist.removeItem(listView.currentSelected)
                 }
             }
+            MenuItem {
+                text: qsTr("Clear playlist")
+                onClicked: {
+                    playlist.clear()
+                }
+            }
         }
     }
 
