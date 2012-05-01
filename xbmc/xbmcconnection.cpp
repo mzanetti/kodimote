@@ -142,7 +142,7 @@ void XbmcConnectionPrivate::connect(XbmcHost *host)
         m_host = host;
     }
 
-    xDebug(XDAREA_CONNECTION) << "connecting to" << m_host->hostname() << m_host->address() << m_host->username() << m_host->password();
+    xDebug(XDAREA_CONNECTION) << "connecting to" << m_host->hostname() << m_host->address() << m_host->username() << "(using password:" << !m_host->password().isEmpty() << ")";
     // We connect to telnet on port 9090 for the announcements
     m_socket->connectToHost(m_host->address(), 9090);
 
