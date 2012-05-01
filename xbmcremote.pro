@@ -236,10 +236,10 @@ symbian {
             nfchandler.h
 
     CONFIG += mobility
-    MOBILITY += connectivity
+    MOBILITY += connectivity contacts
 
     # Allow network access on Symbian
-    TARGET.CAPABILITY += NetworkServices ReadDeviceData WriteDeviceData LocalServices
+    TARGET.CAPABILITY += NetworkServices ReadDeviceData WriteDeviceData LocalServices ReadUserData
 
     # You need to compile libqjson and deploy it to Symbian sysroot on your own for now
     # Don't forget to edit the capabilities there to the same as here.

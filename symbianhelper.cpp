@@ -4,6 +4,11 @@
 #include "xbmc/audioplayer.h"
 #include "settings.h"
 
+#include <QContactDetailFilter>
+#include <QContactPhoneNumber>
+#include <QContactManager>
+QTM_USE_NAMESPACE
+
 SymbianHelper::SymbianHelper(Settings *settings, QObject *parent) :
     QObject(parent),
     m_videoPaused(false),
@@ -53,6 +58,9 @@ void SymbianHelper::CallStatusChangedL(CTelephony::TCallStatus &aStatus, TInt aE
     switch(aStatus) {
     // Incoming/outgoing call
     case CTelephony::EStatusRinging:
+        if(settings.showCallNotifications()) {
+            showCallNotification();
+        }
     case CTelephony::EStatusDialling:
         if(settings.changeVolumeOnCall()) {
             Xbmc::instance()->dimVolumeTo(settings.volumeOnCall());
@@ -112,4 +120,51 @@ void SymbianHelper::hostRemoved()
             ++i;
         }
     }
+}
+
+void SymbianHelper::showCallNotification()
+{
+    // Create a CTelephony object
+    CTelephony* telephony = CTelephony::NewLC();
+
+    CTelephony::TCallInfoV1 callInfoV1;
+    CTelephony::TCallInfoV1Pckg callInfoV1Pckg(callInfoV1);
+
+    CTelephony::TCallSelectionV1 callSelectionV1;
+    CTelephony::TCallSelectionV1Pckg callSelectionV1Pckg(callSelectionV1);
+
+    CTelephony::TRemotePartyInfoV1 remotePartyInfoV1;
+    CTelephony::TRemotePartyInfoV1Pckg remotePartyInfoV1Pckg(remotePartyInfoV1);
+
+    callSelectionV1.iLine = CTelephony::EVoiceLine;
+    callSelectionV1.iSelect = CTelephony::EInProgressCall;
+
+    qDebug() << "asking for call info";
+    // Get the call info
+    User::LeaveIfError(telephony->GetCallInfo(callSelectionV1Pckg,
+        callInfoV1Pckg, remotePartyInfoV1Pckg));
+    // Copy the remote party's phone number to the target descriptor
+    TBuf<100> numberBuf;
+    numberBuf.Copy(remotePartyInfoV1Pckg().iRemoteNumber.iTelNumber);
+    CleanupStack::PopAndDestroy(); // telephony
+
+    QString number = QString((QChar*)numberBuf.Ptr(), numberBuf.Length());
+    qDebug() << "got caller number" << number;
+
+    QContactDetailFilter phoneFilter;
+    phoneFilter.setDetailDefinitionName(QContactPhoneNumber::DefinitionName, QContactPhoneNumber::FieldNumber);
+    phoneFilter.setValue(number);
+    phoneFilter.setMatchFlags(QContactFilter::MatchContains);
+    qDebug() << "search contact";
+    QContactManager contactManager;
+
+    QString caller;
+    if(contactManager.contacts(phoneFilter).count() > 0) {
+        caller = contactManager.contacts(phoneFilter).first().displayLabel();
+    } else {
+        caller = number;
+    }
+
+    qDebug() << "got contact" << caller;
+    Xbmc::instance()->sendNotification(tr("Incoming call"), caller);
 }

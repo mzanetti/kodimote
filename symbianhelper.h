@@ -32,6 +32,7 @@ private slots:
     void connectionChanged(bool connected);
     void hostRemoved();
 
+    void showCallNotification();
 private:
     Settings *m_settings;
 
