@@ -31,18 +31,18 @@ Dialog {
     }
 
     content: Item {
-        anchors.fill: parent
-        Label {
-//        height: 200
         width: parent.width
-        anchors.centerIn: parent
-        id: textLabel
-        text: writeNfcTagSheet.errorMessage.length == 0 ? qsTr("Tap a NFC tag to write XBMC connection information to it. You can then use the tag to connect to this XBMC.") : writeNfcTagSheet.errorMessage
-        color: "white"
-        horizontalAlignment: Text.AlignHCenter
-        wrapMode: Text.WordWrap
-        font.pointSize: 25
-    }
+        height: 200
+        Label {
+            width: parent.width
+            anchors.centerIn: parent
+            id: textLabel
+            text: writeNfcTagSheet.errorMessage.length == 0 ? qsTr("Tap a NFC tag to write XBMC connection information to it. You can then use the tag to connect to this XBMC.") : writeNfcTagSheet.errorMessage
+            color: "white"
+            horizontalAlignment: Text.AlignHCenter
+            wrapMode: Text.WordWrap
+            font.pointSize: 25
+        }
     }
 
     Connections {
