@@ -323,32 +323,32 @@
     <message>
         <location filename="../qml/xbmcremote/symbian/ConnectionSheet.qml" line="58"/>
         <source>No XBMC hosts configured yet.</source>
-        <translation type="unfinished"></translation>
+        <translation>Δεν έχει οριστεί XBMC υπολογιστής.</translation>
     </message>
     <message>
         <location filename="../qml/xbmcremote/symbian/ConnectionSheet.qml" line="62"/>
         <source>After having set up those options, add your XBMC host here.</source>
-        <translation type="unfinished"></translation>
+        <translation>Μετά την εισαγωγή αυτών των επιλογών, προσθέστε εδώ τον XBMC υπολογιστή.</translation>
     </message>
     <message>
         <location filename="../qml/xbmcremote/symbian/ConnectionSheet.qml" line="112"/>
         <source>Remove %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Αφαίρεση %1</translation>
     </message>
     <message>
         <location filename="../qml/xbmcremote/symbian/ConnectionSheet.qml" line="216"/>
         <source>Remove host?</source>
-        <translation type="unfinished"></translation>
+        <translation>Αφαίρεση υπολογιστή;</translation>
     </message>
     <message>
         <location filename="../qml/xbmcremote/symbian/ConnectionSheet.qml" line="236"/>
         <source>Yes</source>
-        <translation type="unfinished"></translation>
+        <translation>Ναι</translation>
     </message>
     <message>
         <location filename="../qml/xbmcremote/symbian/ConnectionSheet.qml" line="243"/>
         <source>No</source>
-        <translation type="unfinished"></translation>
+        <translation>Όχι</translation>
     </message>
 </context>
 <context>
@@ -547,7 +547,7 @@
         <location filename="../qml/xbmcremote/harmattan/ItemDetails.qml" line="238"/>
         <location filename="../qml/xbmcremote/harmattan/ItemDetails.qml" line="262"/>
         <source>Download</source>
-        <translation type="unfinished"></translation>
+        <translation>Μεταφόρτωση</translation>
     </message>
 </context>
 <context>
@@ -579,7 +579,7 @@
         <location filename="../qml/xbmcremote/harmattan/MainPage.qml" line="28"/>
         <location filename="../qml/xbmcremote/symbian/MainPage.qml" line="11"/>
         <source>XBMC on %1</source>
-        <translation type="unfinished">XBMC στο %1</translation>
+        <translation>XBMC στο %1</translation>
     </message>
     <message>
         <location filename="../qml/xbmcremote/harmattan/MainPage.qml" line="54"/>
@@ -694,17 +694,17 @@
     <message>
         <location filename="../nfchandler.cpp" line="128"/>
         <source>Tag written successfully. NOTE: This tag does not offer enough space to write all informations. Wake on LAN will not work with this tag.</source>
-        <translation type="unfinished"></translation>
+        <translation>Επιτυχής εγγραφη ετικέτας. Προσοχη: Αυτή η ετικέτα δεν έχει αρκετό χώρο για όλες τις πληροφοίες. Η υπηρεσία Wake on LAN δε θα λειτουργήσει με αυτή την ετικέτα.</translation>
     </message>
     <message>
         <location filename="../nfchandler.cpp" line="130"/>
         <source>Tag written successfully.</source>
-        <translation type="unfinished">Επιτυχής εγγραφή ετικέτας.</translation>
+        <translation>Επιτυχής εγγραφή ετικέτας.</translation>
     </message>
     <message>
         <location filename="../nfchandler.cpp" line="138"/>
         <source>Error writing NFC tag.</source>
-        <translation type="unfinished"></translation>
+        <translation>Λάθος κατά την εγγραφή της ετικέτας NFC.</translation>
     </message>
 </context>
 <context>
@@ -896,7 +896,7 @@
         <location filename="../qml/xbmcremote/harmattan/PlaylistPage.qml" line="142"/>
         <location filename="../qml/xbmcremote/symbian/PlaylistPage.qml" line="126"/>
         <source>Clear playlist</source>
-        <translation type="unfinished">Καθαρισμός λίστας</translation>
+        <translation>Καθαρισμός λίστας</translation>
     </message>
 </context>
 <context>
@@ -973,7 +973,7 @@
         <location filename="../qml/xbmcremote/harmattan/SettingsSheet.qml" line="41"/>
         <location filename="../qml/xbmcremote/symbian/SettingsSheet.qml" line="34"/>
         <source>Ignore articles for sorting</source>
-        <translation type="unfinished"></translation>
+        <translation>Αγνόηση άρθρων κατά την ταξινόμηση</translation>
     </message>
     <message>
         <location filename="../qml/xbmcremote/harmattan/SettingsSheet.qml" line="46"/>
@@ -1003,7 +1003,7 @@
         <location filename="../qml/xbmcremote/harmattan/SettingsSheet.qml" line="75"/>
         <location filename="../qml/xbmcremote/symbian/SettingsSheet.qml" line="68"/>
         <source>Show call notifications</source>
-        <translation type="unfinished"></translation>
+        <translation>Εμφάνιση ειδοποιήσεων κλήσης</translation>
     </message>
 </context>
 <context>
@@ -1037,7 +1037,7 @@
     <message>
         <location filename="../symbianhelper.cpp" line="169"/>
         <source>Incoming call</source>
-        <translation type="unfinished">Εισερχόμεμη κλήση</translation>
+        <translation>Εισερχόμεμη κλήση</translation>
     </message>
 </context>
 <context>
@@ -1113,7 +1113,7 @@
     <message>
         <location filename="../qml/xbmcremote/symbian/WriteNfcTagSheet.qml" line="26"/>
         <source>Write NFC tag</source>
-        <translation type="unfinished"></translation>
+        <translation>Εγγραφή ετικέτας NFC</translation>
     </message>
 </context>
 <context>
@@ -1121,12 +1121,12 @@
     <message>
         <location filename="../xbmc/xbmc.cpp" line="155"/>
         <source>Finished downloading %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Τελός μεταφόρτωσης %1</translation>
     </message>
     <message>
         <location filename="../xbmc/xbmc.cpp" line="157"/>
         <source>Error downloading %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Λάθος κατά τη μεταφόρτωση %1</translation>
     </message>
 </context>
 <context>
@@ -1252,7 +1252,7 @@
     <message>
         <location filename="../qml/xbmcremote/symbian/main.qml" line="177"/>
         <source>Quit XBMC?</source>
-        <translation type="unfinished"></translation>
+        <translation>Κλείσιμο XBMC;</translation>
     </message>
 </context>
 </TS>
