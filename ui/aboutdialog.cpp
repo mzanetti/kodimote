@@ -7,7 +7,7 @@
 #include <QDesktopServices>
 #include <QUrl>
 
-#define VERSION_STRING "1.0"
+#define VERSION_STRING "1.1"
 
 AboutDialog::AboutDialog(QWidget *parent) :
     QDialog(parent)
