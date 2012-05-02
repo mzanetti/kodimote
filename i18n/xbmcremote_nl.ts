@@ -242,7 +242,7 @@
     <name>ConnectionSheet</name>
     <message>
         <location filename="../qml/xbmcremote/harmattan/ConnectionSheet.qml" line="8"/>
-        <location filename="../qml/xbmcremote/symbian/ConnectionSheet.qml" line="162"/>
+        <location filename="../qml/xbmcremote/symbian/ConnectionSheet.qml" line="166"/>
         <source>Connect</source>
         <translation>Verbinden</translation>
     </message>
@@ -258,16 +258,19 @@
     </message>
     <message>
         <location filename="../qml/xbmcremote/harmattan/ConnectionSheet.qml" line="52"/>
+        <location filename="../qml/xbmcremote/symbian/ConnectionSheet.qml" line="59"/>
         <source>Please enable the following options in the Network settings of XBMC:</source>
         <translation>Schakel volgende opties in onder netwerkinstellingen van XBMC:</translation>
     </message>
     <message>
         <location filename="../qml/xbmcremote/harmattan/ConnectionSheet.qml" line="53"/>
+        <location filename="../qml/xbmcremote/symbian/ConnectionSheet.qml" line="60"/>
         <source>Allow control of XBMC via HTTP</source>
         <translation>Gebeurtenissen op afstand activeren</translation>
     </message>
     <message>
         <location filename="../qml/xbmcremote/harmattan/ConnectionSheet.qml" line="54"/>
+        <location filename="../qml/xbmcremote/symbian/ConnectionSheet.qml" line="61"/>
         <source>Allow programs on other systems to control XBMC</source>
         <translation>Gebeurtenissen van andere computers ontvangen</translation>
     </message>
@@ -283,7 +286,7 @@
     </message>
     <message>
         <location filename="../qml/xbmcremote/harmattan/ConnectionSheet.qml" line="91"/>
-        <location filename="../qml/xbmcremote/symbian/ConnectionSheet.qml" line="90"/>
+        <location filename="../qml/xbmcremote/symbian/ConnectionSheet.qml" line="94"/>
         <source>XBMC on %1</source>
         <translation>XBMC op %1</translation>
     </message>
@@ -299,19 +302,19 @@
     </message>
     <message>
         <location filename="../qml/xbmcremote/harmattan/ConnectionSheet.qml" line="146"/>
-        <location filename="../qml/xbmcremote/symbian/ConnectionSheet.qml" line="125"/>
+        <location filename="../qml/xbmcremote/symbian/ConnectionSheet.qml" line="129"/>
         <source>Host:</source>
         <translation>Host:</translation>
     </message>
     <message>
         <location filename="../qml/xbmcremote/harmattan/ConnectionSheet.qml" line="159"/>
-        <location filename="../qml/xbmcremote/symbian/ConnectionSheet.qml" line="138"/>
+        <location filename="../qml/xbmcremote/symbian/ConnectionSheet.qml" line="142"/>
         <source>HTTP Port:</source>
         <translation>HTTP poort:</translation>
     </message>
     <message>
         <location filename="../qml/xbmcremote/harmattan/ConnectionSheet.qml" line="172"/>
-        <location filename="../qml/xbmcremote/symbian/ConnectionSheet.qml" line="151"/>
+        <location filename="../qml/xbmcremote/symbian/ConnectionSheet.qml" line="155"/>
         <source>MAC Address for WakeOnLan (optional):</source>
         <translation>MAC Adres voor WakeOnLan (optioneel):</translation>
     </message>
@@ -322,26 +325,31 @@
     </message>
     <message>
         <location filename="../qml/xbmcremote/symbian/ConnectionSheet.qml" line="58"/>
-        <source>No XBMC hosts configured yet. Please add a host.</source>
+        <source>No XBMC hosts configured yet.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/xbmcremote/symbian/ConnectionSheet.qml" line="108"/>
+        <location filename="../qml/xbmcremote/symbian/ConnectionSheet.qml" line="62"/>
+        <source>After having set up those options, add your XBMC host here.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/xbmcremote/symbian/ConnectionSheet.qml" line="112"/>
         <source>Remove %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/xbmcremote/symbian/ConnectionSheet.qml" line="212"/>
+        <location filename="../qml/xbmcremote/symbian/ConnectionSheet.qml" line="216"/>
         <source>Remove host?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/xbmcremote/symbian/ConnectionSheet.qml" line="232"/>
+        <location filename="../qml/xbmcremote/symbian/ConnectionSheet.qml" line="236"/>
         <source>Yes</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/xbmcremote/symbian/ConnectionSheet.qml" line="239"/>
+        <location filename="../qml/xbmcremote/symbian/ConnectionSheet.qml" line="243"/>
         <source>No</source>
         <translation type="unfinished"></translation>
     </message>

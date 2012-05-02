@@ -55,7 +55,11 @@ Page {
                     visible: hostList.count === 0
                     id: searchLabel
                     width: parent.width
-                    text: qsTr("No XBMC hosts configured yet. Please add a host.")
+                    text: qsTr("No XBMC hosts configured yet.") + "\n"
+                          + qsTr("Please enable the following options in the Network settings of XBMC:") + "\n\n- "
+                          + qsTr("Allow control of XBMC via HTTP") + "\n- "
+                          + qsTr("Allow programs on other systems to control XBMC") + "\n\n"
+                          + qsTr("After having set up those options, add your XBMC host here.")
                     wrapMode: Text.WordWrap
                     horizontalAlignment: Text.AlignHCenter
                 }

@@ -252,10 +252,6 @@
         <translation>Zeroconf-Veröffentlichung</translation>
     </message>
     <message>
-        <source>No XBMC hosts configured yet. Please add a host.</source>
-        <translation>Keine Verbindung zu XBMC eingerichtet. Bitte fügen Sie einen Rechner hinzu.</translation>
-    </message>
-    <message>
         <source>Remove %1</source>
         <translation>%1 entfernen</translation>
     </message>
@@ -270,6 +266,14 @@
     <message>
         <source>No</source>
         <translation>Nein</translation>
+    </message>
+    <message>
+        <source>No XBMC hosts configured yet.</source>
+        <translation>Kein XBMC Rechner eingerichtet.</translation>
+    </message>
+    <message>
+        <source>After having set up those options, add your XBMC host here.</source>
+        <translation>Nachdem Sie diese Einstellungen vorgenommen haben, fügen Sie den Rechner hier hinzu.</translation>
     </message>
 </context>
 <context>
