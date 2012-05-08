@@ -322,6 +322,11 @@ Keys *Xbmc::keys()
     return m_keys;
 }
 
+bool Xbmc::connecting()
+{
+    return XbmcConnection::connecting();
+}
+
 void Xbmc::connectionChanged()
 {
     if(connected()) {

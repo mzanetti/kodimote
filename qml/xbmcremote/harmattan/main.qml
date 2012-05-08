@@ -12,6 +12,16 @@ PageStackWindow {
 
     Component.onCompleted: {
         theme.inverted = settings.themeInverted
+
+        print("connecting", xbmc.connecting, "connected", xbmc.connected)
+        if(!(xbmc.connecting || xbmc.connected)) {
+            var component = Qt.createComponent("ConnectionSheet.qml")
+            if (component.status == Component.Ready) {
+                component.createObject(mainPage).open()
+            } else {
+                console.log("Error loading component:", component.errorString());
+            }
+        }
     }
 
     InfoBanner {

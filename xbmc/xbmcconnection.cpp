@@ -42,6 +42,11 @@ void connect(XbmcHost *host)
     instance()->connect(host);
 }
 
+bool connecting()
+{
+    return instance()->connecting();
+}
+
 XbmcHost *connectedHost()
 {
     return instance()->connectedHost();
@@ -101,6 +106,7 @@ XbmcConnectionPrivate::XbmcConnectionPrivate(QObject *parent) :
     m_commandId(0),
     m_versionRequestId(-1),
     m_host(0),
+    m_connecting(false),
     m_connected(false)
 {
     m_socket = new QTcpSocket();
@@ -126,7 +132,17 @@ XbmcConnectionPrivate::XbmcConnectionPrivate(QObject *parent) :
 
 void XbmcConnectionPrivate::connect(XbmcHost *host)
 {
+    if(host != 0) {
+        m_host = host;
+    }
+    if(m_host == 0) {
+        qDebug() << "No host given and no previously connected host stored. Cannot connect.";
+        return;
+    }
+
     qDebug() << "connecting";
+    m_connecting = true;
+
     // Stop the reconnect timer in case someone else triggers the connect
     m_reconnectTimer.stop();
 
@@ -138,9 +154,6 @@ void XbmcConnectionPrivate::connect(XbmcHost *host)
         m_socket->abort();
     }
 
-    if(host != 0) {
-        m_host = host;
-    }
 
     xDebug(XDAREA_CONNECTION) << "connecting to" << m_host->hostname() << m_host->address() << m_host->username() << "(using password:" << !m_host->password().isEmpty() << ")";
     // We connect to telnet on port 9090 for the announcements
@@ -153,6 +166,12 @@ void XbmcConnectionPrivate::connect(XbmcHost *host)
 XbmcHost* XbmcConnectionPrivate::connectedHost()
 {
     return m_host;
+}
+
+bool XbmcConnectionPrivate::connecting()
+{
+    xDebug(XDAREA_CONNECTION) << "current socket state" << m_socket->state();
+    return m_connecting;
 }
 
 void XbmcConnectionPrivate::slotConnected()
@@ -171,6 +190,7 @@ void XbmcConnectionPrivate::slotDisconnected()
         xDebug(XDAREA_CONNECTION) << "No connection yet, cannot disconnect.";
     }
     xDebug(XDAREA_CONNECTION) << "Disconnected";
+    m_connecting = false;
     m_connected = false;
     m_connectionError = tr("The connection has been disconnected");
     emit m_notifier->connectionChanged();
@@ -285,6 +305,7 @@ void XbmcConnectionPrivate::replyReceived()
                 m_connected = true;
                 m_connectionError.clear();
             }
+            m_connecting = false;
             emit m_notifier->connectionChanged();
             continue;
         }

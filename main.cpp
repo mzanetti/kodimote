@@ -75,6 +75,7 @@ Q_DECL_EXPORT int main(int argc, char *argv[])
     }
     app->installTranslator(&translator);
 
+    // Load debug stuff
     XDebug::addAllowedArea(XDAREA_GENERAL);
     for(int i = 1; i < app->arguments().count(); ++i ) {
         if(app->arguments().at(i) == "-d") {
@@ -100,6 +101,19 @@ Q_DECL_EXPORT int main(int argc, char *argv[])
     }
 
     Settings settings;
+
+
+// Create platform helpers
+#ifdef Q_WS_MAEMO_6
+    MeeGoHelper *helper = new MeeGoHelper(&settings, app.data());
+    Q_UNUSED(helper)
+
+#elif defined Q_WS_S60
+
+    SymbianHelper *helper = new SymbianHelper(&settings, app);
+    Q_UNUSED(helper);
+#endif
+
 
 // Create QML Viewer for all QML based platforms
 #if defined Q_WS_MAEMO_6 || defined QT_SIMULATOR || defined Q_WS_S60
@@ -130,18 +144,6 @@ Q_DECL_EXPORT int main(int argc, char *argv[])
     MainWindow *mainWindow = new MainWindow(&settings);
     mainWindow->show();
 
-#endif
-
-
-// Create platform helpers
-#ifdef Q_WS_MAEMO_6
-    MeeGoHelper *helper = new MeeGoHelper(&settings, app.data());
-    Q_UNUSED(helper)
-
-#elif defined Q_WS_S60
-
-    SymbianHelper *helper = new SymbianHelper(&settings, app);
-    Q_UNUSED(helper);
 #endif
 
     qRegisterMetaType<QNetworkReply::NetworkError>("QNetworkReply::NetworkError");

@@ -62,6 +62,7 @@ public:
     explicit XbmcConnectionPrivate(QObject *parent = 0);
 
     XbmcHost *connectedHost();
+    bool connecting();
     bool connected();
     QString connectionError();
     void setAuthCredentials(const QString &username, const QString &password);
@@ -115,6 +116,7 @@ private:
 
     QNetworkAccessManager *m_network;
     QNetworkReply *m_lastAuthRequest;
+    bool m_connecting;
     bool m_connected;
     QString m_connectionError;
 

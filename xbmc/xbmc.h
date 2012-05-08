@@ -42,6 +42,7 @@ class XbmcDownload;
 class Xbmc : public QObject
 {
     Q_OBJECT
+    Q_PROPERTY(bool connecting READ connecting NOTIFY connectingChanged)
     Q_PROPERTY(bool connected READ connected NOTIFY connectedChanged)
     Q_PROPERTY(QString connectionError READ connectionError NOTIFY connectedChanged)
     Q_PROPERTY(QString connectedHostName READ connectedHostName NOTIFY connectedChanged)
@@ -73,6 +74,7 @@ public:
 
     Q_INVOKABLE Keys *keys();
 
+    bool connecting();
     bool connected();
     XbmcHost *connectedHost();
     QString connectedHostName();
@@ -107,8 +109,9 @@ public slots:
     void queryActivePlayers();
 
 signals:
-    void authenticationRequired(const QString &hostname, const QString &address);
+    void connectingChanged();
     void connectedChanged(bool connected);
+    void authenticationRequired(const QString &hostname, const QString &address);
     void activePlayerChanged();
     void volumeChanged(int volume);
     void vfsPathChanged();
