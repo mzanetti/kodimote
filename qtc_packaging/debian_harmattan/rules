@@ -16,7 +16,8 @@
 configure: configure-stamp
 configure-stamp:
 	dh_testdir
-	# qmake PREFIX=/usr# Uncomment this line for use without Qt Creator
+	# Uncomment this line for use without Qt Creator
+	qmake PREFIX=/usr
 
 	touch configure-stamp
 
@@ -27,7 +28,8 @@ build-stamp: configure-stamp
 	dh_testdir
 
 	# Add here commands to compile the package.
-	# $(MAKE) # Uncomment this line for use without Qt Creator
+	# Uncomment this line for use without Qt Creator
+	$(MAKE) 
 	#docbook-to-man debian/xbmcremote.sgml > xbmcremote.1
 
 	touch $@
@@ -38,7 +40,7 @@ clean:
 	rm -f build-stamp configure-stamp
 
 	# Add here commands to clean up after the build process.
-	$(MAKE) clean
+	#$(MAKE) clean
 
 	dh_clean 
 
