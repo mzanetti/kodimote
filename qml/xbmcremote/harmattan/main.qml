@@ -43,11 +43,14 @@ PageStackWindow {
     ToolBarLayout {
         id: toolBarEntry
         visible: false
-        ToolIcon { platformIconId: "toolbar-settings";
+        ToolIcon {
+            platformIconId: "toolbar-settings";
             anchors.left: parent===undefined ? undefined : parent.left
             onClicked: (myMenu.status == DialogStatus.Closed || myMenu.status == DialogStatus.Closing) ? myMenu.open() : myMenu.close()
         }
-        ToolIcon { platformIconId: "toolbar-dialer";
+        ToolIcon {
+            platformIconId: "toolbar-dialer";
+            visible: xbmc.connected
             anchors.horizontalCenter: parent===undefined ? undefined : parent.horizontalCenter
             onClicked: {
                 if(xbmc.picturePlayerActive) {
@@ -60,6 +63,7 @@ PageStackWindow {
         }
         ToolIcon {
             platformIconId: "toolbar-mediacontrol-play" + (enabled ? "" : "-dimmed");
+            visible: xbmc.connected
             enabled: xbmc.activePlayer !== null
             anchors.right: parent===undefined ? undefined : parent.right
             onClicked: pageStack.push(nowPlayingPage);
@@ -82,7 +86,15 @@ PageStackWindow {
                 }
             }
             MenuItem {
+                text: qsTr("Quit xbmc")
+                visible: xbmc.connected
+                onClicked: {
+                    quitDialog.open();
+                }
+            }
+            MenuItem {
                 text: qsTr("Write NFC Tag")
+                visible: xbmc.connected
                 onClicked: {
                     var component = Qt.createComponent("WriteNfcTagSheet.qml")
                     if (component.status == Component.Ready) {
@@ -109,12 +121,6 @@ PageStackWindow {
                 text: qsTr("About")
                 onClicked: {
                     aboutDialog.open();
-                }
-            }
-            MenuItem {
-                text: qsTr("Quit xbmc")
-                onClicked: {
-                    quitDialog.open();
                 }
             }
         }

@@ -4,6 +4,7 @@ import Xbmc 1.0
 
 Page {
     id: mainPage
+    tools: toolBarEntry
     Label {
         id: label
         anchors.centerIn: parent

@@ -4,33 +4,36 @@ import Xbmc 1.0
 
 Page {
     id: mainPage
-    Label {
-        id: label
-        anchors.centerIn: parent
-        anchors.verticalCenterOffset: -150
-        width: parent.width - 100
-        text: xbmc.connectionError
-        wrapMode: Text.WordWrap
-        horizontalAlignment: Text.AlignHCenter
+    tools: toolBarEntry
 
-//        visible: false
-    }
-    Button{
-        anchors.horizontalCenter: parent.horizontalCenter
-        anchors.bottom: parent.bottom
-        anchors.bottomMargin: 250
-        anchors.topMargin: 10
-        text: qsTr("Connect")
-        onClicked: {
-            var component = Qt.createComponent("ConnectionSheet.qml")
-            if (component.status === Component.Ready) {
-                component.createObject(mainPage).open()
-            } else {
-                console.log("Error loading component:", component.errorString());
-            }
-        }
-    }
     XbmcDiscovery {
         id: discovery
+    }
+
+    Column {
+        anchors.verticalCenter: parent.verticalCenter
+        width: parent.width
+        spacing: 20
+
+        Label {
+            id: label
+            anchors.horizontalCenter: parent.horizontalCenter
+            width: parent.width - 100
+            text: xbmc.connectionError
+            wrapMode: Text.WordWrap
+            horizontalAlignment: Text.AlignHCenter
+        }
+        Button{
+            text: qsTr("Connect")
+            anchors.horizontalCenter: parent.horizontalCenter
+            onClicked: {
+                var component = Qt.createComponent("ConnectionSheet.qml")
+                if (component.status === Component.Ready) {
+                    component.createObject(mainPage).open()
+                } else {
+                    console.log("Error loading component:", component.errorString());
+                }
+            }
+        }
     }
 }

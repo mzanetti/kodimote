@@ -8,6 +8,19 @@ PageStackWindow {
     property bool nfcSheetOpen: false
     initialPage: connected ? mainPage : noConnectionPage
 
+    Component.onCompleted: {
+        print("connecting", xbmc.connecting, "connected", xbmc.connected)
+        if(!(xbmc.connecting || xbmc.connected)) {
+            var component = Qt.createComponent("ConnectionSheet.qml")
+            if (component.status == Component.Ready) {
+//                        component.createObject(myMenu).open()
+                pageStack.push(component);
+            } else {
+                console.log("Error loading component:", component.errorString());
+            }
+        }
+    }
+
     MainPage{
         id: mainPage
         // model: mainMenuModel
@@ -32,11 +45,14 @@ PageStackWindow {
     ToolBarLayout {
         id: toolBarEntry
         visible: false
-        ToolButton { iconSource: "toolbar-settings";
+        ToolButton {
+            iconSource: "toolbar-settings";
             anchors.left: parent===undefined ? undefined : parent.left
             onClicked: (myMenu.status == DialogStatus.Closed || myMenu.status == DialogStatus.Closing) ? myMenu.open() : myMenu.close()
         }
-        ToolButton { iconSource: "toolbar-dialer";
+        ToolButton {
+            iconSource: "toolbar-dialer";
+            visible: xbmc.connected
             anchors.horizontalCenter: parent===undefined ? undefined : parent.horizontalCenter
             onClicked: {
                 if(xbmc.picturePlayerActive) {
@@ -49,6 +65,7 @@ PageStackWindow {
         }
         ToolButton {
             iconSource: "toolbar-mediacontrol-play" + (enabled ? "" : "-dimmed");
+            visible: xbmc.connected
             enabled: xbmc.activePlayer !== null
             anchors.right: parent===undefined ? undefined : parent.right
             onClicked: pageStack.push(nowPlayingPage);
@@ -72,7 +89,15 @@ PageStackWindow {
                 }
             }
             MenuItem {
+                text: qsTr("Quit xbmc")
+                visible: xbmc.connected
+                onClicked: {
+                    quitDialog.open();
+                }
+            }
+            MenuItem {
                 text: qsTr("Write NFC Tag")
+                visible: xbmc.connected
                 onClicked: {
                     var component = Qt.createComponent("WriteNfcTagSheet.qml")
                     if (component.status == Component.Ready) {
@@ -84,6 +109,7 @@ PageStackWindow {
             }
             MenuItem {
                 text: qsTr("Settings")
+                visible: xbmc.connected
                 onClicked: {
                     onClicked: {
                         var component = Qt.createComponent("SettingsSheet.qml")
@@ -99,12 +125,6 @@ PageStackWindow {
                 text: qsTr("About")
                 onClicked: {
                     aboutDialog.open();
-                }
-            }
-            MenuItem {
-                text: qsTr("Quit xbmc")
-                onClicked: {
-                    quitDialog.open();
                 }
             }
             MenuItem {
