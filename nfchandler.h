@@ -13,11 +13,15 @@ QTM_USE_NAMESPACE
 class NfcHandler : public QObject
 {
     Q_OBJECT
-    public:
+    Q_PROPERTY(bool isAvailable READ isAvailable NOTIFY availableChanged)
+
+public:
     explicit NfcHandler(QObject *parent = 0);
 
+    bool isAvailable();
 
 signals:
+    void availableChanged();
     void tagWritten(const QString &statusText);
     void tagError(const QString &errorMessage);
 
@@ -31,6 +35,7 @@ private slots:
     void requestCompleted(const QNearFieldTarget::RequestId &id);
     void ndefMessageWritten();
     void error(QNearFieldTarget::Error error, const QNearFieldTarget::RequestId & id);
+
 private:
     QNearFieldManager m_manager;
     QList<QNearFieldTarget *> m_tagList;

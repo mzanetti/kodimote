@@ -23,6 +23,10 @@ NfcHandler::NfcHandler(QObject *parent) :
     connect(&m_manager, SIGNAL(targetDetected(QNearFieldTarget*)), SLOT(tagDetected(QNearFieldTarget*)));
 }
 
+bool NfcHandler::isAvailable()
+{
+    return m_manager.isAvailable();
+}
 
 void NfcHandler::tagDetected(QNearFieldTarget *tag)
 {

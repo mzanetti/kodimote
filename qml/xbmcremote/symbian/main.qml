@@ -97,7 +97,7 @@ PageStackWindow {
             }
             MenuItem {
                 text: qsTr("Write NFC Tag")
-                visible: xbmc.connected
+                visible: xbmc.connected && nfcHandler.isAvailable
                 onClicked: {
                     var component = Qt.createComponent("WriteNfcTagSheet.qml")
                     if (component.status == Component.Ready) {
