@@ -257,6 +257,22 @@ symbian {
 
 }
 
+simulator {
+    message("Simulator build")
+
+    CONFIG += mobility
+    MOBILITY += connectivity contacts feedback
+
+    SOURCES += nfchandler.cpp \
+            rumbleeffect.cpp
+
+    HEADERS += nfchandler.h \
+            rumbleeffect.h
+
+    qmldir.source = qml/xbmcremote/harmattan
+    qmldir.target = qml
+}
+
 RESOURCES += \
     xbmcremote.qrc
 

@@ -33,7 +33,7 @@ QTM_USE_NAMESPACE
 #include "symbianhelper.h"
 #endif
 
-#if defined Q_WS_MAEMO_6 || defined Q_WS_S60
+#if defined Q_WS_MAEMO_6 || defined Q_WS_S60 || defined Q_WS_SIMULATOR
 #include "nfchandler.h"
 #include "rumbleeffect.h"
 #endif
@@ -130,7 +130,7 @@ Q_DECL_EXPORT int main(int argc, char *argv[])
 
 // Set the main QML file for all the QML based platforms
 #ifdef QT_SIMULATOR
-    view->setSource(QUrl("qml/xbmcremote/harmattan/main.qml"));
+    view->setSource(QUrl("qml/harmattan/main.qml"));
 #elif defined Q_WS_MAEMO_6
     view->setMainQmlFile("/opt/xbmcremote/qml/harmattan/main.qml");
 #elif defined Q_WS_S60
