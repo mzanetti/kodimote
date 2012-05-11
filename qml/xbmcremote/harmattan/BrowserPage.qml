@@ -1,11 +1,11 @@
 import QtQuick 1.1
 import com.nokia.meego 1.0
-//import Xbmc 1.0
+import Xbmc 1.0
 
 Page {
     id: browserPage
     tools: toolBarBack
-    property QtObject model
+    property variant model
 
     ToolBarLayout {
         id: toolBarBack
@@ -40,7 +40,7 @@ Page {
 
     Component.onCompleted: {
         console.log("setting model " + model)
-        listView.model = model
+        //filterModel.model = model
     }
 
     Component.onDestruction: {
@@ -75,13 +75,87 @@ Page {
         }
     }
 
+    Item {
+        id: searchBar
+        anchors.top: listHeader.bottom
+        anchors.topMargin: listView.currentItem.state == "expanded" ? -height : 0
+        width: parent.width
+        //height: 80
+        height: expanded ? 80 : 0
+        property bool expanded
+
+        Timer {
+            id: searchTimer
+            interval: 3000
+            repeat: false
+            running: searchBar.expanded && !searchTextField.activeFocus && filterModel.filter.length === 0
+
+            onTriggered: {
+                searchBar.expanded = false;
+            }
+        }
+
+
+        Behavior on height {
+            NumberAnimation { duration: 1500; easing.type: Easing.OutElastic }
+        }
+    }
+
+    TextField {
+        id: searchTextField
+        anchors { left: parent.left; right: parent.right; bottom: listView.top }
+        anchors.leftMargin: 10
+        anchors.rightMargin: 10
+        anchors.bottomMargin: listView.contentY + (80 - height) / 2
+        opacity: searchBar.expanded ? 1 : 0
+
+        Image {
+            id: searchimage
+            source: "image://theme/icon-m-common-search"
+            anchors.right: parent.right
+            anchors.rightMargin: 10
+            anchors.verticalCenter: parent.verticalCenter
+
+        }
+
+        Behavior on opacity {
+            NumberAnimation { duration: 300; easing.type: Easing.OutQuad }
+        }
+
+        onTextChanged: {
+            filterModel.filter = text;
+        }
+    }
+
+    XbmcFilterModel {
+        id: filterModel
+        model: browserPage.model
+        caseSensitive: false
+
+        // When the model is filtered, contentY is messed up sometimes
+        // Lets unset and reset the model to keep the searchbar in place
+        onFilterChanged: {
+            listView.model = undefined
+            listView.model = filterModel
+        }
+    }
+
     ListView {
         id: listView
-        anchors {left: parent.left; top: listHeader.bottom; right: parent.right; bottom: parent.bottom }
+        anchors {left: parent.left; top: searchBar.bottom; right: parent.right; bottom: parent.bottom }
         //snapMode: ListView.SnapToItem
         //        header: listHeader
         highlightFollowsCurrentItem: true
         cacheBuffer: 88 * 3
+        model: filterModel
+
+        property variant headerItem: null
+        property bool draggedForSearch: contentY < -100
+
+
+        onDraggedForSearchChanged: {
+            searchBar.expanded = true;
+        }
 
         delegate:  Item {
             id: listItem
@@ -97,9 +171,10 @@ Page {
                 onPressed: listView.currentIndex = index
 
                 onPressAndHold: {
-                    if(listView.model.hasDetails()) {
-                        listView.model.fetchItemDetails(listView.currentIndex)
+                    if(browserPage.model.hasDetails()) {
+                        browserPage.model.fetchItemDetails(filterModel.mapToSourceIndex(listView.currentIndex))
                         listItem.state = "expanded"
+                        print("expanding:", listView.currentIndex, listView.count)
                     } else if(playable) {
                         longTapMenu.open();
                     }
@@ -112,14 +187,14 @@ Page {
                         if(filetype === "directory") {
                             var component = Qt.createComponent("BrowserPage.qml")
                             if (component.status === Component.Ready) {
-                                var newModel = browserPage.model.enterItem(index);
+                                var newModel = browserPage.model.enterItem(filterModel.mapToSourceIndex(index));
                                 newModel.ignoreArticle = settings.ignoreArticle;
                                 pageStack.push(component, {model: newModel});
                             } else {
                                 console.log("Error loading component:", component.errorString());
                             }
                         } else {
-                            browserPage.model.playItem(index);
+                            browserPage.model.playItem(filterModel.mapToSourceIndex(index));
                         }
                     }
                 }
@@ -275,7 +350,7 @@ Page {
 
     MouseArea {
         id:fastScroller
-        anchors {top: listHeader.bottom; right: parent.right; bottom: parent.bottom }
+        anchors {top: searchHeader.bottom; right: parent.right; bottom: parent.bottom }
         width: 75
 
         Rectangle {
@@ -344,6 +419,7 @@ Page {
         }
     }
 
+
     Menu {
         id: longTapMenu
         visualParent: pageStack
@@ -351,13 +427,13 @@ Page {
             MenuItem {
                 text: "Play"
                 onClicked: {
-                    browserPage.model.playItem(listView.currentIndex)
+                    browserPage.model.playItem(filterModel.mapToSourceIndex(listView.currentIndex))
                 }
             }
             MenuItem {
                 text: "Add to playlist"
                 onClicked: {
-                    browserPage.model.addToPlaylist(listView.currentIndex)
+                    browserPage.model.addToPlaylist(filterModel.mapToSourceIndex(listView.currentIndex))
                 }
             }
         }

@@ -18,6 +18,7 @@
 
 #include "xbmc.h"
 #include "xbmchostmodel.h"
+#include "xbmcfiltermodel.h"
 #include "xbmcconnection.h"
 #include "xdebug.h"
 #include "xbmcdiscovery.h"
@@ -84,6 +85,7 @@ Xbmc::Xbmc(QObject *parent) :
     qmlRegisterType<Files>();
     qmlRegisterType<Shares>();
     qmlRegisterType<Keys>();
+    qmlRegisterType<XbmcFilterModel>("Xbmc", 1, 0, "XbmcFilterModel");
 
     qmlRegisterType<AudioPlayer>("Xbmc", 1, 0, "Player");
 
