@@ -283,15 +283,15 @@ Page {
 
                         onPlayItem: {
                             print("playItem()!")
-                            browserPage.model.playItem(index)
+                            browserPage.model.playItem(filterModel.mapToSourceIndex(index))
                         }
 
                         onAddToPlaylist: {
-                            browserPage.model.addToPlaylist(index)
+                            browserPage.model.addToPlaylist(filterModel.mapToSourceIndex(index))
                         }
 
                         onDownload: {
-                            browserPage.model.download(index, "/home/user/MyDocs/");
+                            browserPage.model.download(filterModel.mapToSourceIndex(index), "/home/user/MyDocs/");
                         }
                     }
                 }
