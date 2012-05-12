@@ -79,8 +79,8 @@ Item {
 
             Row {
                 width: parent.width; spacing: 10; visible: genre.length > 0
-                Label { text: qsTr("Genre:"); font.bold: true }
-                Label { text: genre }
+                Label { id: genreLabel; text: qsTr("Genre:"); font.bold: true }
+                Label { text: genre; width: parent.width - genreLabel.width - parent.spacing; wrapMode: Text.WordWrap }
             }
 
             Row {
@@ -91,14 +91,14 @@ Item {
 
             Row {
                 width: parent.width; spacing: 10; visible: director.length > 0
-                Label { text: qsTr("Director:"); font.bold: true }
-                Label { text: director }
+                Label { id: directorLabel; text: qsTr("Director:"); font.bold: true }
+                Label { text: director; width: parent.width - directorLabel.width - parent.spacing; wrapMode: Text.WordWrap }
             }
 
             Row {
                 width: parent.width; spacing: 10; visible: tagline.length > 0
                 Label { id: taglineLabel; text: qsTr("Tagline:"); font.bold: true }
-                Label { text: tagline; width: parent.width - taglineLabel.width; wrapMode: Text.WordWrap }
+                Label { text: tagline; width: parent.width - taglineLabel.width - parent.spacing; wrapMode: Text.WordWrap }
             }
 
             Row {
@@ -115,14 +115,14 @@ Item {
 
             Row {
                 width: parent.width; spacing: 10; visible: style.length > 0
-                Label { text: qsTr("Style:"); font.bold: true }
-                Label { text: model.style }
+                Label { id: styleLabel; text: qsTr("Style:"); font.bold: true }
+                Label { text: model.style; width: parent.width - styleLabel.width - parent.spacing; wrapMode: Text.WordWrap }
             }
 
             Row {
                 width: parent.width; spacing: 10; visible: mood.length > 0
-                Label { text: qsTr("Mood:"); font.bold: true }
-                Label { text: mood }
+                Label { id: moodLabel; text: qsTr("Mood:"); font.bold: true }
+                Label { text: mood; width: parent.width - moodLabel.width - parent.spacing; wrapMode: Text.WordWrap }
             }
 
             Row {
@@ -157,8 +157,8 @@ Item {
 
             Row {
                 width: parent.width; spacing: 10; visible: comment.length > 0
-                Label { text: qsTr("Comment:"); font.bold: true }
-                Label { text: comment }
+                Label { id: commentLabel; text: qsTr("Comment:"); font.bold: true }
+                Label { text: comment; width: parent.width - commentLabel.width - parent.spacing; wrapMode: Text.WordWrap }
             }
 
             Row {
@@ -169,8 +169,8 @@ Item {
 
             Row {
                 width: parent.width; spacing: 10; visible: cast.length > 0
-                Label { text: qsTr("Cast:"); font.bold: true }
-                Label { text: cast }
+                Label { id: castLabel; text: qsTr("Cast:"); font.bold: true }
+                Label { text: cast; width: parent.width - castLabel.width - parent.spacing; wrapMode: Text.WordWrap }
             }
 
             SectionHeader { width: parent.width }

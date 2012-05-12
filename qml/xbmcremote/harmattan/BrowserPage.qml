@@ -109,6 +109,7 @@ Page {
         anchors.bottomMargin: listView.contentY + (80 - height) / 2
         opacity: searchBar.expanded ? 1 : 0
         inputMethodHints: Qt.ImhNoPredictiveText
+        enabled: opacity == 1
 
         Image {
             id: searchimage
