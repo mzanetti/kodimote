@@ -108,13 +108,20 @@ Page {
         anchors.rightMargin: 10
         anchors.bottomMargin: listView.contentY + (80 - height) / 2
         opacity: searchBar.expanded ? 1 : 0
+        inputMethodHints: Qt.ImhNoPredictiveText
 
         Image {
             id: searchimage
-            source: "image://theme/icon-m-common-search"
+            source: searchTextField.text.length == 0 ? "image://theme/icon-m-common-search" : "image://theme/icon-m-browser-clear"
             anchors.right: parent.right
             anchors.rightMargin: 10
             anchors.verticalCenter: parent.verticalCenter
+
+            MouseArea {
+                anchors.fill: parent
+                anchors.margins: -20
+                onClicked: searchTextField.text = "";
+            }
 
         }
 
