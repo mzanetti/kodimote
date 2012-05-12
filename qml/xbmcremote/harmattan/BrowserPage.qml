@@ -350,7 +350,7 @@ Page {
 
     MouseArea {
         id:fastScroller
-        anchors {top: searchHeader.bottom; right: parent.right; bottom: parent.bottom }
+        anchors {top: searchBar.bottom; right: parent.right; bottom: parent.bottom }
         width: 75
 
         Rectangle {
