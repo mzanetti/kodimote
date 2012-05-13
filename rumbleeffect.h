@@ -16,6 +16,7 @@ public slots:
 
 private:
     QFeedbackHapticsEffect *m_effect;
+    bool m_disabled;
 };
 
 #endif // RUMBLEEFFECT_H
