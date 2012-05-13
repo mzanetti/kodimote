@@ -72,6 +72,15 @@ Page {
                 icon: "up"
                 mouseAreaTopMargin: -70
                 onPressed: keys.up();
+                onPressAndHold: {
+                    holdAndReleaseTimer.key = 0;
+                    holdAndReleaseTimer.start();
+                }
+
+                onReleased: {
+                    holdAndReleaseTimer.key = -1;
+                    holdAndReleaseTimer.stop();
+                }
             }
 
             Item {
@@ -83,6 +92,15 @@ Page {
                 icon: "left"
                 mouseAreaLeftMargin: -100
                 onPressed: keys.left();
+                onPressAndHold: {
+                    holdAndReleaseTimer.key = 2;
+                    holdAndReleaseTimer.start();
+                }
+
+                onReleased: {
+                    holdAndReleaseTimer.key = -1;
+                    holdAndReleaseTimer.stop();
+                }
             }
 
             KeypadButton {
@@ -96,6 +114,15 @@ Page {
                 icon: "right"
                 mouseAreaRightMargin: -100
                 onPressed: keys.right();
+                onPressAndHold: {
+                    holdAndReleaseTimer.key = 3;
+                    holdAndReleaseTimer.start();
+                }
+
+                onReleased: {
+                    holdAndReleaseTimer.key = -1;
+                    holdAndReleaseTimer.stop();
+                }
             }
             Item {
                 width: arrowLeft.width
@@ -106,6 +133,15 @@ Page {
                 icon: "down"
                 mouseAreaBottomMargin: -50
                 onPressed: keys.down();
+                onPressAndHold: {
+                    holdAndReleaseTimer.key = 1;
+                    holdAndReleaseTimer.start();
+                }
+
+                onReleased: {
+                    holdAndReleaseTimer.key = -1;
+                    holdAndReleaseTimer.stop();
+                }
             }
             Item {
                 width: arrowRight.width
@@ -158,54 +194,70 @@ Page {
         }
     }
 
-//    Component {
-//        id: keyboardComponent
-//        Sheet {
-//            acceptButtonText: qsTr("Close")
+    TextField {
+        id: tf
+        anchors.top: parent.bottom
+        inputMethodHints: Qt.ImhNoPredictiveText
+        text: "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+        property string oldText: "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+        onTextChanged: {
+            print("text", text, text.charAt(text.length-1));
+            if(text.length > oldText.length) {
+                keys.keyboardKey(tf.text.charAt(text.length-1));
+            } else {
+                keys.backspace();
+            }
+            oldText = text;
+        }
 
-//            Component.onCompleted: tf.forceActiveFocus();
+        onActiveFocusChanged: {
+            print("active focus changed:", keyPad.keyboardOpen, activeFocus);
+            if(!activeFocus && keyPad.keyboardOpen) {
+                focusTimer.start();
+            }
+        }
 
-            TextField {
-                id: tf
-                anchors.top: parent.bottom
-                inputMethodHints: Qt.ImhNoPredictiveText
-                text: "x"
-                property string oldText: "x"
-                onTextChanged: {
-                    print("text", text, text.charAt(text.length-1));
-                    if(text.length > oldText.length) {
-                        keys.keyboardKey(tf.text.charAt(text.length-1));
-                    } else {
-                        keys.backspace();
-                    }
-                    oldText = text;
-                }
+        Keys.onReturnPressed: {
+            keyPad.keyboardOpen = false
+            keyPad.focus = true;
+            platformCloseSoftwareInputPanel()
+        }
 
-                onActiveFocusChanged: {
-                    print("active focus changed:", keyPad.keyboardOpen, activeFocus);
-                    if(!activeFocus && keyPad.keyboardOpen) {
-                        focusTimer.start();
-                    }
-                }
-
-                Keys.onReturnPressed: {
-                    keyPad.keyboardOpen = false
-                    keyPad.focus = true;
-                    platformCloseSoftwareInputPanel()
-                }
-
-                Timer {
-                    id:focusTimer
-                    interval: 10
-                    onTriggered: {
-                        if(keyPad.keyboardOpen) {
-                            print("putting focus to input");
-                            tf.forceActiveFocus();
-                        }
-                    }
+        Timer {
+            id:focusTimer
+            interval: 10
+            repeat: false
+            onTriggered: {
+                if(keyPad.keyboardOpen) {
+                    print("putting focus to input");
+                    tf.forceActiveFocus();
                 }
             }
-//        }
-//    }
+        }
+    }
 
+    Timer {
+        id: holdAndReleaseTimer
+        interval: 50
+        repeat: true
+        running: false
+        property int key: -1
+
+        onTriggered: {
+            switch(key) {
+            case 0:
+                keys.up();
+                break;
+            case 1:
+                keys.down();
+                break;
+            case 2:
+                keys.left();
+                break;
+            case 3:
+                keys.right();
+                break;
+            }
+        }
+    }
 }

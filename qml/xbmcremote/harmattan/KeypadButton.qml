@@ -6,6 +6,8 @@ Image {
     id: button
     property string icon
     signal pressed()
+    signal pressAndHold()
+    signal released()
     source: "icons/" + button.icon + ".png"
 
     property int mouseAreaLeftMargin: 0
@@ -22,6 +24,8 @@ Image {
         anchors.bottomMargin: button.mouseAreaBottomMargin
         onPressed: rumbleEffect.start();
         onClicked:button.pressed();
+        onPressAndHold: button.pressAndHold();
+        onReleased: button.released();
     }
     states: [
         State {
