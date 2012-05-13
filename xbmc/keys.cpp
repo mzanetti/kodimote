@@ -74,10 +74,15 @@ void Keys::keyboardKey(const QString &key)
     if(key.isEmpty()) {
         return;
     }
-    int keyValue = 0xF000 + (int)key[0].toAscii();
+    int keyValue = 0xF100 + (int)key[0].toAscii();
     QString cmd = "SendKey(" + QString::number(keyValue) + ")";
     qDebug() << key[0] << "sending command" << cmd;
     XbmcConnection::sendLegacyCommand(cmd);
+}
+
+void Keys::backspace()
+{
+    XbmcConnection::sendLegacyCommand("SendKey(0xF108)");
 }
 
 void Keys::home()

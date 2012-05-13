@@ -41,6 +41,7 @@ public slots:
     void info();
     void fullscreen();
     void keyboardKey(const QString &key);
+    void backspace();
 
 private slots:
     void responseReceived(int id, const QVariantMap &map);
