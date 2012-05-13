@@ -113,7 +113,8 @@ Page {
         Grid {
             anchors.horizontalCenter: parent.horizontalCenter
             spacing: 50
-            columns: 2
+            columns: 3
+            visible: !tf.activeFocus
 
             KeypadButton {
                 icon: "contextmenu"
@@ -131,6 +132,33 @@ Page {
                 id: fullscreenButton
                 icon: "fullscreen"
                 onPressed: keys.fullscreen();
+            }
+            KeypadButton {
+                id: keyboardButton
+                icon: "fullscreen"
+                onPressed: {
+                    var keyboard = keyboardComponent.createObject(keyPad);
+                    keyboard.open();
+                }
+            }
+        }
+    }
+
+    Component {
+        id: keyboardComponent
+        Sheet {
+            acceptButtonText: qsTr("Close")
+
+            Component.onCompleted: tf.forceActiveFocus();
+
+            TextField {
+                id: tf
+                anchors.top: parent.bottom
+                inputMethodHints: Qt.ImhNoPredictiveText
+                onTextChanged: {
+                    print("text", text, text.charAt(text.length-1))
+                    keys.keyboardKey(tf.text.charAt(text.length-1));
+                }
             }
         }
     }

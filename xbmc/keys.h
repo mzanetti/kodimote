@@ -40,6 +40,7 @@ public slots:
     void contextMenu();
     void info();
     void fullscreen();
+    void keyboardKey(const QString &key);
 
 private slots:
     void responseReceived(int id, const QVariantMap &map);

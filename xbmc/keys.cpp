@@ -69,6 +69,17 @@ void Keys::fullscreen()
     XbmcConnection::sendLegacyCommand("SendKey(0xF009)");
 }
 
+void Keys::keyboardKey(const QString &key)
+{
+    if(key.isEmpty()) {
+        return;
+    }
+    int keyValue = 0xF000 + (int)key[0].toAscii();
+    QString cmd = "SendKey(" + QString::number(keyValue) + ")";
+    qDebug() << key[0] << "sending command" << cmd;
+    XbmcConnection::sendLegacyCommand(cmd);
+}
+
 void Keys::home()
 {
     XbmcConnection::sendCommand("Input.Home");
