@@ -57,6 +57,97 @@ Page {
             }
         }
 
+        Grid {
+            id: crossCol
+            spacing: -30
+            columns: 3
+            anchors.horizontalCenter: parent.horizontalCenter
+            Item {
+                width: arrowLeft.width
+                height: arrowUp.height
+            }
+            KeypadButton {
+                id: arrowUp
+                icon: "up"
+                mouseAreaTopMargin: -70
+                onPressed: keys.up();
+                onPressAndHold: {
+                    holdAndReleaseTimer.key = 0;
+                    holdAndReleaseTimer.start();
+                }
+
+                onReleased: {
+                    holdAndReleaseTimer.key = -1;
+                    holdAndReleaseTimer.stop();
+                }
+            }
+
+            Item {
+                width: arrowRight.width
+                height: arrowUp.height
+            }
+            KeypadButton {
+                id: arrowLeft
+                icon: "left"
+                mouseAreaLeftMargin: -100
+                onPressed: keys.left();
+                onPressAndHold: {
+                    holdAndReleaseTimer.key = 2;
+                    holdAndReleaseTimer.start();
+                }
+
+                onReleased: {
+                    holdAndReleaseTimer.key = -1;
+                    holdAndReleaseTimer.stop();
+                }
+            }
+
+            KeypadButton {
+                id: enter
+                anchors.centerIn: parent
+                icon: "enter"
+                onPressed: keys.select();
+            }
+            KeypadButton {
+                id: arrowRight
+                icon: "right"
+                mouseAreaRightMargin: -100
+                onPressed: keys.right();
+                onPressAndHold: {
+                    holdAndReleaseTimer.key = 3;
+                    holdAndReleaseTimer.start();
+                }
+
+                onReleased: {
+                    holdAndReleaseTimer.key = -1;
+                    holdAndReleaseTimer.stop();
+                }
+            }
+            Item {
+                width: arrowLeft.width
+                height: arrowDown.height
+            }
+            KeypadButton {
+                id: arrowDown
+                icon: "down"
+                mouseAreaBottomMargin: -50
+                onPressed: keys.down();
+                onPressAndHold: {
+                    holdAndReleaseTimer.key = 1;
+                    holdAndReleaseTimer.start();
+                }
+
+                onReleased: {
+                    holdAndReleaseTimer.key = -1;
+                    holdAndReleaseTimer.stop();
+                }
+            }
+            Item {
+                width: arrowRight.width
+                height: arrowDown.height
+            }
+        }
+
 
         Grid {
             id: crossCol
