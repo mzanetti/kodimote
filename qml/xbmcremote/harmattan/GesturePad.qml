@@ -112,6 +112,7 @@ Page {
                         id: repeatTimer
                         interval: 50
                         running: false;
+                        repeat: true
                         onTriggered: {
                             moveArea.doPress();
                         }
