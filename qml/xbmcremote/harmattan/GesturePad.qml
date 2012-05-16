@@ -20,11 +20,11 @@ Page {
             }
         }
         ToolIcon { platformIconId: "toolbar-image-edit";
-             anchors.horizontalCenter: parent===undefined ? undefined : parent.horizontalCenter
-             visible: xbmc.picturePlayerActive
-             onClicked: {
-                 pageStack.replace(pictureControlsPage);
-             }
+            anchors.horizontalCenter: parent===undefined ? undefined : parent.horizontalCenter
+            visible: xbmc.picturePlayerActive
+            onClicked: {
+                pageStack.replace(pictureControlsPage);
+            }
         }
         ToolIcon {
             platformIconId: "toolbar-mediacontrol-play" + (enabled ? "" : "-dimmed");
@@ -42,116 +42,143 @@ Page {
         anchors.centerIn: parent
 
 
-        Grid {
-            id: crossCol
-            spacing: 50
-            columns: 3
+        Image {
+            id: gridbg
+            source: "icons/pad-bg.png"
             anchors.horizontalCenter: parent.horizontalCenter
-            KeypadButton {
-                id: backButton
-                icon: "back"
-                onPressed: keys.back();
-            }
-            Rectangle {
-                id: arrowUp
-                width: backButton.width
-                height: backButton.height
-            }
 
-            KeypadButton {
-                icon: "info"
-                onPressed: keys.info();
-            }
-            Rectangle {
-                id: arrowLeft
-                width: backButton.width
-                height: backButton.height
-            }
-
-            Item {
-                height: enter.height
-                width: enter.width
+            Grid {
+                id: crossCol
+                spacing: 50
+                columns: 3
+                anchors.centerIn: parent
                 KeypadButton {
-                    id: enter
-                    icon: "enter"
+                    id: backButton
+                    icon: "back"
+                    onPressed: keys.back();
+                }
+                Item {
+                    id: arrowUp
+                    width: backButton.width
+                    height: backButton.height
+                }
+
+                KeypadButton {
+                    icon: "info"
+                    onPressed: keys.info();
+                }
+                Item {
+                    id: arrowLeft
+                    width: backButton.width
+                    height: backButton.height
+                }
+
+                Item {
+                    id: joystickButton
+                    height: enter.height
+                    width: enter.width
+
+                    property int allowedArea: 26
+
+                    function adjustedX(x, y) {
+                        print("min", -allowedArea, "y", y, "height", enter.height, "max", height+allowedArea);
+                        if(-allowedArea < y && y + height < height+allowedArea) {
+                            print("NOT adjusting");
+                            return Math.min(width+64, Math.max(-160,x));
+                        }
+                        print("Xallowedare", allowedArea, "x", x, x-allowedArea);
+                        print("Yallowedare", allowedArea, "y", y, y-allowedArea);
+                        print("adjusting to", Math.max(-allowedArea, x));
+                        return Math.min(allowedArea, Math.max(-allowedArea, x));
+                    }
+
                     states: [
                         State {
                             name: "moving"; when: moveArea.pressed
                             PropertyChanges {
                                 target: enter
-                                x: moveArea.mouseX - enter.width / 2
-                                y: moveArea.mouseY - enter.height / 2
+                                //                                x: Math.max(joystickButton.crossCenterX - 40, Math.min(joystickButton.crossCenterX + 40, moveArea.mouseX - enter.width / 2))
+                                //                                y: Math.max(joystickButton.crossCenterY - 40, Math.min(joystickButton.crossCenterY + 40, moveArea.mouseX - enter.width / 2))
+                                //                                x: Math.min(joystickButton.crossCenterX + 40, moveArea.mouseX) - enter.width / 2)
+                                //                                y: moveArea.mouseY - enter.width / 2
+                                x: joystickButton.adjustedX(moveArea.mouseX - moveArea.width / 2, moveArea.mouseY -moveArea.height/2)
+                                y: Math.min(moveArea.height + 64, Math.max(-160, moveArea.mouseY - moveArea.height / 2))
                             }
                         }
 
                     ]
+                    KeypadButton {
+                        id: enter
+                        icon: "enter"
 
-                }
-                MouseArea {
-                    id: moveArea
-                    anchors.fill: parent
-                    anchors.margins: -30
-                    property int startx
-                    property int starty
-
-                    onPressed: {
-                        startx = mouseX
-                        starty = mouseY
                     }
+                    MouseArea {
+                        id: moveArea
+                        anchors.fill: parent
+                        //                    anchors.margins: -30
+                        property int startx
+                        property int starty
 
-                    onClicked: {
-                        keys.select();
-                    }
-                    onReleased: {
-                        doPress();
-                        repeatTimer.stop();
-                    }
-                    onPressAndHold: repeatTimer.start();
+                        onPressed: {
+                            startx = mouseX
+                            starty = mouseY
+                        }
 
-                    Timer {
-                        id: repeatTimer
-                        interval: 50
-                        running: false;
-                        repeat: true
-                        onTriggered: {
-                            moveArea.doPress();
+                        onClicked: {
+                            keys.select();
+                        }
+                        onReleased: {
+                            doPress();
+                            repeatTimer.stop();
+                        }
+                        onPressAndHold: repeatTimer.start();
+
+                        Timer {
+                            id: repeatTimer
+                            interval: 50
+                            running: false;
+                            repeat: true
+                            onTriggered: {
+                                  moveArea.doPress();
+                            }
+                        }
+
+                        function doPress() {
+                            print(mouseX, startx);
+                            print(mouseY, starty);
+                            if(mouseY < starty - 100) {
+                                keys.up();
+                            } else if(mouseY > starty + 100) {
+                                keys.down();
+                            } else if(mouseX < startx - 100) {
+                                keys.left();
+                            } else if(mouseX > startx + 100) {
+                                keys.right();
+                            }
                         }
                     }
-
-                    function doPress() {
-                        print(mouseX, startx);
-                        print(mouseY, starty);
-                        if(mouseY < starty - 100) {
-                            keys.up();
-                        } else if(mouseY > starty + 100) {
-                            keys.down();
-                        } else if(mouseX < startx - 100) {
-                            keys.left();
-                        } else if(mouseX > startx + 100) {
-                            keys.right();
-                        }
-                    }
+                }
+                Item {
+                    id: arrowRight
+                    width: backButton.width
+                    height: backButton.height
+                }
+                KeypadButton {
+                    icon: "contextmenu"
+                    onPressed: keys.menu();
+                }
+                Item {
+                    id: arrowDown
+                    width: backButton.width
+                    height: backButton.height
+                }
+                KeypadButton {
+                    icon: "menu"
+                    onPressed: keys.contextMenu();
                 }
             }
 
-            Rectangle {
-                id: arrowRight
-                width: backButton.width
-                height: backButton.height
-            }
-            KeypadButton {
-                icon: "contextmenu"
-                onPressed: keys.menu();
-            }
-            Rectangle {
-                id: arrowDown
-                width: backButton.width
-                height: backButton.height
-            }
-            KeypadButton {
-                icon: "menu"
-                onPressed: keys.contextMenu();
-            }
+
         }
 
         Item { width: parent.width; height: 50 }
@@ -177,8 +204,8 @@ Page {
                 icon: "keyboard"
                 onPressed: {
                     keyPad.keyboardOpen = true;
-//                    var keyboard = keyboardComponent.createObject(keyPad);
-//                    keyboard.open();
+                    //                    var keyboard = keyboardComponent.createObject(keyPad);
+                    //                    keyboard.open();
                 }
             }
         }
