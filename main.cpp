@@ -36,6 +36,7 @@ QTM_USE_NAMESPACE
 #if defined Q_WS_MAEMO_6 || defined Q_WS_S60 || defined Q_WS_SIMULATOR
 #include "nfchandler.h"
 #include "rumbleeffect.h"
+#include "gesturehelper.h"
 #endif
 
 #include "qmlapplicationviewer.h"
@@ -127,6 +128,7 @@ Q_DECL_EXPORT int main(int argc, char *argv[])
     NfcHandler nfcHandler;
     view->rootContext()->setContextProperty("nfcHandler", &nfcHandler);
 
+    qmlRegisterType<GestureHelper>("xbmcremote", 1, 0, "GestureHelper");
 
 // Set the main QML file for all the QML based platforms
 #ifdef QT_SIMULATOR

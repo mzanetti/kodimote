@@ -1,5 +1,6 @@
 import QtQuick 1.1
 import com.nokia.meego 1.0
+import xbmcremote 1.0
 
 Page {
     id: keyPad
@@ -44,8 +45,24 @@ Page {
 
         Image {
             id: gridbg
-            source: "icons/pad-bg.png"
+            source: "icons/pad-bg" + areaStateToString(gestureHelper.currentState) + ".png"
+
             anchors.horizontalCenter: parent.horizontalCenter
+            function areaStateToString(areaState) {
+                if(areaState === GestureHelper.AreaTop) {
+                    return "-up";
+                }
+                if(areaState === GestureHelper.AreaLeft) {
+                    return "-left";
+                }
+                if(areaState === GestureHelper.AreaRight) {
+                    return "-right";
+                }
+                if(areaState === GestureHelper.AreaBottom) {
+                    return "-down";
+                }
+                return "";
+            }
 
             Grid {
                 id: crossCol
@@ -80,16 +97,8 @@ Page {
 
                     property int allowedArea: 26
 
-                    function adjustedX(x, y) {
-                        print("min", -allowedArea, "y", y, "height", enter.height, "max", height+allowedArea);
-                        if(-allowedArea < y && y + height < height+allowedArea) {
-                            print("NOT adjusting");
-                            return Math.min(width+64, Math.max(-160,x));
-                        }
-                        print("Xallowedare", allowedArea, "x", x, x-allowedArea);
-                        print("Yallowedare", allowedArea, "y", y, y-allowedArea);
-                        print("adjusting to", Math.max(-allowedArea, x));
-                        return Math.min(allowedArea, Math.max(-allowedArea, x));
+                    GestureHelper {
+                        id: gestureHelper
                     }
 
                     states: [
@@ -97,12 +106,8 @@ Page {
                             name: "moving"; when: moveArea.pressed
                             PropertyChanges {
                                 target: enter
-                                //                                x: Math.max(joystickButton.crossCenterX - 40, Math.min(joystickButton.crossCenterX + 40, moveArea.mouseX - enter.width / 2))
-                                //                                y: Math.max(joystickButton.crossCenterY - 40, Math.min(joystickButton.crossCenterY + 40, moveArea.mouseX - enter.width / 2))
-                                //                                x: Math.min(joystickButton.crossCenterX + 40, moveArea.mouseX) - enter.width / 2)
-                                //                                y: moveArea.mouseY - enter.width / 2
-                                x: joystickButton.adjustedX(moveArea.mouseX - moveArea.width / 2, moveArea.mouseY -moveArea.height/2)
-                                y: Math.min(moveArea.height + 64, Math.max(-160, moveArea.mouseY - moveArea.height / 2))
+                                x: gestureHelper.restrictedX - moveArea.width / 2
+                                y: gestureHelper.restrictedY - moveArea.height / 2
                             }
                         }
 
@@ -115,23 +120,37 @@ Page {
                     MouseArea {
                         id: moveArea
                         anchors.fill: parent
-                        //                    anchors.margins: -30
-                        property int startx
-                        property int starty
+                        anchors.margins: -30
+
+//                        Rectangle {
+//                            anchors.fill: parent
+//                        }
 
                         onPressed: {
-                            startx = mouseX
-                            starty = mouseY
+                            gestureHelper.startX = mouseX
+                            gestureHelper.startY = mouseY
                         }
 
+                        onMouseXChanged: gestureHelper.realX = mouseX
+                        onMouseYChanged: gestureHelper.realY = mouseY
+
                         onClicked: {
+                            rumbleEffect.start();
                             keys.select();
                         }
                         onReleased: {
-                            doPress();
-                            repeatTimer.stop();
+                            if(repeatTimer.running) {
+                                repeatTimer.stop();
+                            } else {
+                                rumbleEffect.start();
+                                doPress();
+                            }
+                            gestureHelper.reset();
                         }
-                        onPressAndHold: repeatTimer.start();
+                        onPressAndHold: {
+                            rumbleEffect.start(3);
+                            repeatTimer.start();
+                        }
 
                         Timer {
                             id: repeatTimer
@@ -144,16 +163,19 @@ Page {
                         }
 
                         function doPress() {
-                            print(mouseX, startx);
-                            print(mouseY, starty);
-                            if(mouseY < starty - 100) {
+                            switch(gestureHelper.currentState) {
+                            case GestureHelper.AreaTop:
                                 keys.up();
-                            } else if(mouseY > starty + 100) {
-                                keys.down();
-                            } else if(mouseX < startx - 100) {
+                                break;
+                            case GestureHelper.AreaLeft:
                                 keys.left();
-                            } else if(mouseX > startx + 100) {
+                                break;
+                            case GestureHelper.AreaRight:
                                 keys.right();
+                                break;
+                            case GestureHelper.AreaBottom:
+                                keys.down();
+                                break;
                             }
                         }
                     }

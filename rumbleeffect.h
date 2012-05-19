@@ -12,7 +12,7 @@ public:
     explicit RumbleEffect(QObject *parent = 0);
     
 public slots:
-    void start();
+    void start(int count = 1);
 
 private:
     QFeedbackHapticsEffect *m_effect;

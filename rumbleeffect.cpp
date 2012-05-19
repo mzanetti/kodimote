@@ -12,7 +12,7 @@ RumbleEffect::RumbleEffect(QObject *parent) :
     }
 }
 
-void RumbleEffect::start()
+void RumbleEffect::start(int count)
 {
     if(m_disabled) {
         return;
@@ -24,9 +24,10 @@ void RumbleEffect::start()
         m_effect->setAttackIntensity(0);
         m_effect->setAttackTime(250);
         m_effect->setIntensity(1.0);
-        m_effect->setDuration(100);
         m_effect->setFadeTime(250);
         m_effect->setFadeIntensity(0);
+        m_effect->setPeriod(100);
     }
+    m_effect->setDuration(100 * count);
     m_effect->start();
 }
