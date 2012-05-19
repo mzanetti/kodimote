@@ -173,7 +173,6 @@ void Albums::playItem(int index)
 void Albums::addToPlaylist(int index)
 {
     AudioPlaylistItem pItem;
-    pItem.setArtistId(m_artistId);
     pItem.setAlbumId(m_list.at(index)->data(RoleAlbumId).toInt());
     Xbmc::instance()->audioPlayer()->playlist()->addItems(pItem);
 }
