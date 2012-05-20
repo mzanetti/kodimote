@@ -154,11 +154,14 @@ Page {
 
                         Timer {
                             id: repeatTimer
-                            interval: 50
+                            interval: 2000
                             running: false;
                             repeat: true
+                            property int newInterval: 2000 / (gestureHelper.depth == 0 ? 1 : gestureHelper.depth / 5)
                             onTriggered: {
-                                  moveArea.doPress();
+                                print("interval:", interval)
+                                moveArea.doPress();
+                                interval = newInterval;
                             }
                         }
 

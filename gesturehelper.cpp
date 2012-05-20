@@ -83,6 +83,7 @@ void GestureHelper::setRealX(int x)
     }
 
     emit realXChanged();
+    emit depthChanged();
 }
 
 void GestureHelper::setRealY(int y)
@@ -118,6 +119,7 @@ void GestureHelper::setRealY(int y)
     }
 
     emit realYChanged();
+    emit depthChanged();
 }
 
 int GestureHelper::restrictedX()
@@ -170,6 +172,21 @@ int GestureHelper::restrictedY()
         break;
     }
     return m_realY;
+}
+
+int GestureHelper::depth()
+{
+    switch(m_areaState) {
+    case AreaLeft:
+        return -m_realX;
+    case AreaRight:
+        return m_realX - m_innerLimit;
+    case AreaTop:
+        return -m_realY;
+    case AreaBottom:
+        return m_realY - m_innerLimit;
+    }
+    return 0;
 }
 
 void GestureHelper::reset()

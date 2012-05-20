@@ -20,6 +20,8 @@ class GestureHelper : public QObject
     Q_PROPERTY(int restrictedX READ restrictedX NOTIFY realXChanged)
     Q_PROPERTY(int restrictedY READ restrictedY NOTIFY realYChanged)
 
+    Q_PROPERTY(int depth READ depth NOTIFY depthChanged)
+
 public:
     enum AreaState {
         AreaCenter,
@@ -45,6 +47,8 @@ public:
     int restrictedX();
     int restrictedY();
 
+    int depth();
+
 public slots:
     void reset();
 
@@ -54,6 +58,7 @@ signals:
     void startYChanged();
     void realXChanged();
     void realYChanged();
+    void depthChanged();
     
 private:
 
