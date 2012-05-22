@@ -35,6 +35,7 @@ void VideoPlaylist::refresh()
     QVariantMap params;
     QVariantList properties;
     properties.append("title");
+    properties.append("runtime");
     params.insert("properties", properties);
     params.insert("playlistid", playlistId());
 
@@ -85,9 +86,15 @@ void VideoPlaylist::responseReveiced(int id, const QVariantMap &response)
     case RequestGetItems: {
 //        xDebug(XDAREA_PLAYLIST) << "got GetItems response:" << response;
 //        xDebug(XDAREA_PLAYLIST) << "resetting model";
-        beginResetModel();
-        m_itemList.clear();
         QVariantList responseList = rsp.toMap().value("items").toList();
+        bool modelResetted = false;
+        if(responseList.count() != m_itemList.count()) {
+            beginResetModel();
+            modelResetted = true;
+        }
+        while(!m_itemList.isEmpty()){
+            delete m_itemList.takeFirst();
+        }
         foreach(const QVariant &itemVariant, responseList) {
             QVariantMap itemMap = itemVariant.toMap();
             VideoPlaylistItem *item = new VideoPlaylistItem();
@@ -99,13 +106,12 @@ void VideoPlaylist::responseReveiced(int id, const QVariantMap &response)
 //            xDebug(XDAREA_PLAYLIST) << "adding item:" << item.label();
             m_itemList.append(item);
         }
-        endResetModel();
-
-        m_currentItem = rsp.toMap().value("state").toMap().value("current").toInt();
-        xDebug(XDAREA_PLAYLIST) << "set current to" << m_currentItem;
-        queryItemData(m_currentItem);
+        if(modelResetted) {
+            endResetModel();
+        } else {
+            emit dataChanged(index(0, 0, QModelIndex()), index(m_itemList.count() - 1, 0, QModelIndex()));
+        }
         emit countChanged();
-        emit currentChanged();
         break;
     }
     case RequestCurrentData: {

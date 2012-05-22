@@ -90,11 +90,15 @@ void AudioPlaylist::responseReveiced(int id, const QVariantMap &response)
     switch(m_requestMap.value(id)) {
     case RequestGetItems: {
         xDebug(XDAREA_PLAYLIST) << "got GetItems response:" << response;
-        beginResetModel();
+        QVariantList responseList = rsp.toMap().value("items").toList();
+        bool modelResetted = false;
+        if(responseList.count() != m_itemList.count()) {
+            beginResetModel();
+            modelResetted = true;
+        }
         while(!m_itemList.isEmpty()){
             delete m_itemList.takeFirst();
         }
-        QVariantList responseList = rsp.toMap().value("items").toList();
         foreach(const QVariant &itemVariant, responseList) {
             QVariantMap itemMap = itemVariant.toMap();
             AudioPlaylistItem *item = new AudioPlaylistItem();
@@ -104,7 +108,11 @@ void AudioPlaylist::responseReveiced(int id, const QVariantMap &response)
             item->setAlbum(itemMap.value("album").toString());
             m_itemList.append(item);
         }
-        endResetModel();
+        if(modelResetted) {
+            endResetModel();
+        } else {
+            emit dataChanged(index(0, 0, QModelIndex()), index(m_itemList.count() - 1, 0, QModelIndex()));
+        }
         emit countChanged();
         break;
     }

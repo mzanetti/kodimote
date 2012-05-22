@@ -65,6 +65,13 @@ Page {
                         font.pixelSize: 26
                         width: listView.width - durationLabel.width
                         elide: Text.ElideRight
+                        states: [
+                            State {
+                                name: "highlighted"; when: index === listView.model.currentTrackNumber - 1
+                                PropertyChanges { target: mainText; color: theme.inverted ? "#21496b" : "#318ee7" }
+                            }
+
+                        ]
                     }
 
                     Label {
