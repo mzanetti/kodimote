@@ -324,32 +324,32 @@
     <message>
         <location filename="../qml/xbmcremote/symbian/ConnectionSheet.qml" line="58"/>
         <source>No XBMC hosts configured yet.</source>
-        <translation type="unfinished"></translation>
+        <translation>Nenhum anfitrião configurado.</translation>
     </message>
     <message>
         <location filename="../qml/xbmcremote/symbian/ConnectionSheet.qml" line="62"/>
         <source>After having set up those options, add your XBMC host here.</source>
-        <translation type="unfinished"></translation>
+        <translation>Depois de configurar estas opções, adicione o seu XBMC aqui</translation>
     </message>
     <message>
         <location filename="../qml/xbmcremote/symbian/ConnectionSheet.qml" line="112"/>
         <source>Remove %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Remover %1</translation>
     </message>
     <message>
         <location filename="../qml/xbmcremote/symbian/ConnectionSheet.qml" line="216"/>
         <source>Remove host?</source>
-        <translation type="unfinished"></translation>
+        <translation>Remover anfitrião?</translation>
     </message>
     <message>
         <location filename="../qml/xbmcremote/symbian/ConnectionSheet.qml" line="236"/>
         <source>Yes</source>
-        <translation type="unfinished"></translation>
+        <translation>Sim</translation>
     </message>
     <message>
         <location filename="../qml/xbmcremote/symbian/ConnectionSheet.qml" line="243"/>
         <source>No</source>
-        <translation type="unfinished"></translation>
+        <translation>Não</translation>
     </message>
 </context>
 <context>
@@ -548,7 +548,7 @@
         <location filename="../qml/xbmcremote/harmattan/ItemDetails.qml" line="238"/>
         <location filename="../qml/xbmcremote/harmattan/ItemDetails.qml" line="262"/>
         <source>Download</source>
-        <translation type="unfinished"></translation>
+        <translation>Descarregar</translation>
     </message>
 </context>
 <context>
@@ -580,7 +580,7 @@
         <location filename="../qml/xbmcremote/harmattan/MainPage.qml" line="28"/>
         <location filename="../qml/xbmcremote/symbian/MainPage.qml" line="11"/>
         <source>XBMC on %1</source>
-        <translation type="unfinished">XBMC em %1</translation>
+        <translation>XBMC em %1</translation>
     </message>
     <message>
         <location filename="../qml/xbmcremote/harmattan/MainPage.qml" line="54"/>
@@ -696,17 +696,17 @@
     <message>
         <location filename="../nfchandler.cpp" line="128"/>
         <source>Tag written successfully. NOTE: This tag does not offer enough space to write all informations. Wake on LAN will not work with this tag.</source>
-        <translation type="unfinished"></translation>
+        <translation>Etiqueta escrita com sucesso. AVISO: Esta etiqueta não tem espaço para escrever toda a informação. Wake-on-LAN não funcionará com esta etiqueta.</translation>
     </message>
     <message>
         <location filename="../nfchandler.cpp" line="130"/>
         <source>Tag written successfully.</source>
-        <translation type="unfinished">Etiqueta escrita com sucesso.</translation>
+        <translation>Etiqueta escrita com sucesso.</translation>
     </message>
     <message>
         <location filename="../nfchandler.cpp" line="138"/>
         <source>Error writing NFC tag.</source>
-        <translation type="unfinished"></translation>
+        <translation>Erro ao escrever etiqueta NFC.</translation>
     </message>
 </context>
 <context>
@@ -898,7 +898,7 @@
         <location filename="../qml/xbmcremote/harmattan/PlaylistPage.qml" line="142"/>
         <location filename="../qml/xbmcremote/symbian/PlaylistPage.qml" line="126"/>
         <source>Clear playlist</source>
-        <translation type="unfinished">Limpar playlist</translation>
+        <translation>Limpar playlist</translation>
     </message>
 </context>
 <context>
@@ -975,7 +975,7 @@
         <location filename="../qml/xbmcremote/harmattan/SettingsSheet.qml" line="41"/>
         <location filename="../qml/xbmcremote/symbian/SettingsSheet.qml" line="34"/>
         <source>Ignore articles for sorting</source>
-        <translation type="unfinished"></translation>
+        <translation>Ignorar artigos ao ordenar</translation>
     </message>
     <message>
         <location filename="../qml/xbmcremote/harmattan/SettingsSheet.qml" line="46"/>
@@ -1005,7 +1005,7 @@
         <location filename="../qml/xbmcremote/harmattan/SettingsSheet.qml" line="75"/>
         <location filename="../qml/xbmcremote/symbian/SettingsSheet.qml" line="68"/>
         <source>Show call notifications</source>
-        <translation type="unfinished"></translation>
+        <translation>Mostrar notificações de chamadas</translation>
     </message>
 </context>
 <context>
@@ -1039,7 +1039,7 @@
     <message>
         <location filename="../symbianhelper.cpp" line="169"/>
         <source>Incoming call</source>
-        <translation type="unfinished">A receber chamada</translation>
+        <translation>A receber chamada</translation>
     </message>
 </context>
 <context>
@@ -1092,7 +1092,7 @@
         <location filename="../qml/xbmcremote/harmattan/WriteNfcTagSheet.qml" line="26"/>
         <location filename="../qml/xbmcremote/symbian/WriteNfcTagSheet.qml" line="40"/>
         <source>Tap a NFC tag to write XBMC connection information to it. You can then use the tag to connect to this XBMC.</source>
-        <translation>Toque numa etiqueta NFC para guardar nela as informações de ligação ao XBMC. Assim pode usar a tag para ligar a este XBMC.</translation>
+        <translation>Toque numa etiqueta NFC para guardar nela as informações de ligação ao XBMC. Assim pode usar a etiqueta para ligar a este XBMC.</translation>
     </message>
     <message>
         <location filename="../qml/xbmcremote/harmattan/WriteNfcTagSheet.qml" line="38"/>
@@ -1115,7 +1115,7 @@
     <message>
         <location filename="../qml/xbmcremote/symbian/WriteNfcTagSheet.qml" line="26"/>
         <source>Write NFC tag</source>
-        <translation type="unfinished"></translation>
+        <translation>Escrever Etiqueta NFC</translation>
     </message>
 </context>
 <context>
@@ -1123,12 +1123,12 @@
     <message>
         <location filename="../xbmc/xbmc.cpp" line="155"/>
         <source>Finished downloading %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Finalizou o descarregamento de %1</translation>
     </message>
     <message>
         <location filename="../xbmc/xbmc.cpp" line="157"/>
         <source>Error downloading %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Erro ao descarregar %1</translation>
     </message>
 </context>
 <context>
@@ -1254,7 +1254,7 @@
     <message>
         <location filename="../qml/xbmcremote/symbian/main.qml" line="177"/>
         <source>Quit XBMC?</source>
-        <translation type="unfinished"></translation>
+        <translation>Sair do XBMC?</translation>
     </message>
 </context>
 </TS>
