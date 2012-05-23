@@ -65,6 +65,14 @@ Page {
                         font.weight: Font.Bold
                         width: listItem.width - 5 - durationLabel.width
                         elide: Text.ElideRight
+
+                        states: [
+                            State {
+                                name: "highlighted"; when: index === listView.model.currentTrackNumber - 1
+                                PropertyChanges { target: mainText; color: "#2781ff" }
+                            }
+
+                        ]
                     }
 
                     Label {
