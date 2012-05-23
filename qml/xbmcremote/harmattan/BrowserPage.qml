@@ -157,7 +157,6 @@ Page {
         cacheBuffer: 88 * 3
         model: filterModel
 
-        property variant headerItem: null
         property bool draggedForSearch: contentY < -100
 
 
