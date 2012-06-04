@@ -72,6 +72,11 @@ QString VideoLibrary::title() const
     return tr("Video Library");
 }
 
+bool VideoLibrary::allowSearch()
+{
+    return false;
+}
+
 void VideoLibrary::scanForContent()
 {
     XbmcConnection::sendCommand("VideoLibrary.Scan");

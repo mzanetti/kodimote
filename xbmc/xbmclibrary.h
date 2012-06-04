@@ -9,6 +9,7 @@ class XbmcDownload;
 class XbmcLibrary : public XbmcModel
 {
     Q_OBJECT
+    Q_PROPERTY(bool allowSearch READ allowSearch NOTIFY allowSearchChanged)
 public:
     XbmcLibrary(XbmcModel *parent = 0);
     ~XbmcLibrary();
@@ -31,11 +32,16 @@ public:
     Q_INVOKABLE void setDeleteAfterDownload(bool deleteAfterDownload);
     Q_INVOKABLE bool deleteAfterDownload() const;
 
+    virtual bool allowSearch() { return true; }
+
 protected:
     void startDownload(int index, XbmcDownload *download);
 
 private slots:
     void slotResponseReceived(int, const QVariantMap &rsp);
+
+signals:
+    void allowSearchChanged();
 
 private:
     enum Request {

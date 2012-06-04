@@ -157,7 +157,7 @@ Page {
         cacheBuffer: 88 * 3
         model: filterModel
 
-        property bool draggedForSearch: contentY < -100
+        property bool draggedForSearch: browserPage.model.allowSearch && contentY < -100
 
 
         onDraggedForSearchChanged: {

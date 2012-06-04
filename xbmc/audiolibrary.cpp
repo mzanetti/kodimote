@@ -72,6 +72,11 @@ QString AudioLibrary::title() const
     return tr("Audio Library");
 }
 
+bool AudioLibrary::allowSearch()
+{
+    return false;
+}
+
 void AudioLibrary::scanForContent()
 {
     XbmcConnection::sendCommand("AudioLibrary.Scan");

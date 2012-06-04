@@ -100,3 +100,8 @@ QString Shares::title() const
     }
     return "";
 }
+
+bool Shares::allowSearch()
+{
+    return false;
+}

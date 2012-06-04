@@ -162,7 +162,7 @@ Page {
         //clip: true
         model: filterModel
 
-        property bool draggedForSearch: contentY < -80
+        property bool draggedForSearch: browserPage.model.allowSearch && contentY < -100
 
 
         onDraggedForSearchChanged: {

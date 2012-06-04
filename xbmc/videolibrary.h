@@ -35,6 +35,8 @@ public:
 
     QString title() const;
 
+    bool allowSearch();
+
 public slots:
     void scanForContent();
     void refresh();
