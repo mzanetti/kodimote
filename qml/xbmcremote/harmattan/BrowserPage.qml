@@ -101,6 +101,11 @@ Page {
         }
     }
 
+    SipAttributes {
+        id: sipAttributes
+        actionKeyIcon: "/opt/xbmcremote/qml/harmattan/icons/closekeypad.svg"
+    }
+
     TextField {
         id: searchTextField
         anchors { left: parent.left; right: parent.right; bottom: listView.top }
@@ -110,6 +115,12 @@ Page {
         opacity: searchBar.expanded ? 1 : 0
         inputMethodHints: Qt.ImhNoPredictiveText
         enabled: opacity == 1
+        platformSipAttributes: sipAttributes
+
+        Keys.onReturnPressed: {
+            listView.forceActiveFocus();
+            platformCloseSoftwareInputPanel();
+        }
 
         Image {
             id: searchimage
