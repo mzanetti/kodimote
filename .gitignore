@@ -12,6 +12,7 @@ xbmcremote.sis
 xbmcremote_exe.mmp
 xbmcremote_installer.pkg
 xbmcremote_installer.sis
+xbmcremote_installer_unsigned.sis
 xbmcremote_reg.rss
 xbmcremote_stub.pkg
 xbmcremote_template.pkg
