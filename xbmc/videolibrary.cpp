@@ -82,6 +82,11 @@ void VideoLibrary::scanForContent()
     XbmcConnection::sendCommand("VideoLibrary.Scan");
 }
 
+void VideoLibrary::clean()
+{
+    XbmcConnection::sendCommand("VideoLibrary.Clean");
+}
+
 void VideoLibrary::refresh()
 {
     // Nothing to do here

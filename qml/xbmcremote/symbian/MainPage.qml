@@ -209,6 +209,24 @@ Page {
                     lib.exit();
                 }
             }
+            MenuItem {
+                text: qsTr("Clean library")
+                onClicked: {
+                    print("current selected is" + listView.currentSelected)
+                    var lib = xbmc.audioLibrary();
+                    switch(listView.currentSelected) {
+                    case 0:
+                        lib = xbmc.audioLibrary();
+                        break;
+                    case 1:
+                        lib = xbmc.videoLibrary();
+                        break;
+                    }
+
+                    lib.clean();
+                    lib.exit();
+                }
+            }
         }
     }
 

@@ -39,6 +39,7 @@ public:
 
 public slots:
     void scanForContent();
+    void clean();
     void refresh();
 
 private:

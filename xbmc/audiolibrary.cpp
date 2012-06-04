@@ -82,6 +82,11 @@ void AudioLibrary::scanForContent()
     XbmcConnection::sendCommand("AudioLibrary.Scan");
 }
 
+void AudioLibrary::clean()
+{
+    XbmcConnection::sendCommand("AudioLibrary.Clean");
+}
+
 void AudioLibrary::refresh()
 {
     // nothing to do here...
