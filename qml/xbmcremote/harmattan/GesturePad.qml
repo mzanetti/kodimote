@@ -236,12 +236,19 @@ Page {
         }
     }
 
+    SipAttributes {
+        id: sipAttributes
+        actionKeyIcon: "/opt/xbmcremote/qml/harmattan/icons/closekeypad.svg"
+    }
+
     TextField {
         id: tf
         anchors.top: parent.bottom
         inputMethodHints: Qt.ImhNoPredictiveText
         text: "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
         property string oldText: "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+        platformSipAttributes: sipAttributes
+
         onTextChanged: {
             print("text", text, text.charAt(text.length-1));
             if(text.length > oldText.length) {
