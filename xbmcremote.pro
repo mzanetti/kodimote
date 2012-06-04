@@ -232,7 +232,27 @@ maemo5 {
 # Currently tested on Symbian Anna and Belle - You need to create a smart installer for Anna which pulls in Qt. Belle comes with Qt preinstalled)
 symbian {
     message("Symbian build")
-    TARGET.UID3 = 0xE1297420
+    DEPLOYMENT.display_name = Xbmcremote
+
+    #TARGET.UID3 = 0xE1297420
+    TARGET.UID3 = 0x200650A2
+
+    # Dependency to qt components for regular sis
+    CONFIG += qt-components qt
+    CONFIG += qtquickcomponents
+    # and for smart installer
+    DEPLOYMENT.installer_header = 0x2002CCCF
+    VERSION = 1.1.0
+
+    vendorinfo += "%{\"Michael Zanetti\"}" ":\"Michael Zanetti\""
+    my_deployment.pkg_prerules += vendorinfo
+    DEPLOYMENT += my_deployment
+
+    installrules.pkg_prerules += \
+        "; Dependency to Symbian Qt Quick components" \
+        "(0x200346DE), 1, 1, 0, {\"Qt Quick components\"}"
+    DEPLOYMENT += installrules
+
 
     SOURCES += symbianhelper.cpp \
             nfchandler.cpp \
