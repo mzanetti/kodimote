@@ -29,29 +29,34 @@ BorderImage {
             break;
         case Qt.Key_Return:
         case Qt.Key_Enter:
-        case Qt.Key_Space:
+//        case Qt.Key_Space:
             keys.select();
             break;
-        case Qt.Key_Back:
+//        case Qt.Key_Back:
         case Qt.Key_Backspace:
+            keys.backspace();
+            break;
         case Qt.Key_Escape:
             keys.back();
             break;
-        case Qt.Key_M:
-            keys.menu();
+//        case Qt.Key_M:
+//            keys.menu();
+//            break;
+//        case Qt.Key_H:
+//        case Qt.Key_Home:
+//            keys.home();
+//            break;
+//        case Qt.Key_C:
+//            keys.contextMenu();
+//            break;
+//        case Qt.Key_I:
+//            keys.info();
+//            break;
+//        case Qt.Key_F:
+//            keys.fullscreen();
+        default:
+            keys.keyboardKey(event.text);
             break;
-        case Qt.Key_H:
-        case Qt.Key_Home:
-            keys.home();
-            break;
-        case Qt.Key_C:
-            keys.contextMenu();
-            break;
-        case Qt.Key_I:
-            keys.info();
-            break;
-        case Qt.Key_F:
-            keys.fullscreen();
         }
     }
 
