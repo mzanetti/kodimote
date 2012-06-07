@@ -1,4 +1,7 @@
 xbmcremote (1.1.0-fremantle0) unstable; urgency=low
+  * Added feature to download media from xbmc to the device
+  * Enabled keyboard to send the keys to xbmc when in keypad page
+  * Added options for call notification and ignore article for sorting
   * Added item details dialog for currently played item
   * Reworked some UI parts
 
