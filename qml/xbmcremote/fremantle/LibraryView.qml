@@ -45,6 +45,9 @@ Item {
         if(library.hasDetails()) {
             contextMenuModel.append({ "entryId": 3 });
         }
+        if(list.model.parentModel() !== null) {
+            contextMenuModel.append( {"entryId": 4 });
+        }
 
         if(contextMenuModel.count > 0) {
             contextMenu.open();
@@ -188,6 +191,7 @@ Item {
         ListElement { entryId: 1 }
         ListElement { entryId: 2 }
         ListElement { entryId: 3 }
+        ListElement { entryId: 4 }
         // workaround: its not possible to have qsTr() in ListElements for now...
         function title(index) {
             if (title["text"] === undefined) {
@@ -195,7 +199,8 @@ Item {
                     qsTr("Play"),
                     qsTr("Add to playlist"),
                     qsTr("Rescan library"),
-                    qsTr("Details")
+                    qsTr("Details"),
+                    qsTr("Download")
                 ]
             }
             return title.text[index];
@@ -222,8 +227,12 @@ Item {
             case 3:
                 itemDetails.forceActiveFocus();
                 break;
+            case 4:
+                list.model.download(list.currentIndex, "/home/user/MyDocs/");
+                break;
             }
-            if(index < 3) {
+
+            if(index !== 3) {
                 mainFocusArea.forceActiveFocus();
             } else {
                 list.model.fetchItemDetails(list.currentIndex);

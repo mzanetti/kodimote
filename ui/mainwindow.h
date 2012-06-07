@@ -5,6 +5,7 @@
 #include <QKeyEvent>
 #ifdef Q_WS_MAEMO_5
 #include <QtDBus/QDBusObjectPath>
+#include <QtMaemo5/QMaemo5InformationBox>
 #endif
 #include <xbmc/xbmcconnection.h>
 
@@ -31,11 +32,15 @@ private slots:
     void grabZoomKeys(bool grab);
     void callEvent(const QDBusObjectPath &, const QString &);
     void callTerminated();
+    void downloadAdded(XbmcDownload* download);
+    void downloadStarted();
+    void downloadDone(bool success);
 #endif
 
     void authenticationRequired(const QString &hostname, const QString &address);
     void connectionChanged(bool connected);
     void hostRemoved();
+
 
 private:
     QmlApplicationViewer *viewer;
@@ -43,6 +48,9 @@ private:
 
     bool m_videoPaused;
     bool m_audioPaused;
+
+    QMaemo5InformationBox m_infoBox;
+
 };
 
 #endif // MAINWINDOW_H

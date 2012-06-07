@@ -3,7 +3,7 @@ QT += network
 
 # Define QMLJSDEBUGGER to allow debugging of QML in debug builds
 # (This might significantly increase build time)
-# DEFINES += QMLJSDEBUGGER
+DEFINES += QMLJSDEBUGGER
 
 # Sources used on all platforms
 SOURCES += main.cpp \
@@ -199,7 +199,7 @@ unix:!meego:!maemo5:!symbian {
 
 # Maemo 5 specific stuff
 maemo5 {
-    QT += dbus
+    QT += dbus maemo5
     CONFIG += mobility12
     MOBILITY += contacts
     LIBS += -lQtContacts
@@ -234,8 +234,8 @@ symbian {
     message("Symbian build")
     DEPLOYMENT.display_name = Xbmcremote
 
-    #TARGET.UID3 = 0xE1297420
-    TARGET.UID3 = 0x200650A2
+    TARGET.UID3 = 0xE1297420
+    #TARGET.UID3 = 0x200650A2
 
     # Dependency to qt components for regular sis
     CONFIG += qt-components qt

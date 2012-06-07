@@ -11,6 +11,7 @@
 #include "xbmc/xbmc.h"
 #include "xbmc/videoplayer.h"
 #include "xbmc/audioplayer.h"
+#include "xbmc/xbmcdownload.h"
 
 #include <QMenuBar>
 #include <QDeclarativeContext>
@@ -19,6 +20,7 @@
 #include <QDebug>
 #include <QApplication>
 #include <QDesktopWidget>
+#include <QLabel>
 
 #ifdef Q_WS_MAEMO_5
 
@@ -31,7 +33,6 @@
 #include <QtContacts/QContactPhoneNumber>
 #include <QtContacts/QContactManager>
 QTM_USE_NAMESPACE
-
 #endif
 
 MainWindow::MainWindow(Settings *settings, QWidget *parent) :
@@ -50,6 +51,8 @@ MainWindow::MainWindow(Settings *settings, QWidget *parent) :
     grabZoomKeys(true);
 
 //    connect(QApplication::desktop(), SIGNAL(resized(int)), this, SLOT(orientationChanged()));
+
+    connect(Xbmc::instance(), SIGNAL(downloadAdded(XbmcDownload*)), SLOT(downloadAdded(XbmcDownload*)));
 #endif
 
     viewer = new QmlApplicationViewer;
@@ -242,6 +245,41 @@ void MainWindow::callTerminated()
     if(m_audioPaused && Xbmc::instance()->audioPlayer()->state() != "playing") {
         Xbmc::instance()->audioPlayer()->playPause();
     }
+}
+
+void MainWindow::downloadAdded(XbmcDownload *download)
+{
+    qDebug() << "Download added";
+    connect(download, SIGNAL(finished(bool)), SLOT(downloadDone(bool)));
+    connect(download, SIGNAL(started()), SLOT(downloadStarted()));
+}
+
+void MainWindow::downloadStarted()
+{
+    setAttribute(Qt::WA_Maemo5ShowProgressIndicator, true);
+
+    XbmcDownload *download = qobject_cast<XbmcDownload*>(sender());
+
+    QLabel *label = new QLabel(tr("Download started: %1").arg(download->label()));
+    m_infoBox.setWidget(label);
+    m_infoBox.show();
+}
+
+void MainWindow::downloadDone(bool success)
+{
+    setAttribute(Qt::WA_Maemo5ShowProgressIndicator, false);
+
+    XbmcDownload *download = qobject_cast<XbmcDownload*>(sender());
+
+    QLabel *label = new QLabel();
+    if(success) {
+        label->setText(tr("Download finished: %1").arg(download->label()));
+    } else {
+        label->setText(tr("Error downloading %1").arg("\"" + download->label() + "\""));
+    }
+    m_infoBox.setWidget(label);
+    m_infoBox.show();
+
 }
 
 #endif
