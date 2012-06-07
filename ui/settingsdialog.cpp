@@ -89,6 +89,10 @@ SettingsDialog::SettingsDialog(QWidget *parent) :
 
     connect(m_cbVolume, SIGNAL(clicked(bool)), m_slVolume, SLOT(setEnabled(bool)));
 
+    m_cbShowCallNotification = new QCheckBox(tr("Show call notifications"));
+    gridLayout->addWidget(m_cbShowCallNotification, 2, 0);
+    m_cbShowCallNotification->setChecked(settings.showCallNotifications());
+
 #ifdef Q_WS_MAEMO_5
     QDialogButtonBox *buttonBox = new QDialogButtonBox(QDialogButtonBox::Ok | QDialogButtonBox::Cancel, Qt::Vertical);
     hLayout->addWidget(buttonBox);
@@ -114,5 +118,6 @@ void SettingsDialog::accept()
     settings.setVolumeOnCall(m_slVolume->value());
     settings.setPauseVideoOnCall(m_cbPauseVideo->isChecked());
     settings.setPauseMusicOnCall(m_cbPauseMusic->isChecked());
+    settings.setShowCallNotifications(m_cbShowCallNotification->isChecked());
     QDialog::accept();
 }

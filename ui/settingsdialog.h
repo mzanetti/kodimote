@@ -40,6 +40,7 @@ private:
     QCheckBox *m_cbPauseMusic;
     QCheckBox *m_cbThumbnails;
     QCheckBox *m_cbIgnoreArticles;
+    QCheckBox *m_cbShowCallNotification;
 
 };
 
