@@ -18,6 +18,7 @@
 
 #include "settingsdialog.h"
 
+#include <QScrollArea>
 #include <QGridLayout>
 #include <QDialogButtonBox>
 #include <QStandardItemModel>
@@ -37,8 +38,19 @@ SettingsDialog::SettingsDialog(QWidget *parent) :
     setWindowTitle("XbmcRemote - " + tr("Settings"));
 
     QHBoxLayout *hLayout = new QHBoxLayout();
+
+    QScrollArea *scrollArea = new QScrollArea();
+    scrollArea->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
+    scrollArea->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+
+    QWidget *widget = new QWidget();
+    widget->setMaximumWidth(scrollArea->width());
+
+    hLayout->addWidget(scrollArea);
+
     QVBoxLayout *gridLayout = new QVBoxLayout();
-    hLayout->addLayout(gridLayout);
+    widget->setLayout(gridLayout);
+
 
 #ifdef Q_WS_MAEMO_5
     setLayout(hLayout);
@@ -53,6 +65,10 @@ SettingsDialog::SettingsDialog(QWidget *parent) :
     m_cbThumbnails = new QCheckBox(tr("Use Thumbnails"));
     gridLayout->addWidget(m_cbThumbnails, 0, 0);
     m_cbThumbnails->setChecked(settings.useThumbnails());
+
+    m_cbIgnoreArticles = new QCheckBox(tr("Ignore articles for sorting"));
+    gridLayout->addWidget(m_cbIgnoreArticles, 0, 0);
+    m_cbIgnoreArticles->setChecked(settings.ignoreArticle());
 
     m_cbVolume = new QCheckBox(tr("Change volume during calls"));
     gridLayout->addWidget(m_cbVolume, 0, 0);
@@ -81,6 +97,9 @@ SettingsDialog::SettingsDialog(QWidget *parent) :
     vLayout->addWidget(buttonBox);
 #endif
 
+    scrollArea->setWidget(widget);
+    scrollArea->setWidgetResizable(true);
+
 
     connect(buttonBox, SIGNAL(accepted()), this, SLOT(accept()));
     connect(buttonBox, SIGNAL(rejected()), this, SLOT(reject()));
@@ -90,6 +109,7 @@ void SettingsDialog::accept()
 {
     Settings settings;
     settings.setUseThumbnails(m_cbThumbnails->isChecked());
+    settings.setIgnoreArticle(m_cbIgnoreArticles->isChecked());
     settings.setChangeVolumeOnCall(m_cbVolume->isChecked());
     settings.setVolumeOnCall(m_slVolume->value());
     settings.setPauseVideoOnCall(m_cbPauseVideo->isChecked());

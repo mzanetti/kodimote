@@ -39,6 +39,7 @@ private:
     QCheckBox *m_cbPauseVideo;
     QCheckBox *m_cbPauseMusic;
     QCheckBox *m_cbThumbnails;
+    QCheckBox *m_cbIgnoreArticles;
 
 };
 

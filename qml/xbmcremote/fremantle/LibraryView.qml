@@ -97,6 +97,7 @@ Item {
 
             function enterItem(index) {
                 var newModel = list.model.enterItem(index);
+                newModel.ignoreArticle = settings.ignoreArticle;
                 console.log("newModel: " + newModel);
                 list.model = newModel;
             }

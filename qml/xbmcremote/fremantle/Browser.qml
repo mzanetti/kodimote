@@ -89,7 +89,8 @@ Item {
 
                     onClicked: {
                         var newModel = list.model.enterItem(index)
-                        console.log("newModel: " + newModel)
+                        newModel.ignoreArticle = settings.ignoreArticle;
+                        console.log("newModel: " + newModel + " ignoring article: " + settings.ignoreArticle)
                         list.model = newModel
                     }
                 }
