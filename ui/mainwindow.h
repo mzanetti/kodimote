@@ -49,7 +49,9 @@ private:
     bool m_videoPaused;
     bool m_audioPaused;
 
+#ifdef Q_WS_MAEMO_5
     QMaemo5InformationBox m_infoBox;
+#endif
 
 };
 
