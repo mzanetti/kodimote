@@ -54,7 +54,6 @@ public:
 signals:
     void connectionChanged();
     void receivedAnnouncement(const QVariantMap &announcement);
-    void responseReceived(int id, const QVariantMap &response);
     void authenticationRequired(const QString &hostname, const QString &address);
     void downloadAdded(XbmcDownload *download);
 };
