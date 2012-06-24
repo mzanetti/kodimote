@@ -44,7 +44,8 @@ public slots:
     void refresh();
 
 private slots:
-    void responseReceived(int id, const QVariantMap &rsp);
+    void listReceived(const QVariantMap &rsp);
+    void detailsReceived(const QVariantMap &rsp);
 
 private:
     enum Request {
@@ -52,7 +53,6 @@ private:
         RequestDetails
     };
 
-    QMap<int, Request> m_requestList;
     QMap<int, int> m_detailsRequestMap;
     int m_tvshowid;
     int m_seasonid;
