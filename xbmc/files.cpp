@@ -31,8 +31,7 @@ Files::Files(const QString &mediaType, const QString &dir, XbmcModel *parent):
     XbmcLibrary(parent),
     m_mediaType(mediaType),
     m_dir(dir)
-{    
-    connect(XbmcConnection::notifier(), SIGNAL(responseReceived(int,QVariantMap)), SLOT(responseReceived(int,QVariantMap)));
+{
 }
 
 void Files::refresh()
@@ -54,14 +53,11 @@ void Files::refresh()
     sort.insert("ignorearticle", ignoreArticle());
     params.insert("sort", sort);
 
-    m_requestId = XbmcConnection::sendCommand("Files.GetDirectory", params);
+    XbmcConnection::sendCommand("Files.GetDirectory", params, this, "listReceived");
 }
 
-void Files::responseReceived(int id, const QVariantMap &rsp)
+void Files::listReceived(const QVariantMap &rsp)
 {
-    if(id != m_requestId) {
-        return;
-    }
     setBusy(false);
     QList<XbmcModelItem*> list;
     qDebug() << "got files:" << rsp.value("result");
