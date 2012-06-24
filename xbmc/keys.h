@@ -43,9 +43,6 @@ public slots:
     void keyboardKey(const QString &key);
     void backspace();
 
-private slots:
-    void responseReceived(int id, const QVariantMap &map);
-
 private:
     int m_requestId;
 };
