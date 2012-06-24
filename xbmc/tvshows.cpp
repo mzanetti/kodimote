@@ -111,7 +111,8 @@ void TvShows::showDetailsReceived(const QVariantMap &rsp)
 {
     qDebug() << "got item details:" << rsp;
     int id = rsp.value("id").toInt();
-    LibraryItem *item = qobject_cast<LibraryItem*>(m_list.at(m_detailsRequestMap.value(id)));
+    int row = m_detailsRequestMap.take(id);
+    LibraryItem *item = qobject_cast<LibraryItem*>(m_list.at(row));
     QVariantMap details = rsp.value("result").toMap().value("tvshowdetails").toMap();
     item->setGenre(details.value("genre").toString());
     item->setPlot(details.value("plot").toString());
@@ -120,7 +121,7 @@ void TvShows::showDetailsReceived(const QVariantMap &rsp)
     item->setFirstAired(details.value("firstaired").toString());
     item->setMpaa(details.value("mpaa").toString());
     item->setCast(details.value("cast").toString());
-    emit dataChanged(index(m_detailsRequestMap.value(id), 0, QModelIndex()), index(m_detailsRequestMap.value(id), 0, QModelIndex()));
+    emit dataChanged(index(row, 0, QModelIndex()), index(row, 0, QModelIndex()));
 }
 
 XbmcModel *TvShows::enterItem(int index)

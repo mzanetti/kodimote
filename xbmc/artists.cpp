@@ -113,7 +113,8 @@ void Artists::detailsReceived(const QVariantMap &rsp)
 {
     qDebug() << "got item details:" << rsp;
     int id = rsp.value("id").toInt();
-    LibraryItem *item = qobject_cast<LibraryItem*>(m_list.at(m_detailsRequestMap.value(id)));
+    int row = m_detailsRequestMap.take(id);
+    LibraryItem *item = qobject_cast<LibraryItem*>(m_list.at(row));
     QVariantMap details = rsp.value("result").toMap().value("artistdetails").toMap();
     item->setDescription(details.value("description").toString());
     item->setInstrument(details.value("instrument").toString());
@@ -124,7 +125,7 @@ void Artists::detailsReceived(const QVariantMap &rsp)
     item->setGenre(details.value("genre").toString());
     item->setDied(details.value("died").toString());
     item->setDisbanded(details.value("disbanded").toString());
-    emit dataChanged(index(m_detailsRequestMap.value(id), 0, QModelIndex()), index(m_detailsRequestMap.value(id), 0, QModelIndex()));
+    emit dataChanged(index(row, 0, QModelIndex()), index(row, 0, QModelIndex()));
 }
 
 void Artists::downloadModelFilled()

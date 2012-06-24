@@ -124,13 +124,14 @@ void Albums::detailsReceived(const QVariantMap &rsp)
 {
     qDebug() << "got item details:" << rsp;
     int id = rsp.value("id").toInt();
-    LibraryItem *item = qobject_cast<LibraryItem*>(m_list.at(m_detailsRequestMap.value(id)));
+    int row = m_detailsRequestMap.take(id);
+    LibraryItem *item = qobject_cast<LibraryItem*>(m_list.at(m_detailsRequestMap.value(row)));
     QVariantMap details = rsp.value("result").toMap().value("albumdetails").toMap();
     item->setDescription(details.value("description").toString());
     item->setRating(details.value("rating").toInt());
     item->setGenre(details.value("genre").toString());
     item->setYear(details.value("year").toString());
-    emit dataChanged(index(m_detailsRequestMap.value(id), 0, QModelIndex()), index(m_detailsRequestMap.value(id), 0, QModelIndex()));
+    emit dataChanged(index(row, 0, QModelIndex()), index(row, 0, QModelIndex()));
 }
 
 void Albums::downloadModelFilled()

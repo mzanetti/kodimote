@@ -104,13 +104,14 @@ void MusicVideos::detailsReceived(const QVariantMap &rsp)
 {
     qDebug() << "got item details:" << rsp;
     int id = rsp.value("id").toInt();
-    LibraryItem *item = qobject_cast<LibraryItem*>(m_list.at(m_detailsRequestMap.value(id)));
+    int row = m_detailsRequestMap.take(id);
+    LibraryItem *item = qobject_cast<LibraryItem*>(m_list.at(row));
     QVariantMap details = rsp.value("result").toMap().value("musicvideodetails").toMap();
     //item->setRuntime(details.value("runtime").toInt());
     item->setYear(details.value("year").toString());
     item->setPlot(details.value("plot").toString());
     item->setGenre(details.value("genre").toString());
-    emit dataChanged(index(m_detailsRequestMap.value(id), 0, QModelIndex()), index(m_detailsRequestMap.value(id), 0, QModelIndex()));
+    emit dataChanged(index(row, 0, QModelIndex()), index(row, 0, QModelIndex()));
 }
 
 XbmcModel *MusicVideos::enterItem(int index)
