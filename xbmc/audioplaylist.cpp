@@ -49,8 +49,7 @@ void AudioPlaylist::refresh()
 
     params.insert("playlistid", playlistId());
 
-    int id = XbmcConnection::sendCommand("Playlist.GetItems", params);
-    m_requestMap.insert(id, RequestGetItems);
+    XbmcConnection::sendCommand("Playlist.GetItems", params, this, "itemsReceived");
 }
 
 void AudioPlaylist::queryItemData(int index)
@@ -72,66 +71,55 @@ void AudioPlaylist::queryItemData(int index)
     params.insert("playlistid", playlistId());
 
     xDebug(XDAREA_PLAYLIST) << "Gettin current item data" << params;
-    int id = XbmcConnection::sendCommand("Playlist.GetItems", params);
-    m_requestMap.insert(id, RequestCurrentData);
+    XbmcConnection::sendCommand("Playlist.GetItems", params, this, "currentDataReceived");
 }
 
 
-void AudioPlaylist::responseReveiced(int id, const QVariantMap &response)
+void AudioPlaylist::itemsReceived(const QVariantMap &rsp)
 {
-    if(!m_requestMap.contains(id)) {
-        return;
-    }
-
-    QVariant rsp = response.value("result");
-
 //    xDebug(XDAREA_PLAYLIST) << "AudioPlaylist response:" << rsp;
 
-    switch(m_requestMap.value(id)) {
-    case RequestGetItems: {
-        xDebug(XDAREA_PLAYLIST) << "got GetItems response:" << response;
-        QVariantList responseList = rsp.toMap().value("items").toList();
-        bool modelResetted = false;
-        if(responseList.count() != m_itemList.count()) {
-            beginResetModel();
-            modelResetted = true;
-        }
-        while(!m_itemList.isEmpty()){
-            delete m_itemList.takeFirst();
-        }
-        foreach(const QVariant &itemVariant, responseList) {
-            QVariantMap itemMap = itemVariant.toMap();
-            AudioPlaylistItem *item = new AudioPlaylistItem();
-            item->setLabel(itemMap.value("label").toString());
-            item->setDuration(QTime().addSecs(itemMap.value("duration").toInt()));
-            item->setArtist(itemMap.value("artist").toString());
-            item->setAlbum(itemMap.value("album").toString());
-            m_itemList.append(item);
-        }
-        if(modelResetted) {
-            endResetModel();
-        } else {
-            emit dataChanged(index(0, 0, QModelIndex()), index(m_itemList.count() - 1, 0, QModelIndex()));
-        }
-        emit countChanged();
-        break;
+    xDebug(XDAREA_PLAYLIST) << "got GetItems response:" << rsp;
+    QVariantList responseList = rsp.value("result").toMap().value("items").toList();
+    bool modelResetted = false;
+    if(responseList.count() != m_itemList.count()) {
+        beginResetModel();
+        modelResetted = true;
     }
-    case RequestCurrentData: {
-        xDebug(XDAREA_PLAYLIST) << "Current item data response" << rsp.toMap();
-        if(m_itemList.count() > m_currentItem && m_currentItem > -1) {
-            AudioPlaylistItem *item = m_itemList.at(m_currentItem);
-            QVariantList responseList = rsp.toMap().value("items").toList();
-            QVariantMap itemMap = responseList.first().toMap();
-            item->setLabel(itemMap.value("label").toString());
-            item->setTitle(itemMap.value("title").toString());
-            item->setArtist(itemMap.value("artist").toString());
-            item->setAlbum(itemMap.value("album").toString());
-            item->setFanart(itemMap.value("fanart").toString());
-            item->setThumbnail(itemMap.value("thumbnail").toString());
-            emit currentChanged();
-            break;
-        }
-        }
+    while(!m_itemList.isEmpty()){
+        delete m_itemList.takeFirst();
+    }
+    foreach(const QVariant &itemVariant, responseList) {
+        QVariantMap itemMap = itemVariant.toMap();
+        AudioPlaylistItem *item = new AudioPlaylistItem();
+        item->setLabel(itemMap.value("label").toString());
+        item->setDuration(QTime().addSecs(itemMap.value("duration").toInt()));
+        item->setArtist(itemMap.value("artist").toString());
+        item->setAlbum(itemMap.value("album").toString());
+        m_itemList.append(item);
+    }
+    if(modelResetted) {
+        endResetModel();
+    } else {
+        emit dataChanged(index(0, 0, QModelIndex()), index(m_itemList.count() - 1, 0, QModelIndex()));
+    }
+    emit countChanged();
+}
+
+void AudioPlaylist::currentDataReceived(const QVariantMap &rsp)
+{
+    xDebug(XDAREA_PLAYLIST) << "Current item data response" << rsp;
+    if(m_itemList.count() > m_currentItem && m_currentItem > -1) {
+        AudioPlaylistItem *item = m_itemList.at(m_currentItem);
+        QVariantList responseList = rsp.value("result").toMap().value("items").toList();
+        QVariantMap itemMap = responseList.first().toMap();
+        item->setLabel(itemMap.value("label").toString());
+        item->setTitle(itemMap.value("title").toString());
+        item->setArtist(itemMap.value("artist").toString());
+        item->setAlbum(itemMap.value("album").toString());
+        item->setFanart(itemMap.value("fanart").toString());
+        item->setThumbnail(itemMap.value("thumbnail").toString());
+        emit currentChanged();
     }
 }
 
