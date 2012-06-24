@@ -39,8 +39,7 @@ void VideoPlaylist::refresh()
     params.insert("properties", properties);
     params.insert("playlistid", playlistId());
 
-    int id = XbmcConnection::sendCommand("Playlist.GetItems", params);
-    m_requestMap.insert(id, RequestGetItems);
+    XbmcConnection::sendCommand("Playlist.GetItems", params, this, "itemsReceived");
 }
 
 void VideoPlaylist::queryItemData(int index)
@@ -64,77 +63,68 @@ void VideoPlaylist::queryItemData(int index)
     params.insert("limits", limits);
     params.insert("playlistid", playlistId());
 
-    int id = XbmcConnection::sendCommand("Playlist.GetItems", params);
-    m_requestMap.insert(id, RequestCurrentData);
+    XbmcConnection::sendCommand("Playlist.GetItems", params, this, "currentDataReceived");
 }
 
-void VideoPlaylist::responseReveiced(int id, const QVariantMap &response)
+void VideoPlaylist::itemsReceived(const QVariantMap &rsp)
 {
-    if(!m_requestMap.contains(id)) {
-        return;
-    }
-
-    xDebug(XDAREA_PLAYLIST) << "VideoPlaylist response:" << response;
-    if(response.contains("error")) {
+    xDebug(XDAREA_PLAYLIST) << "VideoPlaylist response:" << rsp;
+    if(rsp.contains("error")) {
         xDebug(XDAREA_PLAYLIST) << "Failed to fetch itemdata";
         return;
     }
 
-    QVariant rsp = response.value("result");
+    QVariant result = rsp.value("result");
 
-    switch(m_requestMap.value(id)) {
-    case RequestGetItems: {
-//        xDebug(XDAREA_PLAYLIST) << "got GetItems response:" << response;
-//        xDebug(XDAREA_PLAYLIST) << "resetting model";
-        QVariantList responseList = rsp.toMap().value("items").toList();
-        bool modelResetted = false;
-        if(responseList.count() != m_itemList.count()) {
-            beginResetModel();
-            modelResetted = true;
-        }
-        while(!m_itemList.isEmpty()){
-            delete m_itemList.takeFirst();
-        }
-        foreach(const QVariant &itemVariant, responseList) {
-            QVariantMap itemMap = itemVariant.toMap();
-            VideoPlaylistItem *item = new VideoPlaylistItem();
-//            item.setFanart(itemMap.value("fanart").toString());
-            item->setLabel(itemMap.value("label").toString());
-            item->setDuration(QTime().addSecs(itemMap.value("runtime").toInt() * 60));
-//            item.setTitle(itemMap.value("title").toString());
-//            item.setArtist(itemMap.value("artist").toString());
-//            xDebug(XDAREA_PLAYLIST) << "adding item:" << item.label();
-            m_itemList.append(item);
-        }
-        if(modelResetted) {
-            endResetModel();
-        } else {
-            emit dataChanged(index(0, 0, QModelIndex()), index(m_itemList.count() - 1, 0, QModelIndex()));
-        }
-        emit countChanged();
-        break;
+//    xDebug(XDAREA_PLAYLIST) << "got GetItems response:" << response;
+//    xDebug(XDAREA_PLAYLIST) << "resetting model";
+    QVariantList responseList = rsp.value("result").toMap().value("items").toList();
+    bool modelResetted = false;
+    if(responseList.count() != m_itemList.count()) {
+        beginResetModel();
+        modelResetted = true;
     }
-    case RequestCurrentData: {
-        if(m_itemList.count() > m_currentItem && m_currentItem > -1) {
-            VideoPlaylistItem *item = m_itemList.at(m_currentItem);
-            QVariantList responseList = rsp.toMap().value("items").toList();
-            QVariantMap itemMap = responseList.first().toMap();
-    //            item.setFanart(itemMap.value("fanart").toString());
-            item->setDuration(QTime().addSecs(itemMap.value("runtime").toInt() * 60));
-            item->setLabel(itemMap.value("label").toString());
-            item->setFile(itemMap.value("file").toString());
-            item->setTitle(itemMap.value("title").toString());
-            item->setType(itemMap.value("type").toString());
-            item->setTvShow(itemMap.value("showtitle").toString());
-            item->setSeason(itemMap.value("season").toString());
-            item->setFanart(itemMap.value("fanart").toString());
-            item->setThumbnail(itemMap.value("thumbnail").toString());
-            item->setYear(itemMap.value("year").toString());
-            item->setRating(itemMap.value("rating").toString());
-            emit currentChanged();
-            break;
-        }
-        }
+    while(!m_itemList.isEmpty()){
+        delete m_itemList.takeFirst();
+    }
+    foreach(const QVariant &itemVariant, responseList) {
+        QVariantMap itemMap = itemVariant.toMap();
+        VideoPlaylistItem *item = new VideoPlaylistItem();
+//        item.setFanart(itemMap.value("fanart").toString());
+        item->setLabel(itemMap.value("label").toString());
+        item->setDuration(QTime().addSecs(itemMap.value("runtime").toInt() * 60));
+//        item.setTitle(itemMap.value("title").toString());
+//        item.setArtist(itemMap.value("artist").toString());
+//        xDebug(XDAREA_PLAYLIST) << "adding item:" << item.label();
+        m_itemList.append(item);
+    }
+    if(modelResetted) {
+        endResetModel();
+    } else {
+        emit dataChanged(index(0, 0, QModelIndex()), index(m_itemList.count() - 1, 0, QModelIndex()));
+    }
+    emit countChanged();
+}
+
+void VideoPlaylist::currentDataReceived(const QVariantMap &rsp)
+{
+    if(m_itemList.count() > m_currentItem && m_currentItem > -1) {
+        VideoPlaylistItem *item = m_itemList.at(m_currentItem);
+        QVariantList responseList = rsp.value("result").toMap().value("items").toList();
+        QVariantMap itemMap = responseList.first().toMap();
+//        item.setFanart(itemMap.value("fanart").toString());
+        item->setDuration(QTime().addSecs(itemMap.value("runtime").toInt() * 60));
+        item->setLabel(itemMap.value("label").toString());
+        item->setFile(itemMap.value("file").toString());
+        item->setTitle(itemMap.value("title").toString());
+        item->setType(itemMap.value("type").toString());
+        item->setTvShow(itemMap.value("showtitle").toString());
+        item->setSeason(itemMap.value("season").toString());
+        item->setFanart(itemMap.value("fanart").toString());
+        item->setThumbnail(itemMap.value("thumbnail").toString());
+        item->setYear(itemMap.value("year").toString());
+        item->setRating(itemMap.value("rating").toString());
+        emit currentChanged();
     }
 }
 
