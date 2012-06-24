@@ -119,15 +119,6 @@ private slots:
     void detailsReceived(const QVariantMap &rsp);
 
 protected:
-    enum Request {
-        RequestSpeed,
-        RequestPercentage,
-        RequestPosition,
-        RequestRepeatShuffle,
-        SetPercentage,
-        RequestCurrentItemDetails
-    };
-
     PlayerType m_type;
     QString m_state;
     int m_speed;

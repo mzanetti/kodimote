@@ -140,12 +140,6 @@ private:
     static Xbmc *s_instance;
     explicit Xbmc(QObject *parent = 0);
 
-    enum Request {
-        RequestActivePlayer,
-        RequestVolume,
-        RequestSystemProperties
-    };
-
     AudioPlayer *m_audioPlayer;
     VideoPlayer *m_videoPlayer;
     PicturePlayer *m_picturePlayer;

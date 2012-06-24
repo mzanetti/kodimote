@@ -48,11 +48,6 @@ private slots:
     void detailsReceived(const QVariantMap &rsp);
 
 private:
-    enum Request {
-        RequestList,
-        RequestDetails
-    };
-
     QMap<int, int> m_detailsRequestMap;
     int m_tvshowid;
     int m_seasonid;

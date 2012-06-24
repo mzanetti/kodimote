@@ -44,9 +44,6 @@ signals:
     void allowSearchChanged();
 
 private:
-    enum Request {
-        RequestDownload
-    };
     QMap<int, XbmcDownload*> m_downloadMap;
     bool m_deleteAfterDownload;
 

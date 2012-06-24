@@ -42,13 +42,6 @@ public slots:
     void clean();
     void refresh();
 
-private:
-    enum Request {
-        RequestArtists,
-        RequestAlbums
-    };
-    QMap<int, Request> m_requestMap;
-
 };
 
 #endif // AUDIOLIBRARY_H

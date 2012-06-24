@@ -73,13 +73,6 @@ protected:
 
     virtual void queryItemData(int index) = 0;
 
-    enum Request {
-        RequestGetItems,
-        RequestCurrentData
-    };
-
-    QMap<int, Request> m_requestMap;
-
     mutable int m_currentItem;
     Player *m_player;
 };

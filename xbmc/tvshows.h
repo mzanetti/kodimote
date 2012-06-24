@@ -47,11 +47,6 @@ private slots:
     void showsReceived(const QVariantMap &rsp);
 
 private:
-    enum Request {
-        RequestList,
-        RequestDetails
-    };
-
     QMap<int, int> m_detailsRequestMap;
 };
 

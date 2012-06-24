@@ -53,11 +53,6 @@ private slots:
     void downloadModelFilled();
 
 private:
-    enum Request {
-        RequestList,
-        RequestDetails
-    };
-
     QMap<int, int> m_detailsRequestMap;
 
     int m_artistId;
