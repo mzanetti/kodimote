@@ -14,7 +14,6 @@ public:
     PlaylistItem *at(int) const { return 0; }
     int playlistId() const { return 2; }
     void refresh() {}
-    void responseReveiced(int, const QVariantMap &) {}
     void queryItemData(int) {}
 
 };
