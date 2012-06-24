@@ -29,7 +29,6 @@ Seasons::Seasons(int tvshowid, XbmcModel *parent):
     XbmcLibrary(parent),
     m_tvshowid(tvshowid)
 {
-    connect(XbmcConnection::notifier(), SIGNAL(responseReceived(int,QVariantMap)), SLOT(responseReceived(int,QVariantMap)));
 }
 
 void Seasons::refresh()
@@ -50,15 +49,11 @@ void Seasons::refresh()
     sort.insert("order", "ascending");
     params.insert("sort", sort);
 
-    m_request = XbmcConnection::sendCommand("VideoLibrary.GetSeasons", params);
+    XbmcConnection::sendCommand("VideoLibrary.GetSeasons", params, this, "listReceived");
 }
 
-void Seasons::responseReceived(int id, const QVariantMap &rsp)
+void Seasons::listReceived(const QVariantMap &rsp)
 {
-    if(id != m_request) {
-        return;
-    }
-
     setBusy(false);
     QList<XbmcModelItem*> list;
     qDebug() << "got Seasons:" << rsp.value("result");
