@@ -85,7 +85,7 @@ public:
     int xbmcVersion();
 
     int sendCommand(const QString &command, const QVariant &parms = QVariant());
-    int sendCommand(const QString &command, const QVariant &params, QObject *receiver, const QString &member);
+    int sendCommand(const QString &command, const QVariant &params, QObject *callbackReceiver, const QString &callbackMember);
     void sendLegacyCommand(const QString &command);
 
     QNetworkAccessManager *nam();

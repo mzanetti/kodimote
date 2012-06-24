@@ -62,9 +62,9 @@ int sendCommand(const QString &command, const QVariant &params)
    return instance()->sendCommand(command, params);
 }
 
-int sendCommand(const QString &command, const QVariant &params, QObject *receiver, const QString &member)
+int sendCommand(const QString &command, const QVariant &params, QObject *callbackReceiver, const QString &callbackMember)
 {
-    return instance()->sendCommand(command, params, receiver, member);
+    return instance()->sendCommand(command, params, callbackReceiver, callbackMember);
 }
 
 void sendLegacyCommand(const QString &command)
@@ -364,11 +364,11 @@ int XbmcConnectionPrivate::sendCommand(const QString &command, const QVariant &p
     return id;
 }
 
-int XbmcConnectionPrivate::sendCommand(const QString &command, const QVariant &params, QObject *receiver, const QString &member)
+int XbmcConnectionPrivate::sendCommand(const QString &command, const QVariant &params, QObject *callbackReceiver, const QString &callbackMember)
 {
     int id = m_commandId++;
 
-    Callback callback(receiver, member);
+    Callback callback(callbackReceiver, callbackMember);
     m_callbacks.insert(id, callback);
 
     Command cmd(id, command, params);
