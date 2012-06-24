@@ -38,7 +38,7 @@ protected:
     void startDownload(int index, XbmcDownload *download);
 
 private slots:
-    void slotResponseReceived(int, const QVariantMap &rsp);
+    void downloadReceived(const QVariantMap &rsp);
 
 signals:
     void allowSearchChanged();
@@ -47,7 +47,6 @@ private:
     enum Request {
         RequestDownload
     };
-    QMap<int, Request> m_requestMap;
     QMap<int, XbmcDownload*> m_downloadMap;
     bool m_deleteAfterDownload;
 
