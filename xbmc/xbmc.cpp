@@ -98,7 +98,6 @@ Xbmc::Xbmc(QObject *parent) :
 
     connect(XbmcConnection::notifier(), SIGNAL(connectionChanged()), SLOT(connectionChanged()));
     connect(XbmcConnection::notifier(), SIGNAL(receivedAnnouncement(QVariantMap)), SLOT(parseAnnouncement(QVariantMap)));
-    connect(XbmcConnection::notifier(), SIGNAL(responseReceived(int,QVariantMap)), SLOT(responseReceived(int,QVariantMap)));
     connect(XbmcConnection::notifier(), SIGNAL(authenticationRequired(QString,QString)), SIGNAL(authenticationRequired(QString, QString)));
     connect(XbmcConnection::notifier(), SIGNAL(downloadAdded(XbmcDownload*)), SLOT(slotDownloadAdded(XbmcDownload*)));
 
@@ -128,8 +127,7 @@ void Xbmc::init()
     QVariantList list;
     list.append("volume");
     params.insert("properties", list);
-    int id = XbmcConnection::sendCommand("Application.GetProperties", params);
-    m_requestMap.insert(id, RequestVolume);
+    XbmcConnection::sendCommand("Application.GetProperties", params, this, "volumeReceived");
 
     params.clear();
     list.clear();
@@ -138,8 +136,7 @@ void Xbmc::init()
     list.append("cansuspend");
     list.append("canreboot");
     params.insert("properties", list);
-    id = XbmcConnection::sendCommand("System.GetProperties", params);
-    m_requestMap.insert(id, RequestSystemProperties);
+    XbmcConnection::sendCommand("System.GetProperties", params, this, "systemPropertiesReceived");
 
     queryActivePlayers();
 }
@@ -240,69 +237,63 @@ void Xbmc::parseAnnouncement(const QVariantMap &map)
     }
 }
 
-void Xbmc::responseReceived(int id, const QVariantMap &response)
+void Xbmc::activePlayersReceived(const QVariantMap &rsp)
 {
-    if(!m_requestMap.contains(id)) {
-        return;
-    }
-
     Player *activePlayer = 0;
 
-    QVariant rsp = response.value("result");
+    QVariant result = rsp.value("result");
 
-    switch(m_requestMap.value(id)) {
-    case RequestActivePlayer: {
-        // {"id":8,"jsonrpc":"2.0","result":[{"playerid":0,"type":"audio"}]}
-        xDebug(XDAREA_PLAYER) << "active player response:" << rsp;
-        QVariantList activePlayers = rsp.toList();
-        bool picturesActive = false;
-        foreach(const QVariant &activePlayerMap, activePlayers) {
-            if(activePlayerMap.toMap().value("type").toString() == "audio") {
-                activePlayer = m_audioPlayer;
-                m_state = "audio";
-            } else if(activePlayerMap.toMap().value("type").toString() == "video") {
-                activePlayer = m_videoPlayer;
-                m_state = "video";
-            }
-            if(activePlayerMap.toMap().value("type").toString() == "picture"){
-                picturesActive = true;
-            }
+    // {"id":8,"jsonrpc":"2.0","result":[{"playerid":0,"type":"audio"}]}
+    xDebug(XDAREA_PLAYER) << "active player response:" << result;
+    QVariantList activePlayers = result.toList();
+    bool picturesActive = false;
+    foreach(const QVariant &activePlayerMap, activePlayers) {
+        if(activePlayerMap.toMap().value("type").toString() == "audio") {
+            activePlayer = m_audioPlayer;
+            m_state = "audio";
+        } else if(activePlayerMap.toMap().value("type").toString() == "video") {
+            activePlayer = m_videoPlayer;
+            m_state = "video";
         }
-
-        if(activePlayer == 0) {
-            m_state = "";
-        } else if(m_activePlayer != activePlayer) {
-            m_activePlayer = activePlayer;
-            xDebug(XDAREA_PLAYER) << "active player changed!";
-            emit stateChanged();
-            emit activePlayerChanged();
+        if(activePlayerMap.toMap().value("type").toString() == "picture"){
+            picturesActive = true;
         }
-        if(m_activePlayer) {
-            m_activePlayer->refresh();
-        }
-
-        if(m_picturePlayerActive != picturesActive) {
-            m_picturePlayerActive = picturesActive;
-            emit picturePlayerActiveChanged();
-        }
-
-        }
-        break;
-    case RequestVolume:
-        m_volume = rsp.toMap().value("volume").toInt();
-//        qDebug() << "Volume received" << m_volume;
-        emit volumeChanged(m_volume);
-        break;
-    case RequestSystemProperties:
-        qDebug() << "Got system properties:" << rsp.toMap();
-        m_canShutdown = rsp.toMap().value("canshutdown").toBool();
-        m_canReboot = rsp.toMap().value("canreboot").toBool();
-        m_canHibernate = rsp.toMap().value("canhibernate").toBool();
-        m_canSuspend = rsp.toMap().value("cansuspend").toBool();
-        emit systemPropertiesChanged();
-        qDebug() << m_canShutdown << m_canReboot << m_canHibernate << m_canSuspend;
     }
 
+    if(activePlayer == 0) {
+        m_state = "";
+    } else if(m_activePlayer != activePlayer) {
+        m_activePlayer = activePlayer;
+        xDebug(XDAREA_PLAYER) << "active player changed!";
+        emit stateChanged();
+        emit activePlayerChanged();
+    }
+    if(m_activePlayer) {
+        m_activePlayer->refresh();
+    }
+
+    if(m_picturePlayerActive != picturesActive) {
+        m_picturePlayerActive = picturesActive;
+        emit picturePlayerActiveChanged();
+    }
+}
+
+void Xbmc::volumeReceived(const QVariantMap &rsp)
+{
+    m_volume = rsp.value("result").toMap().value("volume").toInt();
+//    qDebug() << "Volume received" << m_volume;
+    emit volumeChanged(m_volume);
+}
+
+void Xbmc::systemPropertiesReceived(const QVariantMap &rsp)
+{
+    qDebug() << "Got system properties:" << rsp.value("result").toMap();
+    m_canShutdown = rsp.value("result").toMap().value("canshutdown").toBool();
+    m_canReboot = rsp.value("result").toMap().value("canreboot").toBool();
+    m_canHibernate = rsp.value("result").toMap().value("canhibernate").toBool();
+    m_canSuspend = rsp.value("result").toMap().value("cansuspend").toBool();
+    emit systemPropertiesChanged();
+    qDebug() << m_canShutdown << m_canReboot << m_canHibernate << m_canSuspend;
 }
 
 QString Xbmc::vfsPath()
@@ -363,7 +354,7 @@ void Xbmc::setVolume(int volume)
         if(volume != m_volume) {
             QVariantMap map;
             map.insert("volume", volume);
-            XbmcConnection::sendCommand("Application.SetVolume", map);
+            XbmcConnection::sendCommand("Application.SetVolume", map, this, "volumeReceived");
             m_volume = volume;
             emit volumeChanged(m_volume);
         }
@@ -426,8 +417,7 @@ bool Xbmc::picturePlayerActive()
 
 void Xbmc::queryActivePlayers()
 {
-    int id = XbmcConnection::sendCommand("Player.GetActivePlayers");
-    m_requestMap.insert(id, RequestActivePlayer);
+    XbmcConnection::sendCommand("Player.GetActivePlayers", QVariantMap(), this, "activePlayersReceived");
 }
 
 bool Xbmc::canShutdown()

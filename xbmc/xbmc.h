@@ -127,11 +127,14 @@ signals:
 
 private slots:
     void parseAnnouncement(const QVariantMap &map);
-    void responseReceived(int id, const QVariantMap &rsp);
     void connectionChanged();
     void init();
     void slotDownloadAdded(XbmcDownload *download);
     void downloadFinished(bool success);
+
+    void activePlayersReceived(const QVariantMap &rsp);
+    void volumeReceived(const QVariantMap &rsp);
+    void systemPropertiesReceived(const QVariantMap &rsp);
 
 private:
     static Xbmc *s_instance;
@@ -142,7 +145,6 @@ private:
         RequestVolume,
         RequestSystemProperties
     };
-    QMap<int, Request> m_requestMap;
 
     AudioPlayer *m_audioPlayer;
     VideoPlayer *m_videoPlayer;
