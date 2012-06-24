@@ -62,6 +62,11 @@ int sendCommand(const QString &command, const QVariant &params)
    return instance()->sendCommand(command, params);
 }
 
+int sendCommand(const QString &command, const QVariant &params, QObject *receiver, const QString &member)
+{
+    return instance()->sendCommand(command, params, receiver, member);
+}
+
 void sendLegacyCommand(const QString &command)
 {
    return instance()->sendLegacyCommand(command);
@@ -315,32 +320,60 @@ void XbmcConnectionPrivate::replyReceived()
             emit m_notifier->receivedAnnouncement(rsp);
             continue;
         }
-        if(rsp.value("id").toInt() >= 0) {
-            xDebug(XDAREA_CONNECTION) << ">>> received response" << rsp.value("result");
 
-            if(rsp.contains("error")) {
-                xDebug(XDAREA_GENERAL) << "Error reply received:";
-                xDebug(XDAREA_GENERAL) << "Request:" <<  m_currentPendingCommand.raw();
-                xDebug(XDAREA_GENERAL) << "Reply: " << lineData;
-            }
-
-            emit m_notifier->responseReceived(rsp.value("id").toInt(), rsp);
-            int id = rsp.value("id").toInt();
-            if(m_currentPendingCommand.id() == id) {
-//                m_commandQueue.removeFirst();
-                m_timeoutTimer.stop();
-                m_currentPendingCommand = Command();
-            }
-            sendNextCommand2();
+        int id = rsp.value("id").toInt();
+        if( id < 0) {
+            xDebug(XDAREA_CONNECTION) << "received unhandled data" << commands;
             continue;
         }
-        xDebug(XDAREA_CONNECTION) << "received unhandled data" << commands;
+
+
+        xDebug(XDAREA_CONNECTION) << ">>> received response" << rsp.value("result");
+
+        if(rsp.contains("error")) {
+            xDebug(XDAREA_GENERAL) << "Error reply received:";
+            xDebug(XDAREA_GENERAL) << "Request:" <<  m_currentPendingCommand.raw();
+            xDebug(XDAREA_GENERAL) << "Reply: " << lineData;
+        }
+
+        if(m_callbacks.contains(id)) {
+            Callback callback = m_callbacks.take(id);
+            QMetaObject::invokeMethod(callback.receiver(), callback.member().toAscii(), Qt::DirectConnection, Q_ARG(const QVariantMap&, rsp));
+        }
+        else {
+            emit m_notifier->responseReceived(id, rsp);
+        }
+
+        if(m_currentPendingCommand.id() == id) {
+//            m_commandQueue.removeFirst();
+            m_timeoutTimer.stop();
+            m_currentPendingCommand = Command();
+        }
+        sendNextCommand2();
+        continue;
     }
 }
 
 int XbmcConnectionPrivate::sendCommand(const QString &command, const QVariant &params)
 {
     int id = m_commandId++;
+    Command cmd(id, command, params);
+    m_commandQueue.append(cmd);
+    sendNextCommand2();
+
+    if(m_commandId < 0) {
+        m_commandId = 0;
+    }
+    return id;
+}
+
+int XbmcConnectionPrivate::sendCommand(const QString &command, const QVariant &params, QObject *receiver, const QString &member)
+{
+    int id = m_commandId++;
+
+    Callback callback(receiver, member);
+    m_callbacks.insert(id, callback);
+
     Command cmd(id, command, params);
     m_commandQueue.append(cmd);
     sendNextCommand2();

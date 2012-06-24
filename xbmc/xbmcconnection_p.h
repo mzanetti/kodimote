@@ -55,6 +55,21 @@ private:
     QString m_raw;
 };
 
+class Callback
+{
+public:
+    Callback() {}
+    Callback(QObject *receiver, const QString &member):
+        m_receiver(receiver), m_member(member) {}
+
+    QObject *receiver() { return m_receiver; }
+    QString member() { return m_member; }
+
+private:
+    QObject *m_receiver;
+    QString m_member;
+};
+
 class XbmcConnectionPrivate : public QObject
 {
     Q_OBJECT
@@ -70,6 +85,7 @@ public:
     int xbmcVersion();
 
     int sendCommand(const QString &command, const QVariant &parms = QVariant());
+    int sendCommand(const QString &command, const QVariant &params, QObject *receiver, const QString &member);
     void sendLegacyCommand(const QString &command);
 
     QNetworkAccessManager *nam();
@@ -119,6 +135,7 @@ private:
     bool m_connecting;
     bool m_connected;
     QString m_connectionError;
+    QMap<int, Callback> m_callbacks;
 
     QList<XbmcDownload*> m_downloadQueue;
     QMap<QNetworkReply*, XbmcDownload*> m_activeDownloadsMap;
