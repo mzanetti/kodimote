@@ -475,10 +475,20 @@ void XbmcConnectionPrivate::readData()
             emit m_notifier->receivedAnnouncement(rsp);
             continue;
         }
-        if(rsp.value("id").toInt() >= 0) {
+        int id = rsp.value("id").toInt();
+        bool handeld = false;
+        if(m_callbacks.contains(id)) {
+            Callback callback = m_callbacks.take(id);
+            QMetaObject::invokeMethod(callback.receiver(), callback.member().toAscii(), Qt::DirectConnection, Q_ARG(const QVariantMap&, rsp));
+            handeld = true;
+        }
+        else if(rsp.value("id").toInt() >= 0) {
 //            xDebug(XDAREA_CONNECTION) << ">>> received response" << rsp.value("result");
             emit m_notifier->responseReceived(rsp.value("id").toInt(), rsp);
-            int id = rsp.value("id").toInt();
+            handeld = true;
+        }
+
+        if(handeld) {
             if(m_currentPendingCommand.id() == id) {
 //                m_commandQueue.removeFirst();
                 m_timeoutTimer.stop();
