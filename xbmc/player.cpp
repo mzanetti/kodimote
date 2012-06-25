@@ -232,6 +232,7 @@ void Player::receivedAnnouncement(const QVariantMap &map)
         m_percentageTimer.start();
     } else if(map.value("method").toString() == "Player.OnSeek") {
         getPercentage();
+        m_seeking = false;
     }
 }
 
