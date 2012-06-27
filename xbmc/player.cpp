@@ -234,7 +234,8 @@ void Player::receivedAnnouncement(const QVariantMap &map)
         m_lastPlaytimeUpdate = QDateTime::currentDateTime();
         m_playtimeTimer.start();
     } else if(map.value("method").toString() == "Player.OnSeek") {
-        getPercentage();
+        updatePlaytime(data.value("player").toMap().value("time").toMap());
+        m_seeking = false;
     }
 }
 
@@ -370,6 +371,22 @@ void Player::updatePlaytime()
     m_lastPlaytime += elapsedMSeconds * m_speed;
     m_percentage = (double)m_lastPlaytime / duration * 100;
 
+    m_lastPlaytimeUpdate = currentTime;
+
+    emit percentageChanged();
+    emit timeChanged();
+}
+
+void Player::updatePlaytime(const QVariantMap &timeMap)
+{
+    QDateTime currentTime = QDateTime::currentDateTime();
+    QTime time;
+    int hours = timeMap.value("hours").toInt();
+    int minutes = timeMap.value("minutes").toInt();
+    int seconds = timeMap.value("seconds").toInt();
+    int mseconds = timeMap.value("milliseconds").toInt();
+    time.setHMS(hours, minutes, seconds, mseconds);
+    m_lastPlaytime = QTime().msecsTo(time);
     m_lastPlaytimeUpdate = currentTime;
 
     emit percentageChanged();

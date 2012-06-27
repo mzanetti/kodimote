@@ -119,6 +119,9 @@ private slots:
     void repeatShuffleReceived(const QVariantMap &rsp);
     void detailsReceived(const QVariantMap &rsp);
 
+private:
+    void updatePlaytime(const QVariantMap &time);
+
 protected:
     PlayerType m_type;
     QString m_state;
