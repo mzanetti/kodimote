@@ -26,6 +26,7 @@
 #include "audioplaylistitem.h"
 #include "videoplaylistitem.h"
 #include "libraryitem.h"
+#include "xbmcdownload.h"
 
 Files::Files(const QString &mediaType, const QString &dir, XbmcModel *parent):
     XbmcLibrary(parent),
@@ -158,4 +159,27 @@ void Files::addToPlaylist(int index)
 QString Files::title() const
 {
     return m_dir;
+}
+
+void Files::download(int index, const QString &path)
+{
+    LibraryItem *item = qobject_cast<LibraryItem*>(m_list.at(index));
+
+    QString destination;
+    if(m_mediaType == "music") {
+        destination = path + "/Music/" + item->tvShow() + "/Season " + item->season() + '/';
+    } else if(m_mediaType == "video") {
+        destination = path + "/Movies/" + item->tvShow() + "/Season " + item->season() + '/';
+    } else if(m_mediaType == "pictures") {
+        destination = path + "//" + item->tvShow() + "/Season " + item->season() + '/';
+    }
+
+    qDebug() << "should download" << destination;
+
+    XbmcDownload *download = new XbmcDownload();
+    download->setDestination(destination);
+    download->setIconId("icon-m-content-videos");
+    download->setLabel(item->title());
+
+    startDownload(index, download);
 }

@@ -32,6 +32,7 @@ public:
     void addToPlaylist(int index);
 
     QString title() const;
+    Q_INVOKABLE void download(int index, const QString &path);
 
 public slots:
     void refresh();

@@ -180,7 +180,8 @@ contains(MEEGO_EDITION,harmattan) {
 
 }
 
-unix:!meego:!maemo5:!symbian {
+unix:!meego:!maemo5:!symbian:!contains(MEEGO_EDITION,harmattan) {
+    message("Desktop build")
     SOURCES += ui/mainwindow.cpp \
         ui/settingsdialog.cpp \
         ui/connectdialog.cpp \

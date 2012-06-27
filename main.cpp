@@ -16,12 +16,14 @@
  *                                                                           *
  ****************************************************************************/
 
-
-#include "ui/mainwindow.h"
 #include "xbmc/xbmc.h"
-#include "settings.h"
 #include "networkaccessmanagerfactory.h"
 #include "xbmc/xdebug.h"
+#include "settings.h"
+
+#if defined Q_WS_MAEMO_5
+#include "ui/mainwindow.h"
+#endif
 
 #if defined Q_WS_MAEMO_6
 #include "meegohelper.h"
