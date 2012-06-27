@@ -60,14 +60,14 @@ void Player::getSpeed()
     XbmcConnection::sendCommand("Player.GetProperties", params, this, "speedReceived");
 }
 
-void Player::getPercentage()
+void Player::getPlaytime()
 {
     QVariantMap params;
     params.insert("playerid", playerId());
     QVariantList props;
-    props.append("percentage");
+    props.append("time");
     params.insert("properties", props);
-    XbmcConnection::sendCommand("Player.GetProperties", params, this, "percentageReceived");
+    XbmcConnection::sendCommand("Player.GetProperties", params, this, "playtimeReceived");
 }
 
 void Player::getPosition()
@@ -134,7 +134,7 @@ void Player::refresh()
 {
     xDebug(XDAREA_PLAYER) << "player" << playerId() << "refreshing";
     getSpeed();
-    getPercentage();
+    getPlaytime();
     getPosition();
     getRepeatShuffle();
     getCurrentItemDetails();
@@ -229,7 +229,7 @@ void Player::receivedAnnouncement(const QVariantMap &map)
         qDebug() << "set speed to" << m_speed;
         emit speedChanged();
         getPosition();
-        getPercentage();
+        getPlaytime();
         getCurrentItemDetails();
         m_lastPlaytimeUpdate = QDateTime::currentDateTime();
         m_playtimeTimer.start();
@@ -250,17 +250,16 @@ void Player::speedReceived(const QVariantMap &rsp)
         m_playtimeTimer.stop();
     } else {
         m_state = "playing";
-        getPercentage();
+        getPlaytime();
         m_playtimeTimer.start();
     }
     emit stateChanged();
 }
 
-void Player::percentageReceived(const QVariantMap &rsp)
+void Player::playtimeReceived(const QVariantMap &rsp)
 {
-    xDebug(XDAREA_PLAYER) << "Got percentage response" << rsp;
-    m_percentage = rsp.value("result").toMap().value("percentage").toDouble();
-    emit percentageChanged();
+    xDebug(XDAREA_PLAYER) << "Got playtime response" << rsp;
+    updatePlaytime(rsp.value("result").toMap().value("time").toMap());
 }
 
 void Player::positionReceived(const QVariantMap &rsp)

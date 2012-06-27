@@ -105,7 +105,7 @@ public slots:
 
 private slots:
     void getSpeed();
-    void getPercentage();
+    void getPlaytime();
     void getPosition();
     void receivedAnnouncement(const QVariantMap& map);
     void updatePlaytime();
@@ -114,7 +114,7 @@ private slots:
     void getCurrentItemDetails();
 
     void speedReceived(const QVariantMap &rsp);
-    void percentageReceived(const QVariantMap &rsp);
+    void playtimeReceived(const QVariantMap &rsp);
     void positionReceived(const QVariantMap &rsp);
     void repeatShuffleReceived(const QVariantMap &rsp);
     void detailsReceived(const QVariantMap &rsp);
