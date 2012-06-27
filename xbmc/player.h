@@ -22,6 +22,7 @@
 #include <QObject>
 #include <QVariantMap>
 #include <QTimer>
+#include <QDateTime>
 
 class Playlist;
 class LibraryItem;
@@ -107,7 +108,7 @@ private slots:
     void getPercentage();
     void getPosition();
     void receivedAnnouncement(const QVariantMap& map);
-    void setPercentage();
+    void updatePlaytime();
     void getRepeatShuffle();
 
     void getCurrentItemDetails();
@@ -123,7 +124,9 @@ protected:
     QString m_state;
     int m_speed;
     double m_percentage;
-    QTimer m_percentageTimer;
+    QTimer m_playtimeTimer;
+    int m_lastPlaytime;
+    QDateTime m_lastPlaytimeUpdate;
     LibraryItem* m_currentItem;
     bool m_seeking;
 

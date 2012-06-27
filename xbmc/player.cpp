@@ -33,6 +33,8 @@ Player::Player(PlayerType type, QObject *parent) :
     m_state("stopped"),
     m_speed(1),
     m_percentage(0),
+    m_lastPlaytime(0),
+    m_lastPlaytimeUpdate(QDateTime::currentDateTime()),
     m_currentItem(new LibraryItem()),
     m_seeking(false),
     m_shuffle(false),
@@ -44,8 +46,8 @@ Player::Player(PlayerType type, QObject *parent) :
     staticMetaObject.invokeMethod(this, "getPosition", Qt::QueuedConnection);
     staticMetaObject.invokeMethod(this, "getRepeatShuffle", Qt::QueuedConnection);
 
-    m_percentageTimer.setInterval(1000);
-    connect(&m_percentageTimer, SIGNAL(timeout()), SLOT(setPercentage()));
+    m_playtimeTimer.setInterval(1000);
+    connect(&m_playtimeTimer, SIGNAL(timeout()), SLOT(updatePlaytime()));
 }
 
 void Player::getSpeed()
@@ -209,14 +211,14 @@ void Player::receivedAnnouncement(const QVariantMap &map)
     if(map.value("method").toString() == "Player.OnStop") {
         xDebug(XDAREA_PLAYER) << "stopping player";
         m_state = "stopped";
-        m_percentageTimer.stop();
+        m_playtimeTimer.stop();
         emit stateChanged();
         m_speed = 1;
         emit speedChanged();
         playlist()->refresh();
     } else if(map.value("method").toString() == "Player.OnPause") {
         m_state = "paused";
-        m_percentageTimer.stop();
+        m_playtimeTimer.stop();
         emit stateChanged();
         m_speed = 1;
         emit speedChanged();
@@ -229,7 +231,8 @@ void Player::receivedAnnouncement(const QVariantMap &map)
         getPosition();
         getPercentage();
         getCurrentItemDetails();
-        m_percentageTimer.start();
+        m_lastPlaytimeUpdate = QDateTime::currentDateTime();
+        m_playtimeTimer.start();
     } else if(map.value("method").toString() == "Player.OnSeek") {
         getPercentage();
     }
@@ -243,11 +246,11 @@ void Player::speedReceived(const QVariantMap &rsp)
 
     if(m_speed == 0) {
         m_state = "paused";
-        m_percentageTimer.stop();
+        m_playtimeTimer.stop();
     } else {
         m_state = "playing";
         getPercentage();
-        m_percentageTimer.start();
+        m_playtimeTimer.start();
     }
     emit stateChanged();
 }
@@ -344,11 +347,7 @@ QString Player::time() const
 {
     PlaylistItem *item = playlist()->currentItem();
     if(item) {
-        QTime time;
-        int currentTime = time.secsTo(playlist()->currentItem()->duration());
-        currentTime = currentTime * m_percentage / 100;
-        time = QTime();
-        time = time.addSecs(currentTime);
+        QTime time = QTime().addMSecs(m_lastPlaytime);
         if(item->duration().hour() > 0) {
             return time.toString("hh:mm:ss");
         } else {
@@ -358,19 +357,21 @@ QString Player::time() const
     return "00:00";
 }
 
-void Player::setPercentage()
+void Player::updatePlaytime()
 {
-    //xDebug(XDAREA_PLAYER) << "setting percentage";
     if(!playlist()->currentItem()) {
         return;
     }
-    QTime time;
-    int duration = time.secsTo(playlist()->currentItem()->duration());
-    if(duration > 0) {
-        m_percentage += 100.0 / duration * m_speed;
-    } else {
-        m_percentage = 100;
-    }
+
+    //use milliseconds, otherwise it tends to skip a sec. once in a while
+    int duration = QTime().msecsTo(playlist()->currentItem()->duration());
+    QDateTime currentTime = QDateTime::currentDateTime();
+    int elapsedMSeconds = m_lastPlaytimeUpdate.msecsTo(currentTime);
+    m_lastPlaytime += elapsedMSeconds * m_speed;
+    m_percentage = (double)m_lastPlaytime / duration * 100;
+
+    m_lastPlaytimeUpdate = currentTime;
+
     emit percentageChanged();
     emit timeChanged();
 }
