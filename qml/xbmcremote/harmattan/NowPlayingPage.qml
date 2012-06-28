@@ -19,6 +19,9 @@ Page {
         }
     }
 
+    property bool timerActive: platformWindow.visible && mainPage.status == PageStatus.Active
+
+    onTimerActiveChanged: { player.timerActive = timerActive }
 
    Connections {
        target: xbmc

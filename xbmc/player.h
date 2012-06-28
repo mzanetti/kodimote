@@ -39,6 +39,7 @@ class Player : public QObject
     Q_PROPERTY(int speed READ speed NOTIFY speedChanged)
     Q_PROPERTY(double percentage READ percentage NOTIFY percentageChanged)
     Q_PROPERTY(QString time READ time NOTIFY timeChanged)
+    Q_PROPERTY(bool timerActive READ timerActive WRITE setTimerActive)
     Q_PROPERTY(bool shuffle READ shuffle WRITE setShuffle NOTIFY shuffleChanged)
     Q_PROPERTY(Repeat repeat READ repeat WRITE setRepeat NOTIFY repeatChanged)
 
@@ -80,6 +81,9 @@ public:
 
     Repeat repeat() const;
     void setRepeat(Repeat repeat);
+
+    bool timerActive() const;
+    void setTimerActive(bool active);
 
     Q_INVOKABLE void seek(int position);
 
@@ -132,6 +136,7 @@ protected:
     QDateTime m_lastPlaytimeUpdate;
     LibraryItem* m_currentItem;
     bool m_seeking;
+    bool m_timerActivated;
 
     bool m_shuffle;
     Repeat m_repeat;

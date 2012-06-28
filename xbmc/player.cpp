@@ -233,7 +233,9 @@ void Player::receivedAnnouncement(const QVariantMap &map)
         getPlaytime();
         getCurrentItemDetails();
         m_lastPlaytimeUpdate = QDateTime::currentDateTime();
-        m_playtimeTimer.start();
+        if(m_timerActivated) {
+            m_playtimeTimer.start();
+        }
     } else if(map.value("method").toString() == "Player.OnSeek") {
         updatePlaytime(data.value("player").toMap().value("time").toMap());
         m_seeking = false;
@@ -248,11 +250,9 @@ void Player::speedReceived(const QVariantMap &rsp)
 
     if(m_speed == 0) {
         m_state = "paused";
-        m_playtimeTimer.stop();
     } else {
         m_state = "playing";
         getPlaytime();
-        m_playtimeTimer.start();
     }
     emit stateChanged();
 }
@@ -445,6 +445,30 @@ void Player::setRepeat(Player::Repeat repeat)
 Player::Repeat Player::repeat() const
 {
     return m_repeat;
+}
+
+bool Player::timerActive() const
+{
+    return m_playtimeTimer.isActive();
+}
+
+void Player::setTimerActive(bool active)
+{
+    if(m_playtimeTimer.isActive() == active) {
+        return;
+    }
+
+    m_timerActivated = active;
+
+    if(active) {
+        if(m_state == "playing") {
+            m_playtimeTimer.start();
+            updatePlaytime();
+        }
+    }
+    else {
+        m_playtimeTimer.stop();
+    }
 }
 
 void Player::seek(int position)
