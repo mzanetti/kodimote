@@ -219,6 +219,7 @@ void Player::receivedAnnouncement(const QVariantMap &map)
     } else if(map.value("method").toString() == "Player.OnPause") {
         m_state = "paused";
         m_playtimeTimer.stop();
+        updatePlaytime();
         emit stateChanged();
         m_speed = 1;
         emit speedChanged();
