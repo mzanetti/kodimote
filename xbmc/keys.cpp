@@ -94,10 +94,3 @@ void Keys::select()
 {
     XbmcConnection::sendCommand("Input.Select");
 }
-
-void Keys::responseReceived(int id, const QVariantMap &map)
-{
-    // TODO...
-    Q_UNUSED(id)
-    Q_UNUSED(map)
-}

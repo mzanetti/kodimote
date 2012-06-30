@@ -27,8 +27,6 @@
 MusicVideos::MusicVideos(XbmcModel *parent) :
     XbmcLibrary(parent)
 {
-    connect(XbmcConnection::notifier(), SIGNAL(responseReceived(int,QVariantMap)), SLOT(responseReceived(int,QVariantMap)));
-
 }
 
 void MusicVideos::refresh()
@@ -45,7 +43,7 @@ void MusicVideos::refresh()
     sort.insert("ignorearticle", ignoreArticle());
     params.insert("sort", sort);
 
-    m_requestList.insert(XbmcConnection::sendCommand("VideoLibrary.GetMusicVideos", params), RequestList);
+    XbmcConnection::sendCommand("VideoLibrary.GetMusicVideos", params, this, "listReceived");
 }
 
 void MusicVideos::fetchItemDetails(int index)
@@ -74,51 +72,46 @@ void MusicVideos::fetchItemDetails(int index)
 
     params.insert("properties", properties);
 
-    connect(XbmcConnection::notifier(), SIGNAL(responseReceived(int,QVariantMap)), SLOT(responseReceived(int,QVariantMap)));
-    int id = XbmcConnection::sendCommand("VideoLibrary.GetMusicVideoDetails", params);
-    m_requestList.insert(id, RequestDetails);
+    int id = XbmcConnection::sendCommand("VideoLibrary.GetMusicVideoDetails", params, this, "detailsReceived");
     m_detailsRequestMap.insert(id, index);
 }
 
-void MusicVideos::responseReceived(int id, const QVariantMap &rsp)
+void MusicVideos::listReceived(const QVariantMap &rsp)
 {
-    if(!m_requestList.contains(id)) {
-        return;
+    setBusy(false);
+    QList<XbmcModelItem*> list;
+    qDebug() << "got MusicCideos:" << rsp.value("result");
+    QVariantList responseList = rsp.value("result").toMap().value("musicvideos").toList();
+    foreach(const QVariant &itemVariant, responseList) {
+        QVariantMap itemMap = itemVariant.toMap();
+        LibraryItem *item = new LibraryItem();
+        item->setTitle(itemMap.value("label").toString());
+        item->setMusicvideoId(itemMap.value("musicvideoid").toInt());
+        item->setThumbnail(itemMap.value("fanart").toString());
+        item->setPlaycount(itemMap.value("playcount").toInt());
+        item->setIgnoreArticle(ignoreArticle());
+        item->setFileType("file");
+        item->setPlayable(true);
+        list.append(item);
     }
+    beginInsertRows(QModelIndex(), 0, list.count() - 1);
+    m_list = list;
+    endInsertRows();
+}
 
-    switch(m_requestList.value(id)) {
-    case RequestList: {
-        setBusy(false);
-        QList<XbmcModelItem*> list;
-        qDebug() << "got MusicCideos:" << rsp.value("result");
-        QVariantList responseList = rsp.value("result").toMap().value("musicvideos").toList();
-        foreach(const QVariant &itemVariant, responseList) {
-            QVariantMap itemMap = itemVariant.toMap();
-            LibraryItem *item = new LibraryItem();
-            item->setTitle(itemMap.value("label").toString());
-            item->setMusicvideoId(itemMap.value("musicvideoid").toInt());
-            item->setThumbnail(itemMap.value("fanart").toString());
-            item->setPlaycount(itemMap.value("playcount").toInt());
-            item->setIgnoreArticle(ignoreArticle());
-            item->setFileType("file");
-            item->setPlayable(true);
-            list.append(item);
-        }
-        beginInsertRows(QModelIndex(), 0, list.count() - 1);
-        m_list = list;
-        endInsertRows();
-        }
-        break;
-    case RequestDetails:
-        qDebug() << "got item details:" << rsp;
-        LibraryItem *item = qobject_cast<LibraryItem*>(m_list.at(m_detailsRequestMap.value(id)));
-        QVariantMap details = rsp.value("result").toMap().value("musicvideodetails").toMap();
-        //item->setRuntime(details.value("runtime").toInt());
-        item->setYear(details.value("year").toString());
-        item->setPlot(details.value("plot").toString());
-        item->setGenre(details.value("genre").toString());
-        emit dataChanged(index(m_detailsRequestMap.value(id), 0, QModelIndex()), index(m_detailsRequestMap.value(id), 0, QModelIndex()));
-    }
+
+void MusicVideos::detailsReceived(const QVariantMap &rsp)
+{
+    qDebug() << "got item details:" << rsp;
+    int id = rsp.value("id").toInt();
+    int row = m_detailsRequestMap.take(id);
+    LibraryItem *item = qobject_cast<LibraryItem*>(m_list.at(row));
+    QVariantMap details = rsp.value("result").toMap().value("musicvideodetails").toMap();
+    //item->setRuntime(details.value("runtime").toInt());
+    item->setYear(details.value("year").toString());
+    item->setPlot(details.value("plot").toString());
+    item->setGenre(details.value("genre").toString());
+    emit dataChanged(index(row, 0, QModelIndex()), index(row, 0, QModelIndex()));
 }
 
 XbmcModel *MusicVideos::enterItem(int index)

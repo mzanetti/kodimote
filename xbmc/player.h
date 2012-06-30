@@ -107,29 +107,25 @@ private slots:
     void getPercentage();
     void getPosition();
     void receivedAnnouncement(const QVariantMap& map);
-    void responseReceived(int, const QVariantMap &rsp);
     void setPercentage();
     void getRepeatShuffle();
 
     void getCurrentItemDetails();
 
-protected:
-    enum Request {
-        RequestSpeed,
-        RequestPercentage,
-        RequestPosition,
-        RequestRepeatShuffle,
-        SetPercentage,
-        RequestCurrentItemDetails
-    };
-    QMap<int, Request> m_requestMap;
+    void speedReceived(const QVariantMap &rsp);
+    void percentageReceived(const QVariantMap &rsp);
+    void positionReceived(const QVariantMap &rsp);
+    void repeatShuffleReceived(const QVariantMap &rsp);
+    void detailsReceived(const QVariantMap &rsp);
 
+protected:
     PlayerType m_type;
     QString m_state;
     int m_speed;
     double m_percentage;
     QTimer m_percentageTimer;
     LibraryItem* m_currentItem;
+    bool m_seeking;
 
     bool m_shuffle;
     Repeat m_repeat;

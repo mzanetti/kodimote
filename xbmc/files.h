@@ -38,10 +38,9 @@ public slots:
     void refresh();
 
 private slots:
-    void responseReceived(int id, const QVariantMap &rsp);
+    void listReceived(const QVariantMap &rsp);
 
 private:
-    int m_requestId;
     QString m_mediaType;
     QString m_dir;
 };

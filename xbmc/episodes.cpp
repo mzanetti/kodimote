@@ -31,7 +31,6 @@ Episodes::Episodes(int tvshowid, int seasonid, const QString &seasonString, Xbmc
     m_seasonid(seasonid),
     m_seasonString(seasonString)
 {
-    connect(XbmcConnection::notifier(), SIGNAL(responseReceived(int,QVariantMap)), SLOT(responseReceived(int,QVariantMap)));
 }
 
 void Episodes::refresh()
@@ -56,7 +55,7 @@ void Episodes::refresh()
     sort.insert("order", "ascending");
     params.insert("sort", sort);
 
-    m_requestList.insert(XbmcConnection::sendCommand("VideoLibrary.GetEpisodes", params), RequestList);
+    XbmcConnection::sendCommand("VideoLibrary.GetEpisodes", params, this, "listReceived");
 }
 
 void Episodes::fetchItemDetails(int index)
@@ -93,9 +92,7 @@ void Episodes::fetchItemDetails(int index)
 
     params.insert("properties", properties);
 
-    connect(XbmcConnection::notifier(), SIGNAL(responseReceived(int,QVariantMap)), SLOT(responseReceived(int,QVariantMap)));
-    int id = XbmcConnection::sendCommand("VideoLibrary.GetEpisodeDetails", params);
-    m_requestList.insert(id, RequestDetails);
+    int id = XbmcConnection::sendCommand("VideoLibrary.GetEpisodeDetails", params, this, "detailsReceived");
     m_detailsRequestMap.insert(id, index);
 }
 
@@ -114,51 +111,47 @@ void Episodes::download(int index, const QString &path)
     startDownload(index, download);
 }
 
-void Episodes::responseReceived(int id, const QVariantMap &rsp)
+void Episodes::listReceived(const QVariantMap &rsp)
 {
-    if(!m_requestList.contains(id)) {
-        return;
+    setBusy(false);
+    QList<XbmcModelItem*> list;
+    qDebug() << "got Episodes:" << rsp.value("result");
+    QVariantList responseList = rsp.value("result").toMap().value("episodes").toList();
+    foreach(const QVariant &itemVariant, responseList) {
+        QVariantMap itemMap = itemVariant.toMap();
+        LibraryItem *item = new LibraryItem();
+        item->setTitle(itemMap.value("episode").toString() + ". " + itemMap.value("label").toString());
+        //        item->setData(itemMap.value("showtitle").toString() + " - " + itemMap.value("season").toString(), Qt::UserRole+2);
+        item->setSubtitle(itemMap.value("showtitle").toString() + " - " + m_seasonString);
+        item->setTvShow(itemMap.value("showtitle").toString());
+        item->setSeason(itemMap.value("season").toInt());
+        item->setEpisodeId(itemMap.value("episodeid").toInt());
+        item->setThumbnail(itemMap.value("thumbnail").toString());
+        item->setPlaycount(itemMap.value("playcount").toInt());
+        item->setFileName(itemMap.value("file").toString());
+        item->setIgnoreArticle(false); // We ignore the setting here...
+        item->setFileType("file");
+        item->setPlayable(true);
+        list.append(item);
     }
+    beginInsertRows(QModelIndex(), 0, list.count() - 1);
+    m_list = list;
+    endInsertRows();
+}
 
-    switch(m_requestList.value(id)) {
-    case RequestList: {
-        setBusy(false);
-        QList<XbmcModelItem*> list;
-        qDebug() << "got Episodes:" << rsp.value("result");
-        QVariantList responseList = rsp.value("result").toMap().value("episodes").toList();
-        foreach(const QVariant &itemVariant, responseList) {
-            QVariantMap itemMap = itemVariant.toMap();
-            LibraryItem *item = new LibraryItem();
-            item->setTitle(itemMap.value("episode").toString() + ". " + itemMap.value("label").toString());
-            //        item->setData(itemMap.value("showtitle").toString() + " - " + itemMap.value("season").toString(), Qt::UserRole+2);
-            item->setSubtitle(itemMap.value("showtitle").toString() + " - " + m_seasonString);
-            item->setTvShow(itemMap.value("showtitle").toString());
-            item->setSeason(itemMap.value("season").toInt());
-            item->setEpisodeId(itemMap.value("episodeid").toInt());
-            item->setThumbnail(itemMap.value("thumbnail").toString());
-            item->setPlaycount(itemMap.value("playcount").toInt());
-            item->setFileName(itemMap.value("file").toString());
-            item->setIgnoreArticle(false); // We ignore the setting here...
-            item->setFileType("file");
-            item->setPlayable(true);
-            list.append(item);
-        }
-        beginInsertRows(QModelIndex(), 0, list.count() - 1);
-        m_list = list;
-        endInsertRows();
-        }
-        break;
-    case RequestDetails:
-        qDebug() << "got item details:" << rsp;
-        LibraryItem *item = qobject_cast<LibraryItem*>(m_list.at(m_detailsRequestMap.value(id)));
-        QVariantMap details = rsp.value("result").toMap().value("episodedetails").toMap();
-        item->setPlot(details.value("plot").toString());
-        item->setRating(details.value("rating").toInt());
-        item->setSeason(details.value("season").toInt());
-        item->setEpisode(details.value("episode").toInt());
-        item->setFirstAired(details.value("firstaired").toString());
-        emit dataChanged(index(m_detailsRequestMap.value(id), 0, QModelIndex()), index(m_detailsRequestMap.value(id), 0, QModelIndex()));
-    }
+void Episodes::detailsReceived(const QVariantMap &rsp)
+{
+    qDebug() << "got item details:" << rsp;
+    int id = rsp.value("id").toInt();
+    int row = m_detailsRequestMap.take(id);
+    LibraryItem *item = qobject_cast<LibraryItem*>(m_list.at(row));
+    QVariantMap details = rsp.value("result").toMap().value("episodedetails").toMap();
+    item->setPlot(details.value("plot").toString());
+    item->setRating(details.value("rating").toInt());
+    item->setSeason(details.value("season").toInt());
+    item->setEpisode(details.value("episode").toInt());
+    item->setFirstAired(details.value("firstaired").toString());
+    emit dataChanged(index(row, 0, QModelIndex()), index(row, 0, QModelIndex()));
 }
 
 XbmcModel *Episodes::enterItem(int index)

@@ -39,6 +39,7 @@ QString connectionError();
 int xbmcVersion();
 
 int sendCommand(const QString &command, const QVariant &params = QVariant());
+int sendCommand(const QString &command, const QVariant &params, QObject *callbackReceiver, const QString &callbackMember);
 void sendLegacyCommand(const QString &command);
 
 QNetworkAccessManager *nam();
@@ -53,7 +54,6 @@ public:
 signals:
     void connectionChanged();
     void receivedAnnouncement(const QVariantMap &announcement);
-    void responseReceived(int id, const QVariantMap &response);
     void authenticationRequired(const QString &hostname, const QString &address);
     void downloadAdded(XbmcDownload *download);
 };

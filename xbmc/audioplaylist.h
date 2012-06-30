@@ -46,7 +46,8 @@ protected:
     void queryItemData(int index);
 
 private slots:
-    void responseReveiced(int id, const QVariantMap &response);
+    void itemsReceived(const QVariantMap &response);
+    void currentDataReceived(const QVariantMap &response);
 
 
 private:

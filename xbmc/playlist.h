@@ -67,19 +67,11 @@ public slots:
     void setCurrentIndex(int index);
 
 private slots:
-    virtual void responseReveiced(int id, const QVariantMap &response) = 0;
     void receivedAnnouncement(const QVariantMap &map);
 
 protected:
 
     virtual void queryItemData(int index) = 0;
-
-    enum Request {
-        RequestGetItems,
-        RequestCurrentData
-    };
-
-    QMap<int, Request> m_requestMap;
 
     mutable int m_currentItem;
     Player *m_player;

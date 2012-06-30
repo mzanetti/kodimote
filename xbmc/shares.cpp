@@ -26,7 +26,6 @@ Shares::Shares(const QString &mediatype):
     XbmcLibrary(0),
     m_mediaType(mediatype)
 {
-    connect(XbmcConnection::notifier(), SIGNAL(responseReceived(int,QVariantMap)), SLOT(responseReceived(int,QVariantMap)));
 }
 
 void Shares::refresh()
@@ -43,16 +42,12 @@ void Shares::refresh()
     params.insert("sort", sort);
 
     xDebug(XDAREA_FILES) << "Files.GetShares:" << params;
-    m_requestId = XbmcConnection::sendCommand("Files.GetSources", params);
+    XbmcConnection::sendCommand("Files.GetSources", params, this, "sourcesReceived");
 }
 
-void Shares::responseReceived(int id, const QVariantMap &rsp)
+void Shares::sourcesReceived(const QVariantMap &rsp)
 {
-
     xDebug(XDAREA_FILES) << "Files reponse:" << rsp;
-    if(id != m_requestId) {
-        return;
-    }
     setBusy(false);
     QList<XbmcModelItem*> list;
     xDebug(XDAREA_FILES) << "got shares:" << rsp.value("result");

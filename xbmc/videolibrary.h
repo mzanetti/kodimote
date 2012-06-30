@@ -41,13 +41,6 @@ public slots:
     void scanForContent();
     void clean();
     void refresh();
-
-private:
-    enum Request {
-        RequestArtists,
-        RequestAlbums
-    };
-    QMap<int, Request> m_requestMap;
 };
 
 #endif // VIDEOLIBRARY_H

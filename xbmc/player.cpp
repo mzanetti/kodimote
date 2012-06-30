@@ -34,11 +34,11 @@ Player::Player(PlayerType type, QObject *parent) :
     m_speed(1),
     m_percentage(0),
     m_currentItem(new LibraryItem()),
+    m_seeking(false),
     m_shuffle(false),
     m_repeat(RepeatNone)
 {
     connect(XbmcConnection::notifier(), SIGNAL(receivedAnnouncement(QVariantMap)), SLOT(receivedAnnouncement(QVariantMap)));
-    connect(XbmcConnection::notifier(), SIGNAL(responseReceived(int,QVariantMap)), SLOT(responseReceived(int,QVariantMap)));
     staticMetaObject.invokeMethod(this, "getSpeed", Qt::QueuedConnection);
     staticMetaObject.invokeMethod(this, "getPercentage", Qt::QueuedConnection);
     staticMetaObject.invokeMethod(this, "getPosition", Qt::QueuedConnection);
@@ -55,8 +55,7 @@ void Player::getSpeed()
     QVariantList properties;
     properties.append("speed");
     params.insert("properties", properties);
-    int id = XbmcConnection::sendCommand("Player.GetProperties", params);
-    m_requestMap.insert(id, RequestSpeed);
+    XbmcConnection::sendCommand("Player.GetProperties", params, this, "speedReceived");
 }
 
 void Player::getPercentage()
@@ -66,8 +65,7 @@ void Player::getPercentage()
     QVariantList props;
     props.append("percentage");
     params.insert("properties", props);
-    int id = XbmcConnection::sendCommand("Player.GetProperties", params);
-    m_requestMap.insert(id, RequestPercentage);
+    XbmcConnection::sendCommand("Player.GetProperties", params, this, "percentageReceived");
 }
 
 void Player::getPosition()
@@ -77,8 +75,7 @@ void Player::getPosition()
     QVariantList props;
     props.append("position");
     params.insert("properties", props);
-    int id = XbmcConnection::sendCommand("Player.GetProperties", params);
-    m_requestMap.insert(id, RequestPosition);
+    XbmcConnection::sendCommand("Player.GetProperties", params, this, "positionReceived");
 }
 
 void Player::getRepeatShuffle()
@@ -89,8 +86,7 @@ void Player::getRepeatShuffle()
     props.append("repeat");
     props.append("shuffled");
     params.insert("properties", props);
-    int id = XbmcConnection::sendCommand("Player.GetProperties", params);
-    m_requestMap.insert(id, RequestRepeatShuffle);
+    XbmcConnection::sendCommand("Player.GetProperties", params, this, "repeatShuffleReceived");
 }
 
 void Player::getCurrentItemDetails()
@@ -129,8 +125,7 @@ void Player::getCurrentItemDetails()
     properties.append("runtime");
     params.insert("properties", properties);
 
-    int id = XbmcConnection::sendCommand("Player.GetItem", params);
-    m_requestMap.insert(id, RequestCurrentItemDetails);
+    XbmcConnection::sendCommand("Player.GetItem", params, this, "detailsReceived");
 }
 
 void Player::refresh()
@@ -240,105 +235,99 @@ void Player::receivedAnnouncement(const QVariantMap &map)
     }
 }
 
-void Player::responseReceived(int id, const QVariantMap &response)
+void Player::speedReceived(const QVariantMap &rsp)
 {
-    if(!m_requestMap.contains(id)) {
-        return;
+    m_speed = rsp.value("result").toMap().value("speed").toInt();
+    xDebug(XDAREA_PLAYER) << "got player speed" << m_speed;
+    emit speedChanged();
+
+    if(m_speed == 0) {
+        m_state = "paused";
+        m_percentageTimer.stop();
+    } else {
+        m_state = "playing";
+        getPercentage();
+        m_percentageTimer.start();
+    }
+    emit stateChanged();
+}
+
+void Player::percentageReceived(const QVariantMap &rsp)
+{
+    xDebug(XDAREA_PLAYER) << "Got percentage response" << rsp;
+    m_percentage = rsp.value("result").toMap().value("percentage").toDouble();
+    emit percentageChanged();
+}
+
+void Player::positionReceived(const QVariantMap &rsp)
+{
+    xDebug(XDAREA_PLAYER) << "Got position response" << rsp;
+    playlist()->setCurrentIndex(rsp.value("result").toMap().value("position").toInt());
+}
+
+void Player::repeatShuffleReceived(const QVariantMap &rsp)
+{
+    QVariant result = rsp.value("result");
+    if(result.toMap().value("repeat").toString() == "off") {
+        m_repeat = RepeatNone;
+    } else if(result.toMap().value("repeat").toString() == "one") {
+        m_repeat = RepeatOne;
+    } else {
+        m_repeat = RepeatAll;
+    }
+    emit repeatChanged();
+
+    m_shuffle = result.toMap().value("shuffled").toBool();
+    emit shuffleChanged();
+}
+
+void Player::detailsReceived(const QVariantMap &rsp)
+{
+    xDebug(XDAREA_PLAYER) << "got current item details:" << rsp;
+    QVariantMap itemMap = rsp.value("result").toMap().value("item").toMap();
+
+    if(m_currentItem) {
+        m_currentItem->deleteLater();
+    }
+    m_currentItem = new LibraryItem();
+    m_currentItem->setType(itemMap.value("type").toString());
+    m_currentItem->setTitle(itemMap.value("label").toString());
+    if(itemMap.value("type").toString() == "song") {
+        m_currentItem->setSubtitle(itemMap.value("artist").toString());
+    } else if(itemMap.value("type").toString() == "episode") {
+        m_currentItem->setSubtitle(itemMap.value("showtitle").toString());
     }
 
-    QVariant rsp = response.value("result");
-
-    switch(m_requestMap.value(id)) {
-    case RequestSpeed:
-        m_speed = rsp.toMap().value("speed").toInt();
-        xDebug(XDAREA_PLAYER) << "got player speed" << m_speed;
-        emit speedChanged();
-
-        if(m_speed == 0) {
-            m_state = "paused";
-            m_percentageTimer.stop();
-        } else {
-            m_state = "playing";
-            getPercentage();
-            m_percentageTimer.start();
-        }
-        emit stateChanged();
-
-
-        break;
-    case RequestPercentage:
-        xDebug(XDAREA_PLAYER) << "Got percentage response" << response;
-        m_percentage = rsp.toMap().value("percentage").toDouble();
-        emit percentageChanged();
-        break;
-    case RequestPosition:
-        xDebug(XDAREA_PLAYER) << "Got position response" << response;
-        playlist()->setCurrentIndex(rsp.toMap().value("position").toInt());
-        break;
-    case RequestRepeatShuffle:
-        if(rsp.toMap().value("repeat").toString() == "off") {
-            m_repeat = RepeatNone;
-        } else if(rsp.toMap().value("repeat").toString() == "one") {
-            m_repeat = RepeatOne;
-        } else {
-            m_repeat = RepeatAll;
-        }
-        emit repeatChanged();
-
-        m_shuffle = rsp.toMap().value("shuffled").toBool();
-        emit shuffleChanged();
-        break;
-    case SetPercentage:
-        m_requestMap.remove(id);
-        break;
-    case RequestCurrentItemDetails:
-        xDebug(XDAREA_PLAYER) << "got current item details:" << rsp;
-        QVariantMap itemMap = rsp.toMap().value("item").toMap();
-
-        if(m_currentItem) {
-            m_currentItem->deleteLater();
-        }
-        m_currentItem = new LibraryItem();
-        m_currentItem->setType(itemMap.value("type").toString());
-        m_currentItem->setTitle(itemMap.value("label").toString());
-        if(itemMap.value("type").toString() == "song") {
-            m_currentItem->setSubtitle(itemMap.value("artist").toString());
-        } else if(itemMap.value("type").toString() == "episode") {
-            m_currentItem->setSubtitle(itemMap.value("showtitle").toString());
-        }
-
-        m_currentItem->setComment(itemMap.value("comment").toString());
-        m_currentItem->setGenre(itemMap.value("genre").toString());
-        m_currentItem->setSeason(itemMap.value("season", -1).toInt());
-        m_currentItem->setRating(itemMap.value("rating", -1).toInt());
-        m_currentItem->setEpisode(itemMap.value("episode", -1).toInt());
-        m_currentItem->setYear(itemMap.value("year").toString());
-        m_currentItem->setDirector(itemMap.value("director").toString());
-        m_currentItem->setTagline(itemMap.value("tagline").toString());
-        m_currentItem->setMpaa(itemMap.value("mpaa").toString());
-        m_currentItem->setInstrument(itemMap.value("instrument").toString());
-        m_currentItem->setStyle(itemMap.value("style").toString());
-        m_currentItem->setMood(itemMap.value("mood").toString());
-        m_currentItem->setBorn(itemMap.value("born").toString());
-        m_currentItem->setFormed(itemMap.value("formed").toString());
-        m_currentItem->setDied(itemMap.value("died").toString());
-        m_currentItem->setDisbanded(itemMap.value("disbanded").toString());
-        if(itemMap.contains("runtime")) {
-            m_currentItem->setDuration(QTime().addSecs(itemMap.value("runtime").toInt() * 60));
-        } else  {
-            m_currentItem->setDuration(QTime().addSecs(itemMap.value("duration").toInt()));
-        }
-        m_currentItem->setPlaycount(itemMap.value("playcount", -1).toInt());
-        m_currentItem->setCast(itemMap.value("cast").toString());
-        m_currentItem->setPlot(itemMap.value("plot").toString());
-        m_currentItem->setThumbnail(itemMap.value("thumbnail").toString());
-        m_currentItem->setAlbum(itemMap.value("album").toString());
-        m_currentItem->setArtist(itemMap.value("artist").toString());
-        m_currentItem->setFanart(itemMap.value("fanart").toString());
-        m_currentItem->setTvShow(itemMap.value("showtitle").toString());
-        emit currentItemChanged();
-        break;
+    m_currentItem->setComment(itemMap.value("comment").toString());
+    m_currentItem->setGenre(itemMap.value("genre").toString());
+    m_currentItem->setSeason(itemMap.value("season", -1).toInt());
+    m_currentItem->setRating(itemMap.value("rating", -1).toInt());
+    m_currentItem->setEpisode(itemMap.value("episode", -1).toInt());
+    m_currentItem->setYear(itemMap.value("year").toString());
+    m_currentItem->setDirector(itemMap.value("director").toString());
+    m_currentItem->setTagline(itemMap.value("tagline").toString());
+    m_currentItem->setMpaa(itemMap.value("mpaa").toString());
+    m_currentItem->setInstrument(itemMap.value("instrument").toString());
+    m_currentItem->setStyle(itemMap.value("style").toString());
+    m_currentItem->setMood(itemMap.value("mood").toString());
+    m_currentItem->setBorn(itemMap.value("born").toString());
+    m_currentItem->setFormed(itemMap.value("formed").toString());
+    m_currentItem->setDied(itemMap.value("died").toString());
+    m_currentItem->setDisbanded(itemMap.value("disbanded").toString());
+    if(itemMap.contains("runtime")) {
+        m_currentItem->setDuration(QTime().addSecs(itemMap.value("runtime").toInt() * 60));
+    } else  {
+        m_currentItem->setDuration(QTime().addSecs(itemMap.value("duration").toInt()));
     }
+    m_currentItem->setPlaycount(itemMap.value("playcount", -1).toInt());
+    m_currentItem->setCast(itemMap.value("cast").toString());
+    m_currentItem->setPlot(itemMap.value("plot").toString());
+    m_currentItem->setThumbnail(itemMap.value("thumbnail").toString());
+    m_currentItem->setAlbum(itemMap.value("album").toString());
+    m_currentItem->setArtist(itemMap.value("artist").toString());
+    m_currentItem->setFanart(itemMap.value("fanart").toString());
+    m_currentItem->setTvShow(itemMap.value("showtitle").toString());
+    emit currentItemChanged();
 }
 
 int Player::speed() const
@@ -442,14 +431,15 @@ Player::Repeat Player::repeat() const
 
 void Player::seek(int position)
 {
-    if(!m_requestMap.keys(SetPercentage).isEmpty() && position != m_percentage) {
+    if(m_seeking && position != m_percentage) {
         return;
     }
     QVariantMap params;
     params.insert("playerid", playerId());
     params.insert("value", position);
 
-    m_requestMap.insert(XbmcConnection::sendCommand("Player.Seek", params), SetPercentage);
+    m_seeking = true;
+    XbmcConnection::sendCommand("Player.Seek", params);
 }
 
 LibraryItem *Player::currentItem() const
