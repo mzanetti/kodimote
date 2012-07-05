@@ -239,6 +239,10 @@ void Player::receivedAnnouncement(const QVariantMap &map)
     } else if(map.value("method").toString() == "Player.OnSeek") {
         updatePlaytime(data.value("player").toMap().value("time").toMap());
         m_seeking = false;
+    } else if(map.value("method").toString() == "Player.OnSpeedChanged") {
+        updatePlaytime();
+        m_speed = data.value("player").toMap().value("speed").toInt();
+        emit speedChanged();
     }
 }
 
