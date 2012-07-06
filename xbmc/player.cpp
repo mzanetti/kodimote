@@ -42,7 +42,7 @@ Player::Player(PlayerType type, QObject *parent) :
 {
     connect(XbmcConnection::notifier(), SIGNAL(receivedAnnouncement(QVariantMap)), SLOT(receivedAnnouncement(QVariantMap)));
     staticMetaObject.invokeMethod(this, "getSpeed", Qt::QueuedConnection);
-    staticMetaObject.invokeMethod(this, "getPercentage", Qt::QueuedConnection);
+    staticMetaObject.invokeMethod(this, "getPlaytime", Qt::QueuedConnection);
     staticMetaObject.invokeMethod(this, "getPosition", Qt::QueuedConnection);
     staticMetaObject.invokeMethod(this, "getRepeatShuffle", Qt::QueuedConnection);
 
