@@ -379,6 +379,11 @@ void Player::updatePlaytime()
 
 void Player::updatePlaytime(const QVariantMap &timeMap)
 {
+    if(!playlist()->currentItem()) {
+        return;
+    }
+
+    int duration = QTime().msecsTo(playlist()->currentItem()->duration());
     QDateTime currentTime = QDateTime::currentDateTime();
     QTime time;
     int hours = timeMap.value("hours").toInt();
@@ -388,6 +393,7 @@ void Player::updatePlaytime(const QVariantMap &timeMap)
     time.setHMS(hours, minutes, seconds, mseconds);
     m_lastPlaytime = QTime().msecsTo(time);
     m_lastPlaytimeUpdate = currentTime;
+    m_percentage = (double)m_lastPlaytime / duration * 100;
 
     emit percentageChanged();
     emit timeChanged();
