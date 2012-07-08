@@ -19,6 +19,10 @@ Page {
         }
     }
 
+    property bool timerActive: platformWindow.visible && mainPage.status == PageStatus.Active
+
+    onTimerActiveChanged: { player.timerActive = timerActive }
+
     ToolBarLayout {
         id: nowPlayingToolbar
         ToolButton { iconSource: "icons/tools-columns.png";

@@ -22,6 +22,7 @@
 #include <QObject>
 #include <QVariantMap>
 #include <QTimer>
+#include <QDateTime>
 
 class Playlist;
 class LibraryItem;
@@ -38,6 +39,7 @@ class Player : public QObject
     Q_PROPERTY(int speed READ speed NOTIFY speedChanged)
     Q_PROPERTY(double percentage READ percentage NOTIFY percentageChanged)
     Q_PROPERTY(QString time READ time NOTIFY timeChanged)
+    Q_PROPERTY(bool timerActive READ timerActive WRITE setTimerActive)
     Q_PROPERTY(bool shuffle READ shuffle WRITE setShuffle NOTIFY shuffleChanged)
     Q_PROPERTY(Repeat repeat READ repeat WRITE setRepeat NOTIFY repeatChanged)
 
@@ -80,6 +82,9 @@ public:
     Repeat repeat() const;
     void setRepeat(Repeat repeat);
 
+    bool timerActive() const;
+    void setTimerActive(bool active);
+
     Q_INVOKABLE void seek(int position);
 
     LibraryItem* currentItem() const;
@@ -104,28 +109,34 @@ public slots:
 
 private slots:
     void getSpeed();
-    void getPercentage();
+    void getPlaytime();
     void getPosition();
     void receivedAnnouncement(const QVariantMap& map);
-    void setPercentage();
+    void updatePlaytime();
     void getRepeatShuffle();
 
     void getCurrentItemDetails();
 
     void speedReceived(const QVariantMap &rsp);
-    void percentageReceived(const QVariantMap &rsp);
+    void playtimeReceived(const QVariantMap &rsp);
     void positionReceived(const QVariantMap &rsp);
     void repeatShuffleReceived(const QVariantMap &rsp);
     void detailsReceived(const QVariantMap &rsp);
+
+private:
+    void updatePlaytime(const QVariantMap &time);
 
 protected:
     PlayerType m_type;
     QString m_state;
     int m_speed;
     double m_percentage;
-    QTimer m_percentageTimer;
+    QTimer m_playtimeTimer;
+    int m_lastPlaytime;
+    QDateTime m_lastPlaytimeUpdate;
     LibraryItem* m_currentItem;
     bool m_seeking;
+    bool m_timerActivated;
 
     bool m_shuffle;
     Repeat m_repeat;

@@ -18,6 +18,10 @@ FocusScope {
     property QtObject playlist: player.playlist()
     property QtObject currentItem: player.currentItem
 
+    property bool timerActive: platformWindow.visible && mainPage.status == PageStatus.Active
+
+    onTimerActiveChanged: { player.timerActive = timerActive }
+
     Keys.onPressed: {
         if(event.modifiers === Qt.ShiftModifier) {
             switch(event.key) {
