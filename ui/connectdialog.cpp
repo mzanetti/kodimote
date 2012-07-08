@@ -80,6 +80,7 @@ ConnectDialog::ConnectDialog(QWidget *parent) :
 
     m_port = new QLineEdit();
     m_port->setValidator(new QIntValidator());
+    m_port->setText("8080");
     m_manualLayout->addWidget(m_port, 1, 1);
 
     m_manualLayout->addWidget(new QLabel(tr("MAC Address (optional):")), 2, 0);

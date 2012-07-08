@@ -142,6 +142,7 @@ Page {
                     text: qsTr("HTTP Port:")
                 }
                 TextField {
+                    text: "8080"
                     width: parent.width
                     id: portTextField
                     inputMask: "00000"
