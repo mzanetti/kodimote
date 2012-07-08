@@ -47,6 +47,26 @@ Page {
             id: gridbg
             source: "icons/pad-bg" + areaStateToString(gestureHelper.currentState) + ".png"
 
+            states: [
+                State {
+                    when: arrowUpMouseArea.pressed
+                    PropertyChanges { target: gridbg; source: "icons/pad-bg-up.png" }
+                },
+                State {
+                    when: arrowLeftMouseArea.pressed
+                    PropertyChanges { target: gridbg; source: "icons/pad-bg-left.png" }
+                },
+                State {
+                    when: arrowRightMouseArea.pressed
+                    PropertyChanges { target: gridbg; source: "icons/pad-bg-right.png" }
+                },
+                State {
+                    when: arrowDownMouseArea.pressed
+                    PropertyChanges { target: gridbg; source: "icons/pad-bg-down.png" }
+                }
+
+            ]
+
             anchors.horizontalCenter: parent.horizontalCenter
             function areaStateToString(areaState) {
                 if(areaState === GestureHelper.AreaTop) {
@@ -78,6 +98,14 @@ Page {
                     id: arrowUp
                     width: backButton.width
                     height: backButton.height
+                    MouseArea {
+                        id: arrowUpMouseArea
+                        anchors.fill: parent
+                        enabled: settings.gesturePadClickable
+                        onClicked: {
+                            keys.up();
+                        }
+                    }
                 }
 
                 KeypadButton {
@@ -88,6 +116,14 @@ Page {
                     id: arrowLeft
                     width: backButton.width
                     height: backButton.height
+                    MouseArea {
+                        id: arrowLeftMouseArea
+                        anchors.fill: parent
+                        enabled: settings.gesturePadClickable
+                        onClicked: {
+                            keys.left();
+                        }
+                    }
                 }
 
                 Item {
@@ -187,6 +223,14 @@ Page {
                     id: arrowRight
                     width: backButton.width
                     height: backButton.height
+                    MouseArea {
+                        id: arrowRightMouseArea
+                        anchors.fill: parent
+                        enabled: settings.gesturePadClickable
+                        onClicked: {
+                            keys.right();
+                        }
+                    }
                 }
                 KeypadButton {
                     icon: "contextmenu"
@@ -196,6 +240,14 @@ Page {
                     id: arrowDown
                     width: backButton.width
                     height: backButton.height
+                    MouseArea {
+                        id: arrowDownMouseArea
+                        anchors.fill: parent
+                        enabled: settings.gesturePadClickable
+                        onClicked: {
+                            keys.down();
+                        }
+                    }
                 }
                 KeypadButton {
                     icon: "menu"

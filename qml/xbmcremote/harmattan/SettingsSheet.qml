@@ -41,6 +41,11 @@ Sheet {
                 text: qsTr("Ignore articles for sorting")
                 checked: settings.ignoreArticle
             }
+            CheckBox {
+                id: cbGesturePadClickable
+                text: qsTr("Allow clicking of gesture arrows")
+                checked: settings.gesturePadClickable
+            }
 
             SectionHeader {
                 headerText: qsTr("Phone calls")
@@ -90,5 +95,6 @@ Sheet {
         settings.pauseVideoOnCall = cbPauseVideo.checked
         settings.useThumbnails = cbUseThumbnails.checked
         settings.showCallNotifications = cbShowNotifications.checked
+        settings.gesturePadClickable = cbGesturePadClickable.checked
     }
 }
