@@ -21,7 +21,7 @@
 #include "xbmc/xdebug.h"
 #include "settings.h"
 
-#if defined Q_WS_MAEMO_5
+#if defined Q_WS_MAEMO_5 || defined Q_WS_X11
 #include "ui/mainwindow.h"
 #endif
 
