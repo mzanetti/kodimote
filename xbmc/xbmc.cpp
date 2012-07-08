@@ -137,8 +137,6 @@ void Xbmc::init()
     list.append("canreboot");
     params.insert("properties", list);
     XbmcConnection::sendCommand("System.GetProperties", params, this, "systemPropertiesReceived");
-
-    queryActivePlayers();
 }
 
 void Xbmc::slotDownloadAdded(XbmcDownload *download)
