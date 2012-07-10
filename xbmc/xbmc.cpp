@@ -231,6 +231,9 @@ void Xbmc::parseAnnouncement(const QVariantMap &map)
             queryActivePlayers();
 //        }
     }
+    else if(map.value("method").toString() == "Player.OnStop") {
+        queryActivePlayers();
+    }
 }
 
 void Xbmc::activePlayersReceived(const QVariantMap &rsp)
