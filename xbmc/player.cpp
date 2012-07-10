@@ -141,6 +141,17 @@ void Player::refresh()
     playlist()->refresh();
 }
 
+void Player::detach()
+{
+    xDebug(XDAREA_PLAYER) << "stopping player";
+    m_state = "stopped";
+    m_playtimeTimer.stop();
+    emit stateChanged();
+    m_speed = 1;
+    emit speedChanged();
+    playlist()->refresh();
+}
+
 Player::PlayerType Player::type() const
 {
     return m_type;
@@ -209,13 +220,9 @@ void Player::receivedAnnouncement(const QVariantMap &map)
     xDebug(XDAREA_PLAYER) << "Player" << playerId() << "got announcement:" << map.value("method") << data;
 
     if(map.value("method").toString() == "Player.OnStop") {
-        xDebug(XDAREA_PLAYER) << "stopping player";
-        m_state = "stopped";
-        m_playtimeTimer.stop();
-        emit stateChanged();
-        m_speed = 1;
-        emit speedChanged();
-        playlist()->refresh();
+        //is most likely unreachable as Player.OnStop doesn't contain a player id
+        // and thus it would already return above
+        detach();
     } else if(map.value("method").toString() == "Player.OnPause") {
         m_state = "paused";
         m_playtimeTimer.stop();

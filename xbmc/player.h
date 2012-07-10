@@ -66,6 +66,7 @@ public:
     QString time() const;
 
     void refresh();
+    void detach();
 
     PlayerType type() const;
 
