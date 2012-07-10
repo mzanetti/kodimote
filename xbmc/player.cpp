@@ -202,7 +202,7 @@ QString Player::state() const
 void Player::receivedAnnouncement(const QVariantMap &map)
 {
     QVariantMap data= map.value("params").toMap().value("data").toMap();
-    if(data.value("player").toMap().value("playerid").toInt() != playerId()) {
+    if(!data.value("player").isValid() || data.value("player").toMap().value("playerid").toInt() != playerId()) {
         return;
     }
 
