@@ -264,11 +264,16 @@ void Xbmc::activePlayersReceived(const QVariantMap &rsp)
             m_state = "";
             emit stateChanged();
         }
+
         if(m_activePlayer) {
+            m_activePlayer->detach();
             m_activePlayer = 0;
             emit activePlayerChanged();
         }
     } else if(m_activePlayer != activePlayer) {
+        if(m_activePlayer) {
+            m_activePlayer->detach();
+        }
         m_activePlayer = activePlayer;
         xDebug(XDAREA_PLAYER) << "active player changed!";
         emit stateChanged();
