@@ -265,8 +265,6 @@ void Xbmc::activePlayersReceived(const QVariantMap &rsp)
         xDebug(XDAREA_PLAYER) << "active player changed!";
         emit stateChanged();
         emit activePlayerChanged();
-    }
-    if(m_activePlayer) {
         m_activePlayer->refresh();
     }
 
