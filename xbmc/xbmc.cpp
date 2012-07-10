@@ -227,8 +227,6 @@ Player *Xbmc::activePlayer()
 void Xbmc::parseAnnouncement(const QVariantMap &map)
 {
     if(map.value("method").toString() == "Player.OnPlay") {
-        QVariantMap data= map.value("params").toMap().value("data").toMap();
-        qDebug() << "************************************************" << data.value("player").toMap().value("playerid") << m_activePlayer->playerId();
 //        if(data.value("player").toMap().value("playerid").toInt() != m_activePlayer->playerId()) {
             queryActivePlayers();
 //        }
@@ -259,7 +257,14 @@ void Xbmc::activePlayersReceived(const QVariantMap &rsp)
     }
 
     if(activePlayer == 0) {
-        m_state = "";
+        if(m_state != "") {
+            m_state = "";
+            emit stateChanged();
+        }
+        if(m_activePlayer) {
+            m_activePlayer = 0;
+            emit activePlayerChanged();
+        }
     } else if(m_activePlayer != activePlayer) {
         m_activePlayer = activePlayer;
         xDebug(XDAREA_PLAYER) << "active player changed!";
