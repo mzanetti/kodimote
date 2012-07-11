@@ -22,6 +22,7 @@
 Keys::Keys(QObject *parent) :
     QObject(parent)
 {
+    connect(XbmcConnection::notifier(), SIGNAL(receivedAnnouncement(QVariantMap)), SLOT(receivedAnnouncement(QVariantMap)));
 }
 
 void Keys::left()
@@ -97,4 +98,13 @@ void Keys::home()
 void Keys::select()
 {
     XbmcConnection::sendCommand("Input.Select");
+}
+
+void Keys::receivedAnnouncement(const QVariantMap &map)
+{
+    if(map.value("method").toString() == "Input.OnInputRequested") {
+        QString title = map.value("params").toMap().value("data").toMap().value("title").toString();
+        QString type = map.value("params").toMap().value("data").toMap().value("type").toString();
+        emit inputRequested(title, type);
+    }
 }
