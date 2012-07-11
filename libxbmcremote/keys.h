@@ -42,6 +42,7 @@ public slots:
     void fullscreen();
     void keyboardKey(const QString &key);
     void backspace();
+    void sendText(QString text, bool done = true);
 
 signals:
     void inputFinished();

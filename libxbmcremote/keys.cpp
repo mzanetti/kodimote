@@ -100,6 +100,14 @@ void Keys::select()
     XbmcConnection::sendCommand("Input.Select");
 }
 
+void Keys::sendText(QString text, bool done)
+{
+    QVariantMap map;
+    map.insert("text", text);
+    map.insert("done", done);
+    XbmcConnection::sendCommand("Input.SendText", map);
+}
+
 void Keys::receivedAnnouncement(const QVariantMap &map)
 {
     QString method = map.value("method").toString();
