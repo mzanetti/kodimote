@@ -102,9 +102,15 @@ void Keys::select()
 
 void Keys::receivedAnnouncement(const QVariantMap &map)
 {
-    if(map.value("method").toString() == "Input.OnInputRequested") {
-        QString title = map.value("params").toMap().value("data").toMap().value("title").toString();
-        QString type = map.value("params").toMap().value("data").toMap().value("type").toString();
+    QString method = map.value("method").toString();
+    QVariantMap data = map.value("params").toMap().value("data").toMap();
+
+    if(method == "Input.OnInputRequested") {
+        QString title = data.value("title").toString();
+        QString type = data.value("type").toString();
         emit inputRequested(title, type);
+    }
+    else if(method == "Input.OnInputFinished") {
+        emit inputFinished();
     }
 }

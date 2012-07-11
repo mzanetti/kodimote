@@ -44,6 +44,7 @@ public slots:
     void backspace();
 
 signals:
+    void inputFinished();
     void inputRequested(QString title, QString type);
 
 private slots:
