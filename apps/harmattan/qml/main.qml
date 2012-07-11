@@ -50,6 +50,10 @@ PageStackWindow {
         id: pictureControlsPage
     }
 
+    KeyboardSheet {
+        id: keyboard
+    }
+
     ToolBarLayout {
         id: toolBarEntry
         visible: false
@@ -190,6 +194,16 @@ PageStackWindow {
                 }
             }
         }
+    }
+
+    Connections {
+        target: xbmc.keys()
+        onInputRequested: {
+            keyboard.titleText = title;
+            keyboard.type = type;
+            keyboard.open();
+        }
+        onInputFinished: keyboard.close();
     }
 
     Dialog {
