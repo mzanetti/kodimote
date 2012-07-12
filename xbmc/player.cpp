@@ -232,6 +232,7 @@ void Player::receivedAnnouncement(const QVariantMap &map)
         if(m_timerActivated) {
             m_playtimeTimer.start();
         }
+        playlist()->refresh();
     } else if(map.value("method").toString() == "Player.OnSeek") {
         updatePlaytime(data.value("player").toMap().value("time").toMap());
         m_seeking = false;
