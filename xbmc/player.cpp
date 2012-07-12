@@ -41,10 +41,6 @@ Player::Player(PlayerType type, QObject *parent) :
     m_repeat(RepeatNone)
 {
     connect(XbmcConnection::notifier(), SIGNAL(receivedAnnouncement(QVariantMap)), SLOT(receivedAnnouncement(QVariantMap)));
-    staticMetaObject.invokeMethod(this, "getSpeed", Qt::QueuedConnection);
-    staticMetaObject.invokeMethod(this, "getPlaytime", Qt::QueuedConnection);
-    staticMetaObject.invokeMethod(this, "getPosition", Qt::QueuedConnection);
-    staticMetaObject.invokeMethod(this, "getRepeatShuffle", Qt::QueuedConnection);
 
     m_playtimeTimer.setInterval(1000);
     connect(&m_playtimeTimer, SIGNAL(timeout()), SLOT(updatePlaytime()));
