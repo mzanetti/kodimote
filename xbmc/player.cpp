@@ -253,7 +253,6 @@ void Player::speedReceived(const QVariantMap &rsp)
         m_state = "paused";
     } else {
         m_state = "playing";
-        getPlaytime();
     }
     emit stateChanged();
 }
