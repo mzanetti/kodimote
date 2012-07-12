@@ -104,7 +104,7 @@ Xbmc::Xbmc(QObject *parent) :
     m_audioPlayer = new AudioPlayer(this);
     m_videoPlayer = new VideoPlayer(this);
     m_picturePlayer = new PicturePlayer(this);
-    m_activePlayer = m_audioPlayer;
+    m_activePlayer = 0;
     m_state = "undefined";
     m_picturePlayerActive = false;
 
@@ -227,8 +227,6 @@ Player *Xbmc::activePlayer()
 void Xbmc::parseAnnouncement(const QVariantMap &map)
 {
     if(map.value("method").toString() == "Player.OnPlay") {
-        QVariantMap data= map.value("params").toMap().value("data").toMap();
-        qDebug() << "************************************************" << data.value("player").toMap().value("playerid") << m_activePlayer->playerId();
 //        if(data.value("player").toMap().value("playerid").toInt() != m_activePlayer->playerId()) {
             queryActivePlayers();
 //        }
