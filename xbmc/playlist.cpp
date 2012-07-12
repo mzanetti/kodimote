@@ -26,7 +26,6 @@ Playlist::Playlist(Player *parent) :
     m_player(parent)
 {
     connect(XbmcConnection::notifier(), SIGNAL(receivedAnnouncement(QVariantMap)), SLOT(receivedAnnouncement(QVariantMap)));
-    staticMetaObject.invokeMethod(this, "refresh", Qt::QueuedConnection);
 }
 
 Player *Playlist::player() const
