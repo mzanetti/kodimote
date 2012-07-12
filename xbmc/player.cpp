@@ -129,10 +129,16 @@ void Player::getCurrentItemDetails()
 void Player::refresh()
 {
     xDebug(XDAREA_PLAYER) << "player" << playerId() << "refreshing";
-    getSpeed();
-    getPlaytime();
-    getPosition();
-    getRepeatShuffle();
+    QVariantMap params;
+    params.insert("playerid", playerId());
+    QVariantList props;
+    props.append("speed");
+    props.append("time");
+    props.append("position");
+    props.append("repeat");
+    props.append("shuffled");
+    params.insert("properties", props);
+    XbmcConnection::sendCommand("Player.GetProperties", params, this, "refreshReceived");
     getCurrentItemDetails();
     playlist()->refresh();
 }
@@ -283,6 +289,14 @@ void Player::repeatShuffleReceived(const QVariantMap &rsp)
 
     m_shuffle = result.toMap().value("shuffled").toBool();
     emit shuffleChanged();
+}
+
+void Player::refreshReceived(const QVariantMap &rsp)
+{
+    speedReceived(rsp);
+    playtimeReceived(rsp);
+    positionReceived(rsp);
+    repeatShuffleReceived(rsp);
 }
 
 void Player::detailsReceived(const QVariantMap &rsp)

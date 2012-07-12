@@ -122,6 +122,7 @@ private slots:
     void positionReceived(const QVariantMap &rsp);
     void repeatShuffleReceived(const QVariantMap &rsp);
     void detailsReceived(const QVariantMap &rsp);
+    void refreshReceived(const QVariantMap &rsp);
 
 private:
     void updatePlaytime(const QVariantMap &time);
