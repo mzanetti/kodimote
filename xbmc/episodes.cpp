@@ -31,6 +31,40 @@ Episodes::Episodes(int tvshowid, int seasonid, const QString &seasonString, Xbmc
     m_seasonid(seasonid),
     m_seasonString(seasonString)
 {
+    connect(XbmcConnection::notifier(), SIGNAL(receivedAnnouncement(QVariantMap)), SLOT(receivedAnnouncement(QVariantMap)));
+}
+
+void Episodes::receivedAnnouncement(const QVariantMap &map)
+{
+    QString method = map.value("method").toString();
+
+    if(method != "VideoLibrary.OnUpdate") {
+        return;
+    }
+
+    QVariantMap data = map.value("params").toMap().value("data").toMap();
+
+    QVariant playcount = data.value("playcount");
+    if(!playcount.isValid() || playcount.toInt() < 0) {
+        return;
+    }
+
+    QString type = data.value("item").toMap().value("type").toString();
+    int id = data.value("item").toMap().value("id").toInt();
+    if(type != "episode" || !m_idIndexMapping.contains(id)) {
+        return;
+    }
+
+    int i = m_idIndexMapping.value(id);
+    LibraryItem *item = qobject_cast<LibraryItem*>(m_list.at(i));
+
+    if(playcount.toInt() == item->playcount()) {
+        return;
+    }
+
+
+    item->setPlaycount(playcount.toInt());
+    dataChanged(index(i, 0, QModelIndex()), index(i, 0, QModelIndex()));
 }
 
 void Episodes::refresh()
@@ -117,6 +151,8 @@ void Episodes::listReceived(const QVariantMap &rsp)
     QList<XbmcModelItem*> list;
     qDebug() << "got Episodes:" << rsp.value("result");
     QVariantList responseList = rsp.value("result").toMap().value("episodes").toList();
+    int index = 0;
+    m_idIndexMapping.clear();
     foreach(const QVariant &itemVariant, responseList) {
         QVariantMap itemMap = itemVariant.toMap();
         LibraryItem *item = new LibraryItem();
@@ -133,6 +169,7 @@ void Episodes::listReceived(const QVariantMap &rsp)
         item->setFileType("file");
         item->setPlayable(true);
         list.append(item);
+        m_idIndexMapping.insert(item->episodeId(), index++);
     }
     beginInsertRows(QModelIndex(), 0, list.count() - 1);
     m_list = list;
