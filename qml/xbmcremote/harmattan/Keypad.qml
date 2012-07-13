@@ -35,7 +35,6 @@ Page {
     }
 
     property QtObject keys: xbmc.keys()
-    property string orientation: width > height ? "landscape" : "portrait"
 
     Column {
         width: parent.width - 30

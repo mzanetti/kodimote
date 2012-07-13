@@ -29,7 +29,6 @@ Page {
     }
 
     property QtObject player: xbmc.picturePlayer()
-    property string orientation: width > height ? "landscape" : "portrait"
 
     Column {
         width: parent.width - 30
