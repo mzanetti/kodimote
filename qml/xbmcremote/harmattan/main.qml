@@ -8,7 +8,7 @@ PageStackWindow {
     property bool connected: xbmc.connected
     property bool nfcSheetOpen: false
     initialPage: connected ? mainPage : noConnectionPage
-    showStatusBar: pageStack.currentPage.height > pageStack.currentPage.width ? true : false
+    showStatusBar: screen.currentOrientation == Screen.Portrait
 
     Component.onCompleted: {
         theme.inverted = settings.themeInverted
