@@ -300,14 +300,16 @@ Page {
         property string oldText: "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
         platformSipAttributes: sipAttributes
 
-        onTextChanged: {
-            print("text", text, text.charAt(text.length-1));
-            if(text.length > oldText.length) {
-                keys.keyboardKey(tf.text.charAt(text.length-1));
-            } else {
-                keys.backspace();
-            }
-            oldText = text;
+        Component.onCompleted: {
+            tf.textChanged.connect(function() {
+                print("text", text, text.charAt(text.length-1));
+                if(text.length > oldText.length) {
+                    keys.keyboardKey(tf.text.charAt(text.length-1));
+                } else {
+                    keys.backspace();
+                }
+                oldText = text;
+            })
         }
 
         onActiveFocusChanged: {
