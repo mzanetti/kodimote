@@ -26,12 +26,59 @@
 #include "libraryitem.h"
 
 TvShows::TvShows(XbmcModel *parent) :
-    XbmcLibrary(parent)
+    XbmcLibrary(parent),
+    m_refreshing(false)
 {
+    connect(XbmcConnection::notifier(), SIGNAL(receivedAnnouncement(QVariantMap)), SLOT(receivedAnnouncement(QVariantMap)));
 }
 
 TvShows::~TvShows()
 {
+}
+
+void TvShows::receivedAnnouncement(const QVariantMap &map)
+{
+    QString method = map.value("method").toString();
+
+    if(method != "VideoLibrary.OnUpdate")
+        return;
+
+    QVariantMap data = map.value("params").toMap().value("data").toMap();
+    QString type = data.value("item").toMap().value("type").toString();
+    if(type != "episode") {
+        return;
+    }
+
+    QVariant playcount = map.value("params").toMap().value("data").toMap().value("playcount");
+    if(!playcount.isValid() || playcount.toInt() < 0) {
+        return;
+    }
+
+    if(m_refreshing) {
+        return;
+    }
+
+    QVariantMap params;
+    QVariantList properties;
+    properties.append("playcount");
+    params.insert("properties", properties);
+
+    XbmcConnection::sendCommand("VideoLibrary.GetTVShows", params, this, "playcountReceived");
+    m_refreshing = true;
+}
+
+void TvShows::playcountReceived(const QVariantMap &rsp)
+{
+    m_refreshing = false;
+    QVariantList tvshows = rsp.value("result").toMap().value("tvshows").toList();
+    foreach(const QVariant &tvshow, tvshows) {
+        QVariantMap tvshowMap = tvshow.toMap();
+
+        int i = m_idIndexMapping.value(tvshowMap.value("tvshowid").toInt());
+        LibraryItem *item = qobject_cast<LibraryItem*>(m_list.at(i));
+        item->setPlaycount(tvshowMap.value("playcount").toInt());
+    }
+    dataChanged(index(0, 0, QModelIndex()), index(m_list.count() - 1, 0, QModelIndex()));
 }
 
 void TvShows::refresh()
@@ -49,6 +96,7 @@ void TvShows::refresh()
     params.insert("sort", sort);
 
     XbmcConnection::sendCommand("VideoLibrary.GetTVShows", params, this, "showsReceived");
+    m_refreshing = true;
 }
 
 void TvShows::fetchItemDetails(int index)
@@ -86,10 +134,13 @@ void TvShows::fetchItemDetails(int index)
 
 void TvShows::showsReceived(const QVariantMap &rsp)
 {
+    m_refreshing = false;
     setBusy(false);
     QList<XbmcModelItem*> list;
     qDebug() << "got TvShows:" << rsp.value("result");
     QVariantList responseList = rsp.value("result").toMap().value("tvshows").toList();
+    int index = 0;
+    m_idIndexMapping.clear();
     foreach(const QVariant &itemVariant, responseList) {
         QVariantMap itemMap = itemVariant.toMap();
         LibraryItem *item = new LibraryItem();
@@ -101,6 +152,7 @@ void TvShows::showsReceived(const QVariantMap &rsp)
         item->setFileType("directory");
         item->setPlayable(false);
         list.append(item);
+        m_idIndexMapping.insert(item->tvshowId(), index++);
     }
     beginInsertRows(QModelIndex(), 0, list.count() - 1);
     m_list = list;

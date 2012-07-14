@@ -45,9 +45,13 @@ public slots:
 private slots:
     void showDetailsReceived(const QVariantMap &rsp);
     void showsReceived(const QVariantMap &rsp);
+    void receivedAnnouncement(const QVariantMap &map);
+    void playcountReceived(const QVariantMap &rsp);
 
 private:
     QMap<int, int> m_detailsRequestMap;
+    QMap<int, int> m_idIndexMapping;
+    bool m_refreshing;
 };
 
 #endif // TVSHOWS_H
