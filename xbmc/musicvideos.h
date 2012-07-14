@@ -44,9 +44,11 @@ public slots:
 private slots:
     void listReceived(const QVariantMap &rsp);
     void detailsReceived(const QVariantMap &rsp);
+    void receivedAnnouncement(const QVariantMap &map);
 
 private:
     QMap<int, int> m_detailsRequestMap;
+    QMap<int, int> m_idIndexMapping;
 
 };
 
