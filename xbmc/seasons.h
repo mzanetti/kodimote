@@ -40,9 +40,13 @@ public slots:
 
 private slots:
     void listReceived(const QVariantMap &rsp);
+    void receivedAnnouncement(const QVariantMap &map);
+    void playcountReceived(const QVariantMap &rsp);
 
 private:
     int m_tvshowid;
+    QMap<int, int> m_seasonIndexMapping;
+    bool m_refreshing;
 };
 
 #endif // SEASONS_H
