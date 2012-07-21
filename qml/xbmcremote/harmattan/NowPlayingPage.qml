@@ -14,8 +14,9 @@ Page {
 
     onPlayerChanged: {
         if(player === null) {
-            do {
-            }while(pageStack.pop() !== mainPage);
+            if(mainPage.status === PageStatus.Active) {
+                pageStack.pop();
+            }
         }
     }
 
