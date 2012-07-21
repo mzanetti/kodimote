@@ -104,7 +104,7 @@ Xbmc::Xbmc(QObject *parent) :
     m_audioPlayer = new AudioPlayer(this);
     m_videoPlayer = new VideoPlayer(this);
     m_picturePlayer = new PicturePlayer(this);
-    m_activePlayer = m_audioPlayer;
+    m_activePlayer = 0;
     m_state = "undefined";
     m_picturePlayerActive = false;
 
@@ -278,8 +278,6 @@ void Xbmc::activePlayersReceived(const QVariantMap &rsp)
         xDebug(XDAREA_PLAYER) << "active player changed!";
         emit stateChanged();
         emit activePlayerChanged();
-    }
-    if(m_activePlayer) {
         m_activePlayer->refresh();
     }
 

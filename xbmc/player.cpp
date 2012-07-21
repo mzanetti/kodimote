@@ -41,10 +41,6 @@ Player::Player(PlayerType type, QObject *parent) :
     m_repeat(RepeatNone)
 {
     connect(XbmcConnection::notifier(), SIGNAL(receivedAnnouncement(QVariantMap)), SLOT(receivedAnnouncement(QVariantMap)));
-    staticMetaObject.invokeMethod(this, "getSpeed", Qt::QueuedConnection);
-    staticMetaObject.invokeMethod(this, "getPlaytime", Qt::QueuedConnection);
-    staticMetaObject.invokeMethod(this, "getPosition", Qt::QueuedConnection);
-    staticMetaObject.invokeMethod(this, "getRepeatShuffle", Qt::QueuedConnection);
 
     m_playtimeTimer.setInterval(1000);
     connect(&m_playtimeTimer, SIGNAL(timeout()), SLOT(updatePlaytime()));
@@ -133,10 +129,16 @@ void Player::getCurrentItemDetails()
 void Player::refresh()
 {
     xDebug(XDAREA_PLAYER) << "player" << playerId() << "refreshing";
-    getSpeed();
-    getPlaytime();
-    getPosition();
-    getRepeatShuffle();
+    QVariantMap params;
+    params.insert("playerid", playerId());
+    QVariantList props;
+    props.append("speed");
+    props.append("time");
+    props.append("position");
+    props.append("repeat");
+    props.append("shuffled");
+    params.insert("properties", props);
+    XbmcConnection::sendCommand("Player.GetProperties", params, this, "refreshReceived");
     getCurrentItemDetails();
     playlist()->refresh();
 }
@@ -243,6 +245,7 @@ void Player::receivedAnnouncement(const QVariantMap &map)
         if(m_timerActivated) {
             m_playtimeTimer.start();
         }
+        playlist()->refresh();
     } else if(map.value("method").toString() == "Player.OnSeek") {
         updatePlaytime(data.value("player").toMap().value("time").toMap());
         m_seeking = false;
@@ -263,7 +266,6 @@ void Player::speedReceived(const QVariantMap &rsp)
         m_state = "paused";
     } else {
         m_state = "playing";
-        getPlaytime();
     }
     emit stateChanged();
 }
@@ -294,6 +296,14 @@ void Player::repeatShuffleReceived(const QVariantMap &rsp)
 
     m_shuffle = result.toMap().value("shuffled").toBool();
     emit shuffleChanged();
+}
+
+void Player::refreshReceived(const QVariantMap &rsp)
+{
+    speedReceived(rsp);
+    playtimeReceived(rsp);
+    positionReceived(rsp);
+    repeatShuffleReceived(rsp);
 }
 
 void Player::detailsReceived(const QVariantMap &rsp)
@@ -390,11 +400,6 @@ void Player::updatePlaytime()
 
 void Player::updatePlaytime(const QVariantMap &timeMap)
 {
-    if(!playlist()->currentItem()) {
-        return;
-    }
-
-    int duration = QTime().msecsTo(playlist()->currentItem()->duration());
     QDateTime currentTime = QDateTime::currentDateTime();
     QTime time;
     int hours = timeMap.value("hours").toInt();
@@ -404,9 +409,12 @@ void Player::updatePlaytime(const QVariantMap &timeMap)
     time.setHMS(hours, minutes, seconds, mseconds);
     m_lastPlaytime = QTime().msecsTo(time);
     m_lastPlaytimeUpdate = currentTime;
-    m_percentage = (double)m_lastPlaytime / duration * 100;
+    if(playlist()->currentItem()) {
+        int duration = QTime().msecsTo(playlist()->currentItem()->duration());
+        m_percentage = (double)m_lastPlaytime / duration * 100;
+        emit percentageChanged();
+    }
 
-    emit percentageChanged();
     emit timeChanged();
 }
 
