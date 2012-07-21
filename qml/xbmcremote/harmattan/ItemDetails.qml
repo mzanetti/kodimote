@@ -7,7 +7,6 @@ Item {
     height: parent.height
     //    height: childrenRect.height
     //    clip: true
-    property string orientation: browserPage.width > browserPage.height ? "landscape" : "portrait"
 
     signal playItem
     signal addToPlaylist
@@ -198,11 +197,11 @@ Item {
                 PropertyChanges { target: buttonLoader; visible: false; height: 0 }
             },
             State {
-                name: "horizontal"; when: itemDetails.orientation === "landscape"
+                name: "horizontal"; when: screen.currentOrientation === Screen.Landscape
                 PropertyChanges { target: buttonLoader; sourceComponent: horizontalButtons }
             },
             State {
-                name: "vertical"; when: itemDetails.orientation === "portrait"
+                name: "vertical"; when: screen.currentOrientation === Screen.Portrait
                 PropertyChanges { target: buttonLoader; sourceComponent: verticalbuttons }
             }
 

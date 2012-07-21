@@ -36,7 +36,6 @@ Page {
     }
 
     property QtObject keys: xbmc.keys()
-    property string orientation: width > height ? "landscape" : "portrait"
 
     Column {
         width: parent.width - 30
@@ -301,14 +300,16 @@ Page {
         property string oldText: "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
         platformSipAttributes: sipAttributes
 
-        onTextChanged: {
-            print("text", text, text.charAt(text.length-1));
-            if(text.length > oldText.length) {
-                keys.keyboardKey(tf.text.charAt(text.length-1));
-            } else {
-                keys.backspace();
-            }
-            oldText = text;
+        Component.onCompleted: {
+            tf.textChanged.connect(function() {
+                print("text", text, text.charAt(text.length-1));
+                if(text.length > oldText.length) {
+                    keys.keyboardKey(tf.text.charAt(text.length-1));
+                } else {
+                    keys.backspace();
+                }
+                oldText = text;
+            })
         }
 
         onActiveFocusChanged: {

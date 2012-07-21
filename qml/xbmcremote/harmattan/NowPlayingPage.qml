@@ -7,8 +7,8 @@ Page {
     tools: nowPlayingToolbar
     anchors.margins: appWindow.pageMargin
     property QtObject player: xbmc.activePlayer
-    property QtObject playlist: player.playlist()
-    property QtObject currentItem: player.currentItem
+    property QtObject playlist: player ? player.playlist() : null
+    property QtObject currentItem: player ? player.currentItem : null
 
     property string orientation: width > height ? "landscape" : "portrait"
 
@@ -38,9 +38,9 @@ Page {
             }
         }
         ToolIcon {
-            iconSource: "icons/shuffle" + (xbmc.activePlayer.shuffle ? "-on" : "-off") + (theme.inverted ? "-black" : "-white") + ".png"
+            iconSource: "icons/shuffle" + (player && player.shuffle ? "-on" : "-off") + (theme.inverted ? "-black" : "-white") + ".png"
             onClicked: {
-                xbmc.activePlayer.shuffle = ! xbmc.activePlayer.shuffle
+                player.shuffle = ! player.shuffle
             }
         }
         ToolIcon { platformIconId: "toolbar-dialer";
@@ -54,15 +54,15 @@ Page {
         }
         ToolIcon {
             iconSource: "icons/repeat" +
-                        (xbmc.activePlayer.repeat ===  Player.RepeatOne ? "-one" : (xbmc.activePlayer.repeat === Player.RepeatAll ? "-all" : "-none")) +
+                        (player && player.repeat ===  Player.RepeatOne ? "-one" : (player && player.repeat === Player.RepeatAll ? "-all" : "-none")) +
                         (theme.inverted ? "-black" : "-white") + ".png"
             onClicked: {
-                if(xbmc.activePlayer.repeat === Player.RepeatNone) {
-                    xbmc.activePlayer.repeat = Player.RepeatOne;
-                } else if(xbmc.activePlayer.repeat === Player.RepeatOne) {
-                    xbmc.activePlayer.repeat = Player.RepeatAll;
+                if(player && player.repeat === Player.RepeatNone) {
+                    player.repeat = Player.RepeatOne;
+                } else if(player && player.repeat === Player.RepeatOne) {
+                    player.repeat = Player.RepeatAll;
                 } else {
-                    xbmc.activePlayer.repeat = Player.RepeatNone;
+                    player.repeat = Player.RepeatNone;
                 }
             }
         }
@@ -105,20 +105,20 @@ Page {
                 Text {
                     anchors.fill: parent
                     textFormat: Text.StyledText
-                    property string coverText: xbmc.state == "audio" ? currentItem.album : currentItem.title
+                    property string coverText: (!currentItem ? "" : (xbmc.state == "audio" ? currentItem.album : currentItem.title))
                     text: "<b>" + coverText + "</b> " + coverText + " " + coverText
                     wrapMode: Text.WrapAnywhere
                     color: "lightblue"
                     font.pixelSize: 85
                     font.capitalization: Font.AllUppercase
                     clip: true
-                    visible: currentItem.thumbnail.length === 0 || currentItem.thumbnail === "DefaultAlbumCover.png" || currentItem.thumbnail === "DefaultVideoCover.png"
+                    visible: currentItem !== null && (currentItem.thumbnail.length === 0 || currentItem.thumbnail === "DefaultAlbumCover.png" || currentItem.thumbnail === "DefaultVideoCover.png")
                 }
             }
 
             Image {
                 anchors.fill: parent
-                source: currentItem.thumbnail.length === 0 ? "" : xbmc.vfsPath + currentItem.thumbnail
+                source: !currentItem || currentItem.thumbnail.length === 0 ? "" : xbmc.vfsPath + currentItem.thumbnail
                 fillMode: Image.PreserveAspectFit
 
                 onSourceChanged: print("thumbnail source is now:" + currentItem.thumbnail)
@@ -133,13 +133,13 @@ Page {
                 id: currentTime
                 anchors.left: parent.left
                 anchors.bottom: parent.bottom
-                text: player.time
+                text: player ? player.time : "00:00"
             }
 
             Label {
                 anchors.right: parent.right
                 anchors.bottom: parent.bottom
-                text: currentItem.durationString
+                text: currentItem ? currentItem.durationString : "00:00"
             }
 
             ButtonRow {
@@ -150,7 +150,7 @@ Page {
                     anchors.left: parent.left
                     onClicked: player.skipPrevious();
                 }
-                ToolIcon { platformIconId: player.state == "playing" ? "toolbar-mediacontrol-pause" : "toolbar-mediacontrol-play"
+                ToolIcon { platformIconId: player && player.state == "playing" ? "toolbar-mediacontrol-pause" : "toolbar-mediacontrol-play"
                     anchors.horizontalCenter: parent.horizontalCenter
                     onClicked: player.playPause();
                 }
@@ -167,7 +167,7 @@ Page {
                 width: 300
                 minimumValue: 0
                 maximumValue: 100
-                value: player.percentage
+                value: player ? player.percentage : 0
 
                 Rectangle {
                     color: theme.inverted ? "white" : "black"
@@ -240,9 +240,9 @@ Page {
                 anchors.bottomMargin: 10
                 Label {
                     id: albumLabel
-                    text: xbmc.state == "audio" ? currentItem.album : (currentItem.type == "episode" ? qsTr("Season:") + " " + currentItem.season + "   " + qsTr("Episode:") + " " + currentItem.episode : qsTr("Rating:") + " ")
+                    text: !currentItem ? "" : (xbmc.state == "audio" ? currentItem.album : (currentItem.type == "episode" ? qsTr("Season:") + " " + currentItem.season + "   " + qsTr("Episode:") + " " + currentItem.episode : qsTr("Rating:") + " "))
                 }
-                property int starCount: currentItem.rating > 10 ? Math.floor(currentItem.rating / 20) : Math.floor(currentItem.rating / 2)
+                property int starCount: !currentItem ? 0 : (currentItem.rating > 10 ? Math.floor(currentItem.rating / 20) : Math.floor(currentItem.rating / 2))
                 Repeater {
                     model: parent.starCount
                     Image {
@@ -253,7 +253,7 @@ Page {
                 Repeater {
                     model: 5 - parent.starCount
                     Image {
-                        visible: currentItem.type === "movie"
+                        visible: currentItem !== null && currentItem.type === "movie"
                         source: theme.inverted ? "image://theme/meegotouch-indicator-rating-background-star" : "image://theme/meegotouch-indicator-rating-background-star"
                     }
                 }
@@ -265,7 +265,7 @@ Page {
                 anchors.left: parent.left
                 anchors.bottom: albumRow.top
                 anchors.right: infoButton.left
-                text: xbmc.state == "audio" ? currentItem.artist : (currentItem.type == "episode" ? currentItem.tvShow : qsTr("Year:") + " " + currentItem.year)
+                text: !currentItem ? "" : (xbmc.state == "audio" ? currentItem.artist : (currentItem.type == "episode" ? currentItem.tvShow : qsTr("Year:") + " " + currentItem.year))
             }
             Button {
                 id: infoButton
@@ -287,7 +287,7 @@ Page {
                 width: parent.width - trackNumLabel.width
                 anchors.bottom: artistLabel.top
                 anchors.bottomMargin: 6
-                text: currentItem.title
+                text: currentItem ? currentItem.title : ""
                 elide: Text.ElideRight
                 font.bold: true
             }
@@ -296,7 +296,7 @@ Page {
                 anchors.right: parent.right
                 anchors.bottom: artistLabel.top
                 anchors.bottomMargin: 6
-                text: playlist.currentTrackNumber + "/" + playlist.count
+                text: playlist ? playlist.currentTrackNumber + "/" + playlist.count : "0/0"
             }
         }
     }
