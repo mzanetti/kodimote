@@ -46,12 +46,14 @@ public slots:
 private slots:
     void listReceived(const QVariantMap &rsp);
     void detailsReceived(const QVariantMap &rsp);
+    void receivedAnnouncement(const QVariantMap &map);
 
 private:
     QMap<int, int> m_detailsRequestMap;
     int m_tvshowid;
     int m_seasonid;
     QString m_seasonString;
+    QMap<int, int> m_idIndexMapping;
 };
 
 #endif // EPISODES_H

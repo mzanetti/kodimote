@@ -27,8 +27,59 @@
 
 Seasons::Seasons(int tvshowid, XbmcModel *parent):
     XbmcLibrary(parent),
-    m_tvshowid(tvshowid)
+    m_tvshowid(tvshowid),
+    m_refreshing(false)
 {
+    connect(XbmcConnection::notifier(), SIGNAL(receivedAnnouncement(QVariantMap)), SLOT(receivedAnnouncement(QVariantMap)));
+}
+
+void Seasons::receivedAnnouncement(const QVariantMap &map)
+{
+    QString method = map.value("method").toString();
+
+    if(method != "VideoLibrary.OnUpdate")
+        return;
+
+    QVariantMap data = map.value("params").toMap().value("data").toMap();
+    QString type = data.value("item").toMap().value("type").toString();
+    if(type != "episode") {
+        return;
+    }
+
+    QVariant playcount = map.value("params").toMap().value("data").toMap().value("playcount");
+    if(!playcount.isValid() || playcount.toInt() < 0) {
+        return;
+    }
+
+    if(m_refreshing) {
+        return;
+    }
+
+    QVariantMap params;
+    if(m_tvshowid != -1) {
+      params.insert("tvshowid", m_tvshowid);
+    }
+    QVariantList properties;
+    properties.append("season");
+    properties.append("playcount");
+    params.insert("properties", properties);
+
+    XbmcConnection::sendCommand("VideoLibrary.GetSeasons", params, this, "playcountReceived");
+    m_refreshing = true;
+}
+
+void Seasons::playcountReceived(const QVariantMap &rsp)
+{
+    m_refreshing = false;
+    QVariantList seasons = rsp.value("result").toMap().value("seasons").toList();
+    foreach(const QVariant &season, seasons) {
+        QVariantMap seasonMap = season.toMap();
+
+        int i = m_seasonIndexMapping.value(seasonMap.value("season").toInt());
+        LibraryItem *item = qobject_cast<LibraryItem*>(m_list.at(i));
+        item->setPlaycount(seasonMap.value("playcount").toInt());
+    }
+    dataChanged(index(0, 0, QModelIndex()), index(m_list.count() - 1, 0, QModelIndex()));
 }
 
 void Seasons::refresh()
@@ -50,14 +101,18 @@ void Seasons::refresh()
     params.insert("sort", sort);
 
     XbmcConnection::sendCommand("VideoLibrary.GetSeasons", params, this, "listReceived");
+    m_refreshing = true;
 }
 
 void Seasons::listReceived(const QVariantMap &rsp)
 {
+    m_refreshing = false;
     setBusy(false);
     QList<XbmcModelItem*> list;
     qDebug() << "got Seasons:" << rsp.value("result");
     QVariantList responseList = rsp.value("result").toMap().value("seasons").toList();
+    int i = 0;
+    m_seasonIndexMapping.clear();
     foreach(const QVariant &itemVariant, responseList) {
         QVariantMap itemMap = itemVariant.toMap();
         LibraryItem *item = new LibraryItem();
@@ -70,6 +125,7 @@ void Seasons::listReceived(const QVariantMap &rsp)
         item->setFileType("directory");
         item->setPlayable(false);
         list.append(item);
+        m_seasonIndexMapping.insert(item->seasonId(), i++);
     }
     beginInsertRows(QModelIndex(), 0, list.count() - 1);
     m_list = list;

@@ -28,10 +28,44 @@
 Movies::Movies(XbmcModel *parent) :
     XbmcLibrary(parent)
 {
+    connect(XbmcConnection::notifier(), SIGNAL(receivedAnnouncement(QVariantMap)), SLOT(receivedAnnouncement(QVariantMap)));
 }
 
 Movies::~Movies()
 {
+}
+
+void Movies::receivedAnnouncement(const QVariantMap &map)
+{
+    QString method = map.value("method").toString();
+
+    if(method != "VideoLibrary.OnUpdate") {
+        return;
+    }
+
+    QVariantMap data = map.value("params").toMap().value("data").toMap();
+
+    QVariant playcount = data.value("playcount");
+    if(!playcount.isValid() || playcount.toInt() < 0) {
+        return;
+    }
+
+    QString type = data.value("item").toMap().value("type").toString();
+    int id = data.value("item").toMap().value("id").toInt();
+    if(type != "movie" || !m_idIndexMapping.contains(id)) {
+        return;
+    }
+
+    int i = m_idIndexMapping.value(id);
+    LibraryItem *item = qobject_cast<LibraryItem*>(m_list.at(i));
+
+    if(playcount.toInt() == item->playcount()) {
+        return;
+    }
+
+
+    item->setPlaycount(playcount.toInt());
+    dataChanged(index(i, 0, QModelIndex()), index(i, 0, QModelIndex()));
 }
 
 void Movies::refresh()
@@ -119,6 +153,8 @@ void Movies::listReceived(const QVariantMap &rsp)
     QList<XbmcModelItem*> list;
     qDebug() << "got movies:" << rsp.value("result");
     QVariantList responseList = rsp.value("result").toMap().value("movies").toList();
+    int index = 0;
+    m_idIndexMapping.clear();
     foreach(const QVariant &itemVariant, responseList) {
         QVariantMap itemMap = itemVariant.toMap();
         LibraryItem *item = new LibraryItem();
@@ -131,6 +167,7 @@ void Movies::listReceived(const QVariantMap &rsp)
         item->setFileType("file");
         item->setPlayable(true);
         list.append(item);
+        m_idIndexMapping.insert(item->movieId(), index++);
     }
     beginInsertRows(QModelIndex(), 0, list.count() - 1);
     m_list = list;
