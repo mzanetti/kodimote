@@ -35,6 +35,8 @@ public:
 
     QString title() const;
 
+    XbmcModel::ThumbnailFormat thumbnailFormat() const { return XbmcModel::ThumbnailFormatPortrait; }
+
 public slots:
     void refresh();
 

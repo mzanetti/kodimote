@@ -39,6 +39,8 @@ public:
     Q_INVOKABLE void fetchItemDetails(int index);
     Q_INVOKABLE bool hasDetails() { return true; }
 
+    ThumbnailFormat thumbnailFormat() const { return ThumbnailFormatLandscape; }
+
 public slots:
     void refresh();
 

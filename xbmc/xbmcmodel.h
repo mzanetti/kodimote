@@ -27,10 +27,12 @@
 class XbmcModel : public QAbstractItemModel
 {
     Q_OBJECT
+    Q_ENUMS(ThumbnailFormat)
     Q_PROPERTY(QString title READ title NOTIFY titleChanged)
     Q_PROPERTY(int count READ rowCount NOTIFY layoutChanged)
     Q_PROPERTY(bool busy READ busy NOTIFY busyChanged)
     Q_PROPERTY(bool ignoreArticle READ ignoreArticle WRITE setIgnoreArticle NOTIFY ignoreArticleChanged)
+    Q_PROPERTY(ThumbnailFormat thumbnailFormat READ thumbnailFormat NOTIFY thumbnailFormatChanged)
 
 public:
     enum Roles {
@@ -73,9 +75,17 @@ public:
         RoleCast
     };
 
+    enum ThumbnailFormat {
+        ThumbnailFormatSquare,
+        ThumbnailFormatLandscape,
+        ThumbnailFormatPortrait
+    };
+
     explicit XbmcModel(XbmcModel *parent = 0);
     virtual ~XbmcModel();
     Q_INVOKABLE XbmcModel *parentModel() const;
+
+    QVariant data(const QModelIndex &index, int role) const;
 
     int columnCount(const QModelIndex &parent) const;
     QModelIndex index(int row, int column, const QModelIndex &parent) const;
@@ -97,6 +107,9 @@ public:
     bool ignoreArticle() const;
     void setIgnoreArticle(bool ignoreArticle);
 
+    virtual ThumbnailFormat thumbnailFormat() const { return ThumbnailFormatSquare; }
+
+    Q_INVOKABLE void imageFetched(int id);
 public slots:
     virtual void refresh() = 0;
 
@@ -105,6 +118,7 @@ signals:
     void layoutChanged();
     void busyChanged();
     void ignoreArticleChanged();
+    void thumbnailFormatChanged();
 
 protected:
     XbmcModel *m_parentModel;
@@ -113,6 +127,8 @@ protected:
 private:
     bool m_busy;
     bool m_ignoreArticle;
+
+    mutable QHash<int, int> m_imageFetchJobs; // This is a cache... needs to be modified in data() which is const
 };
 
 #endif // XBMCMODEL_H

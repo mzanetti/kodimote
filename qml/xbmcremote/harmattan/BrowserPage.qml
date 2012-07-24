@@ -2,6 +2,7 @@ import QtQuick 1.1
 import com.nokia.meego 1.0
 import Xbmc 1.0
 
+
 Page {
     id: browserPage
     tools: toolBarBack
@@ -169,6 +170,7 @@ Page {
         model: filterModel
 
         property bool draggedForSearch: browserPage.model.allowSearch && contentY < -100
+        property bool useThumbnails: settings.useThumbnails
 
 
         onDraggedForSearchChanged: {
@@ -177,14 +179,14 @@ Page {
 
         delegate:  Item {
             id: listItem
-            height: 88
+            height: browserPage.model.thumbnailFormat === XbmcModel.ThumbnailFormatPortrait ? 122 : 88
             width: parent.width
-            ListView.delayRemove: thumbnailImage.status == Image.Loading
+            //ListView.delayRemove: thumbnailImage.status == Image.Loading
             state: "collapsed"
 
             MouseArea {
                 id: mouseArea
-                anchors.fill: background
+                anchors.fill: parent
 
                 onPressed: listView.currentIndex = index
 
@@ -238,48 +240,66 @@ Page {
                 visible: playcount === 0
             }
 
-            Image {
+            Thumbnail {
                 id: thumbnailImage
-                height: 86
+                height: parent.height - 2
+                width: browserPage.model.thumbnailFormat === XbmcModel.ThumbnailFormatPortrait ? 80 : (browserPage.model.thumbnailFormat === XbmcModel.ThumbnailFormatLandscape ? 152 : height)
+
                 anchors.left: highlightBar.right
                 anchors.leftMargin: 2
                 anchors.top: parent.top
                 anchors.topMargin: 1
-                fillMode: Image.PreserveAspectFit
-                smooth: false
-                source: settings.useThumbnails ? thumbnail : ""
-                sourceSize.height: 86
-                visible: settings.useThumbnails
+                visible: listView.useThumbnails
+
+                artworkSource: thumbnail
+                defaultText: title
             }
 
             Row {
                 id: itemRow
                 anchors {left: parent.left; top: parent.top; right: parent.right }
-                height: 88
+                height: listItem.height
                 anchors.leftMargin: thumbnailImage.width + 15
                 anchors.rightMargin: 5
 
                 Column {
                     anchors.verticalCenter: parent.verticalCenter
 
-                    Label {
+                    Text {
                         id: mainText
                         text: title
                         font.weight: Font.Bold
                         font.pixelSize: 26
-                        width: itemRow.width - (arrow.visible ? arrow.width : 0)
+                        width: itemRow.width - arrow.width
                         elide: Text.ElideRight
+                        font.family: platformStyle.fontFamily
+                        color: platformStyle.textColor
+                        property Style platformStyle: LabelStyle { fontFamily: listHeaderLabel.font.family }
                     }
 
-                    Label {
+                    Text {
                         id: subText
                         text: subtitle
                         font.weight: Font.Light
                         font.pixelSize: 24
                         color: theme.inverted ? "#7b797b" : "#848684"
-                        width: itemRow.width - (arrow.visible ? arrow.width : 0)
+                        width: mainText.width
                         elide: Text.ElideRight
                         visible: text != ""
+                        font.family: platformStyle.fontFamily
+                        property Style platformStyle: LabelStyle { fontFamily: listHeaderLabel.font.family }
+                    }
+                    Text {
+                        id: subSubText
+                        text: year
+                        font.weight: Font.Light
+                        font.pixelSize: 24
+                        color: theme.inverted ? "#7b797b" : "#848684"
+                        width: mainText.width
+                        elide: Text.ElideRight
+                        visible: text != ""
+                        font.family: platformStyle.fontFamily
+                        property Style platformStyle: LabelStyle { fontFamily: listHeaderLabel.font.family }
                     }
                 }
             }
@@ -428,6 +448,7 @@ Page {
         anchors {left: parent.left; top: parent.top; right: parent.right }
         source: "image://theme/meegotouch-view-header-fixed" + (theme.inverted ? "-inverted" : "")
         Label {
+            id: listHeaderLabel
             anchors.margins: 10
             anchors.fill: parent
             anchors.verticalCenter: listHeader.verticalCenter
@@ -464,5 +485,4 @@ Page {
         running: model.busy
         visible: model.busy
     }
-
 }

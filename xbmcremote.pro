@@ -47,7 +47,8 @@ SOURCES += main.cpp \
     ui/authenticationdialog.cpp \
     xbmc/xbmcdownload.cpp \
     xbmc/xbmcfiltermodel.cpp \
-    gesturehelper.cpp
+    gesturehelper.cpp \
+    xbmc/imagecache.cpp
 
 # header used on all platforms
 HEADERS += xbmc/xbmc.h \
@@ -91,7 +92,8 @@ HEADERS += xbmc/xbmc.h \
     ui/authenticationdialog.h \
     xbmc/xbmcdownload.h \
     xbmc/xbmcfiltermodel.h \
-    gesturehelper.h
+    gesturehelper.h \
+    xbmc/imagecache.h
 
 # to make lupdate parse QML files AND a pro file, the QML files need to be added here.
 # edit and/or call ./messages.sh to extend/update the translations

@@ -37,9 +37,12 @@ public:
     QString title() const;
 
     Q_INVOKABLE void fetchItemDetails(int index);
+    Q_INVOKABLE bool hasShortDetails() { return true; }
     Q_INVOKABLE bool hasDetails() { return true; }
 
     Q_INVOKABLE virtual void download(int index, const QString &path);
+
+    ThumbnailFormat thumbnailFormat() const { return ThumbnailFormatPortrait; }
 
 public slots:
     void refresh();

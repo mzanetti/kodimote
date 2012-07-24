@@ -18,11 +18,6 @@ XbmcLibrary::~XbmcLibrary()
 {
 }
 
-QVariant XbmcLibrary::data(const QModelIndex &index, int role) const
-{
-    return m_list.at(index.row())->data(role);
-}
-
 XbmcModel* XbmcLibrary::exit()
 {
     deleteLater();

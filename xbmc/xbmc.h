@@ -39,6 +39,8 @@ class Keys;
 
 class XbmcDownload;
 
+class ImageCache;
+
 class Xbmc : public QObject
 {
     Q_OBJECT
@@ -99,6 +101,8 @@ public:
     bool canReboot();
     bool canHibernate();
     bool canSuspend();
+
+    ImageCache *imageCache();
 
 public slots:
     void quit();
@@ -166,6 +170,8 @@ private:
     bool m_canReboot;
     bool m_canHibernate;
     bool m_canSuspend;
+
+    ImageCache *m_imageCache;
 };
 
 #endif // XBMC_H

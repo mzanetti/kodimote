@@ -13,6 +13,7 @@ class XbmcModelItem: public QObject
 
 public:
     XbmcModelItem(const QString &title = QString(), const QString &subTitle = QString());
+    ~XbmcModelItem() {}
 
     virtual QVariant data(int role) const;
 

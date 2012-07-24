@@ -73,8 +73,11 @@ void Movies::refresh()
     QVariantMap params;
     QVariantList properties;
     properties.append("fanart");
+    properties.append("thumbnail");
     properties.append("playcount");
     properties.append("file");
+    properties.append("genre");
+    properties.append("year");
     params.insert("properties", properties);
 
     QVariantMap sort;
@@ -151,7 +154,7 @@ void Movies::listReceived(const QVariantMap &rsp)
 {
     setBusy(false);
     QList<XbmcModelItem*> list;
-    qDebug() << "got movies:" << rsp.value("result");
+    //qDebug() << "got movies:" << rsp.value("result");
     QVariantList responseList = rsp.value("result").toMap().value("movies").toList();
     int index = 0;
     m_idIndexMapping.clear();
@@ -159,8 +162,11 @@ void Movies::listReceived(const QVariantMap &rsp)
         QVariantMap itemMap = itemVariant.toMap();
         LibraryItem *item = new LibraryItem();
         item->setTitle(itemMap.value("label").toString());
+        item->setSubtitle(itemMap.value("genre").toString());
         item->setMovieId(itemMap.value("movieid").toInt());
-        item->setThumbnail(itemMap.value("fanart").toString());
+        item->setYear(itemMap.value("year").toString());
+        item->setFanart(itemMap.value("fanart").toString());
+        item->setThumbnail(itemMap.value("thumbnail").toString());
         item->setPlaycount(itemMap.value("playcount").toInt());
         item->setFileName(itemMap.value("file").toString());
         item->setIgnoreArticle(ignoreArticle());

@@ -47,6 +47,8 @@
 
 #include "settings.h"
 
+#include "imagecache.h"
+
 #include <QSettings>
 #include <QtDeclarative>
 
@@ -65,14 +67,14 @@ Xbmc::Xbmc(QObject *parent) :
     m_canShutdown(false),
     m_canReboot(false),
     m_canHibernate(false),
-    m_canSuspend(false)
+    m_canSuspend(false),
+    m_imageCache(new ImageCache(this))
 {
     qmlRegisterType<AudioLibrary>();
     qmlRegisterType<VideoLibrary>();
-    qmlRegisterType<Artists>();
-    qmlRegisterType<XbmcModel>();
     qmlRegisterType<LibraryItem>();
     qmlRegisterType<XbmcModelItem>();
+    qmlRegisterType<XbmcModel>();
     qmlRegisterType<XbmcLibrary>();
     qmlRegisterType<Player>();
     qmlRegisterType<AudioPlayer>();
@@ -87,6 +89,9 @@ Xbmc::Xbmc(QObject *parent) :
     qmlRegisterType<Keys>();
     qmlRegisterType<XbmcFilterModel>("Xbmc", 1, 0, "XbmcFilterModel");
 
+    // Hack: QML seems to have problems with enums exposed by a qmlRegisterUncreatableType
+    // Because XbmcModel and Player are abstract, lets register one of their subclasses
+    qmlRegisterType<Artists>("Xbmc", 1, 0, "XbmcModel");
     qmlRegisterType<AudioPlayer>("Xbmc", 1, 0, "Player");
 
     qmlRegisterType<XbmcHostModel>();
@@ -445,4 +450,9 @@ bool Xbmc::canHibernate()
 bool Xbmc::canSuspend()
 {
     return m_canSuspend;
+}
+
+ImageCache *Xbmc::imageCache()
+{
+    return m_imageCache;
 }

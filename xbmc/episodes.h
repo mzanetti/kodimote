@@ -40,6 +40,8 @@ public:
     Q_INVOKABLE bool hasDetails() { return true; }
 
     Q_INVOKABLE void download(int index, const QString &path);
+
+    ThumbnailFormat thumbnailFormat() const { return ThumbnailFormatLandscape; }
 public slots:
     void refresh();
 

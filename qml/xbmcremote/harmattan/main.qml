@@ -26,7 +26,7 @@ PageStackWindow {
 
     InfoBanner {
         id: notificationBanner
-        topMargin: 40
+        anchors.topMargin: 40
     }
 
     MainPage{

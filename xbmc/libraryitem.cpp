@@ -1,5 +1,4 @@
 #include "libraryitem.h"
-#include "xbmc.h"
 
 LibraryItem::LibraryItem(const QString &title, const QString &subTitle):
     XbmcModelItem(title, subTitle),
@@ -57,9 +56,6 @@ QVariant LibraryItem::data(int role) const
     case XbmcModel::RoleFileName:
         return m_fileName;
     case XbmcModel::RoleThumbnail:
-        if(!m_thumbnail.isEmpty()) {
-            return Xbmc::instance()->vfsPath() + m_thumbnail;
-        }
         return m_thumbnail;
     case XbmcModel::RoleFileType:
         return m_fileType;

@@ -17,6 +17,8 @@
  ****************************************************************************/
 
 #include "xbmcmodel.h"
+#include "xbmc.h"
+#include "imagecache.h"
 
 #include <QDebug>
 
@@ -73,6 +75,24 @@ XbmcModel *XbmcModel::parentModel() const
     return m_parentModel;
 }
 
+QVariant XbmcModel::data(const QModelIndex &index, int role) const
+{
+    // Lets add a cache here
+    if(role == RoleThumbnail) {
+        QString thumbnail = m_list.at(index.row())->data(role).toString();
+        if(thumbnail.isEmpty()) {
+            return QString();
+        }
+        if(Xbmc::instance()->imageCache()->contains(thumbnail)) {
+            return Xbmc::instance()->imageCache()->cachedFile(thumbnail);
+        }
+        int job = Xbmc::instance()->imageCache()->fetch(thumbnail, const_cast<XbmcModel*>(this), "imageFetched");
+        m_imageFetchJobs.insert(job, index.row());
+        return QString();
+    }
+    return m_list.at(index.row())->data(role);
+}
+
 int XbmcModel::columnCount(const QModelIndex &parent) const
 {
     Q_UNUSED(parent)
@@ -127,4 +147,13 @@ void XbmcModel::setIgnoreArticle(bool ignoreArticle)
 {
     m_ignoreArticle = ignoreArticle;
     emit ignoreArticleChanged();
+}
+
+void XbmcModel::imageFetched(int id)
+{
+    if(m_imageFetchJobs.contains(id)) {
+        QModelIndex changedIndex = index(m_imageFetchJobs.value(id), 0, QModelIndex());
+        emit dataChanged(changedIndex, changedIndex);
+        m_imageFetchJobs.remove(id);
+    }
 }

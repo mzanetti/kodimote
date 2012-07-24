@@ -57,8 +57,9 @@ public:
         RepeatAll
     };
 
-    Player() {};
+    Player() {}
     explicit Player(PlayerType type, QObject *parent = 0);
+    ~Player() {}
 
     QString state() const;
     int speed() const;
