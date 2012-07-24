@@ -5,6 +5,9 @@
 #include "xbmcdownload.h"
 #include "xbmc.h"
 #include "player.h"
+#include "audioplayer.h"
+#include "videoplayer.h"
+
 #include "libraryitem.h"
 
 #include <QTimer>
@@ -15,6 +18,9 @@ XbmcLibrary::XbmcLibrary(XbmcModel *parent) :XbmcModel(parent), m_deleteAfterDow
     // Refresh the model automatically on the next event loop run.
     // This is to give QML time to create the object and set properties before the refresh
     QTimer::singleShot(0, this, SLOT(refresh()));
+
+    connect(Xbmc::instance()->audioPlayer(), SIGNAL(currentItemChanged()), SLOT(currentItemChanged()));
+    connect(Xbmc::instance()->videoPlayer(), SIGNAL(currentItemChanged()), SLOT(currentItemChanged()));
 }
 
 XbmcLibrary::~XbmcLibrary()
@@ -107,4 +113,9 @@ void XbmcLibrary::downloadReceived(const QVariantMap &rsp)
         qDebug() << "Deleting download model";
         deleteLater();
     }
+}
+
+void XbmcLibrary::currentItemChanged()
+{
+    emit dataChanged(index(0, 0, QModelIndex()), index(m_list.count()-1, 0, QModelIndex()));
 }

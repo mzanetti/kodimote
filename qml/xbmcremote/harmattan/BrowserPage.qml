@@ -242,7 +242,7 @@ Page {
 
             Thumbnail {
                 id: thumbnailImage
-                height: parent.height - 2
+                height: browserPage.model.thumbnailFormat === XbmcModel.ThumbnailFormatPortrait ? 120 : 86
                 width: browserPage.model.thumbnailFormat === XbmcModel.ThumbnailFormatPortrait ? 80 : (browserPage.model.thumbnailFormat === XbmcModel.ThumbnailFormatLandscape ? 152 : height)
 
                 anchors.left: highlightBar.right
@@ -253,6 +253,23 @@ Page {
 
                 artworkSource: thumbnail
                 defaultText: title
+
+                Image {
+                    id: playingOverlay
+                    source: playingState === "playing" ? "image://theme/icon-l-common-video-playback" : "image://theme/icon-l-pause"
+                    visible: playingState !== ""
+//                    height: 60
+//                    width: 60
+                    z: 2
+                    anchors.centerIn: thumbnailImage
+
+                    SequentialAnimation on opacity {
+                        loops: Animation.Infinite
+                        running: playingOverlay.visible
+                        NumberAnimation {target: playingOverlay; properties: "opacity"; from: 1; to: 0.5; duration: 1000; easing.type: Easing.InOutQuad}
+                        NumberAnimation {target: playingOverlay; properties: "opacity"; from: 0.5; to: 1; duration: 1000; easing.type: Easing.InOutQuad}
+                    }
+                }
             }
 
             Row {
@@ -275,6 +292,14 @@ Page {
                         font.family: platformStyle.fontFamily
                         color: platformStyle.textColor
                         property Style platformStyle: LabelStyle { fontFamily: listHeaderLabel.font.family }
+
+                        states: [
+                            State {
+                                name: "highlighted"; when: playingState === "playing" || playingState === "paused"
+                                PropertyChanges { target: mainText; color: theme.inverted ? "#21496b" : "#318ee7" }
+                            }
+
+                        ]
                     }
 
                     Text {

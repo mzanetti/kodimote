@@ -41,6 +41,8 @@ protected:
 private slots:
     void downloadReceived(const QVariantMap &rsp);
 
+    void currentItemChanged();
+
 signals:
     void allowSearchChanged();
 
