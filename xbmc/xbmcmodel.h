@@ -77,6 +77,7 @@ public:
     };
 
     enum ThumbnailFormat {
+        ThumbnailFormatNone,
         ThumbnailFormatSquare,
         ThumbnailFormatLandscape,
         ThumbnailFormatPortrait

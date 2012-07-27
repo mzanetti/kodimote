@@ -242,14 +242,14 @@ Page {
 
             Thumbnail {
                 id: thumbnailImage
-                height: browserPage.model.thumbnailFormat === XbmcModel.ThumbnailFormatPortrait ? 120 : 86
+                height: browserPage.model.thumbnailFormat === XbmcModel.ThumbnailFormatPortrait ? 120 : (browserPage.model.thumbnailFormat === XbmcModel.ThumbnailFormatNone ? 0 : 86 )
                 width: browserPage.model.thumbnailFormat === XbmcModel.ThumbnailFormatPortrait ? 80 : (browserPage.model.thumbnailFormat === XbmcModel.ThumbnailFormatLandscape ? 152 : height)
 
                 anchors.left: highlightBar.right
                 anchors.leftMargin: 2
                 anchors.top: parent.top
                 anchors.topMargin: 1
-                visible: listView.useThumbnails
+                visible: listView.useThumbnails && browserPage.model.thumbnailFormat !== XbmcModel.ThumbnailFormatNone
 
                 artworkSource: thumbnail
                 defaultText: title

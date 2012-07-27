@@ -37,6 +37,8 @@ public:
 
     bool allowSearch();
 
+    ThumbnailFormat thumbnailFormat() const { return ThumbnailFormatNone; }
+
 public slots:
     void scanForContent();
     void clean();
