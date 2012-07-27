@@ -315,7 +315,26 @@ void Player::detailsReceived(const QVariantMap &rsp)
         m_currentItem->deleteLater();
     }
     m_currentItem = new LibraryItem();
-    m_currentItem->setType(itemMap.value("type").toString());
+
+    int id = itemMap.value("id").toInt();
+    QString type = itemMap.value("type").toString();
+    if(type == "episode") {
+        m_currentItem->setEpisodeId(id);
+    } else if(type == "movie") {
+        m_currentItem->setMovieId(id);
+    } else if(type == "musicvideo") {
+        m_currentItem->setMusicvideoId(id);
+    } else if(type == "song") {
+        m_currentItem->setSongId(id);
+    } else if(type == "album") {
+        m_currentItem->setAlbumId(id);
+    } else if(type == "artist") {
+        m_currentItem->setArtistId(id);
+    }
+
+    m_currentItem->setType(type);
+
+
     m_currentItem->setTitle(itemMap.value("label").toString());
     if(itemMap.value("type").toString() == "song") {
         m_currentItem->setSubtitle(itemMap.value("artist").toString());

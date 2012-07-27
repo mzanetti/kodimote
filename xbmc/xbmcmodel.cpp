@@ -19,6 +19,7 @@
 #include "xbmcmodel.h"
 #include "xbmc.h"
 #include "imagecache.h"
+#include "player.h"
 
 #include <QDebug>
 

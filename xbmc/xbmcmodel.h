@@ -72,7 +72,8 @@ public:
         RoleDisbanded,
         RoleComment,
         RolePlaycount,
-        RoleCast
+        RoleCast,
+        RolePlayingState
     };
 
     enum ThumbnailFormat {
@@ -85,7 +86,7 @@ public:
     virtual ~XbmcModel();
     Q_INVOKABLE XbmcModel *parentModel() const;
 
-    QVariant data(const QModelIndex &index, int role) const;
+    virtual QVariant data(const QModelIndex &index, int role) const;
 
     int columnCount(const QModelIndex &parent) const;
     QModelIndex index(int row, int column, const QModelIndex &parent) const;

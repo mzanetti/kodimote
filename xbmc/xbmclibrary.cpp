@@ -3,6 +3,9 @@
 #include "xbmchostmodel.h"
 #include "xbmcconnection.h"
 #include "xbmcdownload.h"
+#include "xbmc.h"
+#include "player.h"
+#include "libraryitem.h"
 
 #include <QTimer>
 #include <QFileInfo>
@@ -16,6 +19,28 @@ XbmcLibrary::XbmcLibrary(XbmcModel *parent) :XbmcModel(parent), m_deleteAfterDow
 
 XbmcLibrary::~XbmcLibrary()
 {
+}
+
+QVariant XbmcLibrary::data(const QModelIndex &index, int role) const
+{
+    if(role == RolePlayingState) {
+        if(!Xbmc::instance()->activePlayer() || !Xbmc::instance()->activePlayer()->currentItem()) {
+            return "";
+        }
+        LibraryItem *thisItem = qobject_cast<LibraryItem*>(m_list.at(index.row()));
+        LibraryItem *currentItem = Xbmc::instance()->activePlayer()->currentItem();
+        if(thisItem->artistId() == currentItem->artistId() &&
+               thisItem->albumId() == currentItem->albumId() &&
+               thisItem->songId() == currentItem->songId() &&
+               thisItem->movieId() == currentItem->movieId() &&
+               thisItem->episodeId() == currentItem->episodeId()) {
+            return Xbmc::instance()->activePlayer()->state();
+        }
+        return "";
+    }
+
+
+    return XbmcModel::data(index, role);
 }
 
 XbmcModel* XbmcLibrary::exit()

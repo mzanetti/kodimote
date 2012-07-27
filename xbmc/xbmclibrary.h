@@ -14,6 +14,8 @@ public:
     XbmcLibrary(XbmcModel *parent = 0);
     ~XbmcLibrary();
 
+    virtual QVariant data(const QModelIndex &index, int role) const;
+
     Q_INVOKABLE virtual XbmcModel *enterItem(int index) = 0;
     Q_INVOKABLE virtual XbmcModel *exit();
 
