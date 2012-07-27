@@ -338,7 +338,9 @@ void XbmcConnectionPrivate::replyReceived()
 
         if(m_callbacks.contains(id)) {
             Callback callback = m_callbacks.take(id);
-            QMetaObject::invokeMethod(callback.receiver(), callback.member().toAscii(), Qt::DirectConnection, Q_ARG(const QVariantMap&, rsp));
+            if(!callback.receiver().isNull()) {
+                QMetaObject::invokeMethod(callback.receiver().data(), callback.member().toAscii(), Qt::DirectConnection, Q_ARG(const QVariantMap&, rsp));
+            }
         }
 
         if(m_currentPendingCommand.id() == id) {
@@ -475,7 +477,9 @@ void XbmcConnectionPrivate::readData()
         int id = rsp.value("id").toInt();
         if(m_callbacks.contains(id)) {
             Callback callback = m_callbacks.take(id);
-            QMetaObject::invokeMethod(callback.receiver(), callback.member().toAscii(), Qt::DirectConnection, Q_ARG(const QVariantMap&, rsp));
+            if(!callback.receiver().isNull()) {
+                QMetaObject::invokeMethod(callback.receiver().data(), callback.member().toAscii(), Qt::DirectConnection, Q_ARG(const QVariantMap&, rsp));
+            }
 
             if(m_currentPendingCommand.id() == id) {
 //                m_commandQueue.removeFirst();

@@ -30,6 +30,7 @@
 #include <QNetworkAccessManager>
 #include <QDate>
 #include <QFile>
+#include <QPointer>
 
 class XbmcDownload;
 
@@ -59,14 +60,14 @@ class Callback
 {
 public:
     Callback() {}
-    Callback(QObject *receiver, const QString &member):
+    Callback(QPointer<QObject> receiver, const QString &member):
         m_receiver(receiver), m_member(member) {}
 
-    QObject *receiver() { return m_receiver; }
+    QPointer<QObject> receiver() { return m_receiver; }
     QString member() { return m_member; }
 
 private:
-    QObject *m_receiver;
+    QPointer<QObject> m_receiver;
     QString m_member;
 };
 
