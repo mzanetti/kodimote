@@ -21,6 +21,8 @@ XbmcLibrary::XbmcLibrary(XbmcModel *parent) :XbmcModel(parent), m_deleteAfterDow
 
     connect(Xbmc::instance()->audioPlayer(), SIGNAL(currentItemChanged()), SLOT(currentItemChanged()));
     connect(Xbmc::instance()->videoPlayer(), SIGNAL(currentItemChanged()), SLOT(currentItemChanged()));
+    connect(Xbmc::instance()->audioPlayer(), SIGNAL(stateChanged()), SLOT(currentItemChanged()));
+    connect(Xbmc::instance()->videoPlayer(), SIGNAL(stateChanged()), SLOT(currentItemChanged()));
 }
 
 XbmcLibrary::~XbmcLibrary()
