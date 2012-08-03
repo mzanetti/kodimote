@@ -37,7 +37,7 @@
 <context>
     <name>Albums</name>
     <message>
-        <location filename="../xbmc/albums.cpp" line="183"/>
+        <location filename="../xbmc/albums.cpp" line="174"/>
         <source>Albums</source>
         <translation>Álbuns</translation>
     </message>
@@ -45,7 +45,7 @@
 <context>
     <name>Artists</name>
     <message>
-        <location filename="../xbmc/artists.cpp" line="173"/>
+        <location filename="../xbmc/artists.cpp" line="166"/>
         <source>Artists</source>
         <translation>Artistas</translation>
     </message>
@@ -77,7 +77,7 @@
     <name>AudioPlaylist</name>
     <message>
         <location filename="../qml/xbmcremote/fremantle/AudioPlaylist.qml" line="44"/>
-        <location filename="../xbmc/audioplaylist.cpp" line="152"/>
+        <location filename="../xbmc/audioplaylist.cpp" line="148"/>
         <source>Now Playing</source>
         <translation>Em Reprodução</translation>
     </message>
@@ -103,7 +103,7 @@
         <translation>Limpar playlist</translation>
     </message>
     <message>
-        <location filename="../xbmc/audioplaylist.cpp" line="152"/>
+        <location filename="../xbmc/audioplaylist.cpp" line="148"/>
         <source>Music</source>
         <translation>Música</translation>
     </message>
@@ -210,28 +210,28 @@
         <translation>Porta HTTP:</translation>
     </message>
     <message>
-        <location filename="../ui/connectdialog.cpp" line="85"/>
+        <location filename="../ui/connectdialog.cpp" line="86"/>
         <source>MAC Address (optional):</source>
         <translation>Endereço MAC (opcional):</translation>
     </message>
     <message>
-        <location filename="../ui/connectdialog.cpp" line="109"/>
+        <location filename="../ui/connectdialog.cpp" line="110"/>
         <source>Connect</source>
         <translation>Ligar</translation>
     </message>
     <message>
-        <location filename="../ui/connectdialog.cpp" line="112"/>
-        <location filename="../ui/connectdialog.cpp" line="163"/>
+        <location filename="../ui/connectdialog.cpp" line="113"/>
+        <location filename="../ui/connectdialog.cpp" line="164"/>
         <source>Add Host</source>
         <translation>Adicionar XBMC</translation>
     </message>
     <message>
-        <location filename="../ui/connectdialog.cpp" line="115"/>
+        <location filename="../ui/connectdialog.cpp" line="116"/>
         <source>Remove Host</source>
         <translation>Remover XBMC</translation>
     </message>
     <message>
-        <location filename="../ui/connectdialog.cpp" line="156"/>
+        <location filename="../ui/connectdialog.cpp" line="157"/>
         <source>Back</source>
         <translation>Voltar</translation>
     </message>
@@ -240,7 +240,7 @@
     <name>ConnectionSheet</name>
     <message>
         <location filename="../qml/xbmcremote/harmattan/ConnectionSheet.qml" line="8"/>
-        <location filename="../qml/xbmcremote/symbian/ConnectionSheet.qml" line="166"/>
+        <location filename="../qml/xbmcremote/symbian/ConnectionSheet.qml" line="167"/>
         <source>Connect</source>
         <translation>Ligar</translation>
     </message>
@@ -311,13 +311,13 @@
         <translation>Porta HTTP:</translation>
     </message>
     <message>
-        <location filename="../qml/xbmcremote/harmattan/ConnectionSheet.qml" line="172"/>
-        <location filename="../qml/xbmcremote/symbian/ConnectionSheet.qml" line="155"/>
+        <location filename="../qml/xbmcremote/harmattan/ConnectionSheet.qml" line="173"/>
+        <location filename="../qml/xbmcremote/symbian/ConnectionSheet.qml" line="156"/>
         <source>MAC Address for WakeOnLan (optional):</source>
         <translation>Endereço MAC para WakeOnLan (opcional):</translation>
     </message>
     <message>
-        <location filename="../qml/xbmcremote/harmattan/ConnectionSheet.qml" line="183"/>
+        <location filename="../qml/xbmcremote/harmattan/ConnectionSheet.qml" line="184"/>
         <source>Back</source>
         <translation>Voltar</translation>
     </message>
@@ -337,17 +337,17 @@
         <translation>Remover %1</translation>
     </message>
     <message>
-        <location filename="../qml/xbmcremote/symbian/ConnectionSheet.qml" line="216"/>
+        <location filename="../qml/xbmcremote/symbian/ConnectionSheet.qml" line="217"/>
         <source>Remove host?</source>
         <translation>Remover anfitrião?</translation>
     </message>
     <message>
-        <location filename="../qml/xbmcremote/symbian/ConnectionSheet.qml" line="236"/>
+        <location filename="../qml/xbmcremote/symbian/ConnectionSheet.qml" line="237"/>
         <source>Yes</source>
         <translation>Sim</translation>
     </message>
     <message>
-        <location filename="../qml/xbmcremote/symbian/ConnectionSheet.qml" line="243"/>
+        <location filename="../qml/xbmcremote/symbian/ConnectionSheet.qml" line="244"/>
         <source>No</source>
         <translation>Não</translation>
     </message>
@@ -355,7 +355,7 @@
 <context>
     <name>Episodes</name>
     <message>
-        <location filename="../xbmc/episodes.cpp" line="191"/>
+        <location filename="../xbmc/episodes.cpp" line="221"/>
         <source>Episodes</source>
         <translation>Episódios</translation>
     </message>
@@ -392,161 +392,161 @@
     <name>ItemDetails</name>
     <message>
         <location filename="../qml/xbmcremote/fremantle/ItemDetails.qml" line="93"/>
-        <location filename="../qml/xbmcremote/harmattan/ItemDetails.qml" line="45"/>
+        <location filename="../qml/xbmcremote/harmattan/ItemDetails.qml" line="44"/>
         <location filename="../qml/xbmcremote/symbian/ItemDetails.qml" line="35"/>
         <source>Rating:</source>
         <translation>Pontuação:</translation>
     </message>
     <message>
         <location filename="../qml/xbmcremote/fremantle/ItemDetails.qml" line="99"/>
-        <location filename="../qml/xbmcremote/harmattan/ItemDetails.qml" line="64"/>
+        <location filename="../qml/xbmcremote/harmattan/ItemDetails.qml" line="63"/>
         <location filename="../qml/xbmcremote/symbian/ItemDetails.qml" line="54"/>
         <source>Season:</source>
         <translation>Época:</translation>
     </message>
     <message>
         <location filename="../qml/xbmcremote/fremantle/ItemDetails.qml" line="105"/>
-        <location filename="../qml/xbmcremote/harmattan/ItemDetails.qml" line="70"/>
+        <location filename="../qml/xbmcremote/harmattan/ItemDetails.qml" line="69"/>
         <location filename="../qml/xbmcremote/symbian/ItemDetails.qml" line="60"/>
         <source>Episode:</source>
         <translation>Episódio:</translation>
     </message>
     <message>
         <location filename="../qml/xbmcremote/fremantle/ItemDetails.qml" line="111"/>
-        <location filename="../qml/xbmcremote/harmattan/ItemDetails.qml" line="76"/>
+        <location filename="../qml/xbmcremote/harmattan/ItemDetails.qml" line="75"/>
         <location filename="../qml/xbmcremote/symbian/ItemDetails.qml" line="66"/>
         <source>First aired:</source>
         <translation>Transmitido:</translation>
     </message>
     <message>
         <location filename="../qml/xbmcremote/fremantle/ItemDetails.qml" line="117"/>
-        <location filename="../qml/xbmcremote/harmattan/ItemDetails.qml" line="82"/>
+        <location filename="../qml/xbmcremote/harmattan/ItemDetails.qml" line="81"/>
         <location filename="../qml/xbmcremote/symbian/ItemDetails.qml" line="72"/>
         <source>Genre:</source>
         <translation>Género:</translation>
     </message>
     <message>
         <location filename="../qml/xbmcremote/fremantle/ItemDetails.qml" line="123"/>
-        <location filename="../qml/xbmcremote/harmattan/ItemDetails.qml" line="88"/>
+        <location filename="../qml/xbmcremote/harmattan/ItemDetails.qml" line="87"/>
         <location filename="../qml/xbmcremote/symbian/ItemDetails.qml" line="78"/>
         <source>Year:</source>
         <translation>Ano:</translation>
     </message>
     <message>
         <location filename="../qml/xbmcremote/fremantle/ItemDetails.qml" line="129"/>
-        <location filename="../qml/xbmcremote/harmattan/ItemDetails.qml" line="94"/>
+        <location filename="../qml/xbmcremote/harmattan/ItemDetails.qml" line="93"/>
         <location filename="../qml/xbmcremote/symbian/ItemDetails.qml" line="84"/>
         <source>Director:</source>
         <translation>Realizador:</translation>
     </message>
     <message>
         <location filename="../qml/xbmcremote/fremantle/ItemDetails.qml" line="135"/>
-        <location filename="../qml/xbmcremote/harmattan/ItemDetails.qml" line="100"/>
+        <location filename="../qml/xbmcremote/harmattan/ItemDetails.qml" line="99"/>
         <location filename="../qml/xbmcremote/symbian/ItemDetails.qml" line="90"/>
         <source>Tagline:</source>
         <translation>Slogan:</translation>
     </message>
     <message>
         <location filename="../qml/xbmcremote/fremantle/ItemDetails.qml" line="141"/>
-        <location filename="../qml/xbmcremote/harmattan/ItemDetails.qml" line="106"/>
+        <location filename="../qml/xbmcremote/harmattan/ItemDetails.qml" line="105"/>
         <location filename="../qml/xbmcremote/symbian/ItemDetails.qml" line="96"/>
         <source>MPAA:</source>
         <translation>Classificação:</translation>
     </message>
     <message>
         <location filename="../qml/xbmcremote/fremantle/ItemDetails.qml" line="147"/>
-        <location filename="../qml/xbmcremote/harmattan/ItemDetails.qml" line="112"/>
+        <location filename="../qml/xbmcremote/harmattan/ItemDetails.qml" line="111"/>
         <location filename="../qml/xbmcremote/symbian/ItemDetails.qml" line="102"/>
         <source>Instrument:</source>
         <translation>Instrumento:</translation>
     </message>
     <message>
         <location filename="../qml/xbmcremote/fremantle/ItemDetails.qml" line="153"/>
-        <location filename="../qml/xbmcremote/harmattan/ItemDetails.qml" line="118"/>
+        <location filename="../qml/xbmcremote/harmattan/ItemDetails.qml" line="117"/>
         <location filename="../qml/xbmcremote/symbian/ItemDetails.qml" line="108"/>
         <source>Style:</source>
         <translation>Estilo:</translation>
     </message>
     <message>
         <location filename="../qml/xbmcremote/fremantle/ItemDetails.qml" line="159"/>
-        <location filename="../qml/xbmcremote/harmattan/ItemDetails.qml" line="124"/>
+        <location filename="../qml/xbmcremote/harmattan/ItemDetails.qml" line="123"/>
         <location filename="../qml/xbmcremote/symbian/ItemDetails.qml" line="114"/>
         <source>Mood:</source>
         <translation>Emoção:</translation>
     </message>
     <message>
         <location filename="../qml/xbmcremote/fremantle/ItemDetails.qml" line="165"/>
-        <location filename="../qml/xbmcremote/harmattan/ItemDetails.qml" line="130"/>
+        <location filename="../qml/xbmcremote/harmattan/ItemDetails.qml" line="129"/>
         <location filename="../qml/xbmcremote/symbian/ItemDetails.qml" line="120"/>
         <source>Born:</source>
         <translation>Nascimento:</translation>
     </message>
     <message>
         <location filename="../qml/xbmcremote/fremantle/ItemDetails.qml" line="171"/>
-        <location filename="../qml/xbmcremote/harmattan/ItemDetails.qml" line="136"/>
+        <location filename="../qml/xbmcremote/harmattan/ItemDetails.qml" line="135"/>
         <location filename="../qml/xbmcremote/symbian/ItemDetails.qml" line="126"/>
         <source>Formed:</source>
         <translation>Formado:</translation>
     </message>
     <message>
         <location filename="../qml/xbmcremote/fremantle/ItemDetails.qml" line="177"/>
-        <location filename="../qml/xbmcremote/harmattan/ItemDetails.qml" line="142"/>
+        <location filename="../qml/xbmcremote/harmattan/ItemDetails.qml" line="141"/>
         <location filename="../qml/xbmcremote/symbian/ItemDetails.qml" line="132"/>
         <source>Died:</source>
         <translation>Morte:</translation>
     </message>
     <message>
         <location filename="../qml/xbmcremote/fremantle/ItemDetails.qml" line="183"/>
-        <location filename="../qml/xbmcremote/harmattan/ItemDetails.qml" line="148"/>
+        <location filename="../qml/xbmcremote/harmattan/ItemDetails.qml" line="147"/>
         <location filename="../qml/xbmcremote/symbian/ItemDetails.qml" line="138"/>
         <source>Disbanded:</source>
         <translation>Dissolvido:</translation>
     </message>
     <message>
         <location filename="../qml/xbmcremote/fremantle/ItemDetails.qml" line="189"/>
-        <location filename="../qml/xbmcremote/harmattan/ItemDetails.qml" line="154"/>
+        <location filename="../qml/xbmcremote/harmattan/ItemDetails.qml" line="153"/>
         <location filename="../qml/xbmcremote/symbian/ItemDetails.qml" line="144"/>
         <source>Duration:</source>
         <translation>Duração:</translation>
     </message>
     <message>
         <location filename="../qml/xbmcremote/fremantle/ItemDetails.qml" line="195"/>
-        <location filename="../qml/xbmcremote/harmattan/ItemDetails.qml" line="160"/>
+        <location filename="../qml/xbmcremote/harmattan/ItemDetails.qml" line="159"/>
         <location filename="../qml/xbmcremote/symbian/ItemDetails.qml" line="150"/>
         <source>Comment:</source>
         <translation>Comentário:</translation>
     </message>
     <message>
         <location filename="../qml/xbmcremote/fremantle/ItemDetails.qml" line="201"/>
-        <location filename="../qml/xbmcremote/harmattan/ItemDetails.qml" line="166"/>
+        <location filename="../qml/xbmcremote/harmattan/ItemDetails.qml" line="165"/>
         <location filename="../qml/xbmcremote/symbian/ItemDetails.qml" line="156"/>
         <source>Playcount:</source>
         <translation>Playcount:</translation>
     </message>
     <message>
         <location filename="../qml/xbmcremote/fremantle/ItemDetails.qml" line="207"/>
-        <location filename="../qml/xbmcremote/harmattan/ItemDetails.qml" line="172"/>
+        <location filename="../qml/xbmcremote/harmattan/ItemDetails.qml" line="171"/>
         <location filename="../qml/xbmcremote/symbian/ItemDetails.qml" line="162"/>
         <source>Cast:</source>
         <translation>Elenco:</translation>
     </message>
     <message>
-        <location filename="../qml/xbmcremote/harmattan/ItemDetails.qml" line="230"/>
-        <location filename="../qml/xbmcremote/harmattan/ItemDetails.qml" line="254"/>
+        <location filename="../qml/xbmcremote/harmattan/ItemDetails.qml" line="229"/>
+        <location filename="../qml/xbmcremote/harmattan/ItemDetails.qml" line="253"/>
         <location filename="../qml/xbmcremote/symbian/ItemDetails.qml" line="197"/>
         <source>Play</source>
         <translation>Reproduzir</translation>
     </message>
     <message>
-        <location filename="../qml/xbmcremote/harmattan/ItemDetails.qml" line="234"/>
-        <location filename="../qml/xbmcremote/harmattan/ItemDetails.qml" line="258"/>
+        <location filename="../qml/xbmcremote/harmattan/ItemDetails.qml" line="233"/>
+        <location filename="../qml/xbmcremote/harmattan/ItemDetails.qml" line="257"/>
         <location filename="../qml/xbmcremote/symbian/ItemDetails.qml" line="201"/>
         <source>Add to playlist</source>
         <translation>Juntar à playlist</translation>
     </message>
     <message>
-        <location filename="../qml/xbmcremote/harmattan/ItemDetails.qml" line="238"/>
-        <location filename="../qml/xbmcremote/harmattan/ItemDetails.qml" line="262"/>
+        <location filename="../qml/xbmcremote/harmattan/ItemDetails.qml" line="237"/>
+        <location filename="../qml/xbmcremote/harmattan/ItemDetails.qml" line="261"/>
         <source>Download</source>
         <translation>Descarregar</translation>
     </message>
@@ -554,24 +554,29 @@
 <context>
     <name>LibraryView</name>
     <message>
-        <location filename="../qml/xbmcremote/fremantle/LibraryView.qml" line="194"/>
+        <location filename="../qml/xbmcremote/fremantle/LibraryView.qml" line="199"/>
         <source>Play</source>
         <translation>Reproduzir</translation>
     </message>
     <message>
-        <location filename="../qml/xbmcremote/fremantle/LibraryView.qml" line="195"/>
+        <location filename="../qml/xbmcremote/fremantle/LibraryView.qml" line="200"/>
         <source>Add to playlist</source>
         <translation>Juntar à playlist</translation>
     </message>
     <message>
-        <location filename="../qml/xbmcremote/fremantle/LibraryView.qml" line="196"/>
+        <location filename="../qml/xbmcremote/fremantle/LibraryView.qml" line="201"/>
         <source>Rescan library</source>
         <translation>Refrescar biblioteca</translation>
     </message>
     <message>
-        <location filename="../qml/xbmcremote/fremantle/LibraryView.qml" line="197"/>
+        <location filename="../qml/xbmcremote/fremantle/LibraryView.qml" line="202"/>
         <source>Details</source>
         <translation>Detalhes</translation>
+    </message>
+    <message>
+        <location filename="../qml/xbmcremote/fremantle/LibraryView.qml" line="203"/>
+        <source>Download</source>
+        <translation type="unfinished">Descarregar</translation>
     </message>
 </context>
 <context>
@@ -630,28 +635,49 @@
         <source>Rescan library</source>
         <translation>Refrescar biblioteca</translation>
     </message>
+    <message>
+        <location filename="../qml/xbmcremote/harmattan/MainPage.qml" line="244"/>
+        <location filename="../qml/xbmcremote/symbian/MainPage.qml" line="213"/>
+        <source>Clean library</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>MainWindow</name>
     <message>
-        <location filename="../ui/mainwindow.cpp" line="61"/>
+        <location filename="../ui/mainwindow.cpp" line="64"/>
         <source>Connect...</source>
         <translation>Ligar...</translation>
     </message>
     <message>
-        <location filename="../ui/mainwindow.cpp" line="62"/>
+        <location filename="../ui/mainwindow.cpp" line="65"/>
         <source>Settings</source>
         <translation>Definições</translation>
     </message>
     <message>
-        <location filename="../ui/mainwindow.cpp" line="68"/>
+        <location filename="../ui/mainwindow.cpp" line="71"/>
         <source>About</source>
         <translation>Acerca</translation>
     </message>
     <message>
-        <location filename="../ui/mainwindow.cpp" line="209"/>
+        <location filename="../ui/mainwindow.cpp" line="212"/>
         <source>Incoming call</source>
         <translation>A receber chamada</translation>
+    </message>
+    <message>
+        <location filename="../ui/mainwindow.cpp" line="263"/>
+        <source>Download started: %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../ui/mainwindow.cpp" line="276"/>
+        <source>Download finished: %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../ui/mainwindow.cpp" line="278"/>
+        <source>Error downloading %1</source>
+        <translation type="unfinished">Erro ao descarregar %1</translation>
     </message>
 </context>
 <context>
@@ -666,7 +692,7 @@
 <context>
     <name>Movies</name>
     <message>
-        <location filename="../xbmc/movies.cpp" line="190"/>
+        <location filename="../xbmc/movies.cpp" line="225"/>
         <source>Movies</source>
         <translation>Filmes</translation>
     </message>
@@ -674,7 +700,7 @@
 <context>
     <name>MusicVideos</name>
     <message>
-        <location filename="../xbmc/musicvideos.cpp" line="150"/>
+        <location filename="../xbmc/musicvideos.cpp" line="180"/>
         <source>Music Videos</source>
         <translation>Videoclips</translation>
     </message>
@@ -682,29 +708,29 @@
 <context>
     <name>NfcHandler</name>
     <message>
-        <location filename="../nfchandler.cpp" line="86"/>
-        <location filename="../nfchandler.cpp" line="95"/>
-        <location filename="../nfchandler.cpp" line="112"/>
+        <location filename="../nfchandler.cpp" line="90"/>
+        <location filename="../nfchandler.cpp" line="99"/>
+        <location filename="../nfchandler.cpp" line="116"/>
         <source>NFC tag is not compatible with Xbmcremote. In order to use it with Xbmcremote you need to write connection information to it.</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../nfchandler.cpp" line="93"/>
+        <location filename="../nfchandler.cpp" line="97"/>
         <source>NFC tag is outdated. In order to use it with Xbmcremote you need to update it by rewriting connection information to it.</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../nfchandler.cpp" line="128"/>
+        <location filename="../nfchandler.cpp" line="132"/>
         <source>Tag written successfully. NOTE: This tag does not offer enough space to write all informations. Wake on LAN will not work with this tag.</source>
         <translation>Etiqueta escrita com sucesso. AVISO: Esta etiqueta não tem espaço para escrever toda a informação. Wake-on-LAN não funcionará com esta etiqueta.</translation>
     </message>
     <message>
-        <location filename="../nfchandler.cpp" line="130"/>
+        <location filename="../nfchandler.cpp" line="134"/>
         <source>Tag written successfully.</source>
         <translation>Etiqueta escrita com sucesso.</translation>
     </message>
     <message>
-        <location filename="../nfchandler.cpp" line="138"/>
+        <location filename="../nfchandler.cpp" line="142"/>
         <source>Error writing NFC tag.</source>
         <translation>Erro ao escrever etiqueta NFC.</translation>
     </message>
@@ -712,8 +738,8 @@
 <context>
     <name>NoConnectionPage</name>
     <message>
-        <location filename="../qml/xbmcremote/harmattan/NoConnectionPage.qml" line="23"/>
-        <location filename="../qml/xbmcremote/symbian/NoConnectionPage.qml" line="21"/>
+        <location filename="../qml/xbmcremote/harmattan/NoConnectionPage.qml" line="27"/>
+        <location filename="../qml/xbmcremote/symbian/NoConnectionPage.qml" line="22"/>
         <source>Connect</source>
         <translation>Ligar</translation>
     </message>
@@ -844,25 +870,25 @@
 <context>
     <name>NowPlayingPage</name>
     <message>
-        <location filename="../qml/xbmcremote/harmattan/NowPlayingPage.qml" line="240"/>
-        <location filename="../qml/xbmcremote/symbian/NowPlayingPage.qml" line="224"/>
+        <location filename="../qml/xbmcremote/harmattan/NowPlayingPage.qml" line="244"/>
+        <location filename="../qml/xbmcremote/symbian/NowPlayingPage.qml" line="228"/>
         <source>Season:</source>
         <translation>Época:</translation>
     </message>
     <message>
-        <location filename="../qml/xbmcremote/harmattan/NowPlayingPage.qml" line="240"/>
-        <location filename="../qml/xbmcremote/symbian/NowPlayingPage.qml" line="224"/>
+        <location filename="../qml/xbmcremote/harmattan/NowPlayingPage.qml" line="244"/>
+        <location filename="../qml/xbmcremote/symbian/NowPlayingPage.qml" line="228"/>
         <source>Rating:</source>
         <translation>Pontuação:</translation>
     </message>
     <message>
-        <location filename="../qml/xbmcremote/harmattan/NowPlayingPage.qml" line="240"/>
+        <location filename="../qml/xbmcremote/harmattan/NowPlayingPage.qml" line="244"/>
         <source>Episode:</source>
         <translation>Episódio:</translation>
     </message>
     <message>
-        <location filename="../qml/xbmcremote/harmattan/NowPlayingPage.qml" line="265"/>
-        <location filename="../qml/xbmcremote/symbian/NowPlayingPage.qml" line="250"/>
+        <location filename="../qml/xbmcremote/harmattan/NowPlayingPage.qml" line="269"/>
+        <location filename="../qml/xbmcremote/symbian/NowPlayingPage.qml" line="254"/>
         <source>Year:</source>
         <translation>Ano:</translation>
     </message>
@@ -870,12 +896,12 @@
 <context>
     <name>NowPlayingView</name>
     <message>
-        <location filename="../qml/xbmcremote/fremantle/NowPlayingView.qml" line="189"/>
+        <location filename="../qml/xbmcremote/fremantle/NowPlayingView.qml" line="193"/>
         <source>Now playing:</source>
         <translation>Em reprodução:</translation>
     </message>
     <message>
-        <location filename="../qml/xbmcremote/fremantle/NowPlayingView.qml" line="199"/>
+        <location filename="../qml/xbmcremote/fremantle/NowPlayingView.qml" line="203"/>
         <source>Track:</source>
         <translation>Faixa:</translation>
     </message>
@@ -883,20 +909,20 @@
 <context>
     <name>PlaylistPage</name>
     <message>
-        <location filename="../qml/xbmcremote/harmattan/PlaylistPage.qml" line="130"/>
-        <location filename="../qml/xbmcremote/symbian/PlaylistPage.qml" line="114"/>
+        <location filename="../qml/xbmcremote/harmattan/PlaylistPage.qml" line="137"/>
+        <location filename="../qml/xbmcremote/symbian/PlaylistPage.qml" line="122"/>
         <source>Play</source>
         <translation>Reproduzir</translation>
     </message>
     <message>
-        <location filename="../qml/xbmcremote/harmattan/PlaylistPage.qml" line="136"/>
-        <location filename="../qml/xbmcremote/symbian/PlaylistPage.qml" line="120"/>
+        <location filename="../qml/xbmcremote/harmattan/PlaylistPage.qml" line="143"/>
+        <location filename="../qml/xbmcremote/symbian/PlaylistPage.qml" line="128"/>
         <source>Remove from playlist</source>
         <translation>Remover da playlist</translation>
     </message>
     <message>
-        <location filename="../qml/xbmcremote/harmattan/PlaylistPage.qml" line="142"/>
-        <location filename="../qml/xbmcremote/symbian/PlaylistPage.qml" line="126"/>
+        <location filename="../qml/xbmcremote/harmattan/PlaylistPage.qml" line="149"/>
+        <location filename="../qml/xbmcremote/symbian/PlaylistPage.qml" line="134"/>
         <source>Clear playlist</source>
         <translation>Limpar playlist</translation>
     </message>
@@ -904,7 +930,7 @@
 <context>
     <name>Seasons</name>
     <message>
-        <location filename="../xbmc/seasons.cpp" line="103"/>
+        <location filename="../xbmc/seasons.cpp" line="154"/>
         <source>Seasons</source>
         <translation>Épocas</translation>
     </message>
@@ -912,29 +938,39 @@
 <context>
     <name>SettingsDialog</name>
     <message>
-        <location filename="../ui/settingsdialog.cpp" line="37"/>
+        <location filename="../ui/settingsdialog.cpp" line="38"/>
         <source>Settings</source>
         <translation>Definições</translation>
     </message>
     <message>
-        <location filename="../ui/settingsdialog.cpp" line="53"/>
+        <location filename="../ui/settingsdialog.cpp" line="65"/>
         <source>Use Thumbnails</source>
         <translation>Usar Miniaturas</translation>
     </message>
     <message>
-        <location filename="../ui/settingsdialog.cpp" line="57"/>
+        <location filename="../ui/settingsdialog.cpp" line="69"/>
+        <source>Ignore articles for sorting</source>
+        <translation type="unfinished">Ignorar artigos ao ordenar</translation>
+    </message>
+    <message>
+        <location filename="../ui/settingsdialog.cpp" line="73"/>
         <source>Change volume during calls</source>
         <translation>Mudar volume durante chamadas</translation>
     </message>
     <message>
-        <location filename="../ui/settingsdialog.cpp" line="66"/>
+        <location filename="../ui/settingsdialog.cpp" line="82"/>
         <source>Pause video during calls</source>
         <translation>Pausar vídeo durante chamadas</translation>
     </message>
     <message>
-        <location filename="../ui/settingsdialog.cpp" line="70"/>
+        <location filename="../ui/settingsdialog.cpp" line="86"/>
         <source>Pause music during calls</source>
         <translation>Pausar música durante chamadas</translation>
+    </message>
+    <message>
+        <location filename="../ui/settingsdialog.cpp" line="92"/>
+        <source>Show call notifications</source>
+        <translation type="unfinished">Mostrar notificações de chamadas</translation>
     </message>
 </context>
 <context>
@@ -979,30 +1015,35 @@
     </message>
     <message>
         <location filename="../qml/xbmcremote/harmattan/SettingsSheet.qml" line="46"/>
+        <source>Allow clicking of gesture arrows</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/xbmcremote/harmattan/SettingsSheet.qml" line="51"/>
         <location filename="../qml/xbmcremote/symbian/SettingsSheet.qml" line="39"/>
         <source>Phone calls</source>
         <translation>Chamadas</translation>
     </message>
     <message>
-        <location filename="../qml/xbmcremote/harmattan/SettingsSheet.qml" line="52"/>
+        <location filename="../qml/xbmcremote/harmattan/SettingsSheet.qml" line="57"/>
         <location filename="../qml/xbmcremote/symbian/SettingsSheet.qml" line="45"/>
         <source>Change volume</source>
         <translation>Mudar volume</translation>
     </message>
     <message>
-        <location filename="../qml/xbmcremote/harmattan/SettingsSheet.qml" line="65"/>
+        <location filename="../qml/xbmcremote/harmattan/SettingsSheet.qml" line="70"/>
         <location filename="../qml/xbmcremote/symbian/SettingsSheet.qml" line="58"/>
         <source>Pause video</source>
         <translation>Pausar vídeo</translation>
     </message>
     <message>
-        <location filename="../qml/xbmcremote/harmattan/SettingsSheet.qml" line="70"/>
+        <location filename="../qml/xbmcremote/harmattan/SettingsSheet.qml" line="75"/>
         <location filename="../qml/xbmcremote/symbian/SettingsSheet.qml" line="63"/>
         <source>Pause music</source>
         <translation>Pausar música</translation>
     </message>
     <message>
-        <location filename="../qml/xbmcremote/harmattan/SettingsSheet.qml" line="75"/>
+        <location filename="../qml/xbmcremote/harmattan/SettingsSheet.qml" line="80"/>
         <location filename="../qml/xbmcremote/symbian/SettingsSheet.qml" line="68"/>
         <source>Show call notifications</source>
         <translation>Mostrar notificações de chamadas</translation>
@@ -1011,17 +1052,17 @@
 <context>
     <name>Shares</name>
     <message>
-        <location filename="../xbmc/shares.cpp" line="95"/>
+        <location filename="../xbmc/shares.cpp" line="90"/>
         <source>Music Files</source>
         <translation>Ficheiros de Música</translation>
     </message>
     <message>
-        <location filename="../xbmc/shares.cpp" line="97"/>
+        <location filename="../xbmc/shares.cpp" line="92"/>
         <source>Video Files</source>
         <translation>Ficheiros de Vídeo</translation>
     </message>
     <message>
-        <location filename="../xbmc/shares.cpp" line="99"/>
+        <location filename="../xbmc/shares.cpp" line="94"/>
         <source>Picture Files</source>
         <translation>Ficheiros de Imagem</translation>
     </message>
@@ -1029,7 +1070,7 @@
 <context>
     <name>Songs</name>
     <message>
-        <location filename="../xbmc/songs.cpp" line="199"/>
+        <location filename="../xbmc/songs.cpp" line="192"/>
         <source>Songs</source>
         <translation>Canções</translation>
     </message>
@@ -1045,7 +1086,7 @@
 <context>
     <name>TvShows</name>
     <message>
-        <location filename="../xbmc/tvshows.cpp" line="154"/>
+        <location filename="../xbmc/tvshows.cpp" line="198"/>
         <source>TV Shows</source>
         <translation>Séries de TV</translation>
     </message>
@@ -1076,12 +1117,12 @@
 <context>
     <name>VideoPlaylist</name>
     <message>
-        <location filename="../xbmc/videoplaylist.cpp" line="163"/>
+        <location filename="../xbmc/videoplaylist.cpp" line="159"/>
         <source>Now Playing</source>
         <translation>Em Reprodução</translation>
     </message>
     <message>
-        <location filename="../xbmc/videoplaylist.cpp" line="163"/>
+        <location filename="../xbmc/videoplaylist.cpp" line="159"/>
         <source>Videos</source>
         <translation>Vídeos</translation>
     </message>
@@ -1121,12 +1162,12 @@
 <context>
     <name>Xbmc</name>
     <message>
-        <location filename="../xbmc/xbmc.cpp" line="155"/>
+        <location filename="../xbmc/xbmc.cpp" line="157"/>
         <source>Finished downloading %1</source>
         <translation>Finalizou o descarregamento de %1</translation>
     </message>
     <message>
-        <location filename="../xbmc/xbmc.cpp" line="157"/>
+        <location filename="../xbmc/xbmc.cpp" line="159"/>
         <source>Error downloading %1</source>
         <translation>Erro ao descarregar %1</translation>
     </message>
@@ -1134,28 +1175,28 @@
 <context>
     <name>XbmcConnection::XbmcConnectionPrivate</name>
     <message>
-        <location filename="../xbmc/xbmcconnection.cpp" line="149"/>
+        <location filename="../xbmc/xbmcconnection.cpp" line="167"/>
         <source>Connecting to %1...</source>
         <translation>Ligando a %1...</translation>
     </message>
     <message>
-        <location filename="../xbmc/xbmcconnection.cpp" line="175"/>
+        <location filename="../xbmc/xbmcconnection.cpp" line="200"/>
         <source>The connection has been disconnected</source>
         <translation>A ligação foi terminada</translation>
     </message>
     <message>
-        <location filename="../xbmc/xbmcconnection.cpp" line="185"/>
-        <location filename="../xbmc/xbmcconnection.cpp" line="238"/>
+        <location filename="../xbmc/xbmcconnection.cpp" line="210"/>
+        <location filename="../xbmc/xbmcconnection.cpp" line="263"/>
         <source>Connection failed: %1</source>
         <translation>Ligação falhou: %1</translation>
     </message>
     <message>
-        <location filename="../xbmc/xbmcconnection.cpp" line="280"/>
+        <location filename="../xbmc/xbmcconnection.cpp" line="305"/>
         <source>Xbmcremote is designed to work with XBMC Eden (v11.0). It seems you have connected to an older version of XMBC. Please upgrade XBMC in order to use Xbmcremote.</source>
         <translation>Xbmcremote está preparado para XBMC Eden (v11.0). Parece que se ligou a uma versão anterior do XBMC. Porfavor, actualize o XBMC para poder usar o Xbmcremote.</translation>
     </message>
     <message>
-        <location filename="../xbmc/xbmcconnection.cpp" line="445"/>
+        <location filename="../xbmc/xbmcconnection.cpp" line="501"/>
         <source>Connection to %1 timed out...</source>
         <translation>Ligação a %1 não responde...</translation>
     </message>
@@ -1163,96 +1204,96 @@
 <context>
     <name>main</name>
     <message>
-        <location filename="../qml/xbmcremote/harmattan/main.qml" line="74"/>
-        <location filename="../qml/xbmcremote/symbian/main.qml" line="63"/>
+        <location filename="../qml/xbmcremote/harmattan/main.qml" line="88"/>
+        <location filename="../qml/xbmcremote/symbian/main.qml" line="80"/>
         <source>Connect...</source>
         <translation>Ligar...</translation>
     </message>
     <message>
-        <location filename="../qml/xbmcremote/harmattan/main.qml" line="85"/>
-        <location filename="../qml/xbmcremote/symbian/main.qml" line="75"/>
+        <location filename="../qml/xbmcremote/harmattan/main.qml" line="106"/>
+        <location filename="../qml/xbmcremote/symbian/main.qml" line="99"/>
         <source>Write NFC Tag</source>
         <translation>Escrever Etiqueta NFC</translation>
     </message>
     <message>
-        <location filename="../qml/xbmcremote/harmattan/main.qml" line="96"/>
-        <location filename="../qml/xbmcremote/symbian/main.qml" line="86"/>
+        <location filename="../qml/xbmcremote/harmattan/main.qml" line="118"/>
+        <location filename="../qml/xbmcremote/symbian/main.qml" line="111"/>
         <source>Settings</source>
         <translation>Definições</translation>
     </message>
     <message>
-        <location filename="../qml/xbmcremote/harmattan/main.qml" line="109"/>
-        <location filename="../qml/xbmcremote/symbian/main.qml" line="99"/>
+        <location filename="../qml/xbmcremote/harmattan/main.qml" line="131"/>
+        <location filename="../qml/xbmcremote/symbian/main.qml" line="125"/>
         <source>About</source>
         <translation>Acerca</translation>
     </message>
     <message>
-        <location filename="../qml/xbmcremote/harmattan/main.qml" line="115"/>
-        <location filename="../qml/xbmcremote/symbian/main.qml" line="105"/>
+        <location filename="../qml/xbmcremote/harmattan/main.qml" line="99"/>
+        <location filename="../qml/xbmcremote/symbian/main.qml" line="92"/>
         <source>Quit xbmc</source>
         <translation>Sair do XBMC</translation>
     </message>
     <message>
-        <location filename="../qml/xbmcremote/harmattan/main.qml" line="187"/>
-        <location filename="../qml/xbmcremote/symbian/main.qml" line="111"/>
-        <location filename="../qml/xbmcremote/symbian/main.qml" line="190"/>
+        <location filename="../qml/xbmcremote/harmattan/main.qml" line="203"/>
+        <location filename="../qml/xbmcremote/symbian/main.qml" line="131"/>
+        <location filename="../qml/xbmcremote/symbian/main.qml" line="210"/>
         <source>Quit</source>
         <translation>Sair</translation>
     </message>
     <message>
-        <location filename="../qml/xbmcremote/harmattan/main.qml" line="191"/>
-        <location filename="../qml/xbmcremote/symbian/main.qml" line="195"/>
+        <location filename="../qml/xbmcremote/harmattan/main.qml" line="207"/>
+        <location filename="../qml/xbmcremote/symbian/main.qml" line="215"/>
         <source>Shutdown</source>
         <translation>Desligar</translation>
     </message>
     <message>
-        <location filename="../qml/xbmcremote/harmattan/main.qml" line="196"/>
-        <location filename="../qml/xbmcremote/symbian/main.qml" line="201"/>
+        <location filename="../qml/xbmcremote/harmattan/main.qml" line="212"/>
+        <location filename="../qml/xbmcremote/symbian/main.qml" line="221"/>
         <source>Reboot</source>
         <translation>Reiniciar</translation>
     </message>
     <message>
-        <location filename="../qml/xbmcremote/harmattan/main.qml" line="201"/>
-        <location filename="../qml/xbmcremote/symbian/main.qml" line="207"/>
+        <location filename="../qml/xbmcremote/harmattan/main.qml" line="217"/>
+        <location filename="../qml/xbmcremote/symbian/main.qml" line="227"/>
         <source>Suspend</source>
         <translation>Suspender</translation>
     </message>
     <message>
-        <location filename="../qml/xbmcremote/harmattan/main.qml" line="206"/>
-        <location filename="../qml/xbmcremote/symbian/main.qml" line="213"/>
+        <location filename="../qml/xbmcremote/harmattan/main.qml" line="222"/>
+        <location filename="../qml/xbmcremote/symbian/main.qml" line="233"/>
         <source>Hibernate</source>
         <translation>Hibernar</translation>
     </message>
     <message>
-        <location filename="../qml/xbmcremote/harmattan/main.qml" line="213"/>
-        <location filename="../qml/xbmcremote/symbian/main.qml" line="222"/>
+        <location filename="../qml/xbmcremote/harmattan/main.qml" line="229"/>
+        <location filename="../qml/xbmcremote/symbian/main.qml" line="242"/>
         <source>Cancel</source>
         <translation>Cancelar</translation>
     </message>
     <message>
-        <location filename="../qml/xbmcremote/harmattan/main.qml" line="252"/>
-        <location filename="../qml/xbmcremote/symbian/main.qml" line="259"/>
+        <location filename="../qml/xbmcremote/harmattan/main.qml" line="268"/>
+        <location filename="../qml/xbmcremote/symbian/main.qml" line="279"/>
         <source>Copyright</source>
         <translation>Copyright</translation>
     </message>
     <message>
-        <location filename="../qml/xbmcremote/harmattan/main.qml" line="259"/>
-        <location filename="../qml/xbmcremote/symbian/main.qml" line="267"/>
+        <location filename="../qml/xbmcremote/harmattan/main.qml" line="275"/>
+        <location filename="../qml/xbmcremote/symbian/main.qml" line="287"/>
         <source>Close</source>
         <translation>Fechar</translation>
     </message>
     <message>
-        <location filename="../qml/xbmcremote/harmattan/main.qml" line="266"/>
+        <location filename="../qml/xbmcremote/harmattan/main.qml" line="282"/>
         <source>Donate</source>
         <translation>Donativos</translation>
     </message>
     <message>
-        <location filename="../qml/xbmcremote/harmattan/main.qml" line="272"/>
+        <location filename="../qml/xbmcremote/harmattan/main.qml" line="288"/>
         <source>Flattr</source>
         <translation>Flattr</translation>
     </message>
     <message>
-        <location filename="../qml/xbmcremote/symbian/main.qml" line="177"/>
+        <location filename="../qml/xbmcremote/symbian/main.qml" line="197"/>
         <source>Quit XBMC?</source>
         <translation>Sair do XBMC?</translation>
     </message>

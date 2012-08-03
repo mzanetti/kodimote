@@ -419,6 +419,10 @@
         <source>Details</source>
         <translation>Details</translation>
     </message>
+    <message>
+        <source>Download</source>
+        <translation>Herunterladen</translation>
+    </message>
 </context>
 <context>
     <name>MainPage</name>
@@ -458,6 +462,10 @@
         <source>XBMC on %1</source>
         <translation>XBMC auf %1</translation>
     </message>
+    <message>
+        <source>Clean library</source>
+        <translation>Bibliothek bereinigen</translation>
+    </message>
 </context>
 <context>
     <name>MainWindow</name>
@@ -476,6 +484,18 @@
     <message>
         <source>Incoming call</source>
         <translation>Eingehender Anruf</translation>
+    </message>
+    <message>
+        <source>Download started: %1</source>
+        <translation>Herunterladen gestsrted: %1</translation>
+    </message>
+    <message>
+        <source>Download finished: %1</source>
+        <translation>Herunterladen fertig: %1</translation>
+    </message>
+    <message>
+        <source>Error downloading %1</source>
+        <translation>Fehler beim Laden von %1</translation>
     </message>
 </context>
 <context>
@@ -686,6 +706,14 @@
         <source>Pause music during calls</source>
         <translation>Pausiere Musik währen Telefongesprächen</translation>
     </message>
+    <message>
+        <source>Ignore articles for sorting</source>
+        <translation>Artikel für Sortierung ignorieren</translation>
+    </message>
+    <message>
+        <source>Show call notifications</source>
+        <translation>Anrufbenachrichtigung anzeigen</translation>
+    </message>
 </context>
 <context>
     <name>SettingsSheet</name>
@@ -736,6 +764,10 @@
     <message>
         <source>Show call notifications</source>
         <translation>Anrufbenachrichtigung anzeigen</translation>
+    </message>
+    <message>
+        <source>Allow clicking of gesture arrows</source>
+        <translation>Erlaube Klicks statt Gesten</translation>
     </message>
 </context>
 <context>
