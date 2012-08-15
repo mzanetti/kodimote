@@ -41,10 +41,29 @@ Sheet {
                 text: qsTr("Ignore articles for sorting")
                 checked: settings.ignoreArticle
             }
-            CheckBox {
-                id: cbGesturePadClickable
-                text: qsTr("Allow clicking of gesture arrows")
-                checked: settings.gesturePadClickable
+
+            Row {
+                spacing: 10
+                width: parent.width
+                ButtonRow {
+                    width: parent.width - parent.spacing - keypadLabel.width - 20
+                    Button {
+                        id: btGesturePadClicking
+                        text: qsTr("Click")
+                        checked: settings.gesturePadClickable
+                        onClicked: settings.gesturePadClickable = true
+                    }
+                    Button {
+                        text: qsTr("Swipe")
+                        checked: !settings.gesturePadClickable
+                        onClicked: settings.gesturePadClickable = false
+                    }
+                }
+                Label {
+                    id: keypadLabel
+                    anchors.verticalCenter: parent.verticalCenter
+                    text: qsTr("keypad arrows")
+                }
             }
 
             SectionHeader {
@@ -95,6 +114,6 @@ Sheet {
         settings.pauseVideoOnCall = cbPauseVideo.checked
         settings.useThumbnails = cbUseThumbnails.checked
         settings.showCallNotifications = cbShowNotifications.checked
-        settings.gesturePadClickable = cbGesturePadClickable.checked
+        settings.gesturePadClickable = btGesturePadClicking.checked
     }
 }

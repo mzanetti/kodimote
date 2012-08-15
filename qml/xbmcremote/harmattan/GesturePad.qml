@@ -138,7 +138,7 @@ Page {
 
                     states: [
                         State {
-                            name: "moving"; when: moveArea.pressed
+                            name: "moving"; when: moveArea.pressed && !settings.gesturePadClickable
                             PropertyChanges {
                                 target: enter
                                 x: gestureHelper.restrictedX - moveArea.width / 2
@@ -162,12 +162,22 @@ Page {
 //                        }
 
                         onPressed: {
-                            gestureHelper.startX = mouseX
-                            gestureHelper.startY = mouseY
+                            if(!settings.gesturePadClickable) {
+                                gestureHelper.startX = mouseX
+                                gestureHelper.startY = mouseY
+                            }
                         }
 
-                        onMouseXChanged: gestureHelper.realX = mouseX
-                        onMouseYChanged: gestureHelper.realY = mouseY
+                        onMouseXChanged: {
+                            if(!settings.gesturePadClickable) {
+                                gestureHelper.realX = mouseX
+                            }
+                        }
+                        onMouseYChanged: {
+                            if(!settings.gesturePadClickable) {
+                                gestureHelper.realY = mouseY
+                            }
+                        }
 
                         onClicked: {
                             rumbleEffect.start();
