@@ -578,7 +578,7 @@
     <message>
         <location filename="../qml/xbmcremote/fremantle/LibraryView.qml" line="203"/>
         <source>Download</source>
-        <translation type="unfinished">Download</translation>
+        <translation>Download</translation>
     </message>
 </context>
 <context>
@@ -642,7 +642,7 @@
         <location filename="../qml/xbmcremote/harmattan/MainPage.qml" line="244"/>
         <location filename="../qml/xbmcremote/symbian/MainPage.qml" line="213"/>
         <source>Clean library</source>
-        <translation type="unfinished"></translation>
+        <translation>Bibliotheek opruimen</translation>
     </message>
 </context>
 <context>
@@ -670,17 +670,17 @@
     <message>
         <location filename="../ui/mainwindow.cpp" line="263"/>
         <source>Download started: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Download gestart: %1</translation>
     </message>
     <message>
         <location filename="../ui/mainwindow.cpp" line="276"/>
         <source>Download finished: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Download voltooid: %1</translation>
     </message>
     <message>
         <location filename="../ui/mainwindow.cpp" line="278"/>
         <source>Error downloading %1</source>
-        <translation type="unfinished">Fout bij downloaden van %1</translation>
+        <translation>Fout bij downloaden van %1</translation>
     </message>
 </context>
 <context>
@@ -952,7 +952,7 @@
     <message>
         <location filename="../ui/settingsdialog.cpp" line="69"/>
         <source>Ignore articles for sorting</source>
-        <translation type="unfinished">Artikels negeren voor sorteren</translation>
+        <translation>Artikels negeren voor sorteren</translation>
     </message>
     <message>
         <location filename="../ui/settingsdialog.cpp" line="73"/>
@@ -972,7 +972,7 @@
     <message>
         <location filename="../ui/settingsdialog.cpp" line="92"/>
         <source>Show call notifications</source>
-        <translation type="unfinished">Toon inkomende oproepen.</translation>
+        <translation>Toon inkomende oproepen</translation>
     </message>
 </context>
 <context>
@@ -1018,17 +1018,17 @@
     <message>
         <location filename="../qml/xbmcremote/harmattan/SettingsSheet.qml" line="52"/>
         <source>Click</source>
-        <translation type="unfinished"></translation>
+        <translation>Klik</translation>
     </message>
     <message>
         <location filename="../qml/xbmcremote/harmattan/SettingsSheet.qml" line="57"/>
         <source>Swipe</source>
-        <translation type="unfinished"></translation>
+        <translation>Veeg</translation>
     </message>
     <message>
         <location filename="../qml/xbmcremote/harmattan/SettingsSheet.qml" line="65"/>
         <source>keypad arrows</source>
-        <translation type="unfinished"></translation>
+        <translation>keypad pijlen</translation>
     </message>
     <message>
         <location filename="../qml/xbmcremote/harmattan/SettingsSheet.qml" line="70"/>
