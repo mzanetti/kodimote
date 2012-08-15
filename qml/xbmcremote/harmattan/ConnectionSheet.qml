@@ -7,6 +7,7 @@ Sheet {
     id: connectionSheet
     acceptButtonText: qsTr("Connect")
     rejectButtonText: qsTr("Cancel")
+    acceptButton.enabled: itemView.currentIndex == 0 && hostList.currentIndex >= 0 || hostnameTextField.text != ""
 
     XbmcDiscovery {
         id: discovery
