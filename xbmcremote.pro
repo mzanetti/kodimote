@@ -3,7 +3,7 @@ QT += network
 
 # Define QMLJSDEBUGGER to allow debugging of QML in debug builds
 # (This might significantly increase build time)
-DEFINES += QMLJSDEBUGGER
+#DEFINES += QMLJSDEBUGGER
 
 # Sources used on all platforms
 SOURCES += main.cpp \
