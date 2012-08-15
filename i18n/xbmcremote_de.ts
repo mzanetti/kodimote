@@ -766,8 +766,16 @@
         <translation>Anrufbenachrichtigung anzeigen</translation>
     </message>
     <message>
-        <source>Allow clicking of gesture arrows</source>
-        <translation>Erlaube Klicks statt Gesten</translation>
+        <source>Click</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Swipe</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>keypad arrows</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
