@@ -252,74 +252,74 @@
         <translation>Annuleren</translation>
     </message>
     <message>
-        <location filename="../qml/xbmcremote/harmattan/ConnectionSheet.qml" line="51"/>
+        <location filename="../qml/xbmcremote/harmattan/ConnectionSheet.qml" line="52"/>
         <source>Searching for XBMC hosts.</source>
         <translation>Bezig met zoeken naar XBMC host.</translation>
     </message>
     <message>
-        <location filename="../qml/xbmcremote/harmattan/ConnectionSheet.qml" line="52"/>
+        <location filename="../qml/xbmcremote/harmattan/ConnectionSheet.qml" line="53"/>
         <location filename="../qml/xbmcremote/symbian/ConnectionSheet.qml" line="59"/>
         <source>Please enable the following options in the Network settings of XBMC:</source>
         <translation>Schakel volgende opties in onder netwerkinstellingen van XBMC:</translation>
     </message>
     <message>
-        <location filename="../qml/xbmcremote/harmattan/ConnectionSheet.qml" line="53"/>
+        <location filename="../qml/xbmcremote/harmattan/ConnectionSheet.qml" line="54"/>
         <location filename="../qml/xbmcremote/symbian/ConnectionSheet.qml" line="60"/>
         <source>Allow control of XBMC via HTTP</source>
         <translation>Gebeurtenissen op afstand activeren</translation>
     </message>
     <message>
-        <location filename="../qml/xbmcremote/harmattan/ConnectionSheet.qml" line="54"/>
+        <location filename="../qml/xbmcremote/harmattan/ConnectionSheet.qml" line="55"/>
         <location filename="../qml/xbmcremote/symbian/ConnectionSheet.qml" line="61"/>
         <source>Allow programs on other systems to control XBMC</source>
         <translation>Gebeurtenissen van andere computers ontvangen</translation>
     </message>
     <message>
-        <location filename="../qml/xbmcremote/harmattan/ConnectionSheet.qml" line="55"/>
+        <location filename="../qml/xbmcremote/harmattan/ConnectionSheet.qml" line="56"/>
         <source>Announce these services to other systems via Zeroconf</source>
         <translation>Zeroconf publishing</translation>
     </message>
     <message>
-        <location filename="../qml/xbmcremote/harmattan/ConnectionSheet.qml" line="56"/>
+        <location filename="../qml/xbmcremote/harmattan/ConnectionSheet.qml" line="57"/>
         <source>If you don&apos;t use Zeroconf, add a host manually.</source>
         <translation>Als je geen gebruik maakt van Zeroconf, voeg dan manueel een host toe.</translation>
     </message>
     <message>
-        <location filename="../qml/xbmcremote/harmattan/ConnectionSheet.qml" line="91"/>
+        <location filename="../qml/xbmcremote/harmattan/ConnectionSheet.qml" line="92"/>
         <location filename="../qml/xbmcremote/symbian/ConnectionSheet.qml" line="94"/>
         <source>XBMC on %1</source>
         <translation>XBMC op %1</translation>
     </message>
     <message>
-        <location filename="../qml/xbmcremote/harmattan/ConnectionSheet.qml" line="126"/>
+        <location filename="../qml/xbmcremote/harmattan/ConnectionSheet.qml" line="127"/>
         <source>Remove Host</source>
         <translation>Host verwijderen</translation>
     </message>
     <message>
-        <location filename="../qml/xbmcremote/harmattan/ConnectionSheet.qml" line="133"/>
+        <location filename="../qml/xbmcremote/harmattan/ConnectionSheet.qml" line="134"/>
         <source>Add Host</source>
         <translation>Host toevoegen</translation>
     </message>
     <message>
-        <location filename="../qml/xbmcremote/harmattan/ConnectionSheet.qml" line="146"/>
+        <location filename="../qml/xbmcremote/harmattan/ConnectionSheet.qml" line="147"/>
         <location filename="../qml/xbmcremote/symbian/ConnectionSheet.qml" line="129"/>
         <source>Host:</source>
         <translation>Host:</translation>
     </message>
     <message>
-        <location filename="../qml/xbmcremote/harmattan/ConnectionSheet.qml" line="159"/>
+        <location filename="../qml/xbmcremote/harmattan/ConnectionSheet.qml" line="160"/>
         <location filename="../qml/xbmcremote/symbian/ConnectionSheet.qml" line="142"/>
         <source>HTTP Port:</source>
         <translation>HTTP poort:</translation>
     </message>
     <message>
-        <location filename="../qml/xbmcremote/harmattan/ConnectionSheet.qml" line="173"/>
+        <location filename="../qml/xbmcremote/harmattan/ConnectionSheet.qml" line="174"/>
         <location filename="../qml/xbmcremote/symbian/ConnectionSheet.qml" line="156"/>
         <source>MAC Address for WakeOnLan (optional):</source>
         <translation>MAC Adres voor WakeOnLan (optioneel):</translation>
     </message>
     <message>
-        <location filename="../qml/xbmcremote/harmattan/ConnectionSheet.qml" line="184"/>
+        <location filename="../qml/xbmcremote/harmattan/ConnectionSheet.qml" line="185"/>
         <source>Back</source>
         <translation>Vorige</translation>
     </message>
@@ -578,7 +578,7 @@
     <message>
         <location filename="../qml/xbmcremote/fremantle/LibraryView.qml" line="203"/>
         <source>Download</source>
-        <translation type="unfinished">Download</translation>
+        <translation>Download</translation>
     </message>
 </context>
 <context>
@@ -642,7 +642,7 @@
         <location filename="../qml/xbmcremote/harmattan/MainPage.qml" line="244"/>
         <location filename="../qml/xbmcremote/symbian/MainPage.qml" line="213"/>
         <source>Clean library</source>
-        <translation type="unfinished"></translation>
+        <translation>Bibliotheek opruimen</translation>
     </message>
 </context>
 <context>
@@ -670,17 +670,17 @@
     <message>
         <location filename="../ui/mainwindow.cpp" line="263"/>
         <source>Download started: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Download gestart: %1</translation>
     </message>
     <message>
         <location filename="../ui/mainwindow.cpp" line="276"/>
         <source>Download finished: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Download voltooid: %1</translation>
     </message>
     <message>
         <location filename="../ui/mainwindow.cpp" line="278"/>
         <source>Error downloading %1</source>
-        <translation type="unfinished">Fout bij downloaden van %1</translation>
+        <translation>Fout bij downloaden van %1</translation>
     </message>
 </context>
 <context>
@@ -972,7 +972,7 @@
     <message>
         <location filename="../ui/settingsdialog.cpp" line="92"/>
         <source>Show call notifications</source>
-        <translation type="unfinished">Toon inkomende oproepen.</translation>
+        <translation type="unfinished">Toon inkomende oproepen</translation>
     </message>
 </context>
 <context>
@@ -1016,36 +1016,46 @@
         <translation>Artikels negeren voor sorteren</translation>
     </message>
     <message>
-        <location filename="../qml/xbmcremote/harmattan/SettingsSheet.qml" line="46"/>
-        <source>Allow clicking of gesture arrows</source>
-        <translation type="unfinished"></translation>
+        <location filename="../qml/xbmcremote/harmattan/SettingsSheet.qml" line="52"/>
+        <source>Click</source>
+        <translation>Klik</translation>
     </message>
     <message>
-        <location filename="../qml/xbmcremote/harmattan/SettingsSheet.qml" line="51"/>
+        <location filename="../qml/xbmcremote/harmattan/SettingsSheet.qml" line="57"/>
+        <source>Swipe</source>
+        <translation>Veeg</translation>
+    </message>
+    <message>
+        <location filename="../qml/xbmcremote/harmattan/SettingsSheet.qml" line="65"/>
+        <source>keypad arrows</source>
+        <translation>keypad pijlen</translation>
+    </message>
+    <message>
+        <location filename="../qml/xbmcremote/harmattan/SettingsSheet.qml" line="70"/>
         <location filename="../qml/xbmcremote/symbian/SettingsSheet.qml" line="39"/>
         <source>Phone calls</source>
         <translation>Oproepen</translation>
     </message>
     <message>
-        <location filename="../qml/xbmcremote/harmattan/SettingsSheet.qml" line="57"/>
+        <location filename="../qml/xbmcremote/harmattan/SettingsSheet.qml" line="76"/>
         <location filename="../qml/xbmcremote/symbian/SettingsSheet.qml" line="45"/>
         <source>Change volume</source>
         <translation>Volume veranderen</translation>
     </message>
     <message>
-        <location filename="../qml/xbmcremote/harmattan/SettingsSheet.qml" line="70"/>
+        <location filename="../qml/xbmcremote/harmattan/SettingsSheet.qml" line="89"/>
         <location filename="../qml/xbmcremote/symbian/SettingsSheet.qml" line="58"/>
         <source>Pause video</source>
         <translation>Pauzeer Video</translation>
     </message>
     <message>
-        <location filename="../qml/xbmcremote/harmattan/SettingsSheet.qml" line="75"/>
+        <location filename="../qml/xbmcremote/harmattan/SettingsSheet.qml" line="94"/>
         <location filename="../qml/xbmcremote/symbian/SettingsSheet.qml" line="63"/>
         <source>Pause music</source>
         <translation>Pauzeer Muziek</translation>
     </message>
     <message>
-        <location filename="../qml/xbmcremote/harmattan/SettingsSheet.qml" line="80"/>
+        <location filename="../qml/xbmcremote/harmattan/SettingsSheet.qml" line="99"/>
         <location filename="../qml/xbmcremote/symbian/SettingsSheet.qml" line="68"/>
         <source>Show call notifications</source>
         <translation>Toon inkomende oproepen.</translation>
