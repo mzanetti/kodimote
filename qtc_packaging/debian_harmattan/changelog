@@ -1,3 +1,13 @@
+xbmcremote (1.2.0-harmattan0) unstable; urgency=low
+  * Image caching
+  * Performance and battery life improvements
+  * Reworked for the current time and progressbar
+  * Improvements in the Keyboard stuff
+  * Indication of the currently played items
+  * The usual amount of bugfixes
+
+ -- Michael Zanetti <michael_zanetti@gmx.net>  Fri, 03 Aug 2012 18:16:59 +0200
+
 xbmcremote (1.1.0-harmattan0) unstable; urgency=low
   * Added item details dialog for currently played item
   * Added possibility to download media to phone
