@@ -767,15 +767,15 @@
     </message>
     <message>
         <source>Click</source>
-        <translation type="unfinished"></translation>
+        <translation>Klicke</translation>
     </message>
     <message>
         <source>Swipe</source>
-        <translation type="unfinished"></translation>
+        <translation>Wische</translation>
     </message>
     <message>
         <source>keypad arrows</source>
-        <translation type="unfinished"></translation>
+        <translation>pfeile im Tastenfeld</translation>
     </message>
 </context>
 <context>
