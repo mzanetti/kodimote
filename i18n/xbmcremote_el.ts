@@ -575,7 +575,7 @@
     <message>
         <location filename="../qml/xbmcremote/fremantle/LibraryView.qml" line="203"/>
         <source>Download</source>
-        <translation type="unfinished">Μεταφόρτωση</translation>
+        <translation>Μεταφόρτωση</translation>
     </message>
 </context>
 <context>
@@ -638,7 +638,7 @@
         <location filename="../qml/xbmcremote/harmattan/MainPage.qml" line="244"/>
         <location filename="../qml/xbmcremote/symbian/MainPage.qml" line="213"/>
         <source>Clean library</source>
-        <translation type="unfinished"></translation>
+        <translation>Άδειασμα βιβλιοθήκης</translation>
     </message>
 </context>
 <context>
@@ -666,17 +666,17 @@
     <message>
         <location filename="../ui/mainwindow.cpp" line="263"/>
         <source>Download started: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Η μεταφόρτωση ξεκίνησε: %1</translation>
     </message>
     <message>
         <location filename="../ui/mainwindow.cpp" line="276"/>
         <source>Download finished: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Η μεταφόρτωση τελείωσε: %1</translation>
     </message>
     <message>
         <location filename="../ui/mainwindow.cpp" line="278"/>
         <source>Error downloading %1</source>
-        <translation type="unfinished">Λάθος κατά τη μεταφόρτωση %1</translation>
+        <translation>Λάθος κατά τη μεταφόρτωση %1</translation>
     </message>
 </context>
 <context>
@@ -948,7 +948,7 @@
     <message>
         <location filename="../ui/settingsdialog.cpp" line="69"/>
         <source>Ignore articles for sorting</source>
-        <translation type="unfinished">Αγνόηση άρθρων κατά την ταξινόμηση</translation>
+        <translation>Αγνόηση άρθρων κατά την ταξινόμηση</translation>
     </message>
     <message>
         <location filename="../ui/settingsdialog.cpp" line="73"/>
@@ -968,7 +968,7 @@
     <message>
         <location filename="../ui/settingsdialog.cpp" line="92"/>
         <source>Show call notifications</source>
-        <translation type="unfinished">Εμφάνιση ειδοποιήσεων κλήσης</translation>
+        <translation>Εμφάνιση ειδοποιήσεων κλήσης</translation>
     </message>
 </context>
 <context>
@@ -1014,17 +1014,17 @@
     <message>
         <location filename="../qml/xbmcremote/harmattan/SettingsSheet.qml" line="52"/>
         <source>Click</source>
-        <translation type="unfinished"></translation>
+        <translation>Κλικ</translation>
     </message>
     <message>
         <location filename="../qml/xbmcremote/harmattan/SettingsSheet.qml" line="57"/>
         <source>Swipe</source>
-        <translation type="unfinished"></translation>
+        <translation>Πέρασμα</translation>
     </message>
     <message>
         <location filename="../qml/xbmcremote/harmattan/SettingsSheet.qml" line="65"/>
         <source>keypad arrows</source>
-        <translation type="unfinished"></translation>
+        <translation>βέλη πληκ/γίου</translation>
     </message>
     <message>
         <location filename="../qml/xbmcremote/harmattan/SettingsSheet.qml" line="70"/>
