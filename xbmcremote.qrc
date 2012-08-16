@@ -6,5 +6,6 @@
         <file>i18n/xbmcremote_it.qm</file>
         <file>i18n/xbmcremote_nl.qm</file>
         <file>i18n/xbmcremote_pt.qm</file>
+        <file>i18n/xbmcremote_tr.qm</file>
     </qresource>
 </RCC>
