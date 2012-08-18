@@ -238,6 +238,9 @@ void Xbmc::parseAnnouncement(const QVariantMap &map)
     }
     else if(map.value("method").toString() == "Player.OnStop") {
         queryActivePlayers();
+    } else if(map.value("method").toString() == "Application.OnVolumeChanged") {
+        m_volume = map.value("params").toMap().value("data").toMap().value("volume").toInt();
+        emit volumeChanged(m_volume);
     }
 }
 
@@ -369,8 +372,8 @@ void Xbmc::setVolume(int volume)
             QVariantMap map;
             map.insert("volume", volume);
             XbmcConnection::sendCommand("Application.SetVolume", map);
-            m_volume = volume;
-            emit volumeChanged(m_volume);
+//            m_volume = volume;
+//            emit volumeChanged(m_volume);
         }
     }
 }
