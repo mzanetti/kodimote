@@ -48,6 +48,7 @@ private slots:
 
     void connectionChanged(bool connected);
     void hostRemoved();
+    void internalConnect();
 
     void displaySettingChanged();
 
@@ -67,6 +68,8 @@ private:
     QTimer m_displayBlankingTimer;
     MeeGo::QmDisplayState m_disaplyState;
     MeeGo::QmBattery *m_battery;
+    int m_connectToIndex;
+    bool m_mustConnect;
 
     bool m_videoPaused;
     bool m_musicPaused;
