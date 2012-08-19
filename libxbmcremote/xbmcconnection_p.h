@@ -31,6 +31,8 @@
 #include <QDate>
 #include <QFile>
 #include <QPointer>
+#include <QNetworkConfigurationManager>
+#include <QNetworkSession>
 
 class XbmcDownload;
 
@@ -101,6 +103,8 @@ private slots:
     void socketError();
     void slotConnected();
     void slotDisconnected();
+    void internalConnect();
+    void sessionLost();
 
     void replyReceived();
     void authenticationRequired(QNetworkReply *reply, QAuthenticator *authenticator);
@@ -136,6 +140,8 @@ private:
     bool m_connected;
     QString m_connectionError;
     QMap<int, Callback> m_callbacks;
+    QNetworkConfigurationManager *m_connManager;
+    QNetworkSession *m_networkSession;
 
     QList<XbmcDownload*> m_downloadQueue;
     QMap<QNetworkReply*, XbmcDownload*> m_activeDownloadsMap;

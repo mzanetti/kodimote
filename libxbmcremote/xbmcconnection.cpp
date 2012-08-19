@@ -113,10 +113,12 @@ XbmcConnectionPrivate::XbmcConnectionPrivate(QObject *parent) :
     m_xbmcVersionMajor(0),
     m_xbmcVersionMinor(0),
     m_connecting(false),
-    m_connected(false)
+    m_connected(false),
+    m_networkSession(0)
 {
     m_socket = new QTcpSocket();
     m_notifier = new XbmcConnection::Notifier();
+    m_connManager = new QNetworkConfigurationManager(this);
 
     QObject::connect(m_socket, SIGNAL(readyRead()), SLOT(readData()));
 //    QObject::connect(m_socket, SIGNAL(connected()), m_notifier, SIGNAL(connectionChanged()));
@@ -160,6 +162,32 @@ void XbmcConnectionPrivate::connect(XbmcHost *host)
         m_socket->abort();
     }
 
+    if(m_networkSession) {
+        QObject::disconnect(m_networkSession, SIGNAL(closed()), this, SLOT(sessionLost()));
+        m_networkSession->close();
+        m_networkSession->deleteLater();
+    }
+
+    QNetworkConfiguration networkConfig = m_connManager->defaultConfiguration();
+    m_networkSession = new QNetworkSession(networkConfig, this);
+    QObject::connect(m_networkSession, SIGNAL(closed()), this, SLOT(sessionLost()));
+    m_networkSession->open();
+    if(m_networkSession->isOpen()) {
+        internalConnect();
+    }
+    else {
+        QObject::connect(m_networkSession, SIGNAL(stateChanged(QNetworkSession::State)), this, SLOT(internalConnect()));
+    }
+}
+
+void XbmcConnectionPrivate::internalConnect()
+{
+    if(m_networkSession->state() != QNetworkSession::Connected) {
+        qDebug() << m_networkSession->state();
+        return;
+    }
+    QObject::disconnect(m_networkSession, SIGNAL(stateChanged(QNetworkSession::State)), this, SLOT(internalConnect()));
+    QObject::connect(m_networkSession, SIGNAL(stateChanged(QNetworkSession::State)), this, SLOT(sessionLost()));
 
     xDebug(XDAREA_CONNECTION) << "connecting to" << m_host->hostname() << m_host->address() << m_host->username() << "(using password:" << !m_host->password().isEmpty() << ")";
     // We connect to telnet on port 9090 for the announcements
@@ -167,6 +195,27 @@ void XbmcConnectionPrivate::connect(XbmcHost *host)
 
     m_connectionError = tr("Connecting to %1...").arg(m_host->hostname());
     emit m_notifier->connectionChanged();
+}
+
+void XbmcConnectionPrivate::sessionLost()
+{
+    if(m_networkSession->state() != QNetworkSession::Disconnected) {
+        return;
+    }
+
+    if(m_socket->state() == QAbstractSocket::ConnectedState) {
+        m_socket->disconnectFromHost();
+    }
+    else if(m_socket->state() == QAbstractSocket::ConnectingState) {
+        m_socket->abort();
+    }
+
+    m_connected = false;
+    notifier()->connectionChanged();
+
+    m_networkSession->close();
+    m_networkSession->deleteLater();
+    m_networkSession = 0;
 }
 
 XbmcHost* XbmcConnectionPrivate::connectedHost()
