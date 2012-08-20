@@ -200,9 +200,11 @@ void MeeGoHelper::callTerminated()
 
     if(m_videoPaused) {
         Xbmc::instance()->videoPlayer()->playPause();
+        m_videoPaused = false;
     }
     if(m_musicPaused) {
         Xbmc::instance()->audioPlayer()->playPause();
+        m_musicPaused = false;
     }
 }
 
