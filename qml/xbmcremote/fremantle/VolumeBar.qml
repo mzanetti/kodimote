@@ -57,14 +57,8 @@ Item {
                 drag.target: parent; drag.axis: Drag.XAxis
                 drag.minimumX: 2; drag.maximumX: container.width - slider.width - 2
 
-                onPressed: dragging = true
-                onReleased:  dragging = false
+                onReleased: xbmc.setVolume(sliderPosToPercent(slider.x))
 
-            }
-            onXChanged: {
-                if(dragging) {
-                    xbmc.setVolume(sliderPosToPercent(x))
-                }
             }
         }
     }
