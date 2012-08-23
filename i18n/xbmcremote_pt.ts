@@ -576,7 +576,7 @@
     <message>
         <location filename="../qml/xbmcremote/fremantle/LibraryView.qml" line="203"/>
         <source>Download</source>
-        <translation type="unfinished">Descarregar</translation>
+        <translation>Descarregar</translation>
     </message>
 </context>
 <context>
@@ -639,7 +639,7 @@
         <location filename="../qml/xbmcremote/harmattan/MainPage.qml" line="244"/>
         <location filename="../qml/xbmcremote/symbian/MainPage.qml" line="213"/>
         <source>Clean library</source>
-        <translation type="unfinished"></translation>
+        <translation>Limpar biblioteca</translation>
     </message>
 </context>
 <context>
@@ -667,17 +667,17 @@
     <message>
         <location filename="../ui/mainwindow.cpp" line="263"/>
         <source>Download started: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Desc. iniciado: %1</translation>
     </message>
     <message>
         <location filename="../ui/mainwindow.cpp" line="276"/>
         <source>Download finished: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Desc. terminado: %1</translation>
     </message>
     <message>
         <location filename="../ui/mainwindow.cpp" line="278"/>
         <source>Error downloading %1</source>
-        <translation type="unfinished">Erro ao descarregar %1</translation>
+        <translation>Erro ao descarregar %1</translation>
     </message>
 </context>
 <context>
@@ -950,7 +950,7 @@
     <message>
         <location filename="../ui/settingsdialog.cpp" line="69"/>
         <source>Ignore articles for sorting</source>
-        <translation type="unfinished">Ignorar artigos ao ordenar</translation>
+        <translation>Ignorar artigos ao ordenar</translation>
     </message>
     <message>
         <location filename="../ui/settingsdialog.cpp" line="73"/>
@@ -970,7 +970,7 @@
     <message>
         <location filename="../ui/settingsdialog.cpp" line="92"/>
         <source>Show call notifications</source>
-        <translation type="unfinished">Mostrar notificações de chamadas</translation>
+        <translation>Mostrar notificações de chamadas</translation>
     </message>
 </context>
 <context>
@@ -1016,17 +1016,17 @@
     <message>
         <location filename="../qml/xbmcremote/harmattan/SettingsSheet.qml" line="52"/>
         <source>Click</source>
-        <translation type="unfinished"></translation>
+        <translation>Clique</translation>
     </message>
     <message>
         <location filename="../qml/xbmcremote/harmattan/SettingsSheet.qml" line="57"/>
         <source>Swipe</source>
-        <translation type="unfinished"></translation>
+        <translation>Deslizar</translation>
     </message>
     <message>
         <location filename="../qml/xbmcremote/harmattan/SettingsSheet.qml" line="65"/>
         <source>keypad arrows</source>
-        <translation type="unfinished"></translation>
+        <translation>Setas do teclado</translation>
     </message>
     <message>
         <location filename="../qml/xbmcremote/harmattan/SettingsSheet.qml" line="70"/>
