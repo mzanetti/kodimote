@@ -56,12 +56,12 @@ void Keys::menu()
 
 void Keys::contextMenu()
 {
-    XbmcConnection::sendLegacyCommand("SendKey(0xF043)");
+    XbmcConnection::sendCommand("Input.ContextMenu");
 }
 
 void Keys::info()
 {
-    XbmcConnection::sendLegacyCommand("SendKey(0xF049)");
+    XbmcConnection::sendCommand("Input.Info");
 }
 
 void Keys::fullscreen()
