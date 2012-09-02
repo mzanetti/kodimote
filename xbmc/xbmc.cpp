@@ -428,7 +428,10 @@ void Xbmc::restoreVolume()
 
 void Xbmc::sendNotification(const QString &header, const QString &text)
 {
-    XbmcConnection::sendLegacyCommand("ExecBuiltIn(Notification(" + header + ", " + text + ",5000,DefaultIconInfo.png))");
+    QVariantMap params;
+    params.insert("title", header);
+    params.insert("message", text);
+    XbmcConnection::sendCommand("GUI.ShowNotification", params);
 }
 
 bool Xbmc::picturePlayerActive()
