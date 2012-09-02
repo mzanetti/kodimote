@@ -40,12 +40,13 @@ Songs::~Songs()
 void Songs::refresh()
 {
     QVariantMap params;
-    if(m_artistId != -1) {
-      params.insert("artistid", m_artistId);
-    }
+
     if(m_albumId != -1) {
-      params.insert("albumid", m_albumId);
+        QVariantMap filter;
+        filter.insert("albumid", m_albumId);
+        params.insert("filter", filter);
     }
+
     QVariantList properties;
     properties.append("artist");
     properties.append("album");

@@ -42,8 +42,11 @@ void Albums::refresh()
 {
     QVariantMap params;
     if(m_artistId != -1) {
-        params.insert("artistid", m_artistId);
+        QVariantMap filter;
+        filter.insert("artistid", m_artistId);
+        params.insert("filter", filter);
     }
+
     QVariantList properties;
     properties.append("artist");
     properties.append("thumbnail");
