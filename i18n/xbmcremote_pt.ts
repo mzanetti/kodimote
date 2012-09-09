@@ -37,7 +37,7 @@
 <context>
     <name>Albums</name>
     <message>
-        <location filename="../xbmc/albums.cpp" line="174"/>
+        <location filename="../xbmc/albums.cpp" line="177"/>
         <source>Albums</source>
         <translation>Álbuns</translation>
     </message>
@@ -45,7 +45,7 @@
 <context>
     <name>Artists</name>
     <message>
-        <location filename="../xbmc/artists.cpp" line="166"/>
+        <location filename="../xbmc/artists.cpp" line="167"/>
         <source>Artists</source>
         <translation>Artistas</translation>
     </message>
@@ -1080,7 +1080,7 @@
 <context>
     <name>Songs</name>
     <message>
-        <location filename="../xbmc/songs.cpp" line="192"/>
+        <location filename="../xbmc/songs.cpp" line="193"/>
         <source>Songs</source>
         <translation>Canções</translation>
     </message>
