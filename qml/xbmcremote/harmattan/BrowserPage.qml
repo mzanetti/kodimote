@@ -276,7 +276,7 @@ Page {
                 id: itemRow
                 anchors {left: parent.left; top: parent.top; right: parent.right }
                 height: listItem.height
-                anchors.leftMargin: thumbnailImage.width + 15
+                anchors.leftMargin: (settings.useThumbnails ? thumbnailImage.width : 0) + 15
                 anchors.rightMargin: 5
 
                 Column {
