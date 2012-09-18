@@ -45,7 +45,7 @@
 
 #include "keys.h"
 
-#include "settings.h"
+//#include "settings.h"
 
 #include "imagecache.h"
 
@@ -68,6 +68,7 @@ Xbmc::Xbmc(QObject *parent) :
     m_canReboot(false),
     m_canHibernate(false),
     m_canSuspend(false),
+    m_volume(0),
     m_imageCache(new ImageCache(this))
 {
     qmlRegisterType<AudioLibrary>();
@@ -118,6 +119,8 @@ Xbmc::Xbmc(QObject *parent) :
     m_volumeAnimation.setTargetObject(this);
     m_volumeAnimation.setPropertyName("volume");
     m_volumeAnimation.setDuration(500);
+
+    m_imageCache->start(QThread::IdlePriority);
 }
 
 Xbmc::~Xbmc()
@@ -239,6 +242,7 @@ void Xbmc::parseAnnouncement(const QVariantMap &map)
     else if(map.value("method").toString() == "Player.OnStop") {
         queryActivePlayers();
     } else if(map.value("method").toString() == "Application.OnVolumeChanged") {
+        qDebug() << "volume changed";
         m_volume = map.value("params").toMap().value("data").toMap().value("volume").toInt();
         emit volumeChanged(m_volume);
     }

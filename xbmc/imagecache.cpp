@@ -10,7 +10,7 @@
 #include <QDebug>
 
 ImageCache::ImageCache(QObject *parent) :
-    QObject(parent),
+    QThread(parent),
     m_jobId(0),
     m_currentJob(0)
 {
@@ -22,6 +22,7 @@ ImageCache::ImageCache(QObject *parent) :
 
 bool ImageCache::contains(const QString &image)
 {
+    QMutexLocker locker(&m_mutex);
     if(!m_cacheFiles.contains(image)) {
         qDebug() << "checking from file";
         QUrl url = QUrl::fromPercentEncoding(image.toLocal8Bit());
@@ -43,10 +44,16 @@ QString ImageCache::cachePath()
     return QDir::home().absolutePath() + "/.xbmcremote/imagecache/";
 }
 
+void ImageCache::run()
+{
+    exec();
+}
+
 int ImageCache::fetch(const QString &image, QObject *callbackObject, const QString &callbackFunction)
 {
     ImageFetchJob *ifJob = new ImageFetchJob(m_jobId++, image, QPointer<QObject>(callbackObject), callbackFunction);
 
+    QMutexLocker locker(&m_mutex);
     if(m_currentJob && m_currentJob->imageName() == image) {
         qDebug() << "already fetching image queued for" << image;
         m_toBeNotifiedList.append(ifJob);
@@ -64,7 +71,7 @@ int ImageCache::fetch(const QString &image, QObject *callbackObject, const QStri
 
     // Ok... this is a new one... start fetching it
     m_downloadQueue.prepend(ifJob);
-    fetchNext();
+    QMetaObject::invokeMethod(this, "fetchNext", Qt::QueuedConnection);
 
     return ifJob->id();
 }
@@ -72,6 +79,8 @@ int ImageCache::fetch(const QString &image, QObject *callbackObject, const QStri
 void ImageCache::imageFetched()
 {
     QNetworkReply *reply = qobject_cast<QNetworkReply*>(sender());
+
+    QMutexLocker locker(&m_mutex);
 
     if(reply->error() == QNetworkReply::NoError) {
 
@@ -94,7 +103,7 @@ void ImageCache::imageFetched()
         m_cacheFiles.insert(m_currentJob->imageName(), true);
 
         // Notify original requester
-        QMetaObject::invokeMethod(m_currentJob->callbackObject().data(), m_currentJob->callbackMethod().toAscii(), Q_ARG(int, m_currentJob->id()));
+        QMetaObject::invokeMethod(m_currentJob->callbackObject().data(), m_currentJob->callbackMethod().toAscii(), Qt::QueuedConnection, Q_ARG(int, m_currentJob->id()));
 
         // Notify all duplicate requests
         QList<ImageFetchJob*> newList;
@@ -107,7 +116,7 @@ void ImageCache::imageFetched()
         while(!newList.isEmpty()) {
             ImageFetchJob *job = newList.takeFirst();
             m_toBeNotifiedList.removeAll(job);
-            QMetaObject::invokeMethod(job->callbackObject().data(), job->callbackMethod().toAscii(), Q_ARG(int, job->id()));
+            QMetaObject::invokeMethod(job->callbackObject().data(), job->callbackMethod().toAscii(), Qt::QueuedConnection, Q_ARG(int, job->id()));
             delete job;
         }
     } else {
@@ -120,11 +129,15 @@ void ImageCache::imageFetched()
 
     reply->deleteLater();
 
-    fetchNext();
+    QMetaObject::invokeMethod(this, "fetchNext", Qt::QueuedConnection);
 }
 
 void ImageCache::downloadProgress(qint64 bytesReceived, qint64 bytesTotal)
 {
+    Q_UNUSED(bytesReceived)
+    Q_UNUSED(bytesTotal)
+
+    QMutexLocker locker(&m_mutex);
     QNetworkReply *reply = qobject_cast<QNetworkReply*>(sender());
     m_currentJob->appendData(reply->readAll());
 }

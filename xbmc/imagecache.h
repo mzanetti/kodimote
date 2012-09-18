@@ -5,13 +5,15 @@
 #include <QHash>
 #include <QPointer>
 #include <QBuffer>
+#include <QThread>
+#include <QMutex>
 
 class QNetworkReply;
 
 class ImageFetchJob;
 class QFile;
 
-class ImageCache : public QObject
+class ImageCache : public QThread
 {
     Q_OBJECT
 public:
@@ -21,6 +23,8 @@ public:
     QString cachedFile(const QString &image);
 
     static QString cachePath();
+
+    void run();
 
 public slots:
     int fetch(const QString &image, QObject *callbackObject, const QString &callbackFunction);
@@ -37,6 +41,7 @@ private:
     ImageFetchJob *m_currentJob;
     QList<ImageFetchJob*> m_downloadQueue;
     QList<ImageFetchJob*> m_toBeNotifiedList;
+    QMutex m_mutex;
 
     QHash<QString, bool> m_cacheFiles;
 
