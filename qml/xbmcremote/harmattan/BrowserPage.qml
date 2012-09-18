@@ -172,6 +172,7 @@ Page {
         property bool draggedForSearch: browserPage.model.allowSearch && contentY < -100
         property bool useThumbnails: settings.useThumbnails
 
+        property int itemHeight: browserPage.model.thumbnailFormat === XbmcModel.ThumbnailFormatPortrait ? 122 : 88
 
         onDraggedForSearchChanged: {
             searchBar.expanded = true;
@@ -179,7 +180,7 @@ Page {
 
         delegate:  Item {
             id: listItem
-            height: browserPage.model.thumbnailFormat === XbmcModel.ThumbnailFormatPortrait ? 122 : 88
+            height: listView.itemHeight
             width: parent.width
             //ListView.delayRemove: thumbnailImage.status == Image.Loading
             state: "collapsed"
@@ -381,7 +382,7 @@ Page {
                     PropertyChanges { target: background; visible: false }
                     PropertyChanges { target: expandedContent; opacity: 1 }
                     PropertyChanges { target: contentLoader; source: "ItemDetails.qml" }
-                    PropertyChanges { target: listView; interactive: false; contentY: 88 * listView.currentIndex }
+                    PropertyChanges { target: listView; interactive: false; contentY: listView.itemHeight * listView.currentIndex }
                     PropertyChanges { target: fastScroller; enabled: false }
 //                    PropertyChanges { target: mouseArea; enabled: false }
                 }
