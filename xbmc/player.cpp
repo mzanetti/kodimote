@@ -179,16 +179,18 @@ void Player::skipPrevious()
 {
     QVariantMap params;
     params.insert("playerid", playerId());
+    params.insert("to", "previous");
 
-    XbmcConnection::sendCommand("Player.GoPrevious", params);
+    XbmcConnection::sendCommand("Player.GoTo", params);
 }
 
 void Player::skipNext()
 {
     QVariantMap params;
     params.insert("playerid", playerId());
+    params.insert("to", "next");
 
-    XbmcConnection::sendCommand("Player.GoNext", params);
+    XbmcConnection::sendCommand("Player.GoTo", params);
 }
 
 void Player::seekBackward()
@@ -456,12 +458,9 @@ void Player::setShuffle(bool shuffle)
 {
     QVariantMap params;
     params.insert("playerid", playerId());
+    params.insert("shuffle", shuffle);
 
-    if(shuffle) {
-        XbmcConnection::sendCommand("Player.Shuffle", params);
-    } else {
-        XbmcConnection::sendCommand("Player.UnShuffle", params);
-    }
+    XbmcConnection::sendCommand("Player.SetShuffle", params);
     getRepeatShuffle();
 }
 
@@ -470,18 +469,18 @@ void Player::setRepeat(Player::Repeat repeat)
     QVariantMap params;
     switch(repeat) {
     case RepeatNone:
-        params.insert("state", "off");
+        params.insert("repeat", "off");
         break;
     case RepeatOne:
-        params.insert("state", "one");
+        params.insert("repeat", "one");
         break;
     case RepeatAll:
-        params.insert("state", "all");
+        params.insert("repeat", "all");
         break;
     }
     params.insert("playerid", playerId());
 
-    XbmcConnection::sendCommand("Player.Repeat", params);
+    XbmcConnection::sendCommand("Player.SetRepeat", params);
 
     getRepeatShuffle();
 }

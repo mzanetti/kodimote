@@ -5,6 +5,150 @@
   "description":"JSON-RPC API of XBMC",
   "id":"http://www.xbmc.org/jsonrpc/ServiceDescription.json",
   "methods":{
+    "Addons.ExecuteAddon":{
+      "description":"Executes the given addon with the given parameters (if possible)",
+      "params":[
+        {
+          "name":"addonid",
+          "required":true,
+          "type":"string"
+        },
+        {
+          "default":null,
+          "name":"params",
+          "type":[
+            {
+              "additionalProperties":{
+                "default":"",
+                "type":"string"
+              },
+              "type":"object"
+            },
+            {
+              "items":{
+                "type":"string"
+              },
+              "type":"array"
+            }
+          ]
+        },
+        {
+          "default":false,
+          "name":"wait",
+          "type":"boolean"
+        }
+      ],
+      "returns":{
+        "type":"string"
+      },
+      "type":"method"
+    },
+    
+    "Addons.GetAddonDetails":{
+      "description":"Gets the details of a specific addon",
+      "params":[
+        {
+          "name":"addonid",
+          "required":true,
+          "type":"string"
+        },
+        {
+          "$ref":"Addon.Fields",
+          "name":"properties"
+        }
+      ],
+      "returns":{
+        "properties":{
+          "addon":{
+            "$ref":"Addon.Details",
+            "required":true
+          },
+          "limits":{
+            "$ref":"List.LimitsReturned",
+            "required":true
+          }
+        },
+        "type":"object"
+      },
+      "type":"method"
+    },
+    
+    "Addons.GetAddons":{
+      "description":"Gets all available addons",
+      "params":[
+        {
+          "$ref":"Addon.Types",
+          "default":"unknown",
+          "name":"type"
+        },
+        {
+          "$ref":"Addon.Content",
+          "default":"unknown",
+          "description":"Content provided by the addon. Only considered for plugins and scripts.",
+          "name":"content"
+        },
+        {
+          "default":"all",
+          "name":"enabled",
+          "type":[
+            {
+              "type":"boolean"
+            },
+            {
+              "enums":[
+                "all"
+              ],
+              "type":"string"
+            }
+          ]
+        },
+        {
+          "$ref":"Addon.Fields",
+          "name":"properties"
+        },
+        {
+          "$ref":"List.Limits",
+          "name":"limits"
+        }
+      ],
+      "returns":{
+        "properties":{
+          "addons":{
+            "items":{
+              "$ref":"Addon.Details"
+            },
+            "type":"array"
+          },
+          "limits":{
+            "$ref":"List.LimitsReturned",
+            "required":true
+          }
+        },
+        "type":"object"
+      },
+      "type":"method"
+    },
+    
+    "Addons.SetAddonEnabled":{
+      "description":"Enables/Disables a specific addon",
+      "params":[
+        {
+          "name":"addonid",
+          "required":true,
+          "type":"string"
+        },
+        {
+          "$ref":"Global.Toggle",
+          "name":"enabled",
+          "required":true
+        }
+      ],
+      "returns":{
+        "type":"string"
+      },
+      "type":"method"
+    },
+    
     "Application.GetProperties":{
       "description":"Retrieves the values of the given properties",
       "params":[
@@ -212,6 +356,9 @@
                 }
               },
               "type":"object"
+            },
+            {
+              "$ref":"List.Filter.Albums"
             }
           ]
         }
@@ -333,6 +480,9 @@
                 }
               },
               "type":"object"
+            },
+            {
+              "$ref":"List.Filter.Artists"
             }
           ]
         }
@@ -637,6 +787,9 @@
                 }
               },
               "type":"object"
+            },
+            {
+              "$ref":"List.Filter.Songs"
             }
           ]
         }
@@ -1036,6 +1189,37 @@
       "type":"method"
     },
     
+    "Files.GetFileDetails":{
+      "description":"Get details for a specific file",
+      "params":[
+        {
+          "description":"Full path to the file",
+          "name":"file",
+          "required":true,
+          "type":"string"
+        },
+        {
+          "$ref":"Files.Media",
+          "default":"files",
+          "name":"media"
+        },
+        {
+          "$ref":"List.Fields.Files",
+          "name":"properties"
+        }
+      ],
+      "returns":{
+        "properties":{
+          "filedetails":{
+            "$ref":"List.Item.File",
+            "required":true
+          }
+        },
+        "type":"object"
+      },
+      "type":"method"
+    },
+    
     "Files.GetSources":{
       "description":"Get the sources of the media windows",
       "params":[
@@ -1103,6 +1287,30 @@
           }
         },
         "type":"object"
+      },
+      "type":"method"
+    },
+    
+    "GUI.ActivateWindow":{
+      "description":"Activates the given window",
+      "params":[
+        {
+          "$ref":"GUI.Window",
+          "name":"window",
+          "required":true
+        },
+        {
+          "items":{
+            "minLength":1,
+            "type":"string"
+          },
+          "minItems":1,
+          "name":"parameters",
+          "type":"array"
+        }
+      ],
+      "returns":{
+        "type":"string"
       },
       "type":"method"
     },
@@ -1294,7 +1502,6 @@
       "params":[
         {
           "description":"Unicode text",
-          "minLength":1,
           "name":"text",
           "required":true,
           "type":"string"
@@ -1451,6 +1658,14 @@
             "required":true,
             "type":"boolean"
           },
+          "executeaddon":{
+            "required":true,
+            "type":"boolean"
+          },
+          "manageaddon":{
+            "required":true,
+            "type":"boolean"
+          },
           "navigate":{
             "required":true,
             "type":"boolean"
@@ -1573,38 +1788,8 @@
       "type":"method"
     },
     
-    "Player.GoNext":{
-      "description":"Go to next item on the playlist",
-      "params":[
-        {
-          "$ref":"Player.Id",
-          "name":"playerid",
-          "required":true
-        }
-      ],
-      "returns":{
-        "type":"string"
-      },
-      "type":"method"
-    },
-    
-    "Player.GoPrevious":{
-      "description":"Go to previous item on the playlist",
-      "params":[
-        {
-          "$ref":"Player.Id",
-          "name":"playerid",
-          "required":true
-        }
-      ],
-      "returns":{
-        "type":"string"
-      },
-      "type":"method"
-    },
-    
     "Player.GoTo":{
-      "description":"Go to item at the given position in the playlist",
+      "description":"Go to previous/next/specific item in the playlist",
       "params":[
         {
           "$ref":"Player.Id",
@@ -1612,9 +1797,21 @@
           "required":true
         },
         {
-          "$ref":"Playlist.Position",
-          "name":"position",
-          "required":true
+          "name":"to",
+          "required":true,
+          "type":[
+            {
+              "enums":[
+                "previous",
+                "next"
+              ],
+              "type":"string"
+            },
+            {
+              "$ref":"Playlist.Position",
+              "description":"position in playlist"
+            }
+          ]
         }
       ],
       "returns":{
@@ -1623,58 +1820,24 @@
       "type":"method"
     },
     
-    "Player.MoveDown":{
-      "description":"If picture is zoomed move viewport down",
+    "Player.Move":{
+      "description":"If picture is zoomed move viewport left/right/up/down otherwise skip previous/next",
       "params":[
         {
           "$ref":"Player.Id",
           "name":"playerid",
           "required":true
-        }
-      ],
-      "returns":{
-        "type":"string"
-      },
-      "type":"method"
-    },
-    
-    "Player.MoveLeft":{
-      "description":"If picture is zoomed move viewport left otherwise skip previous",
-      "params":[
+        },
         {
-          "$ref":"Player.Id",
-          "name":"playerid",
-          "required":true
-        }
-      ],
-      "returns":{
-        "type":"string"
-      },
-      "type":"method"
-    },
-    
-    "Player.MoveRight":{
-      "description":"If picture is zoomed move viewport right otherwise skip next",
-      "params":[
-        {
-          "$ref":"Player.Id",
-          "name":"playerid",
-          "required":true
-        }
-      ],
-      "returns":{
-        "type":"string"
-      },
-      "type":"method"
-    },
-    
-    "Player.MoveUp":{
-      "description":"If picture is zoomed move viewport up",
-      "params":[
-        {
-          "$ref":"Player.Id",
-          "name":"playerid",
-          "required":true
+          "enums":[
+            "left",
+            "right",
+            "up",
+            "down"
+          ],
+          "name":"direction",
+          "required":true,
+          "type":"string"
         }
       ],
       "returns":{
@@ -1723,6 +1886,29 @@
                 "recursive":{
                   "default":true,
                   "type":"boolean"
+                }
+              },
+              "type":"object"
+            },
+            {
+              "additionalProperties":false,
+              "properties":{
+                "partymode":{
+                  "default":"",
+                  "type":[
+                    {
+                      "enums":[
+                        "music",
+                        "video"
+                      ],
+                      "type":"string"
+                    },
+                    {
+                      "description":"Path to a smartplaylist (*.xsp) file",
+                      "minLength":5,
+                      "type":"string"
+                    }
+                  ]
                 }
               },
               "type":"object"
@@ -1795,26 +1981,6 @@
       "type":"method"
     },
     
-    "Player.Repeat":{
-      "description":"Set the repeat mode of the player",
-      "params":[
-        {
-          "$ref":"Player.Id",
-          "name":"playerid",
-          "required":true
-        },
-        {
-          "$ref":"Player.Repeat",
-          "name":"state",
-          "required":true
-        }
-      ],
-      "returns":{
-        "type":"string"
-      },
-      "type":"method"
-    },
-    
     "Player.Rotate":{
       "description":"Rotates current picture",
       "params":[
@@ -1822,6 +1988,15 @@
           "$ref":"Player.Id",
           "name":"playerid",
           "required":true
+        },
+        {
+          "default":"clockwise",
+          "enums":[
+            "clockwise",
+            "counterclockwise"
+          ],
+          "name":"value",
+          "type":"string"
         }
       ],
       "returns":{
@@ -1914,6 +2089,76 @@
       "type":"method"
     },
     
+    "Player.SetPartymode":{
+      "description":"Turn partymode on or off",
+      "params":[
+        {
+          "$ref":"Player.Id",
+          "name":"playerid",
+          "required":true
+        },
+        {
+          "$ref":"Global.Toggle",
+          "name":"partymode",
+          "required":true
+        }
+      ],
+      "returns":{
+        "type":"string"
+      },
+      "type":"method"
+    },
+    
+    "Player.SetRepeat":{
+      "description":"Set the repeat mode of the player",
+      "params":[
+        {
+          "$ref":"Player.Id",
+          "name":"playerid",
+          "required":true
+        },
+        {
+          "name":"repeat",
+          "required":true,
+          "type":[
+            {
+              "$ref":"Player.Repeat"
+            },
+            {
+              "enums":[
+                "cycle"
+              ],
+              "type":"string"
+            }
+          ]
+        }
+      ],
+      "returns":{
+        "type":"string"
+      },
+      "type":"method"
+    },
+    
+    "Player.SetShuffle":{
+      "description":"Shuffle/Unshuffle items in the player",
+      "params":[
+        {
+          "$ref":"Player.Id",
+          "name":"playerid",
+          "required":true
+        },
+        {
+          "$ref":"Global.Toggle",
+          "name":"shuffle",
+          "required":true
+        }
+      ],
+      "returns":{
+        "type":"string"
+      },
+      "type":"method"
+    },
+    
     "Player.SetSpeed":{
       "description":"Set the speed of the current playback",
       "params":[
@@ -1997,21 +2242,6 @@
       "type":"method"
     },
     
-    "Player.Shuffle":{
-      "description":"Shuffle items in the player",
-      "params":[
-        {
-          "$ref":"Player.Id",
-          "name":"playerid",
-          "required":true
-        }
-      ],
-      "returns":{
-        "type":"string"
-      },
-      "type":"method"
-    },
-    
     "Player.Stop":{
       "description":"Stops playback",
       "params":[
@@ -2027,23 +2257,8 @@
       "type":"method"
     },
     
-    "Player.UnShuffle":{
-      "description":"Unshuffle items in the player",
-      "params":[
-        {
-          "$ref":"Player.Id",
-          "name":"playerid",
-          "required":true
-        }
-      ],
-      "returns":{
-        "type":"string"
-      },
-      "type":"method"
-    },
-    
     "Player.Zoom":{
-      "description":"Zooms current picture",
+      "description":"Zoom current picture",
       "params":[
         {
           "$ref":"Player.Id",
@@ -2051,42 +2266,23 @@
           "required":true
         },
         {
-          "description":"Zoom level",
-          "maximum":10,
-          "minimum":1,
-          "name":"value",
+          "name":"zoom",
           "required":true,
-          "type":"integer"
-        }
-      ],
-      "returns":{
-        "type":"string"
-      },
-      "type":"method"
-    },
-    
-    "Player.ZoomIn":{
-      "description":"Zoom in once",
-      "params":[
-        {
-          "$ref":"Player.Id",
-          "name":"playerid",
-          "required":true
-        }
-      ],
-      "returns":{
-        "type":"string"
-      },
-      "type":"method"
-    },
-    
-    "Player.ZoomOut":{
-      "description":"Zoom out once",
-      "params":[
-        {
-          "$ref":"Player.Id",
-          "name":"playerid",
-          "required":true
+          "type":[
+            {
+              "enums":[
+                "in",
+                "out"
+              ],
+              "type":"string"
+            },
+            {
+              "description":"zoom level",
+              "maximum":10,
+              "minimum":1,
+              "type":"integer"
+            }
+          ]
         }
       ],
       "returns":{
@@ -2531,6 +2727,9 @@
                 }
               },
               "type":"object"
+            },
+            {
+              "$ref":"List.Filter.Episodes"
             }
           ]
         }
@@ -2820,6 +3019,9 @@
                 }
               },
               "type":"object"
+            },
+            {
+              "$ref":"List.Filter.Movies"
             }
           ]
         }
@@ -2948,6 +3150,20 @@
                 }
               },
               "type":"object"
+            },
+            {
+              "additionalProperties":false,
+              "properties":{
+                "tag":{
+                  "minLength":1,
+                  "required":true,
+                  "type":"string"
+                }
+              },
+              "type":"object"
+            },
+            {
+              "$ref":"List.Filter.MusicVideos"
             }
           ]
         }
@@ -3206,6 +3422,20 @@
                 }
               },
               "type":"object"
+            },
+            {
+              "additionalProperties":false,
+              "properties":{
+                "tag":{
+                  "minLength":1,
+                  "required":true,
+                  "type":"string"
+                }
+              },
+              "type":"object"
+            },
+            {
+              "$ref":"List.Filter.TVShows"
             }
           ]
         }
@@ -3404,6 +3634,18 @@
           "$ref":"Optional.String",
           "default":null,
           "name":"fanart"
+        },
+        {
+          "default":null,
+          "name":"art",
+          "type":[
+            {
+              "type":"null"
+            },
+            {
+              "$ref":"Media.Artwork"
+            }
+          ]
         }
       ],
       "returns":{
@@ -3598,6 +3840,18 @@
               "$ref":"Array.String"
             }
           ]
+        },
+        {
+          "default":null,
+          "name":"art",
+          "type":[
+            {
+              "type":"null"
+            },
+            {
+              "$ref":"Media.Artwork"
+            }
+          ]
         }
       ],
       "returns":{
@@ -3711,6 +3965,30 @@
           "$ref":"Optional.String",
           "default":null,
           "name":"fanart"
+        },
+        {
+          "default":null,
+          "name":"tag",
+          "type":[
+            {
+              "type":"null"
+            },
+            {
+              "$ref":"Array.String"
+            }
+          ]
+        },
+        {
+          "default":null,
+          "name":"art",
+          "type":[
+            {
+              "type":"null"
+            },
+            {
+              "$ref":"Media.Artwork"
+            }
+          ]
         }
       ],
       "returns":{
@@ -3820,6 +4098,30 @@
           "$ref":"Optional.String",
           "default":null,
           "name":"fanart"
+        },
+        {
+          "default":null,
+          "name":"tag",
+          "type":[
+            {
+              "type":"null"
+            },
+            {
+              "$ref":"Array.String"
+            }
+          ]
+        },
+        {
+          "default":null,
+          "name":"art",
+          "type":[
+            {
+              "type":"null"
+            },
+            {
+              "$ref":"Media.Artwork"
+            }
+          ]
         }
       ],
       "returns":{
@@ -3930,6 +4232,24 @@
     
     "AudioLibrary.OnScanFinished":{
       "description":"Scanning the audio library has been finished.",
+      "params":[
+        {
+          "name":"sender",
+          "required":true,
+          "type":"string"
+        },
+        {
+          "name":"data",
+          "required":true,
+          "type":"null"
+        }
+      ],
+      "returns":null,
+      "type":"notification"
+    },
+    
+    "AudioLibrary.OnScanStarted":{
+      "description":"An audio library scan has started.",
       "params":[
         {
           "name":"sender",
@@ -4073,6 +4393,33 @@
       "type":"notification"
     },
     
+    "Player.OnPropertyChanged":{
+      "description":"A property of the playing items has changed.",
+      "params":[
+        {
+          "name":"sender",
+          "required":true,
+          "type":"string"
+        },
+        {
+          "name":"data",
+          "properties":{
+            "player":{
+              "$ref":"Player.Notifications.Player",
+              "required":true
+            },
+            "property":{
+              "$ref":"Player.Property.Value"
+            }
+          },
+          "required":true,
+          "type":"object"
+        }
+      ],
+      "returns":null,
+      "type":"notification"
+    },
+    
     "Player.OnSeek":{
       "description":"The playback position has been changed. If there is no ID available extra information will be provided.",
       "params":[
@@ -4085,7 +4432,7 @@
           "name":"data",
           "properties":{
             "item":{
-              "$ref":"Player.Notifications.Item"
+              "$ref":"Notifications.Item"
             },
             "player":{
               "$ref":"Player.Notifications.Player.Seek",
@@ -4135,7 +4482,88 @@
               "type":"boolean"
             },
             "item":{
-              "$ref":"Player.Notifications.Item"
+              "$ref":"Notifications.Item"
+            }
+          },
+          "required":true,
+          "type":"object"
+        }
+      ],
+      "returns":null,
+      "type":"notification"
+    },
+    
+    "Playlist.OnAdd":{
+      "description":"A playlist item has been added.",
+      "params":[
+        {
+          "name":"sender",
+          "required":true,
+          "type":"string"
+        },
+        {
+          "name":"data",
+          "properties":{
+            "item":{
+              "$ref":"Notifications.Item"
+            },
+            "playlistid":{
+              "$ref":"Playlist.Id",
+              "required":true
+            },
+            "position":{
+              "$ref":"Playlist.Position"
+            }
+          },
+          "required":true,
+          "type":"object"
+        }
+      ],
+      "returns":null,
+      "type":"notification"
+    },
+    
+    "Playlist.OnClear":{
+      "description":"A playlist item has been cleared.",
+      "params":[
+        {
+          "name":"sender",
+          "required":true,
+          "type":"string"
+        },
+        {
+          "name":"data",
+          "properties":{
+            "playlistid":{
+              "$ref":"Playlist.Id",
+              "required":true
+            }
+          },
+          "required":true,
+          "type":"object"
+        }
+      ],
+      "returns":null,
+      "type":"notification"
+    },
+    
+    "Playlist.OnRemove":{
+      "description":"A playlist item has been removed.",
+      "params":[
+        {
+          "name":"sender",
+          "required":true,
+          "type":"string"
+        },
+        {
+          "name":"data",
+          "properties":{
+            "playlistid":{
+              "$ref":"Playlist.Id",
+              "required":true
+            },
+            "position":{
+              "$ref":"Playlist.Position"
             }
           },
           "required":true,
@@ -4282,6 +4710,24 @@
       "type":"notification"
     },
     
+    "VideoLibrary.OnScanStarted":{
+      "description":"A video library scan has started.",
+      "params":[
+        {
+          "name":"sender",
+          "required":true,
+          "type":"string"
+        },
+        {
+          "name":"data",
+          "required":true,
+          "type":"null"
+        }
+      ],
+      "returns":null,
+      "type":"notification"
+    },
+    
     "VideoLibrary.OnUpdate":{
       "description":"A video item has been updated.",
       "params":[
@@ -4323,6 +4769,177 @@
     }
   },
   "types":{
+    "Addon.Content":{
+      "default":"unknown",
+      "enums":[
+        "unknown",
+        "video",
+        "audio",
+        "image",
+        "executable"
+      ],
+      "id":"Addon.Content",
+      "type":"string"
+    },
+    
+    "Addon.Details":{
+      "extends":"Item.Details.Base",
+      "id":"Addon.Details",
+      "properties":{
+        "addonid":{
+          "required":true,
+          "type":"string"
+        },
+        "author":{
+          "default":"",
+          "type":"string"
+        },
+        "broken":{
+          "default":null,
+          "type":[
+            {
+              "type":"boolean"
+            },
+            {
+              "type":"string"
+            }
+          ]
+        },
+        "dependencies":{
+          "items":{
+            "properties":{
+              "addonid":{
+                "required":true,
+                "type":"string"
+              },
+              "optional":{
+                "required":true,
+                "type":"boolean"
+              },
+              "version":{
+                "required":true,
+                "type":"string"
+              }
+            },
+            "type":"object"
+          },
+          "type":"array"
+        },
+        "description":{
+          "default":"",
+          "type":"string"
+        },
+        "disclaimer":{
+          "default":"",
+          "type":"string"
+        },
+        "enabled":{
+          "default":false,
+          "type":"boolean"
+        },
+        "extrainfo":{
+          "items":{
+            "properties":{
+              "key":{
+                "required":true,
+                "type":"string"
+              },
+              "value":{
+                "required":true,
+                "type":"string"
+              }
+            },
+            "type":"object"
+          },
+          "type":"array"
+        },
+        "fanart":{
+          "default":"",
+          "type":"string"
+        },
+        "name":{
+          "default":"",
+          "type":"string"
+        },
+        "path":{
+          "default":"",
+          "type":"string"
+        },
+        "rating":{
+          "default":0,
+          "type":"integer"
+        },
+        "summary":{
+          "default":"",
+          "type":"string"
+        },
+        "thumbnail":{
+          "default":"",
+          "type":"string"
+        },
+        "type":{
+          "$ref":"Addon.Types",
+          "required":true
+        },
+        "version":{
+          "default":"",
+          "type":"string"
+        }
+      }
+    },
+    
+    "Addon.Fields":{
+      "extends":"Item.Fields.Base",
+      "id":"Addon.Fields",
+      "items":{
+        "enums":[
+          "name",
+          "version",
+          "summary",
+          "description",
+          "path",
+          "author",
+          "thumbnail",
+          "disclaimer",
+          "fanart",
+          "dependencies",
+          "broken",
+          "extrainfo",
+          "rating",
+          "enabled"
+        ],
+        "type":"string"
+      }
+    },
+    
+    "Addon.Types":{
+      "default":"unknown",
+      "enums":[
+        "unknown",
+        "xbmc.metadata.scraper.albums",
+        "xbmc.metadata.scraper.artists",
+        "xbmc.metadata.scraper.movies",
+        "xbmc.metadata.scraper.musicvideos",
+        "xbmc.metadata.scraper.tvshows",
+        "xbmc.ui.screensaver",
+        "xbmc.player.musicviz",
+        "xbmc.python.pluginsource",
+        "xbmc.python.script",
+        "xbmc.python.weather",
+        "xbmc.python.subtitles",
+        "xbmc.python.lyrics",
+        "xbmc.gui.skin",
+        "xbmc.gui.webinterface",
+        "xbmc.addon.video",
+        "xbmc.addon.audio",
+        "xbmc.addon.image",
+        "xbmc.addon.executable",
+        "xbmc.service"
+      ],
+      "id":"Addon.Types",
+      "type":"string"
+    },
+    
     "Application.Property.Name":{
       "default":"volume",
       "enums":[
@@ -4429,6 +5046,10 @@
         },
         "mood":{
           "$ref":"Array.String"
+        },
+        "playcount":{
+          "default":0,
+          "type":"integer"
         },
         "style":{
           "$ref":"Array.String"
@@ -4616,7 +5237,7 @@
           "musicbrainzalbumartistid",
           "fanart",
           "thumbnail",
-          "artistid"
+          "playcount"
         ],
         "type":"string"
       }
@@ -4669,7 +5290,6 @@
           "fanart",
           "thumbnail",
           "file",
-          "artistid",
           "albumid",
           "lastplayed",
           "disc"
@@ -4715,6 +5335,10 @@
           "type":"boolean"
         },
         "player":{
+          "required":true,
+          "type":"boolean"
+        },
+        "playlist":{
           "required":true,
           "type":"boolean"
         },
@@ -4802,6 +5426,126 @@
       "type":"object"
     },
     
+    "GUI.Window":{
+      "default":"home",
+      "enums":[
+        "home",
+        "programs",
+        "pictures",
+        "filemanager",
+        "files",
+        "settings",
+        "music",
+        "video",
+        "videos",
+        "tv",
+        "pvr",
+        "pvrguideinfo",
+        "pvrrecordinginfo",
+        "pvrtimersetting",
+        "pvrgroupmanager",
+        "pvrchannelmanager",
+        "pvrguidesearch",
+        "pvrchannelscan",
+        "pvrupdateprogress",
+        "pvrosdchannels",
+        "pvrosdguide",
+        "pvrosddirector",
+        "pvrosdcutter",
+        "pvrosdteletext",
+        "systeminfo",
+        "testpattern",
+        "screencalibration",
+        "guicalibration",
+        "picturessettings",
+        "programssettings",
+        "weathersettings",
+        "musicsettings",
+        "systemsettings",
+        "videossettings",
+        "networksettings",
+        "servicesettings",
+        "appearancesettings",
+        "pvrsettings",
+        "tvsettings",
+        "scripts",
+        "videofiles",
+        "videolibrary",
+        "videoplaylist",
+        "loginscreen",
+        "profiles",
+        "addonbrowser",
+        "yesnodialog",
+        "progressdialog",
+        "virtualkeyboard",
+        "volumebar",
+        "submenu",
+        "favourites",
+        "contextmenu",
+        "infodialog",
+        "numericinput",
+        "gamepadinput",
+        "shutdownmenu",
+        "mutebug",
+        "playercontrols",
+        "seekbar",
+        "musicosd",
+        "addonsettings",
+        "visualisationsettings",
+        "visualisationpresetlist",
+        "osdvideosettings",
+        "osdaudiosettings",
+        "videobookmarks",
+        "filebrowser",
+        "networksetup",
+        "mediasource",
+        "profilesettings",
+        "locksettings",
+        "contentsettings",
+        "songinformation",
+        "smartplaylisteditor",
+        "smartplaylistrule",
+        "busydialog",
+        "pictureinfo",
+        "accesspoints",
+        "fullscreeninfo",
+        "karaokeselector",
+        "karaokelargeselector",
+        "sliderdialog",
+        "addoninformation",
+        "musicplaylist",
+        "musicfiles",
+        "musiclibrary",
+        "musicplaylisteditor",
+        "teletext",
+        "selectdialog",
+        "musicinformation",
+        "okdialog",
+        "movieinformation",
+        "textviewer",
+        "fullscreenvideo",
+        "visualisation",
+        "slideshow",
+        "filestackingdialog",
+        "karaoke",
+        "weather",
+        "screensaver",
+        "videoosd",
+        "videomenu",
+        "videotimeseek",
+        "musicoverlay",
+        "videooverlay",
+        "startwindow",
+        "startup",
+        "peripherals",
+        "peripheralsettings",
+        "extendedprogressdialog",
+        "mediafilter"
+      ],
+      "id":"GUI.Window",
+      "type":"string"
+    },
+    
     "Global.IncrementDecrement":{
       "default":"increment",
       "enums":[
@@ -4809,6 +5553,13 @@
         "decrement"
       ],
       "id":"Global.IncrementDecrement",
+      "type":"string"
+    },
+    
+    "Global.String.NotEmpty":{
+      "default":"",
+      "id":"Global.String.NotEmpty",
+      "minLength":1,
       "type":"string"
     },
     
@@ -4910,6 +5661,7 @@
         "resetcalibration",
         "analogmove",
         "rotate",
+        "rotateccw",
         "close",
         "subtitledelayminus",
         "subtitledelay",
@@ -5000,6 +5752,7 @@
         "jumpsms7",
         "jumpsms8",
         "jumpsms9",
+        "filter",
         "filterclear",
         "filtersms2",
         "filtersms3",
@@ -5155,7 +5908,8 @@
           "setid",
           "watchedepisodes",
           "disc",
-          "tag"
+          "tag",
+          "art"
         ],
         "type":"string"
       }
@@ -5225,6 +5979,577 @@
       }
     },
     
+    "List.Filter.Albums":{
+      "id":"List.Filter.Albums",
+      "type":[
+        {
+          "properties":{
+            "and":{
+              "items":{
+                "$ref":"List.Filter.Albums"
+              },
+              "minItems":1,
+              "required":true,
+              "type":"array"
+            }
+          },
+          "type":"object"
+        },
+        {
+          "properties":{
+            "or":{
+              "items":{
+                "$ref":"List.Filter.Albums"
+              },
+              "minItems":1,
+              "required":true,
+              "type":"array"
+            }
+          },
+          "type":"object"
+        },
+        {
+          "$ref":"List.Filter.Rule.Albums"
+        }
+      ]
+    },
+    
+    "List.Filter.Artists":{
+      "id":"List.Filter.Artists",
+      "type":[
+        {
+          "properties":{
+            "and":{
+              "items":{
+                "$ref":"List.Filter.Artists"
+              },
+              "minItems":1,
+              "required":true,
+              "type":"array"
+            }
+          },
+          "type":"object"
+        },
+        {
+          "properties":{
+            "or":{
+              "items":{
+                "$ref":"List.Filter.Artists"
+              },
+              "minItems":1,
+              "required":true,
+              "type":"array"
+            }
+          },
+          "type":"object"
+        },
+        {
+          "$ref":"List.Filter.Rule.Artists"
+        }
+      ]
+    },
+    
+    "List.Filter.Episodes":{
+      "id":"List.Filter.Episodes",
+      "type":[
+        {
+          "properties":{
+            "and":{
+              "items":{
+                "$ref":"List.Filter.Episodes"
+              },
+              "minItems":1,
+              "required":true,
+              "type":"array"
+            }
+          },
+          "type":"object"
+        },
+        {
+          "properties":{
+            "or":{
+              "items":{
+                "$ref":"List.Filter.Episodes"
+              },
+              "minItems":1,
+              "required":true,
+              "type":"array"
+            }
+          },
+          "type":"object"
+        },
+        {
+          "$ref":"List.Filter.Rule.Episodes"
+        }
+      ]
+    },
+    
+    "List.Filter.Fields.Albums":{
+      "enums":[
+        "genre",
+        "album",
+        "artist",
+        "albumartist",
+        "year",
+        "review",
+        "themes",
+        "moods",
+        "styles",
+        "type",
+        "label",
+        "rating",
+        "playcount",
+        "playlist"
+      ],
+      "id":"List.Filter.Fields.Albums",
+      "required":true,
+      "type":"string"
+    },
+    
+    "List.Filter.Fields.Artists":{
+      "enums":[
+        "artist",
+        "genre",
+        "moods",
+        "styles",
+        "instruments",
+        "biography",
+        "born",
+        "bandformed",
+        "disbanded",
+        "died",
+        "playlist"
+      ],
+      "id":"List.Filter.Fields.Artists",
+      "required":true,
+      "type":"string"
+    },
+    
+    "List.Filter.Fields.Episodes":{
+      "default":"title",
+      "enums":[
+        "title",
+        "tvshow",
+        "plot",
+        "votes",
+        "rating",
+        "time",
+        "writers",
+        "airdate",
+        "playcount",
+        "lastplayed",
+        "inprogress",
+        "genre",
+        "year",
+        "director",
+        "actor",
+        "episode",
+        "season",
+        "filename",
+        "path",
+        "studio",
+        "mpaarating",
+        "dateadded",
+        "videoresolution",
+        "audiochannels",
+        "videocodec",
+        "audiocodec",
+        "audiolanguage",
+        "subtitlelanguage",
+        "videoaspect",
+        "playlist"
+      ],
+      "id":"List.Filter.Fields.Episodes",
+      "type":"string"
+    },
+    
+    "List.Filter.Fields.Movies":{
+      "default":"title",
+      "enums":[
+        "title",
+        "plot",
+        "plotoutline",
+        "tagline",
+        "votes",
+        "rating",
+        "time",
+        "writers",
+        "playcount",
+        "lastplayed",
+        "inprogress",
+        "genre",
+        "country",
+        "year",
+        "director",
+        "actor",
+        "mpaarating",
+        "top250",
+        "studio",
+        "hastrailer",
+        "filename",
+        "path",
+        "set",
+        "tag",
+        "dateadded",
+        "videoresolution",
+        "audiochannels",
+        "videocodec",
+        "audiocodec",
+        "audiolanguage",
+        "subtitlelanguage",
+        "videoaspect",
+        "playlist"
+      ],
+      "id":"List.Filter.Fields.Movies",
+      "type":"string"
+    },
+    
+    "List.Filter.Fields.MusicVideos":{
+      "default":"title",
+      "enums":[
+        "title",
+        "genre",
+        "album",
+        "year",
+        "artist",
+        "filename",
+        "path",
+        "playcount",
+        "lastplayed",
+        "time",
+        "director",
+        "studio",
+        "plot",
+        "dateadded",
+        "videoresolution",
+        "audiochannels",
+        "videocodec",
+        "audiocodec",
+        "audiolanguage",
+        "subtitlelanguage",
+        "videoaspect",
+        "playlist"
+      ],
+      "id":"List.Filter.Fields.MusicVideos",
+      "type":"string"
+    },
+    
+    "List.Filter.Fields.Songs":{
+      "enums":[
+        "genre",
+        "album",
+        "artist",
+        "albumartist",
+        "title",
+        "year",
+        "time",
+        "tracknumber",
+        "filename",
+        "path",
+        "playcount",
+        "lastplayed",
+        "rating",
+        "comment",
+        "dateadded",
+        "playlist"
+      ],
+      "id":"List.Filter.Fields.Songs",
+      "required":true,
+      "type":"string"
+    },
+    
+    "List.Filter.Fields.TVShows":{
+      "default":"title",
+      "enums":[
+        "title",
+        "plot",
+        "status",
+        "votes",
+        "rating",
+        "year",
+        "genre",
+        "director",
+        "actor",
+        "numepisodes",
+        "numwatched",
+        "playcount",
+        "path",
+        "studio",
+        "mpaarating",
+        "dateadded",
+        "lastplayed",
+        "inprogress",
+        "playlist"
+      ],
+      "id":"List.Filter.Fields.TVShows",
+      "type":"string"
+    },
+    
+    "List.Filter.Movies":{
+      "id":"List.Filter.Movies",
+      "type":[
+        {
+          "properties":{
+            "and":{
+              "items":{
+                "$ref":"List.Filter.Movies"
+              },
+              "minItems":1,
+              "required":true,
+              "type":"array"
+            }
+          },
+          "type":"object"
+        },
+        {
+          "properties":{
+            "or":{
+              "items":{
+                "$ref":"List.Filter.Movies"
+              },
+              "minItems":1,
+              "required":true,
+              "type":"array"
+            }
+          },
+          "type":"object"
+        },
+        {
+          "$ref":"List.Filter.Rule.Movies"
+        }
+      ]
+    },
+    
+    "List.Filter.MusicVideos":{
+      "id":"List.Filter.MusicVideos",
+      "type":[
+        {
+          "properties":{
+            "and":{
+              "items":{
+                "$ref":"List.Filter.MusicVideos"
+              },
+              "minItems":1,
+              "required":true,
+              "type":"array"
+            }
+          },
+          "type":"object"
+        },
+        {
+          "properties":{
+            "or":{
+              "items":{
+                "$ref":"List.Filter.MusicVideos"
+              },
+              "minItems":1,
+              "required":true,
+              "type":"array"
+            }
+          },
+          "type":"object"
+        },
+        {
+          "$ref":"List.Filter.Rule.MusicVideos"
+        }
+      ]
+    },
+    
+    "List.Filter.Operators":{
+      "default":"contains",
+      "enums":[
+        "contains",
+        "doesnotcontain",
+        "is",
+        "isnot",
+        "startswith",
+        "endswith",
+        "greaterthan",
+        "lessthan",
+        "after",
+        "before",
+        "inthelast",
+        "notinthelast",
+        "true",
+        "false",
+        "between"
+      ],
+      "id":"List.Filter.Operators",
+      "type":"string"
+    },
+    
+    "List.Filter.Rule":{
+      "id":"List.Filter.Rule",
+      "properties":{
+        "operator":{
+          "$ref":"List.Filter.Operators",
+          "required":true
+        },
+        "value":{
+          "required":true,
+          "type":[
+            {
+              "type":"string"
+            },
+            {
+              "items":{
+                "type":"string"
+              },
+              "type":"array"
+            }
+          ]
+        }
+      },
+      "type":"object"
+    },
+    
+    "List.Filter.Rule.Albums":{
+      "extends":"List.Filter.Rule",
+      "id":"List.Filter.Rule.Albums",
+      "properties":{
+        "field":{
+          "$ref":"List.Filter.Fields.Albums",
+          "required":true
+        }
+      }
+    },
+    
+    "List.Filter.Rule.Artists":{
+      "extends":"List.Filter.Rule",
+      "id":"List.Filter.Rule.Artists",
+      "properties":{
+        "field":{
+          "$ref":"List.Filter.Fields.Artists",
+          "required":true
+        }
+      }
+    },
+    
+    "List.Filter.Rule.Episodes":{
+      "extends":"List.Filter.Rule",
+      "id":"List.Filter.Rule.Episodes",
+      "properties":{
+        "field":{
+          "$ref":"List.Filter.Fields.Episodes",
+          "required":true
+        }
+      }
+    },
+    
+    "List.Filter.Rule.Movies":{
+      "extends":"List.Filter.Rule",
+      "id":"List.Filter.Rule.Movies",
+      "properties":{
+        "field":{
+          "$ref":"List.Filter.Fields.Movies",
+          "required":true
+        }
+      }
+    },
+    
+    "List.Filter.Rule.MusicVideos":{
+      "extends":"List.Filter.Rule",
+      "id":"List.Filter.Rule.MusicVideos",
+      "properties":{
+        "field":{
+          "$ref":"List.Filter.Fields.MusicVideos",
+          "required":true
+        }
+      }
+    },
+    
+    "List.Filter.Rule.Songs":{
+      "extends":"List.Filter.Rule",
+      "id":"List.Filter.Rule.Songs",
+      "properties":{
+        "field":{
+          "$ref":"List.Filter.Fields.Songs",
+          "required":true
+        }
+      }
+    },
+    
+    "List.Filter.Rule.TVShows":{
+      "extends":"List.Filter.Rule",
+      "id":"List.Filter.Rule.TVShows",
+      "properties":{
+        "field":{
+          "$ref":"List.Filter.Fields.TVShows",
+          "required":true
+        }
+      }
+    },
+    
+    "List.Filter.Songs":{
+      "id":"List.Filter.Songs",
+      "type":[
+        {
+          "properties":{
+            "and":{
+              "items":{
+                "$ref":"List.Filter.Songs"
+              },
+              "minItems":1,
+              "required":true,
+              "type":"array"
+            }
+          },
+          "type":"object"
+        },
+        {
+          "properties":{
+            "or":{
+              "items":{
+                "$ref":"List.Filter.Songs"
+              },
+              "minItems":1,
+              "required":true,
+              "type":"array"
+            }
+          },
+          "type":"object"
+        },
+        {
+          "$ref":"List.Filter.Rule.Songs"
+        }
+      ]
+    },
+    
+    "List.Filter.TVShows":{
+      "id":"List.Filter.TVShows",
+      "type":[
+        {
+          "properties":{
+            "and":{
+              "items":{
+                "$ref":"List.Filter.TVShows"
+              },
+              "minItems":1,
+              "required":true,
+              "type":"array"
+            }
+          },
+          "type":"object"
+        },
+        {
+          "properties":{
+            "or":{
+              "items":{
+                "$ref":"List.Filter.TVShows"
+              },
+              "minItems":1,
+              "required":true,
+              "type":"array"
+            }
+          },
+          "type":"object"
+        },
+        {
+          "$ref":"List.Filter.Rule.TVShows"
+        }
+      ]
+    },
+    
     "List.Item.All":{
       "extends":[
         "Video.Details.File",
@@ -5251,8 +6576,7 @@
           "type":"string"
         },
         "country":{
-          "default":"",
-          "type":"string"
+          "$ref":"Array.String"
         },
         "disc":{
           "default":0,
@@ -5432,13 +6756,13 @@
       "id":"List.Limits",
       "properties":{
         "end":{
+          "$ref":"List.Amount",
           "default":-1,
-          "description":"The number of items in the list being returned",
-          "minimum":0,
-          "type":"integer"
+          "description":"Index of the last item to return"
         },
         "start":{
           "default":0,
+          "description":"Index of the first item to return",
           "minimum":0,
           "type":"integer"
         }
@@ -5451,9 +6775,8 @@
       "id":"List.LimitsReturned",
       "properties":{
         "end":{
-          "default":-1,
-          "minimum":0,
-          "type":"integer"
+          "$ref":"List.Amount",
+          "default":-1
         },
         "start":{
           "default":0,
@@ -5484,33 +6807,38 @@
             "date",
             "size",
             "file",
+            "path",
             "drivetype",
-            "track",
-            "duration",
             "title",
+            "track",
+            "time",
             "artist",
             "album",
+            "albumtype",
             "genre",
             "country",
             "year",
-            "videorating",
-            "dateadded",
+            "rating",
+            "votes",
+            "top250",
             "programcount",
             "playlist",
             "episode",
-            "videotitle",
+            "season",
+            "totalepisodes",
+            "watchedepisodes",
+            "tvshowstatus",
+            "tvshowtitle",
             "sorttitle",
             "productioncode",
-            "songrating",
-            "mpaarating",
-            "videoruntime",
+            "mpaa",
             "studio",
-            "fullpath",
+            "dateadded",
             "lastplayed",
             "playcount",
             "listeners",
             "bitrate",
-            "unsorted"
+            "random"
           ],
           "type":"string"
         },
@@ -5521,6 +6849,33 @@
             "descending"
           ],
           "type":"string"
+        }
+      },
+      "type":"object"
+    },
+    
+    "Media.Artwork":{
+      "additionalProperties":{
+        "$ref":"Global.String.NotEmpty",
+        "default":""
+      },
+      "id":"Media.Artwork",
+      "properties":{
+        "banner":{
+          "$ref":"Global.String.NotEmpty",
+          "default":""
+        },
+        "fanart":{
+          "$ref":"Global.String.NotEmpty",
+          "default":""
+        },
+        "poster":{
+          "$ref":"Global.String.NotEmpty",
+          "default":""
+        },
+        "thumb":{
+          "$ref":"Global.String.NotEmpty",
+          "default":""
         }
       },
       "type":"object"
@@ -5539,6 +6894,158 @@
           "type":"string"
         }
       }
+    },
+    
+    "Notifications.Item":{
+      "id":"Notifications.Item",
+      "type":[
+        {
+          "description":"An unknown item does not have any additional information.",
+          "properties":{
+            "type":{
+              "$ref":"Notifications.Item.Type",
+              "required":true
+            }
+          },
+          "type":"object"
+        },
+        {
+          "description":"An item known to the database has an identification.",
+          "properties":{
+            "id":{
+              "$ref":"Library.Id",
+              "required":true
+            },
+            "type":{
+              "$ref":"Notifications.Item.Type",
+              "required":true
+            }
+          },
+          "type":"object"
+        },
+        {
+          "description":"A movie item has a title and may have a release year.",
+          "properties":{
+            "title":{
+              "required":true,
+              "type":"string"
+            },
+            "type":{
+              "$ref":"Notifications.Item.Type",
+              "required":true
+            },
+            "year":{
+              "default":0,
+              "type":"integer"
+            }
+          },
+          "type":"object"
+        },
+        {
+          "description":"A tv episode has a title and may have an episode number,
+           season number and the title of the show it belongs to.",
+          "properties":{
+            "episode":{
+              "default":0,
+              "type":"integer"
+            },
+            "season":{
+              "default":0,
+              "type":"integer"
+            },
+            "showtitle":{
+              "default":"",
+              "type":"string"
+            },
+            "title":{
+              "required":true,
+              "type":"string"
+            },
+            "type":{
+              "$ref":"Notifications.Item.Type",
+              "required":true
+            }
+          },
+          "type":"object"
+        },
+        {
+          "description":"A music video has a title and may have an album and an artist.",
+          "properties":{
+            "album":{
+              "default":"",
+              "type":"string"
+            },
+            "artist":{
+              "default":"",
+              "type":"string"
+            },
+            "title":{
+              "required":true,
+              "type":"string"
+            },
+            "type":{
+              "$ref":"Notifications.Item.Type",
+              "required":true
+            }
+          },
+          "type":"object"
+        },
+        {
+          "description":"A song has a title and may have an album,
+           an artist and a track number.",
+          "properties":{
+            "album":{
+              "default":"",
+              "type":"string"
+            },
+            "artist":{
+              "default":"",
+              "type":"string"
+            },
+            "title":{
+              "required":true,
+              "type":"string"
+            },
+            "track":{
+              "default":0,
+              "type":"integer"
+            },
+            "type":{
+              "$ref":"Notifications.Item.Type",
+              "required":true
+            }
+          },
+          "type":"object"
+        },
+        {
+          "description":"A picture has a file path.",
+          "properties":{
+            "file":{
+              "required":true,
+              "type":"string"
+            },
+            "type":{
+              "$ref":"Notifications.Item.Type",
+              "required":true
+            }
+          },
+          "type":"object"
+        }
+      ]
+    },
+    
+    "Notifications.Item.Type":{
+      "default":"unknown",
+      "enums":[
+        "unknown",
+        "movie",
+        "episode",
+        "musicvideo",
+        "song",
+        "picture"
+      ],
+      "id":"Notifications.Item.Type",
+      "type":"string"
     },
     
     "Optional.Boolean":{
@@ -5644,7 +7151,7 @@
       "id":"Player.Notifications.Data",
       "properties":{
         "item":{
-          "$ref":"Player.Notifications.Item",
+          "$ref":"Notifications.Item",
           "required":true
         },
         "player":{
@@ -5653,143 +7160,6 @@
         }
       },
       "type":"object"
-    },
-    
-    "Player.Notifications.Item":{
-      "id":"Player.Notifications.Item",
-      "type":[
-        {
-          "description":"An unknown item does not have any additional information.",
-          "properties":{
-            "type":{
-              "$ref":"Player.Notifications.Item.Type",
-              "required":true
-            }
-          },
-          "type":"object"
-        },
-        {
-          "description":"An item known to the database has an identification.",
-          "properties":{
-            "id":{
-              "$ref":"Library.Id",
-              "required":true
-            },
-            "type":{
-              "$ref":"Player.Notifications.Item.Type",
-              "required":true
-            }
-          },
-          "type":"object"
-        },
-        {
-          "description":"A movie item has a title and may have a release year.",
-          "properties":{
-            "title":{
-              "required":true,
-              "type":"string"
-            },
-            "type":{
-              "$ref":"Player.Notifications.Item.Type",
-              "required":true
-            },
-            "year":{
-              "default":0,
-              "type":"integer"
-            }
-          },
-          "type":"object"
-        },
-        {
-          "description":"A tv episode has a title and may have an episode number,
-           season number and the title of the show it belongs to.",
-          "properties":{
-            "episode":{
-              "default":0,
-              "type":"integer"
-            },
-            "season":{
-              "default":0,
-              "type":"integer"
-            },
-            "showtitle":{
-              "default":"",
-              "type":"string"
-            },
-            "title":{
-              "required":true,
-              "type":"string"
-            },
-            "type":{
-              "$ref":"Player.Notifications.Item.Type",
-              "required":true
-            }
-          },
-          "type":"object"
-        },
-        {
-          "description":"A music video has a title and may have an album and an artist.",
-          "properties":{
-            "album":{
-              "default":"",
-              "type":"string"
-            },
-            "artist":{
-              "default":"",
-              "type":"string"
-            },
-            "title":{
-              "required":true,
-              "type":"string"
-            },
-            "type":{
-              "$ref":"Player.Notifications.Item.Type",
-              "required":true
-            }
-          },
-          "type":"object"
-        },
-        {
-          "description":"A song has a title and may have an album,
-           an artist and a track number.",
-          "properties":{
-            "album":{
-              "default":"",
-              "type":"string"
-            },
-            "artist":{
-              "default":"",
-              "type":"string"
-            },
-            "title":{
-              "required":true,
-              "type":"string"
-            },
-            "track":{
-              "default":0,
-              "type":"integer"
-            },
-            "type":{
-              "$ref":"Player.Notifications.Item.Type",
-              "required":true
-            }
-          },
-          "type":"object"
-        }
-      ]
-    },
-    
-    "Player.Notifications.Item.Type":{
-      "default":"unknown",
-      "enums":[
-        "unknown",
-        "movie",
-        "episode",
-        "musicvideo",
-        "song"
-      ],
-      "id":"Player.Notifications.Item.Type",
-      "type":"string"
     },
     
     "Player.Notifications.Player":{
@@ -6253,6 +7623,9 @@
       "extends":"Media.Details.Base",
       "id":"Video.Details.Base",
       "properties":{
+        "art":{
+          "$ref":"Media.Artwork"
+        },
         "playcount":{
           "default":0,
           "type":"integer"
@@ -6302,6 +7675,14 @@
         "tvshowid":{
           "$ref":"Library.Id",
           "default":-1
+        },
+        "uniqueid":{
+          "additionalProperties":{
+            "default":"",
+            "minLength":1,
+            "type":"string"
+          },
+          "type":"object"
         },
         "votes":{
           "default":"",
@@ -6466,6 +7847,10 @@
       "extends":"Video.Details.MovieSet",
       "id":"Video.Details.MovieSet.Extended",
       "properties":{
+        "limits":{
+          "$ref":"List.LimitsReturned",
+          "required":true
+        },
         "movies":{
           "items":{
             "$ref":"Video.Details.Movie"
@@ -6494,6 +7879,9 @@
           "required":true
         },
         "studio":{
+          "$ref":"Array.String"
+        },
+        "tag":{
           "$ref":"Array.String"
         },
         "track":{
@@ -6583,6 +7971,9 @@
         "studio":{
           "$ref":"Array.String"
         },
+        "tag":{
+          "$ref":"Array.String"
+        },
         "tvshowid":{
           "$ref":"Library.Id",
           "required":true
@@ -6606,7 +7997,7 @@
       "extends":"Item.Fields.Base",
       "id":"Video.Fields.Episode",
       "items":{
-        "description":"Requesting the cast and/or resume field will result in increased response times",
+        "description":"Requesting the cast field will result in increased response times",
         "enums":[
           "title",
           "plot",
@@ -6630,7 +8021,9 @@
           "file",
           "resume",
           "tvshowid",
-          "dateadded"
+          "dateadded",
+          "uniqueid",
+          "art"
         ],
         "type":"string"
       }
@@ -6641,7 +8034,7 @@
       "id":"Video.Fields.Movie",
       "items":{
         "description":"Requesting the cast,
-         showlink and/or resume field will result in increased response times",
+         showlink and/or tag field will result in increased response times",
         "enums":[
           "title",
           "genre",
@@ -6674,7 +8067,8 @@
           "resume",
           "setid",
           "dateadded",
-          "tag"
+          "tag",
+          "art"
         ],
         "type":"string"
       }
@@ -6688,7 +8082,8 @@
           "title",
           "playcount",
           "fanart",
-          "thumbnail"
+          "thumbnail",
+          "art"
         ],
         "type":"string"
       }
@@ -6698,7 +8093,6 @@
       "extends":"Item.Fields.Base",
       "id":"Video.Fields.MusicVideo",
       "items":{
-        "description":"Requesting the resume field will result in increased response times",
         "enums":[
           "title",
           "playcount",
@@ -6717,7 +8111,9 @@
           "thumbnail",
           "file",
           "resume",
-          "dateadded"
+          "dateadded",
+          "tag",
+          "art"
         ],
         "type":"string"
       }
@@ -6735,7 +8131,8 @@
           "fanart",
           "thumbnail",
           "tvshowid",
-          "watchedepisodes"
+          "watchedepisodes",
+          "art"
         ],
         "type":"string"
       }
@@ -6769,7 +8166,9 @@
           "episodeguide",
           "season",
           "watchedepisodes",
-          "dateadded"
+          "dateadded",
+          "tag",
+          "art"
         ],
         "type":"string"
       }
