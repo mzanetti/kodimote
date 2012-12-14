@@ -377,11 +377,6 @@ void Xbmc::setVolume(int volume)
             map.insert("volume", volume);
             XbmcConnection::sendCommand("Application.SetVolume", map);
 
-            // OnVolumeChanged notification is only available as of protcol version 5
-            if(XbmcConnection::xbmcVersion() < 5) {
-                m_volume = volume;
-                emit volumeChanged(m_volume);
-            }
         }
     }
 }

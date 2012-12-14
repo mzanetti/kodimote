@@ -92,11 +92,6 @@ QNetworkAccessManager *nam()
     return instance()->nam();
 }
 
-int xbmcVersion()
-{
-    return instance()->xbmcVersion();
-}
-
 void download(XbmcDownload *download)
 {
     instance()->download(download);
@@ -112,7 +107,9 @@ XbmcConnectionPrivate::XbmcConnectionPrivate(QObject *parent) :
     m_versionRequestId(-1),
     m_host(0),
     m_connecting(false),
-    m_connected(false)
+    m_connected(false),
+    m_xbmcVersionMajor(0),
+    m_xbmcVersionMinor(0)
 {
     m_socket = new QTcpSocket();
     m_notifier = new XbmcConnection::Notifier();
@@ -298,11 +295,11 @@ void XbmcConnectionPrivate::replyReceived()
         if(rsp.value("id").toInt() == m_versionRequestId) {
             // If the remote xbmc has the version field not compiled in, assume its the latest known one
             xDebug(XDAREA_CONNECTION) << "Parsing XBMC version:" << rsp.value("result").toMap().value("version");
-            m_xbmcVersion = rsp.value("result").toMap().value("version").toInt();
-            if(m_xbmcVersion < 3) {
+            m_xbmcVersionMajor = rsp.value("result").toMap().value("version").toMap().value("major").toInt();
+            if(m_xbmcVersionMajor < 6) {
                 qDebug() << "WARNING! XBMC is too old or version field not valid! Some features might not work";
                 m_connected = false;
-                m_connectionError = tr("Xbmcremote is designed to work with XBMC Eden (v11.0). It seems you have connected to an older version of XMBC. Please upgrade XBMC in order to use Xbmcremote.");
+                m_connectionError = tr("This version of Xbmcremote is designed to work with XBMC Frodo (v12.0). It seems you have connected to an older version of XMBC. Please upgrade XBMC in order to use Xbmcremote.");
             } else {
                 m_timeoutTimer.stop();
                 m_currentPendingCommand = Command();
@@ -670,9 +667,5 @@ QNetworkAccessManager *XbmcConnectionPrivate::nam()
     return m_network;
 }
 
-int XbmcConnectionPrivate::xbmcVersion()
-{
-    return m_xbmcVersion;
-}
 }
 
