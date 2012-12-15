@@ -8,7 +8,6 @@ GestureHelper::GestureHelper(QObject *parent) :
     m_innerLimit(160),
     m_areaState(AreaCenter)
 {
-    qDebug() << "**************" << m_areaState;
 }
 
 GestureHelper::AreaState GestureHelper::currentState()
