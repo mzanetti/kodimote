@@ -25,6 +25,8 @@ Loader {
         Image {
             source: artworkSource
             anchors.fill: parent
+            sourceSize.height: height
+            sourceSize.width: width
         }
     }
 

@@ -35,7 +35,11 @@ bool ImageCache::contains(const QString &image)
 
 QString ImageCache::cachedFile(const QString &image)
 {
-    QUrl url = QUrl::fromPercentEncoding(image.toLocal8Bit());
+    QString filename = image;
+    if(filename.endsWith(".tbn")) {
+        filename.replace(".tbn", ".jpg");
+    }
+    QUrl url = QUrl::fromPercentEncoding(filename.toLocal8Bit());
     return cachePath() + url.path();
 }
 
@@ -89,11 +93,14 @@ void ImageCache::imageFetched()
         QImage image = QImage::fromData(m_currentJob->data());
 
         QFileInfo fi = cachedFile(m_currentJob->imageName());
+
         if(fi.suffix() == "png" || fi.suffix() == "jpg") {
             // Those values are really optimized for the Harmattan theme...
+            qDebug() << "scaling image" << fi.fileName();
             QImage scaledImage = image.scaled(152, 120, Qt::KeepAspectRatio, Qt::FastTransformation);
             scaledImage.save(cachedFile(m_currentJob->imageName()));
         } else {
+            qDebug() << "NOT scaling image" << fi.fileName();
             QFile file(cachedFile(m_currentJob->imageName()));
             if(file.open(QIODevice::WriteOnly)) {
                 file.write(m_currentJob->data());
