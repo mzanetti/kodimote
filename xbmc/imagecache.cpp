@@ -36,6 +36,9 @@ bool ImageCache::contains(const QString &image)
 QString ImageCache::cachedFile(const QString &image)
 {
     QString filename = image;
+    if(filename.endsWith("/")) {
+        filename = filename.left(filename.length() - 1);
+    }
     if(filename.endsWith(".tbn")) {
         filename.replace(".tbn", ".jpg");
     }
@@ -167,7 +170,7 @@ void ImageCache::fetchNext()
         return;
     }
 
-    QNetworkRequest imageRequest(Xbmc::instance()->vfsPath() + m_currentJob->imageName());
+    QNetworkRequest imageRequest(QUrl(Xbmc::instance()->vfsPath() + m_currentJob->imageName()));
     QNetworkReply *reply = XbmcConnection::nam()->get(imageRequest);
     connect(reply, SIGNAL(finished()), SLOT(imageFetched()));
     connect(reply, SIGNAL(downloadProgress(qint64,qint64)), SLOT(downloadProgress(qint64,qint64)));
