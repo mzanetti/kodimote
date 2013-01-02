@@ -106,6 +106,7 @@ void Player::getCurrentItemDetails()
     properties.append("mpaa");
     properties.append("album");
     properties.append("fanart");
+    properties.append("file");
 
     properties.append("showtitle");
 //    properties.append("style");
@@ -373,6 +374,7 @@ void Player::detailsReceived(const QVariantMap &rsp)
     m_currentItem->setArtist(itemMap.value("artist").toString());
     m_currentItem->setFanart(itemMap.value("fanart").toString());
     m_currentItem->setTvShow(itemMap.value("showtitle").toString());
+    m_currentItem->setFileName(itemMap.value("file").toString());
     emit currentItemChanged();
 }
 

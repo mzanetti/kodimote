@@ -24,10 +24,9 @@ bool ImageCache::contains(const QString &image)
 {
     QMutexLocker locker(&m_mutex);
     if(!m_cacheFiles.contains(image)) {
-        qDebug() << "checking from file";
-        QUrl url = QUrl::fromPercentEncoding(image.toLocal8Bit());
-        QFileInfo fi(cachePath() + url.path());
+        QFileInfo fi(cachedFile(image));
         m_cacheFiles.insert(image, fi.exists());
+//        qDebug() << "checking from file:" << fi.path() << fi.exists();
     }
 
     return m_cacheFiles.value(image);
@@ -99,7 +98,7 @@ void ImageCache::imageFetched()
 
         if(fi.suffix() == "png" || fi.suffix() == "jpg") {
             // Those values are really optimized for the Harmattan theme...
-            qDebug() << "scaling image" << fi.fileName();
+            qDebug() << "scaling image" << fi.path() << fi.fileName();
             QImage scaledImage = image.scaled(152, 120, Qt::KeepAspectRatio, Qt::FastTransformation);
             scaledImage.save(cachedFile(m_currentJob->imageName()));
         } else {
