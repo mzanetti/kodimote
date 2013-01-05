@@ -529,7 +529,7 @@ void XbmcConnectionPrivate::downloadNext()
     XbmcDownload *download = m_downloadQueue.takeFirst();
     qDebug() << "Starting download:" << download->source() << "-->" << download->destination();
     QByteArray url = QUrl::toPercentEncoding("http://" + XbmcConnection::connectedHost()->address() + ':' + QString::number(XbmcConnection::connectedHost()->port()) + '/');
-    url.append(download->source());
+    url.append(download->source().toUtf8());
     QNetworkRequest request;
     request.setUrl(QUrl::fromPercentEncoding(url));
     qDebug() << "getting:" << request.url();
