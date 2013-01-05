@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE kcfg SYSTEM
+    "http://www.kde.org/standards/kcfg/1.0/kcfg.xsd">
+<kcfg>
+  <group name="SetVolume">
+    <entry name="level" type="Int">
+      <label>The required volume level, as a int between 0 and 100.</label>
+    </entry>
+  </group>
+</kcfg>
