@@ -22,8 +22,12 @@
 #include "xdebug.h"
 #include "xbmcdownload.h"
 
+#ifdef QT5_BUILD
+#include <QJsonDocument>
+#else
 #include <qjson/parser.h>
 #include <qjson/serializer.h>
+#endif
 
 #include <QTime>
 #include <QStringList>
@@ -233,8 +237,14 @@ void XbmcConnectionPrivate::sendNextCommand2() {
             map.insert("params", command.params());
         }
 
+#ifdef QT5_BUILD
+        QJsonDocument jsonDoc = QJsonDocument::fromVariant(map);
+        QByteArray data = jsonDoc.toJson();
+#else
         QJson::Serializer serializer;
         QByteArray data = serializer.serialize(map);
+#endif
+
 //        xDebug(XDAREA_CONNECTION) << "ater serializing:" << data;
         QString dataStr = QString::fromLatin1(data);
 #ifdef DEBUGJSON
@@ -277,9 +287,19 @@ void XbmcConnectionPrivate::replyReceived()
         if(i > 0) {
             lineData.prepend("{");
         }
+
         QVariantMap rsp;
-//        QTime t = QTime::currentTime();
-//        xDebug(XDAREA_CONNECTION) << "starting parsing";
+
+#ifdef QT5_BUILD
+        QJsonParseError error;
+        QJsonDocument jsonDoc = QJsonDocument::fromJson(lineData.toUtf8(), &error);
+
+        if(error.error != QJsonParseError::NoError) {
+            xDebug(XDAREA_CONNECTION) << "failed to parse data" << lineData << ":" << error.errorString();
+            return;
+        }
+        rsp = jsonDoc.toVariant().toMap();
+#else
         QJson::Parser parser;
         bool ok;
         rsp = parser.parse(lineData.toAscii(), &ok).toMap();
@@ -288,7 +308,7 @@ void XbmcConnectionPrivate::replyReceived()
             qFatal("failed parsing.");
             return;
         }
-//        xDebug(XDAREA_CONNECTION) << "finished parsing after" << t.msecsTo(QTime::currentTime());
+#endif
 
         xDebug(XDAREA_NETWORKDATA) << ">>> Incoming:" << rsp;
 
@@ -407,8 +427,13 @@ void XbmcConnectionPrivate::sendNextCommand()
             map.insert("params", command.params());
         }
 
+#ifdef QT5_BUILD
+        QJsonDocument jsonDoc = QJsonDocument::fromVariant(map);
+        QByteArray data = jsonDoc.toJson();
+#else
         QJson::Serializer serializer;
         QByteArray data = serializer.serialize(map);
+#endif
 //        xDebug(XDAREA_CONNECTION) << "ater serializing:" << data;
         QString dataStr = QString::fromLatin1(data);
 #ifdef DEBUGJSON
@@ -452,8 +477,17 @@ void XbmcConnectionPrivate::readData()
             lineData.prepend("{");
         }
         QVariantMap rsp;
-//        QTime t = QTime::currentTime();
-//        xDebug(XDAREA_CONNECTION) << "starting parsing";
+
+#ifdef QT5_BUILD
+        QJsonParseError error;
+        QJsonDocument jsonDoc = QJsonDocument::fromJson(lineData.toUtf8(), &error);
+
+        if(error.error != QJsonParseError::NoError) {
+            xDebug(XDAREA_CONNECTION) << "failed to parse data" << lineData << ":" << error.errorString();
+            return;
+        }
+        rsp = jsonDoc.toVariant().toMap();
+#else
         QJson::Parser parser;
         bool ok;
         rsp = parser.parse(lineData.toAscii(), &ok).toMap();
@@ -462,8 +496,7 @@ void XbmcConnectionPrivate::readData()
             qFatal("failed parsing.");
             return;
         }
-//        xDebug(XDAREA_CONNECTION) << "finished parsing after" << t.msecsTo(QTime::currentTime());
-
+#endif
 //        xDebug(XDAREA_CONNECTION) << ">>> Incoming:" << data;
 
         if(rsp.value("params").toMap().value("sender").toString() == "xbmc") {

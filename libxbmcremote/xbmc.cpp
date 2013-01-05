@@ -50,7 +50,12 @@
 #include "imagecache.h"
 
 #include <QSettings>
+
+#ifdef QT5_BUILD
+#include <QtQuick>
+#else
 #include <QtDeclarative>
+#endif
 
 Xbmc *Xbmc::s_instance = 0;
 
@@ -71,6 +76,34 @@ Xbmc::Xbmc(QObject *parent) :
     m_canSuspend(false),
     m_imageCache(new XbmcImageCache(this))
 {
+
+    // Load debug stuff
+    XDebug::addAllowedArea(XDAREA_GENERAL);
+    QStringList args = QGuiApplication::arguments();
+    qDebug() << "args are" << args;
+    for(int i = 1; i < args.count(); ++i ) {
+        if(args.at(i) == "-d") {
+            if(args.count() > i) {
+                QStringList debuglist = args.at(i + 1).split(',');
+                foreach(const QString &debugString, debuglist) {
+                    if(debugString == "connection") {
+                        XDebug::addAllowedArea(XDAREA_CONNECTION);
+                    } else if(debugString == "player") {
+                        XDebug::addAllowedArea(XDAREA_PLAYER);
+                    } else if(debugString == "library") {
+                        XDebug::addAllowedArea(XDAREA_LIBRARY);
+                    } else if(debugString == "files") {
+                        XDebug::addAllowedArea(XDAREA_FILES);
+                    } else if(debugString == "playlist") {
+                        XDebug::addAllowedArea(XDAREA_PLAYLIST);
+//                    } else if(debugString == "") {
+//                        XDebug::addAllowedArea(XDAREA_);
+                    }
+                }
+            }
+        }
+    }
+
     qmlRegisterType<AudioLibrary>();
     qmlRegisterType<VideoLibrary>();
     qmlRegisterType<LibraryItem>();

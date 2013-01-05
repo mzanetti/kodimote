@@ -1,4 +1,9 @@
-QT       += network declarative
+contains(QT_VERSION, ^5\\..\\..*) {
+    DEFINES += QT5_BUILD
+    QT += network quick qml
+} else {
+    QT += network declarative
+}
 
 TARGET = xbmcremote
 TEMPLATE = lib

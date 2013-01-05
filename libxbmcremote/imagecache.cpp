@@ -2,7 +2,7 @@
 #include "xbmc.h"
 #include "xbmcconnection.h"
 
-#include <QGraphicsObject>
+#include <QImage>
 #include <QFileInfo>
 #include <QDir>
 #include <QNetworkRequest>
@@ -169,7 +169,11 @@ void XbmcImageCache::fetchNext()
         return;
     }
 
+#ifdef QT5_BUILD
+    QNetworkRequest imageRequest(QUrl(Xbmc::instance()->vfsPath() + QUrl::toPercentEncoding(m_currentJob->imageName())));
+#else
     QNetworkRequest imageRequest(QUrl(Xbmc::instance()->vfsPath() + m_currentJob->imageName()));
+#endif
     QNetworkReply *reply = XbmcConnection::nam()->get(imageRequest);
     connect(reply, SIGNAL(finished()), SLOT(imageFetched()));
     connect(reply, SIGNAL(downloadProgress(qint64,qint64)), SLOT(downloadProgress(qint64,qint64)));
