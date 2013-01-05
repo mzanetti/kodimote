@@ -1,0 +1,9 @@
+[Desktop Entry]
+Encoding=UTF-8
+Version=1.0
+Type=Application
+Terminal=false
+Name=Xbmcremote
+Exec=/usr/bin/invoker -s --splash=/opt/xbmcremote/splash.png --type=q /opt/xbmcremote/bin/xbmcremote %U
+Icon=/usr/share/icons/hicolor/80x80/apps/xbmcremote80.png
+MimeType=x-maemo-urischeme/xbmc;

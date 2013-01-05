@@ -2,7 +2,8 @@ Source: xbmcremote
 Section: user/multimedia
 Priority: optional
 Maintainer: Michael Zanetti <michael_zanetti@gmx.net>
-Build-Depends: debhelper (>= 5), libqt4-dev, libx11-dev, libqjson-dev, libqtm-12-dev
+Build-Depends: debhelper (>= 5), libqt4-dev, libx11-dev
+#, libqjson-dev, libqtm-12-dev
 Standards-Version: 3.7.3
 Homepage: http://maemo.org/packages/view/xbmcremote/
 
