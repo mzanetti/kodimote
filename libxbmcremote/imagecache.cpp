@@ -41,6 +41,9 @@ QString XbmcImageCache::cachedFile(const QString &image)
     if(filename.endsWith(".tbn")) {
         filename.replace(".tbn", ".jpg");
     }
+    if(filename.endsWith(".mp3")) {
+        filename.replace(".mp3", ".jpg");
+    }
     QUrl url = QUrl::fromPercentEncoding(filename.toLocal8Bit());
     return cachePath() + url.path();
 }
