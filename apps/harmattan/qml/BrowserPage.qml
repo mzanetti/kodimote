@@ -11,14 +11,10 @@ Page {
     ToolBarLayout {
         id: toolBarBack
         visible: false
-        ToolIcon { platformIconId: "toolbar-back";
+        ToolIcon { platformIconId: "toolbar-home";
             anchors.left: parent===undefined ? undefined : parent.left
             onClicked: {
-                if(listView.currentItem && listView.currentItem.state == "expanded" ) {
-                    listView.currentItem.state = "collapsed"
-                } else {
-                    pageStack.pop();
-                }
+                pageStack.pop(null);
             }
         }
         ToolIcon { platformIconId: "toolbar-dialer";
@@ -473,14 +469,28 @@ Page {
         id: listHeader
         anchors {left: parent.left; top: parent.top; right: parent.right }
         source: "image://theme/meegotouch-view-header-fixed" + (theme.inverted ? "-inverted" : "")
-        Label {
-            id: listHeaderLabel
+        Row {
             anchors.margins: 10
             anchors.fill: parent
-            anchors.verticalCenter: listHeader.verticalCenter
-            font.pixelSize: 28
-            text: model.title
-            elide: Text.ElideLeft
+            MediaControlButton {
+                platformIconId: "toolbar-back"
+                anchors.verticalCenter: parent.verticalCenter
+                onClicked: {
+                    if(listView.currentItem && listView.currentItem.state == "expanded" ) {
+                        listView.currentItem.state = "collapsed"
+                    } else {
+                        pageStack.pop();
+                    }
+                }
+            }
+
+            Label {
+                id: listHeaderLabel
+                anchors.verticalCenter: parent.verticalCenter
+                font.pixelSize: 28
+                text: model.title
+                elide: Text.ElideLeft
+            }
         }
     }
 
