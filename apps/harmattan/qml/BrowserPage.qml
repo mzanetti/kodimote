@@ -276,7 +276,7 @@ Page {
             Row {
                 id: itemRow
                 anchors {left: parent.left; top: parent.top; right: parent.right }
-                height: listItem.height
+                height: listView.itemHeight
                 anchors.leftMargin: (settings.useThumbnails ? thumbnailImage.width : 0) + 15
                 anchors.rightMargin: 5
 
