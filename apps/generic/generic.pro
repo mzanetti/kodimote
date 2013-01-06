@@ -1,3 +1,6 @@
+include(../../config.pri)
+include(../../i18n/i18n.pri)
+
 TEMPLATE = app
 
 TARGET = xbmcremote
@@ -6,9 +9,7 @@ QT += declarative network
 
 INCLUDEPATH += $$top_srcdir
 
-LIBS += -L$$top_builddir/libxbmcremote -lxbmcremote -lqjson
-
-include(../../i18n/i18n.pri)
+LIBS += -L$$OUT_PWD/../../libxbmcremote -lxbmcremote -lqjson
 
 RESOURCES += xbmcremote.qrc
 
