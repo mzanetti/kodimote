@@ -92,6 +92,13 @@ QVariant XbmcModel::data(const QModelIndex &index, int role) const
         m_imageFetchJobs.insert(job, index.row());
         return QString();
     }
+    if(role == RoleDuration) {
+        QTime duration = m_list.at(index.row())->data(role).toTime();
+        if(duration.hour() > 0) {
+            return duration.toString("hh:mm:ss");
+        }
+        return duration.toString("mm:ss");
+    }
     return m_list.at(index.row())->data(role);
 }
 

@@ -195,6 +195,7 @@ void Movies::detailsReceived(const QVariantMap &rsp)
     item->setTagline(details.value("tagline").toString());
     item->setPlot(details.value("plot").toString());
     item->setMpaa(details.value("mpaa").toString());
+    item->setDuration(QTime(0, 0, 0).addSecs(details.value("runtime").toDouble()));
     emit dataChanged(index(row, 0, QModelIndex()), index(row, 0, QModelIndex()));
 }
 
