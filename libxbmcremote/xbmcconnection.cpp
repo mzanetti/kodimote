@@ -118,7 +118,9 @@ XbmcConnectionPrivate::XbmcConnectionPrivate(QObject *parent) :
 {
     m_socket = new QTcpSocket();
     m_notifier = new XbmcConnection::Notifier();
+
     m_connManager = new QNetworkConfigurationManager(this);
+    QObject::connect(m_connManager, SIGNAL(onlineStateChanged(bool)), SLOT(connect()));
 
     QObject::connect(m_socket, SIGNAL(readyRead()), SLOT(readData()));
 //    QObject::connect(m_socket, SIGNAL(connected()), m_notifier, SIGNAL(connectionChanged()));
@@ -148,11 +150,18 @@ void XbmcConnectionPrivate::connect(XbmcHost *host)
         return;
     }
 
-    qDebug() << "connecting";
-    m_connecting = true;
-
     // Stop the reconnect timer in case someone else triggers the connect
     m_reconnectTimer.stop();
+
+    // Don't automatically reconnect when device is offline and no host provided
+    // In other words, prevent triggering "connect to network" dialog when the connect isn't user initiated
+    if(!host && !m_connManager->isOnline()) {
+        xDebug(XDAREA_CONNECTION) << "Device isn't online, we can't connect";
+        return;
+    }
+
+    qDebug() << "connecting";
+    m_connecting = true;
 
     if(m_socket->state() == QAbstractSocket::ConnectedState) {
         m_socket->disconnectFromHost();
