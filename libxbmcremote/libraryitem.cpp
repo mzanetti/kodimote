@@ -137,9 +137,24 @@ void LibraryItem::setFileName(const QString &fileName)
     emit fileNameChanged();
 }
 
+#ifdef QT5_BUILD
+// This is a very dirty hack:
+// Every once in a while the xbmc devs seem to change their mind
+// about the encoding of filepaths. Right now the give us utf encoded
+// urls and expect percentage encoded paths in their vfs handler.
+// As I expect this to change again, I'll just hack around this here for now
+// once the image paths don't contain urls any more, this can go away.
+// The hack is only needed when compiling with Qt5 because with QtQuick 1.1
+// Qml encoded it on its own
+#include <QUrl>
+#endif QT5_BUILD
 QString LibraryItem::thumbnail() const
 {
+#ifdef QT5_BUILD
+    return QUrl::toPercentEncoding(m_thumbnail);
+#else
     return m_thumbnail;
+#endif
 }
 
 void LibraryItem::setThumbnail(const QString &thumbnail)

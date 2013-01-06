@@ -37,8 +37,8 @@ QVariant XbmcLibrary::data(const QModelIndex &index, int role) const
         }
         LibraryItem *thisItem = qobject_cast<LibraryItem*>(m_list.at(index.row()));
         LibraryItem *currentItem = Xbmc::instance()->activePlayer()->currentItem();
-        qDebug() << "$$$$$$1" << thisItem->artistId() << thisItem->albumId() << thisItem->songId() << thisItem->movieId() << thisItem->episodeId() << thisItem->fileName();
-        qDebug() << "$$$$$$2" << currentItem->artistId() << currentItem->albumId() << currentItem->songId() << currentItem->movieId() << currentItem->episodeId() << currentItem->fileName();
+//        qDebug() << "$$$$$$1" << thisItem->artistId() << thisItem->albumId() << thisItem->songId() << thisItem->movieId() << thisItem->episodeId() << thisItem->fileName();
+//        qDebug() << "$$$$$$2" << currentItem->artistId() << currentItem->albumId() << currentItem->songId() << currentItem->movieId() << currentItem->episodeId() << currentItem->fileName();
         if(thisItem->artistId() == -1 && thisItem->songId() == -1 && thisItem->albumId() == -1 && thisItem->movieId() == -1 && thisItem->episodeId() == -1) {
             if(thisItem->fileName() == currentItem->fileName()) {
                 return Xbmc::instance()->activePlayer()->state();
