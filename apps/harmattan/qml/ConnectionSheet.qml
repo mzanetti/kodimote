@@ -14,6 +14,14 @@ Sheet {
         continuousDiscovery: true
     }
 
+    Connections {
+        target: xbmc
+        onConnectedChanged: {
+            if(connected)
+                connectionSheet.reject();
+        }
+    }
+
     content: Column {
         anchors.fill: parent
         spacing: 10

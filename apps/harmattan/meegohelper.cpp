@@ -34,6 +34,7 @@
 #include <QtContacts/QContactDetailFilter>
 #include <QtContacts/QContactPhoneNumber>
 #include <TransferUI/Transfer>
+#include <QNetworkConfigurationManager>
 
 QTM_USE_NAMESPACE
 
@@ -41,6 +42,7 @@ MeeGoHelper::MeeGoHelper(Settings *settings, QObject *parent) :
     QObject(parent),
     m_settings(settings),
     m_resouceSet(new ResourcePolicy::ResourceSet("player")),
+    m_mustConnect(false),
     m_videoPaused(false),
     m_musicPaused(false),
     m_transferClient(new TransferUI::Client(this))
@@ -92,7 +94,13 @@ MeeGoHelper::MeeGoHelper(Settings *settings, QObject *parent) :
         }
     }
     if(connectToIndex != -1) {
-        Xbmc::instance()->hostModel()->connectToHost(connectToIndex);
+        m_connectToIndex = connectToIndex;
+        if(QNetworkConfigurationManager().isOnline()) {
+            internalConnect();
+        }
+        else {
+            m_mustConnect = true;
+        }
     }
 
     connect(Xbmc::instance(), SIGNAL(connectedChanged(bool)), SLOT(connectionChanged(bool)));
@@ -109,6 +117,11 @@ MeeGoHelper::MeeGoHelper(Settings *settings, QObject *parent) :
     displaySettingChanged();
 }
 
+void MeeGoHelper::internalConnect()
+{
+    Xbmc::instance()->hostModel()->connectToHost(m_connectToIndex);
+}
+
 bool MeeGoHelper::eventFilter(QObject *obj, QEvent *event)
 {
     if(event->type() == QEvent::WindowDeactivate) {
@@ -117,6 +130,10 @@ bool MeeGoHelper::eventFilter(QObject *obj, QEvent *event)
     } else if(event->type() == QEvent::WindowActivate){
         m_resouceSet->acquire();
         m_buttonsAcquired = true;
+        if(m_mustConnect) {
+            internalConnect();
+            m_mustConnect = false;
+        }
     }
     return QObject::eventFilter(obj, event);
 }
