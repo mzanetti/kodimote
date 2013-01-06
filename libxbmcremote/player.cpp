@@ -392,10 +392,9 @@ double Player::percentage() const
 
 QString Player::time() const
 {
-    PlaylistItem *item = playlist()->currentItem();
-    if(item) {
+    if(m_currentItem) {
         QTime time = QTime(0, 0, 0).addMSecs(m_lastPlaytime);
-        if(item->duration().hour() > 0) {
+        if(m_currentItem->duration().hour() > 0) {
             return time.toString("hh:mm:ss");
         } else {
             return time.toString("mm:ss");
@@ -406,17 +405,16 @@ QString Player::time() const
 
 void Player::updatePlaytime()
 {
-    if(!playlist()->currentItem()) {
+    if(!m_currentItem) {
         return;
     }
 
     //use milliseconds, otherwise it tends to skip a sec. once in a while
-    int duration = QTime(0, 0, 0).msecsTo(playlist()->currentItem()->duration());
+    int duration = QTime(0, 0, 0).msecsTo(m_currentItem->duration());
     QDateTime currentTime = QDateTime::currentDateTime();
     int elapsedMSeconds = m_lastPlaytimeUpdate.msecsTo(currentTime);
     m_lastPlaytime += elapsedMSeconds * m_speed;
     m_percentage = (double)m_lastPlaytime / duration * 100;
-
     m_lastPlaytimeUpdate = currentTime;
 
     emit percentageChanged();
