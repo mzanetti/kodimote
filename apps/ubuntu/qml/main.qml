@@ -1,31 +1,51 @@
 import QtQuick 2.0
 import Ubuntu.Components 0.1
 
-PageStack {
+Item {
     id: appWindow
-    property int pageMargin: 16
-    property bool connected: xbmc.connected
-    property bool nfcSheetOpen: false
 
-    Component.onCompleted: appWindow.push(mainPage)
+    VisualItemModel {
+        id: tabModel
+
+        PageStack {
+            id: pageStack
+            width: appWindow.width
+            height: appWindow.height
+            property int pageMargin: 16
+            property bool connected: xbmc.connected
+            property bool nfcSheetOpen: false
+
+            Component.onCompleted: pageStack.push(mainPage)
+
+            MainPage {
+                id: mainPage
+            }
+        }
 
 
-//    Component.onCompleted: {
-//        print("connecting", xbmc.connecting, "connected", xbmc.connected)
-//        if(!(xbmc.connecting || xbmc.connected)) {
-//            var component = Qt.createComponent("ConnectionSheet.qml")
-//            if (component.status == Component.Ready) {
-//                component.createObject(mainPage).open()
-//            } else {
-//                console.log("Error loading component:", component.errorString());
-//            }
-//        }
-//    }
+        NowPlayingPage {
+            id: nowPlayingPage
+            height: appWindow.height
+            width: appWindow.width
+        }
 
-    MainPage {
-        id: mainPage
+        Rectangle {
+            height: appWindow.height
+            width: appWindow.width
+            color: "blue"
+        }
+
     }
 
+    ListView {
+        orientation: ListView.Horizontal
+        anchors.fill: parent
+        contentHeight: appWindow.height
+        contentWidth: appWindow.width
+        snapMode: ListView.SnapOneItem
+        highlightRangeMode: ListView.StrictlyEnforceRange
 
+        model: tabModel
+    }
 
 }

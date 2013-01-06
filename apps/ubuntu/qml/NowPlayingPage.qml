@@ -37,7 +37,7 @@ Item {
     Grid {
         anchors.fill: parent
         columns: mainPage.orientation == "portrait" ? 1 : 2
-        spacing: appWindow.pageMargin
+        spacing: pageStack.pageMargin
 
         Item {
             id: imageItem
@@ -67,12 +67,14 @@ Item {
                 }
             }
 
-            Image {
+            UbuntuShape {
                 anchors.fill: parent
-                source: !currentItem || currentItem.thumbnail.length === 0 ? "" : xbmc.vfsPath + currentItem.thumbnail
-                fillMode: Image.PreserveAspectFit
+                image: Image {
+                    source: !currentItem || currentItem.thumbnail.length === 0 ? "" : xbmc.vfsPath + currentItem.thumbnail
+                    onSourceChanged: print("thumbnail source is now:" + currentItem.thumbnail)
+                }
+                //fillMode: Image.PreserveAspectFit
 
-                onSourceChanged: print("thumbnail source is now:" + currentItem.thumbnail)
             }
         }
 
@@ -93,7 +95,7 @@ Item {
                 text: currentItem ? currentItem.durationString : "00:00"
             }
 
-            Row {
+            Item {
                 id: controlButtons
                 anchors {left:parent.left; right: parent.right; bottom: progressBar.top }
                 anchors.bottomMargin: 20

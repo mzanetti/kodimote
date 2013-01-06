@@ -53,7 +53,7 @@ Page {
 //        header: headerLayout
         model: mainMenuModel
         spacing: 20
-        anchors.margins: appWindow.pageMargin
+        anchors.margins: pageStack.pageMargin
         property int currentSelected
 
         delegate:  Item {
