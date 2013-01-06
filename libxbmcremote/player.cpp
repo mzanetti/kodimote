@@ -362,9 +362,11 @@ void Player::detailsReceived(const QVariantMap &rsp)
     m_currentItem->setDied(itemMap.value("died").toString());
     m_currentItem->setDisbanded(itemMap.value("disbanded").toString());
     if(itemMap.contains("runtime")) {
-        m_currentItem->setDuration(QTime().addSecs(itemMap.value("runtime").toInt() * 60));
+        m_currentItem->setDuration(QTime(0, 0, 0).addSecs(itemMap.value("runtime").toDouble()));
+        qDebug() << "set runtime 1" << m_currentItem->duration() << itemMap.value("runtime");
     } else  {
-        m_currentItem->setDuration(QTime().addSecs(itemMap.value("duration").toInt()));
+        m_currentItem->setDuration(QTime(0, 0, 0).addSecs(itemMap.value("duration").toInt()));
+        qDebug() << "set runtime 2" << m_currentItem->duration();
     }
     m_currentItem->setPlaycount(itemMap.value("playcount", -1).toInt());
     m_currentItem->setCast(itemMap.value("cast").toString());
