@@ -1,0 +1,9 @@
+[Desktop Entry]
+Type=Application
+Name=Xbmcremote
+GenericName=xbmcremote
+Comment=XBMC Remote control
+Exec=xbmcremote %u
+Terminal=false
+Icon=/usr/share/pixmaps/xbmcremote80.png
+

@@ -1,17 +1,34 @@
+include(../../config.pri)
+
 TARGET = xbmcremote
 TEMPLATE = app
 
 QT += quick
 
-INCLUDEPATH += $$top_srcdir
-LIBS += -L$$top_builddir/libxbmcremote -lxbmcremote
+LIBS += -L$$OUT_PWD/../../libxbmcremote -lxbmcremote
 
 SOURCES += main.cpp
 
-message($$top_builddir)
-qml.files = qml
-qml.path = $$top_builddir/apps/ubuntu/
+package {
+    qml.files = qml
+    qml.path = /usr/share/xbmcremote/
 
-INSTALLS += qml
+    target.path = /usr/bin/
+
+    desktopfile.files = xbmcremote.desktop
+    desktopfile.path = /usr/share/applications/
+
+    icon.files = xbmcremote80.png
+    icon.path = /usr/share/pixmaps/
+
+    INSTALLS += target qml desktopfile icon
+
+} else {
+    qml.files = qml
+    qml.path = apps/ubuntu/
+
+    INSTALLS += target qml
+}
+
 
 PRE_TARGETDEPS += ../../libxbmcremote/libxbmcremote.a

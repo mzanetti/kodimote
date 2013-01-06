@@ -79,7 +79,11 @@ Xbmc::Xbmc(QObject *parent) :
 
     // Load debug stuff
     XDebug::addAllowedArea(XDAREA_GENERAL);
+#ifdef QT5_BUILD
     QStringList args = QGuiApplication::arguments();
+#else
+    QStringList args = QApplication::arguments();
+#endif
     qDebug() << "args are" << args;
     for(int i = 1; i < args.count(); ++i ) {
         if(args.at(i) == "-d") {

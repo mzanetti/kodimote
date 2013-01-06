@@ -7,6 +7,7 @@
 #include <QQuickView>
 #include <QQmlEngine>
 #include <QQmlContext>
+#include <QDir>
 
 int main(int argc, char** argv)
 {
@@ -23,7 +24,11 @@ int main(int argc, char** argv)
     Settings settings;
     view->engine()->rootContext()->setContextProperty("settings", &settings);
 
-    view->setSource(QUrl::fromLocalFile("qml/main.qml"));
+    if(QCoreApplication::applicationDirPath() == QDir(("/usr/bin")).canonicalPath()) {
+        view->setSource(QUrl::fromLocalFile("/usr/share/xbmcremote/qml/main.qml"));
+    } else {
+        view->setSource(QUrl::fromLocalFile("qml/main.qml"));
+    }
 
     if(QGuiApplication::arguments().contains("--fullscreen")) {
         view->showFullScreen();

@@ -1,0 +1,16 @@
+Source: xbmcremote
+Section: x11
+Priority: optional
+Maintainer: Michael Zanetti <michael_zanetti@gmx.net>
+Build-Depends: debhelper (>= 8.0.0),
+               qtdeclarative,
+               libgles2-mesa-dev,
+Standards-Version: 3.9.3
+
+Package: xbmcremote
+Architecture: any
+Depends: ${shlibs:Depends},
+         ${misc:Depends},
+         qt-components-ubuntu,
+Description: An application to blabla
+  An application to blabla
