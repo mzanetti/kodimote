@@ -143,20 +143,38 @@ Page {
                 text: currentItem ? currentItem.durationString : "00:00"
             }
 
-            ButtonRow {
+            Row {
                 id: controlButtons
-                anchors {left:parent.left; right: parent.right; bottom: progressBar.top }
+                anchors.bottom: progressBar.top
+                anchors.horizontalCenter: parent.horizontalCenter
                 anchors.bottomMargin: 20
-                ToolIcon { platformIconId: "toolbar-mediacontrol-previous"
-                    anchors.left: parent.left
+                MediaControlButton {
+                    platformIconId: "toolbar-mediacontrol-previous"
                     onClicked: player.skipPrevious();
                 }
-                ToolIcon { platformIconId: player && player.state == "playing" ? "toolbar-mediacontrol-pause" : "toolbar-mediacontrol-play"
-                    anchors.horizontalCenter: parent.horizontalCenter
+                MediaControlButton {
+                    platformIconId: "toolbar-mediacontrol-backwards"
+                    enabled: player && player.state == "playing"
+                    selected: player && player.speed < 0
+                    onClicked: player.seekBackward();
+                }
+                MediaControlButton {
+                    platformIconId: "toolbar-mediacontrol-stop"
+                    enabled: player && player.state == "playing"
+                    onClicked: player.stop();
+                }
+                MediaControlButton {
+                    platformIconId: player && player.speed === 1 && player.state === "playing" ? "toolbar-mediacontrol-pause" : "toolbar-mediacontrol-play"
                     onClicked: player.playPause();
                 }
-                ToolIcon { platformIconId: "toolbar-mediacontrol-next"
-                    anchors.right: parent.right
+                MediaControlButton {
+                    platformIconId: "toolbar-mediacontrol-forward"
+                    enabled: player && player.state == "playing"
+                    selected: player && player.speed > 1
+                    onClicked: player.seekForward();
+                }
+                MediaControlButton {
+                    platformIconId: "toolbar-mediacontrol-next"
                     onClicked: player.skipNext();
                 }
             }
