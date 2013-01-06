@@ -92,7 +92,7 @@ void VideoPlaylist::itemsReceived(const QVariantMap &rsp)
         VideoPlaylistItem *item = new VideoPlaylistItem();
 //        item.setFanart(itemMap.value("fanart").toString());
         item->setLabel(itemMap.value("label").toString());
-        item->setDuration(QTime().addSecs(itemMap.value("runtime").toInt() * 60));
+        item->setDuration(QTime(0, 0, 0).addSecs(itemMap.value("runtime").toDouble()));
 //        item.setTitle(itemMap.value("title").toString());
 //        item.setArtist(itemMap.value("artist").toString());
 //        xDebug(XDAREA_PLAYLIST) << "adding item:" << item.label();
@@ -113,7 +113,7 @@ void VideoPlaylist::currentDataReceived(const QVariantMap &rsp)
         QVariantList responseList = rsp.value("result").toMap().value("items").toList();
         QVariantMap itemMap = responseList.first().toMap();
 //        item.setFanart(itemMap.value("fanart").toString());
-        item->setDuration(QTime().addSecs(itemMap.value("runtime").toInt() * 60));
+        item->setDuration(QTime(0, 0, 0).addSecs(itemMap.value("runtime").toDouble()));
         item->setLabel(itemMap.value("label").toString());
         item->setFile(itemMap.value("file").toString());
         item->setTitle(itemMap.value("title").toString());
@@ -131,14 +131,20 @@ void VideoPlaylist::currentDataReceived(const QVariantMap &rsp)
 QVariant VideoPlaylist::data(const QModelIndex &index, int role) const
 {
     switch(role) {
-    case Qt::DisplayRole:
+    case RoleTitle:
         return m_itemList.at(index.row())->label();
-    case Qt::UserRole+1:
+    case RoleFileType:
         return "file";
-//    case Qt::UserRole+2:
+//    case RoleSubTitle:
 //        return m_itemList.at(index.row()).artist() + " - " + m_itemList.at(index.row()).album();
-    case Qt::UserRole+3:
-        return m_itemList.at(index.row())->duration().toString("mm:ss");
+    case RoleDuration: {
+        QTime duration = m_itemList.at(index.row())->duration();
+        if(duration.hour() > 0) {
+            return m_itemList.at(index.row())->duration().toString("hh:mm:ss");
+        } else {
+            return m_itemList.at(index.row())->duration().toString("mm:ss");
+        }
+    }
     }
     return QVariant();
 }

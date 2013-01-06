@@ -93,7 +93,7 @@ void AudioPlaylist::itemsReceived(const QVariantMap &rsp)
         QVariantMap itemMap = itemVariant.toMap();
         AudioPlaylistItem *item = new AudioPlaylistItem();
         item->setLabel(itemMap.value("label").toString());
-        item->setDuration(QTime().addSecs(itemMap.value("duration").toInt()));
+        item->setDuration(QTime(0, 0, 0).addSecs(itemMap.value("duration").toInt()));
         item->setArtist(itemMap.value("artist").toString());
         item->setAlbum(itemMap.value("album").toString());
         m_itemList.append(item);
