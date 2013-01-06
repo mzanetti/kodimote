@@ -39,42 +39,13 @@ Item {
         columns: mainPage.orientation == "portrait" ? 1 : 2
         spacing: pageStack.pageMargin
 
-        Item {
+        UbuntuShape {
             id: imageItem
             height: mainPage.orientation == "portrait" ? parent.width : parent.height
             width: mainPage.orientation == "portrait" ? parent.width : height
-            //            Rectangle {
-            //                color: "blue"
-            //                anchors.fill: parent
-            //            }
-
-            Rectangle {
-                id: defaultFanart
-                anchors.fill: parent
-                color:  "black"
-
-                Text {
-                    anchors.fill: parent
-                    textFormat: Text.StyledText
-                    property string coverText: (!currentItem ? "" : (xbmc.state == "audio" ? currentItem.album : currentItem.title))
-                    text: "<b>" + coverText + "</b> " + coverText + " " + coverText
-                    wrapMode: Text.WrapAnywhere
-                    color: "lightblue"
-                    font.pixelSize: 85
-                    font.capitalization: Font.AllUppercase
-                    clip: true
-                    visible: currentItem !== null && (currentItem.thumbnail.length === 0 || currentItem.thumbnail === "DefaultAlbumCover.png" || currentItem.thumbnail === "DefaultVideoCover.png")
-                }
-            }
-
-            UbuntuShape {
-                anchors.fill: parent
-                image: Image {
-                    source: !currentItem || currentItem.thumbnail.length === 0 ? "" : xbmc.vfsPath + currentItem.thumbnail
-                    onSourceChanged: print("thumbnail source is now:" + currentItem.thumbnail)
-                }
-                //fillMode: Image.PreserveAspectFit
-
+            image: Image {
+                source: !currentItem || currentItem.thumbnail.length === 0 ? "" : xbmc.vfsPath + currentItem.thumbnail
+                fillMode: Image.PreserveAspectFit
             }
         }
 
@@ -135,6 +106,7 @@ Item {
                 anchors { left: parent.left; right: parent.right; bottom: currentTime.top }
                 anchors.bottomMargin: 10
                 width: 300
+                //height: gu.height(1)
                 minimumValue: 0
                 maximumValue: 100
                 value: player ? player.percentage : 0
@@ -171,8 +143,9 @@ Item {
                     anchors.fill: progressBar
                     anchors.topMargin: -10
                     anchors.bottomMargin: -10
+                    preventStealing: true
 
-                    onMouseXChanged: {
+                    onPositionChanged: {
                         // Center label on mouseX
                         progressBarLabel.x = mouseX - progressBarLabel.width / 2;
 
@@ -195,6 +168,8 @@ Item {
                         } else {
                             progressBarLabelText.text = hours + ":" + minutes + ":" + seconds;
                         }
+                        mouse.accepted = true
+                        print("mouse accepted")
                     }
                     onReleased: {
                         player.seek(mouseX * 100 / width)
