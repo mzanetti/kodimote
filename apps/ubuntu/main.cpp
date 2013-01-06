@@ -33,7 +33,7 @@ int main(int argc, char** argv)
     if(QGuiApplication::arguments().contains("--fullscreen")) {
         view->showFullScreen();
     } else {
-        view->setMinimumSize(QSize(600, 800));
+        view->resize(QSize(720, 1280));
         view->show();
     }
 

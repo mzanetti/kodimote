@@ -18,9 +18,12 @@ Item {
         }
     }
 
-    property bool timerActive: true
+    property bool timerActive: false
 
-    onTimerActiveChanged: { player.timerActive = timerActive }
+    onTimerActiveChanged: {
+        print("timer is now", timerActive)
+        player.timerActive = timerActive
+    }
 
    Connections {
        target: xbmc
@@ -39,13 +42,20 @@ Item {
         columns: mainPage.orientation == "portrait" ? 1 : 2
         spacing: pageStack.pageMargin
 
-        UbuntuShape {
+        Item {
             id: imageItem
             height: mainPage.orientation == "portrait" ? parent.width : parent.height
             width: mainPage.orientation == "portrait" ? parent.width : height
-            image: Image {
-                source: !currentItem || currentItem.thumbnail.length === 0 ? "" : xbmc.vfsPath + currentItem.thumbnail
-                fillMode: Image.PreserveAspectFit
+            UbuntuShape {
+                // iw : ih = uw : uh
+                height: parent.height
+                width: Math.min(image.sourceSize.width * height / image.sourceSize.height, parent.width)
+                anchors.horizontalCenter: parent.horizontalCenter
+                radius: "medium"
+                image: Image {
+                    source: !currentItem || currentItem.thumbnail.length === 0 ? "" : xbmc.vfsPath + currentItem.thumbnail
+                    fillMode: Image.PreserveAspectCrop
+                }
             }
         }
 
@@ -69,9 +79,10 @@ Item {
             Item {
                 id: controlButtons
                 anchors {left:parent.left; right: parent.right; bottom: progressBar.top }
+                height: 50
                 anchors.bottomMargin: 20
                 Rectangle {
-                    color: "blue"
+                    color: "green"
                     height: 50; width: 50
                     anchors.left: parent.left
                     MouseArea {
@@ -82,7 +93,6 @@ Item {
                 Rectangle {
                     color: "blue"
                     height: 50; width: 50
-                    anchors.left: parent.left
                     anchors.horizontalCenter: parent.horizontalCenter
                     MouseArea {
                         anchors.fill: parent
@@ -90,9 +100,8 @@ Item {
                     }
                 }
                 Rectangle {
-                    color: "blue"
+                    color: "red"
                     height: 50; width: 50
-                    anchors.left: parent.left
                     anchors.right: parent.right
                     MouseArea {
                         anchors.fill: parent
@@ -183,6 +192,7 @@ Item {
                 height: albumLabel.height
                 anchors.left: parent.left
                 anchors.bottomMargin: 10
+                spacing: units.gu(.5)
                 Label {
                     id: albumLabel
                     text: !currentItem ? "" : (xbmc.state == "audio" ? currentItem.album : (currentItem.type == "episode" ? qsTr("Season:") + " " + currentItem.season + "   " + qsTr("Episode:") + " " + currentItem.episode : qsTr("Rating:") + " "))
@@ -190,15 +200,25 @@ Item {
                 property int starCount: !currentItem ? 0 : (currentItem.rating > 10 ? Math.floor(currentItem.rating / 20) : Math.floor(currentItem.rating / 2))
                 Repeater {
                     model: parent.starCount
-                    Image {
+                    Rectangle {
+                        height: units.gu(1)
+                        width: units.gu(1)
+                        radius: width / 2
+                        anchors.verticalCenter: albumLabel.verticalCenter
                         visible: currentItem.type === "movie"
+                        color: "black"
                         //source: theme.inverted ? "image://theme/meegotouch-indicator-rating-inverted-background-star" : "image://theme/meegotouch-indicator-rating-star"
                     }
                 }
                 Repeater {
                     model: 5 - parent.starCount
-                    Image {
+                    Rectangle {
+                        height: units.gu(1)
+                        width: units.gu(1)
+                        radius: width / 2
+                        anchors.verticalCenter: albumLabel.verticalCenter
                         visible: currentItem !== null && currentItem.type === "movie"
+                        color: "#22000000"
                         //source: theme.inverted ? "image://theme/meegotouch-indicator-rating-background-star" : "image://theme/meegotouch-indicator-rating-background-star"
                     }
                 }

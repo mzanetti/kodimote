@@ -27,6 +27,7 @@ Item {
             id: nowPlayingPage
             height: appWindow.height
             width: appWindow.width
+            timerActive: tabListView.currentIndex === 1
         }
 
         Rectangle {
@@ -38,12 +39,14 @@ Item {
     }
 
     ListView {
+        id: tabListView
         orientation: ListView.Horizontal
         anchors.fill: parent
         contentHeight: appWindow.height
         contentWidth: appWindow.width
         snapMode: ListView.SnapOneItem
         highlightRangeMode: ListView.StrictlyEnforceRange
+        highlightFollowsCurrentItem: true
 
         model: tabModel
     }
