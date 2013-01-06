@@ -542,31 +542,37 @@
     <name>MainPage</name>
     <message>
         <location filename="../apps/harmattan/qml/MainPage.qml" line="28"/>
+        <location filename="../apps/ubuntu/qml/MainPage.qml" line="7"/>
         <source>XBMC on %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../apps/harmattan/qml/MainPage.qml" line="54"/>
+        <location filename="../apps/ubuntu/qml/MainPage.qml" line="40"/>
         <source>Music</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../apps/harmattan/qml/MainPage.qml" line="55"/>
+        <location filename="../apps/ubuntu/qml/MainPage.qml" line="41"/>
         <source>Videos</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../apps/harmattan/qml/MainPage.qml" line="56"/>
+        <location filename="../apps/ubuntu/qml/MainPage.qml" line="42"/>
         <source>Pictures</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../apps/harmattan/qml/MainPage.qml" line="125"/>
+        <location filename="../apps/ubuntu/qml/MainPage.qml" line="111"/>
         <source>Library</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../apps/harmattan/qml/MainPage.qml" line="125"/>
+        <location filename="../apps/ubuntu/qml/MainPage.qml" line="111"/>
         <source>Files</source>
         <translation type="unfinished"></translation>
     </message>
@@ -640,7 +646,7 @@
 <context>
     <name>Movies</name>
     <message>
-        <location filename="../libxbmcremote/movies.cpp" line="225"/>
+        <location filename="../libxbmcremote/movies.cpp" line="226"/>
         <source>Movies</source>
         <translation type="unfinished"></translation>
     </message>
@@ -798,21 +804,25 @@
     <name>NowPlayingPage</name>
     <message>
         <location filename="../apps/harmattan/qml/NowPlayingPage.qml" line="244"/>
+        <location filename="../apps/ubuntu/qml/NowPlayingPage.qml" line="198"/>
         <source>Season:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../apps/harmattan/qml/NowPlayingPage.qml" line="244"/>
+        <location filename="../apps/ubuntu/qml/NowPlayingPage.qml" line="198"/>
         <source>Episode:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../apps/harmattan/qml/NowPlayingPage.qml" line="244"/>
+        <location filename="../apps/ubuntu/qml/NowPlayingPage.qml" line="198"/>
         <source>Rating:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../apps/harmattan/qml/NowPlayingPage.qml" line="269"/>
+        <location filename="../apps/ubuntu/qml/NowPlayingPage.qml" line="233"/>
         <source>Year:</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1032,12 +1042,12 @@
 <context>
     <name>VideoPlaylist</name>
     <message>
-        <location filename="../libxbmcremote/videoplaylist.cpp" line="159"/>
+        <location filename="../libxbmcremote/videoplaylist.cpp" line="165"/>
         <source>Now Playing</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../libxbmcremote/videoplaylist.cpp" line="159"/>
+        <location filename="../libxbmcremote/videoplaylist.cpp" line="165"/>
         <source>Videos</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1068,12 +1078,12 @@
 <context>
     <name>Xbmc</name>
     <message>
-        <location filename="../libxbmcremote/xbmc.cpp" line="158"/>
+        <location filename="../libxbmcremote/xbmc.cpp" line="195"/>
         <source>Finished downloading %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../libxbmcremote/xbmc.cpp" line="160"/>
+        <location filename="../libxbmcremote/xbmc.cpp" line="197"/>
         <source>Error downloading %1</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1081,28 +1091,28 @@
 <context>
     <name>XbmcConnection::XbmcConnectionPrivate</name>
     <message>
-        <location filename="../libxbmcremote/xbmcconnection.cpp" line="164"/>
+        <location filename="../libxbmcremote/xbmcconnection.cpp" line="168"/>
         <source>Connecting to %1...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../libxbmcremote/xbmcconnection.cpp" line="197"/>
+        <location filename="../libxbmcremote/xbmcconnection.cpp" line="201"/>
         <source>The connection has been disconnected</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../libxbmcremote/xbmcconnection.cpp" line="207"/>
-        <location filename="../libxbmcremote/xbmcconnection.cpp" line="260"/>
+        <location filename="../libxbmcremote/xbmcconnection.cpp" line="211"/>
+        <location filename="../libxbmcremote/xbmcconnection.cpp" line="270"/>
         <source>Connection failed: %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../libxbmcremote/xbmcconnection.cpp" line="302"/>
+        <location filename="../libxbmcremote/xbmcconnection.cpp" line="322"/>
         <source>This version of Xbmcremote is designed to work with XBMC Frodo (v12.0). It seems you have connected to an older version of XMBC. Please upgrade XBMC in order to use Xbmcremote.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../libxbmcremote/xbmcconnection.cpp" line="498"/>
+        <location filename="../libxbmcremote/xbmcconnection.cpp" line="531"/>
         <source>Connection to %1 timed out...</source>
         <translation type="unfinished"></translation>
     </message>
