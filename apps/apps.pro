@@ -2,15 +2,15 @@ TEMPLATE = subdirs
 
 
 contains(MEEGO_EDITION,harmattan) {
-    message(Harmattan build)
+    message("Harmattan build. Building harmattan app.")
     SUBDIRS += harmattan
 } else:maemo5{
-    message(Fremantle build)
+    message("Fremantle build. Building generic app.")
     SUBDIRS += generic
 } else:contains(QT_VERSION, ^5\\..\\..*) {
-    message("Qt5 build. Using Ubuntu compoenents for now")
+    message("Desktop Qt5 build. Building Ubuntu version.")
     SUBDIRS += ubuntu
 } else {
-    message(Desktop build)
+    message("Desktop Qt4 build. Building generic app.")
     SUBDIRS += generic
 }

@@ -1,15 +1,7 @@
 include(../../config.pri)
 include(../../i18n/i18n.pri)
 
-TEMPLATE = app
-
-TARGET = xbmcremote
-
 QT += declarative network
-
-INCLUDEPATH += $$top_srcdir
-
-LIBS += -L$$OUT_PWD/../../libxbmcremote -lxbmcremote -lqjson
 
 RESOURCES += xbmcremote.qrc
 
@@ -19,10 +11,6 @@ maemo5: {
     CONFIG += mobility12
     MOBILITY += contacts
     LIBS += -lQtContacts
-
-    # .qmake.cache.in doesn't seem to work for fremantle...
-    INCLUDEPATH += $$PWD/../../
-    LIBS += -L../../libxbmcremote/
 
     target.path = /opt/$${TARGET}/bin
 
@@ -59,5 +47,3 @@ HEADERS += ui/mainwindow.h \
             ui/aboutdialog.h \
             ui/authenticationdialog.h \
             qmlapplicationviewer/qmlapplicationviewer.h \
-
-PRE_TARGETDEPS += ../../libxbmcremote/libxbmcremote.a

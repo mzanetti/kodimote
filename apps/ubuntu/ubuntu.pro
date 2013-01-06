@@ -1,14 +1,10 @@
 include(../../config.pri)
 
-TARGET = xbmcremote
-TEMPLATE = app
-
 QT += quick
-
-LIBS += -L$$OUT_PWD/../../libxbmcremote -lxbmcremote
 
 SOURCES += main.cpp
 
+# debian/rules builds with CONFIG+=package
 package {
     qml.files = qml
     qml.path = /usr/share/xbmcremote/
@@ -29,6 +25,3 @@ package {
 
     INSTALLS += target qml
 }
-
-
-PRE_TARGETDEPS += ../../libxbmcremote/libxbmcremote.a
