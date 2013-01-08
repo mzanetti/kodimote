@@ -299,7 +299,7 @@ Page {
 
     SipAttributes {
         id: sipAttributes
-        actionKeyIcon: "/opt/xbmcremote/qml/harmattan/icons/closekeypad.svg"
+        actionKeyIcon: "/opt/xbmcremote/qml/icons/closekeypad.svg"
     }
 
     TextField {

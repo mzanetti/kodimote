@@ -51,7 +51,7 @@ void Keys::back()
 
 void Keys::menu()
 {
-    XbmcConnection::sendLegacyCommand("SendKey(0xF04D)");
+    XbmcConnection::sendCommand("Input.ShowOSD");
 }
 
 void Keys::contextMenu()
@@ -66,7 +66,9 @@ void Keys::info()
 
 void Keys::fullscreen()
 {
-    XbmcConnection::sendLegacyCommand("SendKey(0xF009)");
+    QVariantMap params;
+    params.insert("action", "fullscreen");
+    XbmcConnection::sendCommand("Input.ExecuteAction", params);
 }
 
 void Keys::keyboardKey(const QString &key)
@@ -82,7 +84,9 @@ void Keys::keyboardKey(const QString &key)
 
 void Keys::backspace()
 {
-    XbmcConnection::sendLegacyCommand("SendKey(0xF108)");
+    QVariantMap params;
+    params.insert("action", "backspace");
+    XbmcConnection::sendCommand("Input.ExecuteAction", params);
 }
 
 void Keys::home()
