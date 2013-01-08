@@ -1708,12 +1708,32 @@
     },
     
     "JSONRPC.Version":{
-      "description":"Retrieve the jsonrpc protocol version",
+      "description":"Retrieve the JSON-RPC protocol version.",
       "params":[
         
       ],
       "returns":{
-        "type":"string"
+        "properties":{
+          "major":{
+            "description":"Bumped on backwards incompatible changes to the API definition",
+            "minimum":0,
+            "required":true,
+            "type":"integer"
+          },
+          "minor":{
+            "description":"Bumped on backwards compatible additions/changes to the API definition",
+            "minimum":0,
+            "required":true,
+            "type":"integer"
+          },
+          "patch":{
+            "description":"Bumped on any changes to the internal implementation but not to the API definition",
+            "minimum":0,
+            "required":true,
+            "type":"integer"
+          }
+        },
+        "type":"object"
       },
       "type":"method"
     },
@@ -3750,8 +3770,9 @@
           "name":"playcount"
         },
         {
-          "$ref":"Optional.String",
+          "$ref":"Optional.Integer",
           "default":null,
+          "description":"Runtime in seconds",
           "name":"runtime"
         },
         {
@@ -3871,8 +3892,9 @@
           "name":"playcount"
         },
         {
-          "$ref":"Optional.String",
+          "$ref":"Optional.Integer",
           "default":null,
+          "description":"Runtime in seconds",
           "name":"runtime"
         },
         {
@@ -4077,8 +4099,9 @@
           "name":"playcount"
         },
         {
-          "$ref":"Optional.String",
+          "$ref":"Optional.Integer",
           "default":null,
+          "description":"Runtime in seconds",
           "name":"runtime"
         },
         {
@@ -5410,6 +5433,16 @@
         "artist":{
           "$ref":"Array.String"
         },
+        "artistid":{
+          "$ref":"Array.Integer"
+        },
+        "displayartist":{
+          "default":"",
+          "type":"string"
+        },
+        "genreid":{
+          "$ref":"Array.Integer"
+        },
         "musicbrainzalbumartistid":{
           "default":"",
           "type":"string"
@@ -5443,6 +5476,9 @@
         },
         "albumartist":{
           "$ref":"Array.String"
+        },
+        "albumartistid":{
+          "$ref":"Array.Integer"
         },
         "albumid":{
           "$ref":"Library.Id",
@@ -5499,6 +5535,7 @@
       "extends":"Item.Fields.Base",
       "id":"Audio.Fields.Album",
       "items":{
+        "description":"Requesting the genreid and/or artistid field will result in increased response times",
         "enums":[
           "title",
           "description",
@@ -5515,7 +5552,10 @@
           "musicbrainzalbumartistid",
           "fanart",
           "thumbnail",
-          "playcount"
+          "playcount",
+          "genreid",
+          "artistid",
+          "displayartist"
         ],
         "type":"string"
       }
@@ -5548,6 +5588,8 @@
       "extends":"Item.Fields.Base",
       "id":"Audio.Fields.Song",
       "items":{
+        "description":"Requesting the genreid,
+         artistid and/or albumartistid field will result in increased response times",
         "enums":[
           "title",
           "artist",
@@ -5570,7 +5612,11 @@
           "file",
           "albumid",
           "lastplayed",
-          "disc"
+          "disc",
+          "genreid",
+          "artistid",
+          "displayartist",
+          "albumartistid"
         ],
         "type":"string"
       }
@@ -5896,6 +5942,7 @@
     },
     
     "Input.Action":{
+      "default":"left",
       "enums":[
         "left",
         "right",
@@ -6071,7 +6118,6 @@
         "noop"
       ],
       "id":"Input.Action",
-      "required":true,
       "type":"string"
     },
     
@@ -6198,6 +6244,18 @@
           "disc",
           "tag",
           "art",
+          "genreid",
+          "displayartist",
+          "albumartistid",
+          "description",
+          "theme",
+          "mood",
+          "style",
+          "albumlabel",
+          "sorttitle",
+          "episodeguide",
+          "uniqueid",
+          "dateadded",
           "channel",
           "channeltype",
           "hidden",
@@ -6264,11 +6322,25 @@
           "albumid",
           "tvshowid",
           "setid",
+          "watchedepisodes",
+          "disc",
+          "tag",
+          "art",
+          "genreid",
+          "displayartist",
+          "albumartistid",
+          "description",
+          "theme",
+          "mood",
+          "style",
+          "albumlabel",
+          "sorttitle",
+          "episodeguide",
+          "uniqueid",
+          "dateadded",
           "size",
           "lastmodified",
-          "mimetype",
-          "watchedepisodes",
-          "disc"
+          "mimetype"
         ],
         "type":"string"
       }
@@ -6846,26 +6918,9 @@
     },
     
     "List.Item.All":{
-      "extends":[
-        "Video.Details.File",
-        "Audio.Details.Media"
-      ],
+      "extends":"List.Item.Base",
       "id":"List.Item.All",
       "properties":{
-        "album":{
-          "default":"",
-          "type":"string"
-        },
-        "albumartist":{
-          "$ref":"Array.String"
-        },
-        "albumid":{
-          "$ref":"Library.Id",
-          "default":-1
-        },
-        "cast":{
-          "$ref":"Video.Cast"
-        },
         "channel":{
           "default":"",
           "type":"string"
@@ -6878,12 +6933,63 @@
           "$ref":"PVR.Channel.Type",
           "default":"tv"
         },
+        "endtime":{
+          "default":"",
+          "type":"string"
+        },
+        "hidden":{
+          "default":false,
+          "type":"boolean"
+        },
+        "locked":{
+          "default":false,
+          "type":"boolean"
+        },
+        "starttime":{
+          "default":"",
+          "type":"string"
+        }
+      }
+    },
+    
+    "List.Item.Base":{
+      "extends":[
+        "Video.Details.File",
+        "Audio.Details.Media"
+      ],
+      "id":"List.Item.Base",
+      "properties":{
+        "album":{
+          "default":"",
+          "type":"string"
+        },
+        "albumartist":{
+          "$ref":"Array.String"
+        },
+        "albumartistid":{
+          "$ref":"Array.Integer"
+        },
+        "albumid":{
+          "$ref":"Library.Id",
+          "default":-1
+        },
+        "albumlabel":{
+          "default":"",
+          "type":"string"
+        },
+        "cast":{
+          "$ref":"Video.Cast"
+        },
         "comment":{
           "default":"",
           "type":"string"
         },
         "country":{
           "$ref":"Array.String"
+        },
+        "description":{
+          "default":"",
+          "type":"string"
         },
         "disc":{
           "default":0,
@@ -6893,21 +6999,17 @@
           "default":0,
           "type":"integer"
         },
-        "endtime":{
-          "default":"",
-          "type":"string"
-        },
         "episode":{
           "default":0,
           "type":"integer"
         },
-        "firstaired":{
+        "episodeguide":{
           "default":"",
           "type":"string"
         },
-        "hidden":{
-          "default":false,
-          "type":"boolean"
+        "firstaired":{
+          "default":"",
+          "type":"string"
         },
         "id":{
           "$ref":"Library.Id",
@@ -6917,13 +7019,12 @@
           "default":"",
           "type":"string"
         },
-        "locked":{
-          "default":false,
-          "type":"boolean"
-        },
         "lyrics":{
           "default":"",
           "type":"string"
+        },
+        "mood":{
+          "$ref":"Array.String"
         },
         "mpaa":{
           "default":"",
@@ -6972,11 +7073,14 @@
           "default":"",
           "type":"string"
         },
-        "starttime":{
+        "sorttitle":{
           "default":"",
           "type":"string"
         },
         "studio":{
+          "$ref":"Array.String"
+        },
+        "style":{
           "$ref":"Array.String"
         },
         "tag":{
@@ -6985,6 +7089,9 @@
         "tagline":{
           "default":"",
           "type":"string"
+        },
+        "theme":{
+          "$ref":"Array.String"
         },
         "top250":{
           "default":0,
@@ -7015,6 +7122,14 @@
           ],
           "type":"string"
         },
+        "uniqueid":{
+          "additionalProperties":{
+            "default":"",
+            "minLength":1,
+            "type":"string"
+          },
+          "type":"object"
+        },
         "votes":{
           "default":"",
           "type":"string"
@@ -7030,7 +7145,7 @@
     },
     
     "List.Item.File":{
-      "extends":"List.Item.All",
+      "extends":"List.Item.Base",
       "id":"List.Item.File",
       "properties":{
         "file":{
@@ -8197,8 +8312,9 @@
           "$ref":"Video.Resume"
         },
         "runtime":{
-          "default":"",
-          "type":"string"
+          "default":0,
+          "description":"Runtime in seconds",
+          "type":"integer"
         },
         "streamdetails":{
           "$ref":"Video.Streams"
@@ -8758,6 +8874,6 @@
       "type":"object"
     }
   },
-  "version":5
+  "version":"6.0.0"
 }
 }
