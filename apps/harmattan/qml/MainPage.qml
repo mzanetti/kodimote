@@ -47,13 +47,19 @@ Page {
             subtitle: ""
             mode: "files"
         }
+        ListElement {
+            icon: "icon-m-content-image"
+            subtitle: ""
+            mode: "library"
+        }
         // workaround: its not possible to have qsTr() in ListElements for now...
         function title(index) {
             if (title["text"] === undefined) {
                 title.text = [
                     qsTr("Music"),
                     qsTr("Videos"),
-                    qsTr("Pictures")
+                    qsTr("Pictures"),
+                    qsTr("TV Channels")
                 ]
             }
             return title.text[index];
@@ -172,10 +178,10 @@ Page {
                             newModel = xbmc.shares("pictures");
                             console.log("created model: " + newModel);
                             break;
-//                        case 3:
-//                            newModel = xbmc.shares("video");
-//                            console.log("created model: " + newModel);
-//                            break;
+                        case 3:
+                            newModel = xbmc.channelGroups();
+                            console.log("created model: " + newModel);
+                            break;
                         }
                         console.log("setting model: " + newModel);
                         pageStack.push(component, {model: newModel});

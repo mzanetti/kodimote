@@ -28,6 +28,7 @@ class LibraryItem : public XbmcModelItem
     Q_PROPERTY(int seasonId READ seasonId WRITE setSeasonId NOTIFY seasonIdChanged)
     Q_PROPERTY(int episodeId READ episodeId WRITE setEpisodeId NOTIFY episodeIdChanged)
     Q_PROPERTY(int movieId READ movieId WRITE setMovieId NOTIFY movieIdChanged)
+    Q_PROPERTY(int channelId READ channelId WRITE setChannelId NOTIFY channelIdChanged)
     Q_PROPERTY(QString plot READ plot WRITE setPlot NOTIFY plotChanged)
     Q_PROPERTY(int rating READ rating WRITE setRating NOTIFY ratingChanged)
     Q_PROPERTY(int season READ season WRITE setSeason NOTIFY seasonChanged)
@@ -106,6 +107,9 @@ public:
 
     int movieId() const;
     void setMovieId(int movieId);
+
+    int channelId() const;
+    void setChannelId(int channelId);
 
     QString plot() const;
     void setPlot(const QString &plot);
@@ -195,6 +199,7 @@ signals:
     void seasonIdChanged();
     void episodeIdChanged();
     void movieIdChanged();
+    void channelIdChanged();
     void plotChanged();
     void ratingChanged();
     void seasonChanged();
@@ -236,6 +241,7 @@ private:
     int m_seasonId;
     int m_episodeId;
     int m_movieId;
+    int m_channelId;
     QString m_plot;
     int m_rating;
     int m_season;

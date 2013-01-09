@@ -31,6 +31,8 @@
 
 #include "files.h"
 #include "shares.h"
+#include "channelgroups.h"
+#include "channels.h"
 
 #include "playlist.h"
 #include "audioplaylist.h"
@@ -124,6 +126,8 @@ Xbmc::Xbmc(QObject *parent) :
     qmlRegisterType<VideoPlaylistItem>();
     qmlRegisterType<Files>();
     qmlRegisterType<Shares>();
+    qmlRegisterType<ChannelGroups>();
+    qmlRegisterType<Channels>();
     qmlRegisterType<Keys>();
     qmlRegisterType<XbmcFilterModel>("Xbmc", 1, 0, "XbmcFilterModel");
 
@@ -239,6 +243,11 @@ VideoLibrary *Xbmc::videoLibrary()
 Shares *Xbmc::shares(const QString &mediatype)
 {
     return new Shares(mediatype);
+}
+
+ChannelGroups *Xbmc::channelGroups()
+{
+    return new ChannelGroups();
 }
 
 AudioPlayer *Xbmc::audioPlayer()

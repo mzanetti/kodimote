@@ -53,7 +53,9 @@ SOURCES +=  xbmc.cpp \
             xbmcdiscovery.cpp \
             networkauthhandler.cpp \
             networkaccessmanagerfactory.cpp \
-            settings.cpp
+            settings.cpp \
+            channels.cpp \
+            channelgroups.cpp
 
 HEADERS += libxbmcremote_global.h \
            xbmc.h \
@@ -97,4 +99,6 @@ HEADERS += libxbmcremote_global.h \
            xbmcdiscovery.h \
            networkauthhandler.h \
            networkaccessmanagerfactory.h \
-           settings.h
+           settings.h \
+           channels.h \
+           channelgroups.h
