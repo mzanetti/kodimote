@@ -317,6 +317,17 @@ void LibraryItem::setMovieId(int movieId)
     emit movieIdChanged();
 }
 
+int LibraryItem::channelId() const
+{
+    return m_channelId;
+}
+
+void LibraryItem::setChannelId(int channelId)
+{
+    m_channelId = channelId;
+    emit channelIdChanged();
+}
+
 QString LibraryItem::plot() const
 {
     return m_plot;
