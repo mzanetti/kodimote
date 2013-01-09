@@ -203,40 +203,12 @@ Page {
                 text: currentItem ? currentItem.durationString : "00:00"
             }
 
-            Row {
+            PlayerControls {
                 id: controlButtons
                 anchors.bottom: progressBar.top
                 anchors.horizontalCenter: parent.horizontalCenter
                 anchors.bottomMargin: 20
-                MediaControlButton {
-                    platformIconId: "toolbar-mediacontrol-previous"
-                    onClicked: player.skipPrevious();
-                }
-                MediaControlButton {
-                    platformIconId: "toolbar-mediacontrol-backwards"
-                    enabled: player && player.state == "playing"
-                    selected: player && player.speed < 0
-                    onClicked: player.seekBackward();
-                }
-                MediaControlButton {
-                    platformIconId: "toolbar-mediacontrol-stop"
-                    enabled: player && player.state == "playing"
-                    onClicked: player.stop();
-                }
-                MediaControlButton {
-                    platformIconId: player && player.speed === 1 && player.state === "playing" ? "toolbar-mediacontrol-pause" : "toolbar-mediacontrol-play"
-                    onClicked: player.playPause();
-                }
-                MediaControlButton {
-                    platformIconId: "toolbar-mediacontrol-forward"
-                    enabled: player && player.state == "playing"
-                    selected: player && player.speed > 1
-                    onClicked: player.seekForward();
-                }
-                MediaControlButton {
-                    platformIconId: "toolbar-mediacontrol-next"
-                    onClicked: player.skipNext();
-                }
+                player: nowPlayingPage.player
             }
 
             ProgressBar {

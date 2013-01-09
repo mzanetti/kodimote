@@ -7,6 +7,7 @@ Page {
     tools: toolBarKeypad
     orientationLock: PageOrientation.LockPortrait
     property bool keyboardOpen: false
+    property QtObject player: xbmc.activePlayer
 
     onKeyboardOpenChanged: {
         tf.forceActiveFocus();
@@ -281,9 +282,9 @@ Page {
                 icon: "fullscreen"
                 onPressed: keys.fullscreen();
             }
-            KeypadButton {
-                icon: "home"
-                onPressed: keys.home();
+            MediaControlButton {
+                platformIconId: "toolbar-home"
+                onClicked: keys.home();
             }
             KeypadButton {
                 id: keyboardButton
@@ -294,6 +295,14 @@ Page {
                     //                    keyboard.open();
                 }
             }
+        }
+
+        PlayerControls {
+            id: controlButtons
+            anchors.bottom: progressBar.top
+            anchors.horizontalCenter: parent.horizontalCenter
+            anchors.bottomMargin: 20
+            player: keyPad.player
         }
     }
 
