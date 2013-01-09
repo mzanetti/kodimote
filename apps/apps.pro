@@ -10,6 +10,9 @@ contains(MEEGO_EDITION,harmattan) {
 } else:contains(QT_VERSION, ^5\\..\\..*) {
     message("Desktop Qt5 build. Building Ubuntu version.")
     SUBDIRS += ubuntu
+} else:simulator {
+    message("Simulator build")
+    SUBDIRS += harmattan
 } else {
     message("Desktop Qt4 build. Building generic app.")
     SUBDIRS += generic

@@ -6,36 +6,52 @@ MOBILITY = connectivity systeminfo contacts feedback
 CONFIG += qmsystem2 mobility meego qdeclarative-boostable
 PKGCONFIG += libtuiclient
 
-INCLUDEPATH += /usr/include/resource/qt4
+contains(MEEGO_EDITION,harmattan) {
+    DEFINES += Q_WS_MAEMO_6
 
-LIBS += -lresourceqt
+    INCLUDEPATH += /usr/include/resource/qt4
+    LIBS += -lresourceqt
 
-DEFINES += Q_WS_MAEMO_6
+    SOURCES += main.cpp \
+                gesturehelper.cpp \
+                meegohelper.cpp \
+                nfchandler.cpp \
+                rumbleeffect.cpp
 
+    HEADERS += meegohelper.h \
+                nfchandler.h \
+                rumbleeffect.h \
+                gesturehelper.h
 
-SOURCES += main.cpp \
-            gesturehelper.cpp \
-            meegohelper.cpp \
-            nfchandler.cpp \
-            rumbleeffect.cpp
+    target.path = /opt/$${TARGET}/bin
 
-HEADERS += meegohelper.h \
-            nfchandler.h \
-            rumbleeffect.h \
-            gesturehelper.h
+    qmlfiles.files = qml/
+    qmlfiles.path = /opt/$${TARGET}
 
-target.path = /opt/$${TARGET}/bin
+    splash.files = splash.png
+    splash.path = /opt/$${TARGET}
 
-qmlfiles.files = qml/
-qmlfiles.path = /opt/$${TARGET}
+    desktopfile.files = xbmcremote.desktop
+    desktopfile.path = /usr/share/applications/
 
-splash.files = splash.png
-splash.path = /opt/$${TARGET}
+    icon.files = xbmcremote80.png
+    icon.path = /usr/share/icons/hicolor/80x80/apps/
 
-desktopfile.files = xbmcremote.desktop
-desktopfile.path = /usr/share/applications/
+    INSTALLS += target qmlfiles splash desktopfile icon
 
-icon.files = xbmcremote80.png
-icon.path = /usr/share/icons/hicolor/80x80/apps/
+} else:simulator {
 
-INSTALLS += target qmlfiles splash desktopfile icon
+    SOURCES += main.cpp \
+                gesturehelper.cpp \
+                nfchandler.cpp \
+                rumbleeffect.cpp
+
+    HEADERS +=  nfchandler.h \
+                rumbleeffect.h \
+                gesturehelper.h
+
+    qml.files = qml
+    qml.path = $$OUT_PWD
+
+    INSTALLS += target qml
+}

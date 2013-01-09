@@ -23,12 +23,14 @@
 
 #if defined Q_WS_MAEMO_6
 #include "meegohelper.h"
-#include <QtSystemInfo/QSystemInfo>
-QTM_USE_NAMESPACE
 #include <MDeclarativeCache>
 #endif
 
 #if defined Q_WS_MAEMO_6 || defined Q_WS_SIMULATOR
+
+#include <QtSystemInfo/QSystemInfo>
+QTM_USE_NAMESPACE
+
 #include "nfchandler.h"
 #include "rumbleeffect.h"
 #include "gesturehelper.h"
@@ -45,7 +47,11 @@ Q_DECL_EXPORT int main(int argc, char *argv[])
     // Load language file
     QSystemInfo info;
     language = info.currentLanguage();
+#if defined Q_WS_MAEMO_6
     QScopedPointer<QApplication> app(MDeclarativeCache::qApplication(argc, argv));
+#elif defined Q_WS_SIMULATOR
+    QScopedPointer<QApplication> app(new QApplication(argc, argv));
+#endif
 
     QTranslator qtTranslator;
     if(!qtTranslator.load("qt_" + language, QLibraryInfo::location(QLibraryInfo::TranslationsPath))) {
@@ -65,8 +71,10 @@ Q_DECL_EXPORT int main(int argc, char *argv[])
     Settings settings;
     view->rootContext()->setContextProperty("settings", &settings);
 
+#ifdef Q_WS_MAEMO_6
     MeeGoHelper *helper = new MeeGoHelper(&settings, app.data());
     Q_UNUSED(helper)
+#endif
 
     NfcHandler nfcHandler;
     view->rootContext()->setContextProperty("nfcHandler", &nfcHandler);
@@ -81,7 +89,7 @@ Q_DECL_EXPORT int main(int argc, char *argv[])
 
 // Set the main QML file for all the QML based platforms
 #ifdef QT_SIMULATOR
-    view->setSource(QUrl("qml/harmattan/main.qml"));
+    view->setSource(QUrl("qml/main.qml"));
 #elif defined Q_WS_MAEMO_6
     view->setSource(QUrl("/opt/xbmcremote/qml/main.qml"));
 #endif

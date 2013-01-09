@@ -21,6 +21,7 @@
 
 #include <QObject>
 #include <QTimer>
+
 #include <qmsystem2/qmkeys.h>
 #include <qmsystem2/qmdisplaystate.h>
 #include <qmsystem2/qmbattery.h>
