@@ -333,6 +333,9 @@ void Player::detailsReceived(const QVariantMap &rsp)
         m_currentItem->setAlbumId(id);
     } else if(type == "artist") {
         m_currentItem->setArtistId(id);
+    } else if(type == "channel") {
+        qDebug() << "mmmmmmmmmmmmmmmmmmmmm" << id;
+        m_currentItem->setChannelId(id);
     }
 
     m_currentItem->setType(type);
@@ -343,6 +346,9 @@ void Player::detailsReceived(const QVariantMap &rsp)
         m_currentItem->setSubtitle(itemMap.value("artist").toString());
     } else if(itemMap.value("type").toString() == "episode") {
         m_currentItem->setSubtitle(itemMap.value("showtitle").toString());
+    } else if(itemMap.value("type").toString() == "channel") {
+        m_currentItem->setTitle(itemMap.value("title").toString());
+        m_currentItem->setSubtitle(itemMap.value("label").toString());
     }
 
     m_currentItem->setComment(itemMap.value("comment").toString());
@@ -445,7 +451,7 @@ void Player::playItem(int index)
 {
     QVariantMap params;
     QVariantMap playlistid;
-    playlistid.insertMulti("playlistid", playlist()->playlistId());
+    playlistid.insert("playlistid", playlist()->playlistId());
     playlistid.insert("position", index);
     params.insert("item", playlistid);
     XbmcConnection::sendCommand("Player.Open", params);

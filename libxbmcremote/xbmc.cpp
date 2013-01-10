@@ -76,6 +76,9 @@ Xbmc::Xbmc(QObject *parent) :
     m_canReboot(false),
     m_canHibernate(false),
     m_canSuspend(false),
+    m_pvrAvailable(false),
+    m_pvrRecording(false),
+    m_pvrScanning(false),
     m_imageCache(new XbmcImageCache(this))
 {
 
@@ -184,6 +187,14 @@ void Xbmc::init()
     list.append("canreboot");
     params.insert("properties", list);
     XbmcConnection::sendCommand("System.GetProperties", params, this, "systemPropertiesReceived");
+
+    params.clear();
+    list.clear();
+    list.append("available");
+    list.append("recording");
+    list.append("scanning");
+    params.insert("properties", list);
+    XbmcConnection::sendCommand("PVR.GetProperties", params, this, "pvrPropertiesReceived");
 }
 
 void Xbmc::slotDownloadAdded(XbmcDownload *download)
@@ -361,6 +372,25 @@ void Xbmc::systemPropertiesReceived(const QVariantMap &rsp)
     qDebug() << m_canShutdown << m_canReboot << m_canHibernate << m_canSuspend;
 }
 
+void Xbmc::pvrPropertiesReceived(const QVariantMap &rsp)
+{
+    bool newValue = rsp.value("result").toMap().value("available").toBool();
+    if(m_pvrAvailable != newValue) {
+        m_pvrAvailable = newValue;
+        emit pvrAvailableChanged();
+    }
+    newValue = rsp.value("result").toMap().value("recording").toBool();
+    if(m_pvrRecording != newValue) {
+        m_pvrRecording = newValue;
+        emit pvrRecordingChanged();
+    }
+    newValue = rsp.value("result").toMap().value("scanning").toBool();
+    if(m_pvrScanning != newValue) {
+        m_pvrScanning = newValue;
+        emit pvrScanningChanged();
+    }
+}
+
 QString Xbmc::vfsPath()
 {
     if(XbmcConnection::connectedHost()) {
@@ -503,6 +533,21 @@ bool Xbmc::canHibernate()
 bool Xbmc::canSuspend()
 {
     return m_canSuspend;
+}
+
+bool Xbmc::pvrAvailable()
+{
+    return m_pvrAvailable;
+}
+
+bool Xbmc::pvrRecording()
+{
+    return m_pvrRecording;
+}
+
+bool Xbmc::pvrScanning()
+{
+    return m_pvrScanning;
 }
 
 XbmcImageCache *Xbmc::imageCache()

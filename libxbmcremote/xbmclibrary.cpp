@@ -37,9 +37,15 @@ QVariant XbmcLibrary::data(const QModelIndex &index, int role) const
         }
         LibraryItem *thisItem = qobject_cast<LibraryItem*>(m_list.at(index.row()));
         LibraryItem *currentItem = Xbmc::instance()->activePlayer()->currentItem();
-//        qDebug() << "$$$$$$1" << thisItem->artistId() << thisItem->albumId() << thisItem->songId() << thisItem->movieId() << thisItem->episodeId() << thisItem->fileName();
-//        qDebug() << "$$$$$$2" << currentItem->artistId() << currentItem->albumId() << currentItem->songId() << currentItem->movieId() << currentItem->episodeId() << currentItem->fileName();
-        if(thisItem->artistId() == -1 && thisItem->songId() == -1 && thisItem->albumId() == -1 && thisItem->movieId() == -1 && thisItem->episodeId() == -1) {
+        qDebug() << "$$$$$$1" << thisItem->artistId() << thisItem->albumId() << thisItem->songId() << thisItem->movieId() << thisItem->episodeId() << thisItem->fileName() << thisItem->channelId();
+        qDebug() << "$$$$$$2" << currentItem->artistId() << currentItem->albumId() << currentItem->songId() << currentItem->movieId() << currentItem->episodeId() << currentItem->fileName() << currentItem->channelId();
+        if(currentItem->artistId() == -1 &&
+                    currentItem->songId() == -1 &&
+                    currentItem->albumId() == -1 &&
+                    currentItem->movieId() == -1 &&
+                    currentItem->episodeId() == -1 &&
+                    currentItem->channelId() == -1) {
+
             if(thisItem->fileName() == currentItem->fileName()) {
                 return Xbmc::instance()->activePlayer()->state();
             }
@@ -49,7 +55,8 @@ QVariant XbmcLibrary::data(const QModelIndex &index, int role) const
                thisItem->albumId() == currentItem->albumId() &&
                thisItem->songId() == currentItem->songId() &&
                thisItem->movieId() == currentItem->movieId() &&
-               thisItem->episodeId() == currentItem->episodeId()) {
+               thisItem->episodeId() == currentItem->episodeId() &&
+               thisItem->channelId() == currentItem->channelId()) {
             return Xbmc::instance()->activePlayer()->state();
         }
         return "";

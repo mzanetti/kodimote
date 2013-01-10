@@ -60,6 +60,10 @@ class Xbmc : public QObject
     Q_PROPERTY(bool canHibernate READ canHibernate NOTIFY systemPropertiesChanged)
     Q_PROPERTY(bool canSuspend READ canSuspend NOTIFY systemPropertiesChanged)
 
+    Q_PROPERTY(bool pvrAvailable READ pvrAvailable NOTIFY pvrAvailableChanged)
+    Q_PROPERTY(bool pvrRecording READ pvrRecording NOTIFY pvrRecordingChanged)
+    Q_PROPERTY(bool pvrScanning READ pvrScanning NOTIFY pvrScanningChanged)
+
 public:
     static Xbmc *instance();
     ~Xbmc();
@@ -104,6 +108,10 @@ public:
     bool canHibernate();
     bool canSuspend();
 
+    bool pvrAvailable();
+    bool pvrRecording();
+    bool pvrScanning();
+
     XbmcImageCache *imageCache();
 
 public slots:
@@ -131,6 +139,10 @@ signals:
 
     void displayNotification(const QString &text);
 
+    void pvrAvailableChanged();
+    void pvrRecordingChanged();
+    void pvrScanningChanged();
+
 private slots:
     void parseAnnouncement(const QVariantMap &map);
     void connectionChanged();
@@ -141,6 +153,7 @@ private slots:
     void activePlayersReceived(const QVariantMap &rsp);
     void volumeReceived(const QVariantMap &rsp);
     void systemPropertiesReceived(const QVariantMap &rsp);
+    void pvrPropertiesReceived(const QVariantMap &rsp);
 
 private:
     static Xbmc *s_instance;
@@ -172,6 +185,10 @@ private:
     bool m_canReboot;
     bool m_canHibernate;
     bool m_canSuspend;
+
+    bool m_pvrAvailable;
+    bool m_pvrRecording;
+    bool m_pvrScanning;
 
     XbmcImageCache *m_imageCache;
 };

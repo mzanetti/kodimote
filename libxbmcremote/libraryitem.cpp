@@ -14,6 +14,8 @@ LibraryItem::LibraryItem(const QString &title, const QString &subTitle):
     m_seasonId(-1),
     m_episodeId(-1),
     m_movieId(-1),
+    m_channelgroupId(-1),
+    m_channelId(-1),
     m_plot(QString()),
     m_rating(-1),
     m_season(-1),
@@ -77,6 +79,10 @@ QVariant LibraryItem::data(int role) const
         return m_episodeId;
     case XbmcModel::RoleMovieId:
         return m_movieId;
+    case XbmcModel::RoleChannelGroupId:
+        return m_channelgroupId;
+    case XbmcModel::RoleChannelId:
+        return m_channelId;
     case XbmcModel::RolePlot:
         return m_plot;
     case XbmcModel::RoleRating:
@@ -315,6 +321,17 @@ void LibraryItem::setMovieId(int movieId)
 {
     m_movieId = movieId;
     emit movieIdChanged();
+}
+
+int LibraryItem::channelgroupId() const
+{
+    return m_channelgroupId;
+}
+
+void LibraryItem::setChannelgroupId(int channelgroupId)
+{
+    m_channelgroupId = channelgroupId;
+    emit channelgroupIdChanged();
 }
 
 int LibraryItem::channelId() const
