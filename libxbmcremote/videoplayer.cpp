@@ -19,6 +19,8 @@
 #include "videoplayer.h"
 #include "videoplaylist.h"
 
+#include "xbmcconnection.h"
+
 VideoPlayer::VideoPlayer(QObject *parent):
     Player(PlayerTypeVideo, parent)
 {
@@ -33,5 +35,12 @@ int VideoPlayer::playerId() const
 Playlist *VideoPlayer::playlist() const
 {
     return m_playlist;
+}
+
+void VideoPlayer::open(const VideoPlaylistItem &item)
+{
+    QVariantMap params;
+    params.insert("item", item.toMap());
+    XbmcConnection::sendCommand("Player.Open", params);
 }
 

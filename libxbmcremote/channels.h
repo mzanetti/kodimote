@@ -14,13 +14,20 @@ public:
     XbmcModel* enterItem(int index);
     void playItem(int index);
     void addToPlaylist(int index);
+
+    Q_INVOKABLE void fetchItemDetails(int index);
+    Q_INVOKABLE bool hasDetails() { return false; } // Disabled for now as there is nothing interesting
+
 signals:
     
 private slots:
     void listReceived(const QVariantMap &rsp);
+    void detailsReceived(const QVariantMap &rsp);
 
 private:
     int m_channelgroupid;
+
+    QMap<int, int> m_detailsRequestMap;
 };
 
 #endif // CHANNELS_H

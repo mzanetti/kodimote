@@ -25,11 +25,14 @@ void ChannelGroups::refresh()
 
 XbmcModel *ChannelGroups::enterItem(int index)
 {
-    return new Channels();
+    qDebug() << "entering" << m_list.at(index)->data(RoleChannelGroupId).toInt();
+    return new Channels(m_list.at(index)->data(RoleChannelGroupId).toInt(), this);
 }
 
 void ChannelGroups::playItem(int index)
 {
+    Q_UNUSED(index)
+    qDebug() << "cannot play channelgroup";
 }
 
 void ChannelGroups::addToPlaylist(int index)
@@ -47,8 +50,9 @@ void ChannelGroups::listReceived(const QVariantMap &rsp)
         QVariantMap itemMap = itemVariant.toMap();
         LibraryItem *item = new LibraryItem();
         item->setTitle(itemMap.value("label").toString());
-        item->setFileType(itemMap.value("channeltype").toString());
-        item->setChannelId(itemMap.value("channelgroupid").toInt());
+        item->setFileType("directory");
+        //itemMap.value("channeltype").toString());
+        item->setChannelgroupId(itemMap.value("channelgroupid").toInt());
         item->setIgnoreArticle(ignoreArticle());
         item->setPlayable(false);
         list.append(item);

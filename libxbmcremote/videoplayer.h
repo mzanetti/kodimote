@@ -20,6 +20,7 @@
 #define VIDEOPLAYER_H
 
 #include "player.h"
+#include "videoplaylistitem.h"
 
 class VideoPlaylist;
 
@@ -30,6 +31,8 @@ public:
     VideoPlayer(QObject *parent = 0);
 
     virtual Playlist *playlist() const;
+
+    void open(const VideoPlaylistItem &item);
 
 protected:
     virtual int playerId() const;
