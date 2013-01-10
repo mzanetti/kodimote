@@ -44,6 +44,8 @@ public slots:
     void backspace();
     void sendText(QString text, bool done = true);
 
+    QString formatTime(int hours, int minutes);
+
 signals:
     void inputFinished();
     void inputRequested(QString title, QString type);

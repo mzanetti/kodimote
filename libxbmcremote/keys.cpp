@@ -122,3 +122,8 @@ void Keys::receivedAnnouncement(const QVariantMap &map)
         emit inputFinished();
     }
 }
+
+QString Keys::formatTime(int hours, int minutes)
+{
+    return QString("%1:%2").arg(hours, 2, 10, QChar('0')).arg(minutes, 2, 10, QChar('0'));
+}
