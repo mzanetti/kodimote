@@ -17,7 +17,7 @@ int main(int argc, char** argv)
 
     QQuickView *view = new QQuickView();
     view->setResizeMode(QQuickView::SizeRootObjectToView);
-    view->setWindowTitle("Xbmcremote");
+    view->setTitle("Xbmcremote");
 
     view->engine()->rootContext()->setContextProperty("xbmc", Xbmc::instance());
 

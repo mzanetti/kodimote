@@ -29,40 +29,9 @@ XbmcModel::XbmcModel(XbmcModel *parent) :
     m_busy(true),
     m_ignoreArticle(false)
 {
-    QHash<int, QByteArray> roleNames;
-    roleNames.insert(RoleTitle, "title");
-    roleNames.insert(RoleFileType, "filetype");
-    roleNames.insert(RoleSubtitle, "subtitle");
-    roleNames.insert(RoleDuration, "duration");
-    roleNames.insert(RolePlayable, "playable");
-    roleNames.insert(RoleFileName, "filename");
-    roleNames.insert(RoleThumbnail, "thumbnail");
-    roleNames.insert(RoleSortingTitle, "sortingTitle");
-    roleNames.insert(RolePlot, "plot");
-    roleNames.insert(RoleRating, "rating");
-    roleNames.insert(RoleSeason, "season");
-    roleNames.insert(RoleEpisode, "episode");
-    roleNames.insert(RoleFirstAired, "firstaired");
-    roleNames.insert(RoleGenre, "genre");
-    roleNames.insert(RoleYear, "year");
-    roleNames.insert(RoleDirector, "director");
-    roleNames.insert(RoleTagline, "tagline");
-    roleNames.insert(RoleMpaa, "mpaa");
-    roleNames.insert(RoleDescription, "description");
-    roleNames.insert(RoleInstrument, "instrument");
-    roleNames.insert(RoleStyle, "style");
-    roleNames.insert(RoleMood, "mood");
-    roleNames.insert(RoleBorn, "born");
-    roleNames.insert(RoleFormed, "formed");
-    roleNames.insert(RoleDied, "died");
-    roleNames.insert(RoleDisbanded, "disbanded");
-    roleNames.insert(RoleDuration, "duration");
-    roleNames.insert(RoleComment, "comment");
-    roleNames.insert(RolePlaycount, "playcount");
-    roleNames.insert(RoleCast, "cast");
-    roleNames.insert(RolePlayingState, "playingState");
-
-    setRoleNames(roleNames);
+#ifndef QT5_BUILD
+    setRoleNames(roleNames());
+#endif
 }
 
 XbmcModel::~XbmcModel()
@@ -135,6 +104,43 @@ int XbmcModel::findItem(const QString &string, bool caseSensitive)
         }
     }
     return -1;
+}
+
+QHash<int, QByteArray> XbmcModel::roleNames() const
+{
+    QHash<int, QByteArray> roleNames;
+    roleNames.insert(RoleTitle, "title");
+    roleNames.insert(RoleFileType, "filetype");
+    roleNames.insert(RoleSubtitle, "subtitle");
+    roleNames.insert(RoleDuration, "duration");
+    roleNames.insert(RolePlayable, "playable");
+    roleNames.insert(RoleFileName, "filename");
+    roleNames.insert(RoleThumbnail, "thumbnail");
+    roleNames.insert(RoleSortingTitle, "sortingTitle");
+    roleNames.insert(RolePlot, "plot");
+    roleNames.insert(RoleRating, "rating");
+    roleNames.insert(RoleSeason, "season");
+    roleNames.insert(RoleEpisode, "episode");
+    roleNames.insert(RoleFirstAired, "firstaired");
+    roleNames.insert(RoleGenre, "genre");
+    roleNames.insert(RoleYear, "year");
+    roleNames.insert(RoleDirector, "director");
+    roleNames.insert(RoleTagline, "tagline");
+    roleNames.insert(RoleMpaa, "mpaa");
+    roleNames.insert(RoleDescription, "description");
+    roleNames.insert(RoleInstrument, "instrument");
+    roleNames.insert(RoleStyle, "style");
+    roleNames.insert(RoleMood, "mood");
+    roleNames.insert(RoleBorn, "born");
+    roleNames.insert(RoleFormed, "formed");
+    roleNames.insert(RoleDied, "died");
+    roleNames.insert(RoleDisbanded, "disbanded");
+    roleNames.insert(RoleDuration, "duration");
+    roleNames.insert(RoleComment, "comment");
+    roleNames.insert(RolePlaycount, "playcount");
+    roleNames.insert(RoleCast, "cast");
+    roleNames.insert(RolePlayingState, "playingState");
+    return roleNames;
 }
 
 bool XbmcModel::busy() const

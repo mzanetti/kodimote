@@ -32,6 +32,8 @@ public:
     Q_INVOKABLE int createHost(const QString &hostname, const QString &ip, int port, const QString &macAddress = QString());
     Q_INVOKABLE void removeHost(int index);
 
+    QHash<int, QByteArray> roleNames() const;
+
 private:
     QList<XbmcHost*> m_hosts;
 
