@@ -119,7 +119,7 @@ Page {
 
             Image {
                 anchors.fill: parent
-                source: !currentItem || currentItem.thumbnail.length === 0 ? "" : xbmc.vfsPath + currentItem.thumbnail
+                source: !currentItem || currentItem.thumbnail.length === 0 ? "" : currentItem.thumbnail
                 fillMode: Image.PreserveAspectFit
 
                 onSourceChanged: print("thumbnail source is now:" + currentItem.thumbnail)
@@ -259,7 +259,23 @@ Page {
                 anchors.bottomMargin: 10
                 Label {
                     id: albumLabel
-                    text: !currentItem ? "" : (xbmc.state == "audio" ? currentItem.album : (currentItem.type == "episode" ? qsTr("Season:") + " " + currentItem.season + "   " + qsTr("Episode:") + " " + currentItem.episode : qsTr("Rating:") + " "))
+                    text: {
+                        if (!currentItem) {
+                            return "";
+                        }
+
+                        if (xbmc.state == "audio") {
+                            return currentItem.album;
+                        } else {
+                            if (currentItem.type === "episode") {
+                                return qsTr("Season:") + " " + currentItem.season + "   " + qsTr("Episode:") + " " + currentItem.episode;
+                            } else if (currentItem.type === "channel") {
+                                return currentItem.title;
+                            }
+                        }
+                        // movies & videos
+                        return qsTr("Rating:") + " "
+                    }
                 }
                 property int starCount: !currentItem ? 0 : (currentItem.rating > 10 ? Math.floor(currentItem.rating / 20) : Math.floor(currentItem.rating / 2))
                 Repeater {

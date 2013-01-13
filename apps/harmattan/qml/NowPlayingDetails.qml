@@ -40,7 +40,7 @@ Page {
             anchors.right: parent.right
 
             Image {
-                source: xbmc.vfsPath + currentItem.fanart
+                source: currentItem.fanart
                 width: parent.width
 //                height: parent.height
 //                anchors.centerIn: parent

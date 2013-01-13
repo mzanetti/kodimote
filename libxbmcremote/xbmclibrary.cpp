@@ -37,8 +37,8 @@ QVariant XbmcLibrary::data(const QModelIndex &index, int role) const
         }
         LibraryItem *thisItem = qobject_cast<LibraryItem*>(m_list.at(index.row()));
         LibraryItem *currentItem = Xbmc::instance()->activePlayer()->currentItem();
-        qDebug() << "$$$$$$1" << thisItem->artistId() << thisItem->albumId() << thisItem->songId() << thisItem->movieId() << thisItem->episodeId() << thisItem->fileName() << thisItem->channelId();
-        qDebug() << "$$$$$$2" << currentItem->artistId() << currentItem->albumId() << currentItem->songId() << currentItem->movieId() << currentItem->episodeId() << currentItem->fileName() << currentItem->channelId();
+//        qDebug() << "$$$$$$1" << thisItem->artistId() << thisItem->albumId() << thisItem->songId() << thisItem->movieId() << thisItem->episodeId() << thisItem->fileName() << thisItem->channelId();
+//        qDebug() << "$$$$$$2" << currentItem->artistId() << currentItem->albumId() << currentItem->songId() << currentItem->movieId() << currentItem->episodeId() << currentItem->fileName() << currentItem->channelId();
         if(currentItem->artistId() == -1 &&
                     currentItem->songId() == -1 &&
                     currentItem->albumId() == -1 &&

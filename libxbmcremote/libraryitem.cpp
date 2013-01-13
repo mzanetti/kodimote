@@ -1,5 +1,8 @@
 #include "libraryitem.h"
 
+#include "xbmc.h"
+#include "imagecache.h"
+
 LibraryItem::LibraryItem(const QString &title, const QString &subTitle):
     XbmcModelItem(title, subTitle),
     m_fileName(QString()),
@@ -143,24 +146,15 @@ void LibraryItem::setFileName(const QString &fileName)
     emit fileNameChanged();
 }
 
-#ifdef QT5_BUILD
-// This is a very dirty hack:
-// Every once in a while the xbmc devs seem to change their mind
-// about the encoding of filepaths. Right now the give us utf encoded
-// urls and expect percentage encoded paths in their vfs handler.
-// As I expect this to change again, I'll just hack around this here for now
-// once the image paths don't contain urls any more, this can go away.
-// The hack is only needed when compiling with Qt5 because with QtQuick 1.1
-// Qml encoded it on its own
-#include <QUrl>
-#endif QT5_BUILD
 QString LibraryItem::thumbnail() const
 {
-#ifdef QT5_BUILD
-    return QUrl::toPercentEncoding(m_thumbnail);
-#else
-    return m_thumbnail;
-#endif
+    if(Xbmc::instance()->imageCache()->contains(m_thumbnail, 1)) {
+        return Xbmc::instance()->imageCache()->cachedFile(m_thumbnail, 1);
+    }
+    // scaleTo size optimized for big representations.
+    int id = Xbmc::instance()->imageCache()->fetch(m_thumbnail, const_cast<LibraryItem*>(this), "imageFetched", QSize(1000, 1000), 1);
+    m_imageFetchJobs.insert(id, ImageTypeThumbnail);
+    return QString();
 }
 
 void LibraryItem::setThumbnail(const QString &thumbnail)
@@ -171,7 +165,12 @@ void LibraryItem::setThumbnail(const QString &thumbnail)
 
 QString LibraryItem::fanart() const
 {
-    return m_fanart;
+    if(Xbmc::instance()->imageCache()->contains(m_fanart, 1)) {
+        return Xbmc::instance()->imageCache()->cachedFile(m_fanart, 1);
+    }
+    int id = Xbmc::instance()->imageCache()->fetch(m_fanart, const_cast<LibraryItem*>(this), "imageFetched", QSize(1000, 1000), 1);
+    m_imageFetchJobs.insert(id, ImageTypeFanart);
+    return QString();
 }
 
 void LibraryItem::setFanart(const QString &fanart)
@@ -599,5 +598,19 @@ void LibraryItem::setCast(const QString &cast)
 {
     m_cast = cast;
     emit castChanged();
+}
+
+void LibraryItem::imageFetched(int id)
+{
+    if (m_imageFetchJobs.contains(id)) {
+        switch(m_imageFetchJobs.take(id)) {
+        case ImageTypeThumbnail:
+            emit thumbnailChanged();
+            break;
+        case ImageTypeFanart:
+            emit fanartChanged();
+            break;
+        }
+    }
 }
 
