@@ -105,6 +105,8 @@ public:
         return m_list.count();
     }
 
+    QHash<int, QByteArray> roleNames() const;
+
     bool busy() const;
     void setBusy(bool busy);
 

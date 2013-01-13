@@ -6,13 +6,9 @@
 XbmcHostModel::XbmcHostModel(QObject *parent) :
     QAbstractListModel(parent)
 {
-    QHash<int, QByteArray> roleNames;
-    roleNames.insert(RoleHostname, "hostname");
-    roleNames.insert(RoleIP, "ip");
-    roleNames.insert(RolePort, "port");
-    roleNames.insert(RoleHwAddr, "hwaddr");
-    setRoleNames(roleNames);
-
+#ifndef QT5_BUILD
+    setRoleNames(roleNames());
+#endif
 }
 
 int XbmcHostModel::insertOrUpdateHost(const XbmcHost &newHost)
@@ -76,6 +72,16 @@ void XbmcHostModel::removeHost(int index)
     endRemoveRows();
 }
 
+QHash<int, QByteArray> XbmcHostModel::roleNames() const
+{
+    QHash<int, QByteArray> roleNames;
+    roleNames.insert(RoleHostname, "hostname");
+    roleNames.insert(RoleIP, "ip");
+    roleNames.insert(RolePort, "port");
+    roleNames.insert(RoleHwAddr, "hwaddr");
+    return roleNames;
+}
+
 int XbmcHostModel::rowCount(const QModelIndex &) const
 {
     return m_hosts.count();
@@ -115,7 +121,7 @@ void XbmcHostModel::wakeup(int row)
     const char header[] = {0xff, 0xff, 0xff, 0xff, 0xff, 0xff};
     QByteArray packet = QByteArray::fromRawData(header, sizeof(header));
     for(int i = 0; i < 16; ++i) {
-        packet.append(QByteArray::fromHex(host->hwAddr().remove(':').toAscii()));
+        packet.append(QByteArray::fromHex(host->hwAddr().remove(':').toLocal8Bit()));
     }
     qDebug() << "created magic packet:" << packet.toHex();
 

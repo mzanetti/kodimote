@@ -74,7 +74,7 @@ XbmcModel* XbmcLibrary::exit()
 
 QVariant XbmcLibrary::get(int row, const QString &roleName)
 {
-    return data(index(row, 0, QModelIndex()), roleNames().key(roleName.toAscii()));
+    return data(index(row, 0, QModelIndex()), roleNames().key(roleName.toLatin1()));
 }
 
 XbmcModelItem *XbmcLibrary::getItem(int index)

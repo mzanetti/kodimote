@@ -124,7 +124,7 @@ void XbmcImageCache::imageFetched()
         m_cacheFiles[m_currentJob->cacheId()].insert(m_currentJob->imageName(), true);
 
         // Notify original requester
-        QMetaObject::invokeMethod(m_currentJob->callbackObject().data(), m_currentJob->callbackMethod().toAscii(), Qt::QueuedConnection, Q_ARG(int, m_currentJob->id()));
+        QMetaObject::invokeMethod(m_currentJob->callbackObject().data(), m_currentJob->callbackMethod().toLocal8Bit(), Qt::QueuedConnection, Q_ARG(int, m_currentJob->id()));
 
         // Notify all duplicate requests
         QList<ImageFetchJob*> newList;
@@ -137,7 +137,7 @@ void XbmcImageCache::imageFetched()
         while(!newList.isEmpty()) {
             ImageFetchJob *job = newList.takeFirst();
             m_toBeNotifiedList.removeAll(job);
-            QMetaObject::invokeMethod(job->callbackObject().data(), job->callbackMethod().toAscii(), Qt::QueuedConnection, Q_ARG(int, job->id()));
+            QMetaObject::invokeMethod(job->callbackObject().data(), job->callbackMethod().toLocal8Bit(), Qt::QueuedConnection, Q_ARG(int, job->id()));
             delete job;
         }
     } else {
