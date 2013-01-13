@@ -116,7 +116,8 @@ void Keys::receivedAnnouncement(const QVariantMap &map)
     if(method == "Input.OnInputRequested") {
         QString title = data.value("title").toString();
         QString type = data.value("type").toString();
-        emit inputRequested(title, type);
+        QString value = data.value("value").toString();
+        emit inputRequested(title, type, value);
     }
     else if(method == "Input.OnInputFinished") {
         emit inputFinished();

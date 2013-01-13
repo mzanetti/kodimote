@@ -8,6 +8,7 @@ Sheet {
     property string type
 
     property string inputedText
+    property string initialValue
 
     acceptButtonText: qsTr("Send")
     rejectButtonText: qsTr("Cancel")
@@ -123,7 +124,7 @@ Sheet {
             }
             PropertyChanges {
                 target: text
-                text: ""
+                text: initialValue
             }
             PropertyChanges {
                 target: root
@@ -147,7 +148,7 @@ Sheet {
             PropertyChanges {
                 target: text
                 inputMethodHints: Qt.ImhFormattedNumbersOnly
-                text: ""
+                text: initialValue
             }
             PropertyChanges {
                 target: root
@@ -173,6 +174,14 @@ Sheet {
                 hours: 0
                 minutes: 0
             }
+
+            StateChangeScript {
+                script: {
+                    var colonIndex = initialValue.indexOf(':');
+                    timePicker.hours = parseInt(initialValue.substring(0, colonIndex));
+                    timePicker.minutes = parseInt(initialValue.substring(colonIndex+1));
+                }
+            }
         },
         State {
             name: "date"
@@ -181,12 +190,23 @@ Sheet {
                 target: date
                 visible: true
             }
+
+            StateChangeScript {
+                script: {
+                    var dayMonthSeperator = initialValue.indexOf('/');
+                    var monthYearSeperator = initialValue.substring(dayMonthSeperator+1).indexOf('/', dayMonthSeperator) + dayMonthSeperator+1;
+                    var day = parseInt(initialValue.substring(0, dayMonthSeperator));
+                    var month = parseInt(initialValue.substring(dayMonthSeperator+1, monthYearSeperator));
+                    var year = parseInt(initialValue.substring(monthYearSeperator+1));
+                    var date = new Date(year, month - 1, day);
+                    datePicker.setDate(date);
+                }
+            }
         }
 
     ]
 
     onAccepted: {
         xbmc.keys().sendText(inputedText);
-        type = "";
     }
 }

@@ -48,7 +48,7 @@ public slots:
 
 signals:
     void inputFinished();
-    void inputRequested(QString title, QString type);
+    void inputRequested(QString title, QString type, QString value);
 
 private slots:
     void receivedAnnouncement(const QVariantMap& map);

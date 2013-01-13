@@ -199,7 +199,9 @@ PageStackWindow {
     Connections {
         target: xbmc.keys()
         onInputRequested: {
+            keyboard.type = "";
             keyboard.titleText = title;
+            keyboard.initialValue = value;
             keyboard.type = type;
             keyboard.open();
         }
