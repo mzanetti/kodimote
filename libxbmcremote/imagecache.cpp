@@ -1,6 +1,7 @@
 #include "imagecache.h"
 #include "xbmc.h"
 #include "xbmcconnection.h"
+#include "xbmchostmodel.h"
 
 #include <QImage>
 #include <QFileInfo>
@@ -14,25 +15,32 @@ XbmcImageCache::XbmcImageCache(QObject *parent) :
     m_jobId(0),
     m_currentJob(0)
 {
-    QDir dir(cachePath());
-    if(!dir.exists()) {
-        dir.mkpath(cachePath());
-    }
 }
 
-bool XbmcImageCache::contains(const QString &image)
+bool XbmcImageCache::contains(const QString &image, int cacheId)
 {
     QMutexLocker locker(&m_mutex);
-    if(!m_cacheFiles.contains(image)) {
-        QFileInfo fi(cachedFile(image));
-        m_cacheFiles.insert(image, fi.exists());
+
+    // Make sure the cache exists
+    QDir dir(cachePath(cacheId));
+    if(!dir.exists()) {
+        dir.mkpath(cachePath(cacheId));
+    }
+
+    while(m_cacheFiles.count() <= cacheId) {
+        m_cacheFiles.append(QHash<QString, bool>());
+    }
+
+    if(!m_cacheFiles.at(cacheId).contains(image)) {
+        QFileInfo fi(cachedFile(image, cacheId));
+        m_cacheFiles[cacheId].insert(image, fi.exists());
 //        qDebug() << "checking from file:" << fi.path() << fi.exists();
     }
 
-    return m_cacheFiles.value(image);
+    return m_cacheFiles.at(cacheId).value(image);
 }
 
-QString XbmcImageCache::cachedFile(const QString &image)
+QString XbmcImageCache::cachedFile(const QString &image, int cacheId)
 {
     QString filename = image;
     if(filename.endsWith("/")) {
@@ -45,12 +53,12 @@ QString XbmcImageCache::cachedFile(const QString &image)
         filename.replace(".mp3", ".jpg");
     }
     QUrl url = QUrl::fromPercentEncoding(filename.toLocal8Bit());
-    return cachePath() + url.path();
+    return cachePath(cacheId) + url.path();
 }
 
-QString XbmcImageCache::cachePath()
+QString XbmcImageCache::cachePath(int cacheId)
 {
-    return QDir::home().absolutePath() + "/.xbmcremote/imagecache/";
+    return QDir::home().absolutePath() + "/.xbmcremote/imagecache/" + QString::number(cacheId) + "/";
 }
 
 void XbmcImageCache::run()
@@ -58,9 +66,9 @@ void XbmcImageCache::run()
     exec();
 }
 
-int XbmcImageCache::fetch(const QString &image, QObject *callbackObject, const QString &callbackFunction)
+int XbmcImageCache::fetch(const QString &image, QObject *callbackObject, const QString &callbackFunction, const QSize &scaleTo, int cacheId)
 {
-    ImageFetchJob *ifJob = new ImageFetchJob(m_jobId++, image, QPointer<QObject>(callbackObject), callbackFunction);
+    ImageFetchJob *ifJob = new ImageFetchJob(m_jobId++, cacheId, image, QPointer<QObject>(callbackObject), callbackFunction, scaleTo);
 
     QMutexLocker locker(&m_mutex);
     if(m_currentJob && m_currentJob->imageName() == image) {
@@ -97,22 +105,23 @@ void XbmcImageCache::imageFetched()
 
         QImage image = QImage::fromData(m_currentJob->data());
 
-        QFileInfo fi = cachedFile(m_currentJob->imageName());
+        QFileInfo fi = cachedFile(m_currentJob->imageName(), m_currentJob->cacheId());
 
-        if(fi.suffix() == "png" || fi.suffix() == "jpg") {
-            // Those values are really optimized for the Harmattan theme...
-            qDebug() << "scaling image" << fi.path() << fi.fileName();
-            QImage scaledImage = image.scaled(152, 120, Qt::KeepAspectRatio, Qt::FastTransformation);
-            scaledImage.save(cachedFile(m_currentJob->imageName()));
-        } else {
-            qDebug() << "NOT scaling image" << fi.fileName();
-            QFile file(cachedFile(m_currentJob->imageName()));
-            if(file.open(QIODevice::WriteOnly)) {
-                file.write(m_currentJob->data());
+        if(m_currentJob->scaleTo().width() > 0 && m_currentJob->scaleTo().height() > 0) {
+            if(fi.suffix() == "png" || fi.suffix() == "jpg") {
+                qDebug() << "scaling image" << fi.path() << fi.fileName();
+                QImage scaledImage = image.scaled(m_currentJob->scaleTo().width(), m_currentJob->scaleTo().height(), Qt::KeepAspectRatio, Qt::FastTransformation);
+                scaledImage.save(cachedFile(m_currentJob->imageName(), m_currentJob->cacheId()));
+            } else {
+                qDebug() << "NOT scaling image" << fi.fileName();
+                QFile file(cachedFile(m_currentJob->imageName(), m_currentJob->cacheId()));
+                if(file.open(QIODevice::WriteOnly)) {
+                    file.write(m_currentJob->data());
+                }
             }
         }
 
-        m_cacheFiles.insert(m_currentJob->imageName(), true);
+        m_cacheFiles[m_currentJob->cacheId()].insert(m_currentJob->imageName(), true);
 
         // Notify original requester
         QMetaObject::invokeMethod(m_currentJob->callbackObject().data(), m_currentJob->callbackMethod().toAscii(), Qt::QueuedConnection, Q_ARG(int, m_currentJob->id()));
@@ -133,6 +142,12 @@ void XbmcImageCache::imageFetched()
         }
     } else {
         qDebug() << "image fetching failed" << reply->errorString();
+        QVariant possibleRedirectUrl = reply->attribute(QNetworkRequest::RedirectionTargetAttribute);
+        qDebug() << possibleRedirectUrl;
+
+        if(!possibleRedirectUrl.toString().isEmpty() && possibleRedirectUrl != reply->url()) {
+            qDebug() << "We got redirected to" << possibleRedirectUrl;
+        }
     }
 
 
@@ -162,23 +177,52 @@ void XbmcImageCache::fetchNext()
     }
 
     m_currentJob = m_downloadQueue.takeFirst();
-    QFileInfo fi(cachedFile(m_currentJob->imageName()));
+    QFileInfo fi(cachedFile(m_currentJob->imageName(), m_currentJob->cacheId()));
     QDir dir(fi.absolutePath());
     if(!(dir.exists() || dir.mkpath(fi.absolutePath()))) {
-        qDebug() << "cannot open file." << cachedFile(m_currentJob->imageName()) << "won't fetch artwork";
-        delete m_currentJob;
-        m_currentJob = 0;
-        QMetaObject::invokeMethod(this, "fetchNext", Qt::QueuedConnection);
+        qDebug() << "cannot open file." << cachedFile(m_currentJob->imageName(), m_currentJob->cacheId()) << "won't fetch artwork";
+        cleanupAndTriggerNext();
         return;
     }
 
-#ifdef QT5_BUILD
-    QNetworkRequest imageRequest(QUrl(Xbmc::instance()->vfsPath() + QUrl::toPercentEncoding(m_currentJob->imageName())));
-#else
-    QNetworkRequest imageRequest(QUrl(Xbmc::instance()->vfsPath() + m_currentJob->imageName()));
-#endif
+    QVariantMap params;
+    params.insert("path", m_currentJob->imageName());
+    XbmcConnection::sendCommand("Files.PrepareDownload", params, this, "downloadPrepared");
+}
+
+void XbmcImageCache::downloadPrepared(const QVariantMap &rsp)
+{
+
+    QVariantMap result = rsp.value("result").toMap();
+    XbmcHost *host = XbmcConnection::connectedHost();
+
+    qDebug() << "download prepared 1:" << result;
+    if(host == 0 || result.isEmpty()) {
+        qDebug() << "couldn't prepare download:" << m_currentJob->imageName();
+        cleanupAndTriggerNext();
+        return;
+    }
+
+    qDebug() << rsp;
+    QUrl imageUrl;
+    imageUrl.setScheme(result.value("protocol").toString());
+    imageUrl.setHost(host->address());
+    imageUrl.setPort(host->port());
+
+    QByteArray urldata = result.value("details").toMap().value("path").toByteArray();
+    imageUrl.setPath(QUrl::fromPercentEncoding(urldata));
+
+    qDebug() << "download prepared 2:" << imageUrl;
+
+    QNetworkRequest imageRequest(imageUrl);
     QNetworkReply *reply = XbmcConnection::nam()->get(imageRequest);
     connect(reply, SIGNAL(finished()), SLOT(imageFetched()));
     connect(reply, SIGNAL(downloadProgress(qint64,qint64)), SLOT(downloadProgress(qint64,qint64)));
 }
 
+void XbmcImageCache::cleanupAndTriggerNext()
+{
+    delete m_currentJob;
+    m_currentJob = 0;
+    QMetaObject::invokeMethod(this, "fetchNext", Qt::QueuedConnection);
+}

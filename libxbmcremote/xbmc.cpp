@@ -105,6 +105,8 @@ Xbmc::Xbmc(QObject *parent) :
                         XDebug::addAllowedArea(XDAREA_FILES);
                     } else if(debugString == "playlist") {
                         XDebug::addAllowedArea(XDAREA_PLAYLIST);
+                    } else if(debugString == "networkdata") {
+                        XDebug::addAllowedArea(XDAREA_NETWORKDATA);
 //                    } else if(debugString == "") {
 //                        XDebug::addAllowedArea(XDAREA_);
                     }

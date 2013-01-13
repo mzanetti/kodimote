@@ -414,7 +414,7 @@ void XbmcConnectionPrivate::replyReceived()
         if(m_callbacks.contains(id)) {
             Callback callback = m_callbacks.take(id);
             if(!callback.receiver().isNull()) {
-                QMetaObject::invokeMethod(callback.receiver().data(), callback.member().toAscii(), Qt::DirectConnection, Q_ARG(const QVariantMap&, rsp));
+                QMetaObject::invokeMethod(callback.receiver().data(), callback.member().toLocal8Bit(), Qt::DirectConnection, Q_ARG(const QVariantMap&, rsp));
             }
         }
 
@@ -538,7 +538,7 @@ void XbmcConnectionPrivate::readData()
 
 #ifdef QT5_BUILD
         QJsonParseError error;
-        QJsonDocument jsonDoc = QJsonDocument::fromJson(lineData.toUtf8(), &error);
+        QJsonDocument jsonDoc = QJsonDocument::fromJson(lineData.toLocal8Bit(), &error);
 
         if(error.error != QJsonParseError::NoError) {
             xDebug(XDAREA_CONNECTION) << "failed to parse data" << lineData << ":" << error.errorString();
@@ -555,7 +555,7 @@ void XbmcConnectionPrivate::readData()
             return;
         }
 #endif
-//        xDebug(XDAREA_CONNECTION) << ">>> Incoming:" << data;
+        xDebug(XDAREA_CONNECTION) << ">>> Incoming:" << data;
 
         if(rsp.value("params").toMap().value("sender").toString() == "xbmc") {
             xDebug(XDAREA_CONNECTION) << ">>> received announcement" << rsp;
@@ -566,7 +566,7 @@ void XbmcConnectionPrivate::readData()
         if(m_callbacks.contains(id)) {
             Callback callback = m_callbacks.take(id);
             if(!callback.receiver().isNull()) {
-                QMetaObject::invokeMethod(callback.receiver().data(), callback.member().toAscii(), Qt::DirectConnection, Q_ARG(const QVariantMap&, rsp));
+                QMetaObject::invokeMethod(callback.receiver().data(), callback.member().toLocal8Bit(), Qt::DirectConnection, Q_ARG(const QVariantMap&, rsp));
             }
 
             if(m_currentPendingCommand.id() == id) {

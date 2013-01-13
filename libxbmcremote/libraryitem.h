@@ -228,10 +228,14 @@ signals:
     void playcountChanged();
     void castChanged();
 
+private slots:
+    Q_INVOKABLE void imageFetched(int id);
+
 private:
     QString m_type;
     QString m_fileName;
     QString m_thumbnail;
+    QString m_cachedThumbnail;
     QString m_fanart;
     QString m_fileType;
     bool m_playable;
@@ -270,6 +274,14 @@ private:
     QString m_comment;
     int m_playcount;
     QString m_cast;
+
+    enum ImageType {
+        ImageTypeThumbnail,
+        ImageTypeFanart
+    };
+
+    // needed for caching in const getters
+    mutable QMap<int, ImageType> m_imageFetchJobs;
 };
 
 #endif // LIBRARYITEM_H

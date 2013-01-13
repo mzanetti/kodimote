@@ -85,10 +85,11 @@ QVariant XbmcModel::data(const QModelIndex &index, int role) const
         if(thumbnail.isEmpty()) {
             return QString();
         }
-        if(Xbmc::instance()->imageCache()->contains(thumbnail)) {
-            return Xbmc::instance()->imageCache()->cachedFile(thumbnail);
+        if(Xbmc::instance()->imageCache()->contains(thumbnail, 0)) {
+            return Xbmc::instance()->imageCache()->cachedFile(thumbnail, 0);
         }
-        int job = Xbmc::instance()->imageCache()->fetch(thumbnail, const_cast<XbmcModel*>(this), "imageFetched");
+        // Size optimized for list view icons.
+        int job = Xbmc::instance()->imageCache()->fetch(thumbnail, const_cast<XbmcModel*>(this), "imageFetched", QSize(152, 120), 0);
         m_imageFetchJobs.insert(job, index.row());
         return QString();
     }
