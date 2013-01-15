@@ -17,7 +17,12 @@ int main(int argc, char** argv)
 
     QQuickView *view = new QQuickView();
     view->setResizeMode(QQuickView::SizeRootObjectToView);
-    view->setTitle("Xbmcremote");
+
+    // Qt5 final - enable when ubuntu switches to final
+//    view->setTitle("Xbmcremote");
+
+    // Qt5 beta 1 - remove when ubuntu switches to final
+    view->setWindowTitle("Xbmcremote");
 
     view->engine()->rootContext()->setContextProperty("xbmc", Xbmc::instance());
 
