@@ -196,7 +196,6 @@ void XbmcImageCache::downloadPrepared(const QVariantMap &rsp)
     QVariantMap result = rsp.value("result").toMap();
     XbmcHost *host = XbmcConnection::connectedHost();
 
-    qDebug() << "download prepared 1:" << result;
     if(host == 0 || result.isEmpty()) {
         qDebug() << "couldn't prepare download:" << m_currentJob->imageName();
         cleanupAndTriggerNext();
@@ -205,23 +204,16 @@ void XbmcImageCache::downloadPrepared(const QVariantMap &rsp)
 
     QUrl imageUrl;
     imageUrl.setScheme(result.value("protocol").toString());
-    qDebug() << imageUrl;
     imageUrl.setHost(host->address());
-    qDebug() << imageUrl;
     imageUrl.setPort(host->port());
-    qDebug() << imageUrl;
 
     QByteArray path = "/" + QByteArray::fromPercentEncoding(result.value("details").toMap().value("path").toByteArray());
-    qDebug() << "path" << path;
 
 #ifdef QT5_BUILD
     imageUrl.setPath(path, QUrl::DecodedMode);
 #else
     imageUrl.setPath(path);
 #endif
-
-    qDebug() << "download prepared 2:" << imageUrl;
-
 
     QNetworkRequest imageRequest(imageUrl);
     QNetworkReply *reply = XbmcConnection::nam()->get(imageRequest);
