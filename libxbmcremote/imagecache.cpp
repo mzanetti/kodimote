@@ -124,7 +124,7 @@ void XbmcImageCache::imageFetched()
         m_cacheFiles[m_currentJob->cacheId()].insert(m_currentJob->imageName(), true);
 
         // Notify original requester
-        QMetaObject::invokeMethod(m_currentJob->callbackObject().data(), m_currentJob->callbackMethod().toLocal8Bit(), Qt::QueuedConnection, Q_ARG(int, m_currentJob->id()));
+        QMetaObject::invokeMethod(m_currentJob->callbackObject().data(), m_currentJob->callbackMethod().toLatin1(), Qt::QueuedConnection, Q_ARG(int, m_currentJob->id()));
 
         // Notify all duplicate requests
         QList<ImageFetchJob*> newList;
@@ -137,7 +137,7 @@ void XbmcImageCache::imageFetched()
         while(!newList.isEmpty()) {
             ImageFetchJob *job = newList.takeFirst();
             m_toBeNotifiedList.removeAll(job);
-            QMetaObject::invokeMethod(job->callbackObject().data(), job->callbackMethod().toLocal8Bit(), Qt::QueuedConnection, Q_ARG(int, job->id()));
+            QMetaObject::invokeMethod(job->callbackObject().data(), job->callbackMethod().toLatin1(), Qt::QueuedConnection, Q_ARG(int, job->id()));
             delete job;
         }
     } else {
@@ -203,16 +203,25 @@ void XbmcImageCache::downloadPrepared(const QVariantMap &rsp)
         return;
     }
 
-    qDebug() << rsp;
     QUrl imageUrl;
     imageUrl.setScheme(result.value("protocol").toString());
+    qDebug() << imageUrl;
     imageUrl.setHost(host->address());
+    qDebug() << imageUrl;
     imageUrl.setPort(host->port());
+    qDebug() << imageUrl;
 
-    QByteArray urldata = result.value("details").toMap().value("path").toByteArray();
-    imageUrl.setPath(QUrl::fromPercentEncoding(urldata));
+    QByteArray path = "/" + QByteArray::fromPercentEncoding(result.value("details").toMap().value("path").toByteArray());
+    qDebug() << "path" << path;
+
+#ifdef QT5_BUILD
+    imageUrl.setPath(path, QUrl::DecodedMode);
+#else
+    imageUrl.setPath(path);
+#endif
 
     qDebug() << "download prepared 2:" << imageUrl;
+
 
     QNetworkRequest imageRequest(imageUrl);
     QNetworkReply *reply = XbmcConnection::nam()->get(imageRequest);
