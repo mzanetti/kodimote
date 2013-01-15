@@ -19,10 +19,10 @@ int main(int argc, char** argv)
     view->setResizeMode(QQuickView::SizeRootObjectToView);
 
     // Qt5 final - enable when ubuntu switches to final
-//    view->setTitle("Xbmcremote");
+    view->setTitle("Xbmcremote");
 
     // Qt5 beta 1 - remove when ubuntu switches to final
-    view->setWindowTitle("Xbmcremote");
+//    view->setWindowTitle("Xbmcremote");
 
     view->engine()->rootContext()->setContextProperty("xbmc", Xbmc::instance());
 
