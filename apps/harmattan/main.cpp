@@ -42,16 +42,16 @@ QTM_USE_NAMESPACE
 
 Q_DECL_EXPORT int main(int argc, char *argv[])
 {
-    QString language;
-
-    // Load language file
-    QSystemInfo info;
-    language = info.currentLanguage();
 #if defined Q_WS_MAEMO_6
     QScopedPointer<QApplication> app(MDeclarativeCache::qApplication(argc, argv));
 #elif defined Q_WS_SIMULATOR
     QScopedPointer<QApplication> app(new QApplication(argc, argv));
 #endif
+    QString language;
+
+    // Load language file
+    QSystemInfo info;
+    language = info.currentLanguage();
 
     QTranslator qtTranslator;
     if(!qtTranslator.load("qt_" + language, QLibraryInfo::location(QLibraryInfo::TranslationsPath))) {
@@ -65,11 +65,14 @@ Q_DECL_EXPORT int main(int argc, char *argv[])
     }
     app->installTranslator(&translator);
 
-    QScopedPointer<QDeclarativeView> view(new QDeclarativeView());
-    view->rootContext()->setContextProperty("xbmc", Xbmc::instance());
+    QDeclarativeView view;
+    view.setResizeMode(QDeclarativeView::SizeRootObjectToView);
+    view.setAttribute(Qt::WA_AutoOrientation, true);
+
+    view.rootContext()->setContextProperty("xbmc", Xbmc::instance());
 
     Settings settings;
-    view->rootContext()->setContextProperty("settings", &settings);
+    view.rootContext()->setContextProperty("settings", &settings);
 
 #ifdef Q_WS_MAEMO_6
     MeeGoHelper *helper = new MeeGoHelper(&settings, app.data());
@@ -77,24 +80,24 @@ Q_DECL_EXPORT int main(int argc, char *argv[])
 #endif
 
     NfcHandler nfcHandler;
-    view->rootContext()->setContextProperty("nfcHandler", &nfcHandler);
+    view.rootContext()->setContextProperty("nfcHandler", &nfcHandler);
 
     RumbleEffect rumble;
-    view->rootContext()->setContextProperty("rumbleEffect", &rumble);
+    view.rootContext()->setContextProperty("rumbleEffect", &rumble);
 
     qmlRegisterType<GestureHelper>("xbmcremote", 1, 0, "GestureHelper");
     qRegisterMetaType<QNetworkReply::NetworkError>("QNetworkReply::NetworkError");
 
-    view->engine()->setNetworkAccessManagerFactory(new NetworkAccessManagerFactory());
+    view.engine()->setNetworkAccessManagerFactory(new NetworkAccessManagerFactory());
 
 // Set the main QML file for all the QML based platforms
 #ifdef QT_SIMULATOR
-    view->setSource(QUrl("qml/main.qml"));
+    view.setSource(QUrl("qml/main.qml"));
 #elif defined Q_WS_MAEMO_6
     view->setSource(QUrl("/opt/xbmcremote/qml/main.qml"));
 #endif
 
-    view->showFullScreen();
+    view.showFullScreen();
 
     return app->exec();
 }
