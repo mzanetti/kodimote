@@ -94,7 +94,7 @@ Q_DECL_EXPORT int main(int argc, char *argv[])
 #ifdef QT_SIMULATOR
     view.setSource(QUrl("qml/main.qml"));
 #elif defined Q_WS_MAEMO_6
-    view->setSource(QUrl("/opt/xbmcremote/qml/main.qml"));
+    view.setSource(QUrl("/opt/xbmcremote/qml/main.qml"));
 #endif
 
     view.showFullScreen();
