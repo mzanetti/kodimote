@@ -43,235 +43,37 @@ Page {
         anchors.centerIn: parent
 
 
-        Image {
-            id: gridbg
-            source: "icons/pad-bg" + areaStateToString(gestureHelper.currentState) + ".png"
+        GesturePad {
+            id: gesturePad
+            width: parent.width
 
-            states: [
-                State {
-                    when: arrowUpMouseArea.pressed
-                    PropertyChanges { target: gridbg; source: "icons/pad-bg-up.png" }
-                },
-                State {
-                    when: arrowLeftMouseArea.pressed
-                    PropertyChanges { target: gridbg; source: "icons/pad-bg-left.png" }
-                },
-                State {
-                    when: arrowRightMouseArea.pressed
-                    PropertyChanges { target: gridbg; source: "icons/pad-bg-right.png" }
-                },
-                State {
-                    when: arrowDownMouseArea.pressed
-                    PropertyChanges { target: gridbg; source: "icons/pad-bg-down.png" }
-                }
-
-            ]
-
-            anchors.horizontalCenter: parent.horizontalCenter
-            function areaStateToString(areaState) {
-                if(areaState === GestureHelper.AreaTop) {
-                    return "-up";
-                }
-                if(areaState === GestureHelper.AreaLeft) {
-                    return "-left";
-                }
-                if(areaState === GestureHelper.AreaRight) {
-                    return "-right";
-                }
-                if(areaState === GestureHelper.AreaBottom) {
-                    return "-down";
-                }
-                return "";
+            MediaControlButton {
+                id: backButton
+                anchors { left: parent.left; top: parent.top; margins: 10 }
+                platformIconId: "toolbar-main-view"
+                onClicked: keys.back();
+                rotation: -90
+                showBorder: true
             }
 
-            Grid {
-                id: crossCol
-                spacing: 50
-                columns: 3
-                anchors.centerIn: parent
-
-                MediaControlButton {
-                    id: backButton
-                    platformIconId: "toolbar-main-view"
-                    onClicked: keys.back();
-                    rotation: -90
-                    showBorder: true
-                }
-                Item {
-                    id: arrowUp
-                    width: backButton.width
-                    height: backButton.height
-                    MouseArea {
-                        id: arrowUpMouseArea
-                        anchors.fill: parent
-                        enabled: settings.gesturePadClickable
-                        onClicked: {
-                            keys.up();
-                        }
-                    }
-                }
-
-                MediaControlButton {
-                    text: "i"
-                    onClicked: keys.info();
-                    showBorder: true
-                }
-                Item {
-                    id: arrowLeft
-                    width: backButton.width
-                    height: backButton.height
-                    MouseArea {
-                        id: arrowLeftMouseArea
-                        anchors.fill: parent
-                        enabled: settings.gesturePadClickable
-                        onClicked: {
-                            keys.left();
-                        }
-                    }
-                }
-
-                Item {
-                    id: joystickButton
-                    height: enter.height
-                    width: enter.width
-
-                    property int allowedArea: 26
-
-                    GestureHelper {
-                        id: gestureHelper
-                    }
-
-                    states: [
-                        State {
-                            name: "moving"; when: moveArea.pressed && !settings.gesturePadClickable
-                            PropertyChanges {
-                                target: enter
-                                x: gestureHelper.restrictedX - moveArea.width / 2
-                                y: gestureHelper.restrictedY - moveArea.height / 2
-                            }
-                        }
-
-                    ]
-                    KeypadButton {
-                        id: enter
-                        icon: "enter"
-
-                    }
-                    MouseArea {
-                        id: moveArea
-                        anchors.fill: parent
-                        anchors.margins: -30
-
-//                        Rectangle {
-//                            anchors.fill: parent
-//                        }
-
-                        onPressed: {
-                            if(!settings.gesturePadClickable) {
-                                gestureHelper.startX = mouseX
-                                gestureHelper.startY = mouseY
-                            }
-                        }
-
-                        onMouseXChanged: {
-                            if(!settings.gesturePadClickable) {
-                                gestureHelper.realX = mouseX
-                            }
-                        }
-                        onMouseYChanged: {
-                            if(!settings.gesturePadClickable) {
-                                gestureHelper.realY = mouseY
-                            }
-                        }
-
-                        onClicked: {
-                            rumbleEffect.start();
-                            keys.select();
-                        }
-                        onReleased: {
-                            if(repeatTimer.running) {
-                                repeatTimer.stop();
-                            } else {
-                                rumbleEffect.start();
-                                doPress();
-                            }
-                            gestureHelper.reset();
-                        }
-                        onPressAndHold: {
-                            rumbleEffect.start(3);
-                            repeatTimer.start();
-                        }
-
-                        Timer {
-                            id: repeatTimer
-                            interval: 2000
-                            running: false;
-                            repeat: true
-                            property int newInterval: 2000 / (gestureHelper.depth == 0 ? 1 : gestureHelper.depth / 5)
-                            onTriggered: {
-                                print("interval:", interval)
-                                moveArea.doPress();
-                                interval = newInterval;
-                            }
-                        }
-
-                        function doPress() {
-                            switch(gestureHelper.currentState) {
-                            case GestureHelper.AreaTop:
-                                keys.up();
-                                break;
-                            case GestureHelper.AreaLeft:
-                                keys.left();
-                                break;
-                            case GestureHelper.AreaRight:
-                                keys.right();
-                                break;
-                            case GestureHelper.AreaBottom:
-                                keys.down();
-                                break;
-                            }
-                        }
-                    }
-                }
-                Item {
-                    id: arrowRight
-                    width: backButton.width
-                    height: backButton.height
-                    MouseArea {
-                        id: arrowRightMouseArea
-                        anchors.fill: parent
-                        enabled: settings.gesturePadClickable
-                        onClicked: {
-                            keys.right();
-                        }
-                    }
-                }
-                MediaControlButton {
-                    iconSource: "icon-m-image-edit-red-eyes-remove"
-                    onClicked: keys.osd();
-                    showBorder: true
-                }
-                Item {
-                    id: arrowDown
-                    width: backButton.width
-                    height: backButton.height
-                    MouseArea {
-                        id: arrowDownMouseArea
-                        anchors.fill: parent
-                        enabled: settings.gesturePadClickable
-                        onClicked: {
-                            keys.down();
-                        }
-                    }
-                }
-                MediaControlButton {
-                    platformIconId: "toolbar-view-menu"
-                    onClicked: keys.contextMenu();
-                    showBorder: true
-                }
+            MediaControlButton {
+                anchors { right: parent.right; top: parent.top; margins: 10 }
+                text: "i"
+                onClicked: keys.info();
+                showBorder: true
             }
-
-
+            MediaControlButton {
+                anchors { left: parent.left; bottom: parent.bottom; margins: 10 }
+                iconSource: "icon-m-image-edit-red-eyes-remove"
+                onClicked: keys.osd();
+                showBorder: true
+            }
+            MediaControlButton {
+                anchors { right: parent.right; bottom: parent.bottom; margins: 10 }
+                platformIconId: "toolbar-view-menu"
+                onClicked: keys.contextMenu();
+                showBorder: true
+            }
         }
 
         Item { width: parent.width; height: 50 }
