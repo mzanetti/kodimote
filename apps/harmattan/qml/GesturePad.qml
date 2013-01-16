@@ -89,10 +89,13 @@ Page {
                 spacing: 50
                 columns: 3
                 anchors.centerIn: parent
-                KeypadButton {
+
+                MediaControlButton {
                     id: backButton
-                    icon: "back"
-                    onPressed: keys.back();
+                    platformIconId: "toolbar-main-view"
+                    onClicked: keys.back();
+                    rotation: -90
+                    showBorder: true
                 }
                 Item {
                     id: arrowUp
@@ -108,9 +111,10 @@ Page {
                     }
                 }
 
-                KeypadButton {
-                    icon: "info"
-                    onPressed: keys.info();
+                MediaControlButton {
+                    text: "i"
+                    onClicked: keys.info();
+                    showBorder: true
                 }
                 Item {
                     id: arrowLeft
@@ -242,9 +246,10 @@ Page {
                         }
                     }
                 }
-                KeypadButton {
-                    icon: "contextmenu"
-                    onPressed: keys.menu();
+                MediaControlButton {
+                    iconSource: "icon-m-image-edit-red-eyes-remove"
+                    onClicked: keys.osd();
+                    showBorder: true
                 }
                 Item {
                     id: arrowDown
@@ -259,9 +264,10 @@ Page {
                         }
                     }
                 }
-                KeypadButton {
-                    icon: "menu"
-                    onPressed: keys.contextMenu();
+                MediaControlButton {
+                    platformIconId: "toolbar-view-menu"
+                    onClicked: keys.contextMenu();
+                    showBorder: true
                 }
             }
 
@@ -277,19 +283,20 @@ Page {
             columns: 3
             visible: !keyPad.keyboardOpen
 
-            KeypadButton {
+            MediaControlButton {
                 id: fullscreenButton
-                icon: "fullscreen"
-                onPressed: keys.fullscreen();
+                platformIconId: "toolbar-main-view"
+                onClicked: keys.fullscreen();
+                rotation: 45
             }
             MediaControlButton {
                 platformIconId: "toolbar-home"
                 onClicked: keys.home();
             }
-            KeypadButton {
+            MediaControlButton {
                 id: keyboardButton
-                icon: "keyboard"
-                onPressed: {
+                platformIconId: "toolbar-grid"
+                onClicked: {
                     keyPad.keyboardOpen = true;
                     //                    var keyboard = keyboardComponent.createObject(keyPad);
                     //                    keyboard.open();
@@ -299,7 +306,6 @@ Page {
 
         PlayerControls {
             id: controlButtons
-            anchors.bottom: progressBar.top
             anchors.horizontalCenter: parent.horizontalCenter
             anchors.bottomMargin: 20
             player: keyPad.player

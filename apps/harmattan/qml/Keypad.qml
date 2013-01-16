@@ -1,11 +1,13 @@
 import QtQuick 1.1
 import com.nokia.meego 1.0
+import xbmcremote 1.0
 
 Page {
     id: keyPad
     tools: toolBarKeypad
     orientationLock: PageOrientation.LockPortrait
     property bool keyboardOpen: false
+    property QtObject player: xbmc.activePlayer
 
     onKeyboardOpenChanged: {
         tf.forceActiveFocus();
@@ -20,11 +22,11 @@ Page {
             }
         }
         ToolIcon { platformIconId: "toolbar-image-edit";
-             anchors.horizontalCenter: parent===undefined ? undefined : parent.horizontalCenter
-             visible: xbmc.picturePlayerActive
-             onClicked: {
-                 pageStack.replace(pictureControlsPage);
-             }
+            anchors.horizontalCenter: parent===undefined ? undefined : parent.horizontalCenter
+            visible: xbmc.picturePlayerActive
+            onClicked: {
+                pageStack.replace(pictureControlsPage);
+            }
         }
         ToolIcon {
             platformIconId: "toolbar-mediacontrol-play" + (enabled ? "" : "-dimmed");
@@ -40,218 +42,236 @@ Page {
         width: parent.width - 30
         anchors.centerIn: parent
 
-        Row {
-            width: parent.width
-            spacing: (width - backButton.width * 3) / 2
 
-            KeypadButton {
-                id: backButton
-                icon: "back"
-                onPressed: keys.back();
-            }
-            Item {width: backButton.width; height: backButton.height}
-            KeypadButton {
-                icon: "info"
-                onPressed: keys.info();
-            }
-        }
+        Image {
+            id: gridbg
+            source: "icons/pad-bg" + areaStateToString(gestureHelper.currentState) + ".png"
 
-        Grid {
-            id: crossCol
-            spacing: -30
-            columns: 3
+            states: [
+                State {
+                    when: arrowUpMouseArea.pressed
+                    PropertyChanges { target: gridbg; source: "icons/pad-bg-up.png" }
+                },
+                State {
+                    when: arrowLeftMouseArea.pressed
+                    PropertyChanges { target: gridbg; source: "icons/pad-bg-left.png" }
+                },
+                State {
+                    when: arrowRightMouseArea.pressed
+                    PropertyChanges { target: gridbg; source: "icons/pad-bg-right.png" }
+                },
+                State {
+                    when: arrowDownMouseArea.pressed
+                    PropertyChanges { target: gridbg; source: "icons/pad-bg-down.png" }
+                }
+
+            ]
+
             anchors.horizontalCenter: parent.horizontalCenter
-            Item {
-                width: arrowLeft.width
-                height: arrowUp.height
-            }
-            KeypadButton {
-                id: arrowUp
-                icon: "up"
-                mouseAreaTopMargin: -70
-                onPressed: keys.up();
-                onPressAndHold: {
-                    holdAndReleaseTimer.key = 0;
-                    holdAndReleaseTimer.start();
+            function areaStateToString(areaState) {
+                if(areaState === GestureHelper.AreaTop) {
+                    return "-up";
                 }
-
-                onReleased: {
-                    holdAndReleaseTimer.key = -1;
-                    holdAndReleaseTimer.stop();
+                if(areaState === GestureHelper.AreaLeft) {
+                    return "-left";
                 }
+                if(areaState === GestureHelper.AreaRight) {
+                    return "-right";
+                }
+                if(areaState === GestureHelper.AreaBottom) {
+                    return "-down";
+                }
+                return "";
             }
 
-            Item {
-                width: arrowRight.width
-                height: arrowUp.height
-            }
-            KeypadButton {
-                id: arrowLeft
-                icon: "left"
-                mouseAreaLeftMargin: -100
-                onPressed: keys.left();
-                onPressAndHold: {
-                    holdAndReleaseTimer.key = 2;
-                    holdAndReleaseTimer.start();
-                }
-
-                onReleased: {
-                    holdAndReleaseTimer.key = -1;
-                    holdAndReleaseTimer.stop();
-                }
-            }
-
-            KeypadButton {
-                id: enter
+            Grid {
+                id: crossCol
+                spacing: 50
+                columns: 3
                 anchors.centerIn: parent
-                icon: "enter"
-                onPressed: keys.select();
-            }
-            KeypadButton {
-                id: arrowRight
-                icon: "right"
-                mouseAreaRightMargin: -100
-                onPressed: keys.right();
-                onPressAndHold: {
-                    holdAndReleaseTimer.key = 3;
-                    holdAndReleaseTimer.start();
+
+                MediaControlButton {
+                    id: backButton
+                    platformIconId: "toolbar-main-view"
+                    onClicked: keys.back();
+                    rotation: -90
+                    showBorder: true
+                }
+                Item {
+                    id: arrowUp
+                    width: backButton.width
+                    height: backButton.height
+                    MouseArea {
+                        id: arrowUpMouseArea
+                        anchors.fill: parent
+                        enabled: settings.gesturePadClickable
+                        onClicked: {
+                            keys.up();
+                        }
+                    }
                 }
 
-                onReleased: {
-                    holdAndReleaseTimer.key = -1;
-                    holdAndReleaseTimer.stop();
+                MediaControlButton {
+                    text: "i"
+                    onClicked: keys.info();
+                    showBorder: true
                 }
-            }
-            Item {
-                width: arrowLeft.width
-                height: arrowDown.height
-            }
-            KeypadButton {
-                id: arrowDown
-                icon: "down"
-                mouseAreaBottomMargin: -50
-                onPressed: keys.down();
-                onPressAndHold: {
-                    holdAndReleaseTimer.key = 1;
-                    holdAndReleaseTimer.start();
-                }
-
-                onReleased: {
-                    holdAndReleaseTimer.key = -1;
-                    holdAndReleaseTimer.stop();
-                }
-            }
-            Item {
-                width: arrowRight.width
-                height: arrowDown.height
-            }
-        }
-
-
-        Grid {
-            id: crossCol
-            spacing: -30
-            columns: 3
-            anchors.horizontalCenter: parent.horizontalCenter
-            Item {
-                width: arrowLeft.width
-                height: arrowUp.height
-            }
-            KeypadButton {
-                id: arrowUp
-                icon: "up"
-                mouseAreaTopMargin: -70
-                onPressed: keys.up();
-                onPressAndHold: {
-                    holdAndReleaseTimer.key = 0;
-                    holdAndReleaseTimer.start();
+                Item {
+                    id: arrowLeft
+                    width: backButton.width
+                    height: backButton.height
+                    MouseArea {
+                        id: arrowLeftMouseArea
+                        anchors.fill: parent
+                        enabled: settings.gesturePadClickable
+                        onClicked: {
+                            keys.left();
+                        }
+                    }
                 }
 
-                onReleased: {
-                    holdAndReleaseTimer.key = -1;
-                    holdAndReleaseTimer.stop();
+                Item {
+                    id: joystickButton
+                    height: enter.height
+                    width: enter.width
+
+                    property int allowedArea: 26
+
+                    GestureHelper {
+                        id: gestureHelper
+                    }
+
+                    states: [
+                        State {
+                            name: "moving"; when: moveArea.pressed && !settings.gesturePadClickable
+                            PropertyChanges {
+                                target: enter
+                                x: gestureHelper.restrictedX - moveArea.width / 2
+                                y: gestureHelper.restrictedY - moveArea.height / 2
+                            }
+                        }
+
+                    ]
+                    KeypadButton {
+                        id: enter
+                        icon: "enter"
+
+                    }
+                    MouseArea {
+                        id: moveArea
+                        anchors.fill: parent
+                        anchors.margins: -30
+
+//                        Rectangle {
+//                            anchors.fill: parent
+//                        }
+
+                        onPressed: {
+                            if(!settings.gesturePadClickable) {
+                                gestureHelper.startX = mouseX
+                                gestureHelper.startY = mouseY
+                            }
+                        }
+
+                        onMouseXChanged: {
+                            if(!settings.gesturePadClickable) {
+                                gestureHelper.realX = mouseX
+                            }
+                        }
+                        onMouseYChanged: {
+                            if(!settings.gesturePadClickable) {
+                                gestureHelper.realY = mouseY
+                            }
+                        }
+
+                        onClicked: {
+                            rumbleEffect.start();
+                            keys.select();
+                        }
+                        onReleased: {
+                            if(repeatTimer.running) {
+                                repeatTimer.stop();
+                            } else {
+                                rumbleEffect.start();
+                                doPress();
+                            }
+                            gestureHelper.reset();
+                        }
+                        onPressAndHold: {
+                            rumbleEffect.start(3);
+                            repeatTimer.start();
+                        }
+
+                        Timer {
+                            id: repeatTimer
+                            interval: 2000
+                            running: false;
+                            repeat: true
+                            property int newInterval: 2000 / (gestureHelper.depth == 0 ? 1 : gestureHelper.depth / 5)
+                            onTriggered: {
+                                print("interval:", interval)
+                                moveArea.doPress();
+                                interval = newInterval;
+                            }
+                        }
+
+                        function doPress() {
+                            switch(gestureHelper.currentState) {
+                            case GestureHelper.AreaTop:
+                                keys.up();
+                                break;
+                            case GestureHelper.AreaLeft:
+                                keys.left();
+                                break;
+                            case GestureHelper.AreaRight:
+                                keys.right();
+                                break;
+                            case GestureHelper.AreaBottom:
+                                keys.down();
+                                break;
+                            }
+                        }
+                    }
+                }
+                Item {
+                    id: arrowRight
+                    width: backButton.width
+                    height: backButton.height
+                    MouseArea {
+                        id: arrowRightMouseArea
+                        anchors.fill: parent
+                        enabled: settings.gesturePadClickable
+                        onClicked: {
+                            keys.right();
+                        }
+                    }
+                }
+                MediaControlButton {
+                    iconSource: "icon-m-image-edit-red-eyes-remove"
+                    onClicked: keys.osd();
+                    showBorder: true
+                }
+                Item {
+                    id: arrowDown
+                    width: backButton.width
+                    height: backButton.height
+                    MouseArea {
+                        id: arrowDownMouseArea
+                        anchors.fill: parent
+                        enabled: settings.gesturePadClickable
+                        onClicked: {
+                            keys.down();
+                        }
+                    }
+                }
+                MediaControlButton {
+                    platformIconId: "toolbar-view-menu"
+                    onClicked: keys.contextMenu();
+                    showBorder: true
                 }
             }
 
-            Item {
-                width: arrowRight.width
-                height: arrowUp.height
-            }
-            KeypadButton {
-                id: arrowLeft
-                icon: "left"
-                mouseAreaLeftMargin: -100
-                onPressed: keys.left();
-                onPressAndHold: {
-                    holdAndReleaseTimer.key = 2;
-                    holdAndReleaseTimer.start();
-                }
 
-                onReleased: {
-                    holdAndReleaseTimer.key = -1;
-                    holdAndReleaseTimer.stop();
-                }
-            }
-
-            KeypadButton {
-                id: enter
-                anchors.centerIn: parent
-                icon: "enter"
-                onPressed: keys.select();
-            }
-            KeypadButton {
-                id: arrowRight
-                icon: "right"
-                mouseAreaRightMargin: -100
-                onPressed: keys.right();
-                onPressAndHold: {
-                    holdAndReleaseTimer.key = 3;
-                    holdAndReleaseTimer.start();
-                }
-
-                onReleased: {
-                    holdAndReleaseTimer.key = -1;
-                    holdAndReleaseTimer.stop();
-                }
-            }
-            Item {
-                width: arrowLeft.width
-                height: arrowDown.height
-            }
-            KeypadButton {
-                id: arrowDown
-                icon: "down"
-                mouseAreaBottomMargin: -50
-                onPressed: keys.down();
-                onPressAndHold: {
-                    holdAndReleaseTimer.key = 1;
-                    holdAndReleaseTimer.start();
-                }
-
-                onReleased: {
-                    holdAndReleaseTimer.key = -1;
-                    holdAndReleaseTimer.stop();
-                }
-            }
-            Item {
-                width: arrowRight.width
-                height: arrowDown.height
-            }
-        }
-
-
-        Row {
-            width: parent.width
-            spacing: (width - backButton.width * 3) / 2
-            KeypadButton {
-                icon: "contextmenu"
-                onPressed: keys.menu();
-            }
-            Item {width: backButton.width; height: backButton.height}
-            KeypadButton {
-                icon: "menu"
-                onPressed: keys.contextMenu();
-            }
         }
 
         Item { width: parent.width; height: 50 }
@@ -263,25 +283,38 @@ Page {
             columns: 3
             visible: !keyPad.keyboardOpen
 
-            KeypadButton {
+            MediaControlButton {
                 id: fullscreenButton
-                icon: "fullscreen"
-                onPressed: keys.fullscreen();
+                platformIconId: "toolbar-main-view"
+                onClicked: keys.fullscreen();
+                rotation: 45
             }
-            KeypadButton {
-                icon: "home"
-                onPressed: keys.home();
+            MediaControlButton {
+                platformIconId: "toolbar-home"
+                onClicked: keys.home();
             }
-            KeypadButton {
+            MediaControlButton {
                 id: keyboardButton
-                icon: "keyboard"
-                onPressed: {
+                platformIconId: "toolbar-grid"
+                onClicked: {
                     keyPad.keyboardOpen = true;
-//                    var keyboard = keyboardComponent.createObject(keyPad);
-//                    keyboard.open();
+                    //                    var keyboard = keyboardComponent.createObject(keyPad);
+                    //                    keyboard.open();
                 }
             }
         }
+
+        PlayerControls {
+            id: controlButtons
+            anchors.horizontalCenter: parent.horizontalCenter
+            anchors.bottomMargin: 20
+            player: keyPad.player
+        }
+    }
+
+    SipAttributes {
+        id: sipAttributes
+        actionKeyIcon: "/opt/xbmcremote/qml/icons/closekeypad.svg"
     }
 
     TextField {
@@ -290,14 +323,18 @@ Page {
         inputMethodHints: Qt.ImhNoPredictiveText
         text: "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
         property string oldText: "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
-        onTextChanged: {
-            print("text", text, text.charAt(text.length-1));
-            if(text.length > oldText.length) {
-                keys.keyboardKey(tf.text.charAt(text.length-1));
-            } else {
-                keys.backspace();
-            }
-            oldText = text;
+        platformSipAttributes: sipAttributes
+
+        Component.onCompleted: {
+            tf.textChanged.connect(function() {
+                print("text", text, text.charAt(text.length-1));
+                if(text.length > oldText.length) {
+                    keys.keyboardKey(tf.text.charAt(text.length-1));
+                } else {
+                    keys.backspace();
+                }
+                oldText = text;
+            })
         }
 
         onActiveFocusChanged: {

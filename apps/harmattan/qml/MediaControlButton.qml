@@ -4,18 +4,39 @@ import com.nokia.meego 1.0
 Item {
     id: root
     width: 80
-    height: 64
+    height: 80
 
     property string platformIconId
+    property string iconSource
     property bool enabled: true
     property bool selected: false
+    property string text: ""
+    property bool showBorder: false
 
     signal clicked()
+
+    Rectangle {
+        id: borderRect
+        anchors.fill: parent
+        border.color: "white"
+        border.width: 5
+        radius: width / 2
+        color: "black"
+        visible: root.showBorder
+    }
+    Label {
+        anchors.centerIn: parent
+        text: root.text
+    }
 
     Image {
         anchors.centerIn: parent
 
         function handleIconSource(iconId, isEnabled, isSelected) {
+            if(root.iconSource.length > 0) {
+                return "image://theme/" + root.iconSource;
+            }
+
             if (!isEnabled)
                 iconId = iconId + "-dimmed";
 

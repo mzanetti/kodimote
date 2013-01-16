@@ -36,7 +36,7 @@ public slots:
     void home();
     void select();
     void back();
-    void menu();
+    void osd();
     void contextMenu();
     void info();
     void fullscreen();

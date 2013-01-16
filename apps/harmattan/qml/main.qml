@@ -42,7 +42,7 @@ PageStackWindow {
         id: nowPlayingPage
     }
 
-    GesturePad {
+    Keypad {
         id: keypadPage
     }
 
