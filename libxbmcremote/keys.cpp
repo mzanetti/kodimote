@@ -49,7 +49,7 @@ void Keys::back()
     XbmcConnection::sendCommand("Input.Back");
 }
 
-void Keys::menu()
+void Keys::osd()
 {
     XbmcConnection::sendCommand("Input.ShowOSD");
 }
