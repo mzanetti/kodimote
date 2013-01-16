@@ -8,10 +8,12 @@ Item {
 
     property string platformIconId
     property string iconSource
+    property string source
     property bool enabled: true
     property bool selected: false
     property string text: ""
     property bool showBorder: false
+    property alias font: label.font
 
     signal clicked()
 
@@ -25,6 +27,7 @@ Item {
         visible: root.showBorder
     }
     Label {
+        id: label
         anchors.centerIn: parent
         text: root.text
     }
@@ -33,7 +36,11 @@ Item {
         anchors.centerIn: parent
 
         function handleIconSource(iconId, isEnabled, isSelected) {
-            if(root.iconSource.length > 0) {
+            if (root.source.length > 0) {
+                return root.source;
+            }
+
+            if (root.iconSource.length > 0) {
                 return "image://theme/" + root.iconSource;
             }
 
