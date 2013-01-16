@@ -18,6 +18,7 @@ Item {
 
         property int startx
         property int starty
+        property int maxClickDistance: 5
         property int minSwipeDistance: 50
 
         onPressed: {
@@ -28,6 +29,12 @@ Item {
         onReleased: {
             var dx = mouse.x - startx;
             var dy = mouse.y - starty;
+
+            // Did we not move?
+            if (Math.abs(dx) < maxClickDistance && Math.abs(dy) < maxClickDistance) {
+                keys.select();
+                return;
+            }
 
             // Did we move far enough?
             if (Math.abs(dx) < minSwipeDistance && Math.abs(dy) < minSwipeDistance) {
