@@ -34,9 +34,9 @@ Item {
 
                     SequentialAnimation {
                         id: animation
-                        PauseAnimation { duration: 150 * index }
-                        NumberAnimation { target: arrowImage; properties: "opacity"; from: 0.3; to: 1; duration: 300 }
-                        NumberAnimation { target: arrowImage; properties: "opacity"; from: 1; to: 0.3; duration: 300 }
+                        PauseAnimation { duration: 100 * index }
+                        NumberAnimation { target: arrowImage; properties: "opacity"; from: 0.3; to: 1; duration: 200 }
+                        NumberAnimation { target: arrowImage; properties: "opacity"; from: 1; to: 0.3; duration: 200 }
                     }
                 }
             }

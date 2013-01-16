@@ -53,26 +53,26 @@ Page {
                 platformIconId: "toolbar-main-view"
                 onClicked: keys.back();
                 rotation: -90
-                showBorder: true
+//                showBorder: true
             }
 
             MediaControlButton {
                 anchors { right: parent.right; top: parent.top; margins: 10 }
                 text: "i"
                 onClicked: keys.info();
-                showBorder: true
+//                showBorder: true
             }
             MediaControlButton {
                 anchors { left: parent.left; bottom: parent.bottom; margins: 10 }
                 iconSource: "icon-m-image-edit-red-eyes-remove"
                 onClicked: keys.osd();
-                showBorder: true
+//                showBorder: true
             }
             MediaControlButton {
                 anchors { right: parent.right; bottom: parent.bottom; margins: 10 }
                 platformIconId: "toolbar-view-menu"
                 onClicked: keys.contextMenu();
-                showBorder: true
+//                showBorder: true
             }
         }
 
