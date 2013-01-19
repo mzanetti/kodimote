@@ -108,7 +108,6 @@ Page {
                 anchors.horizontalCenter: parent.horizontalCenter
                 spacing: (width - fullscreenButton.width * 3) / 2
                 columns: 3
-                visible: !keyPad.keyboardOpen
 
                 MediaControlButton {
                     id: fullscreenButton
