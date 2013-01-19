@@ -42,6 +42,16 @@ public slots:
     void fullscreen();
     void keyboardKey(const QString &key);
     void backspace();
+    void sendText(QString text, bool done = true);
+
+    QString formatTime(int hours, int minutes);
+
+signals:
+    void inputFinished();
+    void inputRequested(QString title, QString type, QString value);
+
+private slots:
+    void receivedAnnouncement(const QVariantMap& map);
 
 private:
     int m_requestId;

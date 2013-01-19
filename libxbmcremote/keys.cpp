@@ -22,6 +22,7 @@
 Keys::Keys(QObject *parent) :
     QObject(parent)
 {
+    connect(XbmcConnection::notifier(), SIGNAL(receivedAnnouncement(QVariantMap)), SLOT(receivedAnnouncement(QVariantMap)));
 }
 
 void Keys::left()
@@ -97,4 +98,33 @@ void Keys::home()
 void Keys::select()
 {
     XbmcConnection::sendCommand("Input.Select");
+}
+
+void Keys::sendText(QString text, bool done)
+{
+    QVariantMap map;
+    map.insert("text", text);
+    map.insert("done", done);
+    XbmcConnection::sendCommand("Input.SendText", map);
+}
+
+void Keys::receivedAnnouncement(const QVariantMap &map)
+{
+    QString method = map.value("method").toString();
+    QVariantMap data = map.value("params").toMap().value("data").toMap();
+
+    if(method == "Input.OnInputRequested") {
+        QString title = data.value("title").toString();
+        QString type = data.value("type").toString();
+        QString value = data.value("value").toString();
+        emit inputRequested(title, type, value);
+    }
+    else if(method == "Input.OnInputFinished") {
+        emit inputFinished();
+    }
+}
+
+QString Keys::formatTime(int hours, int minutes)
+{
+    return QString("%1:%2").arg(hours, 2, 10, QChar('0')).arg(minutes, 2, 10, QChar('0'));
 }
