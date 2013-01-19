@@ -54,6 +54,7 @@ Page {
                     var sheetObj = selectMediaPropertySheet.createObject(mainPage)
                     sheetObj.model = player.audiostreams;
                     sheetObj.currentIndex = player.currentAudiostream;
+                    sheetObj.title = qsTr("Select audio stream:");
                     sheetObj.accepted.connect(function() {
                                                   player.currentAudiostream = sheetObj.currentIndex;
                                               })
@@ -99,6 +100,9 @@ Page {
 
                 return "";
             }
+
+            enabled: !(xbmc.state === "video" && player.subtitles.length === 0)
+            opacity: enabled ? 1 : .5
             onClicked: {
                 if (!player) {
                     return;
@@ -117,6 +121,7 @@ Page {
                     sheetObj.model = player.subtitles;
                     sheetObj.currentIndex = player.currentSubtitle;
                     sheetObj.rejectButtonText = qsTr("Off");
+                    sheetObj.title = qsTr("Select subtitle");
                     sheetObj.accepted.connect(function() {
                                                   player.currentSubtitle = sheetObj.currentIndex;
                                               })
@@ -381,6 +386,8 @@ Page {
             property alias model: sheetList.model
             property alias currentIndex: sheetList.currentIndex
 
+            property string title
+
             signal itemSelected(int index)
 
             onRejected: {
@@ -396,6 +403,18 @@ Page {
                 anchors.margins: 10
                 model: sheetRoot.model
                 highlightFollowsCurrentItem: true
+
+                header: Item {
+                    width: parent.width
+                    height: 88
+                    Label {
+                        text: sheetRoot.title
+                        anchors { left: parent.left; right: parent.right; verticalCenter: parent.verticalCenter; margins: 5 }
+                        elide: Text.ElideRight
+                        font.weight: Font.Bold
+                        font.pixelSize: 26
+                    }
+                }
 
                 highlight: Rectangle {
                     width: sheetList.width
@@ -423,7 +442,6 @@ Page {
                         id: mainText
                         anchors {left: parent.left; right: parent.right; margins: 10; verticalCenter: parent.verticalCenter }
                         text: modelData
-                        font.weight: Font.Bold
                         font.pixelSize: 26
                         elide: Text.ElideRight
                     }
