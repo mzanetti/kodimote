@@ -43,10 +43,27 @@ Item {
         }
     }
 
-    Image {
+    Item {
         id: bgImage
         anchors.centerIn: parent
-        source: "icons/pad-bg.png"
+        width: parent.width
+        height: width * 0.75
+
+        onHeightChanged: print("???????????????????? height", height, "eidth", width)
+
+        Rectangle {
+            anchors.fill: parent
+            opacity: theme.inverted ? 0.1 : 0.05
+            radius: 20
+            color: theme.inverted ? "white" : "black"
+        }
+
+        Image {
+            anchors.fill: parent
+            source: "icons/pad-separator.png"
+        }
+
+//        source: "icons/pad-bg.png"
 
         Loader {
             id: rightArrows
