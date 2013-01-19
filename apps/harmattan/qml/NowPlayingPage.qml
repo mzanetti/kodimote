@@ -54,7 +54,7 @@ Page {
                     var sheetObj = selectMediaPropertySheet.createObject(mainPage)
                     sheetObj.model = player.audiostreams;
                     sheetObj.currentIndex = player.currentAudiostream;
-                    sheetObj.title = qsTr("Select audio stream:");
+                    sheetObj.title = qsTr("Select audio track");
                     sheetObj.accepted.connect(function() {
                                                   player.currentAudiostream = sheetObj.currentIndex;
                                               })
@@ -431,16 +431,9 @@ Page {
                 model: sheetRoot.model
                 highlightFollowsCurrentItem: true
 
-                header: Item {
+                header: SectionHeader {
                     width: parent.width
-                    height: 88
-                    Label {
-                        text: sheetRoot.title
-                        anchors { left: parent.left; right: parent.right; verticalCenter: parent.verticalCenter; margins: 5 }
-                        elide: Text.ElideRight
-                        font.weight: Font.Bold
-                        font.pixelSize: 26
-                    }
+                    headerText: sheetRoot.title
                 }
 
                 highlight: Rectangle {
