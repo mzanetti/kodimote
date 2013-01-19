@@ -147,6 +147,7 @@ Page {
                 id: controlButtons
                 anchors.bottom: progressBar.top
                 anchors.horizontalCenter: parent.horizontalCenter
+                width: parent.width
                 anchors.bottomMargin: 20
                 player: nowPlayingPage.player
             }

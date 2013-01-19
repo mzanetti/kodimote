@@ -41,7 +41,7 @@ Page {
     Column {
         width: parent.width - 30
         anchors.centerIn: parent
-
+        spacing: 30
 
         GesturePad {
             id: gesturePad
@@ -97,32 +97,37 @@ Page {
             }
         }
 
-        Item { width: parent.width; height: 50 }
 
-        Grid {
+        Item {
             width: parent.width
-            anchors.horizontalCenter: parent.horizontalCenter
-            spacing: (width - fullscreenButton.width * 3) / 2
-            columns: 3
-            visible: !keyPad.keyboardOpen
+            height: buttonRow1.height
+            Rectangle { anchors.fill: parent; opacity: theme.inverted ? 0.1 : 0.05; radius: 20; color: theme.inverted ? "white" : "black" }
+            Grid {
+                id: buttonRow1
+                width: parent.width
+                anchors.horizontalCenter: parent.horizontalCenter
+                spacing: (width - fullscreenButton.width * 3) / 2
+                columns: 3
+                visible: !keyPad.keyboardOpen
 
-            MediaControlButton {
-                id: fullscreenButton
-                platformIconId: "toolbar-main-view"
-                onClicked: keys.fullscreen();
-                rotation: 45
-            }
-            MediaControlButton {
-                platformIconId: "toolbar-home"
-                onClicked: keys.home();
-            }
-            MediaControlButton {
-                id: keyboardButton
-                platformIconId: "toolbar-grid"
-                onClicked: {
-                    keyPad.keyboardOpen = true;
-                    //                    var keyboard = keyboardComponent.createObject(keyPad);
-                    //                    keyboard.open();
+                MediaControlButton {
+                    id: fullscreenButton
+                    platformIconId: "toolbar-main-view"
+                    onClicked: keys.fullscreen();
+                    rotation: 45
+                }
+                MediaControlButton {
+                    platformIconId: "toolbar-home"
+                    onClicked: keys.home();
+                }
+                MediaControlButton {
+                    id: keyboardButton
+                    platformIconId: "toolbar-grid"
+                    onClicked: {
+                        keyPad.keyboardOpen = true;
+                        //                    var keyboard = keyboardComponent.createObject(keyPad);
+                        //                    keyboard.open();
+                    }
                 }
             }
         }
@@ -131,7 +136,27 @@ Page {
             id: controlButtons
             anchors.horizontalCenter: parent.horizontalCenter
             anchors.bottomMargin: 20
+            width: parent.width
             player: keyPad.player
+            Rectangle { anchors.fill: controlButtons; opacity: theme.inverted ? 0.1 : 0.05; radius: 20; color: theme.inverted ? "white" : "black"; z: -1 }
+        }
+
+        Item {
+            width: parent.width
+            height: colorButtonRow.height
+            Rectangle { anchors.fill: parent; opacity: theme.inverted ? 0.1 : 0.05; radius: 20; color: theme.inverted ? "white" : "black" }
+
+            Row {
+                id: colorButtonRow
+                width: parent.width - spacing
+                anchors.centerIn: parent
+                height: controlButtons.height
+                spacing: parent.width / 8
+                Rectangle { height: 20; width: parent.spacing; color: "red"; anchors.verticalCenter: parent.verticalCenter; radius: 2 }
+                Rectangle { height: 20; width: parent.spacing; color: "green"; anchors.verticalCenter: parent.verticalCenter; radius: 2 }
+                Rectangle { height: 20; width: parent.spacing; color: "yellow"; anchors.verticalCenter: parent.verticalCenter; radius: 2 }
+                Rectangle { height: 20; width: parent.spacing; color: "blue"; anchors.verticalCenter: parent.verticalCenter; radius: 2 }
+            }
         }
     }
 
