@@ -39,9 +39,26 @@ Page {
             }
         }
         ToolIcon {
-            iconSource: "icons/shuffle" + (player && player.shuffle ? "-on" : "-off") + (theme.inverted ? "-black" : "-white") + ".png"
+            platformIconId: xbmc.state == "video" ? "toolbar-volume" : ""
+            iconSource: {
+                if (xbmc.state == "audio") {
+                    return "icons/shuffle" + (player && player.shuffle ? "-on" : "-off") + (theme.inverted ? "-black" : "-white") + ".png";
+                } else {
+                    return ""
+                }
+            }
             onClicked: {
-                player.shuffle = ! player.shuffle
+                if (xbmc.state == "audio") {
+                    player.shuffle = ! player.shuffle
+                } else if (xbmc.state == "video") {
+                    var sheetObj = selectMediaPropertySheet.createObject(mainPage)
+                    sheetObj.model = player.audiostreams;
+                    sheetObj.currentIndex = player.currentAudiostream;
+                    sheetObj.accepted.connect(function() {
+                                                  player.currentAudiostream = sheetObj.currentIndex;
+                                              })
+                    sheetObj.open();
+                }
             }
         }
         ToolIcon { platformIconId: "toolbar-dialer";
@@ -54,16 +71,59 @@ Page {
             }
         }
         ToolIcon {
-            iconSource: "icons/repeat" +
-                        (player && player.repeat ===  Player.RepeatOne ? "-one" : (player && player.repeat === Player.RepeatAll ? "-all" : "-none")) +
-                        (theme.inverted ? "-black" : "-white") + ".png"
+            iconSource: {
+                if (xbmc.state == "audio") {
+                    var name = "icons/repeat";
+                    if (player && player.repeat === Player.RepeatOne) {
+                        name += "-one";
+                    } else if (player && player.repeat === Player.RepeatAll) {
+                        name += "-all";
+                    } else {
+                        name += "-none";
+                    }
+
+                    if (theme.inverted) {
+                        name += "-black";
+                    } else {
+                        name += "-white";
+                    }
+                    name += ".png";
+                    return name;
+                } else if (xbmc.state == "video") {
+                    if (player.currentSubtitle >= 0) {
+                        return "image://theme/icon-m-camera-flash-red-eye-pressed";
+                    } else {
+                        return "image://theme/icon-m-camera-flash-red-eye-choice";
+                    }
+                }
+
+                return "";
+            }
             onClicked: {
-                if(player && player.repeat === Player.RepeatNone) {
-                    player.repeat = Player.RepeatOne;
-                } else if(player && player.repeat === Player.RepeatOne) {
-                    player.repeat = Player.RepeatAll;
-                } else {
-                    player.repeat = Player.RepeatNone;
+                if (!player) {
+                    return;
+                }
+
+                if (xbmc.state == "audio") {
+                    if(player.repeat === Player.RepeatNone) {
+                        player.repeat = Player.RepeatOne;
+                    } else if(player.repeat === Player.RepeatOne) {
+                        player.repeat = Player.RepeatAll;
+                    } else {
+                        player.repeat = Player.RepeatNone;
+                    }
+                } else if (xbmc.state == "video") {
+                    var sheetObj = selectMediaPropertySheet.createObject(mainPage)
+                    sheetObj.model = player.subtitles;
+                    sheetObj.currentIndex = player.currentSubtitle;
+                    sheetObj.rejectButtonText = qsTr("Off");
+                    sheetObj.accepted.connect(function() {
+                                                  player.currentSubtitle = sheetObj.currentIndex;
+                                              })
+                    sheetObj.rejected.connect(function() {
+                                                  player.currentSubtitle = -1;
+                                              })
+                    sheetObj.open();
                 }
             }
         }
@@ -332,6 +392,69 @@ Page {
                 anchors.bottom: artistLabel.top
                 anchors.bottomMargin: 6
                 text: playlist ? playlist.currentTrackNumber + "/" + playlist.count : "0/0"
+            }
+        }
+    }
+
+    Component {
+        id: selectMediaPropertySheet
+
+        Sheet {
+            id: sheetRoot
+            rejectButtonText: qsTr("Cancel")
+            acceptButtonText: qsTr("OK")
+            acceptButton.enabled: currentIndex >= 0
+
+            property alias model: sheetList.model
+            property alias currentIndex: sheetList.currentIndex
+
+            signal itemSelected(int index)
+
+            onRejected: {
+                sheetRoot.destroy();
+            }
+            onAccepted: {
+                sheetRoot.destroy();
+            }
+
+            content: ListView {
+                id: sheetList
+                anchors.fill: parent
+                anchors.margins: 10
+                model: sheetRoot.model
+                highlightFollowsCurrentItem: true
+
+                highlight: Rectangle {
+                    width: sheetList.width
+                    height: 88
+                    gradient: Gradient {
+                        GradientStop { position: 0.0; color: theme.inverted ? "#4269a5" : "#3996e7" }
+                        GradientStop { position: 1.0; color: theme.inverted ? "#29599c" : "#1082de" }
+                    }
+
+                    //color: theme.inverted ? "#1d87e0"
+                }
+
+                delegate: Item {
+                    width: parent.width
+                    height: 88
+
+                    MouseArea {
+                        anchors.fill: parent
+                        onClicked: {
+                            sheetList.currentIndex = index;
+                        }
+                    }
+
+                    Label {
+                        id: mainText
+                        anchors {left: parent.left; right: parent.right; margins: 10; verticalCenter: parent.verticalCenter }
+                        text: modelData
+                        font.weight: Font.Bold
+                        font.pixelSize: 26
+                        elide: Text.ElideRight
+                    }
+                }
             }
         }
     }

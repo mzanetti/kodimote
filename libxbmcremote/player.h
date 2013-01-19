@@ -23,6 +23,7 @@
 #include <QVariantMap>
 #include <QTimer>
 #include <QDateTime>
+#include <QStringList>
 
 class Playlist;
 class LibraryItem;
@@ -42,6 +43,12 @@ class Player : public QObject
     Q_PROPERTY(bool timerActive READ timerActive WRITE setTimerActive)
     Q_PROPERTY(bool shuffle READ shuffle WRITE setShuffle NOTIFY shuffleChanged)
     Q_PROPERTY(Repeat repeat READ repeat WRITE setRepeat NOTIFY repeatChanged)
+    Q_PROPERTY(QStringList subtitles READ subtitles NOTIFY subtitlesChanged)
+
+    /** set to something invalid (e.g. -1) to disable subtitles */
+    Q_PROPERTY(int currentSubtitle READ currentSubtitle WRITE setCurrentSubtitle NOTIFY currentSubtitleChanged)
+    Q_PROPERTY(QStringList audiostreams READ audiostreams NOTIFY audiostreamsChanged)
+    Q_PROPERTY(int currentAudiostream READ currentAudiostream WRITE setCurrentAudiostream NOTIFY currentAudiostreamChanged)
 
     Q_PROPERTY(LibraryItem* currentItem READ currentItem NOTIFY currentItemChanged)
 
@@ -84,6 +91,14 @@ public:
     Repeat repeat() const;
     void setRepeat(Repeat repeat);
 
+    QStringList subtitles() const;
+    int currentSubtitle() const;
+    void setCurrentSubtitle(int index);
+
+    QStringList audiostreams() const;
+    int currentAudiostream() const;
+    void setCurrentAudiostream(int index);
+
     bool timerActive() const;
     void setTimerActive(bool active);
 
@@ -100,6 +115,10 @@ signals:
     void shuffleChanged();
     void repeatChanged();
     void currentItemChanged();
+    void subtitlesChanged();
+    void currentSubtitleChanged();
+    void audiostreamsChanged();
+    void currentAudiostreamChanged();
 
 public slots:
     void playPause();
@@ -116,6 +135,7 @@ private slots:
     void receivedAnnouncement(const QVariantMap& map);
     void updatePlaytime();
     void getRepeatShuffle();
+    void getMediaProps();
 
     void getCurrentItemDetails();
 
@@ -125,6 +145,7 @@ private slots:
     void repeatShuffleReceived(const QVariantMap &rsp);
     void detailsReceived(const QVariantMap &rsp);
     void refreshReceived(const QVariantMap &rsp);
+    void mediaPropsReceived(const QVariantMap &rsp);
 
 private:
     void updatePlaytime(const QVariantMap &time);
@@ -143,6 +164,10 @@ protected:
 
     bool m_shuffle;
     Repeat m_repeat;
+    QStringList m_subtitles;
+    int m_currentSubtitle;
+    QStringList m_audiostreams;
+    int m_currentAudiostream;
 };
 
 #endif // PLAYER_H
