@@ -1,5 +1,6 @@
 import QtQuick 1.1
 import com.nokia.meego 1.0
+import com.nokia.extras 1.1
 import QtMobility.connectivity 1.2
 import Xbmc 1.0
 
@@ -85,6 +86,12 @@ Sheet {
                         Column {
                             anchors.fill: parent
 
+                            MouseArea {
+                                anchors.fill: parent
+                                onClicked: {
+                                    hostList.currentIndex = index;
+                                }
+                            }
                             Row {
                                 id: itemRow
                                 anchors {left: parent.left; top: parent.top; right: parent.right }
@@ -92,36 +99,33 @@ Sheet {
                                 anchors.leftMargin: 5
                                 anchors.rightMargin: 5
 
-                                Column {
+                                Row {
                                     anchors.verticalCenter: parent.verticalCenter
+                                    width: parent.width
 
                                     Label {
                                         id: mainText
                                         text: qsTr("XBMC on %1").arg(hostname)
                                         font.weight: Font.Bold
                                         font.pixelSize: 26
-                                        width: itemRow.width
+                                        width: itemRow.width - wolButton.width
                                         elide: Text.ElideRight
+                                        anchors.verticalCenter: parent.verticalCenter
                                     }
-
-                                    //                            Label {
-                                    //                                id: subText
-                                    //                                text: ip + ":" + port
-                                    //                                font.weight: Font.Light
-                                    //                                font.pixelSize: 24
-                                    //                                color: theme.inverted ? "#7b797b" : "#848684"
-                                    //                                width: itemRow.width
-                                    //                                elide: Text.ElideRight
-                                    //                            }
+                                    MediaControlButton {
+                                        id: wolButton
+                                        iconSource: "icon-m-common-alarm-screen"
+                                        anchors.verticalCenter: parent.verticalCenter
+                                        visible: hwaddr.length > 0
+                                        onClicked: {
+                                            xbmc.hostModel().wakeup(index)
+                                            infoBanner.text = qsTr("Waking up %1...").arg(hostname)
+                                            infoBanner.show()
+                                        }
+                                    }
                                 }
                             }
 
-                            MouseArea {
-                                anchors.fill: parent
-                                onClicked: {
-                                    hostList.currentIndex = index;
-                                }
-                            }
                         }
                     }
                 }
@@ -213,6 +217,12 @@ Sheet {
 
 
 
+    }
+
+    InfoBanner {
+        id: infoBanner
+        anchors.topMargin: 40
+        z: 10
     }
 
     onAccepted: {
