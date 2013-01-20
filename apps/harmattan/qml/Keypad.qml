@@ -151,10 +151,18 @@ Page {
                 anchors.centerIn: parent
                 height: controlButtons.height
                 spacing: parent.width / 8
-                Rectangle { height: 20; width: parent.spacing; color: "red"; anchors.verticalCenter: parent.verticalCenter; radius: 2 }
-                Rectangle { height: 20; width: parent.spacing; color: "green"; anchors.verticalCenter: parent.verticalCenter; radius: 2 }
-                Rectangle { height: 20; width: parent.spacing; color: "yellow"; anchors.verticalCenter: parent.verticalCenter; radius: 2 }
-                Rectangle { height: 20; width: parent.spacing; color: "blue"; anchors.verticalCenter: parent.verticalCenter; radius: 2 }
+                Rectangle { height: 20; width: parent.spacing; color: "red"; anchors.verticalCenter: parent.verticalCenter; radius: 2
+                    MouseArea { anchors.fill: parent; onClicked: keys.red() }
+                }
+                Rectangle { height: 20; width: parent.spacing; color: "green"; anchors.verticalCenter: parent.verticalCenter; radius: 2
+                    MouseArea { anchors.fill: parent; onClicked: keys.green() }
+                }
+                Rectangle { height: 20; width: parent.spacing; color: "yellow"; anchors.verticalCenter: parent.verticalCenter; radius: 2
+                    MouseArea { anchors.fill: parent; onClicked: keys.yellow() }
+                }
+                Rectangle { height: 20; width: parent.spacing; color: "blue"; anchors.verticalCenter: parent.verticalCenter; radius: 2
+                    MouseArea { anchors.fill: parent; onClicked: keys.blue() }
+                }
             }
         }
     }
@@ -210,28 +218,4 @@ Page {
         }
     }
 
-    Timer {
-        id: holdAndReleaseTimer
-        interval: 50
-        repeat: true
-        running: false
-        property int key: -1
-
-        onTriggered: {
-            switch(key) {
-            case 0:
-                keys.up();
-                break;
-            case 1:
-                keys.down();
-                break;
-            case 2:
-                keys.left();
-                break;
-            case 3:
-                keys.right();
-                break;
-            }
-        }
-    }
 }

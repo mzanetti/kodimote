@@ -43,7 +43,13 @@ public slots:
     void keyboardKey(const QString &key);
     void backspace();
 
+    void red();
+    void green();
+    void yellow();
+    void blue();
+
 private:
+    void executeAction(const QString &action);
     int m_requestId;
 };
 

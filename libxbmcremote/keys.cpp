@@ -66,9 +66,7 @@ void Keys::info()
 
 void Keys::fullscreen()
 {
-    QVariantMap params;
-    params.insert("action", "fullscreen");
-    XbmcConnection::sendCommand("Input.ExecuteAction", params);
+    executeAction("fullscreen");
 }
 
 void Keys::keyboardKey(const QString &key)
@@ -84,9 +82,27 @@ void Keys::keyboardKey(const QString &key)
 
 void Keys::backspace()
 {
-    QVariantMap params;
-    params.insert("action", "backspace");
-    XbmcConnection::sendCommand("Input.ExecuteAction", params);
+    executeAction("backspace");
+}
+
+void Keys::red()
+{
+    executeAction("red");
+}
+
+void Keys::green()
+{
+    executeAction("green");
+}
+
+void Keys::yellow()
+{
+    executeAction("yellow");
+}
+
+void Keys::blue()
+{
+    executeAction("blue");
 }
 
 void Keys::home()
@@ -97,4 +113,11 @@ void Keys::home()
 void Keys::select()
 {
     XbmcConnection::sendCommand("Input.Select");
+}
+
+void Keys::executeAction(const QString &action)
+{
+    QVariantMap params;
+    params.insert("action", action);
+    XbmcConnection::sendCommand("Input.ExecuteAction", params);
 }
