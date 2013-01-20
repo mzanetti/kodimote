@@ -1,6 +1,6 @@
 import QtQuick 1.1
 import com.nokia.meego 1.0
-import xbmcremote 1.0
+import Xbmc 1.0
 
 Page {
     id: keyPad
@@ -43,6 +43,41 @@ Page {
         anchors.centerIn: parent
         spacing: 30
 
+        Item {
+            width: parent.width
+            height: jumpPointRow.height
+            Rectangle { anchors.fill: parent; opacity: theme.inverted ? 0.1 : 0.05; radius: 20; color: theme.inverted ? "white" : "black" }
+            Row {
+                id: jumpPointRow
+                width: parent.width
+                anchors.horizontalCenter: parent.horizontalCenter
+                spacing: (width - musicButton.width * 5) / 4
+
+                MediaControlButton {
+                    source: "icons/pictures.png"
+                    onClicked: xbmc.switchToWindow(Xbmc.GuiWindowPictures);
+                }
+                MediaControlButton {
+                    id: musicButton
+                    iconSource: "icon-m-music-video-all-songs"
+                    onClicked: xbmc.switchToWindow(Xbmc.GuiWindowMusic);
+                }
+                MediaControlButton {
+                    platformIconId: "toolbar-home"
+                    onClicked: keys.home();
+                }
+                MediaControlButton {
+                    source: "icons/videos.png"
+                    onClicked: xbmc.switchToWindow(Xbmc.GuiWindowVideos);
+
+                }
+                MediaControlButton {
+                    source: "icons/livetv.png"
+                    onClicked: xbmc.switchToWindow(Xbmc.GuiWindowLiveTV);
+                }
+            }
+        }
+
         GesturePad {
             id: gesturePad
             width: parent.width
@@ -64,6 +99,18 @@ Page {
 
             MediaControlButton {
                 anchors { right: parent.right; top: parent.top; margins: 10 }
+                platformIconId: "toolbar-main-view"
+                rotation: 45
+                MouseArea {
+                    width: parent.width * 2
+                    height: parent.height * 1.2
+                    anchors.centerIn: parent
+                    rotation: -190
+                    onClicked: keys.fullscreen();
+                }
+            }
+            MediaControlButton {
+                anchors { left: parent.left; bottom: parent.bottom; margins: 10 }
                 source: "icons/icon-m-toolbar-info.png"
                 MouseArea {
                     width: parent.width * 2
@@ -74,62 +121,51 @@ Page {
                 }
             }
             MediaControlButton {
-                anchors { left: parent.left; bottom: parent.bottom; margins: 10 }
-                iconSource: "icon-m-image-edit-red-eyes-remove"
-                MouseArea {
-                    width: parent.width * 2
-                    height: parent.height * 1.2
-                    anchors.centerIn: parent
-                    rotation: -145
-                    onClicked: keys.osd();
-                }
-            }
-            MediaControlButton {
                 anchors { right: parent.right; bottom: parent.bottom; margins: 10 }
                 platformIconId: "toolbar-view-menu"
                 MouseArea {
                     width: parent.width * 2
                     height: parent.height * 1.2
                     anchors.centerIn: parent
-                    onClicked: keys.contextMenu();
+                    onClicked: {
+                        keys.osd();
+                        keys.contextMenu();
+                    }
                     rotation: 145
                 }
             }
         }
 
 
-        Item {
-            width: parent.width
-            height: buttonRow1.height
-            Rectangle { anchors.fill: parent; opacity: theme.inverted ? 0.1 : 0.05; radius: 20; color: theme.inverted ? "white" : "black" }
-            Grid {
-                id: buttonRow1
-                width: parent.width
-                anchors.horizontalCenter: parent.horizontalCenter
-                spacing: (width - fullscreenButton.width * 3) / 2
-                columns: 3
+//        Item {
+//            width: parent.width
+//            height: buttonRow1.height
+//            Rectangle { anchors.fill: parent; opacity: theme.inverted ? 0.1 : 0.05; radius: 20; color: theme.inverted ? "white" : "black" }
+//            Grid {
+//                id: buttonRow1
+//                width: parent.width
+//                anchors.horizontalCenter: parent.horizontalCenter
+//                spacing: (width - fullscreenButton.width * 3) / 2
+//                columns: 3
 
-                MediaControlButton {
-                    id: fullscreenButton
-                    platformIconId: "toolbar-main-view"
-                    onClicked: keys.fullscreen();
-                    rotation: 45
-                }
-                MediaControlButton {
-                    platformIconId: "toolbar-home"
-                    onClicked: keys.home();
-                }
-                MediaControlButton {
-                    id: keyboardButton
-                    platformIconId: "toolbar-grid"
-                    onClicked: {
-                        keyPad.keyboardOpen = true;
-                        //                    var keyboard = keyboardComponent.createObject(keyPad);
-                        //                    keyboard.open();
-                    }
-                }
-            }
-        }
+//                MediaControlButton {
+//                    id: fullscreenButton
+//                    iconSource: "icon-m-image-edit-red-eyes-remove"
+//                    onClicked: keys.osd();
+//                }
+//                MediaControlButton {
+//                    platformIconId: "toolbar-home"
+//                    onClicked: keys.home();
+//                }
+//                MediaControlButton {
+//                    id: keyboardButton
+//                    platformIconId: "toolbar-grid"
+//                    onClicked: {
+//                        keyPad.keyboardOpen = true;
+//                    }
+//                }
+//            }
+//        }
 
         PlayerControls {
             id: controlButtons

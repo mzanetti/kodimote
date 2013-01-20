@@ -40,7 +40,6 @@ public slots:
     void contextMenu();
     void info();
     void fullscreen();
-    void keyboardKey(const QString &key);
     void backspace();
 
     void red();

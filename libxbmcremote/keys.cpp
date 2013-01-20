@@ -18,30 +18,38 @@
 
 #include "keys.h"
 #include "xbmcconnection.h"
+#include "xbmc.h"
+#include "eventclient.h"
 
 Keys::Keys(QObject *parent) :
     QObject(parent)
 {
 }
 
+// Lets use the eventclient for left/right/up/down because
+// Json doesn't work to skip during playback
 void Keys::left()
 {
-    XbmcConnection::sendCommand("Input.Left");
+    Xbmc::instance()->eventClient()->sendKeypress("left");
+//    XbmcConnection::sendCommand("Input.Left");
 }
 
 void Keys::right()
 {
-    XbmcConnection::sendCommand("Input.Right");
+    Xbmc::instance()->eventClient()->sendKeypress("right");
+//    XbmcConnection::sendCommand("Input.Right");
 }
 
 void Keys::up()
 {
-    XbmcConnection::sendCommand("Input.Up");
+    Xbmc::instance()->eventClient()->sendKeypress("up");
+//    XbmcConnection::sendCommand("Input.Up");
 }
 
 void Keys::down()
 {
-    XbmcConnection::sendCommand("Input.Down");
+    Xbmc::instance()->eventClient()->sendKeypress("down");
+//    XbmcConnection::sendCommand("Input.Down");
 }
 
 void Keys::back()
@@ -69,17 +77,6 @@ void Keys::fullscreen()
     executeAction("fullscreen");
 }
 
-void Keys::keyboardKey(const QString &key)
-{
-    if(key.isEmpty()) {
-        return;
-    }
-    int keyValue = 0xF100 + key[0].digitValue();
-    QString cmd = "SendKey(" + QString::number(keyValue) + ")";
-    qDebug() << key[0] << "sending command" << cmd;
-    XbmcConnection::sendLegacyCommand(cmd);
-}
-
 void Keys::backspace()
 {
     executeAction("backspace");
@@ -87,22 +84,26 @@ void Keys::backspace()
 
 void Keys::red()
 {
-    executeAction("red");
+//    executeAction("red");
+    Xbmc::instance()->eventClient()->sendIrPress("red");
 }
 
 void Keys::green()
 {
-    executeAction("green");
+//    executeAction("green");
+    Xbmc::instance()->eventClient()->sendIrPress("green");
 }
 
 void Keys::yellow()
 {
-    executeAction("yellow");
+//    executeAction("yellow");
+    Xbmc::instance()->eventClient()->sendIrPress("yellow");
 }
 
 void Keys::blue()
 {
-    executeAction("blue");
+//    executeAction("blue");
+    Xbmc::instance()->eventClient()->sendIrPress("blue");
 }
 
 void Keys::home()

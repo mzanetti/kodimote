@@ -46,6 +46,7 @@
 #include "videoplaylistitem.h"
 
 #include "keys.h"
+#include "eventclient.h"
 
 //#include "settings.h"
 
@@ -107,6 +108,8 @@ Xbmc::Xbmc(QObject *parent) :
                         XDebug::addAllowedArea(XDAREA_PLAYLIST);
                     } else if(debugString == "networkdata") {
                         XDebug::addAllowedArea(XDAREA_NETWORKDATA);
+                    } else if(debugString == "eventclient") {
+                        XDebug::addAllowedArea(XDAREA_EVENTCLIENT);
 //                    } else if(debugString == "") {
 //                        XDebug::addAllowedArea(XDAREA_);
                     }
@@ -115,6 +118,7 @@ Xbmc::Xbmc(QObject *parent) :
         }
     }
 
+    qmlRegisterUncreatableType<Xbmc>("Xbmc", 1, 0, "Xbmc", "use context property xbmc");
     qmlRegisterType<AudioLibrary>();
     qmlRegisterType<VideoLibrary>();
     qmlRegisterType<LibraryItem>();
@@ -134,6 +138,7 @@ Xbmc::Xbmc(QObject *parent) :
     qmlRegisterType<ChannelGroups>();
     qmlRegisterType<Channels>();
     qmlRegisterType<Keys>();
+    qmlRegisterType<EventClient>();
     qmlRegisterType<XbmcFilterModel>("Xbmc", 1, 0, "XbmcFilterModel");
 
     // Hack: QML seems to have problems with enums exposed by a qmlRegisterUncreatableType
@@ -159,6 +164,7 @@ Xbmc::Xbmc(QObject *parent) :
     m_picturePlayerActive = false;
 
     m_keys = new Keys(this);
+    m_eventClient = new EventClient(this);
 
     m_volumeAnimation.setTargetObject(this);
     m_volumeAnimation.setPropertyName("volume");
@@ -173,6 +179,8 @@ Xbmc::~Xbmc()
 
 void Xbmc::init()
 {
+    m_eventClient->connectToHost(connectedHost());
+
     queryActivePlayers();
 
     QVariantMap params;
@@ -412,6 +420,11 @@ Keys *Xbmc::keys()
     return m_keys;
 }
 
+EventClient *Xbmc::eventClient()
+{
+    return m_eventClient;
+}
+
 bool Xbmc::connecting()
 {
     return XbmcConnection::connecting();
@@ -421,6 +434,8 @@ void Xbmc::connectionChanged()
 {
     if(connected()) {
         init();
+    } else {
+        m_eventClient->disconnectFromHost();
     }
     emit connectedChanged(connected());
 }
@@ -517,6 +532,31 @@ bool Xbmc::picturePlayerActive()
 void Xbmc::queryActivePlayers()
 {
     XbmcConnection::sendCommand("Player.GetActivePlayers", QVariantMap(), this, "activePlayersReceived");
+}
+
+void Xbmc::switchToWindow(Xbmc::GuiWindow window)
+{
+    QVariantMap params;
+
+    switch(window) {
+    case GuiWindowHome:
+        params.insert("window", "home");
+        break;
+    case GuiWindowPictures:
+        params.insert("window", "pictures");
+        break;
+    case GuiWindowMusic:
+        params.insert("window", "music");
+        break;
+    case GuiWindowVideos:
+        params.insert("window", "videos");
+        break;
+    case GuiWindowLiveTV:
+        params.insert("window", "tv");
+        break;
+    }
+
+    XbmcConnection::sendCommand("Gui.ActivateWindow", params);
 }
 
 bool Xbmc::canShutdown()
