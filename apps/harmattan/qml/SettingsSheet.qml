@@ -42,30 +42,6 @@ Sheet {
                 checked: settings.ignoreArticle
             }
 
-            Row {
-                spacing: 10
-                width: parent.width
-                ButtonRow {
-                    width: parent.width - parent.spacing - keypadLabel.width - 20
-                    Button {
-                        id: btGesturePadClicking
-                        text: qsTr("Click")
-                        checked: settings.gesturePadClickable
-                        onClicked: settings.gesturePadClickable = true
-                    }
-                    Button {
-                        text: qsTr("Swipe")
-                        checked: !settings.gesturePadClickable
-                        onClicked: settings.gesturePadClickable = false
-                    }
-                }
-                Label {
-                    id: keypadLabel
-                    anchors.verticalCenter: parent.verticalCenter
-                    text: qsTr("keypad arrows")
-                }
-            }
-
             SectionHeader {
                 headerText: qsTr("Phone calls")
                 width: parent.width
@@ -114,6 +90,5 @@ Sheet {
         settings.pauseVideoOnCall = cbPauseVideo.checked
         settings.useThumbnails = cbUseThumbnails.checked
         settings.showCallNotifications = cbShowNotifications.checked
-        settings.gesturePadClickable = btGesturePadClicking.checked
     }
 }

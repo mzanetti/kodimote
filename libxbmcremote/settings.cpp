@@ -234,16 +234,3 @@ void Settings::setVideoShowsFiles(bool showFiles)
     settings.setValue("VideoShowsFiles", showFiles);
     emit videoShowsFilesChanged();
 }
-
-bool Settings::gesturePadClickable() const
-{
-    QSettings settings("xbmcremote");
-    return settings.value("GesturePadClickable", false).toBool();
-}
-
-void Settings::setGesturePadClickable(bool clickable)
-{
-    QSettings settings("xbmcremote");
-    settings.setValue("GesturePadClickable", clickable);
-    emit gesturePadClickableChanged();
-}

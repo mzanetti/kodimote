@@ -19,7 +19,6 @@ class Settings : public QObject
     Q_PROPERTY(bool showCallNotifications READ showCallNotifications WRITE setShowCallNotifications NOTIFY showCallNotificationsChanged)
     Q_PROPERTY(bool musicShowsFiles READ musicShowsFiles WRITE setMusicShowsFiles NOTIFY musicShowsFilesChanged)
     Q_PROPERTY(bool videoShowsFiles READ videoShowsFiles WRITE setVideoShowsFiles NOTIFY videoShowsFilesChanged)
-    Q_PROPERTY(bool gesturePadClickable READ gesturePadClickable WRITE setGesturePadClickable NOTIFY gesturePadClickableChanged)
 
 public:
     explicit Settings(QObject *parent = 0);
@@ -64,8 +63,6 @@ public:
     bool videoShowsFiles() const;
     void setVideoShowsFiles(bool showFiles);
 
-    bool gesturePadClickable() const;
-    void setGesturePadClickable(bool clickable);
 signals:
     void themeInvertedChanged();
     void useThumbnailsChanged();
@@ -80,7 +77,6 @@ signals:
     void showCallNotificationsChanged();
     void musicShowsFilesChanged();
     void videoShowsFilesChanged();
-    void gesturePadClickableChanged();
 };
 
 #endif // SETTINGS_H
