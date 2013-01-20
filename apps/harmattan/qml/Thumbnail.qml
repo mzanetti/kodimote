@@ -11,6 +11,8 @@ Loader {
     property string artworkSource
     property string defaultText
     property string testColor: "green"
+    property variant fillMode: Image.Stretch
+    property bool smooth: false
 
 //    Component {
 //        id: testItem
@@ -25,8 +27,10 @@ Loader {
         Image {
             source: artworkSource
             anchors.fill: parent
-            sourceSize.height: height
-            sourceSize.width: width
+            sourceSize.height: parent.fillMode === Image.Stretch ? height : undefined
+            sourceSize.width: parent.fillMode === Image.Stretch ? width : undefined
+            fillMode: Image.PreserveAspectFit
+            smooth: parent.smooth
         }
     }
 

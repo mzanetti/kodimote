@@ -154,41 +154,13 @@ Page {
         columns: mainPage.orientation == "portrait" ? 1 : 2
         spacing: appWindow.pageMargin
 
-        Item {
+        Thumbnail {
             id: imageItem
+            artworkSource: !currentItem || currentItem.thumbnail.length === 0 ? "" : currentItem.thumbnail
             height: mainPage.orientation == "portrait" ? parent.width : parent.height
             width: mainPage.orientation == "portrait" ? parent.width : height
-            //            Rectangle {
-            //                color: "blue"
-            //                anchors.fill: parent
-            //            }
-
-            Rectangle {
-                id: defaultFanart
-                anchors.fill: parent
-                color:  "black"
-
-                Text {
-                    anchors.fill: parent
-                    textFormat: Text.StyledText
-                    property string coverText: (!currentItem ? "" : (xbmc.state == "audio" ? currentItem.album : currentItem.title))
-                    text: "<b>" + coverText + "</b> " + coverText + " " + coverText
-                    wrapMode: Text.WrapAnywhere
-                    color: "lightblue"
-                    font.pixelSize: 85
-                    font.capitalization: Font.AllUppercase
-                    clip: true
-                    visible: currentItem !== null && (currentItem.thumbnail.length === 0 || currentItem.thumbnail === "DefaultAlbumCover.png" || currentItem.thumbnail === "DefaultVideoCover.png")
-                }
-            }
-
-            Image {
-                anchors.fill: parent
-                source: !currentItem || currentItem.thumbnail.length === 0 ? "" : currentItem.thumbnail
-                fillMode: Image.PreserveAspectFit
-
-                onSourceChanged: print("thumbnail source is now:" + currentItem.thumbnail)
-            }
+            fillMode: Image.PreserveAspectFit
+            smooth: true
         }
 
         Item {
@@ -213,7 +185,7 @@ Page {
                 anchors.bottom: progressBar.top
                 anchors.horizontalCenter: parent.horizontalCenter
                 width: parent.width
-                anchors.bottomMargin: 20
+                anchors.bottomMargin: 10
                 player: nowPlayingPage.player
             }
 
