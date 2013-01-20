@@ -70,10 +70,10 @@ void Episodes::receivedAnnouncement(const QVariantMap &map)
 void Episodes::refresh()
 {
     QVariantMap params;
-    if(m_tvshowid != -1) {
+    if(m_tvshowid >= 0) {
         params.insert("tvshowid", m_tvshowid);
     }
-    if(m_seasonid != -1) {
+    if(m_seasonid >= 0) {
         params.insert("season", m_seasonid);
     }
     QVariantList properties;
@@ -89,7 +89,11 @@ void Episodes::refresh()
     sort.insert("order", "ascending");
     params.insert("sort", sort);
 
-    XbmcConnection::sendCommand("VideoLibrary.GetEpisodes", params, this, "listReceived");
+    if (m_tvshowid == -2 && m_seasonid == -2) {
+        XbmcConnection::sendCommand("VideoLibrary.GetRecentlyAddedEpisodes", params, this, "listReceived");
+    } else {
+        XbmcConnection::sendCommand("VideoLibrary.GetEpisodes", params, this, "listReceived");
+    }
 }
 
 void Episodes::fetchItemDetails(int index)

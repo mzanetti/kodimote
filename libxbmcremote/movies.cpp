@@ -25,8 +25,9 @@
 #include "libraryitem.h"
 #include "xbmcdownload.h"
 
-Movies::Movies(XbmcModel *parent) :
-    XbmcLibrary(parent)
+Movies::Movies(bool recentlyAdded, XbmcModel *parent) :
+    XbmcLibrary(parent),
+    m_recentlyAdded(recentlyAdded)
 {
     connect(XbmcConnection::notifier(), SIGNAL(receivedAnnouncement(QVariantMap)), SLOT(receivedAnnouncement(QVariantMap)));
 }
@@ -86,7 +87,11 @@ void Movies::refresh()
     sort.insert("ignorearticle", ignoreArticle());
     params.insert("sort", sort);
 
-    XbmcConnection::sendCommand("VideoLibrary.GetMovies", params, this, "listReceived");
+    if (m_recentlyAdded) {
+        XbmcConnection::sendCommand("VideoLibrary.GetRecentlyAddedMovies", params, this, "listReceived");
+    } else {
+        XbmcConnection::sendCommand("VideoLibrary.GetMovies", params, this, "listReceived");
+    }
 }
 
 void Movies::fetchItemDetails(int index)

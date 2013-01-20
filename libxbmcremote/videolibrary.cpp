@@ -20,6 +20,7 @@
 #include "movies.h"
 #include "tvshows.h"
 #include "musicvideos.h"
+#include "recentlyadded.h"
 #include "xbmcconnection.h"
 #include "libraryitem.h"
 
@@ -41,17 +42,24 @@ VideoLibrary::VideoLibrary(XbmcModel *parent) :
     item->setFileType("directory");
     item->setPlayable(false);
     m_list.append(item);
+
+    item = new LibraryItem(tr("Recently added"));
+    item->setFileType("directory");
+    item->setPlayable(false);
+    m_list.append(item);
 }
 
 XbmcModel *VideoLibrary::enterItem(int index)
 {
     switch(index) {
     case 0:
-        return new Movies(this);
+        return new Movies(false, this);
     case 1:
         return new TvShows(this);
     case 2:
-        return new MusicVideos(this);
+        return new MusicVideos(false, this);
+    case 3:
+        return new RecentlyAdded("video", this);
     }
     return 0;
 }

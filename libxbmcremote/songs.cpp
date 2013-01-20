@@ -41,7 +41,7 @@ void Songs::refresh()
 {
     QVariantMap params;
 
-    if(m_albumId != -1) {
+    if(m_albumId >= 0) {
         QVariantMap filter;
         filter.insert("albumid", m_albumId);
         params.insert("filter", filter);
@@ -63,7 +63,12 @@ void Songs::refresh()
     }
     sort.insert("order", "ascending");
     params.insert("sort", sort);
-    XbmcConnection::sendCommand("AudioLibrary.GetSongs", params, this, "listReceived");
+
+    if (m_albumId == -2) {
+        XbmcConnection::sendCommand("AudioLibrary.GetSongs", params, this, "listReceived");
+    } else {
+        XbmcConnection::sendCommand("AudioLibrary.GetRecentlyAddedSongs", params, this, "listReceived");
+    }
 }
 
 void Songs::fetchItemDetails(int index)
