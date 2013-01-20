@@ -162,7 +162,7 @@ void Episodes::listReceived(const QVariantMap &rsp)
         LibraryItem *item = new LibraryItem();
         item->setTitle(itemMap.value("episode").toString() + ". " + itemMap.value("label").toString());
         //        item->setData(itemMap.value("showtitle").toString() + " - " + itemMap.value("season").toString(), Qt::UserRole+2);
-        item->setSubtitle(itemMap.value("showtitle").toString() + " - " + m_seasonString);
+        item->setSubtitle(itemMap.value("showtitle").toString() + (m_seasonString.isEmpty() ? "" :  (" - " + m_seasonString)));
         item->setTvShow(itemMap.value("showtitle").toString());
         item->setSeason(itemMap.value("season").toInt());
         item->setEpisodeId(itemMap.value("episodeid").toInt());

@@ -58,16 +58,18 @@ void Songs::refresh()
     QVariantMap sort;
     if(m_albumId == -1) {
         sort.insert("method", "label");
+    } else if (m_albumId == -2){
+        sort.insert("method", "album");
     } else {
         sort.insert("method", "track");
     }
     sort.insert("order", "ascending");
     params.insert("sort", sort);
 
-    if (m_albumId == -2) {
-        XbmcConnection::sendCommand("AudioLibrary.GetSongs", params, this, "listReceived");
-    } else {
+    if (m_albumId == -2 && m_artistId == -2) {
         XbmcConnection::sendCommand("AudioLibrary.GetRecentlyAddedSongs", params, this, "listReceived");
+    } else {
+        XbmcConnection::sendCommand("AudioLibrary.GetSongs", params, this, "listReceived");
     }
 }
 
@@ -129,7 +131,12 @@ void Songs::listReceived(const QVariantMap &rsp)
         QVariantMap itemMap = itemVariant.toMap();
         LibraryItem *item = new LibraryItem();
         item->setTitle(itemMap.value("label").toString());
-        item->setSubtitle(itemMap.value("artist").toString() + " - " + itemMap.value("album").toString());
+        QString subTitle = itemMap.value("artist").toString();
+        if (!itemMap.value("artist").toString().isEmpty() && !itemMap.value("album").toString().isEmpty()) {
+            subTitle += " - ";
+        }
+        subTitle += itemMap.value("album").toString();
+        item->setSubtitle(subTitle);
         item->setArtist(itemMap.value("artist").toString());
         item->setAlbum(itemMap.value("album").toString());
         item->setSongId(itemMap.value("songid").toInt());
