@@ -15,6 +15,7 @@ class EventClient : public QObject
 public:
     explicit EventClient(QObject *parent = 0);
     
+    void setApplicationThumbnail(const QString &thumbnail);
     void connectToHost(XbmcHost *host);
     void disconnectFromHost();
 
@@ -29,6 +30,7 @@ private:
     CAddress m_xbmcHost;
     int m_socket;
     QTimer m_releaseTimer;
+    QString m_thumbnail;
 };
 
 #endif // EVENTCLIENT_H

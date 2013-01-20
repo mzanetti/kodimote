@@ -4,6 +4,7 @@
 #include <sys/socket.h>
 
 #include "xdebug.h"
+#include <QPixmap>
 
 EventClient::EventClient(QObject *parent) :
     QObject(parent),
@@ -12,6 +13,11 @@ EventClient::EventClient(QObject *parent) :
     m_releaseTimer.setSingleShot(true);
     m_releaseTimer.setInterval(200);
     connect(&m_releaseTimer, SIGNAL(timeout()), SLOT(releaseButton()));
+}
+
+void EventClient::setApplicationThumbnail(const QString &thumbnail)
+{
+    m_thumbnail = thumbnail;
 }
 
 void EventClient::connectToHost(XbmcHost *host)
@@ -28,9 +34,13 @@ void EventClient::connectToHost(XbmcHost *host)
     }
     m_xbmcHost.Bind(m_socket);
 
-    CPacketHELO HeloPackage("N9 Xbmcremote", ICON_NONE);//ICON_PNG, "/usr/share/icons/hicolor/80x80/apps/xbmcremote80.png");
-
-    HeloPackage.Send(m_socket, m_xbmcHost);
+    if (!m_thumbnail.isEmpty()) {
+        CPacketHELO HeloPackage("N9 Xbmcremote", ICON_PNG, m_thumbnail.toLatin1().data());
+        HeloPackage.Send(m_socket, m_xbmcHost);
+    } else {
+        CPacketHELO HeloPackage("N9 Xbmcremote", ICON_NONE);
+        HeloPackage.Send(m_socket, m_xbmcHost);
+    }
 
     qDebug() << "connected to xbmc" << m_socket;
 }
