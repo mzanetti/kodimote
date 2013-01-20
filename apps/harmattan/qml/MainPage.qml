@@ -33,22 +33,26 @@ Page {
     ListModel {
         id: mainMenuModel
         ListElement {
-            icon: "icon-m-content-audio"
+            icon: "image://theme/icon-m-content-audio"
+            inverseIcon: "image://theme/icon-m-content-audio-inverse"
             subtitle: ""
             mode: "library"
         }
         ListElement {
-            icon: "icon-m-content-videos"
+            icon: "image://theme/icon-m-content-videos"
+            inverseIcon: "image://theme/icon-m-content-videos-inverse"
             subtitle: ""
             mode: "library"
         }
         ListElement {
-            icon: "icon-m-content-image"
+            icon: "image://theme/icon-m-content-image"
+            inverseIcon: "image://theme/icon-m-content-image-inverse"
             subtitle: ""
             mode: "files"
         }
         ListElement {
-            icon: "icon-m-content-image"
+            icon: "image://theme/icon-m-content-tv-show"
+            inverseIcon: "icons/icon-m-content-tv-show-inverse.png"
             subtitle: ""
             mode: "library"
         }
@@ -113,7 +117,7 @@ Page {
                 Image {
                     id: toolIcon
                     anchors.verticalCenter: parent.verticalCenter
-                    source: "image://theme/" + icon + (theme.inverted ? "-inverse" : "")
+                    source: (theme.inverted ? inverseIcon : icon)
                 }
 
                 Column {
