@@ -50,10 +50,6 @@ PageStackWindow {
         id: pictureControlsPage
     }
 
-    KeyboardSheet {
-        id: keyboard
-    }
-
     ToolBarLayout {
         id: toolBarEntry
         visible: false
@@ -196,16 +192,123 @@ PageStackWindow {
         }
     }
 
+    Component {
+        id: datePickerComponent
+        DatePickerDialog {
+            id: datePickerDialog
+            acceptButtonText: qsTr("OK")
+            rejectButtonText: qsTr("Cancel")
+
+            onAccepted: {
+                var date = new Date(year, month - 1, day);
+                var dateString = Qt.formatDate(date, "dd/MM/yyyy");
+                print("Sending text", dateString);
+                xbmc.keys().sendText(dateString);
+                datePickerDialog.close();
+                datePickerDialog.destroy();
+            }
+            onRejected: {
+                appWindow.closeInputDialog();
+            }
+        }
+    }
+
+    Component {
+        id: timePickerComponent
+        TimePickerDialog {
+            id: timePickerDialog
+            acceptButtonText: qsTr("OK")
+            rejectButtonText: qsTr("Cancel")
+            fields: DateTime.Hours | DateTime.Minutes
+
+            onAccepted: {
+                var date = new Date(0, 0, 0, hour, minute);
+                var timeString = Qt.formatTime(date, "hh:mm");
+                print("Sending text", timeString);
+                xbmc.keys().sendText(timeString);
+                timePickerDialog.close();
+                timePickerDialog.destroy();
+            }
+            onRejected: {
+                appWindow.closeInputDialog();
+            }
+        }
+    }
+
+    Component {
+        id: inputSheetComponent
+        Sheet {
+            id: inputSheet
+            acceptButtonText: qsTr("OK")
+            rejectButtonText: qsTr("Cancel")
+            property alias description: descriptionLabel.text
+            property alias initialValue: inputField.text
+            property alias inputMethodHints: inputField.inputMethodHints
+
+            Component.onCompleted: inputField.forceActiveFocus();
+
+            content: Column {
+                anchors.fill: parent
+                anchors.margins: 10
+                spacing: 20
+                Label {
+                    id: descriptionLabel
+                    width: parent.width
+                    wrapMode: Text.WordWrap
+                }
+
+                TextField {
+                    width: parent.width
+                    id: inputField
+                }
+            }
+            onAccepted: {
+                xbmc.keys().sendText(inputField.text);
+                inputSheet.close();
+                inputSheet.destroy();
+            }
+            onRejected: {
+                appWindow.closeInputDialog();
+            }
+        }
+    }
+
+    property variant inputDialog
+
+    function closeInputDialog() {
+        xbmc.keys().previousMenu();
+        inputDialog.destroy();
+    }
+
     Connections {
         target: xbmc.keys()
         onInputRequested: {
-            keyboard.type = "";
-            keyboard.titleText = title;
-            keyboard.initialValue = value;
-            keyboard.type = type;
-            keyboard.open();
+            if (type === "date") {
+                appWindow.inputDialog = datePickerComponent.createObject(appWindow);
+                appWindow.inputDialog.day = value.split("/")[0]
+                appWindow.inputDialog.month = value.split("/")[1]
+                appWindow.inputDialog.year = value.split("/")[2]
+                appWindow.inputDialog.open();
+                return;
+            }
+
+            if (type === "time") {
+                appWindow.inputDialog = timePickerComponent.createObject(appWindow);
+                appWindow.inputDialog.hour = value.split(":")[0]
+                appWindow.inputDialog.minute = value.split(":")[1]
+                appWindow.inputDialog.open();
+                return;
+            }
+
+            appWindow.inputDialog = inputSheetComponent.createObject(mainPage);
+            if (type === "number" || type === "numericpassword" || type === "seconds") {
+                appWindow.inputDialog.inputMethodHints = Qt.ImhDigitsOnly
+            }
+            appWindow.inputDialog.description = title;
+            appWindow.inputDialog.initialValue = value;
+            appWindow.inputDialog.open();
         }
-        onInputFinished: keyboard.close();
+        onInputFinished: appWindow.inputDialog.close();
     }
 
     Dialog {

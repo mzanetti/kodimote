@@ -83,6 +83,11 @@ void Keys::backspace()
     executeAction("backspace");
 }
 
+void Keys::previousMenu()
+{
+    executeAction("previousmenu");
+}
+
 void Keys::red()
 {
 //    executeAction("red");

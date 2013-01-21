@@ -41,6 +41,7 @@ public slots:
     void info();
     void fullscreen();
     void backspace();
+    void previousMenu();
     void sendText(QString text, bool done = true);
 
     QString formatTime(int hours, int minutes);
