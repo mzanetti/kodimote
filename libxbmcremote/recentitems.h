@@ -25,11 +25,20 @@
 
 #include <QStandardItem>
 
-class RecentlyAdded : public XbmcLibrary
+class RecentItems : public XbmcLibrary
 {
     Q_OBJECT
 public:
-    explicit RecentlyAdded(const QString &mode, XbmcLibrary *parent);
+    enum Mode {
+        ModeAudio,
+        ModeVideo
+    };
+    enum RecentlyWhat {
+        RecentlyPlayed,
+        RecentlyAdded
+    };
+
+    explicit RecentItems(Mode mode, RecentlyWhat what, XbmcLibrary *parent);
     
     XbmcModel *enterItem(int index);
     void playItem(int index);
@@ -43,6 +52,9 @@ public:
 
 public slots:
     void refresh();
+
+private:
+    RecentlyWhat m_what;
 };
 
 #endif // RECENTLYADDED_H

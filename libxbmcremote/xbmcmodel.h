@@ -85,6 +85,12 @@ public:
         ThumbnailFormatPortrait
     };
 
+    enum ItemId {
+        ItemIdInvalid = -1,
+        ItemIdRecentlyAdded = -2,
+        ItemIdRecentlyPlayed = -3
+    };
+
     explicit XbmcModel(XbmcModel *parent = 0);
     virtual ~XbmcModel();
     Q_INVOKABLE XbmcModel *parentModel() const;

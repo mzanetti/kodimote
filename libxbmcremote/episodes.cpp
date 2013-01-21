@@ -89,7 +89,7 @@ void Episodes::refresh()
     sort.insert("order", "ascending");
     params.insert("sort", sort);
 
-    if (m_tvshowid == -2 && m_seasonid == -2) {
+    if (m_tvshowid == XbmcModel::ItemIdRecentlyAdded && m_seasonid == XbmcModel::ItemIdRecentlyAdded) {
         XbmcConnection::sendCommand("VideoLibrary.GetRecentlyAddedEpisodes", params, this, "listReceived");
     } else {
         XbmcConnection::sendCommand("VideoLibrary.GetEpisodes", params, this, "listReceived");

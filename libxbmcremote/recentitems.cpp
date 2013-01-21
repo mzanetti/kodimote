@@ -18,7 +18,7 @@
  *                                                                           *
  ****************************************************************************/
 
-#include "recentlyadded.h"
+#include "recentitems.h"
 
 #include "albums.h"
 #include "songs.h"
@@ -28,11 +28,12 @@
 #include "xbmcconnection.h"
 #include "libraryitem.h"
 
-RecentlyAdded::RecentlyAdded(const QString &mode, XbmcLibrary *parent) :
-    XbmcLibrary(parent)
+RecentItems::RecentItems(Mode mode, RecentlyWhat what, XbmcLibrary *parent):
+    XbmcLibrary(parent),
+    m_what(what)
 {
     setBusy(false);
-    if (mode == "audio") {
+    if (mode == ModeAudio) {
         LibraryItem *item = new LibraryItem(tr("Albums"));
         item->setFileType("directory");
         item->setPlayable(false);
@@ -44,7 +45,7 @@ RecentlyAdded::RecentlyAdded(const QString &mode, XbmcLibrary *parent) :
         item->setPlayable(false);
         item->setProperty("id", 1);
         m_list.append(item);
-    } else if (mode == "video") {
+    } else if (mode == ModeVideo) {
         LibraryItem *item = new LibraryItem(tr("Movies"));
         item->setFileType("directory");
         item->setPlayable(false);
@@ -65,44 +66,49 @@ RecentlyAdded::RecentlyAdded(const QString &mode, XbmcLibrary *parent) :
     }
 }
 
-XbmcModel *RecentlyAdded::enterItem(int index)
+XbmcModel *RecentItems::enterItem(int index)
 {
+    int id = XbmcModel::ItemIdRecentlyPlayed;
+    if (m_what == RecentlyAdded) {
+        id = XbmcModel::ItemIdRecentlyAdded;
+    }
+
     switch(m_list.at(index)->property("id").toInt()) {
     case 0:
-        return new Albums(-2, this);
+        return new Albums(id, this);
     case 1:
-        return new Songs(-2, -2, this);
+        return new Songs(id, id, this);
     case 2:
         return new Movies(true, this);
     case 3:
-        return new Episodes(-2, -2, QString(), this);
+        return new Episodes(id, id, QString(), this);
     case 4:
         return new MusicVideos(true, this);
     }
     return 0;
 }
 
-void RecentlyAdded::playItem(int index)
+void RecentItems::playItem(int index)
 {
     Q_UNUSED(index)
     qDebug() << "cannot play whole recently added items";
 }
 
-void RecentlyAdded::addToPlaylist(int index)
+void RecentItems::addToPlaylist(int index)
 {
     Q_UNUSED(index)
 }
 
-QString RecentlyAdded::title() const
+QString RecentItems::title() const
 {
     return tr("Recently added");
 }
 
-bool RecentlyAdded::allowSearch()
+bool RecentItems::allowSearch()
 {
     return false;
 }
 
-void RecentlyAdded::refresh()
+void RecentItems::refresh()
 {
 }

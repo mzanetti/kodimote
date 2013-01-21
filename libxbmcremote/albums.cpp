@@ -57,8 +57,10 @@ void Albums::refresh()
     sort.insert("order", "ascending");
     sort.insert("ignorearticle", ignoreArticle());
     params.insert("sort", sort);
-    if (m_artistId == -2) {
+    if (m_artistId == XbmcModel::ItemIdRecentlyAdded) {
         XbmcConnection::sendCommand("AudioLibrary.GetRecentlyAddedAlbums", params, this, "listReceived");
+    } else if (m_artistId == XbmcModel::ItemIdRecentlyPlayed) {
+        XbmcConnection::sendCommand("AudioLibrary.GetRecentlyPlayedAlbums", params, this, "listReceived");
     } else {
         XbmcConnection::sendCommand("AudioLibrary.GetAlbums", params, this, "listReceived");
     }

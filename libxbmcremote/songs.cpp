@@ -56,9 +56,9 @@ void Songs::refresh()
     params.insert("properties", properties);
 
     QVariantMap sort;
-    if(m_albumId == -1) {
+    if(m_albumId == XbmcModel::ItemIdInvalid) {
         sort.insert("method", "label");
-    } else if (m_albumId == -2){
+    } else if (m_albumId == XbmcModel::ItemIdRecentlyAdded || m_albumId == XbmcModel::ItemIdRecentlyPlayed){
         sort.insert("method", "album");
     } else {
         sort.insert("method", "track");
@@ -66,8 +66,10 @@ void Songs::refresh()
     sort.insert("order", "ascending");
     params.insert("sort", sort);
 
-    if (m_albumId == -2 && m_artistId == -2) {
+    if (m_albumId == XbmcModel::ItemIdRecentlyAdded && m_artistId == XbmcModel::ItemIdRecentlyAdded) {
         XbmcConnection::sendCommand("AudioLibrary.GetRecentlyAddedSongs", params, this, "listReceived");
+    } else if (m_albumId == XbmcModel::ItemIdRecentlyPlayed && m_artistId == XbmcModel::ItemIdRecentlyPlayed) {
+        XbmcConnection::sendCommand("AudioLibrary.GetRecentlyPlayedSongs", params, this, "listReceived");
     } else {
         XbmcConnection::sendCommand("AudioLibrary.GetSongs", params, this, "listReceived");
     }

@@ -20,7 +20,7 @@
 #include "movies.h"
 #include "tvshows.h"
 #include "musicvideos.h"
-#include "recentlyadded.h"
+#include "recentitems.h"
 #include "xbmcconnection.h"
 #include "libraryitem.h"
 
@@ -59,7 +59,7 @@ XbmcModel *VideoLibrary::enterItem(int index)
     case 2:
         return new MusicVideos(false, this);
     case 3:
-        return new RecentlyAdded("video", this);
+        return new RecentItems(RecentItems::ModeVideo, RecentItems::RecentlyAdded, this);
     }
     return 0;
 }
