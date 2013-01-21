@@ -27,7 +27,7 @@ class MusicVideos : public XbmcLibrary
 {
     Q_OBJECT
 public:
-    explicit MusicVideos(XbmcModel *parent = 0);
+    explicit MusicVideos(bool recentlyAdded, XbmcModel *parent = 0);
 
     XbmcModel *enterItem(int index);
     void playItem(int index);
@@ -49,7 +49,7 @@ private slots:
 private:
     QMap<int, int> m_detailsRequestMap;
     QMap<int, int> m_idIndexMapping;
-
+    bool m_recentlyAdded;
 };
 
 #endif // MUSICVIDEOS_H

@@ -14,6 +14,9 @@ public:
     XbmcModel* enterItem(int index);
     void playItem(int index);
     void addToPlaylist(int index);
+
+    ThumbnailFormat thumbnailFormat() const { return ThumbnailFormatNone; }
+
 signals:
     
 private slots:

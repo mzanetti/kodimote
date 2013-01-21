@@ -1,12 +1,14 @@
 /*****************************************************************************
- * Copyright: 2011 Michael Zanetti <mzanetti@kde.org>                        *
+ * Copyright: 2013 Michael Zanetti <michael_zanetti@gmx.net>                 *
  *                                                                           *
- * This program is free software: you can redistribute it and/or modify      *
+ * This file is part of xbmcremote                                           *
+ *                                                                           *
+ * xbmcremote is free software: you can redistribute it and/or modify        *
  * it under the terms of the GNU General Public License as published by      *
  * the Free Software Foundation, either version 3 of the License, or         *
  * (at your option) any later version.                                       *
  *                                                                           *
- * This program is distributed in the hope that it will be useful,           *
+ * xbmcremote is distributed in the hope that it will be useful,             *
  * but WITHOUT ANY WARRANTY; without even the implied warranty of            *
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the             *
  * GNU General Public License for more details.                              *
@@ -16,50 +18,43 @@
  *                                                                           *
  ****************************************************************************/
 
-#ifndef KEYS_H
-#define KEYS_H
+#ifndef RECENTLYADDED_H
+#define RECENTLYADDED_H
 
-#include <QObject>
-#include <QVariantMap>
+#include "xbmclibrary.h"
 
-class Keys : public QObject
+#include <QStandardItem>
+
+class RecentItems : public XbmcLibrary
 {
     Q_OBJECT
 public:
-    explicit Keys(QObject *parent = 0);
+    enum Mode {
+        ModeAudio,
+        ModeVideo
+    };
+    enum RecentlyWhat {
+        RecentlyPlayed,
+        RecentlyAdded
+    };
+
+    explicit RecentItems(Mode mode, RecentlyWhat what, XbmcLibrary *parent);
+    
+    XbmcModel *enterItem(int index);
+    void playItem(int index);
+    void addToPlaylist(int index);
+
+    QString title() const;
+
+    bool allowSearch();
+
+    ThumbnailFormat thumbnailFormat() const { return ThumbnailFormatNone; }
 
 public slots:
-    void left();
-    void right();
-    void up();
-    void down();
-    void home();
-    void select();
-    void back();
-    void osd();
-    void contextMenu();
-    void info();
-    void fullscreen();
-    void backspace();
-    void sendText(QString text, bool done = true);
-
-    QString formatTime(int hours, int minutes);
-
-signals:
-    void inputFinished();
-    void inputRequested(QString title, QString type, QString value);
-
-private slots:
-    void receivedAnnouncement(const QVariantMap& map);
-
-    void red();
-    void green();
-    void yellow();
-    void blue();
+    void refresh();
 
 private:
-    void executeAction(const QString &action);
-    int m_requestId;
+    RecentlyWhat m_what;
 };
 
-#endif // KEYS_H
+#endif // RECENTLYADDED_H

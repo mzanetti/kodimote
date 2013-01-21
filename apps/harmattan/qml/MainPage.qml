@@ -33,24 +33,28 @@ Page {
     ListModel {
         id: mainMenuModel
         ListElement {
-            icon: "icon-m-content-audio"
+            icon: "image://theme/icon-m-content-audio"
+            inverseIcon: "image://theme/icon-m-content-audio-inverse"
             subtitle: ""
             mode: "library"
         }
         ListElement {
-            icon: "icon-m-content-videos"
+            icon: "image://theme/icon-m-content-videos"
+            inverseIcon: "image://theme/icon-m-content-videos-inverse"
             subtitle: ""
             mode: "library"
         }
         ListElement {
-            icon: "icon-m-content-image"
+            icon: "image://theme/icon-m-content-image"
+            inverseIcon: "image://theme/icon-m-content-image-inverse"
             subtitle: ""
-            mode: "files"
+            mode: "single"
         }
         ListElement {
-            icon: "icon-m-content-image"
+            icon: "image://theme/icon-m-content-tv-show"
+            inverseIcon: "icons/icon-m-content-tv-show-inverse.png"
             subtitle: ""
-            mode: "library"
+            mode: "single"
         }
         // workaround: its not possible to have qsTr() in ListElements for now...
         function title(index) {
@@ -113,7 +117,7 @@ Page {
                 Image {
                     id: toolIcon
                     anchors.verticalCenter: parent.verticalCenter
-                    source: "image://theme/" + icon + (theme.inverted ? "-inverse" : "")
+                    source: (theme.inverted ? inverseIcon : icon)
                 }
 
                 Column {
@@ -128,7 +132,13 @@ Page {
 
                     Label {
                         id: subText
-                        text: mode === "library" ? qsTr("Library") : qsTr("Files")
+                        text: {
+                            if (mode === "library") {
+                                return qsTr("Library");
+                            } else if (mode == "files") {
+                                return qsTr("Files");
+                            }
+                        }
                         font.weight: Font.Light
                         font.pixelSize: 24
                         color: theme.inverted ? "#7b797b" : "#848684"

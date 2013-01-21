@@ -13,13 +13,28 @@ Item {
             id: arrowsRoot
 
             function animate() {
-                startAnimation();
+                if (!isRunning) {
+                    startAnimation();
+                } else {
+                    onceMore = true;
+                }
             }
 
             signal startAnimation()
+            property bool isRunning: false
+            property bool onceMore: false
+
+            onIsRunningChanged: {
+                if (!isRunning && onceMore) {
+                    onceMore = false;
+                    startAnimation();
+                }
+            }
 
             Repeater {
+                id: arrowRepeater
                 model: 3
+
                 Image {
                     id: arrowImage
                     source: "image://theme/icon-m-toolbar-next-white"
@@ -34,6 +49,19 @@ Item {
 
                     SequentialAnimation {
                         id: animation
+
+                        onStarted: {
+                            if (index === 0 ) {
+                                arrowsRoot.isRunning = true;
+                            }
+                        }
+
+                        onCompleted: {
+                            if (index === arrowRepeater.count - 1 ) {
+                                arrowsRoot.isRunning = false;
+                            }
+                        }
+
                         PauseAnimation { duration: 100 * index }
                         NumberAnimation { target: arrowImage; properties: "opacity"; from: 0.3; to: 1; duration: 200 }
                         NumberAnimation { target: arrowImage; properties: "opacity"; from: 1; to: 0.3; duration: 200 }
@@ -49,8 +77,6 @@ Item {
         width: parent.width
         height: width * 0.75
 
-        onHeightChanged: print("???????????????????? height", height, "eidth", width)
-
         Rectangle {
             anchors.fill: parent
             opacity: theme.inverted ? 0.1 : 0.05
@@ -62,8 +88,6 @@ Item {
             anchors.fill: parent
             source: "icons/pad-separator.png"
         }
-
-//        source: "icons/pad-bg.png"
 
         Loader {
             id: rightArrows
@@ -96,6 +120,7 @@ Item {
     }
 
     MouseArea {
+        id: mouseArea
         anchors.fill: parent
 
         property int startx
@@ -108,19 +133,69 @@ Item {
             starty = mouse.y
         }
 
+        onPressAndHold: {
+            scrollTimer.start();
+        }
+
         onReleased: {
-            var dx = mouse.x - startx;
-            var dy = mouse.y - starty;
+            if (scrollTimer.running) {
+                scrollTimer.stop();
+            } else {
+                doKeyPress();
+            }
+        }
+
+        onMousePositionChanged: {
+            if (scrollTimer.running) {
+                var dxAbs = Math.abs(mouseX - startx);
+                var dyAbs = Math.abs(mouseY - starty)
+
+                if (dxAbs > dyAbs) {
+                    scrollTimer.newSpeed = Math.min(100, Math.max(0, 100 * (dxAbs - minSwipeDistance) / (mouseArea.width - minSwipeDistance)));
+                } else {
+                    scrollTimer.newSpeed = Math.min(100, Math.max(0, 100 * (dyAbs - minSwipeDistance) / (mouseArea.height - minSwipeDistance)));
+                }
+            }
+        }
+
+        Timer {
+            id: scrollTimer
+            running: false
+            repeat: true
+            interval: maxInterval - ((maxInterval - minInterval) * speed / 100);
+
+            property int minInterval: 50
+            property int maxInterval: 500
+            // Percentage
+            property int speed: 0
+
+            // Timer restarts on interval change which blocks it on frequent changes
+            // Lets use newSpeed for changing and fetch it when appropriate
+            property int newSpeed: -1
+
+            onTriggered: {
+                if(newSpeed !== -1) {
+                    speed = newSpeed;
+                    newSpeed = -1;
+                }
+                mouseArea.doKeyPress();
+            }
+        }
+
+        function doKeyPress() {
+            var dx = mouseX - startx;
+            var dy = mouseY - starty;
             var dxAbs = Math.abs(dx);
             var dyAbs = Math.abs(dy)
 
-            // Did we not move?
+            // Did we not move? => press enter
             if (dxAbs < maxClickDistance && dyAbs < maxClickDistance) {
+                print("pressing enter")
                 keys.select();
                 return;
             }
 
-            // Did we move far enough?
+            // Did we not move more than minSwipeDistance? => do nothing.
             if (dxAbs < minSwipeDistance && dyAbs < minSwipeDistance) {
                 print("Only moved " + dx + "x" + dy + " pixels. Not activating gesture");
                 return;

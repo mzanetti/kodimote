@@ -38,7 +38,9 @@ Player::Player(PlayerType type, QObject *parent) :
     m_currentItem(new LibraryItem()),
     m_seeking(false),
     m_shuffle(false),
-    m_repeat(RepeatNone)
+    m_repeat(RepeatNone),
+    m_currentSubtitle(-1),
+    m_currentAudiostream(0)
 {
     connect(XbmcConnection::notifier(), SIGNAL(receivedAnnouncement(QVariantMap)), SLOT(receivedAnnouncement(QVariantMap)));
 
@@ -85,6 +87,20 @@ void Player::getRepeatShuffle()
     props.append("shuffled");
     params.insert("properties", props);
     XbmcConnection::sendCommand("Player.GetProperties", params, this, "repeatShuffleReceived");
+}
+
+void Player::getMediaProps()
+{
+    QVariantMap params;
+    params.insert("playerid", playerId());
+    QVariantList props;
+    props.append("subtitles");
+    props.append("currentsubtitle");
+    props.append("subtitleenabled");
+    props.append("audiostreams");
+    props.append("currentaudiostream");
+    params.insert("properties", props);
+    XbmcConnection::sendCommand("Player.GetProperties", params, this, "mediaPropsReceived");
 }
 
 void Player::getCurrentItemDetails()
@@ -138,6 +154,10 @@ void Player::refresh()
     props.append("position");
     props.append("repeat");
     props.append("shuffled");
+    props.append("subtitles");
+    props.append("currentsubtitle");
+    props.append("audiostreams");
+    props.append("currentaudiostream");
     params.insert("properties", props);
     XbmcConnection::sendCommand("Player.GetProperties", params, this, "refreshReceived");
     getCurrentItemDetails();
@@ -301,12 +321,55 @@ void Player::repeatShuffleReceived(const QVariantMap &rsp)
     emit shuffleChanged();
 }
 
+void Player::mediaPropsReceived(const QVariantMap &rsp)
+{
+    QVariant result = rsp.value("result");
+
+    QVariantList subtitleList = result.toMap().value("subtitles").toList();
+    m_subtitles.clear();
+    foreach (const QVariant &sub, subtitleList) {
+        QString label;
+        if (!sub.toMap().value("language").toString().isEmpty()) {
+            label = sub.toMap().value("language").toString();
+        } else {
+            label = sub.toMap().value("name").toString();
+        }
+        m_subtitles.append(label);
+    }
+
+    m_currentSubtitle = result.toMap().value("currentsubtitle").toMap().value("index").toInt();
+    if (!result.toMap().value("subtitleenabled").toBool()) {
+        m_currentSubtitle = -1;
+    }
+
+    xDebug(XDAREA_PLAYER) << "got subtitles:" << m_subtitles;
+    emit subtitlesChanged();
+    emit currentSubtitleChanged();
+
+    QVariantList audiostreamList = result.toMap().value("audiostreams").toList();
+    m_audiostreams.clear();
+    foreach (const QVariant &as, audiostreamList) {
+        QString label = as.toMap().value("name").toString();
+        if (!as.toMap().value("language").toString().isEmpty()) {
+            label += " - " + as.toMap().value("language").toString();
+        }
+        m_audiostreams.append(label);
+    }
+
+    m_currentAudiostream = result.toMap().value("currentaudiostream").toMap().value("index").toInt();
+
+    xDebug(XDAREA_PLAYER) << "got audiostreams:" << m_subtitles;
+    emit audiostreamsChanged();
+    emit currentAudiostreamChanged();
+}
+
 void Player::refreshReceived(const QVariantMap &rsp)
 {
     speedReceived(rsp);
     playtimeReceived(rsp);
     positionReceived(rsp);
     repeatShuffleReceived(rsp);
+    mediaPropsReceived(rsp);
 }
 
 void Player::detailsReceived(const QVariantMap &rsp)
@@ -334,7 +397,6 @@ void Player::detailsReceived(const QVariantMap &rsp)
     } else if(type == "artist") {
         m_currentItem->setArtistId(id);
     } else if(type == "channel") {
-        qDebug() << "mmmmmmmmmmmmmmmmmmmmm" << id;
         m_currentItem->setChannelId(id);
     }
 
@@ -491,6 +553,60 @@ void Player::setRepeat(Player::Repeat repeat)
     XbmcConnection::sendCommand("Player.SetRepeat", params);
 
     getRepeatShuffle();
+}
+
+QStringList Player::subtitles() const
+{
+    return m_subtitles;
+}
+
+int Player::currentSubtitle() const
+{
+    return m_currentSubtitle;
+}
+
+void Player::setCurrentSubtitle(int index)
+{
+    QVariantMap params;
+    params.insert("playerid", playerId());
+
+    if (index >= 0 && index < m_subtitles.count()) {
+        // Select the stream we want
+        params.insert("subtitle", index);
+        XbmcConnection::sendCommand("Player.SetSubtitle", params);
+
+        // Enable in case they're off
+        params.insert("subtitle", "on");
+        XbmcConnection::sendCommand("Player.SetSubtitle", params);
+
+    } else {
+        // Disable
+        params.insert("subtitle", "off");
+        XbmcConnection::sendCommand("Player.SetSubtitle", params);
+    }
+
+    getMediaProps();
+}
+
+QStringList Player::audiostreams() const
+{
+    return m_audiostreams;
+}
+
+int Player::currentAudiostream() const
+{
+    return m_currentAudiostream;
+}
+
+void Player::setCurrentAudiostream(int index)
+{
+    if (index >= 0 && index < m_audiostreams.count()) {
+        QVariantMap params;
+        params.insert("playerid", playerId());
+        params.insert("stream", index);
+        XbmcConnection::sendCommand("Player.SetAudioStream", params);
+        getMediaProps();
+    }
 }
 
 Player::Repeat Player::repeat() const

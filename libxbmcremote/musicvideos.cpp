@@ -24,8 +24,9 @@
 #include "videoplaylistitem.h"
 #include "libraryitem.h"
 
-MusicVideos::MusicVideos(XbmcModel *parent) :
-    XbmcLibrary(parent)
+MusicVideos::MusicVideos(bool recentlyAdded, XbmcModel *parent) :
+    XbmcLibrary(parent),
+    m_recentlyAdded(recentlyAdded)
 {
     connect(XbmcConnection::notifier(), SIGNAL(receivedAnnouncement(QVariantMap)), SLOT(receivedAnnouncement(QVariantMap)));
 }
@@ -77,7 +78,11 @@ void MusicVideos::refresh()
     sort.insert("ignorearticle", ignoreArticle());
     params.insert("sort", sort);
 
-    XbmcConnection::sendCommand("VideoLibrary.GetMusicVideos", params, this, "listReceived");
+    if (m_recentlyAdded) {
+        XbmcConnection::sendCommand("VideoLibrary.GetMusicVideos", params, this, "listReceived");
+    } else {
+        XbmcConnection::sendCommand("VideoLibrary.GetRecentlyAddedMusicVideos", params, this, "listReceived");
+    }
 }
 
 void MusicVideos::fetchItemDetails(int index)

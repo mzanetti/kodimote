@@ -20,6 +20,7 @@
 #include "artists.h"
 #include "albums.h"
 #include "songs.h"
+#include "recentitems.h"
 #include "xbmcconnection.h"
 #include "libraryitem.h"
 
@@ -41,6 +42,16 @@ AudioLibrary::AudioLibrary() :
     item->setFileType("directory");
     item->setPlayable(false);
     m_list.append(item);
+
+    item = new LibraryItem(tr("Recently added"));
+    item->setFileType("directory");
+    item->setPlayable(false);
+    m_list.append(item);
+
+    item = new LibraryItem(tr("Recently played"));
+    item->setFileType("directory");
+    item->setPlayable(false);
+    m_list.append(item);
 }
 
 XbmcModel *AudioLibrary::enterItem(int index)
@@ -52,6 +63,10 @@ XbmcModel *AudioLibrary::enterItem(int index)
         return new Albums(-1, this);
     case 2:
         return new Songs(-1, -1, this);
+    case 3:
+        return new RecentItems(RecentItems::ModeAudio, RecentItems::RecentlyAdded, this);
+    case 4:
+        return new RecentItems(RecentItems::ModeAudio, RecentItems::RecentlyPlayed, this);
     }
     return 0;
 }

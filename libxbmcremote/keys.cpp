@@ -18,6 +18,8 @@
 
 #include "keys.h"
 #include "xbmcconnection.h"
+#include "xbmc.h"
+#include "eventclient.h"
 
 Keys::Keys(QObject *parent) :
     QObject(parent)
@@ -25,24 +27,30 @@ Keys::Keys(QObject *parent) :
     connect(XbmcConnection::notifier(), SIGNAL(receivedAnnouncement(QVariantMap)), SLOT(receivedAnnouncement(QVariantMap)));
 }
 
+// Lets use the eventclient for left/right/up/down because
+// Json doesn't work to skip during playback
 void Keys::left()
 {
-    XbmcConnection::sendCommand("Input.Left");
+    Xbmc::instance()->eventClient()->sendKeypress("left");
+//    XbmcConnection::sendCommand("Input.Left");
 }
 
 void Keys::right()
 {
-    XbmcConnection::sendCommand("Input.Right");
+    Xbmc::instance()->eventClient()->sendKeypress("right");
+//    XbmcConnection::sendCommand("Input.Right");
 }
 
 void Keys::up()
 {
-    XbmcConnection::sendCommand("Input.Up");
+    Xbmc::instance()->eventClient()->sendKeypress("up");
+//    XbmcConnection::sendCommand("Input.Up");
 }
 
 void Keys::down()
 {
-    XbmcConnection::sendCommand("Input.Down");
+    Xbmc::instance()->eventClient()->sendKeypress("down");
+//    XbmcConnection::sendCommand("Input.Down");
 }
 
 void Keys::back()
@@ -67,27 +75,36 @@ void Keys::info()
 
 void Keys::fullscreen()
 {
-    QVariantMap params;
-    params.insert("action", "fullscreen");
-    XbmcConnection::sendCommand("Input.ExecuteAction", params);
-}
-
-void Keys::keyboardKey(const QString &key)
-{
-    if(key.isEmpty()) {
-        return;
-    }
-    int keyValue = 0xF100 + key[0].digitValue();
-    QString cmd = "SendKey(" + QString::number(keyValue) + ")";
-    qDebug() << key[0] << "sending command" << cmd;
-    XbmcConnection::sendLegacyCommand(cmd);
+    executeAction("fullscreen");
 }
 
 void Keys::backspace()
 {
-    QVariantMap params;
-    params.insert("action", "backspace");
-    XbmcConnection::sendCommand("Input.ExecuteAction", params);
+    executeAction("backspace");
+}
+
+void Keys::red()
+{
+//    executeAction("red");
+    Xbmc::instance()->eventClient()->sendIrPress("red");
+}
+
+void Keys::green()
+{
+//    executeAction("green");
+    Xbmc::instance()->eventClient()->sendIrPress("green");
+}
+
+void Keys::yellow()
+{
+//    executeAction("yellow");
+    Xbmc::instance()->eventClient()->sendIrPress("yellow");
+}
+
+void Keys::blue()
+{
+//    executeAction("blue");
+    Xbmc::instance()->eventClient()->sendIrPress("blue");
 }
 
 void Keys::home()
@@ -127,4 +144,11 @@ void Keys::receivedAnnouncement(const QVariantMap &map)
 QString Keys::formatTime(int hours, int minutes)
 {
     return QString("%1:%2").arg(hours, 2, 10, QChar('0')).arg(minutes, 2, 10, QChar('0'));
+
+}
+void Keys::executeAction(const QString &action)
+{
+    QVariantMap params;
+    params.insert("action", action);
+    XbmcConnection::sendCommand("Input.ExecuteAction", params);
 }

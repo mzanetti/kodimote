@@ -10,6 +10,7 @@
 #define XDAREA_FILES       4
 #define XDAREA_PLAYLIST    5
 #define XDAREA_NETWORKDATA 6
+#define XDAREA_EVENTCLIENT 7
 
 #define xDebug(a) XDebug::check(a)
 

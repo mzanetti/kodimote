@@ -55,7 +55,9 @@ SOURCES +=  xbmc.cpp \
             networkaccessmanagerfactory.cpp \
             settings.cpp \
             channels.cpp \
-            channelgroups.cpp
+            channelgroups.cpp \
+    eventclient.cpp \
+    recentitems.cpp
 
 HEADERS += libxbmcremote_global.h \
            xbmc.h \
@@ -101,4 +103,6 @@ HEADERS += libxbmcremote_global.h \
            networkaccessmanagerfactory.h \
            settings.h \
            channels.h \
-           channelgroups.h
+           channelgroups.h \
+    eventclient.h \
+    recentitems.h

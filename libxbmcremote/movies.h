@@ -27,7 +27,7 @@ class Movies : public XbmcLibrary
 {
     Q_OBJECT
 public:
-    explicit Movies(XbmcModel *parent = 0);
+    explicit Movies(bool recentlyAdded = false, XbmcModel *parent = 0);
     ~Movies();
 
     XbmcModel *enterItem(int index);
@@ -55,6 +55,7 @@ private slots:
 private:
     QMap<int, int> m_detailsRequestMap;
     QMap<int, int> m_idIndexMapping;
+    bool m_recentlyAdded;
 };
 
 #endif // MOVIES_H

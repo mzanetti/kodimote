@@ -17,6 +17,7 @@
  ****************************************************************************/
 
 #include "libxbmcremote/xbmc.h"
+#include "libxbmcremote/eventclient.h"
 #include "libxbmcremote/xdebug.h"
 #include "libxbmcremote/networkaccessmanagerfactory.h"
 #include "libxbmcremote/settings.h"
@@ -65,6 +66,9 @@ Q_DECL_EXPORT int main(int argc, char *argv[])
     }
     app->installTranslator(&translator);
 
+#ifndef QT_SIMULATOR
+    Xbmc::instance()->eventClient()->setApplicationThumbnail("/usr/share/icons/hicolor/80x80/apps/xbmcremote80.png");
+#endif
     QDeclarativeView view;
     view.setResizeMode(QDeclarativeView::SizeRootObjectToView);
     view.setAttribute(Qt::WA_AutoOrientation, true);

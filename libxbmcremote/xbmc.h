@@ -37,6 +37,7 @@ class VideoPlayer;
 class PicturePlayer;
 
 class Keys;
+class EventClient;
 
 class XbmcDownload;
 
@@ -45,6 +46,8 @@ class XbmcImageCache;
 class Xbmc : public QObject
 {
     Q_OBJECT
+    Q_ENUMS(GuiWindow)
+
     Q_PROPERTY(bool connecting READ connecting NOTIFY connectingChanged)
     Q_PROPERTY(bool connected READ connected NOTIFY connectedChanged)
     Q_PROPERTY(QString connectionError READ connectionError NOTIFY connectedChanged)
@@ -65,6 +68,14 @@ class Xbmc : public QObject
     Q_PROPERTY(bool pvrScanning READ pvrScanning NOTIFY pvrScanningChanged)
 
 public:
+    enum GuiWindow {
+        GuiWindowHome,
+        GuiWindowPictures,
+        GuiWindowMusic,
+        GuiWindowVideos,
+        GuiWindowLiveTV
+    };
+
     static Xbmc *instance();
     ~Xbmc();
 
@@ -81,6 +92,7 @@ public:
     Q_INVOKABLE bool picturePlayerActive();
 
     Q_INVOKABLE Keys *keys();
+    Q_INVOKABLE EventClient *eventClient();
 
     bool connecting();
     bool connected();
@@ -121,6 +133,7 @@ public slots:
     void shutdown();
     void reboot();
     void queryActivePlayers();
+    void switchToWindow(GuiWindow window);
 
 signals:
     void connectingChanged();
@@ -166,6 +179,7 @@ private:
     bool m_picturePlayerActive;
 
     Keys *m_keys;
+    EventClient *m_eventClient;
 
     int m_volume;
     QString m_state;

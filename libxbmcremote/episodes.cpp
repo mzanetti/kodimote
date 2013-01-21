@@ -70,10 +70,10 @@ void Episodes::receivedAnnouncement(const QVariantMap &map)
 void Episodes::refresh()
 {
     QVariantMap params;
-    if(m_tvshowid != -1) {
+    if(m_tvshowid >= 0) {
         params.insert("tvshowid", m_tvshowid);
     }
-    if(m_seasonid != -1) {
+    if(m_seasonid >= 0) {
         params.insert("season", m_seasonid);
     }
     QVariantList properties;
@@ -89,7 +89,11 @@ void Episodes::refresh()
     sort.insert("order", "ascending");
     params.insert("sort", sort);
 
-    XbmcConnection::sendCommand("VideoLibrary.GetEpisodes", params, this, "listReceived");
+    if (m_tvshowid == XbmcModel::ItemIdRecentlyAdded && m_seasonid == XbmcModel::ItemIdRecentlyAdded) {
+        XbmcConnection::sendCommand("VideoLibrary.GetRecentlyAddedEpisodes", params, this, "listReceived");
+    } else {
+        XbmcConnection::sendCommand("VideoLibrary.GetEpisodes", params, this, "listReceived");
+    }
 }
 
 void Episodes::fetchItemDetails(int index)
@@ -158,7 +162,7 @@ void Episodes::listReceived(const QVariantMap &rsp)
         LibraryItem *item = new LibraryItem();
         item->setTitle(itemMap.value("episode").toString() + ". " + itemMap.value("label").toString());
         //        item->setData(itemMap.value("showtitle").toString() + " - " + itemMap.value("season").toString(), Qt::UserRole+2);
-        item->setSubtitle(itemMap.value("showtitle").toString() + " - " + m_seasonString);
+        item->setSubtitle(itemMap.value("showtitle").toString() + (m_seasonString.isEmpty() ? "" :  (" - " + m_seasonString)));
         item->setTvShow(itemMap.value("showtitle").toString());
         item->setSeason(itemMap.value("season").toInt());
         item->setEpisodeId(itemMap.value("episodeid").toInt());

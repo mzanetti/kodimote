@@ -34,6 +34,9 @@ Item {
 
     Image {
         anchors.centerIn: parent
+        height: 40
+        width: 40
+        smooth: true
 
         function handleIconSource(iconId, isEnabled, isSelected) {
             if (root.source.length > 0) {
