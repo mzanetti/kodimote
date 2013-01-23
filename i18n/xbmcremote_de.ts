@@ -60,6 +60,14 @@
         <source>Audio Library</source>
         <translation>Musikbibliothek</translation>
     </message>
+    <message>
+        <source>Recently added</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Recently played</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>AudioPlaylist</name>
@@ -128,6 +136,20 @@
     <message>
         <source>Password:</source>
         <translation type="unfinished">Passwort:</translation>
+    </message>
+</context>
+<context>
+    <name>ChannelGroups</name>
+    <message>
+        <source>TV Channels</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>Channels</name>
+    <message>
+        <source>TV Channels</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -250,6 +272,10 @@
     <message>
         <source>Back</source>
         <translation type="unfinished">Zurück</translation>
+    </message>
+    <message>
+        <source>Waking up %1...</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -461,6 +487,10 @@
         <source>Clean library</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>TV Channels</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>MainWindow</name>
@@ -645,6 +675,26 @@
         <source>Year:</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Select audio track</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Off</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Select subtitle</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Cancel</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>OK</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>NowPlayingView</name>
@@ -669,6 +719,33 @@
     </message>
     <message>
         <source>Clear playlist</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>RecentItems</name>
+    <message>
+        <source>Albums</source>
+        <translation type="unfinished">Alben</translation>
+    </message>
+    <message>
+        <source>Songs</source>
+        <translation type="unfinished">Lieder</translation>
+    </message>
+    <message>
+        <source>Movies</source>
+        <translation type="unfinished">Filme</translation>
+    </message>
+    <message>
+        <source>Episodes</source>
+        <translation type="unfinished">Episoden</translation>
+    </message>
+    <message>
+        <source>Music Videos</source>
+        <translation type="unfinished">Musikvideos</translation>
+    </message>
+    <message>
+        <source>Recently added</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -741,18 +818,6 @@
         <translation type="unfinished">Artikel für Sortierung ignorieren</translation>
     </message>
     <message>
-        <source>Click</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Swipe</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>keypad arrows</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Phone calls</source>
         <translation type="unfinished"></translation>
     </message>
@@ -819,6 +884,10 @@
     <message>
         <source>Music Videos</source>
         <translation>Musikvideos</translation>
+    </message>
+    <message>
+        <source>Recently added</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -946,6 +1015,10 @@
     <message>
         <source>Flattr</source>
         <translation type="unfinished">Flattr</translation>
+    </message>
+    <message>
+        <source>OK</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 </TS>
