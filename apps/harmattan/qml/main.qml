@@ -46,10 +46,6 @@ PageStackWindow {
         id: keypadPage
     }
 
-    PictureControlsPage {
-        id: pictureControlsPage
-    }
-
     ToolBarLayout {
         id: toolBarEntry
         visible: false
@@ -63,12 +59,7 @@ PageStackWindow {
             visible: xbmc.connected
             anchors.horizontalCenter: parent===undefined ? undefined : parent.horizontalCenter
             onClicked: {
-                if(xbmc.picturePlayerActive) {
-                    pageStack.push(pictureControlsPage);
-                } else {
-                    pageStack.push(keypadPage);
-                }
-
+                pageStack.push(keypadPage);
             }
         }
         ToolIcon {

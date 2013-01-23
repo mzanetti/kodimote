@@ -311,6 +311,20 @@ void Xbmc::parseAnnouncement(const QVariantMap &map)
         m_volume = map.value("params").toMap().value("data").toMap().value("volume").toInt();
         emit volumeChanged(m_volume);
     }
+
+    // Workaround: Xbmc does not send activeplayerschanged when
+    // the pictureplayer starts. We get only a Clear notification
+    // for the picture playlist. Directly after onClear, the pictureplayer
+    // isn't still active. Lets wait a sec...
+    //
+    // http://trac.xbmc.org/ticket/14009
+
+    if (map.value("method").toString() == "Playlist.OnClear") {
+        if (map.value("params").toMap().value("data").toMap().value("playlistid").toInt() == m_picturePlayer->playlist()->playlistId()) {
+            QTimer::singleShot(1000, this, SLOT(queryActivePlayers()));
+        }
+    }
+
 }
 
 void Xbmc::activePlayersReceived(const QVariantMap &rsp)

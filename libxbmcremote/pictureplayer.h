@@ -20,9 +20,9 @@ public slots:
     void moveLeft();
     void moveRight();
     void rotate();
-    void skipNext();
-    void skipPrevious();
-    void stop();
+//    void skipNext();
+//    void skipPrevious();
+//    void stop();
     void zoomIn();
     void zoomOut();
 

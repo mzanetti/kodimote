@@ -65,28 +65,28 @@ void PicturePlayer::rotate()
     XbmcConnection::sendCommand("Player.Rotate", params);
 }
 
-void PicturePlayer::skipNext()
-{
-    QVariantMap params;
-    params.insert("playerid", playerId());
-    XbmcConnection::sendCommand("Player.GoNext", params);
-}
+//void PicturePlayer::skipNext()
+//{
+//    QVariantMap params;
+//    params.insert("playerid", playerId());
+//    XbmcConnection::sendCommand("Player.GoNext", params);
+//}
 
-void PicturePlayer::skipPrevious()
-{
-    QVariantMap params;
-    params.insert("playerid", playerId());
-    XbmcConnection::sendCommand("Player.GoPrevious", params);
-}
+//void PicturePlayer::skipPrevious()
+//{
+//    QVariantMap params;
+//    params.insert("playerid", playerId());
+//    XbmcConnection::sendCommand("Player.GoPrevious", params);
+//}
 
-void PicturePlayer::stop()
-{
-    QVariantMap params;
-    params.insert("playerid", playerId());
-    XbmcConnection::sendCommand("Player.Stop", params);
-    QTimer::singleShot(100, Xbmc::instance(), SLOT(queryActivePlayers()));
-    m_state == "stopped";
-}
+//void PicturePlayer::stop()
+//{
+//    QVariantMap params;
+//    params.insert("playerid", playerId());
+//    XbmcConnection::sendCommand("Player.Stop", params);
+//    QTimer::singleShot(100, Xbmc::instance(), SLOT(queryActivePlayers()));
+//    m_state == "stopped";
+//}
 
 void PicturePlayer::zoomIn()
 {

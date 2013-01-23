@@ -64,11 +64,7 @@ Page {
         }
         ToolIcon { platformIconId: "toolbar-dialer";
             onClicked: {
-                if(xbmc.picturePlayerActive) {
-                    pageStack.replace(pictureControlsPage);
-                } else {
-                    pageStack.replace(keypadPage);
-                }
+                pageStack.replace(keypadPage);
             }
         }
         ToolIcon {

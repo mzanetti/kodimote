@@ -16,6 +16,9 @@ public:
     void refresh() {}
     void queryItemData(int) {}
 
+private slots:
+    void receivedAnnouncement(const QVariantMap &map);
+
 };
 
 #endif // PICTUREPLAYLIST_H

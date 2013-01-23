@@ -38,28 +38,32 @@ Item {
         width: 40
         smooth: true
 
-        function handleIconSource(iconId, isEnabled, isSelected) {
-            if (root.source.length > 0) {
-                return root.source;
+        function handleIconSource(iconId, iconSource, source, isEnabled, isSelected) {
+            if (source.length > 0) {
+                return source;
             }
 
-            if (root.iconSource.length > 0) {
-                return "image://theme/" + root.iconSource;
+            if (iconSource.length > 0) {
+                return "image://theme/" + iconSource;
             }
 
-            if (!isEnabled)
-                iconId = iconId + "-dimmed";
+            if (iconId.length > 0) {
+                if (!isEnabled)
+                    iconId = iconId + "-dimmed";
 
-            if (theme.inverted)
-                iconId = iconId + "-white";
+                if (theme.inverted)
+                    iconId = iconId + "-white";
 
-            if (isSelected)
-                iconId = iconId + "-selected";
+                if (isSelected)
+                    iconId = iconId + "-selected";
 
-            return "image://theme/icon-m-" + iconId;
+                return "image://theme/icon-m-" + iconId;
+            }
+
+            return ""
         }
 
-        source: handleIconSource(root.platformIconId, root.enabled, root.selected)
+        source: handleIconSource(root.platformIconId, root.iconSource, root.source, root.enabled, root.selected)
     }
 
     MouseArea {

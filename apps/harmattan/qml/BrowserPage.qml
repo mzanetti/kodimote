@@ -20,11 +20,7 @@ Page {
         ToolIcon { platformIconId: "toolbar-dialer";
             anchors.horizontalCenter: parent===undefined ? undefined : parent.horizontalCenter
             onClicked: {
-                if(xbmc.picturePlayerActive) {
-                    pageStack.push(pictureControlsPage);
-                } else {
-                    pageStack.push(keypadPage);
-                }
+                pageStack.push(keypadPage);
             }
         }
         ToolIcon {

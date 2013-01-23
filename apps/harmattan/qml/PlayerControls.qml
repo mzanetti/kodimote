@@ -14,7 +14,7 @@ Row {
     }
     MediaControlButton {
         platformIconId: "toolbar-mediacontrol-backwards"
-        enabled: player && player.state == "playing"
+        enabled: player && player.state == "playing" && player.type !== Player.PlayerTypePictures
         selected: player && player.speed < 0
         onClicked: player.seekBackward();
         width: parent.width / 6
@@ -32,7 +32,7 @@ Row {
     }
     MediaControlButton {
         platformIconId: "toolbar-mediacontrol-forward"
-        enabled: player && player.state == "playing"
+        enabled: player && player.state == "playing" && player.type !== Player.PlayerTypePictures
         selected: player && player.speed > 1
         onClicked: player.seekForward();
         width: parent.width / 6
