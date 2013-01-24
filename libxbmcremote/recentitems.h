@@ -1,14 +1,14 @@
 /*****************************************************************************
- * Copyright: 2013 Michael Zanetti <michael_zanetti@gmx.net>                 *
+ * Copyright: 2011-2013 Michael Zanetti <michael_zanetti@gmx.net>            *
  *                                                                           *
- * This file is part of xbmcremote                                           *
+ * This file is part of Xbmcremote                                           *
  *                                                                           *
- * xbmcremote is free software: you can redistribute it and/or modify        *
+ * Xbmcremote is free software: you can redistribute it and/or modify        *
  * it under the terms of the GNU General Public License as published by      *
  * the Free Software Foundation, either version 3 of the License, or         *
  * (at your option) any later version.                                       *
  *                                                                           *
- * xbmcremote is distributed in the hope that it will be useful,             *
+ * Xbmcremote is distributed in the hope that it will be useful,             *
  * but WITHOUT ANY WARRANTY; without even the implied warranty of            *
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the             *
  * GNU General Public License for more details.                              *
