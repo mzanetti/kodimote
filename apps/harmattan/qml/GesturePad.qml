@@ -154,6 +154,7 @@ Item {
         }
 
         onPressAndHold: {
+            rumbleEffect.start(4);
             scrollTimer.start();
         }
 
@@ -220,6 +221,8 @@ Item {
                 print("Only moved " + dx + "x" + dy + " pixels. Not activating gesture");
                 return;
             }
+
+            rumbleEffect.start(2);
 
             // if horizontal delta is larger than twice the minimum distance,
             // we always go left/right, no matter what the vertical delta is.

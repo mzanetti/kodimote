@@ -112,7 +112,10 @@ Page {
                     height: parent.height * 1.2
                     anchors.centerIn: parent
                     rotation: 55
-                    onClicked: keys.back();
+                    onClicked: {
+                        rumbleEffect.start(2);
+                        keys.back();
+                    }
                 }
 
             }
@@ -128,6 +131,7 @@ Page {
                     anchors.centerIn: parent
                     rotation: usePictureControls ? -145 : -190
                     onClicked: {
+                        rumbleEffect.start(2);
                         if (usePictureControls) {
                             picturePlayer.zoomIn();
                         } else {
@@ -146,6 +150,7 @@ Page {
                     anchors.centerIn: parent
                     rotation: -145
                     onClicked: {
+                        rumbleEffect.start(2);
                         if (usePictureControls) {
                             picturePlayer.rotate();
                         } else {
@@ -163,6 +168,7 @@ Page {
                     height: parent.height * 1.2
                     anchors.centerIn: parent
                     onClicked: {
+                        rumbleEffect.start(2);
                         if (usePictureControls) {
                             picturePlayer.zoomOut();
                         } else {
@@ -196,16 +202,16 @@ Page {
                 height: controlButtons.height
                 spacing: parent.width / 8
                 Rectangle { height: 20; width: parent.spacing; color: "red"; anchors.verticalCenter: parent.verticalCenter; radius: 2
-                    MouseArea { anchors.fill: parent; onClicked: keys.red() }
+                    MouseArea { anchors.fill: parent; anchors.margins: -10; onClicked: { rumbleEffect.start(2); keys.red() } }
                 }
                 Rectangle { height: 20; width: parent.spacing; color: "green"; anchors.verticalCenter: parent.verticalCenter; radius: 2
-                    MouseArea { anchors.fill: parent; onClicked: keys.green() }
+                    MouseArea { anchors.fill: parent; anchors.margins: -10; onClicked: { rumbleEffect.start(2); keys.green() } }
                 }
                 Rectangle { height: 20; width: parent.spacing; color: "yellow"; anchors.verticalCenter: parent.verticalCenter; radius: 2
-                    MouseArea { anchors.fill: parent; onClicked: keys.yellow() }
+                    MouseArea { anchors.fill: parent; anchors.margins: -10; onClicked: { rumbleEffect.start(2); keys.yellow() } }
                 }
                 Rectangle { height: 20; width: parent.spacing; color: "blue"; anchors.verticalCenter: parent.verticalCenter; radius: 2
-                    MouseArea { anchors.fill: parent; onClicked: keys.blue() }
+                    MouseArea { anchors.fill: parent; anchors.margins: -10; onClicked: { rumbleEffect.start(2); keys.blue() } }
                 }
             }
         }

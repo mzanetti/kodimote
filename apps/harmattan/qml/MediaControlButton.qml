@@ -88,6 +88,9 @@ Item {
 
     MouseArea {
         anchors.fill: parent
-        onClicked: root.clicked();
+        onClicked: {
+            rumbleEffect.start(2);
+            root.clicked();
+        }
     }
 }
