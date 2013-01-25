@@ -4,32 +4,32 @@
 <context>
     <name>AboutDialog</name>
     <message>
-        <location filename="../apps/generic/ui/aboutdialog.cpp" line="16"/>
+        <location filename="../apps/generic/ui/aboutdialog.cpp" line="36"/>
         <source>About</source>
         <translation>Hakkinda</translation>
     </message>
     <message>
-        <location filename="../apps/generic/ui/aboutdialog.cpp" line="40"/>
+        <location filename="../apps/generic/ui/aboutdialog.cpp" line="60"/>
         <source>Copyright</source>
         <translation>Copyright</translation>
     </message>
     <message>
-        <location filename="../apps/generic/ui/aboutdialog.cpp" line="43"/>
+        <location filename="../apps/generic/ui/aboutdialog.cpp" line="63"/>
         <source>Thanks to</source>
         <translation>Tesekkurler </translation>
     </message>
     <message>
-        <location filename="../apps/generic/ui/aboutdialog.cpp" line="49"/>
+        <location filename="../apps/generic/ui/aboutdialog.cpp" line="69"/>
         <source>Close</source>
         <translation>Kapat</translation>
     </message>
     <message>
-        <location filename="../apps/generic/ui/aboutdialog.cpp" line="53"/>
+        <location filename="../apps/generic/ui/aboutdialog.cpp" line="73"/>
         <source>Donate</source>
         <translation>Bagis Yap</translation>
     </message>
     <message>
-        <location filename="../apps/generic/ui/aboutdialog.cpp" line="57"/>
+        <location filename="../apps/generic/ui/aboutdialog.cpp" line="77"/>
         <source>Flattr</source>
         <translation>Flattr</translation>
     </message>
@@ -37,7 +37,7 @@
 <context>
     <name>Albums</name>
     <message>
-        <location filename="../libxbmcremote/albums.cpp" line="183"/>
+        <location filename="../libxbmcremote/albums.cpp" line="185"/>
         <source>Albums</source>
         <translation>Albumler</translation>
     </message>
@@ -45,7 +45,7 @@
 <context>
     <name>Artists</name>
     <message>
-        <location filename="../libxbmcremote/artists.cpp" line="166"/>
+        <location filename="../libxbmcremote/artists.cpp" line="168"/>
         <source>Artists</source>
         <translation>Sanatcilar</translation>
     </message>
@@ -53,32 +53,32 @@
 <context>
     <name>AudioLibrary</name>
     <message>
-        <location filename="../libxbmcremote/audiolibrary.cpp" line="31"/>
+        <location filename="../libxbmcremote/audiolibrary.cpp" line="33"/>
         <source>Artists</source>
         <translation>Sanatcilar</translation>
     </message>
     <message>
-        <location filename="../libxbmcremote/audiolibrary.cpp" line="36"/>
+        <location filename="../libxbmcremote/audiolibrary.cpp" line="38"/>
         <source>Albums</source>
         <translation>Albumler</translation>
     </message>
     <message>
-        <location filename="../libxbmcremote/audiolibrary.cpp" line="41"/>
+        <location filename="../libxbmcremote/audiolibrary.cpp" line="43"/>
         <source>Titles</source>
         <translation>Sarkilar</translation>
     </message>
     <message>
-        <location filename="../libxbmcremote/audiolibrary.cpp" line="46"/>
+        <location filename="../libxbmcremote/audiolibrary.cpp" line="48"/>
         <source>Recently added</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../libxbmcremote/audiolibrary.cpp" line="51"/>
+        <location filename="../libxbmcremote/audiolibrary.cpp" line="53"/>
         <source>Recently played</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../libxbmcremote/audiolibrary.cpp" line="87"/>
+        <location filename="../libxbmcremote/audiolibrary.cpp" line="89"/>
         <source>Audio Library</source>
         <translation>Ses Kutuphanesi</translation>
     </message>
@@ -86,33 +86,33 @@
 <context>
     <name>AudioPlaylist</name>
     <message>
-        <location filename="../apps/generic/qml/AudioPlaylist.qml" line="44"/>
-        <location filename="../libxbmcremote/audioplaylist.cpp" line="148"/>
+        <location filename="../apps/generic/qml/AudioPlaylist.qml" line="64"/>
+        <location filename="../libxbmcremote/audioplaylist.cpp" line="150"/>
         <source>Now Playing</source>
         <translation>Simdi Calinan</translation>
     </message>
     <message>
-        <location filename="../apps/generic/qml/AudioPlaylist.qml" line="44"/>
+        <location filename="../apps/generic/qml/AudioPlaylist.qml" line="64"/>
         <source>Playlist</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../apps/generic/qml/AudioPlaylist.qml" line="184"/>
+        <location filename="../apps/generic/qml/AudioPlaylist.qml" line="204"/>
         <source>Play</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../apps/generic/qml/AudioPlaylist.qml" line="185"/>
+        <location filename="../apps/generic/qml/AudioPlaylist.qml" line="205"/>
         <source>Remove from playlist</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../apps/generic/qml/AudioPlaylist.qml" line="186"/>
+        <location filename="../apps/generic/qml/AudioPlaylist.qml" line="206"/>
         <source>Clear playlist</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../libxbmcremote/audioplaylist.cpp" line="148"/>
+        <location filename="../libxbmcremote/audioplaylist.cpp" line="150"/>
         <source>Music</source>
         <translation>Muzik</translation>
     </message>
@@ -120,22 +120,22 @@
 <context>
     <name>AuthenticationDialog</name>
     <message>
-        <location filename="../apps/generic/ui/authenticationdialog.cpp" line="15"/>
+        <location filename="../apps/generic/ui/authenticationdialog.cpp" line="35"/>
         <source>Authentication</source>
         <translation>Dogrulama</translation>
     </message>
     <message>
-        <location filename="../apps/generic/ui/authenticationdialog.cpp" line="27"/>
+        <location filename="../apps/generic/ui/authenticationdialog.cpp" line="47"/>
         <source>XBMC on %1 requires authentication:</source>
         <translation>%1&apos;deki XBMC dogrulama gerektiriyor:</translation>
     </message>
     <message>
-        <location filename="../apps/generic/ui/authenticationdialog.cpp" line="33"/>
+        <location filename="../apps/generic/ui/authenticationdialog.cpp" line="53"/>
         <source>Username:</source>
         <translation>Kullanici Adi:</translation>
     </message>
     <message>
-        <location filename="../apps/generic/ui/authenticationdialog.cpp" line="39"/>
+        <location filename="../apps/generic/ui/authenticationdialog.cpp" line="59"/>
         <source>Password:</source>
         <translation>Parola:</translation>
     </message>
@@ -143,27 +143,27 @@
 <context>
     <name>AuthenticationSheet</name>
     <message>
-        <location filename="../apps/harmattan/qml/AuthenticationSheet.qml" line="7"/>
+        <location filename="../apps/harmattan/qml/AuthenticationSheet.qml" line="27"/>
         <source>OK</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../apps/harmattan/qml/AuthenticationSheet.qml" line="8"/>
+        <location filename="../apps/harmattan/qml/AuthenticationSheet.qml" line="28"/>
         <source>Cancel</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../apps/harmattan/qml/AuthenticationSheet.qml" line="19"/>
+        <location filename="../apps/harmattan/qml/AuthenticationSheet.qml" line="39"/>
         <source>XBMC on %1 requires authentication:</source>
         <translation type="unfinished">%1&apos;deki XBMC dogrulama gerektiriyor:</translation>
     </message>
     <message>
-        <location filename="../apps/harmattan/qml/AuthenticationSheet.qml" line="23"/>
+        <location filename="../apps/harmattan/qml/AuthenticationSheet.qml" line="43"/>
         <source>Username:</source>
         <translation type="unfinished">Kullanici Adi:</translation>
     </message>
     <message>
-        <location filename="../apps/harmattan/qml/AuthenticationSheet.qml" line="32"/>
+        <location filename="../apps/harmattan/qml/AuthenticationSheet.qml" line="52"/>
         <source>Password:</source>
         <translation type="unfinished">Parola:</translation>
     </message>
@@ -171,7 +171,7 @@
 <context>
     <name>ChannelGroups</name>
     <message>
-        <location filename="../libxbmcremote/channelgroups.cpp" line="14"/>
+        <location filename="../libxbmcremote/channelgroups.cpp" line="34"/>
         <source>TV Channels</source>
         <translation type="unfinished"></translation>
     </message>
@@ -179,7 +179,7 @@
 <context>
     <name>Channels</name>
     <message>
-        <location filename="../libxbmcremote/channels.cpp" line="18"/>
+        <location filename="../libxbmcremote/channels.cpp" line="38"/>
         <source>TV Channels</source>
         <translation type="unfinished"></translation>
     </message>
@@ -187,73 +187,73 @@
 <context>
     <name>ConnectDialog</name>
     <message>
-        <location filename="../apps/generic/ui/connectdialog.cpp" line="39"/>
+        <location filename="../apps/generic/ui/connectdialog.cpp" line="41"/>
         <source>Connect to XBMC</source>
         <translation>XBMC&apos;a Baglan</translation>
     </message>
     <message>
-        <location filename="../apps/generic/ui/connectdialog.cpp" line="50"/>
+        <location filename="../apps/generic/ui/connectdialog.cpp" line="52"/>
         <source>Searching for XBMC hosts.</source>
         <translation>XBMC adresleri araniyor.</translation>
     </message>
     <message>
-        <location filename="../apps/generic/ui/connectdialog.cpp" line="51"/>
+        <location filename="../apps/generic/ui/connectdialog.cpp" line="53"/>
         <source>Please enable the following options in the Network settings of XBMC:</source>
         <translation>Lutfen XBMC&apos;nin Baglanti ayarlarindan gosterilen secenekleri aktiflestirin:</translation>
     </message>
     <message>
-        <location filename="../apps/generic/ui/connectdialog.cpp" line="52"/>
+        <location filename="../apps/generic/ui/connectdialog.cpp" line="54"/>
         <source>Allow control of XBMC via HTTP</source>
         <translation>HTTP yoluyla XBMC kontrolune izin ver</translation>
     </message>
     <message>
-        <location filename="../apps/generic/ui/connectdialog.cpp" line="53"/>
+        <location filename="../apps/generic/ui/connectdialog.cpp" line="55"/>
         <source>Allow programs on other systems to control XBMC</source>
         <translation>Diger sistemlerdeki programlarin XBMC&apos;i yonetmesine izin ver</translation>
     </message>
     <message>
-        <location filename="../apps/generic/ui/connectdialog.cpp" line="54"/>
+        <location filename="../apps/generic/ui/connectdialog.cpp" line="56"/>
         <source>Announce these services to other systems via Zeroconf</source>
         <translation>Zeroconf ile bu servisleri diger sistemlere duyur</translation>
     </message>
     <message>
-        <location filename="../apps/generic/ui/connectdialog.cpp" line="55"/>
+        <location filename="../apps/generic/ui/connectdialog.cpp" line="57"/>
         <source>If you don&apos;t use Zeroconf, add a host manually.</source>
         <translation>Eger Zeroconf kullanmiyorsaniz,adresleri elinizle ekleyin.</translation>
     </message>
     <message>
-        <location filename="../apps/generic/ui/connectdialog.cpp" line="74"/>
+        <location filename="../apps/generic/ui/connectdialog.cpp" line="76"/>
         <source>Host:</source>
         <translation>Adres:</translation>
     </message>
     <message>
-        <location filename="../apps/generic/ui/connectdialog.cpp" line="79"/>
+        <location filename="../apps/generic/ui/connectdialog.cpp" line="81"/>
         <source>HTTP Port:</source>
         <translation>HTTP Portu:</translation>
     </message>
     <message>
-        <location filename="../apps/generic/ui/connectdialog.cpp" line="86"/>
+        <location filename="../apps/generic/ui/connectdialog.cpp" line="88"/>
         <source>MAC Address (optional):</source>
         <translation>MAD Adresi (opsiyonel):</translation>
     </message>
     <message>
-        <location filename="../apps/generic/ui/connectdialog.cpp" line="110"/>
+        <location filename="../apps/generic/ui/connectdialog.cpp" line="112"/>
         <source>Connect</source>
         <translation>Baglan</translation>
     </message>
     <message>
-        <location filename="../apps/generic/ui/connectdialog.cpp" line="113"/>
-        <location filename="../apps/generic/ui/connectdialog.cpp" line="164"/>
+        <location filename="../apps/generic/ui/connectdialog.cpp" line="115"/>
+        <location filename="../apps/generic/ui/connectdialog.cpp" line="166"/>
         <source>Add Host</source>
         <translation>Adres Ekle</translation>
     </message>
     <message>
-        <location filename="../apps/generic/ui/connectdialog.cpp" line="116"/>
+        <location filename="../apps/generic/ui/connectdialog.cpp" line="118"/>
         <source>Remove Host</source>
         <translation>Adres Sil</translation>
     </message>
     <message>
-        <location filename="../apps/generic/ui/connectdialog.cpp" line="157"/>
+        <location filename="../apps/generic/ui/connectdialog.cpp" line="159"/>
         <source>Back</source>
         <translation>Geri</translation>
     </message>
@@ -261,82 +261,82 @@
 <context>
     <name>ConnectionSheet</name>
     <message>
-        <location filename="../apps/harmattan/qml/ConnectionSheet.qml" line="9"/>
+        <location filename="../apps/harmattan/qml/ConnectionSheet.qml" line="29"/>
         <source>Connect</source>
         <translation type="unfinished">Baglan</translation>
     </message>
     <message>
-        <location filename="../apps/harmattan/qml/ConnectionSheet.qml" line="10"/>
+        <location filename="../apps/harmattan/qml/ConnectionSheet.qml" line="30"/>
         <source>Cancel</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../apps/harmattan/qml/ConnectionSheet.qml" line="61"/>
+        <location filename="../apps/harmattan/qml/ConnectionSheet.qml" line="81"/>
         <source>Searching for XBMC hosts.</source>
         <translation type="unfinished">XBMC adresleri araniyor.</translation>
     </message>
     <message>
-        <location filename="../apps/harmattan/qml/ConnectionSheet.qml" line="62"/>
+        <location filename="../apps/harmattan/qml/ConnectionSheet.qml" line="82"/>
         <source>Please enable the following options in the Network settings of XBMC:</source>
         <translation type="unfinished">Lutfen XBMC&apos;nin Baglanti ayarlarindan gosterilen secenekleri aktiflestirin:</translation>
     </message>
     <message>
-        <location filename="../apps/harmattan/qml/ConnectionSheet.qml" line="63"/>
+        <location filename="../apps/harmattan/qml/ConnectionSheet.qml" line="83"/>
         <source>Allow control of XBMC via HTTP</source>
         <translation type="unfinished">HTTP yoluyla XBMC kontrolune izin ver</translation>
     </message>
     <message>
-        <location filename="../apps/harmattan/qml/ConnectionSheet.qml" line="64"/>
+        <location filename="../apps/harmattan/qml/ConnectionSheet.qml" line="84"/>
         <source>Allow programs on other systems to control XBMC</source>
         <translation type="unfinished">Diger sistemlerdeki programlarin XBMC&apos;i yonetmesine izin ver</translation>
     </message>
     <message>
-        <location filename="../apps/harmattan/qml/ConnectionSheet.qml" line="65"/>
+        <location filename="../apps/harmattan/qml/ConnectionSheet.qml" line="85"/>
         <source>Announce these services to other systems via Zeroconf</source>
         <translation type="unfinished">Zeroconf ile bu servisleri diger sistemlere duyur</translation>
     </message>
     <message>
-        <location filename="../apps/harmattan/qml/ConnectionSheet.qml" line="66"/>
+        <location filename="../apps/harmattan/qml/ConnectionSheet.qml" line="86"/>
         <source>If you don&apos;t use Zeroconf, add a host manually.</source>
         <translation type="unfinished">Eger Zeroconf kullanmiyorsaniz,adresleri elinizle ekleyin.</translation>
     </message>
     <message>
-        <location filename="../apps/harmattan/qml/ConnectionSheet.qml" line="108"/>
+        <location filename="../apps/harmattan/qml/ConnectionSheet.qml" line="128"/>
         <source>XBMC on %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../apps/harmattan/qml/ConnectionSheet.qml" line="122"/>
+        <location filename="../apps/harmattan/qml/ConnectionSheet.qml" line="142"/>
         <source>Waking up %1...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../apps/harmattan/qml/ConnectionSheet.qml" line="139"/>
+        <location filename="../apps/harmattan/qml/ConnectionSheet.qml" line="159"/>
         <source>Remove Host</source>
         <translation type="unfinished">Adres Sil</translation>
     </message>
     <message>
-        <location filename="../apps/harmattan/qml/ConnectionSheet.qml" line="146"/>
+        <location filename="../apps/harmattan/qml/ConnectionSheet.qml" line="166"/>
         <source>Add Host</source>
         <translation type="unfinished">Adres Ekle</translation>
     </message>
     <message>
-        <location filename="../apps/harmattan/qml/ConnectionSheet.qml" line="159"/>
+        <location filename="../apps/harmattan/qml/ConnectionSheet.qml" line="179"/>
         <source>Host:</source>
         <translation type="unfinished">Adres:</translation>
     </message>
     <message>
-        <location filename="../apps/harmattan/qml/ConnectionSheet.qml" line="172"/>
+        <location filename="../apps/harmattan/qml/ConnectionSheet.qml" line="192"/>
         <source>HTTP Port:</source>
         <translation type="unfinished">HTTP Portu:</translation>
     </message>
     <message>
-        <location filename="../apps/harmattan/qml/ConnectionSheet.qml" line="186"/>
+        <location filename="../apps/harmattan/qml/ConnectionSheet.qml" line="206"/>
         <source>MAC Address for WakeOnLan (optional):</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../apps/harmattan/qml/ConnectionSheet.qml" line="197"/>
+        <location filename="../apps/harmattan/qml/ConnectionSheet.qml" line="217"/>
         <source>Back</source>
         <translation type="unfinished">Geri</translation>
     </message>
@@ -344,22 +344,22 @@
 <context>
     <name>DownloadDialog</name>
     <message>
-        <location filename="../apps/harmattan/qml/DownloadDialog.qml" line="15"/>
+        <location filename="../apps/harmattan/qml/DownloadDialog.qml" line="35"/>
         <source>Start download?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../apps/harmattan/qml/DownloadDialog.qml" line="29"/>
+        <location filename="../apps/harmattan/qml/DownloadDialog.qml" line="49"/>
         <source>Start downloading %1?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../apps/harmattan/qml/DownloadDialog.qml" line="38"/>
+        <location filename="../apps/harmattan/qml/DownloadDialog.qml" line="58"/>
         <source>Yes</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../apps/harmattan/qml/DownloadDialog.qml" line="43"/>
+        <location filename="../apps/harmattan/qml/DownloadDialog.qml" line="63"/>
         <source>No</source>
         <translation type="unfinished"></translation>
     </message>
@@ -367,7 +367,7 @@
 <context>
     <name>Episodes</name>
     <message>
-        <location filename="../libxbmcremote/episodes.cpp" line="225"/>
+        <location filename="../libxbmcremote/episodes.cpp" line="227"/>
         <source>Episodes</source>
         <translation>Maceralar</translation>
     </message>
@@ -375,27 +375,27 @@
 <context>
     <name>HomeMenu</name>
     <message>
-        <location filename="../apps/generic/qml/HomeMenu.qml" line="36"/>
+        <location filename="../apps/generic/qml/HomeMenu.qml" line="56"/>
         <source>Music</source>
         <translation type="unfinished">Muzik</translation>
     </message>
     <message>
-        <location filename="../apps/generic/qml/HomeMenu.qml" line="37"/>
+        <location filename="../apps/generic/qml/HomeMenu.qml" line="57"/>
         <source>Videos</source>
         <translation type="unfinished">Videolar</translation>
     </message>
     <message>
-        <location filename="../apps/generic/qml/HomeMenu.qml" line="38"/>
+        <location filename="../apps/generic/qml/HomeMenu.qml" line="58"/>
         <source>Pictures</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../apps/generic/qml/HomeMenu.qml" line="176"/>
+        <location filename="../apps/generic/qml/HomeMenu.qml" line="196"/>
         <source>Files</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../apps/generic/qml/HomeMenu.qml" line="177"/>
+        <location filename="../apps/generic/qml/HomeMenu.qml" line="197"/>
         <source>Library</source>
         <translation type="unfinished"></translation>
     </message>
@@ -403,140 +403,140 @@
 <context>
     <name>ItemDetails</name>
     <message>
-        <location filename="../apps/generic/qml/ItemDetails.qml" line="93"/>
-        <location filename="../apps/harmattan/qml/ItemDetails.qml" line="44"/>
+        <location filename="../apps/generic/qml/ItemDetails.qml" line="113"/>
+        <location filename="../apps/harmattan/qml/ItemDetails.qml" line="64"/>
         <source>Rating:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../apps/generic/qml/ItemDetails.qml" line="99"/>
-        <location filename="../apps/harmattan/qml/ItemDetails.qml" line="63"/>
+        <location filename="../apps/generic/qml/ItemDetails.qml" line="119"/>
+        <location filename="../apps/harmattan/qml/ItemDetails.qml" line="83"/>
         <source>Season:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../apps/generic/qml/ItemDetails.qml" line="105"/>
-        <location filename="../apps/harmattan/qml/ItemDetails.qml" line="69"/>
+        <location filename="../apps/generic/qml/ItemDetails.qml" line="125"/>
+        <location filename="../apps/harmattan/qml/ItemDetails.qml" line="89"/>
         <source>Episode:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../apps/generic/qml/ItemDetails.qml" line="111"/>
-        <location filename="../apps/harmattan/qml/ItemDetails.qml" line="75"/>
+        <location filename="../apps/generic/qml/ItemDetails.qml" line="131"/>
+        <location filename="../apps/harmattan/qml/ItemDetails.qml" line="95"/>
         <source>First aired:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../apps/generic/qml/ItemDetails.qml" line="117"/>
-        <location filename="../apps/harmattan/qml/ItemDetails.qml" line="81"/>
+        <location filename="../apps/generic/qml/ItemDetails.qml" line="137"/>
+        <location filename="../apps/harmattan/qml/ItemDetails.qml" line="101"/>
         <source>Genre:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../apps/generic/qml/ItemDetails.qml" line="123"/>
-        <location filename="../apps/harmattan/qml/ItemDetails.qml" line="87"/>
+        <location filename="../apps/generic/qml/ItemDetails.qml" line="143"/>
+        <location filename="../apps/harmattan/qml/ItemDetails.qml" line="107"/>
         <source>Year:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../apps/generic/qml/ItemDetails.qml" line="129"/>
-        <location filename="../apps/harmattan/qml/ItemDetails.qml" line="93"/>
+        <location filename="../apps/generic/qml/ItemDetails.qml" line="149"/>
+        <location filename="../apps/harmattan/qml/ItemDetails.qml" line="113"/>
         <source>Director:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../apps/generic/qml/ItemDetails.qml" line="135"/>
-        <location filename="../apps/harmattan/qml/ItemDetails.qml" line="99"/>
+        <location filename="../apps/generic/qml/ItemDetails.qml" line="155"/>
+        <location filename="../apps/harmattan/qml/ItemDetails.qml" line="119"/>
         <source>Tagline:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../apps/generic/qml/ItemDetails.qml" line="141"/>
-        <location filename="../apps/harmattan/qml/ItemDetails.qml" line="105"/>
+        <location filename="../apps/generic/qml/ItemDetails.qml" line="161"/>
+        <location filename="../apps/harmattan/qml/ItemDetails.qml" line="125"/>
         <source>MPAA:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../apps/generic/qml/ItemDetails.qml" line="147"/>
-        <location filename="../apps/harmattan/qml/ItemDetails.qml" line="111"/>
+        <location filename="../apps/generic/qml/ItemDetails.qml" line="167"/>
+        <location filename="../apps/harmattan/qml/ItemDetails.qml" line="131"/>
         <source>Instrument:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../apps/generic/qml/ItemDetails.qml" line="153"/>
-        <location filename="../apps/harmattan/qml/ItemDetails.qml" line="117"/>
+        <location filename="../apps/generic/qml/ItemDetails.qml" line="173"/>
+        <location filename="../apps/harmattan/qml/ItemDetails.qml" line="137"/>
         <source>Style:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../apps/generic/qml/ItemDetails.qml" line="159"/>
-        <location filename="../apps/harmattan/qml/ItemDetails.qml" line="123"/>
+        <location filename="../apps/generic/qml/ItemDetails.qml" line="179"/>
+        <location filename="../apps/harmattan/qml/ItemDetails.qml" line="143"/>
         <source>Mood:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../apps/generic/qml/ItemDetails.qml" line="165"/>
-        <location filename="../apps/harmattan/qml/ItemDetails.qml" line="129"/>
+        <location filename="../apps/generic/qml/ItemDetails.qml" line="185"/>
+        <location filename="../apps/harmattan/qml/ItemDetails.qml" line="149"/>
         <source>Born:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../apps/generic/qml/ItemDetails.qml" line="171"/>
-        <location filename="../apps/harmattan/qml/ItemDetails.qml" line="135"/>
+        <location filename="../apps/generic/qml/ItemDetails.qml" line="191"/>
+        <location filename="../apps/harmattan/qml/ItemDetails.qml" line="155"/>
         <source>Formed:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../apps/generic/qml/ItemDetails.qml" line="177"/>
-        <location filename="../apps/harmattan/qml/ItemDetails.qml" line="141"/>
+        <location filename="../apps/generic/qml/ItemDetails.qml" line="197"/>
+        <location filename="../apps/harmattan/qml/ItemDetails.qml" line="161"/>
         <source>Died:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../apps/generic/qml/ItemDetails.qml" line="183"/>
-        <location filename="../apps/harmattan/qml/ItemDetails.qml" line="147"/>
+        <location filename="../apps/generic/qml/ItemDetails.qml" line="203"/>
+        <location filename="../apps/harmattan/qml/ItemDetails.qml" line="167"/>
         <source>Disbanded:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../apps/generic/qml/ItemDetails.qml" line="189"/>
-        <location filename="../apps/harmattan/qml/ItemDetails.qml" line="153"/>
+        <location filename="../apps/generic/qml/ItemDetails.qml" line="209"/>
+        <location filename="../apps/harmattan/qml/ItemDetails.qml" line="173"/>
         <source>Duration:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../apps/generic/qml/ItemDetails.qml" line="195"/>
-        <location filename="../apps/harmattan/qml/ItemDetails.qml" line="159"/>
+        <location filename="../apps/generic/qml/ItemDetails.qml" line="215"/>
+        <location filename="../apps/harmattan/qml/ItemDetails.qml" line="179"/>
         <source>Comment:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../apps/generic/qml/ItemDetails.qml" line="201"/>
-        <location filename="../apps/harmattan/qml/ItemDetails.qml" line="165"/>
+        <location filename="../apps/generic/qml/ItemDetails.qml" line="221"/>
+        <location filename="../apps/harmattan/qml/ItemDetails.qml" line="185"/>
         <source>Playcount:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../apps/generic/qml/ItemDetails.qml" line="207"/>
-        <location filename="../apps/harmattan/qml/ItemDetails.qml" line="171"/>
+        <location filename="../apps/generic/qml/ItemDetails.qml" line="227"/>
+        <location filename="../apps/harmattan/qml/ItemDetails.qml" line="191"/>
         <source>Cast:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../apps/harmattan/qml/ItemDetails.qml" line="229"/>
-        <location filename="../apps/harmattan/qml/ItemDetails.qml" line="253"/>
+        <location filename="../apps/harmattan/qml/ItemDetails.qml" line="249"/>
+        <location filename="../apps/harmattan/qml/ItemDetails.qml" line="273"/>
         <source>Play</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../apps/harmattan/qml/ItemDetails.qml" line="233"/>
-        <location filename="../apps/harmattan/qml/ItemDetails.qml" line="257"/>
+        <location filename="../apps/harmattan/qml/ItemDetails.qml" line="253"/>
+        <location filename="../apps/harmattan/qml/ItemDetails.qml" line="277"/>
         <source>Add to playlist</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../apps/harmattan/qml/ItemDetails.qml" line="237"/>
-        <location filename="../apps/harmattan/qml/ItemDetails.qml" line="261"/>
+        <location filename="../apps/harmattan/qml/ItemDetails.qml" line="257"/>
+        <location filename="../apps/harmattan/qml/ItemDetails.qml" line="281"/>
         <source>Download</source>
         <translation type="unfinished"></translation>
     </message>
@@ -544,27 +544,27 @@
 <context>
     <name>LibraryView</name>
     <message>
-        <location filename="../apps/generic/qml/LibraryView.qml" line="199"/>
+        <location filename="../apps/generic/qml/LibraryView.qml" line="219"/>
         <source>Play</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../apps/generic/qml/LibraryView.qml" line="200"/>
+        <location filename="../apps/generic/qml/LibraryView.qml" line="220"/>
         <source>Add to playlist</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../apps/generic/qml/LibraryView.qml" line="201"/>
+        <location filename="../apps/generic/qml/LibraryView.qml" line="221"/>
         <source>Rescan library</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../apps/generic/qml/LibraryView.qml" line="202"/>
+        <location filename="../apps/generic/qml/LibraryView.qml" line="222"/>
         <source>Details</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../apps/generic/qml/LibraryView.qml" line="203"/>
+        <location filename="../apps/generic/qml/LibraryView.qml" line="223"/>
         <source>Download</source>
         <translation type="unfinished"></translation>
     </message>
@@ -572,63 +572,63 @@
 <context>
     <name>MainPage</name>
     <message>
-        <location filename="../apps/harmattan/qml/MainPage.qml" line="28"/>
-        <location filename="../apps/ubuntu/qml/MainPage.qml" line="7"/>
+        <location filename="../apps/harmattan/qml/MainPage.qml" line="49"/>
+        <location filename="../apps/ubuntu/qml/MainPage.qml" line="27"/>
         <source>XBMC on %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../apps/harmattan/qml/MainPage.qml" line="63"/>
-        <location filename="../apps/ubuntu/qml/MainPage.qml" line="40"/>
+        <location filename="../apps/harmattan/qml/MainPage.qml" line="91"/>
+        <location filename="../apps/ubuntu/qml/MainPage.qml" line="60"/>
         <source>Music</source>
         <translation type="unfinished">Muzik</translation>
     </message>
     <message>
-        <location filename="../apps/harmattan/qml/MainPage.qml" line="64"/>
-        <location filename="../apps/ubuntu/qml/MainPage.qml" line="41"/>
+        <location filename="../apps/harmattan/qml/MainPage.qml" line="94"/>
+        <location filename="../apps/ubuntu/qml/MainPage.qml" line="61"/>
         <source>Videos</source>
         <translation type="unfinished">Videolar</translation>
     </message>
     <message>
-        <location filename="../apps/harmattan/qml/MainPage.qml" line="65"/>
-        <location filename="../apps/ubuntu/qml/MainPage.qml" line="42"/>
+        <location filename="../apps/harmattan/qml/MainPage.qml" line="97"/>
+        <location filename="../apps/ubuntu/qml/MainPage.qml" line="62"/>
         <source>Pictures</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../apps/harmattan/qml/MainPage.qml" line="66"/>
+        <location filename="../apps/harmattan/qml/MainPage.qml" line="100"/>
         <source>TV Channels</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../apps/harmattan/qml/MainPage.qml" line="137"/>
-        <location filename="../apps/ubuntu/qml/MainPage.qml" line="111"/>
+        <location filename="../apps/harmattan/qml/MainPage.qml" line="193"/>
+        <location filename="../apps/ubuntu/qml/MainPage.qml" line="131"/>
         <source>Library</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../apps/harmattan/qml/MainPage.qml" line="139"/>
-        <location filename="../apps/ubuntu/qml/MainPage.qml" line="111"/>
+        <location filename="../apps/harmattan/qml/MainPage.qml" line="195"/>
+        <location filename="../apps/ubuntu/qml/MainPage.qml" line="131"/>
         <source>Files</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../apps/harmattan/qml/MainPage.qml" line="216"/>
+        <location filename="../apps/harmattan/qml/MainPage.qml" line="267"/>
         <source>Show files</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../apps/harmattan/qml/MainPage.qml" line="229"/>
+        <location filename="../apps/harmattan/qml/MainPage.qml" line="280"/>
         <source>Show library</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../apps/harmattan/qml/MainPage.qml" line="242"/>
+        <location filename="../apps/harmattan/qml/MainPage.qml" line="293"/>
         <source>Rescan library</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../apps/harmattan/qml/MainPage.qml" line="260"/>
+        <location filename="../apps/harmattan/qml/MainPage.qml" line="309"/>
         <source>Clean library</source>
         <translation type="unfinished"></translation>
     </message>
@@ -636,37 +636,37 @@
 <context>
     <name>MainWindow</name>
     <message>
-        <location filename="../apps/generic/ui/mainwindow.cpp" line="64"/>
+        <location filename="../apps/generic/ui/mainwindow.cpp" line="84"/>
         <source>Connect...</source>
         <translation>Baglan...</translation>
     </message>
     <message>
-        <location filename="../apps/generic/ui/mainwindow.cpp" line="65"/>
+        <location filename="../apps/generic/ui/mainwindow.cpp" line="85"/>
         <source>Settings</source>
         <translation>Ayarlar</translation>
     </message>
     <message>
-        <location filename="../apps/generic/ui/mainwindow.cpp" line="71"/>
+        <location filename="../apps/generic/ui/mainwindow.cpp" line="91"/>
         <source>About</source>
         <translation>Hakkinda</translation>
     </message>
     <message>
-        <location filename="../apps/generic/ui/mainwindow.cpp" line="212"/>
+        <location filename="../apps/generic/ui/mainwindow.cpp" line="232"/>
         <source>Incoming call</source>
         <translation>Gelen arama</translation>
     </message>
     <message>
-        <location filename="../apps/generic/ui/mainwindow.cpp" line="263"/>
+        <location filename="../apps/generic/ui/mainwindow.cpp" line="283"/>
         <source>Download started: %1</source>
         <translation>Indirme baslatildi: %1</translation>
     </message>
     <message>
-        <location filename="../apps/generic/ui/mainwindow.cpp" line="276"/>
+        <location filename="../apps/generic/ui/mainwindow.cpp" line="296"/>
         <source>Download finished: %1</source>
         <translation>Indirme tamamlandi: %1</translation>
     </message>
     <message>
-        <location filename="../apps/generic/ui/mainwindow.cpp" line="278"/>
+        <location filename="../apps/generic/ui/mainwindow.cpp" line="298"/>
         <source>Error downloading %1</source>
         <translation>Indirmede hata %1</translation>
     </message>
@@ -674,7 +674,7 @@
 <context>
     <name>MeeGoHelper</name>
     <message>
-        <location filename="../apps/harmattan/meegohelper.cpp" line="190"/>
+        <location filename="../apps/harmattan/meegohelper.cpp" line="192"/>
         <source>Incoming call</source>
         <translation>Gelen Arama</translation>
     </message>
@@ -682,7 +682,7 @@
 <context>
     <name>Movies</name>
     <message>
-        <location filename="../libxbmcremote/movies.cpp" line="231"/>
+        <location filename="../libxbmcremote/movies.cpp" line="233"/>
         <source>Movies</source>
         <translation>Filmler</translation>
     </message>
@@ -690,7 +690,7 @@
 <context>
     <name>MusicVideos</name>
     <message>
-        <location filename="../libxbmcremote/musicvideos.cpp" line="185"/>
+        <location filename="../libxbmcremote/musicvideos.cpp" line="187"/>
         <source>Music Videos</source>
         <translation>Klipler</translation>
     </message>
@@ -698,29 +698,29 @@
 <context>
     <name>NfcHandler</name>
     <message>
-        <location filename="../apps/harmattan/nfchandler.cpp" line="90"/>
-        <location filename="../apps/harmattan/nfchandler.cpp" line="99"/>
-        <location filename="../apps/harmattan/nfchandler.cpp" line="116"/>
+        <location filename="../apps/harmattan/nfchandler.cpp" line="110"/>
+        <location filename="../apps/harmattan/nfchandler.cpp" line="119"/>
+        <location filename="../apps/harmattan/nfchandler.cpp" line="136"/>
         <source>NFC tag is not compatible with Xbmcremote. In order to use it with Xbmcremote you need to write connection information to it.</source>
         <translation>NFC tagleri Xbmcremote ile uyumlu degil.Xbmcremote ile kullanabilmeniz icin baglanti detaylari yazmaniz gerekiyor.</translation>
     </message>
     <message>
-        <location filename="../apps/harmattan/nfchandler.cpp" line="97"/>
+        <location filename="../apps/harmattan/nfchandler.cpp" line="117"/>
         <source>NFC tag is outdated. In order to use it with Xbmcremote you need to update it by rewriting connection information to it.</source>
         <translation>NFC tag&apos;in suresi dolmus.Xbmcremote ile kullanabilmeniz icin baglanti bilgilerini tekrar yazmaniz gerekiyor.</translation>
     </message>
     <message>
-        <location filename="../apps/harmattan/nfchandler.cpp" line="132"/>
+        <location filename="../apps/harmattan/nfchandler.cpp" line="152"/>
         <source>Tag written successfully. NOTE: This tag does not offer enough space to write all informations. Wake on LAN will not work with this tag.</source>
         <translation>Tag basariyla yazildi.NOT: Bu tag size butun bilgileri yazmaniz icin yeterli alan vermez.Wake On LAN bu tag ile calismaz.</translation>
     </message>
     <message>
-        <location filename="../apps/harmattan/nfchandler.cpp" line="134"/>
+        <location filename="../apps/harmattan/nfchandler.cpp" line="154"/>
         <source>Tag written successfully.</source>
         <translation>Tag basariyla yazildi.</translation>
     </message>
     <message>
-        <location filename="../apps/harmattan/nfchandler.cpp" line="142"/>
+        <location filename="../apps/harmattan/nfchandler.cpp" line="162"/>
         <source>Error writing NFC tag.</source>
         <translation>NFC Tag&apos;i yazilirken hata olustu.</translation>
     </message>
@@ -728,7 +728,7 @@
 <context>
     <name>NoConnectionPage</name>
     <message>
-        <location filename="../apps/harmattan/qml/NoConnectionPage.qml" line="27"/>
+        <location filename="../apps/harmattan/qml/NoConnectionPage.qml" line="47"/>
         <source>Connect</source>
         <translation type="unfinished">Baglan</translation>
     </message>
@@ -736,102 +736,102 @@
 <context>
     <name>NowPlayingDetails</name>
     <message>
-        <location filename="../apps/harmattan/qml/NowPlayingDetails.qml" line="78"/>
+        <location filename="../apps/harmattan/qml/NowPlayingDetails.qml" line="98"/>
         <source>Rating:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../apps/harmattan/qml/NowPlayingDetails.qml" line="97"/>
+        <location filename="../apps/harmattan/qml/NowPlayingDetails.qml" line="117"/>
         <source>Season:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../apps/harmattan/qml/NowPlayingDetails.qml" line="103"/>
+        <location filename="../apps/harmattan/qml/NowPlayingDetails.qml" line="123"/>
         <source>Episode:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../apps/harmattan/qml/NowPlayingDetails.qml" line="109"/>
+        <location filename="../apps/harmattan/qml/NowPlayingDetails.qml" line="129"/>
         <source>First aired:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../apps/harmattan/qml/NowPlayingDetails.qml" line="115"/>
+        <location filename="../apps/harmattan/qml/NowPlayingDetails.qml" line="135"/>
         <source>Genre:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../apps/harmattan/qml/NowPlayingDetails.qml" line="121"/>
+        <location filename="../apps/harmattan/qml/NowPlayingDetails.qml" line="141"/>
         <source>Year:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../apps/harmattan/qml/NowPlayingDetails.qml" line="127"/>
+        <location filename="../apps/harmattan/qml/NowPlayingDetails.qml" line="147"/>
         <source>Director:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../apps/harmattan/qml/NowPlayingDetails.qml" line="133"/>
+        <location filename="../apps/harmattan/qml/NowPlayingDetails.qml" line="153"/>
         <source>Tagline:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../apps/harmattan/qml/NowPlayingDetails.qml" line="139"/>
+        <location filename="../apps/harmattan/qml/NowPlayingDetails.qml" line="159"/>
         <source>MPAA:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../apps/harmattan/qml/NowPlayingDetails.qml" line="145"/>
+        <location filename="../apps/harmattan/qml/NowPlayingDetails.qml" line="165"/>
         <source>Instrument:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../apps/harmattan/qml/NowPlayingDetails.qml" line="151"/>
+        <location filename="../apps/harmattan/qml/NowPlayingDetails.qml" line="171"/>
         <source>Style:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../apps/harmattan/qml/NowPlayingDetails.qml" line="157"/>
+        <location filename="../apps/harmattan/qml/NowPlayingDetails.qml" line="177"/>
         <source>Mood:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../apps/harmattan/qml/NowPlayingDetails.qml" line="163"/>
+        <location filename="../apps/harmattan/qml/NowPlayingDetails.qml" line="183"/>
         <source>Born:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../apps/harmattan/qml/NowPlayingDetails.qml" line="169"/>
+        <location filename="../apps/harmattan/qml/NowPlayingDetails.qml" line="189"/>
         <source>Formed:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../apps/harmattan/qml/NowPlayingDetails.qml" line="175"/>
+        <location filename="../apps/harmattan/qml/NowPlayingDetails.qml" line="195"/>
         <source>Died:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../apps/harmattan/qml/NowPlayingDetails.qml" line="181"/>
+        <location filename="../apps/harmattan/qml/NowPlayingDetails.qml" line="201"/>
         <source>Disbanded:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../apps/harmattan/qml/NowPlayingDetails.qml" line="187"/>
+        <location filename="../apps/harmattan/qml/NowPlayingDetails.qml" line="207"/>
         <source>Duration:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../apps/harmattan/qml/NowPlayingDetails.qml" line="193"/>
+        <location filename="../apps/harmattan/qml/NowPlayingDetails.qml" line="213"/>
         <source>Comment:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../apps/harmattan/qml/NowPlayingDetails.qml" line="199"/>
+        <location filename="../apps/harmattan/qml/NowPlayingDetails.qml" line="219"/>
         <source>Playcount:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../apps/harmattan/qml/NowPlayingDetails.qml" line="205"/>
+        <location filename="../apps/harmattan/qml/NowPlayingDetails.qml" line="225"/>
         <source>Cast:</source>
         <translation type="unfinished"></translation>
     </message>
@@ -839,51 +839,51 @@
 <context>
     <name>NowPlayingPage</name>
     <message>
-        <location filename="../apps/harmattan/qml/NowPlayingPage.qml" line="57"/>
+        <location filename="../apps/harmattan/qml/NowPlayingPage.qml" line="77"/>
         <source>Select audio track</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../apps/harmattan/qml/NowPlayingPage.qml" line="119"/>
+        <location filename="../apps/harmattan/qml/NowPlayingPage.qml" line="139"/>
         <source>Off</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../apps/harmattan/qml/NowPlayingPage.qml" line="120"/>
+        <location filename="../apps/harmattan/qml/NowPlayingPage.qml" line="140"/>
         <source>Select subtitle</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../apps/harmattan/qml/NowPlayingPage.qml" line="277"/>
-        <location filename="../apps/ubuntu/qml/NowPlayingPage.qml" line="198"/>
+        <location filename="../apps/harmattan/qml/NowPlayingPage.qml" line="297"/>
+        <location filename="../apps/ubuntu/qml/NowPlayingPage.qml" line="218"/>
         <source>Season:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../apps/harmattan/qml/NowPlayingPage.qml" line="277"/>
-        <location filename="../apps/ubuntu/qml/NowPlayingPage.qml" line="198"/>
+        <location filename="../apps/harmattan/qml/NowPlayingPage.qml" line="297"/>
+        <location filename="../apps/ubuntu/qml/NowPlayingPage.qml" line="218"/>
         <source>Episode:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../apps/harmattan/qml/NowPlayingPage.qml" line="283"/>
-        <location filename="../apps/ubuntu/qml/NowPlayingPage.qml" line="198"/>
+        <location filename="../apps/harmattan/qml/NowPlayingPage.qml" line="303"/>
+        <location filename="../apps/ubuntu/qml/NowPlayingPage.qml" line="218"/>
         <source>Rating:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../apps/harmattan/qml/NowPlayingPage.qml" line="309"/>
-        <location filename="../apps/ubuntu/qml/NowPlayingPage.qml" line="233"/>
+        <location filename="../apps/harmattan/qml/NowPlayingPage.qml" line="329"/>
+        <location filename="../apps/ubuntu/qml/NowPlayingPage.qml" line="253"/>
         <source>Year:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../apps/harmattan/qml/NowPlayingPage.qml" line="350"/>
+        <location filename="../apps/harmattan/qml/NowPlayingPage.qml" line="370"/>
         <source>Cancel</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../apps/harmattan/qml/NowPlayingPage.qml" line="351"/>
+        <location filename="../apps/harmattan/qml/NowPlayingPage.qml" line="371"/>
         <source>OK</source>
         <translation type="unfinished"></translation>
     </message>
@@ -891,12 +891,12 @@
 <context>
     <name>NowPlayingView</name>
     <message>
-        <location filename="../apps/generic/qml/NowPlayingView.qml" line="194"/>
+        <location filename="../apps/generic/qml/NowPlayingView.qml" line="214"/>
         <source>Now playing:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../apps/generic/qml/NowPlayingView.qml" line="204"/>
+        <location filename="../apps/generic/qml/NowPlayingView.qml" line="224"/>
         <source>Track:</source>
         <translation type="unfinished"></translation>
     </message>
@@ -904,17 +904,17 @@
 <context>
     <name>PlaylistPage</name>
     <message>
-        <location filename="../apps/harmattan/qml/PlaylistPage.qml" line="137"/>
+        <location filename="../apps/harmattan/qml/PlaylistPage.qml" line="157"/>
         <source>Play</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../apps/harmattan/qml/PlaylistPage.qml" line="143"/>
+        <location filename="../apps/harmattan/qml/PlaylistPage.qml" line="163"/>
         <source>Remove from playlist</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../apps/harmattan/qml/PlaylistPage.qml" line="149"/>
+        <location filename="../apps/harmattan/qml/PlaylistPage.qml" line="169"/>
         <source>Clear playlist</source>
         <translation type="unfinished"></translation>
     </message>
@@ -955,7 +955,7 @@
 <context>
     <name>Seasons</name>
     <message>
-        <location filename="../libxbmcremote/seasons.cpp" line="154"/>
+        <location filename="../libxbmcremote/seasons.cpp" line="156"/>
         <source>Seasons</source>
         <translation>Sezonlar</translation>
     </message>
@@ -963,37 +963,37 @@
 <context>
     <name>SettingsDialog</name>
     <message>
-        <location filename="../apps/generic/ui/settingsdialog.cpp" line="38"/>
+        <location filename="../apps/generic/ui/settingsdialog.cpp" line="40"/>
         <source>Settings</source>
         <translation>Ayarlar</translation>
     </message>
     <message>
-        <location filename="../apps/generic/ui/settingsdialog.cpp" line="65"/>
+        <location filename="../apps/generic/ui/settingsdialog.cpp" line="67"/>
         <source>Use Thumbnails</source>
         <translation>Thumbnailleri kullan</translation>
     </message>
     <message>
-        <location filename="../apps/generic/ui/settingsdialog.cpp" line="69"/>
+        <location filename="../apps/generic/ui/settingsdialog.cpp" line="71"/>
         <source>Ignore articles for sorting</source>
         <translation>Siralama icin yazilari yoksay</translation>
     </message>
     <message>
-        <location filename="../apps/generic/ui/settingsdialog.cpp" line="73"/>
+        <location filename="../apps/generic/ui/settingsdialog.cpp" line="75"/>
         <source>Change volume during calls</source>
         <translation>Aramalarda ses seviyesini degistir</translation>
     </message>
     <message>
-        <location filename="../apps/generic/ui/settingsdialog.cpp" line="82"/>
+        <location filename="../apps/generic/ui/settingsdialog.cpp" line="84"/>
         <source>Pause video during calls</source>
         <translation>Aramalarda videoyu duraklat</translation>
     </message>
     <message>
-        <location filename="../apps/generic/ui/settingsdialog.cpp" line="86"/>
+        <location filename="../apps/generic/ui/settingsdialog.cpp" line="88"/>
         <source>Pause music during calls</source>
         <translation>Aramalarda muzigi duraklat</translation>
     </message>
     <message>
-        <location filename="../apps/generic/ui/settingsdialog.cpp" line="92"/>
+        <location filename="../apps/generic/ui/settingsdialog.cpp" line="94"/>
         <source>Show call notifications</source>
         <translation>Arama bildirimlerini goster</translation>
     </message>
@@ -1001,62 +1001,82 @@
 <context>
     <name>SettingsSheet</name>
     <message>
-        <location filename="../apps/harmattan/qml/SettingsSheet.qml" line="6"/>
+        <location filename="../apps/harmattan/qml/SettingsSheet.qml" line="26"/>
         <source>Save</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../apps/harmattan/qml/SettingsSheet.qml" line="7"/>
+        <location filename="../apps/harmattan/qml/SettingsSheet.qml" line="27"/>
         <source>Cancel</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../apps/harmattan/qml/SettingsSheet.qml" line="20"/>
+        <location filename="../apps/harmattan/qml/SettingsSheet.qml" line="40"/>
         <source>Look and feel</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../apps/harmattan/qml/SettingsSheet.qml" line="26"/>
+        <location filename="../apps/harmattan/qml/SettingsSheet.qml" line="46"/>
         <source>Invert theme</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../apps/harmattan/qml/SettingsSheet.qml" line="31"/>
+        <location filename="../apps/harmattan/qml/SettingsSheet.qml" line="51"/>
         <source>Use Thumbnails</source>
         <translation type="unfinished">Thumbnailleri kullan</translation>
     </message>
     <message>
-        <location filename="../apps/harmattan/qml/SettingsSheet.qml" line="36"/>
+        <location filename="../apps/harmattan/qml/SettingsSheet.qml" line="56"/>
         <source>Keep display on when charging</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../apps/harmattan/qml/SettingsSheet.qml" line="41"/>
+        <location filename="../apps/harmattan/qml/SettingsSheet.qml" line="61"/>
         <source>Ignore articles for sorting</source>
         <translation type="unfinished">Siralama icin yazilari yoksay</translation>
     </message>
     <message>
-        <location filename="../apps/harmattan/qml/SettingsSheet.qml" line="46"/>
+        <location filename="../apps/harmattan/qml/SettingsSheet.qml" line="69"/>
+        <source>Music</source>
+        <translation type="unfinished">Muzik</translation>
+    </message>
+    <message>
+        <location filename="../apps/harmattan/qml/SettingsSheet.qml" line="75"/>
+        <source>Videos</source>
+        <translation type="unfinished">Videolar</translation>
+    </message>
+    <message>
+        <location filename="../apps/harmattan/qml/SettingsSheet.qml" line="85"/>
+        <source>Pictures</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../apps/harmattan/qml/SettingsSheet.qml" line="91"/>
+        <source>TV Channels</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../apps/harmattan/qml/SettingsSheet.qml" line="98"/>
         <source>Phone calls</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../apps/harmattan/qml/SettingsSheet.qml" line="52"/>
+        <location filename="../apps/harmattan/qml/SettingsSheet.qml" line="104"/>
         <source>Change volume</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../apps/harmattan/qml/SettingsSheet.qml" line="65"/>
+        <location filename="../apps/harmattan/qml/SettingsSheet.qml" line="117"/>
         <source>Pause video</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../apps/harmattan/qml/SettingsSheet.qml" line="70"/>
+        <location filename="../apps/harmattan/qml/SettingsSheet.qml" line="122"/>
         <source>Pause music</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../apps/harmattan/qml/SettingsSheet.qml" line="75"/>
+        <location filename="../apps/harmattan/qml/SettingsSheet.qml" line="127"/>
         <source>Show call notifications</source>
         <translation type="unfinished">Arama bildirimlerini goster</translation>
     </message>
@@ -1064,17 +1084,17 @@
 <context>
     <name>Shares</name>
     <message>
-        <location filename="../libxbmcremote/shares.cpp" line="90"/>
+        <location filename="../libxbmcremote/shares.cpp" line="92"/>
         <source>Music Files</source>
         <translation>Muzik Dosyalari</translation>
     </message>
     <message>
-        <location filename="../libxbmcremote/shares.cpp" line="92"/>
+        <location filename="../libxbmcremote/shares.cpp" line="94"/>
         <source>Video Files</source>
         <translation>Video Dosyalari</translation>
     </message>
     <message>
-        <location filename="../libxbmcremote/shares.cpp" line="94"/>
+        <location filename="../libxbmcremote/shares.cpp" line="96"/>
         <source>Picture Files</source>
         <translation>Fotograf Dosyalari</translation>
     </message>
@@ -1082,7 +1102,7 @@
 <context>
     <name>Songs</name>
     <message>
-        <location filename="../libxbmcremote/songs.cpp" line="207"/>
+        <location filename="../libxbmcremote/songs.cpp" line="209"/>
         <source>Songs</source>
         <translation>Sarkilar</translation>
     </message>
@@ -1090,7 +1110,7 @@
 <context>
     <name>TvShows</name>
     <message>
-        <location filename="../libxbmcremote/tvshows.cpp" line="198"/>
+        <location filename="../libxbmcremote/tvshows.cpp" line="200"/>
         <source>TV Shows</source>
         <translation>TV Sovları</translation>
     </message>
@@ -1098,27 +1118,27 @@
 <context>
     <name>VideoLibrary</name>
     <message>
-        <location filename="../libxbmcremote/videolibrary.cpp" line="31"/>
+        <location filename="../libxbmcremote/videolibrary.cpp" line="33"/>
         <source>Movies</source>
         <translation>Filmler</translation>
     </message>
     <message>
-        <location filename="../libxbmcremote/videolibrary.cpp" line="36"/>
+        <location filename="../libxbmcremote/videolibrary.cpp" line="38"/>
         <source>TV Shows</source>
         <translation>TV Sovları</translation>
     </message>
     <message>
-        <location filename="../libxbmcremote/videolibrary.cpp" line="41"/>
+        <location filename="../libxbmcremote/videolibrary.cpp" line="43"/>
         <source>Music Videos</source>
         <translation>Klipler</translation>
     </message>
     <message>
-        <location filename="../libxbmcremote/videolibrary.cpp" line="46"/>
+        <location filename="../libxbmcremote/videolibrary.cpp" line="48"/>
         <source>Recently added</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../libxbmcremote/videolibrary.cpp" line="80"/>
+        <location filename="../libxbmcremote/videolibrary.cpp" line="82"/>
         <source>Video Library</source>
         <translation>Film Kutuphanesi</translation>
     </message>
@@ -1126,12 +1146,12 @@
 <context>
     <name>VideoPlaylist</name>
     <message>
-        <location filename="../libxbmcremote/videoplaylist.cpp" line="165"/>
+        <location filename="../libxbmcremote/videoplaylist.cpp" line="167"/>
         <source>Now Playing</source>
         <translation>Simdi Caliniyor</translation>
     </message>
     <message>
-        <location filename="../libxbmcremote/videoplaylist.cpp" line="165"/>
+        <location filename="../libxbmcremote/videoplaylist.cpp" line="167"/>
         <source>Videos</source>
         <translation>Videolar</translation>
     </message>
@@ -1139,22 +1159,22 @@
 <context>
     <name>WriteNfcTagSheet</name>
     <message>
-        <location filename="../apps/harmattan/qml/WriteNfcTagSheet.qml" line="26"/>
+        <location filename="../apps/harmattan/qml/WriteNfcTagSheet.qml" line="46"/>
         <source>Tap a NFC tag to write XBMC connection information to it. You can then use the tag to connect to this XBMC.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../apps/harmattan/qml/WriteNfcTagSheet.qml" line="38"/>
+        <location filename="../apps/harmattan/qml/WriteNfcTagSheet.qml" line="58"/>
         <source>Close</source>
         <translation type="unfinished">Kapat</translation>
     </message>
     <message>
-        <location filename="../apps/harmattan/qml/WriteNfcTagSheet.qml" line="50"/>
+        <location filename="../apps/harmattan/qml/WriteNfcTagSheet.qml" line="70"/>
         <source>Cancel</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../apps/harmattan/qml/WriteNfcTagSheet.qml" line="50"/>
+        <location filename="../apps/harmattan/qml/WriteNfcTagSheet.qml" line="70"/>
         <source>Write NFC Tag</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1162,12 +1182,12 @@
 <context>
     <name>Xbmc</name>
     <message>
-        <location filename="../libxbmcremote/xbmc.cpp" line="220"/>
+        <location filename="../libxbmcremote/xbmc.cpp" line="222"/>
         <source>Finished downloading %1</source>
         <translation>Indirme bitiriliyor %1</translation>
     </message>
     <message>
-        <location filename="../libxbmcremote/xbmc.cpp" line="222"/>
+        <location filename="../libxbmcremote/xbmc.cpp" line="224"/>
         <source>Error downloading %1</source>
         <translation>Indirilirken hata %1</translation>
     </message>
@@ -1175,28 +1195,28 @@
 <context>
     <name>XbmcConnection::XbmcConnectionPrivate</name>
     <message>
-        <location filename="../libxbmcremote/xbmcconnection.cpp" line="205"/>
+        <location filename="../libxbmcremote/xbmcconnection.cpp" line="207"/>
         <source>Connecting to %1...</source>
         <translation>%1&apos;a baglaniliyor...</translation>
     </message>
     <message>
-        <location filename="../libxbmcremote/xbmcconnection.cpp" line="259"/>
+        <location filename="../libxbmcremote/xbmcconnection.cpp" line="261"/>
         <source>The connection has been disconnected</source>
         <translation>Baglanti kesildi</translation>
     </message>
     <message>
-        <location filename="../libxbmcremote/xbmcconnection.cpp" line="269"/>
-        <location filename="../libxbmcremote/xbmcconnection.cpp" line="328"/>
+        <location filename="../libxbmcremote/xbmcconnection.cpp" line="271"/>
+        <location filename="../libxbmcremote/xbmcconnection.cpp" line="330"/>
         <source>Connection failed: %1</source>
         <translation>Baglanti kurulamadi: %1</translation>
     </message>
     <message>
-        <location filename="../libxbmcremote/xbmcconnection.cpp" line="380"/>
+        <location filename="../libxbmcremote/xbmcconnection.cpp" line="382"/>
         <source>This version of Xbmcremote is designed to work with XBMC Frodo (v12.0). It seems you have connected to an older version of XMBC. Please upgrade XBMC in order to use Xbmcremote.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../libxbmcremote/xbmcconnection.cpp" line="589"/>
+        <location filename="../libxbmcremote/xbmcconnection.cpp" line="591"/>
         <source>Connection to %1 timed out...</source>
         <translation>%1&apos;a yapilan baglantida zaman asildi ...</translation>
     </message>
@@ -1204,87 +1224,87 @@
 <context>
     <name>main</name>
     <message>
-        <location filename="../apps/harmattan/qml/main.qml" line="79"/>
+        <location filename="../apps/harmattan/qml/main.qml" line="99"/>
         <source>Connect...</source>
         <translation type="unfinished">Baglan...</translation>
     </message>
     <message>
-        <location filename="../apps/harmattan/qml/main.qml" line="90"/>
+        <location filename="../apps/harmattan/qml/main.qml" line="110"/>
         <source>Quit xbmc</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../apps/harmattan/qml/main.qml" line="97"/>
+        <location filename="../apps/harmattan/qml/main.qml" line="117"/>
         <source>Write NFC Tag</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../apps/harmattan/qml/main.qml" line="109"/>
+        <location filename="../apps/harmattan/qml/main.qml" line="129"/>
         <source>Settings</source>
         <translation type="unfinished">Ayarlar</translation>
     </message>
     <message>
-        <location filename="../apps/harmattan/qml/main.qml" line="122"/>
+        <location filename="../apps/harmattan/qml/main.qml" line="142"/>
         <source>About</source>
         <translation type="unfinished">Hakkinda</translation>
     </message>
     <message>
-        <location filename="../apps/harmattan/qml/main.qml" line="190"/>
-        <location filename="../apps/harmattan/qml/main.qml" line="211"/>
-        <location filename="../apps/harmattan/qml/main.qml" line="233"/>
+        <location filename="../apps/harmattan/qml/main.qml" line="210"/>
+        <location filename="../apps/harmattan/qml/main.qml" line="231"/>
+        <location filename="../apps/harmattan/qml/main.qml" line="253"/>
         <source>OK</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../apps/harmattan/qml/main.qml" line="313"/>
+        <location filename="../apps/harmattan/qml/main.qml" line="333"/>
         <source>Quit</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../apps/harmattan/qml/main.qml" line="317"/>
+        <location filename="../apps/harmattan/qml/main.qml" line="337"/>
         <source>Shutdown</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../apps/harmattan/qml/main.qml" line="322"/>
+        <location filename="../apps/harmattan/qml/main.qml" line="342"/>
         <source>Reboot</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../apps/harmattan/qml/main.qml" line="327"/>
+        <location filename="../apps/harmattan/qml/main.qml" line="347"/>
         <source>Suspend</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../apps/harmattan/qml/main.qml" line="332"/>
+        <location filename="../apps/harmattan/qml/main.qml" line="352"/>
         <source>Hibernate</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../apps/harmattan/qml/main.qml" line="191"/>
-        <location filename="../apps/harmattan/qml/main.qml" line="212"/>
-        <location filename="../apps/harmattan/qml/main.qml" line="234"/>
-        <location filename="../apps/harmattan/qml/main.qml" line="339"/>
+        <location filename="../apps/harmattan/qml/main.qml" line="211"/>
+        <location filename="../apps/harmattan/qml/main.qml" line="232"/>
+        <location filename="../apps/harmattan/qml/main.qml" line="254"/>
+        <location filename="../apps/harmattan/qml/main.qml" line="359"/>
         <source>Cancel</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../apps/harmattan/qml/main.qml" line="378"/>
+        <location filename="../apps/harmattan/qml/main.qml" line="398"/>
         <source>Copyright</source>
         <translation type="unfinished">Copyright</translation>
     </message>
     <message>
-        <location filename="../apps/harmattan/qml/main.qml" line="385"/>
+        <location filename="../apps/harmattan/qml/main.qml" line="405"/>
         <source>Close</source>
         <translation type="unfinished">Kapat</translation>
     </message>
     <message>
-        <location filename="../apps/harmattan/qml/main.qml" line="392"/>
+        <location filename="../apps/harmattan/qml/main.qml" line="412"/>
         <source>Donate</source>
         <translation type="unfinished">Bagis Yap</translation>
     </message>
     <message>
-        <location filename="../apps/harmattan/qml/main.qml" line="398"/>
+        <location filename="../apps/harmattan/qml/main.qml" line="418"/>
         <source>Flattr</source>
         <translation type="unfinished">Flattr</translation>
     </message>

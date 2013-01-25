@@ -837,6 +837,22 @@
         <source>Show call notifications</source>
         <translation type="unfinished">Anrufbenachrichtigung anzeigen</translation>
     </message>
+    <message>
+        <source>Music</source>
+        <translation type="unfinished">Musik</translation>
+    </message>
+    <message>
+        <source>Videos</source>
+        <translation type="unfinished">Videos</translation>
+    </message>
+    <message>
+        <source>Pictures</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>TV Channels</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>Shares</name>
