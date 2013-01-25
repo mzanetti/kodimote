@@ -1,3 +1,11 @@
+xbmcremote (1.3.0~beta2-harmattan0) unstable; urgency=low
+  * bring back rumble effect
+  * add option to disable parts of main menu
+  * hopefully make the eventclient more robust
+  * fix configuration help text
+
+ -- Michael Zanetti <michael_zanetti@gmx.net>  Fri, 26 Jan 2012 18:16:59 +0200
+
 xbmcremote (1.3.0~beta1-harmattan0) unstable; urgency=low
   * Updated protocol to Xbmc Frodo
   * Lots of bugfixes

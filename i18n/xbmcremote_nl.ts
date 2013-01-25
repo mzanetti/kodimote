@@ -198,8 +198,8 @@
     </message>
     <message>
         <location filename="../apps/generic/ui/connectdialog.cpp" line="53"/>
-        <source>Please enable the following options in the Network settings of XBMC:</source>
-        <translation>Schakel volgende opties in onder netwerkinstellingen van XBMC:</translation>
+        <source>Please enable the following options in the Services settings of XBMC:</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../apps/generic/ui/connectdialog.cpp" line="54"/>
@@ -280,8 +280,8 @@
     </message>
     <message>
         <location filename="../apps/harmattan/qml/ConnectionSheet.qml" line="82"/>
-        <source>Please enable the following options in the Network settings of XBMC:</source>
-        <translation type="unfinished">Schakel volgende opties in onder netwerkinstellingen van XBMC:</translation>
+        <source>Please enable the following options in the Services settings of XBMC:</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../apps/harmattan/qml/ConnectionSheet.qml" line="83"/>

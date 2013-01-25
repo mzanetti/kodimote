@@ -187,10 +187,6 @@
         <translation>Suche XBMC.</translation>
     </message>
     <message>
-        <source>Please enable the following options in the Network settings of XBMC:</source>
-        <translation>Bitte aktivieren Sie die folgenden Funktionen in den XBMC-Netzwerkeinstellungen:</translation>
-    </message>
-    <message>
         <source>If you don&apos;t use Zeroconf, add a host manually.</source>
         <translation>Wenn Sie Zeroconf nicht benutzen, fügen Sie den Ihr XBMC manuell hinzu.</translation>
     </message>
@@ -210,6 +206,10 @@
         <source>Back</source>
         <translation>Zurück</translation>
     </message>
+    <message>
+        <source>Please enable the following options in the Services settings of XBMC:</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>ConnectionSheet</name>
@@ -224,10 +224,6 @@
     <message>
         <source>Searching for XBMC hosts.</source>
         <translation type="unfinished">Suche XBMC.</translation>
-    </message>
-    <message>
-        <source>Please enable the following options in the Network settings of XBMC:</source>
-        <translation type="unfinished">Bitte aktivieren Sie die folgenden Funktionen in den XBMC-Netzwerkeinstellungen:</translation>
     </message>
     <message>
         <source>Allow control of XBMC via HTTP</source>
@@ -275,6 +271,10 @@
     </message>
     <message>
         <source>Waking up %1...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Please enable the following options in the Services settings of XBMC:</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

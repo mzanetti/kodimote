@@ -79,7 +79,7 @@ Sheet {
                             id: searchLabel
                             width: parent.width
                             text: qsTr("Searching for XBMC hosts.") + "\n"
-                                  + qsTr("Please enable the following options in the Network settings of XBMC:") + "\n- "
+                                  + qsTr("Please enable the following options in the Services settings of XBMC:") + "\n- "
                                   + qsTr("Allow control of XBMC via HTTP") + "\n- "
                                   + qsTr("Allow programs on other systems to control XBMC") + "\n- "
                                   + qsTr("Announce these services to other systems via Zeroconf") + "\n"
