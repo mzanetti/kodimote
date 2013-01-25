@@ -62,6 +62,38 @@ Sheet {
                 checked: settings.ignoreArticle
             }
 
+            Row {
+                width: parent.width
+                CheckBox {
+                    id: cbMusicEnabled
+                    text: qsTr("Music")
+                    checked: settings.musicEnabled
+                    width: parent.width / 2
+                }
+                CheckBox {
+                    id: cbVideosEnabled
+                    text: qsTr("Videos")
+                    checked: settings.videosEnabled
+                    width: parent.width / 2
+                }
+            }
+
+            Row {
+                width: parent.width
+                CheckBox {
+                    id: cbPicturesEnabled
+                    text: qsTr("Pictures")
+                    checked: settings.picturesEnabled
+                    width: parent.width / 2
+                }
+                CheckBox {
+                    id: cbPvrEnabled
+                    text: qsTr("TV Channels")
+                    checked: settings.pvrEnabled
+                    width: parent.width / 2
+                }
+            }
+
             SectionHeader {
                 headerText: qsTr("Phone calls")
                 width: parent.width
@@ -110,5 +142,9 @@ Sheet {
         settings.pauseVideoOnCall = cbPauseVideo.checked
         settings.useThumbnails = cbUseThumbnails.checked
         settings.showCallNotifications = cbShowNotifications.checked
+        settings.musicEnabled = cbMusicEnabled.checked
+        settings.videosEnabled = cbVideosEnabled.checked
+        settings.picturesEnabled = cbPicturesEnabled.checked
+        settings.pvrEnabled = cbPvrEnabled.checked
     }
 }

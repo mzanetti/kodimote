@@ -39,6 +39,10 @@ class Settings : public QObject
     Q_PROPERTY(bool showCallNotifications READ showCallNotifications WRITE setShowCallNotifications NOTIFY showCallNotificationsChanged)
     Q_PROPERTY(bool musicShowsFiles READ musicShowsFiles WRITE setMusicShowsFiles NOTIFY musicShowsFilesChanged)
     Q_PROPERTY(bool videoShowsFiles READ videoShowsFiles WRITE setVideoShowsFiles NOTIFY videoShowsFilesChanged)
+    Q_PROPERTY(bool musicEnabled READ musicEnabled WRITE setMusicEnabled NOTIFY musicEnabledChanged)
+    Q_PROPERTY(bool videosEnabled READ videosEnabled WRITE setVideosEnabled NOTIFY videosEnabledChanged)
+    Q_PROPERTY(bool picturesEnabled READ picturesEnabled WRITE setPicturesEnabled NOTIFY picturesEnabledChanged)
+    Q_PROPERTY(bool pvrEnabled READ pvrEnabled WRITE setPvrEnabled NOTIFY pvrEnabledChanged)
 
 public:
     explicit Settings(QObject *parent = 0);
@@ -83,6 +87,18 @@ public:
     bool videoShowsFiles() const;
     void setVideoShowsFiles(bool showFiles);
 
+    bool musicEnabled() const;
+    void setMusicEnabled(bool enabled);
+
+    bool videosEnabled() const;
+    void setVideosEnabled(bool enabled);
+
+    bool picturesEnabled() const;
+    void setPicturesEnabled(bool enabled);
+
+    bool pvrEnabled() const;
+    void setPvrEnabled(bool enabled);
+
 signals:
     void themeInvertedChanged();
     void useThumbnailsChanged();
@@ -97,6 +113,10 @@ signals:
     void showCallNotificationsChanged();
     void musicShowsFilesChanged();
     void videoShowsFilesChanged();
+    void musicEnabledChanged();
+    void videosEnabledChanged();
+    void picturesEnabledChanged();
+    void pvrEnabledChanged();
 };
 
 #endif // SETTINGS_H

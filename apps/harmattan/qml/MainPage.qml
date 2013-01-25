@@ -27,6 +27,7 @@ Page {
 //    anchors.margins: appWindow.pageMargin
 
     Component.onCompleted: {
+        populateMainMenu();
         if(settings.musicShowsFiles) {
            mainMenuModel.setProperty(0, "mode", "files");
         }
@@ -51,45 +52,80 @@ Page {
     }
 
     ListModel {
-        id: mainMenuModel
+        id: mainMenuModelTemplate
         ListElement {
             icon: "image://theme/icon-m-content-audio"
             inverseIcon: "image://theme/icon-m-content-audio-inverse"
             subtitle: ""
+            target: "music"
             mode: "library"
         }
         ListElement {
             icon: "image://theme/icon-m-content-videos"
             inverseIcon: "image://theme/icon-m-content-videos-inverse"
             subtitle: ""
+            target: "videos"
             mode: "library"
         }
         ListElement {
             icon: "image://theme/icon-m-content-image"
             inverseIcon: "image://theme/icon-m-content-image-inverse"
             subtitle: ""
+            target: "pictures"
             mode: "single"
         }
         ListElement {
             icon: "image://theme/icon-m-content-tv-show"
             inverseIcon: "icons/icon-m-content-tv-show-inverse.png"
             subtitle: ""
+            target: "pvr"
             mode: "single"
         }
+    }
+    ListModel {
+        id: mainMenuModel
         // workaround: its not possible to have qsTr() in ListElements for now...
         function title(index) {
-            if (title["text"] === undefined) {
-                title.text = [
-                    qsTr("Music"),
-                    qsTr("Videos"),
-                    qsTr("Pictures"),
-                    qsTr("TV Channels")
-                ]
+            var target = mainMenuModel.get(index).target;
+            if (target === "music") {
+                return qsTr("Music");
             }
-            return title.text[index];
+            if (target === "videos") {
+                return qsTr("Videos");
+            }
+            if (target === "pictures") {
+                return qsTr("Pictures");
+            }
+            if (target === "pvr") {
+                return qsTr("TV Channels");
+            }
+            return "";
         }
     }
 
+    function populateMainMenu() {
+        mainMenuModel.clear();
+        if (settings.musicEnabled) {
+            mainMenuModel.append(mainMenuModelTemplate.get(0));
+        }
+        if (settings.videosEnabled) {
+            mainMenuModel.append(mainMenuModelTemplate.get(1));
+        }
+        if (settings.picturesEnabled) {
+            mainMenuModel.append(mainMenuModelTemplate.get(2));
+        }
+        if (settings.pvrEnabled) {
+            mainMenuModel.append(mainMenuModelTemplate.get(3));
+        }
+    }
+
+    Connections {
+        target: settings
+        onMusicEnabledChanged: populateMainMenu();
+        onVideosEnabledChanged: populateMainMenu();
+        onPicturesEnabledChanged: populateMainMenu();
+        onPvrEnabledChanged: populateMainMenu();
+    }
 
     ListView {
         id: listView
@@ -180,7 +216,7 @@ Page {
                 onPressed: listView.currentSelected = index;
 
                 onPressAndHold: {
-                    if(index === 0 || index  === 1) {
+                    if(target === "music" || target === "videos") {
                         longTapMenu.open();
                     }
                 }
@@ -189,29 +225,24 @@ Page {
                     var component = Qt.createComponent("BrowserPage.qml")
                     var newModel;
                     if (component.status === Component.Ready) {
-                        switch(index) {
-                        case 0:
+                        if (target === "music") {
                             if(mode === "library") {
                                 newModel = xbmc.audioLibrary();
                             } else {
                                 newModel = xbmc.shares("music");
                             }
-                            break
-                        case 1:
+                        } else if (target === "videos") {
                             if(mode === "library") {
                                 newModel = xbmc.videoLibrary();
                             } else {
                                 newModel = xbmc.shares("video");
                             }
-                            break;
-                        case 2:
+                        } else if (target === "pictures") {
                             newModel = xbmc.shares("pictures");
                             console.log("created model: " + newModel);
-                            break;
-                        case 3:
+                        } else if (target === "pvr") {
                             newModel = xbmc.channelGroups();
                             console.log("created model: " + newModel);
-                            break;
                         }
                         console.log("setting model: " + newModel);
                         pageStack.push(component, {model: newModel});
@@ -237,10 +268,10 @@ Page {
                 visible: mainMenuModel.get(listView.currentSelected).mode !== "files"
                 onClicked: {
                     mainMenuModel.setProperty(listView.currentSelected, "mode", "files");
-                    if(listView.currentSelected == 0) {
+                    if(mainMenuModel.get(listView.currentSelected).target === "music") {
                         settings.musicShowsFiles = true;
                     }
-                    if(listView.currentSelected == 1) {
+                    if(mainMenuModel.get(listView.currentSelected).target === "videos") {
                         settings.videoShowsFiles = true;
                     }
                 }
@@ -250,10 +281,10 @@ Page {
                 visible: mainMenuModel.get(listView.currentSelected).mode !== "library"
                 onClicked: {
                     mainMenuModel.setProperty(listView.currentSelected, "mode", "library");
-                    if(listView.currentSelected == 0) {
+                    if(mainMenuModel.get(listView.currentSelected).target === "music") {
                         settings.musicShowsFiles = false;
                     }
-                    if(listView.currentSelected == 1) {
+                    if(mainMenuModel.get(listView.currentSelected).target === "videos") {
                         settings.videoShowsFiles = false;
                     }
                 }
@@ -263,13 +294,11 @@ Page {
                 onClicked: {
                     print("current selected is" + listView.currentSelected)
                     var lib = xbmc.audioLibrary();
-                    switch(listView.currentSelected) {
-                    case 0:
+                    var target = mainMenuModel.get(listView.currentSelected).target
+                    if (target === "music") {
                         lib = xbmc.audioLibrary();
-                        break;
-                    case 1:
+                    } else if (target === "videos") {
                         lib = xbmc.videoLibrary();
-                        break;
                     }
 
                     lib.scanForContent();
@@ -281,13 +310,11 @@ Page {
                 onClicked: {
                     print("current selected is" + listView.currentSelected)
                     var lib = xbmc.audioLibrary();
-                    switch(listView.currentSelected) {
-                    case 0:
+                    var target = mainMenuModel.get(listView.currentSelected).target
+                    if (target === "music") {
                         lib = xbmc.audioLibrary();
-                        break;
-                    case 1:
+                    } else if (target === "videos") {
                         lib = xbmc.videoLibrary();
-                        break;
                     }
 
                     lib.clean();

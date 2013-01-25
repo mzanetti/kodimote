@@ -254,3 +254,55 @@ void Settings::setVideoShowsFiles(bool showFiles)
     settings.setValue("VideoShowsFiles", showFiles);
     emit videoShowsFilesChanged();
 }
+
+bool Settings::musicEnabled() const
+{
+    QSettings settings("xbmcremote");
+    return settings.value("MusicEnabled", true).toBool();
+}
+
+void Settings::setMusicEnabled(bool enabled)
+{
+    QSettings settings("xbmcremote");
+    settings.setValue("MusicEnabled", enabled);
+    emit musicEnabledChanged();
+}
+
+bool Settings::videosEnabled() const
+{
+    QSettings settings("xbmcremote");
+    return settings.value("VideosEnabled", true).toBool();
+}
+
+void Settings::setVideosEnabled(bool enabled)
+{
+    QSettings settings("xbmcremote");
+    settings.setValue("VideosEnabled", enabled);
+    emit videosEnabledChanged();
+}
+
+bool Settings::picturesEnabled() const
+{
+    QSettings settings("xbmcremote");
+    return settings.value("PicturesEnabled", true).toBool();
+}
+
+void Settings::setPicturesEnabled(bool enabled)
+{
+    QSettings settings("xbmcremote");
+    settings.setValue("PicturesEnabled", enabled);
+    emit picturesEnabledChanged();
+}
+
+bool Settings::pvrEnabled() const
+{
+    QSettings settings("xbmcremote");
+    return settings.value("PvrEnabled", true).toBool();
+}
+
+void Settings::setPvrEnabled(bool enabled)
+{
+    QSettings settings("xbmcremote");
+    settings.setValue("PvrEnabled", enabled);
+    emit pvrEnabledChanged();
+}
