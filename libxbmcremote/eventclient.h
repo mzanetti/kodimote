@@ -51,6 +51,7 @@ private:
     int m_socket;
     QTimer m_releaseTimer;
     QString m_thumbnail;
+    bool m_cleared;
 };
 
 #endif // EVENTCLIENT_H
