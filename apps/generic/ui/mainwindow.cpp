@@ -22,8 +22,6 @@
 #include "settingsdialog.h"
 #include "connectdialog.h"
 #include "aboutdialog.h"
-#include "settings.h"
-#include "networkaccessmanagerfactory.h"
 #include "authenticationdialog.h"
 
 #include "../qmlapplicationviewer/qmlapplicationviewer.h"
@@ -32,6 +30,8 @@
 #include "libxbmcremote/videoplayer.h"
 #include "libxbmcremote/audioplayer.h"
 #include "libxbmcremote/xbmcdownload.h"
+#include "libxbmcremote/settings.h"
+#include "libxbmcremote/networkaccessmanagerfactory.h"
 
 #include <QMenuBar>
 #include <QDeclarativeContext>

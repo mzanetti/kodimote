@@ -15,12 +15,15 @@ maemo5: {
     target.path = /opt/$${TARGET}/bin
 
     desktopfile.files = xbmcremote.desktop
-    desktopfile.path = /usr/share/applications/
+    desktopfile.path = /usr/share/applications/hildon/
+
+    icon.files = xbmcremote64.png
+    icon.path = /opt/usr/share/icons/hicolor/64x64/apps/
 
     qml.files = qml
     qml.path = /opt/$${TARGET}
 
-    INSTALLS += desktopfile qml target
+    INSTALLS += desktopfile qml target icon
 } else {
 
     target.path = $$top_builddir/apps/generic
