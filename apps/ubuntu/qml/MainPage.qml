@@ -27,6 +27,15 @@ Page {
     title: qsTr("XBMC on %1").arg(xbmc.connectedHostName)
 
 
+    tools: ActionList {
+        Action {
+            text: "settings"
+//            iconSource: Qt.resolvedUrl("1.png")
+            onTriggered: print("First action")
+         }
+    }
+
+
     Component.onCompleted: {
         if(settings.musicShowsFiles) {
            mainMenuModel.setProperty(0, "mode", "files");
@@ -73,7 +82,7 @@ Page {
 //        header: headerLayout
         model: mainMenuModel
         spacing: 20
-        anchors.margins: pageStack.pageMargin
+        anchors.margins: appWindow.pageMargins
         property int currentSelected
 
         delegate:  Item {

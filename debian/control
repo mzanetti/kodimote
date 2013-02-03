@@ -3,7 +3,10 @@ Section: x11
 Priority: optional
 Maintainer: Michael Zanetti <michael_zanetti@gmx.net>
 Build-Depends: debhelper (>= 8.0.0),
-               qtdeclarative,
+               qt5-default,
+               qt5-qmake,
+               qtbase5-dev,
+               qtdeclarative5-dev,
                libgles2-mesa-dev,
 Standards-Version: 3.9.3
 

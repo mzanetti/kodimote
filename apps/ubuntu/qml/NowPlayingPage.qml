@@ -22,13 +22,22 @@ import QtQuick 2.0
 import Ubuntu.Components 0.1
 import Xbmc 1.0
 
-Item {
+Page {
     id: mainPage
     property QtObject player: xbmc.activePlayer
     property QtObject playlist: player ? player.playlist() : null
     property QtObject currentItem: player ? player.currentItem : null
 
     property string orientation: width > height ? "landscape" : "portrait"
+
+    property ActionList tools: ActionList {
+        Action {
+            text: "repeat"
+        }
+        Action {
+            text: "shuffle"
+        }
+    }
 
     onPlayerChanged: {
         if(player === null) {
@@ -45,6 +54,7 @@ Item {
         player.timerActive = timerActive
     }
 
+
    Connections {
        target: xbmc
        onStateChanged: {
@@ -58,9 +68,11 @@ Item {
     }
 
     Grid {
+        id: mainGrid
         anchors.fill: parent
         columns: mainPage.orientation == "portrait" ? 1 : 2
-        spacing: pageStack.pageMargin
+        spacing: appWindow.pageMargins
+        anchors.margins: appWindow.pageMargins
 
         Item {
             id: imageItem
@@ -69,12 +81,15 @@ Item {
             UbuntuShape {
                 // iw : ih = uw : uh
                 height: parent.height
-                width: Math.min(image.sourceSize.width * height / image.sourceSize.height, parent.width)
+                width: parent.width
                 anchors.horizontalCenter: parent.horizontalCenter
                 radius: "medium"
-                image: Image {
-                    source: !currentItem || currentItem.thumbnail.length === 0 ? "" : xbmc.vfsPath + currentItem.thumbnail
-                    fillMode: Image.PreserveAspectCrop
+                color: "black"
+                //image:
+                    Image {
+                        anchors.fill: parent
+                    source: !currentItem || currentItem.thumbnail.length === 0 ? "" : currentItem.thumbnail
+                    fillMode: Image.PreserveAspectFit
                 }
             }
         }

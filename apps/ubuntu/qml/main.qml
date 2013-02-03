@@ -21,54 +21,88 @@
 import QtQuick 2.0
 import Ubuntu.Components 0.1
 
-Item {
+MainView {
     id: appWindow
 
-    VisualItemModel {
-        id: tabModel
+    tools: tabs.tools
 
-        PageStack {
-            id: pageStack
-            width: appWindow.width
-            height: appWindow.height
-            property int pageMargin: 16
-            property bool connected: xbmc.connected
-            property bool nfcSheetOpen: false
+    property int pageMargins: units.gu(2)
 
-            Component.onCompleted: pageStack.push(mainPage)
+    Tabs {
+         id: tabs
+         anchors.fill: parent
+         parent: leftPane
+         ItemStyle.class: "new-tabs"
 
-            MainPage {
-                id: mainPage
-            }
-        }
+         property variant tabPageItems: [ mainTab.page, nowPlayingTab.page ]
+
+         property ActionList tools: selectedTab.page.tools
+
+         Tab {
+             id: mainTab
+
+//             property string pane: "Panes/CallEndedPane.qml"
+//             property string panel: "PanelDialer/DialerView.qml"
+//             property bool isCurrent: tabs.selectedTabIndex == 0
+
+             title: "Media"
+             iconSource: isCurrent ? "assets/tab_icon_call_active.png" : "assets/tab_icon_call_inactive.png"
+             page:     PageStack {
+                 id: pageStack
+                 anchors.fill: parent
+                 property bool connected: xbmc.connected
+                 property bool nfcSheetOpen: false
+
+                 Component.onCompleted: pageStack.push(mainPage)
+
+                 MainPage {
+                 id: mainPage
+             }
+             }
 
 
-        NowPlayingPage {
-            id: nowPlayingPage
-            height: appWindow.height
-            width: appWindow.width
-            timerActive: tabListView.currentIndex === 1
-        }
+         }
 
-        Rectangle {
-            height: appWindow.height
-            width: appWindow.width
-            color: "blue"
-        }
+         Tab {
+             id: nowPlayingTab
 
+//             property string pane: "Panes/CallEndedPane.qml"
+//             property string panel: "PanelDialer/DialerView.qml"
+//             property bool isCurrent: tabs.selectedTabIndex == 0
+
+             title: "Now Playing"
+             iconSource: isCurrent ? "assets/tab_icon_call_active.png" : "assets/tab_icon_call_inactive.png"
+             page:         NowPlayingPage {
+                 id: nowPlayingPage
+                 anchors.fill: parent
+
+                 timerActive: tabListView.currentIndex === 1
+             }
+         }
+
+         Tab {
+             id: keypadTab
+
+             title: "Keypad"
+
+             page: Keypad {
+                 anchors.fill: parent
+             }
+         }
     }
 
-    ListView {
-        id: tabListView
-        orientation: ListView.Horizontal
-        anchors.fill: parent
-        contentHeight: appWindow.height
-        contentWidth: appWindow.width
-        snapMode: ListView.SnapOneItem
-        highlightRangeMode: ListView.StrictlyEnforceRange
-        highlightFollowsCurrentItem: true
 
-        model: tabModel
-    }
+//    ListView {
+//        id: tabListView
+//        orientation: ListView.Horizontal
+//        anchors.fill: parent
+//        contentHeight: appWindow.height
+//        contentWidth: appWindow.width
+//        snapMode: ListView.SnapOneItem
+//        highlightRangeMode: ListView.StrictlyEnforceRange
+//        highlightFollowsCurrentItem: true
+
+//        model: tabModel
+//    }
 
 }

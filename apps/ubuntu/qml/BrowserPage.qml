@@ -28,6 +28,10 @@ Page {
     property variant model
     title: model.title
 
+    tools: ActionList {
+
+    }
+
     Component.onCompleted: {
         console.log("setting model " + model)
         //filterModel.model = model
