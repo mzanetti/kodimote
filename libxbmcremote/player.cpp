@@ -101,6 +101,7 @@ void Player::getMediaProps()
     props.append("subtitleenabled");
     props.append("audiostreams");
     props.append("currentaudiostream");
+    props.append("position");
     params.insert("properties", props);
     XbmcConnection::sendCommand("Player.GetProperties", params, this, "mediaPropsReceived");
 }
