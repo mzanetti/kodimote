@@ -192,7 +192,7 @@ void XbmcDiscovery::readDatagram()
                 datagram = datagram.right(datagram.length() - 4);
                 QString domain = QString(QByteArray::fromHex(datagram.left(len * 2)));
                 datagram = datagram.right(datagram.length() - len * 2);
-                //qDebug() << "fqdn:" << domain;
+                qDebug() << "fqdn:" << domain;
 
                 if(currentService == "_workstation") {
                     domain = domain.right(domain.length() - 1);
@@ -207,11 +207,11 @@ void XbmcDiscovery::readDatagram()
                         host.setHwAddr(hwAddr);
                     }
                 } else if(currentService == "_http") {
-                    if(domain.contains("XBMC")) {
+//                    if(domain.contains("XBMC")) {
                         //qDebug() << "is xbmcHttp record!";
                         isXbmcHttpRecord = true;
                         host.setXbmcHttpSupported(true);
-                    }
+//                    }
                 } else if(currentService == "_xbmc-jsonrpc") {
                     host.setXbmcJsonrpcSupported(true);
                 }
