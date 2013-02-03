@@ -1,32 +1,30 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE TS>
-<TS version="2.0" language="nl">
+<?xml version="1.0" ?><!DOCTYPE TS><TS language="fi" version="2.0">
 <context>
     <name>AboutDialog</name>
     <message>
         <location filename="../apps/generic/ui/aboutdialog.cpp" line="36"/>
         <source>About</source>
-        <translation>Over</translation>
+        <translation>Tietoja</translation>
     </message>
     <message>
         <location filename="../apps/generic/ui/aboutdialog.cpp" line="60"/>
         <source>Copyright</source>
-        <translation>Auteur</translation>
+        <translation>Tekijänoikeus</translation>
     </message>
     <message>
         <location filename="../apps/generic/ui/aboutdialog.cpp" line="63"/>
         <source>Thanks to</source>
-        <translation>Met dank aan</translation>
+        <translation>Kiitos</translation>
     </message>
     <message>
         <location filename="../apps/generic/ui/aboutdialog.cpp" line="69"/>
         <source>Close</source>
-        <translation>Sluiten</translation>
+        <translation>Sulje</translation>
     </message>
     <message>
         <location filename="../apps/generic/ui/aboutdialog.cpp" line="73"/>
         <source>Donate</source>
-        <translation>Schenken</translation>
+        <translation>Lahjoita</translation>
     </message>
     <message>
         <location filename="../apps/generic/ui/aboutdialog.cpp" line="77"/>
@@ -39,7 +37,7 @@
     <message>
         <location filename="../libxbmcremote/albums.cpp" line="185"/>
         <source>Albums</source>
-        <translation>Albums</translation>
+        <translation>Albumit</translation>
     </message>
 </context>
 <context>
@@ -47,7 +45,7 @@
     <message>
         <location filename="../libxbmcremote/artists.cpp" line="168"/>
         <source>Artists</source>
-        <translation>Artiesten</translation>
+        <translation>Artistit</translation>
     </message>
 </context>
 <context>
@@ -55,32 +53,32 @@
     <message>
         <location filename="../libxbmcremote/audiolibrary.cpp" line="33"/>
         <source>Artists</source>
-        <translation>Artiesten</translation>
+        <translation>Artistit</translation>
     </message>
     <message>
         <location filename="../libxbmcremote/audiolibrary.cpp" line="38"/>
         <source>Albums</source>
-        <translation>Albums</translation>
+        <translation>Albumit</translation>
     </message>
     <message>
         <location filename="../libxbmcremote/audiolibrary.cpp" line="43"/>
         <source>Titles</source>
-        <translation>Titels</translation>
+        <translation>Nimet</translation>
     </message>
     <message>
         <location filename="../libxbmcremote/audiolibrary.cpp" line="48"/>
         <source>Recently added</source>
-        <translation>Onlangs toegevoegd</translation>
+        <translation>Äskettäin lisätyt</translation>
     </message>
     <message>
         <location filename="../libxbmcremote/audiolibrary.cpp" line="53"/>
         <source>Recently played</source>
-        <translation>Onlangs afgespeeld</translation>
+        <translation>Äskettäin toistetut</translation>
     </message>
     <message>
         <location filename="../libxbmcremote/audiolibrary.cpp" line="89"/>
         <source>Audio Library</source>
-        <translation>Audio bibliotheek</translation>
+        <translation>Äänikirjasto</translation>
     </message>
 </context>
 <context>
@@ -89,32 +87,32 @@
         <location filename="../apps/generic/qml/AudioPlaylist.qml" line="64"/>
         <location filename="../libxbmcremote/audioplaylist.cpp" line="150"/>
         <source>Now Playing</source>
-        <translation>Speelt af</translation>
+        <translation>Nyt soi</translation>
     </message>
     <message>
         <location filename="../apps/generic/qml/AudioPlaylist.qml" line="64"/>
         <source>Playlist</source>
-        <translation>Afspeellijst</translation>
+        <translation>Soittolista</translation>
     </message>
     <message>
         <location filename="../apps/generic/qml/AudioPlaylist.qml" line="204"/>
         <source>Play</source>
-        <translation>Afspelen</translation>
+        <translation>Toista</translation>
     </message>
     <message>
         <location filename="../apps/generic/qml/AudioPlaylist.qml" line="205"/>
         <source>Remove from playlist</source>
-        <translation>Verwijderen van afspeellijst</translation>
+        <translation>Poista soittolistalta</translation>
     </message>
     <message>
         <location filename="../apps/generic/qml/AudioPlaylist.qml" line="206"/>
         <source>Clear playlist</source>
-        <translation>Afspeellijst leegmaken</translation>
+        <translation>Tyhjennä soittolista</translation>
     </message>
     <message>
         <location filename="../libxbmcremote/audioplaylist.cpp" line="150"/>
         <source>Music</source>
-        <translation>Muziek</translation>
+        <translation>Musiikki</translation>
     </message>
 </context>
 <context>
@@ -122,22 +120,22 @@
     <message>
         <location filename="../apps/generic/ui/authenticationdialog.cpp" line="35"/>
         <source>Authentication</source>
-        <translation>Authenticatie</translation>
+        <translation>Varmennus</translation>
     </message>
     <message>
         <location filename="../apps/generic/ui/authenticationdialog.cpp" line="47"/>
         <source>XBMC on %1 requires authentication:</source>
-        <translation>XBMC op %1 vereist authenticatie:</translation>
+        <translation>XBMC koneella %1 vaatii varmennuksen:</translation>
     </message>
     <message>
         <location filename="../apps/generic/ui/authenticationdialog.cpp" line="53"/>
         <source>Username:</source>
-        <translation>Gebruikersnaam:</translation>
+        <translation>Käyttäjänimi:</translation>
     </message>
     <message>
         <location filename="../apps/generic/ui/authenticationdialog.cpp" line="59"/>
         <source>Password:</source>
-        <translation>Wachtwoord:</translation>
+        <translation>Salasana:</translation>
     </message>
 </context>
 <context>
@@ -150,22 +148,22 @@
     <message>
         <location filename="../apps/harmattan/qml/AuthenticationSheet.qml" line="28"/>
         <source>Cancel</source>
-        <translation>Annuleren</translation>
+        <translation>Peruuta</translation>
     </message>
     <message>
         <location filename="../apps/harmattan/qml/AuthenticationSheet.qml" line="39"/>
         <source>XBMC on %1 requires authentication:</source>
-        <translation>XBMC op %1 vereist authenticatie:</translation>
+        <translation>XBMC koneella %1 vaatii varmennuksen:</translation>
     </message>
     <message>
         <location filename="../apps/harmattan/qml/AuthenticationSheet.qml" line="43"/>
         <source>Username:</source>
-        <translation>Gebruikersnaam:</translation>
+        <translation>Käyttäjänimi:</translation>
     </message>
     <message>
         <location filename="../apps/harmattan/qml/AuthenticationSheet.qml" line="52"/>
         <source>Password:</source>
-        <translation>Wachtwoord:</translation>
+        <translation>Salasana:</translation>
     </message>
 </context>
 <context>
@@ -173,7 +171,7 @@
     <message>
         <location filename="../libxbmcremote/channelgroups.cpp" line="34"/>
         <source>TV Channels</source>
-        <translation>TV Kanalen</translation>
+        <translation>TV kanavat</translation>
     </message>
 </context>
 <context>
@@ -181,7 +179,7 @@
     <message>
         <location filename="../libxbmcremote/channels.cpp" line="38"/>
         <source>TV Channels</source>
-        <translation>TV Kanalen</translation>
+        <translation>TV kanavat</translation>
     </message>
 </context>
 <context>
@@ -189,73 +187,73 @@
     <message>
         <location filename="../apps/generic/ui/connectdialog.cpp" line="41"/>
         <source>Connect to XBMC</source>
-        <translation>Verbind met XBMC</translation>
+        <translation>Yhdistä XBMC:en</translation>
     </message>
     <message>
         <location filename="../apps/generic/ui/connectdialog.cpp" line="52"/>
         <source>Searching for XBMC hosts.</source>
-        <translation>Zoeken naar XBMC hosts.</translation>
+        <translation>Etsitään XBMC isäntäkoneita.</translation>
     </message>
     <message>
         <location filename="../apps/generic/ui/connectdialog.cpp" line="53"/>
         <source>Please enable the following options in the Services settings of XBMC:</source>
-        <translation>Schakel de volgende opties in de onder Diensten-instellingen van XBMC:</translation>
+        <translation>Ota seuraavat asetukset käyttöön XBMC:n Palvelut - asetuksista:</translation>
     </message>
     <message>
         <location filename="../apps/generic/ui/connectdialog.cpp" line="54"/>
         <source>Allow control of XBMC via HTTP</source>
-        <translation>Gebeurtenissen op afstand activeren</translation>
+        <translation>XBMC:n ohjaus HTTP:n kautta käytössä</translation>
     </message>
     <message>
         <location filename="../apps/generic/ui/connectdialog.cpp" line="55"/>
         <source>Allow programs on other systems to control XBMC</source>
-        <translation>Gebeurtenissen van andere computers ontvangen</translation>
+        <translation>Salli muiden järjestelmien ohjelmien ohjata XBMC:iä</translation>
     </message>
     <message>
         <location filename="../apps/generic/ui/connectdialog.cpp" line="56"/>
         <source>Announce these services to other systems via Zeroconf</source>
-        <translation>Zeroconf publishing</translation>
+        <translation>Julkista nämä palvelut toisiin järjestelmiin Zeroconf-julkaisujärjestelmän kautta</translation>
     </message>
     <message>
         <location filename="../apps/generic/ui/connectdialog.cpp" line="57"/>
         <source>If you don&apos;t use Zeroconf, add a host manually.</source>
-        <translation>Als je geen gebruik maakt van Zeroconf, voeg dan manueel een host toe.</translation>
+        <translation>Jos et käytä Zeroconf-palvelua, lisää isäntäkone manuaalisesti.</translation>
     </message>
     <message>
         <location filename="../apps/generic/ui/connectdialog.cpp" line="76"/>
         <source>Host:</source>
-        <translation>Host:</translation>
+        <translation>Isäntäkone:</translation>
     </message>
     <message>
         <location filename="../apps/generic/ui/connectdialog.cpp" line="81"/>
         <source>HTTP Port:</source>
-        <translation>HTTP poort:</translation>
+        <translation>HTTP portti:</translation>
     </message>
     <message>
         <location filename="../apps/generic/ui/connectdialog.cpp" line="88"/>
         <source>MAC Address (optional):</source>
-        <translation>MAC adres (optioneel):</translation>
+        <translation>MAC osoite (ei pakollinen):</translation>
     </message>
     <message>
         <location filename="../apps/generic/ui/connectdialog.cpp" line="112"/>
         <source>Connect</source>
-        <translation>Verbinden</translation>
+        <translation>Yhdistä</translation>
     </message>
     <message>
         <location filename="../apps/generic/ui/connectdialog.cpp" line="115"/>
         <location filename="../apps/generic/ui/connectdialog.cpp" line="166"/>
         <source>Add Host</source>
-        <translation>Host toevoegen</translation>
+        <translation>Lisää isäntäkone</translation>
     </message>
     <message>
         <location filename="../apps/generic/ui/connectdialog.cpp" line="118"/>
         <source>Remove Host</source>
-        <translation>Host verwijderen</translation>
+        <translation>Poista isäntäkone</translation>
     </message>
     <message>
         <location filename="../apps/generic/ui/connectdialog.cpp" line="159"/>
         <source>Back</source>
-        <translation>Vorige</translation>
+        <translation>Takaisin</translation>
     </message>
 </context>
 <context>
@@ -263,82 +261,82 @@
     <message>
         <location filename="../apps/harmattan/qml/ConnectionSheet.qml" line="29"/>
         <source>Connect</source>
-        <translation>Verbinden</translation>
+        <translation>Yhdistä</translation>
     </message>
     <message>
         <location filename="../apps/harmattan/qml/ConnectionSheet.qml" line="30"/>
         <source>Cancel</source>
-        <translation>Annuleren</translation>
+        <translation>Peruuta</translation>
     </message>
     <message>
         <location filename="../apps/harmattan/qml/ConnectionSheet.qml" line="81"/>
         <source>Searching for XBMC hosts.</source>
-        <translation>Bezig met zoeken naar XBMC host.</translation>
+        <translation>Etsitään XBMC isäntäkoneita.</translation>
     </message>
     <message>
         <location filename="../apps/harmattan/qml/ConnectionSheet.qml" line="82"/>
         <source>Please enable the following options in the Services settings of XBMC:</source>
-        <translation>Schakel de volgende opties in de onder Diensten-instellingen van XBMC:</translation>
+        <translation>Ota seuraavat asetukset käyttöön XBMC:n Palvelut - asetuksista:</translation>
     </message>
     <message>
         <location filename="../apps/harmattan/qml/ConnectionSheet.qml" line="83"/>
         <source>Allow control of XBMC via HTTP</source>
-        <translation>Gebeurtenissen op afstand activeren</translation>
+        <translation>XBMC:n ohjaus HTTP:n kautta käytössä</translation>
     </message>
     <message>
         <location filename="../apps/harmattan/qml/ConnectionSheet.qml" line="84"/>
         <source>Allow programs on other systems to control XBMC</source>
-        <translation>Gebeurtenissen van andere computers ontvangen</translation>
+        <translation>Salli muiden järjestelmien ohjelmien ohjata XBMC:iä</translation>
     </message>
     <message>
         <location filename="../apps/harmattan/qml/ConnectionSheet.qml" line="85"/>
         <source>Announce these services to other systems via Zeroconf</source>
-        <translation>Zeroconf publishing</translation>
+        <translation>Julkista nämä palvelut toisiin järjestelmiin Zeroconf-julkaisujärjestelmän kautta</translation>
     </message>
     <message>
         <location filename="../apps/harmattan/qml/ConnectionSheet.qml" line="86"/>
         <source>If you don&apos;t use Zeroconf, add a host manually.</source>
-        <translation>Als je geen gebruik maakt van Zeroconf, voeg dan manueel een host toe.</translation>
+        <translation>Jos et käytä Zeroconf-palvelua, lisää isäntäkone manuaalisesti.</translation>
     </message>
     <message>
         <location filename="../apps/harmattan/qml/ConnectionSheet.qml" line="128"/>
         <source>XBMC on %1</source>
-        <translation>XBMC op %1</translation>
+        <translation>XBMC koneella %1</translation>
     </message>
     <message>
         <location filename="../apps/harmattan/qml/ConnectionSheet.qml" line="142"/>
         <source>Waking up %1...</source>
-        <translation>%1 ontwaken...</translation>
+        <translation>Herätetään %1...</translation>
     </message>
     <message>
         <location filename="../apps/harmattan/qml/ConnectionSheet.qml" line="159"/>
         <source>Remove Host</source>
-        <translation>Host verwijderen</translation>
+        <translation>Poista isäntäkone</translation>
     </message>
     <message>
         <location filename="../apps/harmattan/qml/ConnectionSheet.qml" line="166"/>
         <source>Add Host</source>
-        <translation>Host toevoegen</translation>
+        <translation>Lisää isäntäkone</translation>
     </message>
     <message>
         <location filename="../apps/harmattan/qml/ConnectionSheet.qml" line="179"/>
         <source>Host:</source>
-        <translation>Host:</translation>
+        <translation>Isäntäkone:</translation>
     </message>
     <message>
         <location filename="../apps/harmattan/qml/ConnectionSheet.qml" line="192"/>
         <source>HTTP Port:</source>
-        <translation>HTTP poort:</translation>
+        <translation>HTTP portti:</translation>
     </message>
     <message>
         <location filename="../apps/harmattan/qml/ConnectionSheet.qml" line="206"/>
         <source>MAC Address for WakeOnLan (optional):</source>
-        <translation>MAC Adres voor WakeOnLan (optioneel):</translation>
+        <translation>MAC-osoite WakeOnLan:ia varten (ei pakollinen):</translation>
     </message>
     <message>
         <location filename="../apps/harmattan/qml/ConnectionSheet.qml" line="217"/>
         <source>Back</source>
-        <translation>Vorige</translation>
+        <translation>Takaisin</translation>
     </message>
 </context>
 <context>
@@ -346,22 +344,22 @@
     <message>
         <location filename="../apps/harmattan/qml/DownloadDialog.qml" line="35"/>
         <source>Start download?</source>
-        <translation>Download starten?</translation>
+        <translation>Aloita lataus?</translation>
     </message>
     <message>
         <location filename="../apps/harmattan/qml/DownloadDialog.qml" line="49"/>
         <source>Start downloading %1?</source>
-        <translation>Start downloaden van %1?</translation>
+        <translation>Aloita %1:n lataus?</translation>
     </message>
     <message>
         <location filename="../apps/harmattan/qml/DownloadDialog.qml" line="58"/>
         <source>Yes</source>
-        <translation>Ja</translation>
+        <translation>Kyllä</translation>
     </message>
     <message>
         <location filename="../apps/harmattan/qml/DownloadDialog.qml" line="63"/>
         <source>No</source>
-        <translation>Nee</translation>
+        <translation>Ei</translation>
     </message>
 </context>
 <context>
@@ -369,7 +367,7 @@
     <message>
         <location filename="../libxbmcremote/episodes.cpp" line="227"/>
         <source>Episodes</source>
-        <translation>Afleveringen</translation>
+        <translation>Jaksot</translation>
     </message>
 </context>
 <context>
@@ -377,27 +375,27 @@
     <message>
         <location filename="../apps/generic/qml/HomeMenu.qml" line="56"/>
         <source>Music</source>
-        <translation>Muziek</translation>
+        <translation>Musiikki</translation>
     </message>
     <message>
         <location filename="../apps/generic/qml/HomeMenu.qml" line="57"/>
         <source>Videos</source>
-        <translation>Video&apos;s</translation>
+        <translation>Videot</translation>
     </message>
     <message>
         <location filename="../apps/generic/qml/HomeMenu.qml" line="58"/>
         <source>Pictures</source>
-        <translation>Afbeeldingen</translation>
+        <translation>Kuvat</translation>
     </message>
     <message>
         <location filename="../apps/generic/qml/HomeMenu.qml" line="196"/>
         <source>Files</source>
-        <translation>Bestanden</translation>
+        <translation>Tiedostot</translation>
     </message>
     <message>
         <location filename="../apps/generic/qml/HomeMenu.qml" line="197"/>
         <source>Library</source>
-        <translation>Bibliotheek</translation>
+        <translation>Kirjasto</translation>
     </message>
 </context>
 <context>
@@ -406,139 +404,139 @@
         <location filename="../apps/generic/qml/ItemDetails.qml" line="113"/>
         <location filename="../apps/harmattan/qml/ItemDetails.qml" line="64"/>
         <source>Rating:</source>
-        <translation>Waardering:</translation>
+        <translation>Arvostelu:</translation>
     </message>
     <message>
         <location filename="../apps/generic/qml/ItemDetails.qml" line="119"/>
         <location filename="../apps/harmattan/qml/ItemDetails.qml" line="83"/>
         <source>Season:</source>
-        <translation>Seizoen:</translation>
+        <translation>Kausi:</translation>
     </message>
     <message>
         <location filename="../apps/generic/qml/ItemDetails.qml" line="125"/>
         <location filename="../apps/harmattan/qml/ItemDetails.qml" line="89"/>
         <source>Episode:</source>
-        <translation>Aflevering:</translation>
+        <translation>Jakso:</translation>
     </message>
     <message>
         <location filename="../apps/generic/qml/ItemDetails.qml" line="131"/>
         <location filename="../apps/harmattan/qml/ItemDetails.qml" line="95"/>
         <source>First aired:</source>
-        <translation>Eerst uitgezonden:</translation>
+        <translation>Ensimmäinen esitys:</translation>
     </message>
     <message>
         <location filename="../apps/generic/qml/ItemDetails.qml" line="137"/>
         <location filename="../apps/harmattan/qml/ItemDetails.qml" line="101"/>
         <source>Genre:</source>
-        <translation>Genre:</translation>
+        <translation>Laji:</translation>
     </message>
     <message>
         <location filename="../apps/generic/qml/ItemDetails.qml" line="143"/>
         <location filename="../apps/harmattan/qml/ItemDetails.qml" line="107"/>
         <source>Year:</source>
-        <translation>Jaar:</translation>
+        <translation>Vuosi:</translation>
     </message>
     <message>
         <location filename="../apps/generic/qml/ItemDetails.qml" line="149"/>
         <location filename="../apps/harmattan/qml/ItemDetails.qml" line="113"/>
         <source>Director:</source>
-        <translation>Regisseur:</translation>
+        <translation>Ohjaaja:</translation>
     </message>
     <message>
         <location filename="../apps/generic/qml/ItemDetails.qml" line="155"/>
         <location filename="../apps/harmattan/qml/ItemDetails.qml" line="119"/>
         <source>Tagline:</source>
-        <translation>Tagline:</translation>
+        <translation>Tagirivi:</translation>
     </message>
     <message>
         <location filename="../apps/generic/qml/ItemDetails.qml" line="161"/>
         <location filename="../apps/harmattan/qml/ItemDetails.qml" line="125"/>
         <source>MPAA:</source>
-        <translation>Leeftijdsadvies:</translation>
+        <translation>MPAA:</translation>
     </message>
     <message>
         <location filename="../apps/generic/qml/ItemDetails.qml" line="167"/>
         <location filename="../apps/harmattan/qml/ItemDetails.qml" line="131"/>
         <source>Instrument:</source>
-        <translation>Instrument:</translation>
+        <translation>Soitin:</translation>
     </message>
     <message>
         <location filename="../apps/generic/qml/ItemDetails.qml" line="173"/>
         <location filename="../apps/harmattan/qml/ItemDetails.qml" line="137"/>
         <source>Style:</source>
-        <translation>Stijl:</translation>
+        <translation>Tyyli:</translation>
     </message>
     <message>
         <location filename="../apps/generic/qml/ItemDetails.qml" line="179"/>
         <location filename="../apps/harmattan/qml/ItemDetails.qml" line="143"/>
         <source>Mood:</source>
-        <translation>Stemming:</translation>
+        <translation>Tunnelma:</translation>
     </message>
     <message>
         <location filename="../apps/generic/qml/ItemDetails.qml" line="185"/>
         <location filename="../apps/harmattan/qml/ItemDetails.qml" line="149"/>
         <source>Born:</source>
-        <translation>Geboortedatum:</translation>
+        <translation>Syntynyt:</translation>
     </message>
     <message>
         <location filename="../apps/generic/qml/ItemDetails.qml" line="191"/>
         <location filename="../apps/harmattan/qml/ItemDetails.qml" line="155"/>
         <source>Formed:</source>
-        <translation>Opleiding:</translation>
+        <translation>Perustettu:</translation>
     </message>
     <message>
         <location filename="../apps/generic/qml/ItemDetails.qml" line="197"/>
         <location filename="../apps/harmattan/qml/ItemDetails.qml" line="161"/>
         <source>Died:</source>
-        <translation>Gestorven:</translation>
+        <translation>Kuollut:</translation>
     </message>
     <message>
         <location filename="../apps/generic/qml/ItemDetails.qml" line="203"/>
         <location filename="../apps/harmattan/qml/ItemDetails.qml" line="167"/>
         <source>Disbanded:</source>
-        <translation>Ontbonden:</translation>
+        <translation>Hajonnut:</translation>
     </message>
     <message>
         <location filename="../apps/generic/qml/ItemDetails.qml" line="209"/>
         <location filename="../apps/harmattan/qml/ItemDetails.qml" line="173"/>
         <source>Duration:</source>
-        <translation>Duur:</translation>
+        <translation>Kesto:</translation>
     </message>
     <message>
         <location filename="../apps/generic/qml/ItemDetails.qml" line="215"/>
         <location filename="../apps/harmattan/qml/ItemDetails.qml" line="179"/>
         <source>Comment:</source>
-        <translation>Commentaar:</translation>
+        <translation>Kommentti:</translation>
     </message>
     <message>
         <location filename="../apps/generic/qml/ItemDetails.qml" line="221"/>
         <location filename="../apps/harmattan/qml/ItemDetails.qml" line="185"/>
         <source>Playcount:</source>
-        <translation>Aantal keer afgespeeld:</translation>
+        <translation>Toistokerrat:</translation>
     </message>
     <message>
         <location filename="../apps/generic/qml/ItemDetails.qml" line="227"/>
         <location filename="../apps/harmattan/qml/ItemDetails.qml" line="191"/>
         <source>Cast:</source>
-        <translation>Cast:</translation>
+        <translation>Näyttelijät:</translation>
     </message>
     <message>
         <location filename="../apps/harmattan/qml/ItemDetails.qml" line="249"/>
         <location filename="../apps/harmattan/qml/ItemDetails.qml" line="273"/>
         <source>Play</source>
-        <translation>Afspelen</translation>
+        <translation>Toista:</translation>
     </message>
     <message>
         <location filename="../apps/harmattan/qml/ItemDetails.qml" line="253"/>
         <location filename="../apps/harmattan/qml/ItemDetails.qml" line="277"/>
         <source>Add to playlist</source>
-        <translation>Toevoegen aan afspeellijst</translation>
+        <translation>Lisää soittolistalle:</translation>
     </message>
     <message>
         <location filename="../apps/harmattan/qml/ItemDetails.qml" line="257"/>
         <location filename="../apps/harmattan/qml/ItemDetails.qml" line="281"/>
         <source>Download</source>
-        <translation>Download</translation>
+        <translation>Lataa</translation>
     </message>
 </context>
 <context>
@@ -546,27 +544,27 @@
     <message>
         <location filename="../apps/generic/qml/LibraryView.qml" line="219"/>
         <source>Play</source>
-        <translation>Afspelen</translation>
+        <translation>Toista</translation>
     </message>
     <message>
         <location filename="../apps/generic/qml/LibraryView.qml" line="220"/>
         <source>Add to playlist</source>
-        <translation>Toevoegen aan afspeellijst</translation>
+        <translation>Lisää soittolistalle:</translation>
     </message>
     <message>
         <location filename="../apps/generic/qml/LibraryView.qml" line="221"/>
         <source>Rescan library</source>
-        <translation>Bibliotheek herscannen</translation>
+        <translation>Skannaa kirjasto uudestaan</translation>
     </message>
     <message>
         <location filename="../apps/generic/qml/LibraryView.qml" line="222"/>
         <source>Details</source>
-        <translation>Details</translation>
+        <translation>Lisätiedot</translation>
     </message>
     <message>
         <location filename="../apps/generic/qml/LibraryView.qml" line="223"/>
         <source>Download</source>
-        <translation>Download</translation>
+        <translation>Lataa</translation>
     </message>
 </context>
 <context>
@@ -575,62 +573,62 @@
         <location filename="../apps/harmattan/qml/MainPage.qml" line="49"/>
         <location filename="../apps/ubuntu/qml/MainPage.qml" line="27"/>
         <source>XBMC on %1</source>
-        <translation>XBMC op %1</translation>
+        <translation>XBMC koneella %1</translation>
     </message>
     <message>
         <location filename="../apps/harmattan/qml/MainPage.qml" line="91"/>
         <location filename="../apps/ubuntu/qml/MainPage.qml" line="60"/>
         <source>Music</source>
-        <translation>Muziek</translation>
+        <translation>Musiikki</translation>
     </message>
     <message>
         <location filename="../apps/harmattan/qml/MainPage.qml" line="94"/>
         <location filename="../apps/ubuntu/qml/MainPage.qml" line="61"/>
         <source>Videos</source>
-        <translation>Video&apos;s</translation>
+        <translation>Videot</translation>
     </message>
     <message>
         <location filename="../apps/harmattan/qml/MainPage.qml" line="97"/>
         <location filename="../apps/ubuntu/qml/MainPage.qml" line="62"/>
         <source>Pictures</source>
-        <translation>Afbeeldingen</translation>
+        <translation>Kuvat</translation>
     </message>
     <message>
         <location filename="../apps/harmattan/qml/MainPage.qml" line="100"/>
         <source>TV Channels</source>
-        <translation>TV Kanalen</translation>
+        <translation>TV kanavat</translation>
     </message>
     <message>
         <location filename="../apps/harmattan/qml/MainPage.qml" line="193"/>
         <location filename="../apps/ubuntu/qml/MainPage.qml" line="131"/>
         <source>Library</source>
-        <translation>Bibliotheek</translation>
+        <translation>Kirjasto</translation>
     </message>
     <message>
         <location filename="../apps/harmattan/qml/MainPage.qml" line="195"/>
         <location filename="../apps/ubuntu/qml/MainPage.qml" line="131"/>
         <source>Files</source>
-        <translation>Bestanden</translation>
+        <translation>Tiedostot</translation>
     </message>
     <message>
         <location filename="../apps/harmattan/qml/MainPage.qml" line="267"/>
         <source>Show files</source>
-        <translation>Toon bestanden</translation>
+        <translation>Näytä tiedostot</translation>
     </message>
     <message>
         <location filename="../apps/harmattan/qml/MainPage.qml" line="280"/>
         <source>Show library</source>
-        <translation>Toon bibliotheek</translation>
+        <translation>Näytä kirjasto</translation>
     </message>
     <message>
         <location filename="../apps/harmattan/qml/MainPage.qml" line="293"/>
         <source>Rescan library</source>
-        <translation>Herscan bibliotheek</translation>
+        <translation>Skannaa kirjasto uudestaan</translation>
     </message>
     <message>
         <location filename="../apps/harmattan/qml/MainPage.qml" line="309"/>
         <source>Clean library</source>
-        <translation>Bibliotheek opruimen</translation>
+        <translation>Puhdista kirjasto</translation>
     </message>
 </context>
 <context>
@@ -638,37 +636,37 @@
     <message>
         <location filename="../apps/generic/ui/mainwindow.cpp" line="84"/>
         <source>Connect...</source>
-        <translation>Verbinden...</translation>
+        <translation>Yhdistä...</translation>
     </message>
     <message>
         <location filename="../apps/generic/ui/mainwindow.cpp" line="85"/>
         <source>Settings</source>
-        <translation>Instellingen</translation>
+        <translation>Asetukset</translation>
     </message>
     <message>
         <location filename="../apps/generic/ui/mainwindow.cpp" line="91"/>
         <source>About</source>
-        <translation>Over</translation>
+        <translation>Tietoja</translation>
     </message>
     <message>
         <location filename="../apps/generic/ui/mainwindow.cpp" line="232"/>
         <source>Incoming call</source>
-        <translation>Inkomende oproep</translation>
+        <translation>Tuleva puhelu</translation>
     </message>
     <message>
         <location filename="../apps/generic/ui/mainwindow.cpp" line="283"/>
         <source>Download started: %1</source>
-        <translation>Download gestart: %1</translation>
+        <translation>Lataus aloitettu: %1</translation>
     </message>
     <message>
         <location filename="../apps/generic/ui/mainwindow.cpp" line="296"/>
         <source>Download finished: %1</source>
-        <translation>Download voltooid: %1</translation>
+        <translation>Lataus valmis: %1</translation>
     </message>
     <message>
         <location filename="../apps/generic/ui/mainwindow.cpp" line="298"/>
         <source>Error downloading %1</source>
-        <translation>Fout bij downloaden van %1</translation>
+        <translation>Virhe ladattaessa %1</translation>
     </message>
 </context>
 <context>
@@ -676,7 +674,7 @@
     <message>
         <location filename="../apps/harmattan/meegohelper.cpp" line="192"/>
         <source>Incoming call</source>
-        <translation>Inkomende oproep</translation>
+        <translation>Tuleva puhelu</translation>
     </message>
 </context>
 <context>
@@ -684,7 +682,7 @@
     <message>
         <location filename="../libxbmcremote/movies.cpp" line="233"/>
         <source>Movies</source>
-        <translation>Speelfilms</translation>
+        <translation>Elokuvat</translation>
     </message>
 </context>
 <context>
@@ -692,7 +690,7 @@
     <message>
         <location filename="../libxbmcremote/musicvideos.cpp" line="187"/>
         <source>Music Videos</source>
-        <translation>Muziekvideo&apos;s</translation>
+        <translation>Musiikkivideot</translation>
     </message>
 </context>
 <context>
@@ -702,27 +700,27 @@
         <location filename="../apps/harmattan/nfchandler.cpp" line="119"/>
         <location filename="../apps/harmattan/nfchandler.cpp" line="136"/>
         <source>NFC tag is not compatible with Xbmcremote. In order to use it with Xbmcremote you need to write connection information to it.</source>
-        <translation>NFC tag is niet comptatibel met Xbmcremote. Om het te gebruiken met Xbmcremote moet je er verbindingsinformatie naar schrijven.</translation>
+        <translation>NFC-tagi ei ole yhteensopiva Xbmcremoten kanssa. Käyttääksesi sitä, sinun on kirjoitettava sille yhdistämistiedot.</translation>
     </message>
     <message>
         <location filename="../apps/harmattan/nfchandler.cpp" line="117"/>
         <source>NFC tag is outdated. In order to use it with Xbmcremote you need to update it by rewriting connection information to it.</source>
-        <translation>NFC tag is verouderd. Om het te gebruiken met Xbmcremote moet je de verbindingsinformatie updaten.</translation>
+        <translation>NFC-tagilla on vanhentunutta tietoa. Käyttääksesi sitä, sinun on kirjoitettava sille yhdistämistiedot uudestaan.</translation>
     </message>
     <message>
         <location filename="../apps/harmattan/nfchandler.cpp" line="152"/>
         <source>Tag written successfully. NOTE: This tag does not offer enough space to write all informations. Wake on LAN will not work with this tag.</source>
-        <translation>Tag succesvol geschreven. OPMERKING: deze tag biedt niet genoeg ruitme om alle informatie op te slaan. Wake on LAN zal niet werken.</translation>
+        <translation>Tagin kirjoittaminen onnistui. HUOM: Tällä tagilla ei ole tarpeeksi tilaa kaiken tiedon kirjoittamiseen. WakeOnLan ei tule toimimaan tällä tagilla.</translation>
     </message>
     <message>
         <location filename="../apps/harmattan/nfchandler.cpp" line="154"/>
         <source>Tag written successfully.</source>
-        <translation>Tag succesvol geschreven.</translation>
+        <translation>Tagin kirjoittaminen onnistui.</translation>
     </message>
     <message>
         <location filename="../apps/harmattan/nfchandler.cpp" line="162"/>
         <source>Error writing NFC tag.</source>
-        <translation>Fout bij schrijven NFC tag</translation>
+        <translation>Virhe NFC-tagia kirjoittaessa.</translation>
     </message>
 </context>
 <context>
@@ -730,7 +728,7 @@
     <message>
         <location filename="../apps/harmattan/qml/NoConnectionPage.qml" line="47"/>
         <source>Connect</source>
-        <translation>Verbinden</translation>
+        <translation>Yhdistä</translation>
     </message>
 </context>
 <context>
@@ -738,102 +736,102 @@
     <message>
         <location filename="../apps/harmattan/qml/NowPlayingDetails.qml" line="98"/>
         <source>Rating:</source>
-        <translation>Waardering:</translation>
+        <translation>Arvostelu:</translation>
     </message>
     <message>
         <location filename="../apps/harmattan/qml/NowPlayingDetails.qml" line="117"/>
         <source>Season:</source>
-        <translation>Seizoen:</translation>
+        <translation>Kausi:</translation>
     </message>
     <message>
         <location filename="../apps/harmattan/qml/NowPlayingDetails.qml" line="123"/>
         <source>Episode:</source>
-        <translation>Aflevering:</translation>
+        <translation>Jakso:</translation>
     </message>
     <message>
         <location filename="../apps/harmattan/qml/NowPlayingDetails.qml" line="129"/>
         <source>First aired:</source>
-        <translation>Eerst uitgezonden:</translation>
+        <translation>Ensimmäinen esitys:</translation>
     </message>
     <message>
         <location filename="../apps/harmattan/qml/NowPlayingDetails.qml" line="135"/>
         <source>Genre:</source>
-        <translation>Genre:</translation>
+        <translation>Laji:</translation>
     </message>
     <message>
         <location filename="../apps/harmattan/qml/NowPlayingDetails.qml" line="141"/>
         <source>Year:</source>
-        <translation>Jaar:</translation>
+        <translation>Vuosi:</translation>
     </message>
     <message>
         <location filename="../apps/harmattan/qml/NowPlayingDetails.qml" line="147"/>
         <source>Director:</source>
-        <translation>Regisseur:</translation>
+        <translation>Ohjaaja:</translation>
     </message>
     <message>
         <location filename="../apps/harmattan/qml/NowPlayingDetails.qml" line="153"/>
         <source>Tagline:</source>
-        <translation>Tagline:</translation>
+        <translation>Tagirivi:</translation>
     </message>
     <message>
         <location filename="../apps/harmattan/qml/NowPlayingDetails.qml" line="159"/>
         <source>MPAA:</source>
-        <translation>Leeftijdsadvies:</translation>
+        <translation>MPAA:</translation>
     </message>
     <message>
         <location filename="../apps/harmattan/qml/NowPlayingDetails.qml" line="165"/>
         <source>Instrument:</source>
-        <translation>Instrument:</translation>
+        <translation>Soitin:</translation>
     </message>
     <message>
         <location filename="../apps/harmattan/qml/NowPlayingDetails.qml" line="171"/>
         <source>Style:</source>
-        <translation>Stijl:</translation>
+        <translation>Tyyli:</translation>
     </message>
     <message>
         <location filename="../apps/harmattan/qml/NowPlayingDetails.qml" line="177"/>
         <source>Mood:</source>
-        <translation>Stemming:</translation>
+        <translation>Tunnelma:</translation>
     </message>
     <message>
         <location filename="../apps/harmattan/qml/NowPlayingDetails.qml" line="183"/>
         <source>Born:</source>
-        <translation>Geboortedatum:</translation>
+        <translation>Syntynyt:</translation>
     </message>
     <message>
         <location filename="../apps/harmattan/qml/NowPlayingDetails.qml" line="189"/>
         <source>Formed:</source>
-        <translation>Opleiding:</translation>
+        <translation>Perustettu:</translation>
     </message>
     <message>
         <location filename="../apps/harmattan/qml/NowPlayingDetails.qml" line="195"/>
         <source>Died:</source>
-        <translation>Gestorven:</translation>
+        <translation>Kuollut:</translation>
     </message>
     <message>
         <location filename="../apps/harmattan/qml/NowPlayingDetails.qml" line="201"/>
         <source>Disbanded:</source>
-        <translation>Ontbonden:</translation>
+        <translation>Hajonnut:</translation>
     </message>
     <message>
         <location filename="../apps/harmattan/qml/NowPlayingDetails.qml" line="207"/>
         <source>Duration:</source>
-        <translation>Duur:</translation>
+        <translation>Kesto:</translation>
     </message>
     <message>
         <location filename="../apps/harmattan/qml/NowPlayingDetails.qml" line="213"/>
         <source>Comment:</source>
-        <translation>Commentaar:</translation>
+        <translation>Kommentti:</translation>
     </message>
     <message>
         <location filename="../apps/harmattan/qml/NowPlayingDetails.qml" line="219"/>
         <source>Playcount:</source>
-        <translation>Aantal keer afgespeeld:</translation>
+        <translation>Soittokerrat:</translation>
     </message>
     <message>
         <location filename="../apps/harmattan/qml/NowPlayingDetails.qml" line="225"/>
         <source>Cast:</source>
-        <translation>Cast:</translation>
+        <translation>Näyttelijät:</translation>
     </message>
 </context>
 <context>
@@ -841,51 +839,51 @@
     <message>
         <location filename="../apps/harmattan/qml/NowPlayingPage.qml" line="77"/>
         <source>Select audio track</source>
-        <translation>Selecteer geluidskanaal</translation>
+        <translation>Valitse ääniraita</translation>
     </message>
     <message>
         <location filename="../apps/harmattan/qml/NowPlayingPage.qml" line="139"/>
         <source>Off</source>
-        <translation>Geen</translation>
+        <translation>Pois päältä</translation>
     </message>
     <message>
         <location filename="../apps/harmattan/qml/NowPlayingPage.qml" line="140"/>
         <source>Select subtitle</source>
-        <translation>Selecteer ondertitels</translation>
+        <translation>Valitse tekstitys</translation>
     </message>
     <message>
         <location filename="../apps/harmattan/qml/NowPlayingPage.qml" line="297"/>
         <location filename="../apps/ubuntu/qml/NowPlayingPage.qml" line="218"/>
         <source>Season:</source>
-        <translation>Seizoen:</translation>
+        <translation>Kausi:</translation>
     </message>
     <message>
         <location filename="../apps/harmattan/qml/NowPlayingPage.qml" line="297"/>
         <location filename="../apps/ubuntu/qml/NowPlayingPage.qml" line="218"/>
         <source>Episode:</source>
-        <translation>Aflevering:</translation>
+        <translation>Jakso:</translation>
     </message>
     <message>
         <location filename="../apps/harmattan/qml/NowPlayingPage.qml" line="303"/>
         <location filename="../apps/ubuntu/qml/NowPlayingPage.qml" line="218"/>
         <source>Rating:</source>
-        <translation>Waardering:</translation>
+        <translation>Arvostelu:</translation>
     </message>
     <message>
         <location filename="../apps/harmattan/qml/NowPlayingPage.qml" line="329"/>
         <location filename="../apps/ubuntu/qml/NowPlayingPage.qml" line="253"/>
         <source>Year:</source>
-        <translation>Jaar:</translation>
+        <translation>Vuosi:</translation>
     </message>
     <message>
         <location filename="../apps/harmattan/qml/NowPlayingPage.qml" line="370"/>
         <source>Cancel</source>
-        <translation>Annuleren</translation>
+        <translation>Peruuta</translation>
     </message>
     <message>
         <location filename="../apps/harmattan/qml/NowPlayingPage.qml" line="371"/>
         <source>OK</source>
-        <translation>Akkoord</translation>
+        <translation>OK</translation>
     </message>
 </context>
 <context>
@@ -893,12 +891,12 @@
     <message>
         <location filename="../apps/generic/qml/NowPlayingView.qml" line="214"/>
         <source>Now playing:</source>
-        <translation>Speelt af:</translation>
+        <translation>Nyt soi:</translation>
     </message>
     <message>
         <location filename="../apps/generic/qml/NowPlayingView.qml" line="224"/>
         <source>Track:</source>
-        <translation>Nummer:</translation>
+        <translation>Kappale:</translation>
     </message>
 </context>
 <context>
@@ -906,17 +904,17 @@
     <message>
         <location filename="../apps/harmattan/qml/PlaylistPage.qml" line="157"/>
         <source>Play</source>
-        <translation>Afspelen</translation>
+        <translation>Toista</translation>
     </message>
     <message>
         <location filename="../apps/harmattan/qml/PlaylistPage.qml" line="163"/>
         <source>Remove from playlist</source>
-        <translation>Verwijderen van afspeellijst</translation>
+        <translation>Poista soittolistalta</translation>
     </message>
     <message>
         <location filename="../apps/harmattan/qml/PlaylistPage.qml" line="169"/>
         <source>Clear playlist</source>
-        <translation>Afspeellijst leegmaken</translation>
+        <translation>Tyhjennä soittolista</translation>
     </message>
 </context>
 <context>
@@ -924,32 +922,32 @@
     <message>
         <location filename="../libxbmcremote/recentitems.cpp" line="37"/>
         <source>Albums</source>
-        <translation>Albums</translation>
+        <translation>Albumit</translation>
     </message>
     <message>
         <location filename="../libxbmcremote/recentitems.cpp" line="43"/>
         <source>Songs</source>
-        <translation>Nummers</translation>
+        <translation>Kappaleet</translation>
     </message>
     <message>
         <location filename="../libxbmcremote/recentitems.cpp" line="49"/>
         <source>Movies</source>
-        <translation>Speelfilms</translation>
+        <translation>Elokuvat</translation>
     </message>
     <message>
         <location filename="../libxbmcremote/recentitems.cpp" line="55"/>
         <source>Episodes</source>
-        <translation>Afleveringen</translation>
+        <translation>Jaksot</translation>
     </message>
     <message>
         <location filename="../libxbmcremote/recentitems.cpp" line="61"/>
         <source>Music Videos</source>
-        <translation>Muziekvideo&apos;s</translation>
+        <translation>Musiikkivideot</translation>
     </message>
     <message>
         <location filename="../libxbmcremote/recentitems.cpp" line="104"/>
         <source>Recently added</source>
-        <translation>Recent toegevoegd</translation>
+        <translation>Äskettäin lisätyt</translation>
     </message>
 </context>
 <context>
@@ -957,7 +955,7 @@
     <message>
         <location filename="../libxbmcremote/seasons.cpp" line="156"/>
         <source>Seasons</source>
-        <translation>Seizoenen</translation>
+        <translation>Kaudet</translation>
     </message>
 </context>
 <context>
@@ -965,37 +963,37 @@
     <message>
         <location filename="../apps/generic/ui/settingsdialog.cpp" line="40"/>
         <source>Settings</source>
-        <translation>Instellingen</translation>
+        <translation>Asetukset</translation>
     </message>
     <message>
         <location filename="../apps/generic/ui/settingsdialog.cpp" line="67"/>
         <source>Use Thumbnails</source>
-        <translation>Gebruik thumbnails</translation>
+        <translation>Käytä esikatselukuvia</translation>
     </message>
     <message>
         <location filename="../apps/generic/ui/settingsdialog.cpp" line="71"/>
         <source>Ignore articles for sorting</source>
-        <translation>Artikels negeren voor sorteren</translation>
+        <translation>Jätä etuliitteet huomiotta lajitellessa</translation>
     </message>
     <message>
         <location filename="../apps/generic/ui/settingsdialog.cpp" line="75"/>
         <source>Change volume during calls</source>
-        <translation>Verander volume tijdens oproep</translation>
+        <translation>Muuta äänenvoimakkuutta puhelun aikana</translation>
     </message>
     <message>
         <location filename="../apps/generic/ui/settingsdialog.cpp" line="84"/>
         <source>Pause video during calls</source>
-        <translation>Pauzeer video tijdens oproep</translation>
+        <translation>Keskeytä videon toisto puhelun aikana</translation>
     </message>
     <message>
         <location filename="../apps/generic/ui/settingsdialog.cpp" line="88"/>
         <source>Pause music during calls</source>
-        <translation>Pauzeer muziek tijdens oproep</translation>
+        <translation>Keskeytä musiikin toisto puhelun aikana</translation>
     </message>
     <message>
         <location filename="../apps/generic/ui/settingsdialog.cpp" line="94"/>
         <source>Show call notifications</source>
-        <translation>Toon inkomende oproepen</translation>
+        <translation>Näytä puheluilmoitukset</translation>
     </message>
 </context>
 <context>
@@ -1003,82 +1001,82 @@
     <message>
         <location filename="../apps/harmattan/qml/SettingsSheet.qml" line="26"/>
         <source>Save</source>
-        <translation>Opslaan</translation>
+        <translation>Tallenna</translation>
     </message>
     <message>
         <location filename="../apps/harmattan/qml/SettingsSheet.qml" line="27"/>
         <source>Cancel</source>
-        <translation>Annuleren</translation>
+        <translation>Peruuta</translation>
     </message>
     <message>
         <location filename="../apps/harmattan/qml/SettingsSheet.qml" line="40"/>
         <source>Look and feel</source>
-        <translation>Gebruikerservaring</translation>
+        <translation>Ulkoasu</translation>
     </message>
     <message>
         <location filename="../apps/harmattan/qml/SettingsSheet.qml" line="46"/>
         <source>Invert theme</source>
-        <translation>Thema omkeren</translation>
+        <translation>Käytä käänteistä teemaa</translation>
     </message>
     <message>
         <location filename="../apps/harmattan/qml/SettingsSheet.qml" line="51"/>
         <source>Use Thumbnails</source>
-        <translation>Gebruik thumbnails</translation>
+        <translation>Käytä esikatselukuvia</translation>
     </message>
     <message>
         <location filename="../apps/harmattan/qml/SettingsSheet.qml" line="56"/>
         <source>Keep display on when charging</source>
-        <translation>Laat scherm aan tijdens opladen</translation>
+        <translation>Älä sammuta näyttöä ladattaessa</translation>
     </message>
     <message>
         <location filename="../apps/harmattan/qml/SettingsSheet.qml" line="61"/>
         <source>Ignore articles for sorting</source>
-        <translation>Artikels negeren voor sorteren</translation>
+        <translation>Jätä etuliitteet huomiotta lajitellessa</translation>
     </message>
     <message>
         <location filename="../apps/harmattan/qml/SettingsSheet.qml" line="69"/>
         <source>Music</source>
-        <translation>Muziek</translation>
+        <translation>Musiikki</translation>
     </message>
     <message>
         <location filename="../apps/harmattan/qml/SettingsSheet.qml" line="75"/>
         <source>Videos</source>
-        <translation>Video&apos;s</translation>
+        <translation>Videot</translation>
     </message>
     <message>
         <location filename="../apps/harmattan/qml/SettingsSheet.qml" line="85"/>
         <source>Pictures</source>
-        <translation>Afbeeldingen</translation>
+        <translation>Kuvat</translation>
     </message>
     <message>
         <location filename="../apps/harmattan/qml/SettingsSheet.qml" line="91"/>
         <source>TV Channels</source>
-        <translation>TV Kanalen</translation>
+        <translation>TV kanavat</translation>
     </message>
     <message>
         <location filename="../apps/harmattan/qml/SettingsSheet.qml" line="98"/>
         <source>Phone calls</source>
-        <translation>Oproepen</translation>
+        <translation>Puhelut</translation>
     </message>
     <message>
         <location filename="../apps/harmattan/qml/SettingsSheet.qml" line="104"/>
         <source>Change volume</source>
-        <translation>Volume veranderen</translation>
+        <translation>Muuta äänenvoimakkuutta</translation>
     </message>
     <message>
         <location filename="../apps/harmattan/qml/SettingsSheet.qml" line="117"/>
         <source>Pause video</source>
-        <translation>Pauzeer Video</translation>
+        <translation>Keskeytä video</translation>
     </message>
     <message>
         <location filename="../apps/harmattan/qml/SettingsSheet.qml" line="122"/>
         <source>Pause music</source>
-        <translation>Pauzeer Muziek</translation>
+        <translation>Keskeytä musiikki</translation>
     </message>
     <message>
         <location filename="../apps/harmattan/qml/SettingsSheet.qml" line="127"/>
         <source>Show call notifications</source>
-        <translation>Toon inkomende oproepen.</translation>
+        <translation>Näytä puheluilmoitukset</translation>
     </message>
 </context>
 <context>
@@ -1086,17 +1084,17 @@
     <message>
         <location filename="../libxbmcremote/shares.cpp" line="92"/>
         <source>Music Files</source>
-        <translation>Muziekbestanden</translation>
+        <translation>Musiikkitiedostot</translation>
     </message>
     <message>
         <location filename="../libxbmcremote/shares.cpp" line="94"/>
         <source>Video Files</source>
-        <translation>Videobestanden</translation>
+        <translation>Videotiedostot</translation>
     </message>
     <message>
         <location filename="../libxbmcremote/shares.cpp" line="96"/>
         <source>Picture Files</source>
-        <translation>Afbeeldingsbestanden</translation>
+        <translation>Kuvatiedostot</translation>
     </message>
 </context>
 <context>
@@ -1104,7 +1102,7 @@
     <message>
         <location filename="../libxbmcremote/songs.cpp" line="209"/>
         <source>Songs</source>
-        <translation>Nummers</translation>
+        <translation>Kappaleet</translation>
     </message>
 </context>
 <context>
@@ -1112,7 +1110,7 @@
     <message>
         <location filename="../libxbmcremote/tvshows.cpp" line="200"/>
         <source>TV Shows</source>
-        <translation>TV-Series</translation>
+        <translation>TV sarjat</translation>
     </message>
 </context>
 <context>
@@ -1120,27 +1118,27 @@
     <message>
         <location filename="../libxbmcremote/videolibrary.cpp" line="33"/>
         <source>Movies</source>
-        <translation>Speelfilms</translation>
+        <translation>Elokuvat</translation>
     </message>
     <message>
         <location filename="../libxbmcremote/videolibrary.cpp" line="38"/>
         <source>TV Shows</source>
-        <translation>TV-Series</translation>
+        <translation>TV sarjat</translation>
     </message>
     <message>
         <location filename="../libxbmcremote/videolibrary.cpp" line="43"/>
         <source>Music Videos</source>
-        <translation>Muziekvideo&apos;s</translation>
+        <translation>Musiikkivideot</translation>
     </message>
     <message>
         <location filename="../libxbmcremote/videolibrary.cpp" line="48"/>
         <source>Recently added</source>
-        <translation>Recent afgespeeld</translation>
+        <translation>Äskettäin lisätyt</translation>
     </message>
     <message>
         <location filename="../libxbmcremote/videolibrary.cpp" line="82"/>
         <source>Video Library</source>
-        <translation>Videobibliotheek</translation>
+        <translation>Videokirjasto</translation>
     </message>
 </context>
 <context>
@@ -1148,12 +1146,12 @@
     <message>
         <location filename="../libxbmcremote/videoplaylist.cpp" line="167"/>
         <source>Now Playing</source>
-        <translation>Speelt af</translation>
+        <translation>Nyt soi</translation>
     </message>
     <message>
         <location filename="../libxbmcremote/videoplaylist.cpp" line="167"/>
         <source>Videos</source>
-        <translation>Video&apos;s</translation>
+        <translation>Videot</translation>
     </message>
 </context>
 <context>
@@ -1161,22 +1159,22 @@
     <message>
         <location filename="../apps/harmattan/qml/WriteNfcTagSheet.qml" line="46"/>
         <source>Tap a NFC tag to write XBMC connection information to it. You can then use the tag to connect to this XBMC.</source>
-        <translation>Tik op een NFC tag om XBMC verbindingsinformatie te schrijven. Je kan dan deze tag gebruiken om te verbinden met deze XBMC.</translation>
+        <translation>Kosketa NFC-tagia kirjoittaaksesi sille XBMC:n yhdistämistiedot. Voit käyttää tagia yhdistääksesi tähän XBMC:iin</translation>
     </message>
     <message>
         <location filename="../apps/harmattan/qml/WriteNfcTagSheet.qml" line="58"/>
         <source>Close</source>
-        <translation>Sluiten</translation>
+        <translation>Sulje</translation>
     </message>
     <message>
         <location filename="../apps/harmattan/qml/WriteNfcTagSheet.qml" line="70"/>
         <source>Cancel</source>
-        <translation>Annuleren</translation>
+        <translation>Peruuta</translation>
     </message>
     <message>
         <location filename="../apps/harmattan/qml/WriteNfcTagSheet.qml" line="70"/>
         <source>Write NFC Tag</source>
-        <translation>NFC tag schrijven</translation>
+        <translation>Kirjoita NFC-tagi</translation>
     </message>
 </context>
 <context>
@@ -1184,12 +1182,12 @@
     <message>
         <location filename="../libxbmcremote/xbmc.cpp" line="222"/>
         <source>Finished downloading %1</source>
-        <translation>%1 gedownload</translation>
+        <translation>Lataus valmis %1</translation>
     </message>
     <message>
         <location filename="../libxbmcremote/xbmc.cpp" line="224"/>
         <source>Error downloading %1</source>
-        <translation>Fout bij downloaden van %1</translation>
+        <translation>Virhe ladattaessa %1</translation>
     </message>
 </context>
 <context>
@@ -1197,28 +1195,28 @@
     <message>
         <location filename="../libxbmcremote/xbmcconnection.cpp" line="207"/>
         <source>Connecting to %1...</source>
-        <translation>Verbinden met %1...</translation>
+        <translation>Yhdistetään koneeseen %1...</translation>
     </message>
     <message>
         <location filename="../libxbmcremote/xbmcconnection.cpp" line="261"/>
         <source>The connection has been disconnected</source>
-        <translation>De verbinding werd verbroken</translation>
+        <translation>Yhteys on katkaistu</translation>
     </message>
     <message>
         <location filename="../libxbmcremote/xbmcconnection.cpp" line="271"/>
         <location filename="../libxbmcremote/xbmcconnection.cpp" line="330"/>
         <source>Connection failed: %1</source>
-        <translation>Verbinden mislukt: %1</translation>
+        <translation>Yhteys epäonnistui: %1</translation>
     </message>
     <message>
         <location filename="../libxbmcremote/xbmcconnection.cpp" line="382"/>
         <source>This version of Xbmcremote is designed to work with XBMC Frodo (v12.0). It seems you have connected to an older version of XMBC. Please upgrade XBMC in order to use Xbmcremote.</source>
-        <translation>Xbmcremote is ontwikkeld voor XBMC Frodo (v12.0). Je hebt verbinding gemaakt met een oudere versie van XBMC. Je dient XBMC te updaten om Xbmcremote te gebruiken.</translation>
+        <translation>Tämä versio Xbmcremotesta on suunniteltu toimimaan XBMC Frodon (v12.0) kanssa. Olet ilmeisesti yhdistänyt vanhempaan XBMC:n versioon. Päivitä XBMC käyttääksesi Xbmcremotea.</translation>
     </message>
     <message>
         <location filename="../libxbmcremote/xbmcconnection.cpp" line="591"/>
         <source>Connection to %1 timed out...</source>
-        <translation>Time-out tijdens verbinden met %1...</translation>
+        <translation>Yhteys koneeseen %1 aikakatkaistiin...</translation>
     </message>
 </context>
 <context>
@@ -1226,59 +1224,59 @@
     <message>
         <location filename="../apps/harmattan/qml/main.qml" line="99"/>
         <source>Connect...</source>
-        <translation>Verbinden...</translation>
+        <translation>Yhdistä...</translation>
     </message>
     <message>
         <location filename="../apps/harmattan/qml/main.qml" line="110"/>
         <source>Quit xbmc</source>
-        <translation>XBMC afsluiten</translation>
+        <translation>Lopeta XBMC</translation>
     </message>
     <message>
         <location filename="../apps/harmattan/qml/main.qml" line="117"/>
         <source>Write NFC Tag</source>
-        <translation>NFC tag schrijven</translation>
+        <translation>Kirjoita NFC-tagi</translation>
     </message>
     <message>
         <location filename="../apps/harmattan/qml/main.qml" line="129"/>
         <source>Settings</source>
-        <translation>Instellingen</translation>
+        <translation>Asetukset</translation>
     </message>
     <message>
         <location filename="../apps/harmattan/qml/main.qml" line="142"/>
         <source>About</source>
-        <translation>Over</translation>
+        <translation>Tietoja</translation>
     </message>
     <message>
         <location filename="../apps/harmattan/qml/main.qml" line="210"/>
         <location filename="../apps/harmattan/qml/main.qml" line="231"/>
         <location filename="../apps/harmattan/qml/main.qml" line="253"/>
         <source>OK</source>
-        <translation>Akkoord</translation>
+        <translation>OK</translation>
     </message>
     <message>
         <location filename="../apps/harmattan/qml/main.qml" line="333"/>
         <source>Quit</source>
-        <translation>Afsluiten</translation>
+        <translation>Lopeta</translation>
     </message>
     <message>
         <location filename="../apps/harmattan/qml/main.qml" line="337"/>
         <source>Shutdown</source>
-        <translation>Systeem afsluiten</translation>
+        <translation>Sammuta</translation>
     </message>
     <message>
         <location filename="../apps/harmattan/qml/main.qml" line="342"/>
         <source>Reboot</source>
-        <translation>Opnieuw opstarten</translation>
+        <translation>Käynnistä uudelleen</translation>
     </message>
     <message>
         <location filename="../apps/harmattan/qml/main.qml" line="347"/>
         <source>Suspend</source>
-        <translation>Sluimerstand</translation>
+        <translation>Lepotila</translation>
     </message>
     <message>
         <location filename="../apps/harmattan/qml/main.qml" line="352"/>
         <source>Hibernate</source>
-        <translation>Slaapstand</translation>
+        <translation>Horrostila</translation>
     </message>
     <message>
         <location filename="../apps/harmattan/qml/main.qml" line="211"/>
@@ -1286,22 +1284,22 @@
         <location filename="../apps/harmattan/qml/main.qml" line="254"/>
         <location filename="../apps/harmattan/qml/main.qml" line="359"/>
         <source>Cancel</source>
-        <translation>Annuleren</translation>
+        <translation>Peruuta</translation>
     </message>
     <message>
         <location filename="../apps/harmattan/qml/main.qml" line="398"/>
         <source>Copyright</source>
-        <translation>Auteursrecht</translation>
+        <translation>Tekijänoikeus</translation>
     </message>
     <message>
         <location filename="../apps/harmattan/qml/main.qml" line="405"/>
         <source>Close</source>
-        <translation>Sluiten</translation>
+        <translation>Sulje</translation>
     </message>
     <message>
         <location filename="../apps/harmattan/qml/main.qml" line="412"/>
         <source>Donate</source>
-        <translation>Schenken</translation>
+        <translation>Lahjoita</translation>
     </message>
     <message>
         <location filename="../apps/harmattan/qml/main.qml" line="418"/>
