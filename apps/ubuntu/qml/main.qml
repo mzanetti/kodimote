@@ -28,81 +28,65 @@ MainView {
 
     property int pageMargins: units.gu(2)
 
-    Tabs {
-         id: tabs
-         anchors.fill: parent
-         parent: leftPane
-         ItemStyle.class: "new-tabs"
+    Rectangle {
+        anchors.fill: parent
+        color: "#ebebeb"
 
-         property variant tabPageItems: [ mainTab.page, nowPlayingTab.page ]
-
-         property ActionList tools: selectedTab.page.tools
-
-         Tab {
-             id: mainTab
-
-//             property string pane: "Panes/CallEndedPane.qml"
-//             property string panel: "PanelDialer/DialerView.qml"
-//             property bool isCurrent: tabs.selectedTabIndex == 0
-
-             title: "Media"
-             iconSource: isCurrent ? "assets/tab_icon_call_active.png" : "assets/tab_icon_call_inactive.png"
-             page:     PageStack {
-                 id: pageStack
-                 anchors.fill: parent
-                 property bool connected: xbmc.connected
-                 property bool nfcSheetOpen: false
-
-                 Component.onCompleted: pageStack.push(mainPage)
-
-                 MainPage {
-                 id: mainPage
-             }
-             }
-
-
-         }
-
-         Tab {
-             id: nowPlayingTab
-
-//             property string pane: "Panes/CallEndedPane.qml"
-//             property string panel: "PanelDialer/DialerView.qml"
-//             property bool isCurrent: tabs.selectedTabIndex == 0
-
-             title: "Now Playing"
-             iconSource: isCurrent ? "assets/tab_icon_call_active.png" : "assets/tab_icon_call_inactive.png"
-             page:         NowPlayingPage {
-                 id: nowPlayingPage
-                 anchors.fill: parent
-
-                 timerActive: tabListView.currentIndex === 1
-             }
-         }
-
-         Tab {
-             id: keypadTab
-
-             title: "Keypad"
-
-             page: Keypad {
-                 anchors.fill: parent
-             }
-         }
     }
 
+    Tabs {
+        id: tabs
+        anchors.fill: parent
+        parent: leftPane
+        ItemStyle.class: "new-tabs"
 
-//    ListView {
-//        id: tabListView
-//        orientation: ListView.Horizontal
-//        anchors.fill: parent
-//        contentHeight: appWindow.height
-//        contentWidth: appWindow.width
-//        snapMode: ListView.SnapOneItem
-//        highlightRangeMode: ListView.StrictlyEnforceRange
-//        highlightFollowsCurrentItem: true
+        property variant tabPageItems: [ mainTab.page, nowPlayingTab.page ]
 
-//        model: tabModel
-//    }
+        property ActionList tools: selectedTab.page.tools
 
+        Tab {
+            id: mainTab
+            title: "Media"
+            page: PageStack {
+                id: pageStack
+                anchors.fill: parent
+                property bool connected: xbmc.connected
+                property bool nfcSheetOpen: false
+
+                Component.onCompleted: pageStack.push(mainPage)
+
+                function home() {
+                    pageStack.clear();
+                    pageStack.push(mainPage)
+                }
+
+                MainPage {
+                    id: mainPage
+                }
+            }
+
+
+        }
+
+        Tab {
+            id: nowPlayingTab
+            title: "Now Playing"
+            page: NowPlayingPage {
+                id: nowPlayingPage
+                anchors.fill: parent
+
+                timerActive: tabListView.currentIndex === 1
+            }
+        }
+
+        Tab {
+            id: keypadTab
+
+            title: "Keypad"
+
+            page: Keypad {
+                anchors.fill: parent
+            }
+        }
+    }
 }

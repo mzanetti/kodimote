@@ -29,7 +29,12 @@ Page {
     title: model.title
 
     tools: ActionList {
-
+        Action {
+            text: "home"
+            onTriggered: {
+                pageStack.home();
+            }
+        }
     }
 
     Component.onCompleted: {
