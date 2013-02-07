@@ -432,6 +432,11 @@ void XbmcConnectionPrivate::replyReceived()
 
 int XbmcConnectionPrivate::sendCommand(const QString &command, const QVariant &params)
 {
+    if(!(m_connected || m_connecting)) {
+        qDebug() << "Not connected. Discarding command" << command;
+        return -1;
+    }
+
     int id = m_commandId++;
     Command cmd(id, command, params);
     m_commandQueue.append(cmd);
@@ -445,6 +450,11 @@ int XbmcConnectionPrivate::sendCommand(const QString &command, const QVariant &p
 
 int XbmcConnectionPrivate::sendCommand(const QString &command, const QVariant &params, QObject *callbackReceiver, const QString &callbackMember)
 {
+    if(!(m_connected || m_connecting)) {
+        qDebug() << "Not connected. Discarding command" << command;
+        return -1;
+    }
+
     int id = m_commandId++;
 
     Callback callback(callbackReceiver, callbackMember);
