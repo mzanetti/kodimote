@@ -146,8 +146,16 @@ BorderImage {
         }
         Item {
             width: orientation == "portrait" ? parent.width : parent.width - crossCol.width - buttonRow.width
-            height: orientation == "portrait" ? 20 : parent.height
+            height: orientation == "portrait" ? 200 : parent.height
 //            Rectangle {color: "red"; anchors.fill: parent }
+
+            KeypadButton {
+                id: homeButton
+                icon: "home"
+                anchors.centerIn: parent
+                onPressed: keys.home();
+            }
+
         }
 
         Item {
@@ -159,7 +167,7 @@ BorderImage {
                 anchors.centerIn: parent
                 id: buttonRowGrid
                 spacing: 20
-                columns: orientation == "portrait" ? 2 : 3
+                columns: 2
                 KeypadButton {
                     id: backButton
                     icon: "back"
@@ -171,19 +179,12 @@ BorderImage {
                     onPressed: keys.info();
                 }
                 KeypadButton {
-                    id: menuButton
-                    icon: "contextmenu"
-                    onPressed: keys.menu();
-                }
-                KeypadButton {
                     id: contextMenuButton
                     icon: "menu"
-                    onPressed: keys.contextMenu();
-                }
-                KeypadButton {
-                    id: homeButton
-                    icon: "home"
-                    onPressed: keys.home();
+                    onPressed: {
+                        keys.osd();
+                        keys.contextMenu();
+                    }
                 }
                 KeypadButton {
                     id: fullscreenButton
