@@ -54,7 +54,7 @@ bool XbmcImageCache::contains(const QString &image, int cacheId)
     if(!m_cacheFiles.at(cacheId).contains(image)) {
         QFileInfo fi(cachedFile(image, cacheId));
         m_cacheFiles[cacheId].insert(image, fi.exists());
-//        qDebug() << "checking from file:" << fi.path() << fi.exists();
+        qDebug() << "checking from file:" << fi.path() << fi.exists();
     }
 
     return m_cacheFiles.at(cacheId).value(image);
@@ -72,7 +72,7 @@ QString XbmcImageCache::cachedFile(const QString &image, int cacheId)
     if(filename.endsWith(".mp3")) {
         filename.replace(".mp3", ".jpg");
     }
-    QUrl url = QUrl::fromPercentEncoding(filename.toLocal8Bit());
+    QUrl url = QUrl::fromPercentEncoding(filename.toUtf8());
     return cachePath(cacheId) + url.path();
 }
 

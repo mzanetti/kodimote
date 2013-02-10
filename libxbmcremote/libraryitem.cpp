@@ -168,6 +168,11 @@ void LibraryItem::setFileName(const QString &fileName)
 
 QString LibraryItem::thumbnail() const
 {
+    qDebug() << "thumbnail" << m_thumbnail;
+    if (m_thumbnail.isEmpty()) {
+        return QString();
+    }
+
     if(Xbmc::instance()->imageCache()->contains(m_thumbnail, 1)) {
         return Xbmc::instance()->imageCache()->cachedFile(m_thumbnail, 1);
     }
