@@ -20,73 +20,102 @@
 
 import QtQuick 2.0
 import Ubuntu.Components 0.1
+import Ubuntu.Components.Popups 0.1
 
 MainView {
     id: appWindow
 
-    tools: tabs.tools
+    tools: mainLoader.item.tools
 
     property int pageMargins: units.gu(2)
 
     Rectangle {
         anchors.fill: parent
         color: "#ebebeb"
-
     }
 
-    Tabs {
-        id: tabs
+    Loader {
+        id: mainLoader
         anchors.fill: parent
-        parent: leftPane
-        ItemStyle.class: "new-tabs"
+        sourceComponent: xbmc.connected ? tabsComponent : noConnectionComponent
+    }
 
-        property variant tabPageItems: [ mainTab.page, nowPlayingTab.page ]
+    Component {
+        id: noConnectionComponent
 
-        property ActionList tools: selectedTab.page.tools
-
-        Tab {
-            id: mainTab
-            title: "Media"
-            page: PageStack {
-                id: pageStack
-                anchors.fill: parent
-                property bool connected: xbmc.connected
-                property bool nfcSheetOpen: false
-
-                Component.onCompleted: pageStack.push(mainPage)
-
-                function home() {
-                    pageStack.clear();
-                    pageStack.push(mainPage)
-                }
-
-                MainPage {
-                    id: mainPage
-                }
+        Item {
+            Label {
+                id: connectionLabel
+                anchors.centerIn: parent
+                text: "Not connected"
             }
-
-
-        }
-
-        Tab {
-            id: nowPlayingTab
-            title: "Now Playing"
-            page: NowPlayingPage {
-                id: nowPlayingPage
-                anchors.fill: parent
-
-                timerActive: tabListView.currentIndex === 1
-            }
-        }
-
-        Tab {
-            id: keypadTab
-
-            title: "Keypad"
-
-            page: Keypad {
-                anchors.fill: parent
+            Button {
+                anchors.top: connectionLabel.bottom
+                anchors.topMargin: units.gu(1)
+                anchors.horizontalCenter: parent.horizontalCenter
+                text: "Connect"
+                width: units.gu(15)
+                onClicked: {
+                    var sheet = Qt.createComponent("ConnectionSheet.qml");
+                    PopupUtils.open(sheet);
+                }
             }
         }
     }
+
+    Component {
+        id: tabsComponent
+        Tabs {
+            id: tabs
+            anchors.fill: parent
+            parent: leftPane
+            ItemStyle.class: "new-tabs"
+
+            property variant tabPageItems: [ mainTab.page, nowPlayingTab.page ]
+
+            property ActionList tools: selectedTab.page.tools
+
+            Tab {
+                id: mainTab
+                title: "Media"
+                page: PageStack {
+                    id: pageStack
+                    anchors.fill: parent
+
+                    Component.onCompleted: pageStack.push(mainPage)
+
+                    function home() {
+                        pageStack.clear();
+                        pageStack.push(mainPage)
+                    }
+
+                    MainPage {
+                        id: mainPage
+                    }
+                }
+            }
+
+            Tab {
+                id: nowPlayingTab
+                title: "Now Playing"
+                page: NowPlayingPage {
+                    id: nowPlayingPage
+                    anchors.fill: parent
+
+                    timerActive: tabListView.currentIndex === 1
+                }
+            }
+
+            Tab {
+                id: keypadTab
+
+                title: "Keypad"
+
+                page: Keypad {
+                    anchors.fill: parent
+                }
+            }
+        }
+    }
+
 }

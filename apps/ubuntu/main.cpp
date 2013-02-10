@@ -37,13 +37,7 @@ int main(int argc, char** argv)
 
     QQuickView *view = new QQuickView();
     view->setResizeMode(QQuickView::SizeRootObjectToView);
-
-    // Qt5 final - enable when ubuntu switches to final
     view->setTitle("Xbmcremote");
-
-    // Qt5 beta 1 - remove when ubuntu switches to final
-//    view->setWindowTitle("Xbmcremote");
-
     view->engine()->rootContext()->setContextProperty("xbmc", Xbmc::instance());
 
     Settings settings;
@@ -61,14 +55,6 @@ int main(int argc, char** argv)
         view->resize(QSize(720, 1280));
         view->show();
     }
-
-    // Just connect to my host for now
-    XbmcHost host;
-    host.setAddress("10.10.10.100");
-    host.setHostname("Knuckles");
-    host.setPort(8080);
-    Xbmc::instance()->hostModel()->insertOrUpdateHost(host);
-    Xbmc::instance()->hostModel()->connectToHost(0);
 
     return application.exec();
 }

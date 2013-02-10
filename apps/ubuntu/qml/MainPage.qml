@@ -20,6 +20,7 @@
 
 import QtQuick 2.0
 import Ubuntu.Components 0.1
+import Ubuntu.Components.Popups 0.1
 
 Page {
     id: mainPage
@@ -33,6 +34,14 @@ Page {
 //            iconSource: Qt.resolvedUrl("1.png")
             onTriggered: print("First action")
          }
+
+        Action {
+            text: "Connect..."
+            onTriggered: {
+                var sheet = Qt.createComponent("ConnectionSheet.qml");
+                PopupUtils.open(sheet);
+            }
+        }
     }
 
 

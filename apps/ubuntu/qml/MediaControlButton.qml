@@ -71,8 +71,8 @@ Item {
                 if (!isEnabled)
                     iconId = iconId + "-dimmed";
 
-                if (theme.inverted)
-                    iconId = iconId + "-white";
+//                if (theme.inverted)
+//                    iconId = iconId + "-white";
 
                 if (isSelected)
                     iconId = iconId + "-selected";
