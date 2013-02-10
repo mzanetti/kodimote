@@ -172,11 +172,12 @@ Page {
 
         Thumbnail {
             id: imageItem
-            artworkSource: !currentItem || currentItem.thumbnail.length === 0 ? "" : currentItem.thumbnail
+            artworkSource: currentItem ? currentItem.thumbnail : ""
             height: mainPage.orientation == "portrait" ? parent.width : parent.height
             width: mainPage.orientation == "portrait" ? parent.width : height
             fillMode: Image.PreserveAspectFit
             smooth: true
+            defaultText: currentItem ? currentItem.title : ""
         }
 
         Item {
