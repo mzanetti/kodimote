@@ -64,7 +64,7 @@ int main(int argc, char** argv)
 
     // Just connect to my host for now
     XbmcHost host;
-    host.setAddress("10.10.10.10");
+    host.setAddress("10.10.10.100");
     host.setHostname("Knuckles");
     host.setPort(8080);
     Xbmc::instance()->hostModel()->insertOrUpdateHost(host);

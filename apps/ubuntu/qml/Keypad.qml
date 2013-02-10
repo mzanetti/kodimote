@@ -31,7 +31,7 @@ Page {
     property bool usePictureControls: xbmc.picturePlayerActive && !pictureControlsOverride
     property bool pictureControlsOverride: false
 
-    tools: ActionList {
+    tools: ToolbarActions {
         Action {
 //            platformIconId: usePictureControls ? "toolbar-dialer" : "toolbar-image-edit";
 //            anchors.horizontalCenter: parent===undefined ? undefined : parent.horizontalCenter

@@ -28,7 +28,7 @@ Page {
     property variant model
     title: model.title
 
-    tools: ActionList {
+    tools: ToolbarActions {
         Action {
             text: "home"
             onTriggered: {

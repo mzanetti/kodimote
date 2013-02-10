@@ -27,7 +27,7 @@ Page {
     title: qsTr("XBMC on %1").arg(xbmc.connectedHostName)
 
 
-    tools: ActionList {
+    tools: ToolbarActions {
         Action {
             text: "settings"
 //            iconSource: Qt.resolvedUrl("1.png")
