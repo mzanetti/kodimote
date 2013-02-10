@@ -579,19 +579,19 @@
     </message>
     <message>
         <location filename="../apps/harmattan/qml/MainPage.qml" line="91"/>
-        <location filename="../apps/ubuntu/qml/MainPage.qml" line="60"/>
+        <location filename="../apps/ubuntu/qml/MainPage.qml" line="69"/>
         <source>Music</source>
         <translation>Música</translation>
     </message>
     <message>
         <location filename="../apps/harmattan/qml/MainPage.qml" line="94"/>
-        <location filename="../apps/ubuntu/qml/MainPage.qml" line="61"/>
+        <location filename="../apps/ubuntu/qml/MainPage.qml" line="70"/>
         <source>Videos</source>
         <translation>Vídeos</translation>
     </message>
     <message>
         <location filename="../apps/harmattan/qml/MainPage.qml" line="97"/>
-        <location filename="../apps/ubuntu/qml/MainPage.qml" line="62"/>
+        <location filename="../apps/ubuntu/qml/MainPage.qml" line="71"/>
         <source>Pictures</source>
         <translation>Imagens</translation>
     </message>
@@ -602,13 +602,13 @@
     </message>
     <message>
         <location filename="../apps/harmattan/qml/MainPage.qml" line="193"/>
-        <location filename="../apps/ubuntu/qml/MainPage.qml" line="131"/>
+        <location filename="../apps/ubuntu/qml/MainPage.qml" line="140"/>
         <source>Library</source>
         <translation>Biblioteca</translation>
     </message>
     <message>
         <location filename="../apps/harmattan/qml/MainPage.qml" line="195"/>
-        <location filename="../apps/ubuntu/qml/MainPage.qml" line="131"/>
+        <location filename="../apps/ubuntu/qml/MainPage.qml" line="140"/>
         <source>Files</source>
         <translation>Ficheiros</translation>
     </message>
@@ -855,25 +855,25 @@
     </message>
     <message>
         <location filename="../apps/harmattan/qml/NowPlayingPage.qml" line="297"/>
-        <location filename="../apps/ubuntu/qml/NowPlayingPage.qml" line="218"/>
+        <location filename="../apps/ubuntu/qml/NowPlayingPage.qml" line="233"/>
         <source>Season:</source>
         <translation>Época:</translation>
     </message>
     <message>
         <location filename="../apps/harmattan/qml/NowPlayingPage.qml" line="297"/>
-        <location filename="../apps/ubuntu/qml/NowPlayingPage.qml" line="218"/>
+        <location filename="../apps/ubuntu/qml/NowPlayingPage.qml" line="233"/>
         <source>Episode:</source>
         <translation>Episódio:</translation>
     </message>
     <message>
         <location filename="../apps/harmattan/qml/NowPlayingPage.qml" line="303"/>
-        <location filename="../apps/ubuntu/qml/NowPlayingPage.qml" line="218"/>
+        <location filename="../apps/ubuntu/qml/NowPlayingPage.qml" line="233"/>
         <source>Rating:</source>
         <translation>Pontuação:</translation>
     </message>
     <message>
         <location filename="../apps/harmattan/qml/NowPlayingPage.qml" line="329"/>
-        <location filename="../apps/ubuntu/qml/NowPlayingPage.qml" line="253"/>
+        <location filename="../apps/ubuntu/qml/NowPlayingPage.qml" line="268"/>
         <source>Year:</source>
         <translation>Ano:</translation>
     </message>
@@ -1216,7 +1216,7 @@
         <translation>Esta versão do Xbmcremote foi concebida para XMBC Frodo (v12.0). Parece estar a usar uma versão anterior do XBMC.</translation>
     </message>
     <message>
-        <location filename="../libxbmcremote/xbmcconnection.cpp" line="591"/>
+        <location filename="../libxbmcremote/xbmcconnection.cpp" line="601"/>
         <source>Connection to %1 timed out...</source>
         <translation>Ligação a %1 não responde...</translation>
     </message>
