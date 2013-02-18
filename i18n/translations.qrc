@@ -2,9 +2,13 @@
     <qresource prefix="/">
         <file>xbmcremote_de.qm</file>
         <file>xbmcremote_el.qm</file>
+        <file>xbmcremote_fi.qm</file>
         <file>xbmcremote_it.qm</file>
         <file>xbmcremote_nl.qm</file>
         <file>xbmcremote_pt.qm</file>
+        <file>xbmcremote_pt_BR.qm</file>
+        <file>xbmcremote_ro.qm</file>
         <file>xbmcremote_tr.qm</file>
+        <file>xbmcremote_zh.qm</file>
     </qresource>
 </RCC>
