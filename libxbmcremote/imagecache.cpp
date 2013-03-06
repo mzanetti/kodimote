@@ -227,11 +227,12 @@ void XbmcImageCache::downloadPrepared(const QVariantMap &rsp)
     imageUrl.setHost(host->address());
     imageUrl.setPort(host->port());
 
-    QByteArray path = "/" + QByteArray::fromPercentEncoding(result.value("details").toMap().value("path").toByteArray());
 
 #ifdef QT5_BUILD
+    QByteArray path = "/" + QByteArray::fromPercentEncoding(result.value("details").toMap().value("path").toByteArray());
     imageUrl.setPath(path, QUrl::DecodedMode);
 #else
+    QString path = "/" + QUrl::fromPercentEncoding(result.value("details").toMap().value("path").toByteArray());
     imageUrl.setPath(path);
 #endif
 
