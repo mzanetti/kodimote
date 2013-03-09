@@ -29,6 +29,7 @@
 #include <QMutex>
 #include <QVariantMap>
 #include <QSize>
+#include <QTimer>
 
 class QNetworkReply;
 
@@ -76,6 +77,7 @@ private:
     QList<ImageFetchJob*> m_downloadQueue;
     QList<ImageFetchJob*> m_toBeNotifiedList;
     QMutex m_mutex;
+    QTimer *m_fetchNextTimer;
 
     QList<QHash<QString, bool> > m_cacheFiles;
 

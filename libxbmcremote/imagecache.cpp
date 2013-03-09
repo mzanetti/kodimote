@@ -35,6 +35,10 @@ XbmcImageCache::XbmcImageCache(QObject *parent) :
     m_jobId(0),
     m_currentJob(0)
 {
+    m_fetchNextTimer = new QTimer(this);
+    m_fetchNextTimer->setSingleShot(true);
+    m_fetchNextTimer->setInterval(0);
+    connect(m_fetchNextTimer,SIGNAL(timeout()),this,SLOT(fetchNext()));
 }
 
 bool XbmcImageCache::contains(const QString &image, int cacheId)
@@ -108,7 +112,7 @@ int XbmcImageCache::fetch(const QString &image, QObject *callbackObject, const Q
 
     // Ok... this is a new one... start fetching it
     m_downloadQueue.prepend(ifJob);
-    QMetaObject::invokeMethod(this, "fetchNext", Qt::QueuedConnection);
+    m_fetchNextTimer->start();
 
     return ifJob->id();
 }
@@ -176,7 +180,7 @@ void XbmcImageCache::imageFetched()
 
     reply->deleteLater();
 
-    QMetaObject::invokeMethod(this, "fetchNext", Qt::QueuedConnection);
+    m_fetchNextTimer->start();
 }
 
 void XbmcImageCache::downloadProgress(qint64 bytesReceived, qint64 bytesTotal)
@@ -246,5 +250,5 @@ void XbmcImageCache::cleanupAndTriggerNext()
 {
     delete m_currentJob;
     m_currentJob = 0;
-    QMetaObject::invokeMethod(this, "fetchNext", Qt::QueuedConnection);
+    m_fetchNextTimer->start();
 }
