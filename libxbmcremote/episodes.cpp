@@ -166,7 +166,7 @@ void Episodes::listReceived(const QVariantMap &rsp)
         //        item->setData(itemMap.value("showtitle").toString() + " - " + itemMap.value("season").toString(), Qt::UserRole+2);
         item->setSubtitle(itemMap.value("showtitle").toString() + (m_seasonString.isEmpty() ? "" :  (" - " + m_seasonString)));
         item->setTvShow(itemMap.value("showtitle").toString());
-        item->setSeason(itemMap.value("season").toInt());
+        item->setSeason(m_seasonid);
         item->setEpisodeId(itemMap.value("episodeid").toInt());
         item->setThumbnail(itemMap.value("thumbnail").toString());
         item->setPlaycount(itemMap.value("playcount").toInt());
