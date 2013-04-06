@@ -30,8 +30,8 @@
 
 
 PlayerContainer::PlayerContainer(QObject *parent):
-  Plasma::DataContainer(parent),
-  m_player(0)
+    Plasma::DataContainer(parent),
+    m_player(0)
 {
 
     connect(Xbmc::instance(), SIGNAL(connectedChanged(bool)), SLOT(activePlayerChanged()));
@@ -45,11 +45,12 @@ void PlayerContainer::activePlayerChanged()
 
     disconnect(this, SLOT(update()));
     disconnect(this, SLOT(currentItemChanged()));
-
+    disconnect(this, SLOT(percentageChanged()));
 
     if(Xbmc::instance()->activePlayer()) {
         connect(Xbmc::instance()->activePlayer(), SIGNAL(stateChanged()), SLOT(update()));
         connect(Xbmc::instance()->activePlayer(), SIGNAL(currentItemChanged()), SLOT(currentItemChanged()));
+        connect(Xbmc::instance()->activePlayer(), SIGNAL(percentageChanged()), SLOT(percentageChanged()));
     }
 
     update();
@@ -58,16 +59,33 @@ void PlayerContainer::activePlayerChanged()
 void PlayerContainer::currentItemChanged()
 {
     if(!Xbmc::instance()->activePlayer()) {
-	setData("title", "");
-        checkForUpdate();
-	return;
+        removeAllData();
+        return;
     }
 
+    disconnect(this, SLOT(thumbnailChanged()));
+
     LibraryItem *currentItem = Xbmc::instance()->activePlayer()->currentItem();
+    connect(currentItem, SIGNAL(thumbnailChanged()), SLOT(thumbnailChanged()));
+
     setData("title", currentItem->title());
+    setData("year", currentItem->year());
+    setData("rating", currentItem->rating());
+    setData("duration", currentItem->duration());
 
+    thumbnailChanged();
+}
+
+void PlayerContainer::percentageChanged()
+{
+    setData("percentage", Xbmc::instance()->activePlayer()->percentage());
     checkForUpdate();
+}
 
+void PlayerContainer::thumbnailChanged()
+{
+    setData("thumbnail", Xbmc::instance()->activePlayer()->currentItem()->thumbnail());
+    checkForUpdate();
 }
 
 void PlayerContainer::update()
@@ -76,12 +94,10 @@ void PlayerContainer::update()
     m_player = Xbmc::instance()->activePlayer();
 
     if(m_player == 0) {
-	setData("state", "none");
-	setData("title", "");
+        setData("state", "none");
+        checkForUpdate();
     } else {
-	setData("state", m_player->state());
-	setData("title", m_player->currentItem()->title());
+        setData("state", m_player->state());
+        currentItemChanged();
     }
-
-    currentItemChanged();
 }

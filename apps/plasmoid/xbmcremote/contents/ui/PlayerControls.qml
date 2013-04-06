@@ -19,71 +19,39 @@
  ****************************************************************************/
 
 import QtQuick 1.1
+import org.kde.plasma.components 0.1
+import org.kde.plasma.graphicswidgets 0.1 as PlasmaWidgets
 import org.kde.plasma.core 0.1 as PlasmaCore
-import org.kde.plasma.components 0.1 as PlasmaComponents
+import org.kde.plasma.graphicslayouts 4.7 as GraphicsLayouts
 
-Item {
-    id: root
+ListView {
+    height: theme.iconSizes.dialog
+    orientation: ListView.Horizontal
+    spacing: (width - (theme.iconSizes.dialog * 6)) / 5
+    interactive: false
 
-    property int minimumWidth: l.item.minimumWidth
-    property int minimumHeight: l.item.minimumHeight
+    property variant dataSource
 
-    property Component compactRepresentation: Rectangle {
-        color: "red"
+    model: ListModel {
+        ListElement { iconSource: "media-skip-backward"; operation: "SkipPrevious" }
+        ListElement { iconSource: "media-seek-backward"; operation: "SeekBackward" }
+        ListElement { iconSource: "media-playback-stop"; operation: "Stop" }
+        ListElement { iconSource: "media-playback-start"; iconSource2: "media-playback-pause"; state: "playing" ; operation: "PlayPause" }
+        ListElement { iconSource: "media-seek-forward"; operation: "SeekForward" }
+        ListElement { iconSource: "media-skip-forward"; operation: "SkipNext" }
     }
 
 
-    PlasmaCore.DataSource {
-	id: dataSource
-	dataEngine: "xbmcremote"
-	connectedSources: ['Hosts', 'Xbmc']
-	//interval: 5000
-
-	
-	onNewData: {
-	  if (sourceName == 'Hosts') {
-		print("going to connect to " +  data[0])
-		var description = serviceForSource('Hosts').operationDescription("Connect");
-		description.id = 0;
-		//serviceForSource('Hosts').startOperationCall(description)
-	      //activeSource = data['Hosts'][0]
-	      //connectedSources = ['Hosts', activeSource]
-	  }
-	}
-
-    }
-
-    PlasmaCore.Theme {
-            id: theme
-    }
-
-
-
-      Loader {
-      id: l
-      source: {
-  //             if (plasmoid.formFactor == Planar || plasmoid.formFactor == MediaCenter)
-  //                 "FullLayout.qml"
-  //             else
-          if(dataSource.data['Xbmc'].connected) {
-        if (plasmoid.formFactor == Horizontal) {
-            print("loading compact layout")
-            "HorizontalDock.qml"
-        } else {
-            print("loading other layout")
-            "PopupDialog.qml"
+    delegate: PlasmaCore.IconItem {
+        width: theme.iconSizes.dialog
+        height: width
+        source: /*iconSource2 !== undefined && */dataSource.data['Player'].state == model.state ? iconSource2 : iconSource
+        MouseArea {
+            anchors.fill: parent
+            onClicked: {
+                var data = dataSource.serviceForSource('Player').operationDescription(operation);
+                dataSource.serviceForSource('Player').startOperationCall(data);
+            }
         }
-          } else {
-          "Dummy.qml"
-          }
-
-      }
-	  
-      anchors.fill: parent
-      }
-
-//     Component.onCompleted: {
-//         plasmoid.aspectRatioMode = plasmoid.IgnoreAspectRatio;
-//        plasmoid.popupIcon = "konqueror"
-//     }
+    }
 }

@@ -39,6 +39,9 @@ public slots:
 private slots:
   void activePlayerChanged();
   void currentItemChanged();
+  void percentageChanged();
+
+  void thumbnailChanged();
   
 private:
   

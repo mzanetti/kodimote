@@ -53,6 +53,9 @@ playerjob.cpp
 ../../../libxbmcremote/artists.cpp
 ../../../libxbmcremote/shares.cpp
 ../../../libxbmcremote/files.cpp
+../../../libxbmcremote/recentitems.cpp
+../../../libxbmcremote/channelgroups.cpp
+../../../libxbmcremote/channels.cpp
 
 ../../../libxbmcremote/imagecache.cpp
 
@@ -72,6 +75,7 @@ playerjob.cpp
 
 
 ../../../libxbmcremote/keys.cpp
+../../../libxbmcremote/eventclient.cpp
 
 )
  

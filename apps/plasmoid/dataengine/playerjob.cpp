@@ -41,6 +41,8 @@ void PlayerJob::start()
 
     if(operationName() == "PlayPause") {
         Xbmc::instance()->activePlayer()->playPause();
+    } else if(operationName() == "Stop") {
+        Xbmc::instance()->activePlayer()->stop();
     } else if(operationName() == "SkipNext") {
         Xbmc::instance()->activePlayer()->skipNext();
     } else if(operationName() == "SkipPrevious") {
