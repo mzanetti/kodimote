@@ -29,7 +29,7 @@
 EventClient::EventClient(QObject *parent) :
     QObject(parent),
     m_socket(-1),
-    m_cleared(true)
+    m_cleared(0)
 {
     m_releaseTimer.setSingleShot(false);
     m_releaseTimer.setInterval(200);
@@ -87,7 +87,7 @@ void EventClient::sendKeypress(const QString &buttonName)
     CPacketBUTTON btnDown(buttonName.toLatin1().data(), "KB", BTN_USE_NAME);
     btnDown.Send(m_socket, m_xbmcHost);
 
-    m_cleared = false;
+    m_cleared = 0;
     m_releaseTimer.start();
 }
 
@@ -96,7 +96,7 @@ void EventClient::sendIrPress(const QString &buttonName)
     CPacketBUTTON btnDown(buttonName.toLatin1().data(), "LI:xbmcremote", BTN_USE_NAME);
     btnDown.Send(m_socket, m_xbmcHost);
 
-    m_cleared = false;
+    m_cleared = 0;
     m_releaseTimer.start();
 }
 

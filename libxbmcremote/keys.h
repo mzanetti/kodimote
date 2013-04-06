@@ -45,6 +45,10 @@ public slots:
     void backspace();
     void previousMenu();
     void sendText(QString text, bool done = true);
+    void red();
+    void green();
+    void yellow();
+    void blue();
 
     QString formatTime(int hours, int minutes);
 
@@ -54,11 +58,6 @@ signals:
 
 private slots:
     void receivedAnnouncement(const QVariantMap& map);
-
-    void red();
-    void green();
-    void yellow();
-    void blue();
 
 private:
     void executeAction(const QString &action);
