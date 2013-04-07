@@ -58,7 +58,7 @@ XbmcremoteEngine::XbmcremoteEngine(QObject* parent, const QVariantList& args)
 
 QStringList XbmcremoteEngine::sources() const
 {
-  return QStringList() << "Hosts" << "Xbmc" << "Player";
+    return QStringList() << "Hosts" << "Xbmc" << "Player";
 }
 
 bool XbmcremoteEngine::sourceRequestEvent(const QString &name)
@@ -86,12 +86,12 @@ Plasma::Service* XbmcremoteEngine::serviceForSource(const QString& source)
 bool XbmcremoteEngine::updateSourceEvent(const QString &name)
 {
     if(name == "Xbmc") {
-      return true;
+        return true;
     } else if(name == "Hosts") {
-       m_hostContainer->refresh();
-       return true;
+        m_hostContainer->refresh();
+        return true;
     } else if(name == "Player") {
-	m_playerContainer->update();
+        m_playerContainer->update();
     }
 
     return false;

@@ -31,6 +31,7 @@
 #define XDAREA_PLAYLIST    5
 #define XDAREA_NETWORKDATA 6
 #define XDAREA_EVENTCLIENT 7
+#define XDAREA_DISCOVERY   8
 
 #define xDebug(a) XDebug::check(a)
 

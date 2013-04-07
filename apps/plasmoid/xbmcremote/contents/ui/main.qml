@@ -28,10 +28,41 @@ Item {
     property int minimumWidth: popupDialog.minimumWidth
     property int minimumHeight: popupDialog.minimumHeight
 
-    property Component compactRepresentation: Rectangle {
-        color: "red"
+    property Component compactRepresentation: Component {
+        Item {
+            property int minimumWidth: 32
+            property int minimumHeight: 32
+
+            PlasmaCore.Svg {
+                id: svg
+                imagePath: "icons/xbmcremote"
+            }
+
+            PlasmaCore.SvgItem {
+                anchors.fill: parent
+                svg: svg
+                elementId: "logo"
+            }
+
+            PlasmaCore.SvgItem {
+                anchors.fill: parent
+                svg: svg
+                elementId: "play"
+            }
+
+            PlasmaCore.SvgItem {
+                anchors.fill: parent
+                svg: svg
+                elementId: "pause"
+            }
+
+        }
     }
 
+    Connections {
+        target: plasmoid
+        onFormFactorChanged: print("#####################################")
+    }
 
     PlasmaCore.DataSource {
         id: dataSource
@@ -41,6 +72,7 @@ Item {
 
 
         onNewData: {
+            print("main.qml: onNewData")
             if (sourceName == 'Hosts') {
                 print("going to connect to " +  data[0])
                 var description = serviceForSource('Hosts').operationDescription("Connect");
@@ -49,6 +81,10 @@ Item {
                 //activeSource = data['Hosts'][0]
                 //connectedSources = ['Hosts', activeSource]
             }
+        }
+
+        onDataChanged: {
+            print("main.qml: onDataChanged")
         }
 
     }

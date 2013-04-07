@@ -24,12 +24,13 @@ import org.kde.plasma.components 0.1 as PlasmaComponents
 
 Item {
     id: root
+    property bool discovering: false
 
     PlasmaCore.DataSource {
         id: xbmcSource
         dataEngine: "xbmcremote"
         connectedSources: ['Hosts']
-        interval: 2000
+        interval: discovering ? 2000 : 0
 
         onNewData: {
             hostListView.model = xbmcSource.data['Hosts'].hostList

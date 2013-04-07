@@ -21,6 +21,7 @@
 #include "xbmcdiscovery.h"
 #include "xbmchostmodel.h"
 #include "xbmc.h"
+#include "xdebug.h"
 
 #include <QNetworkInterface>
 #include <QStringList>
@@ -90,6 +91,7 @@ XbmcDiscovery::~XbmcDiscovery()
 
 void XbmcDiscovery::discover()
 {
+    xDebug(XDAREA_DISCOVERY) << "Sending Zeroconf Query packet";
     qDebug() << "Sending Zeroconf Query packet";
     m_socket->writeDatagram(QByteArray(query_jsonrpc_http_workstations, 93), m_multicastAddress, 5353);
 }
@@ -101,7 +103,7 @@ bool XbmcDiscovery::continuousDiscovery()
 
 void XbmcDiscovery::readDatagram()
 {
-    qDebug() << "***** multicast packet recieve *****";
+    xDebug(XDAREA_DISCOVERY) << "***** multicast packet recieve *****";
 
     while (m_socket->hasPendingDatagrams()) {
         int size = m_socket->pendingDatagramSize();
@@ -128,9 +130,9 @@ void XbmcDiscovery::readDatagram()
         int answerCount = datagram.left(4).toInt(0, 16);
         datagram = datagram.right(datagram.length() - 4);
         if(answerCount > 0) {
-            qDebug() << "there are" << answerCount << "answer records in the datagram";
+            xDebug(XDAREA_DISCOVERY) << "there are" << answerCount << "answer records in the datagram";
         } else {
-            qDebug() << "No answers... ignoring";
+            xDebug(XDAREA_DISCOVERY) << "No answers... ignoring";
             continue;
         }
 
@@ -138,7 +140,7 @@ void XbmcDiscovery::readDatagram()
         int authorityCount = datagram.left(4).toInt(0, 16);
         datagram = datagram.right(datagram.length() - 4);
         if(authorityCount > 0) {
-            qDebug() << "there are" << authorityCount << "authority records in the datagram";
+            xDebug(XDAREA_DISCOVERY) << "there are" << authorityCount << "authority records in the datagram";
         }
 
         // ignore rest
@@ -192,7 +194,7 @@ void XbmcDiscovery::readDatagram()
                 datagram = datagram.right(datagram.length() - 4);
                 QString domain = QString(QByteArray::fromHex(datagram.left(len * 2)));
                 datagram = datagram.right(datagram.length() - len * 2);
-                qDebug() << "fqdn:" << domain;
+                xDebug(XDAREA_DISCOVERY) << "fqdn:" << domain;
 
                 if(currentService == "_workstation") {
                     domain = domain.right(domain.length() - 1);
@@ -330,7 +332,7 @@ void XbmcDiscovery::readDatagram()
             }
         }
 
-        qDebug() << "Found host:" << host.hostname() << "IP:" << host.address() << "Port:" << host.port() << "XBMC-JSONRPC:" << host.xbmcJsonrpcSupported() << "XBMC-Web-Server:" << host.xbmcHttpSupported() << "MAC:" << host.hwAddr();
+        xDebug(XDAREA_DISCOVERY) << "Found host:" << host.hostname() << "IP:" << host.address() << "Port:" << host.port() << "XBMC-JSONRPC:" << host.xbmcJsonrpcSupported() << "XBMC-Web-Server:" << host.xbmcHttpSupported() << "MAC:" << host.hwAddr();
 
         if(!host.address().isEmpty()
                 && host.port() != 0

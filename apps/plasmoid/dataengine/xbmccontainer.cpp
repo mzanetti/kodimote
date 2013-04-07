@@ -35,9 +35,6 @@ XbmcContainer::XbmcContainer(QObject *parent): Plasma::DataContainer(parent)
   
   connectedChanged(false);
   connect(Xbmc::instance(), SIGNAL(connectedChanged(bool)), SLOT(connectedChanged(bool)));
-
-  m_container = new ModelContainer(Xbmc::instance()->audioLibrary(), this);
-  qmlRegisterType<ModelContainer>("xbmcremote", 1, 0, "ModelContainer");
 }
 
 void XbmcContainer::volumeChanged()

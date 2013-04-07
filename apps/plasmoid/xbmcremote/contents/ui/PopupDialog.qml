@@ -38,7 +38,7 @@ Item {
         //interval: 5000
 
         onNewData: {
-            print("got new data", data[0])
+            print("PopupDialog.qml: got new data", data['Xbmc'])
             if (data.connected) {
                 listView.currentIndex = 1
             } else {
@@ -168,6 +168,7 @@ Item {
             Dummy {
                 height: listView.height
                 width: listView.width
+                discovering: listView.currentIndex == 0
             }
 
             NowPlaying {

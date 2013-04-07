@@ -34,10 +34,11 @@ Row {
         //interval: 5000
 
         onNewData: {
-            print("got new data", data[0])
+            print("NowPlaying.qml: got new data", data)
         }
 
         onDataChanged: {
+            print("NowPlaying.qml: dataChanged", data)
             progress.value = data['Player'].percentage
         }
     }

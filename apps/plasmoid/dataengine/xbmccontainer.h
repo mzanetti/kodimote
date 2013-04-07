@@ -25,8 +25,6 @@
 #include <Plasma/DataContainer>
 #include <QDebug>
 
-class ModelContainer;
-
 class XbmcContainer: public Plasma::DataContainer
 {
     Q_OBJECT
@@ -41,22 +39,6 @@ private slots:
   void connectedChanged(bool connected);
 
 private:
-  ModelContainer *m_container;
 };
-
-class ModelContainer: public QObject
-{
-    Q_OBJECT
-    Q_PROPERTY(AudioLibrary* model READ model)
-public:
-    ModelContainer(AudioLibrary *model = 0, QObject *parent = 0): QObject(parent), m_model(model) {}
-
-    Q_INVOKABLE AudioLibrary* model() { qDebug() << "PopupDialog************************" << m_model; return m_model; }
-
-private:
-    AudioLibrary *m_model;
-};
-
-Q_DECLARE_METATYPE(ModelContainer*)
 
 #endif
