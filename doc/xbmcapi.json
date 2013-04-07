@@ -1168,6 +1168,11 @@
         {
           "$ref":"List.Sort",
           "name":"sort"
+        },
+        {
+          "$ref":"List.Limits",
+          "description":"Limits are applied after getting the directory content thus retrieval is not faster when they are applied.",
+          "name":"limits"
         }
       ],
       "returns":{
@@ -5231,6 +5236,7 @@
         "xbmc.python.lyrics",
         "xbmc.gui.skin",
         "xbmc.gui.webinterface",
+        "xbmc.pvrclient",
         "xbmc.addon.video",
         "xbmc.addon.audio",
         "xbmc.addon.image",
@@ -5380,6 +5386,10 @@
         "born":{
           "default":"",
           "type":"string"
+        },
+        "compilationartist":{
+          "default":false,
+          "type":"boolean"
         },
         "description":{
           "default":"",
@@ -5578,6 +5588,7 @@
           "yearsactive",
           "musicbrainzartistid",
           "fanart",
+          "compilationartist",
           "thumbnail"
         ],
         "type":"string"
@@ -5870,7 +5881,8 @@
         "peripherals",
         "peripheralsettings",
         "extendedprogressdialog",
-        "mediafilter"
+        "mediafilter",
+        "addon"
       ],
       "id":"GUI.Window",
       "type":"string"
@@ -6029,6 +6041,7 @@
         "rewind",
         "play",
         "playpause",
+        "switchplayer",
         "delete",
         "copy",
         "move",
@@ -6107,6 +6120,9 @@
         "channeldown",
         "previouschannelgroup",
         "nextchannelgroup",
+        "playpvr",
+        "playpvrtv",
+        "playpvrradio",
         "leftclick",
         "rightclick",
         "middleclick",
@@ -6115,6 +6131,15 @@
         "wheeldown",
         "mousedrag",
         "mousemove",
+        "tap",
+        "longpress",
+        "pangesture",
+        "zoomgesture",
+        "rotategesture",
+        "swipeleft",
+        "swiperight",
+        "swipeup",
+        "swipedown",
         "noop"
       ],
       "id":"Input.Action",
@@ -6587,6 +6612,7 @@
         "director",
         "studio",
         "plot",
+        "tag",
         "dateadded",
         "videoresolution",
         "audiochannels",
@@ -6602,6 +6628,7 @@
     },
     
     "List.Filter.Fields.Songs":{
+      "default":"genre",
       "enums":[
         "genre",
         "album",
@@ -6621,7 +6648,6 @@
         "playlist"
       ],
       "id":"List.Filter.Fields.Songs",
-      "required":true,
       "type":"string"
     },
     
@@ -6646,6 +6672,7 @@
         "dateadded",
         "lastplayed",
         "inprogress",
+        "tag",
         "playlist"
       ],
       "id":"List.Filter.Fields.TVShows",
@@ -7705,6 +7732,18 @@
     "Player.Audio.Stream":{
       "id":"Player.Audio.Stream",
       "properties":{
+        "bitrate":{
+          "required":true,
+          "type":"integer"
+        },
+        "channels":{
+          "required":true,
+          "type":"integer"
+        },
+        "codec":{
+          "required":true,
+          "type":"string"
+        },
         "index":{
           "minimum":0,
           "required":true,
@@ -7720,25 +7759,6 @@
         }
       },
       "type":"object"
-    },
-    
-    "Player.Audio.Stream.Extended":{
-      "extends":"Player.Audio.Stream",
-      "id":"Player.Audio.Stream.Extended",
-      "properties":{
-        "bitrate":{
-          "required":true,
-          "type":"integer"
-        },
-        "channels":{
-          "required":true,
-          "type":"integer"
-        },
-        "codec":{
-          "required":true,
-          "type":"string"
-        }
-      }
     },
     
     "Player.Id":{
@@ -7901,7 +7921,7 @@
           "type":"boolean"
         },
         "currentaudiostream":{
-          "$ref":"Player.Audio.Stream.Extended"
+          "$ref":"Player.Audio.Stream"
         },
         "currentsubtitle":{
           "$ref":"Player.Subtitle"
@@ -8874,6 +8894,6 @@
       "type":"object"
     }
   },
-  "version":"6.0.0"
+  "version":"6.1.0"
 }
 }
