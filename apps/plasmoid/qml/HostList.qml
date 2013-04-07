@@ -20,6 +20,7 @@
 
 import QtQuick 1.1
 import org.kde.plasma.components 0.1
+import org.kde.plasma.core 0.1 as PlasmaCore
 
 import Xbmc 1.0
 
@@ -53,22 +54,33 @@ Item {
 
         }
 
-        delegate: Item {
+        delegate: Row {
             height: hostLabel.height
             width: parent.width
+            spacing: root.spacing
 
             Label {
                 id: hostLabel
-                anchors.fill: parent
                 text: hostname
-                width: parent.width
+                width: parent.width - wakeupIcon.width - parent.spacing
+                MouseArea {
+                    anchors.fill: parent
+                    onClicked: {
+                        print("setting cur ind", model.index)
+                        hostListView.currentIndex = model.index
+                    }
+                }
             }
-
-            MouseArea {
-                anchors.fill: parent
-                onClicked: {
-                    print("setting cur ind", model.index)
-                    hostListView.currentIndex = model.index
+            PlasmaCore.IconItem {
+                id: wakeupIcon
+                width: theme.iconSizes.small
+                height: theme.iconSizes.small
+                anchors.verticalCenter: parent.verticalCenter
+                source: "system-shutdown"
+                MouseArea { anchors.fill: parent;
+                    onClicked: {
+                        xbmc.hostModel().wakeup(index)
+                    }
                 }
             }
         }
@@ -81,7 +93,6 @@ Item {
             left: parent.left
             right: parent.right
             bottom: parent.bottom
-            bottomMargin: root.spacing
         }
 
         Row {
@@ -139,12 +150,14 @@ Item {
         TextField {
             id: portTextField
             text: "8080"
+            inputMask: "00000"
         }
         Label {
             text: qsTr("MAC Address for WakeOnLan (optional):")
         }
         TextField {
             id: macTextField
+            inputMask: "HH:HH:HH:HH:HH:HH;_"
         }
         Button {
             text: qsTr("OK")
