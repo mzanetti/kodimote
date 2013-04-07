@@ -35,7 +35,7 @@ XbmcJob::XbmcJob(const QString& operation,
 
 void XbmcJob::start()
 {
-  qDebug() << "should start job:" << operationName();
+    qDebug() << "should start job:" << operationName() << parameters().value("level");
   
     if(operationName() == "SetVolume") {
       Xbmc::instance()->setVolume(parameters().value("level").toInt());

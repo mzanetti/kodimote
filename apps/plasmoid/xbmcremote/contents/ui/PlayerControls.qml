@@ -45,7 +45,7 @@ ListView {
     delegate: PlasmaCore.IconItem {
         width: theme.iconSizes.dialog
         height: width
-        source: /*iconSource2 !== undefined && */dataSource.data['Player'].state == model.state ? iconSource2 : iconSource
+        source: dataSource.data['Player'].state == model.state ? iconSource2 : iconSource
         MouseArea {
             anchors.fill: parent
             onClicked: {

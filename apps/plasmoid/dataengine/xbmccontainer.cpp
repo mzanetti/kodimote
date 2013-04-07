@@ -21,6 +21,8 @@
 #include "xbmccontainer.h"
 
 #include "libxbmcremote/xbmc.h"
+#include "libxbmcremote/audiolibrary.h"
+#include <qdeclarative.h>
 
 XbmcContainer::XbmcContainer(QObject *parent): Plasma::DataContainer(parent)
 {
@@ -33,6 +35,9 @@ XbmcContainer::XbmcContainer(QObject *parent): Plasma::DataContainer(parent)
   
   connectedChanged(false);
   connect(Xbmc::instance(), SIGNAL(connectedChanged(bool)), SLOT(connectedChanged(bool)));
+
+  m_container = new ModelContainer(Xbmc::instance()->audioLibrary(), this);
+  qmlRegisterType<ModelContainer>("xbmcremote", 1, 0, "ModelContainer");
 }
 
 void XbmcContainer::volumeChanged()
@@ -51,5 +56,16 @@ void XbmcContainer::stateChanged()
 void XbmcContainer::connectedChanged(bool connected)
 {
     setData("connected", connected);
+    if (connected) {
+        setData("hostName", Xbmc::instance()->connectedHostName());
+
+        Plasma::DataEngine::Data data;
+        data["title"] = "Audio";
+        setData("MainMenu0", data);
+        data["title"] = "Audio";
+        setData("MainMenu1", data);
+    } else {
+        removeAllData();
+    }
     checkForUpdate();
 }

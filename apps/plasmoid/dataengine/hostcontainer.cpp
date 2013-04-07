@@ -27,8 +27,8 @@
 HostContainer::HostContainer(QObject *parent): Plasma::DataContainer(parent)
 {
     m_discovery = new XbmcDiscovery(this);
+    m_discovery->setContinuousDiscovery(false);
     refresh();
-    //discovery->setContinuousDiscovery(true);
 
     connect(Xbmc::instance()->hostModel(), SIGNAL(rowsInserted(QModelIndex, int, int)), SLOT(hostFound()));
 }

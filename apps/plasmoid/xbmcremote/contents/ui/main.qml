@@ -25,8 +25,8 @@ import org.kde.plasma.components 0.1 as PlasmaComponents
 Item {
     id: root
 
-    property int minimumWidth: l.item.minimumWidth
-    property int minimumHeight: l.item.minimumHeight
+    property int minimumWidth: popupDialog.minimumWidth
+    property int minimumHeight: popupDialog.minimumHeight
 
     property Component compactRepresentation: Rectangle {
         color: "red"
@@ -34,56 +34,31 @@ Item {
 
 
     PlasmaCore.DataSource {
-	id: dataSource
-	dataEngine: "xbmcremote"
-	connectedSources: ['Hosts', 'Xbmc']
-	//interval: 5000
+        id: dataSource
+        dataEngine: "xbmcremote"
+        connectedSources: ['Hosts', 'Xbmc']
+        //interval: 5000
 
-	
-	onNewData: {
-	  if (sourceName == 'Hosts') {
-		print("going to connect to " +  data[0])
-		var description = serviceForSource('Hosts').operationDescription("Connect");
-		description.id = 0;
-		//serviceForSource('Hosts').startOperationCall(description)
-	      //activeSource = data['Hosts'][0]
-	      //connectedSources = ['Hosts', activeSource]
-	  }
-	}
+
+        onNewData: {
+            if (sourceName == 'Hosts') {
+                print("going to connect to " +  data[0])
+                var description = serviceForSource('Hosts').operationDescription("Connect");
+                description.id = 0;
+                //serviceForSource('Hosts').startOperationCall(description)
+                //activeSource = data['Hosts'][0]
+                //connectedSources = ['Hosts', activeSource]
+            }
+        }
 
     }
 
     PlasmaCore.Theme {
-            id: theme
+        id: theme
     }
 
-
-
-      Loader {
-      id: l
-      source: {
-  //             if (plasmoid.formFactor == Planar || plasmoid.formFactor == MediaCenter)
-  //                 "FullLayout.qml"
-  //             else
-          if(dataSource.data['Xbmc'].connected) {
-        if (plasmoid.formFactor == Horizontal) {
-            print("loading compact layout")
-            "HorizontalDock.qml"
-        } else {
-            print("loading other layout")
-            "PopupDialog.qml"
-        }
-          } else {
-          "Dummy.qml"
-          }
-
-      }
-	  
-      anchors.fill: parent
-      }
-
-//     Component.onCompleted: {
-//         plasmoid.aspectRatioMode = plasmoid.IgnoreAspectRatio;
-//        plasmoid.popupIcon = "konqueror"
-//     }
+    PopupDialog {
+        id: popupDialog
+        anchors.fill: parent
+    }
 }

@@ -24,143 +24,190 @@ import org.kde.plasma.graphicswidgets 0.1 as PlasmaWidgets
 import org.kde.plasma.core 0.1 as PlasmaCore
 import org.kde.plasma.graphicslayouts 4.7 as GraphicsLayouts
 
-
 Item {
     id: root
-    property string activeSource: ''
-    height: dataColumn.height
-    width: height * 3
+    property int minimumHeight: mainColumn.height + spacing * 2
+    property int minimumWidth: height * 2
 
-    property variant activePlayer: dataSource.data['Player']
+    property int spacing: headerLabel.height / 2
 
     PlasmaCore.DataSource {
         id: dataSource
         dataEngine: "xbmcremote"
-        connectedSources: ['Hosts', 'Xbmc', 'Player']
+        connectedSources: ['Xbmc']
         //interval: 5000
 
         onNewData: {
             print("got new data", data[0])
+            if (data.connected) {
+                listView.currentIndex = 1
+            } else {
+                listView.currentIndex = 0
+            }
         }
 
         onDataChanged: {
-            print("got new data", data['Xbmc'].volume)
-            progress.value = data['Player'].percentage
+            volumeSlider.value = data['Xbmc'].volume
         }
     }
 
-    Component.onCompleted:
-    {
-        dataSource.serviceForSource(activeSource).associateWidget(stop, "stop");
-        dataSource.serviceForSource(activeSource).associateWidget(progress, "progress");
-    }
+    Column {
+        id: mainColumn
+        anchors {
+            left: parent.left
+            right: parent.right
+            top: parent.top
+            margins: root.spacing
+        }
+        height: childrenRect.height
+        spacing: root.spacing
 
-    Row {
-        anchors.fill: parent
 
-        Image {
+        Item {
             anchors {
-                top: parent.top
-                bottom: parent.bottom
+                left: parent.left
+                right: parent.right
             }
-            width: height
+            height: headerLabel.height
 
-            source: activePlayer.thumbnail
+            Label {
+                id: headerLabel
+                text: qsTr("Xbmc on %1").arg(dataSource.data['Xbmc'].hostName)
+                anchors {
+                    left: parent.left
+                    right: volumeRow.left
+                    verticalCenter: parent.verticalCenter
+                }
+                elide: Text.ElideRight
+                opacity: listView.currentIndex
+                Behavior on opacity {
+                    NumberAnimation { duration: 200 }
+                }
+            }
+            Label {
+                anchors {
+                    left: parent.left
+                    right: volumeRow.left
+                    verticalCenter: parent.verticalCenter
+                }
+                text: qsTr("Connect to...")
+                opacity: 1 - listView.currentIndex
+                Behavior on opacity {
+                    NumberAnimation { duration: 200 }
+                }
+            }
+
+            Row {
+                id: volumeRow
+                anchors.right: parent.right
+                height: parent.height
+                spacing: root.spacing / 2
+                opacity: listView.currentIndex
+
+                Behavior on opacity {
+                    NumberAnimation { duration: 200 }
+                }
+
+                PlasmaCore.IconItem {
+                    width: theme.iconSizes.small
+                    height: theme.iconSizes.small
+                    anchors.verticalCenter: parent.verticalCenter
+                    source: "audio-volume-low"
+                    MouseArea { anchors.fill: parent;
+                        onClicked: {
+                            var data = dataSource.serviceForSource('Xbmc').operationDescription("SetVolume")
+                            data.level = dataSource.data['Xbmc'].volume - 5
+                            dataSource.serviceForSource('Xbmc').startOperationCall(data)
+                        }
+                    }
+                }
+                Slider {
+                    id: volumeSlider
+                    orientation: Qt.Horizontal
+                    maximumValue: 100
+                    width: root.spacing * 10
+                    anchors.verticalCenter: parent.verticalCenter
+                    stepSize: 5
+                    onValueChanged: {
+                        if (pressed) {
+                            var data = dataSource.serviceForSource('Xbmc').operationDescription("SetVolume")
+                            data.level = value
+                            dataSource.serviceForSource('Xbmc').startOperationCall(data)
+                        }
+                    }
+                }
+                PlasmaCore.IconItem {
+                    width: theme.iconSizes.small
+                    height: theme.iconSizes.small
+                    anchors.verticalCenter: parent.verticalCenter
+                    source: "audio-volume-high"
+                    MouseArea { anchors.fill: parent;
+                        onClicked: {
+                            var data = dataSource.serviceForSource('Xbmc').operationDescription("SetVolume")
+                            data.level = dataSource.data['Xbmc'].volume + 5
+                            dataSource.serviceForSource('Xbmc').startOperationCall(data)
+                        }
+                    }
+                }
+                PlasmaCore.IconItem {
+                    width: theme.iconSizes.small
+                    height: theme.iconSizes.small
+                    anchors.verticalCenter: parent.verticalCenter
+                    source: "window-close"
+                    MouseArea { anchors.fill: parent;
+                        onClicked: {
+                            listView.currentIndex = 0
+                        }
+                    }
+                }
+            }
         }
 
-        Column {
-            id: dataColumn
-            width: parent.width - x
-            height: childrenRect.height
-
-            Label {
-                text: activePlayer.title
-                anchors { left: parent.left; right: parent.right }
-            }
-            Label {
-                text: "Year: " + activePlayer.year
-                anchors { left: parent.left; right: parent.right }
-            }
-            Label {
-                text: "Rating: " + activePlayer.rating
-                anchors { left: parent.left; right: parent.right }
-            }
-            PlayerControls {
-                anchors { left: parent.left; right: parent.right }
-                dataSource: dataSource
+        VisualItemModel {
+            id: visualItemModel
+            Dummy {
+                height: listView.height
+                width: listView.width
             }
 
-            Slider {
-                id: progress
-                anchors { left: parent.left; right: parent.right }
-                maximumValue: 100
-                value: activePlayer.percentage
+            NowPlaying {
+                id: nowPlaying
+                spacing: root.spacing
+                width: listView.width
+                height: listView.height
             }
+//            ListView {
+//                width: listView.width
+//                height: listView.height
+//                model: PlasmaCore.DataModel {
+//                    dataSource: dataSource
+//                    keyRoleFilter: "MainMenu[\\d]*"
+//                }
+
+//                delegate: Rectangle {
+//                    width: parent.width
+//                    height: 50
+//                    color: "blue"
+//                    Text {
+//                        anchors.centerIn: parent
+//                        text: title
+//                    }
+//                }
+//            }
         }
 
-
+        ListView {
+            id: listView
+            model: visualItemModel
+            anchors {
+                left: parent.left
+                right: parent.right
+            }
+            height: nowPlaying.minimumHeight
+            orientation: ListView.Horizontal
+            clip: true
+            interactive: false
+            highlightMoveDuration: 200
+        }
     }
-
-
-
-//        PlasmaWidgets.IconWidget {
-//            id: previous
-//            Component.onCompleted: {
-//                setIcon("media-skip-backward");
-//            }
-//            onClicked: {
-//                var data;
-//                if(dataSource.data['Xbmc'].state == "video") {
-//                    data = dataSource.serviceForSource('Player').operationDescription('SeekBackward');
-//                } else {
-//                    data = dataSource.serviceForSource('Player').operationDescription('SkipPrevious');
-//                }
-
-//                dataSource.serviceForSource('Player').startOperationCall(data);
-//            }
-//        }
-
-//        PlasmaWidgets.IconWidget {
-//            id: playPause
-
-//            Component.onCompleted: {
-//                setIcon("media-playback-start");
-//            }
-//            onClicked: {
-//                var data = dataSource.serviceForSource('Player').operationDescription('PlayPause');
-
-//                dataSource.serviceForSource('Player').startOperationCall(data);
-//            }
-//        }
-
-//        PlasmaWidgets.IconWidget {
-//            id: next
-//            Component.onCompleted: {
-//                setIcon("media-skip-forward");
-//            }
-//            onClicked: {
-//                var data;
-//                if(dataSource.data['Xbmc'].state == "video") {
-//                    data = dataSource.serviceForSource('Player').operationDescription('SeekForward');
-//                } else {
-//                    data = dataSource.serviceForSource('Player').operationDescription('SkipNext');
-//                }
-
-//                dataSource.serviceForSource('Player').startOperationCall(data);
-//            }
-//        }
-
-//        PlasmaWidgets.Slider {
-//            id: progress
-//            orientation: Qt.Horizontal
-
-//            onSliderMoved: {
-//                var operation = dataSource.serviceForSource('Xbmc').operationDescription("SetVolume");
-//                operation.level = value
-
-//                dataSource.serviceForSource('Xbmc').startOperationCall(operation);
-//                print("set volume to " + value);
-//            }
-//        }
-//    }
 }

@@ -51,6 +51,8 @@ void PlayerContainer::activePlayerChanged()
         connect(Xbmc::instance()->activePlayer(), SIGNAL(stateChanged()), SLOT(update()));
         connect(Xbmc::instance()->activePlayer(), SIGNAL(currentItemChanged()), SLOT(currentItemChanged()));
         connect(Xbmc::instance()->activePlayer(), SIGNAL(percentageChanged()), SLOT(percentageChanged()));
+
+        Xbmc::instance()->activePlayer()->setTimerActive(true);
     }
 
     update();
@@ -72,13 +74,21 @@ void PlayerContainer::currentItemChanged()
     setData("year", currentItem->year());
     setData("rating", currentItem->rating());
     setData("duration", currentItem->duration());
+    setData("durationInSecs", currentItem->durationInSecs());
+    setData("durationString", currentItem->durationString());
 
-    thumbnailChanged();
+    // Need to call the others too, but with only one checkForUpate() :/
+    setData("thumbnail", Xbmc::instance()->activePlayer()->currentItem()->thumbnail());
+    setData("percentage", Xbmc::instance()->activePlayer()->percentage());
+    setData("time", Xbmc::instance()->activePlayer()->time());
+
+    checkForUpdate();
 }
 
 void PlayerContainer::percentageChanged()
 {
     setData("percentage", Xbmc::instance()->activePlayer()->percentage());
+    setData("time", Xbmc::instance()->activePlayer()->time());
     checkForUpdate();
 }
 

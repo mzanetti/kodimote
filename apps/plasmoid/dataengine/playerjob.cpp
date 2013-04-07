@@ -35,21 +35,25 @@ void PlayerJob::start()
 {
     qDebug() << "should start job:" << operationName();
 
-    if(!Xbmc::instance()->activePlayer()) {
+    Player *activePlayer = Xbmc::instance()->activePlayer();
+
+    if(!activePlayer) {
         return;
     }
 
     if(operationName() == "PlayPause") {
-        Xbmc::instance()->activePlayer()->playPause();
+        activePlayer->playPause();
     } else if(operationName() == "Stop") {
-        Xbmc::instance()->activePlayer()->stop();
+        activePlayer->stop();
     } else if(operationName() == "SkipNext") {
-        Xbmc::instance()->activePlayer()->skipNext();
+        activePlayer->skipNext();
     } else if(operationName() == "SkipPrevious") {
-        Xbmc::instance()->activePlayer()->skipPrevious();
+        activePlayer->skipPrevious();
     } else if(operationName() == "SeekForward") {
-        Xbmc::instance()->activePlayer()->seekForward();
+        activePlayer->seekForward();
     } else if(operationName() == "SeekBackward") {
-        Xbmc::instance()->activePlayer()->seekBackward();
+        activePlayer->seekBackward();
+    } else if (operationName() == "Seek") {
+        activePlayer->seek(parameters().value("position").toDouble());
     }
 }
