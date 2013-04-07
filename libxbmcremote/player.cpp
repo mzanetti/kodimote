@@ -128,8 +128,8 @@ void Player::getCurrentItemDetails()
     properties.append("file");
 
     properties.append("showtitle");
-//    properties.append("style");
-//    properties.append("mood");
+    properties.append("style");
+    properties.append("mood");
 //    properties.append("born");
 //    properties.append("formed");
 //    properties.append("died");
@@ -300,6 +300,9 @@ void Player::playtimeReceived(const QVariantMap &rsp)
 {
     xDebug(XDAREA_PLAYER) << "Got playtime response" << rsp;
     updatePlaytime(rsp.value("result").toMap().value("time").toMap());
+    if (m_timerActivated && !m_playtimeTimer.isActive()) {
+        m_playtimeTimer.start();
+    }
 }
 
 void Player::positionReceived(const QVariantMap &rsp)
@@ -418,6 +421,9 @@ void Player::detailsReceived(const QVariantMap &rsp)
 
     m_currentItem->setComment(itemMap.value("comment").toString());
     m_currentItem->setGenre(itemMap.value("genre").toString());
+    if (m_currentItem->genre().isEmpty() && itemMap.value("genre").toList().count() > 0) {
+        m_currentItem->setGenre(itemMap.value("genre").toStringList().join("/"));
+    }
     m_currentItem->setSeason(itemMap.value("season", -1).toInt());
     m_currentItem->setRating(itemMap.value("rating", -1).toInt());
     m_currentItem->setEpisode(itemMap.value("episode", -1).toInt());
@@ -426,8 +432,8 @@ void Player::detailsReceived(const QVariantMap &rsp)
     m_currentItem->setTagline(itemMap.value("tagline").toString());
     m_currentItem->setMpaa(itemMap.value("mpaa").toString());
     m_currentItem->setInstrument(itemMap.value("instrument").toString());
-    m_currentItem->setStyle(itemMap.value("style").toString());
-    m_currentItem->setMood(itemMap.value("mood").toString());
+    m_currentItem->setStyle(itemMap.value("style").toStringList().join("/"));
+    m_currentItem->setMood(itemMap.value("mood").toStringList().join("/"));
     m_currentItem->setBorn(itemMap.value("born").toString());
     m_currentItem->setFormed(itemMap.value("formed").toString());
     m_currentItem->setDied(itemMap.value("died").toString());
@@ -445,6 +451,9 @@ void Player::detailsReceived(const QVariantMap &rsp)
     m_currentItem->setThumbnail(itemMap.value("thumbnail").toString());
     m_currentItem->setAlbum(itemMap.value("album").toString());
     m_currentItem->setArtist(itemMap.value("artist").toString());
+    if (m_currentItem->artist().isEmpty() && itemMap.value("artist").toList().count() > 0) {
+        m_currentItem->setArtist(itemMap.value("artist").toStringList().join("/"));
+    }
     m_currentItem->setFanart(itemMap.value("fanart").toString());
     m_currentItem->setTvShow(itemMap.value("showtitle").toString());
     m_currentItem->setFileName(itemMap.value("file").toString());
