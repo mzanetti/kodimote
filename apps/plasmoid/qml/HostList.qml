@@ -54,32 +54,36 @@ Item {
 
         }
 
-        delegate: Row {
-            height: hostLabel.height
+        delegate: Item {
+            height: hostLabel.height + root.spacing / 2
             width: parent.width
-            spacing: root.spacing
-
-            Label {
-                id: hostLabel
-                text: hostname
-                width: parent.width - wakeupIcon.width - parent.spacing
-                MouseArea {
-                    anchors.fill: parent
-                    onClicked: {
-                        print("setting cur ind", model.index)
-                        hostListView.currentIndex = model.index
+            Row {
+                anchors.fill: parent
+                spacing: root.spacing
+                anchors.margins: root.spacing / 2
+                Label {
+                    id: hostLabel
+                    text: hostname
+                    width: parent.width - wakeupIcon.width - parent.spacing
+                    anchors.verticalCenter: parent.verticalCenter
+                    MouseArea {
+                        anchors.fill: parent
+                        onClicked: {
+                            print("setting cur ind", model.index)
+                            hostListView.currentIndex = model.index
+                        }
                     }
                 }
-            }
-            PlasmaCore.IconItem {
-                id: wakeupIcon
-                width: theme.iconSizes.small
-                height: theme.iconSizes.small
-                anchors.verticalCenter: parent.verticalCenter
-                source: "system-shutdown"
-                MouseArea { anchors.fill: parent;
-                    onClicked: {
-                        xbmc.hostModel().wakeup(index)
+                PlasmaCore.IconItem {
+                    id: wakeupIcon
+                    width: theme.iconSizes.small
+                    height: theme.iconSizes.small
+                    anchors.verticalCenter: parent.verticalCenter
+                    source: "system-shutdown"
+                    MouseArea { anchors.fill: parent;
+                        onClicked: {
+                            xbmc.hostModel().wakeup(index)
+                        }
                     }
                 }
             }
