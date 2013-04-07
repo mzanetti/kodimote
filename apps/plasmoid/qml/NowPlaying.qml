@@ -26,16 +26,28 @@ Row {
     id: root
     property int minimumHeight: dataColumn.height
     property variant activePlayer: xbmc.activePlayer
+    property variant playlist: activePlayer.playlist()
     property variant currentItem: activePlayer.currentItem
 
-    Image {
+
+    Item {
         anchors {
             top: parent.top
             bottom: parent.bottom
         }
         width: height
-        source: currentItem.thumbnail
-        fillMode: Image.PreserveAspectFit
+        Image {
+            id: imageItem
+            anchors.fill: parent
+            source: currentItem.thumbnail
+            fillMode: Image.PreserveAspectFit
+        }
+        PlasmaCore.IconItem {
+            anchors.fill: parent
+            source: xbmc.state == "audio" ? "audio-x-generic" : "video-x-generic"
+            visible: imageItem.status != Image.Ready
+        }
+
     }
 
     Column {
@@ -43,21 +55,55 @@ Row {
         width: parent.width - x
         height: childrenRect.height
 
+        Row {
+            anchors { left: parent.left; right: parent.right }
+            Label {
+                text: currentItem.title
+                width: parent.width - trackNumLabel.width
+                elide: Text.ElideRight
+            }
+            Label {
+                id: trackNumLabel
+                anchors.right: parent.right
+                anchors.bottom: artistLabel.top
+                anchors.bottomMargin: 6
+                text: playlist ? playlist.currentTrackNumber + "/" + playlist.count : "0/0"
+            }
+        }
         Label {
-            text: currentItem.title
+            text: !currentItem ? "" : (xbmc.state == "audio" ? currentItem.artist : (currentItem.type == "episode" ? currentItem.tvShow : qsTr("Year:") + " " + currentItem.year))
             anchors { left: parent.left; right: parent.right }
             elide: Text.ElideRight
         }
-        Label {
-            text: "Year: " + currentItem.year
+        Row {
             anchors { left: parent.left; right: parent.right }
-            elide: Text.ElideRight
+            Label {
+                text: !currentItem ? "" : (xbmc.state == "audio" ? currentItem.album : (currentItem.type == "episode" ? qsTr("Season:") + " " + currentItem.season + "   " + qsTr("Episode:") + " " + currentItem.episode : qsTr("Rating:") + " "))
+                elide: Text.ElideRight
+            }
+
+            property int starCount: !currentItem ? 0 : (currentItem.rating > 10 ? Math.floor(currentItem.rating / 20) : Math.floor(currentItem.rating / 2))
+            Repeater {
+                model: parent.starCount
+                PlasmaCore.IconItem {
+                    width: theme.iconSizes.small
+                    height: width
+                    source: "draw-star"
+                    visible: currentItem !== null && (currentItem.type === "movie" || currentItem.type === "unknown")
+                }
+            }
+            Repeater {
+                model: 5 - parent.starCount
+                PlasmaCore.IconItem {
+                    width: theme.iconSizes.small
+                    height: width
+                    source: "draw-star"
+                    visible: currentItem !== null && (currentItem.type === "movie" || currentItem.type === "unknown")
+                    opacity: 0.3
+                }
+            }
         }
-        Label {
-            text: "Rating: " + currentItem.rating
-            anchors { left: parent.left; right: parent.right }
-            elide: Text.ElideRight
-        }
+
         PlayerControls {
             anchors { left: parent.left; right: parent.right }
             player: activePlayer

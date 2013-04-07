@@ -16,4 +16,4 @@ xbmcremote_installer_unsigned.sis
 xbmcremote_reg.rss
 xbmcremote_stub.pkg
 xbmcremote_template.pkg
-apps/plasmoid/build
+build

@@ -240,7 +240,7 @@ Page {
                         width: units.gu(1)
                         radius: width / 2
                         anchors.verticalCenter: albumLabel.verticalCenter
-                        visible: currentItem.type === "movie"
+                        visible: currentItem !== null && (currentItem.type === "movie" || currentItem.type === "unknown")
                         color: "black"
                         //source: theme.inverted ? "image://theme/meegotouch-indicator-rating-inverted-background-star" : "image://theme/meegotouch-indicator-rating-star"
                     }
@@ -252,7 +252,7 @@ Page {
                         width: units.gu(1)
                         radius: width / 2
                         anchors.verticalCenter: albumLabel.verticalCenter
-                        visible: currentItem !== null && currentItem.type === "movie"
+                        visible: currentItem !== null && (currentItem.type === "movie" || currentItem.type === "unknown")
                         color: "#22000000"
                         //source: theme.inverted ? "image://theme/meegotouch-indicator-rating-background-star" : "image://theme/meegotouch-indicator-rating-background-star"
                     }

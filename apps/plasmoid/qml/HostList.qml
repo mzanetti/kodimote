@@ -53,7 +53,7 @@ Item {
             MouseArea {
                 anchors.fill: parent
                 onClicked: {
-                    xbmc.hostModel().connectToHost(hostListView.currentIndex)
+                    xbmc.hostModel().connectToHost(index)
                     root.hostSelected(hostname)
                 }
             }
