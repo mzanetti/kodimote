@@ -25,23 +25,8 @@ import org.kde.plasma.core 0.1 as PlasmaCore
 Row {
     id: root
     property int minimumHeight: dataColumn.height
-    property variant activePlayer: dataSource.data['Player']
-
-    PlasmaCore.DataSource {
-        id: dataSource
-        dataEngine: "xbmcremote"
-        connectedSources: ['Player']
-        //interval: 5000
-
-        onNewData: {
-            print("NowPlaying.qml: got new data", data)
-        }
-
-        onDataChanged: {
-            print("NowPlaying.qml: dataChanged", data)
-            progress.value = data['Player'].percentage
-        }
-    }
+    property variant activePlayer: xbmc.activePlayer
+    property variant currentItem: activePlayer.currentItem
 
     Image {
         anchors {
@@ -49,7 +34,7 @@ Row {
             bottom: parent.bottom
         }
         width: height
-        source: activePlayer.thumbnail
+        source: currentItem.thumbnail
         fillMode: Image.PreserveAspectFit
     }
 
@@ -59,30 +44,29 @@ Row {
         height: childrenRect.height
 
         Label {
-            text: activePlayer.title
+            text: currentItem.title
             anchors { left: parent.left; right: parent.right }
             elide: Text.ElideRight
         }
         Label {
-            text: "Year: " + activePlayer.year
+            text: "Year: " + currentItem.year
             anchors { left: parent.left; right: parent.right }
             elide: Text.ElideRight
         }
         Label {
-            text: "Rating: " + activePlayer.rating
+            text: "Rating: " + currentItem.rating
             anchors { left: parent.left; right: parent.right }
             elide: Text.ElideRight
         }
         PlayerControls {
             anchors { left: parent.left; right: parent.right }
-            dataSource: dataSource
+            player: activePlayer
         }
 
         Slider {
             id: progress
             anchors { left: parent.left; right: parent.right }
             maximumValue: 100
-            value: activePlayer.percentage
 
             // Not implemented in plasma yet... Hopefully starts working one day
             valueIndicatorVisible: true
@@ -109,10 +93,15 @@ Row {
 
             onPressedChanged: {
                 if (!pressed) {
-                    var data = dataSource.serviceForSource('Player').operationDescription("Seek")
-                    data.position = value
-                    dataSource.serviceForSource('Player').startOperationCall(data)
+                    activePlayer.seek(value);
                 }
+            }
+
+            Binding {
+                target: progress
+                property: "value"
+                value: activePlayer.percentage
+                when: !progress.pressed
             }
         }
 
@@ -128,7 +117,7 @@ Row {
             }
             Label {
                 anchors.right: parent.right
-                text: activePlayer.durationString
+                text: activePlayer.currentItem.durationString
             }
         }
     }

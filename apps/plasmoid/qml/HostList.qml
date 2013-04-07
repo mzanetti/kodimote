@@ -22,79 +22,41 @@ import QtQuick 1.1
 import org.kde.plasma.core 0.1 as PlasmaCore
 import org.kde.plasma.components 0.1 as PlasmaComponents
 
+import Xbmc 1.0
+
 Item {
     id: root
+    property bool discovering: false
 
-    property int minimumWidth: popupDialog.minimumWidth
-    property int minimumHeight: popupDialog.minimumHeight
+    signal hostSelected(string hostname)
 
-    property Component compactRepresentation: Component {
-        Item {
-            property int minimumWidth: 32
-            property int minimumHeight: 32
-
-            PlasmaCore.Svg {
-                id: svg
-                imagePath: "icons/xbmcremote"
-            }
-
-            PlasmaCore.SvgItem {
-                anchors.fill: parent
-                svg: svg
-                elementId: "logo"
-            }
-
-            PlasmaCore.SvgItem {
-                anchors.fill: parent
-                svg: svg
-                elementId: "play"
-            }
-
-            PlasmaCore.SvgItem {
-                anchors.fill: parent
-                svg: svg
-                elementId: "pause"
-            }
-
-        }
+    XbmcDiscovery {
+        id: discovery
+        continuousDiscovery: root.discovering
     }
 
-    Connections {
-        target: plasmoid
-        onFormFactorChanged: print("#####################################")
-    }
-
-    PlasmaCore.DataSource {
-        id: dataSource
-        dataEngine: "xbmcremote"
-        connectedSources: ['Hosts', 'Xbmc']
-        //interval: 5000
-
-
-        onNewData: {
-            print("main.qml: onNewData")
-            if (sourceName == 'Hosts') {
-                print("going to connect to " +  data[0])
-                var description = serviceForSource('Hosts').operationDescription("Connect");
-                description.id = 0;
-                //serviceForSource('Hosts').startOperationCall(description)
-                //activeSource = data['Hosts'][0]
-                //connectedSources = ['Hosts', activeSource]
-            }
-        }
-
-        onDataChanged: {
-            print("main.qml: onDataChanged")
-        }
-
-    }
-
-    PlasmaCore.Theme {
-        id: theme
-    }
-
-    PopupDialog {
-        id: popupDialog
+    ListView {
+        id: hostListView
         anchors.fill: parent
+        model: xbmc.hostModel()
+
+        delegate: PlasmaComponents.ListItem {
+            height: 50
+            width: parent.width
+            PlasmaComponents.Label {
+                id: hostLabel
+                anchors.fill: parent
+                text: hostname
+                width: parent.width
+            }
+
+            MouseArea {
+                anchors.fill: parent
+                onClicked: {
+                    xbmc.hostModel().connectToHost(hostListView.currentIndex)
+                    root.hostSelected(hostname)
+                }
+            }
+        }
     }
 }

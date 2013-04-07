@@ -20,35 +20,24 @@
 
 import Qt 4.7
 import org.kde.plasma.components 0.1
-import org.kde.plasma.graphicswidgets 0.1 as PlasmaWidgets
 import org.kde.plasma.core 0.1 as PlasmaCore
-import org.kde.plasma.graphicslayouts 4.7 as GraphicsLayouts
 
 Item {
     id: root
+
     property int minimumHeight: mainColumn.height + spacing * 2
     property int minimumWidth: height * 2
 
     property int spacing: headerLabel.height / 2
 
-    PlasmaCore.DataSource {
-        id: dataSource
-        dataEngine: "xbmcremote"
-        connectedSources: ['Xbmc']
-        //interval: 5000
+    PlasmaCore.Theme {
+        id: theme
+    }
 
-        onNewData: {
-            print("PopupDialog.qml: got new data", data['Xbmc'])
-            if (data.connected) {
-                listView.currentIndex = 1
-            } else {
-                listView.currentIndex = 0
-            }
-        }
-
-        onDataChanged: {
-            volumeSlider.value = data['Xbmc'].volume
-        }
+    Binding {
+        target: xbmc.activePlayer
+        property: "timerActive"
+        value: listView.currentIndex == 1
     }
 
     Column {
@@ -72,7 +61,7 @@ Item {
 
             Label {
                 id: headerLabel
-                text: qsTr("Xbmc on %1").arg(dataSource.data['Xbmc'].hostName)
+                text: qsTr("Xbmc on %1").arg(xbmc.connectedHostName)
                 anchors {
                     left: parent.left
                     right: volumeRow.left
@@ -115,9 +104,7 @@ Item {
                     source: "audio-volume-low"
                     MouseArea { anchors.fill: parent;
                         onClicked: {
-                            var data = dataSource.serviceForSource('Xbmc').operationDescription("SetVolume")
-                            data.level = dataSource.data['Xbmc'].volume - 5
-                            dataSource.serviceForSource('Xbmc').startOperationCall(data)
+                            xbmc.volume -= 5
                         }
                     }
                 }
@@ -130,10 +117,15 @@ Item {
                     stepSize: 5
                     onValueChanged: {
                         if (pressed) {
-                            var data = dataSource.serviceForSource('Xbmc').operationDescription("SetVolume")
-                            data.level = value
-                            dataSource.serviceForSource('Xbmc').startOperationCall(data)
+                            xbmc.volume = value;
                         }
+                    }
+
+                    Binding {
+                        target: volumeSlider
+                        property: "value"
+                        value: xbmc.volume
+                        when: !volumeSlider.pressed
                     }
                 }
                 PlasmaCore.IconItem {
@@ -143,9 +135,7 @@ Item {
                     source: "audio-volume-high"
                     MouseArea { anchors.fill: parent;
                         onClicked: {
-                            var data = dataSource.serviceForSource('Xbmc').operationDescription("SetVolume")
-                            data.level = dataSource.data['Xbmc'].volume + 5
-                            dataSource.serviceForSource('Xbmc').startOperationCall(data)
+                            xbmc.volume += 5
                         }
                     }
                 }
@@ -156,7 +146,8 @@ Item {
                     source: "window-close"
                     MouseArea { anchors.fill: parent;
                         onClicked: {
-                            listView.currentIndex = 0
+                            print("should reconnect")
+                            listView.reconnect = true
                         }
                     }
                 }
@@ -165,10 +156,13 @@ Item {
 
         VisualItemModel {
             id: visualItemModel
-            Dummy {
+            HostList {
                 height: listView.height
                 width: listView.width
                 discovering: listView.currentIndex == 0
+                onHostSelected: {
+                    listView.reconnect = false
+                }
             }
 
             NowPlaying {
@@ -209,6 +203,22 @@ Item {
             clip: true
             interactive: false
             highlightMoveDuration: 200
+            currentIndex: 0
+
+            property bool reconnect: false
+
+            Binding {
+                target: listView
+                property: "currentIndex"
+                value: 1
+                when: xbmc.connected && !listView.reconnect
+            }
+            Binding {
+                target: listView
+                property: "currentIndex"
+                value: 0
+                when: !xbmc.connected || listView.reconnect
+            }
         }
     }
 }

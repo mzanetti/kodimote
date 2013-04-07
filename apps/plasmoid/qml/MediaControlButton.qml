@@ -18,30 +18,18 @@
  *                                                                           *
  ****************************************************************************/
 
-#ifndef HOSTSJOB_H
-#define HOSTSJOB_H
+import QtQuick 1.1
+import org.kde.plasma.core 0.1 as PlasmaCore
 
-#include <Plasma/ServiceJob>
+PlasmaCore.IconItem {
+    id: root
+    width: theme.iconSizes.dialog
+    height: width
 
-class HostContainer;
+    signal clicked()
 
-class HostsJob: public Plasma::ServiceJob
-{
-    Q_OBJECT
-
-public:
-    HostsJob(HostContainer *container, const QString& operation,
-                    QMap<QString,QVariant>& parameters,
-                    QObject* parent);
-
-
-    void start();
-
-private slots:
-    void connectedChanged(bool connected);
-
-private:
-    HostContainer *m_container;
-};
-
-#endif
+    MouseArea {
+        anchors.fill: parent
+        onClicked: root.clicked();
+    }
+}
