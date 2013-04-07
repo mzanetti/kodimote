@@ -37,7 +37,7 @@ Item {
     Binding {
         target: xbmc.activePlayer
         property: "timerActive"
-        value: listView.currentIndex == 1
+        value: listView.currentIndex == 2
     }
 
     Column {
@@ -68,7 +68,7 @@ Item {
                     verticalCenter: parent.verticalCenter
                 }
                 elide: Text.ElideRight
-                opacity: listView.currentIndex
+                opacity: listView.state == "connected" ? 1 : 0
                 Behavior on opacity {
                     NumberAnimation { duration: 200 }
                 }
@@ -80,7 +80,7 @@ Item {
                     verticalCenter: parent.verticalCenter
                 }
                 text: qsTr("Connect to...")
-                opacity: 1 - listView.currentIndex
+                opacity: listView.state == "connect" ? 1 : 0
                 Behavior on opacity {
                     NumberAnimation { duration: 200 }
                 }
@@ -91,7 +91,7 @@ Item {
                 anchors.right: parent.right
                 height: parent.height
                 spacing: root.spacing / 2
-                opacity: listView.currentIndex
+                opacity: listView.state == "connected" ? 1 : 0
 
                 Behavior on opacity {
                     NumberAnimation { duration: 200 }
@@ -156,10 +156,12 @@ Item {
 
         VisualItemModel {
             id: visualItemModel
+
             HostList {
                 height: listView.height
                 width: listView.width
-                discovering: listView.currentIndex == 0
+                discovering: listView.state == "connecting"
+                spacing: root.spacing
                 onHostSelected: {
                     listView.reconnect = false
                 }
@@ -203,22 +205,30 @@ Item {
             clip: true
             interactive: false
             highlightMoveDuration: 200
-            currentIndex: 0
 
-            property bool reconnect: false
+            property bool reconnect: true
 
-            Binding {
-                target: listView
-                property: "currentIndex"
-                value: 1
-                when: xbmc.connected && !listView.reconnect
+            Component.onCompleted: {
+                state = "connected"
+                state = "connect"
             }
-            Binding {
-                target: listView
-                property: "currentIndex"
-                value: 0
-                when: !xbmc.connected || listView.reconnect
-            }
+
+            states: [
+                State {
+                    name: "connect"; when: !xbmc.connected || listView.reconnect
+                    PropertyChanges {
+                        target: listView
+                        currentIndex: 0
+                    }
+                },
+                State {
+                    name: "connected"; when: xbmc.connected && !listView.reconnect
+                    PropertyChanges {
+                        target: listView
+                        currentIndex: 1
+                    }
+                }
+            ]
         }
     }
 }

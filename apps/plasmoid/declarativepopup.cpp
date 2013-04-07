@@ -34,7 +34,7 @@ DeclarativePopup::DeclarativePopup(QGraphicsWidget *parent) :
 {
 //    qmlRegisterType<Plasma::Separator>("Separator", 0, 1, "Separator");
 
-    setInitializationDelayed(true);
+    setInitializationDelayed(false);
     m_rootContext = engine()->rootContext();
     m_rootContext->setContextProperty("xbmc", Xbmc::instance());
 

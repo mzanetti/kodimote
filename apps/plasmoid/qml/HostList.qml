@@ -19,16 +19,17 @@
  ****************************************************************************/
 
 import QtQuick 1.1
-import org.kde.plasma.core 0.1 as PlasmaCore
-import org.kde.plasma.components 0.1 as PlasmaComponents
+import org.kde.plasma.components 0.1
 
 import Xbmc 1.0
 
 Item {
     id: root
+    property int spacing
     property bool discovering: false
+    state: "connect"
 
-    signal hostSelected(string hostname)
+    signal hostSelected()
 
     XbmcDiscovery {
         id: discovery
@@ -37,13 +38,26 @@ Item {
 
     ListView {
         id: hostListView
-        anchors.fill: parent
+        anchors {
+            left: parent.left
+            top: parent.top
+            right: parent.right
+            bottom: buttonRow.top
+        }
         model: xbmc.hostModel()
+        highlightFollowsCurrentItem: true
+        highlight: Rectangle {
+            width: hostListView.currentItem.width
+            height: hostListView.currentItem.height
+            color: "gray"
 
-        delegate: PlasmaComponents.ListItem {
-            height: 50
+        }
+
+        delegate: Item {
+            height: hostLabel.height
             width: parent.width
-            PlasmaComponents.Label {
+
+            Label {
                 id: hostLabel
                 anchors.fill: parent
                 text: hostname
@@ -53,10 +67,122 @@ Item {
             MouseArea {
                 anchors.fill: parent
                 onClicked: {
-                    xbmc.hostModel().connectToHost(index)
-                    root.hostSelected(hostname)
+                    print("setting cur ind", model.index)
+                    hostListView.currentIndex = model.index
                 }
             }
         }
     }
+    Row {
+        id: buttonRow
+        spacing: root.spacing
+
+        anchors {
+            left: parent.left
+            right: parent.right
+            bottom: parent.bottom
+            bottomMargin: root.spacing
+        }
+
+        Row {
+            width: parent.width - connectButton.width
+            spacing: root.spacing
+
+            Button {
+                iconSource: "list-add"
+                text: qsTr("Add")
+                onClicked: {
+                    root.state = "addhost"
+                }
+            }
+            Button {
+                iconSource: "list-remove"
+                text: qsTr("Remove")
+                enabled: hostListView.currentIndex >= 0
+                onClicked: {
+                    xbmc.hostModel().removeHost(hostListView.currentIndex);
+                }
+            }
+        }
+        Button {
+            id: connectButton
+            iconSource: "network-connect"
+            text: qsTr("Connect")
+            enabled: hostListView.currentIndex >= 0
+            onClicked: {
+                xbmc.hostModel().connectToHost(hostListView.currentIndex)
+                root.hostSelected()
+            }
+        }
+    }
+
+    Grid {
+        id: addHost
+        columns: 2
+        anchors.fill: parent
+        spacing: root.spacing
+
+        Behavior on anchors.bottomMargin {
+            NumberAnimation { duration: 200 }
+        }
+
+        Label {
+            text: qsTr("Host:")
+        }
+
+        TextField {
+            id: hostnameTextField
+        }
+        Label {
+            text: qsTr("Port:")
+        }
+        TextField {
+            id: portTextField
+            text: "8080"
+        }
+        Label {
+            text: qsTr("MAC Address for WakeOnLan (optional):")
+        }
+        TextField {
+            id: macTextField
+        }
+        Button {
+            text: qsTr("OK")
+            onClicked: {
+                var newIndex = xbmc.hostModel().createHost(hostnameTextField.text, hostnameTextField.text, portTextField.text, macTextField.text);
+                xbmc.hostModel().connectToHost(newIndex);
+                root.state = "connect";
+                root.hostSelected()
+            }
+        }
+        Button {
+            text: qsTr("Cancel")
+            onClicked: {
+                root.state = "connect";
+            }
+        }
+    }
+
+    states: [
+        State {
+            name: "addhost"
+            PropertyChanges { target: addHost; opacity: 1 }
+            PropertyChanges { target: hostListView; opacity: 0 }
+            PropertyChanges { target: buttonRow; opacity: 0 }
+        },
+        State {
+            name: "connect"
+            PropertyChanges { target: addHost; opacity: 0 }
+            PropertyChanges { target: hostListView; opacity: 1 }
+            PropertyChanges { target: buttonRow; opacity: 1 }
+        }
+    ]
+
+    transitions: [
+        Transition {
+            from: "*"
+            to: "*"
+            NumberAnimation { properties: "opacity"; duration: 200 }
+        }
+    ]
 }
