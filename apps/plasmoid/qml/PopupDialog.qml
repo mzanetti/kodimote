@@ -37,7 +37,7 @@ Item {
     Binding {
         target: xbmc.activePlayer
         property: "timerActive"
-        value: listView.currentIndex == 2
+        value: listView.currentIndex == 1
     }
 
     Column {
