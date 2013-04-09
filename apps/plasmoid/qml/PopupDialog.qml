@@ -160,7 +160,7 @@ Item {
             HostList {
                 height: listView.height
                 width: listView.width
-                discovering: listView.state == "connecting"
+                discovering: listView.state == "connect" && popupState === "open"
                 spacing: root.spacing
                 onHostSelected: {
                     listView.reconnect = false

@@ -22,6 +22,7 @@
 #define DECLARATIVE_POPUP_H
 
 #include <Plasma/DeclarativeWidget>
+#include <Plasma/Applet>
 
 class QDeclarativeContext;
 
@@ -32,8 +33,12 @@ class DeclarativePopup : public Plasma::DeclarativeWidget
 public:
     explicit DeclarativePopup(QGraphicsWidget *parent = 0);
 
+
+
 private Q_SLOTS:
     void qmlCreationFinished();
+
+    void newStatus(Plasma::ItemStatus status);
 
 private:
     QDeclarativeContext * m_rootContext;

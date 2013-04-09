@@ -37,10 +37,12 @@ DeclarativePopup::DeclarativePopup(QGraphicsWidget *parent) :
     setInitializationDelayed(false);
     m_rootContext = engine()->rootContext();
     m_rootContext->setContextProperty("xbmc", Xbmc::instance());
+    m_rootContext->setContextProperty("popupState", "closed");
 
     setQmlPath(KStandardDirs::locate("data", "xbmcremote/qml/PopupDialog.qml"));
 
     connect(this, SIGNAL(finished()), this, SLOT(qmlCreationFinished()));
+    connect(parent, SIGNAL(newStatus(Plasma::ItemStatus)), this, SLOT(newStatus(Plasma::ItemStatus)));
 
 //    readConfig();
 
@@ -48,6 +50,16 @@ DeclarativePopup::DeclarativePopup(QGraphicsWidget *parent) :
 
 void DeclarativePopup::qmlCreationFinished()
 {
+}
+
+void DeclarativePopup::newStatus(Plasma::ItemStatus status)
+{
+    qDebug() << "status changed" << status;
+    if (status == Plasma::NeedsAttentionStatus) {
+        m_rootContext->setContextProperty("popupState", "open");
+    } else {
+        m_rootContext->setContextProperty("popupState", "closed");
+    }
 }
 
 //void DeclarativeNMPopup::readConfig()
