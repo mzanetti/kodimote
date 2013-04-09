@@ -11,7 +11,7 @@ set(libxbmcremote_SRCS
     xbmcdiscovery.cpp
 
     xdebug.cpp
-
+    settings.cpp
 
     xbmcmodel.cpp
     xbmcfiltermodel.cpp

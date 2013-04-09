@@ -19,6 +19,7 @@
  ****************************************************************************/
 
 #include "declarativepopup.h"
+#include "settings.h"
 
 #include <KDebug>
 //#include <KToolInvocation>
@@ -34,22 +35,35 @@ DeclarativePopup::DeclarativePopup(QGraphicsWidget *parent) :
 {
 //    qmlRegisterType<Plasma::Separator>("Separator", 0, 1, "Separator");
 
-    setInitializationDelayed(false);
+    m_settings = new Settings(this);
+
+    setInitializationDelayed(true);
     m_rootContext = engine()->rootContext();
     m_rootContext->setContextProperty("xbmc", Xbmc::instance());
     m_rootContext->setContextProperty("popupState", "closed");
+    m_rootContext->setContextProperty("settings", m_settings);
 
-    setQmlPath(KStandardDirs::locate("data", "xbmcremote/qml/PopupDialog.qml"));
 
     connect(this, SIGNAL(finished()), this, SLOT(qmlCreationFinished()));
     connect(parent, SIGNAL(newStatus(Plasma::ItemStatus)), this, SLOT(newStatus(Plasma::ItemStatus)));
+    connect(Xbmc::instance(), SIGNAL(connectedChanged(bool)), this, SLOT(connectionChanged(bool)));
 
 //    readConfig();
 
+    setQmlPath(KStandardDirs::locate("data", "xbmcremote/qml/PopupDialog.qml"));
 }
 
 void DeclarativePopup::qmlCreationFinished()
 {
+    // Load stored hosts
+    qDebug() << "********* qml creation finished";
+    foreach(const XbmcHost &host, m_settings->hostList()) {
+        int index = Xbmc::instance()->hostModel()->insertOrUpdateHost(host);
+        if(host.address() == m_settings->lastHost().address()) {
+            qDebug() << "reconnecting to" << host.hostname() << host.address() << host.username() << host.password();
+            Xbmc::instance()->hostModel()->connectToHost(index);
+        }
+    }
 }
 
 void DeclarativePopup::newStatus(Plasma::ItemStatus status)
@@ -61,6 +75,16 @@ void DeclarativePopup::newStatus(Plasma::ItemStatus status)
         m_rootContext->setContextProperty("popupState", "closed");
     }
 }
+
+void DeclarativePopup::connectionChanged(bool connected)
+{
+    if(connected) {
+        m_settings->addHost(*Xbmc::instance()->connectedHost());
+        m_settings->setLastHost(*Xbmc::instance()->connectedHost());
+    }
+
+}
+
 
 //void DeclarativeNMPopup::readConfig()
 //{

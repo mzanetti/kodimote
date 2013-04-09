@@ -34,6 +34,9 @@ Item {
         id: theme
     }
 
+    Component.onCompleted: listView.model = visualItemModel
+
+
     Binding {
         target: xbmc.activePlayer
         property: "timerActive"
@@ -195,7 +198,6 @@ Item {
 
         ListView {
             id: listView
-            model: visualItemModel
             anchors {
                 left: parent.left
                 right: parent.right

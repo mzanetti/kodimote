@@ -24,6 +24,7 @@
 #include <Plasma/DeclarativeWidget>
 #include <Plasma/Applet>
 
+class Settings;
 class QDeclarativeContext;
 
 class DeclarativePopup : public Plasma::DeclarativeWidget
@@ -40,8 +41,11 @@ private Q_SLOTS:
 
     void newStatus(Plasma::ItemStatus status);
 
+    void connectionChanged(bool connected);
+
 private:
     QDeclarativeContext * m_rootContext;
+    Settings *m_settings;
 };
 
 #endif

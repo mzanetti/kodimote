@@ -23,6 +23,7 @@
 
 #include "xbmc.h"
 #include "player.h"
+#include "settings.h"
 
 //#include <QAction>
 #include <QPainter>
@@ -41,9 +42,6 @@ XbmcremoteApplet::XbmcremoteApplet(QObject * parent, const QVariantList & args)
     : Plasma::PopupApplet(parent, args),
         m_panelContainment(true)
 {
-    // TODO: config
-//    KNetworkManagerServicePrefs::instance(Knm::NETWORKMANAGEMENT_RCFILE);
-//    setHasConfigurationInterface(true);
 
     // TODO: localisation
 //    KGlobal::locale()->insertCatalog("libknetworkmanager");
