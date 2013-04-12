@@ -170,12 +170,28 @@ Item {
                 }
             }
 
-            NowPlaying {
-                id: nowPlaying
-                spacing: root.spacing
+            Column {
+                id: mainItem
                 width: listView.width
                 height: listView.height
+                spacing: root.spacing
+                TabBar {
+                    id: tabbar
+                    anchors {
+                        left: parent.left
+                        right: parent.right
+                    }
+                    TabButton { tab: tabContent; text: i18n("Now Playing")}
+                    TabButton { tab: tabContent; text: i18n("Library")}
+                }
+                NowPlaying {
+                    id: nowPlaying
+                    spacing: root.spacing
+                    height: listView.height - tabbar.height - parent.spacing
+                    width: listView.width
+                }
             }
+
 //            ListView {
 //                width: listView.width
 //                height: listView.height
@@ -202,7 +218,7 @@ Item {
                 left: parent.left
                 right: parent.right
             }
-            height: nowPlaying.minimumHeight
+            height: nowPlaying.minimumHeight + tabbar.height
             orientation: ListView.Horizontal
             clip: true
             interactive: false
