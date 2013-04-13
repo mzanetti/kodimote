@@ -25,7 +25,7 @@ import org.kde.plasma.core 0.1 as PlasmaCore
 Item {
     id: root
 
-    property int minimumHeight: mainColumn.height + spacing * 2
+    property int minimumHeight: headerLabel.height * 11
     property int minimumWidth: height * 2
 
     property int spacing: headerLabel.height / 2
@@ -33,9 +33,6 @@ Item {
     PlasmaCore.Theme {
         id: theme
     }
-
-    Component.onCompleted: listView.model = visualItemModel
-
 
     Binding {
         target: xbmc.activePlayer
@@ -46,12 +43,9 @@ Item {
     Column {
         id: mainColumn
         anchors {
-            left: parent.left
-            right: parent.right
-            top: parent.top
+            fill: parent
             margins: root.spacing
         }
-        height: childrenRect.height
         spacing: root.spacing
 
 
@@ -65,6 +59,7 @@ Item {
             Label {
                 id: headerLabel
                 text: qsTr("Xbmc on %1").arg(xbmc.connectedHostName)
+                font.weight: Font.Bold
                 anchors {
                     left: parent.left
                     right: volumeRow.left
@@ -83,6 +78,7 @@ Item {
                     verticalCenter: parent.verticalCenter
                 }
                 text: qsTr("Connect to...")
+                font.weight: Font.Bold
                 opacity: listView.state == "connect" ? 1 : 0
                 Behavior on opacity {
                     NumberAnimation { duration: 200 }
@@ -170,26 +166,11 @@ Item {
                 }
             }
 
-            Column {
-                id: mainItem
-                width: listView.width
+            TabView {
                 height: listView.height
+                width: listView.width
                 spacing: root.spacing
-                TabBar {
-                    id: tabbar
-                    anchors {
-                        left: parent.left
-                        right: parent.right
-                    }
-                    TabButton { tab: tabContent; text: i18n("Now Playing")}
-                    TabButton { tab: tabContent; text: i18n("Library")}
-                }
-                NowPlaying {
-                    id: nowPlaying
-                    spacing: root.spacing
-                    height: listView.height - tabbar.height - parent.spacing
-                    width: listView.width
-                }
+
             }
 
 //            ListView {
@@ -218,18 +199,14 @@ Item {
                 left: parent.left
                 right: parent.right
             }
-            height: nowPlaying.minimumHeight + tabbar.height
+            height: parent.height - y
             orientation: ListView.Horizontal
             clip: true
             interactive: false
             highlightMoveDuration: 200
+            model: visualItemModel
 
-            property bool reconnect: true
-
-            Component.onCompleted: {
-                state = "connected"
-                state = "connect"
-            }
+            property bool reconnect: false
 
             states: [
                 State {

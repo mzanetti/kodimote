@@ -27,7 +27,7 @@ class Shares : public XbmcLibrary
 {
     Q_OBJECT
 public:
-    explicit Shares(const QString &mediatype);
+    explicit Shares(const QString &mediatype, XbmcLibrary *parent = 0);
 
     XbmcModel *enterItem(int index);
     void playItem(int index);

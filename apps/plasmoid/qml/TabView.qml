@@ -18,52 +18,65 @@
  *                                                                           *
  ****************************************************************************/
 
-#include "xbmcfiltermodel.h"
+import Qt 4.7
+import org.kde.plasma.components 0.1
+import org.kde.plasma.core 0.1 as PlasmaCore
 
-XbmcFilterModel::XbmcFilterModel(QObject *parent) :
-    QSortFilterProxyModel(parent)
-{
-}
+Item {
+    id: root
+    property int spacing
+    TabBar {
+        id: tabbar
+        anchors {
+            left: parent.left
+            right: parent.right
+        }
+        TabButton { tab: nowPlaying; text: i18n("Now Playing")}
+        TabButton { tab: library; text: i18n("Library")}
 
-QAbstractItemModel *XbmcFilterModel::model()
-{
-    return sourceModel();
-}
-
-void XbmcFilterModel::setModel(QObject *model)
-{
-    setSourceModel(static_cast<QAbstractItemModel*>(model));
-    emit modelChanged();
-}
-
-void XbmcFilterModel::setFilter(const QString &filter)
-{
-    m_filterString = filter;
-    setFilterFixedString(m_filterString);
-    emit filterChanged();
-}
-
-QString XbmcFilterModel::filter()
-{
-    return m_filterString;
-}
-
-void XbmcFilterModel::setCaseSensitive(bool cs)
-{
-    setFilterCaseSensitivity(m_cs ? Qt::CaseSensitive : Qt::CaseInsensitive);
-    emit caseSensitivityChanged();
-}
-
-bool XbmcFilterModel::caseSensitive()
-{
-    return filterCaseSensitivity() == Qt::CaseSensitive ? true : false;
-}
-
-int XbmcFilterModel::mapToSourceIndex(int i)
-{
-    if (i >= sourceModel()->rowCount()) {
-        return 0;
     }
-    return mapToSource(index(i, 0, QModelIndex())).row();
-}
 
+    TabGroup {
+        anchors {
+            top: tabbar.bottom
+            topMargin: root.spacing
+            bottom: parent.bottom
+            left: parent.left
+            right: parent.right
+        }
+
+        NowPlaying {
+            id: nowPlaying
+            spacing: root.spacing
+            height: view.height
+            width: view.width
+        }
+        Browser {
+            id: library
+            height: view.height
+            width: view.width
+            spacing: root.spacing
+        }
+
+    }
+
+//    VisualItemModel {
+//        id: tabModel
+//        NowPlaying {
+//            id: nowPlaying
+//            spacing: root.spacing
+//            height: view.height
+//            width: view.width
+//        }
+//        Rectangle {
+//            height: view.height
+//            width: view.width
+//            color: "blue"
+//        }
+//    }
+//    ListView {
+//        id: view
+//        anchors.fill: parent
+//        model: tabModel
+//    }
+}

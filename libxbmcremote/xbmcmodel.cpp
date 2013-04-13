@@ -50,6 +50,9 @@ XbmcModel *XbmcModel::parentModel() const
 
 QVariant XbmcModel::data(const QModelIndex &index, int role) const
 {
+    if(index.row() >= m_list.count()) {
+        return QVariant();
+    }
     // Lets add a cache here
     if(role == RoleThumbnail) {
         QString thumbnail = m_list.at(index.row())->data(role).toString();

@@ -24,7 +24,6 @@ import org.kde.plasma.core 0.1 as PlasmaCore
 
 Row {
     id: root
-    property int minimumHeight: dataColumn.height
     property variant activePlayer: xbmc.activePlayer
     property variant playlist: activePlayer.playlist()
     property variant currentItem: activePlayer.currentItem
@@ -54,6 +53,7 @@ Row {
         id: dataColumn
         width: parent.width - x
         height: childrenRect.height
+        anchors.bottom: parent.bottom
 
         Row {
             anchors { left: parent.left; right: parent.right }

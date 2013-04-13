@@ -24,7 +24,7 @@
 #include <KDebug>
 //#include <KToolInvocation>
 #include <KStandardDirs>
-//#include <Plasma/Separator>
+#include <Plasma/Separator>
 
 #include <QtDeclarative>
 
@@ -33,7 +33,7 @@
 DeclarativePopup::DeclarativePopup(QGraphicsWidget *parent) :
     Plasma::DeclarativeWidget(parent)
 {
-//    qmlRegisterType<Plasma::Separator>("Separator", 0, 1, "Separator");
+    qmlRegisterType<Plasma::Separator>("Separator", 0, 1, "Separator");
 
     m_settings = new Settings(this);
 

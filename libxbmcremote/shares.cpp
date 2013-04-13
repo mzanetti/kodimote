@@ -24,14 +24,34 @@
 #include "xdebug.h"
 #include "libraryitem.h"
 
-Shares::Shares(const QString &mediatype):
-    XbmcLibrary(0),
+Shares::Shares(const QString &mediatype, XbmcLibrary *parent):
+    XbmcLibrary(parent),
     m_mediaType(mediatype)
 {
+    if (m_mediaType.isEmpty()) {
+        beginInsertRows(QModelIndex(), 0, 1);
+
+        LibraryItem *item = new LibraryItem();
+        item->setTitle(tr("Music"));
+        item->setFileName("music");
+        item->setFileType("directory");
+        m_list.append(item);
+
+        item = new LibraryItem();
+        item->setTitle(tr("Videos"));
+        item->setFileName("video");
+        item->setFileType("directory");
+        m_list.append(item);
+
+        endInsertRows();
+    }
 }
 
 void Shares::refresh()
 {
+    if (m_mediaType.isEmpty()) {
+        return;
+    }
     QVariantMap params;
 
 //    QVariant media(mediaString());
@@ -72,6 +92,9 @@ void Shares::sourcesReceived(const QVariantMap &rsp)
 
 XbmcModel *Shares::enterItem(int index)
 {
+    if (m_mediaType.isEmpty()) {
+        return new Shares(m_list.at(index)->data(RoleFileName).toString(), this);
+    }
     return new Files(m_mediaType, m_list.at(index)->data(RoleFileName).toString(), this);
 }
 
@@ -95,7 +118,7 @@ QString Shares::title() const
     } else if(m_mediaType == "pictures") {
         return tr("Picture Files");
     }
-    return "";
+    return tr("Shares");
 }
 
 bool Shares::allowSearch()
