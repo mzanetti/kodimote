@@ -18,7 +18,7 @@
  *                                                                           *
  ****************************************************************************/
 
-import Qt 4.7
+import QtQuick 1.1
 import org.kde.plasma.components 0.1
 import org.kde.plasma.core 0.1 as PlasmaCore
 
@@ -48,13 +48,13 @@ Item {
         NowPlaying {
             id: nowPlaying
             spacing: root.spacing
-            height: view.height
-            width: view.width
+            height: root.height
+            width: root.width
         }
         Browser {
             id: library
-            height: view.height
-            width: view.width
+            height: root.height
+            width: root.width
             spacing: root.spacing
         }
 

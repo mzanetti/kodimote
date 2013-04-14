@@ -18,28 +18,34 @@
  *                                                                           *
  ****************************************************************************/
 
-import Qt 4.7
+import QtQuick 1.1
 import org.kde.plasma.components 0.1
 import org.kde.plasma.core 0.1 as PlasmaCore
 
 Row {
     id: root
     property variant activePlayer: xbmc.activePlayer
-    property variant playlist: activePlayer.playlist()
-    property variant currentItem: activePlayer.currentItem
+    property variant playlist: activePlayer ? activePlayer.playlist() : null
+    property variant currentItem: activePlayer ? activePlayer.currentItem : null
 
 
     Item {
+        id: thumbnailItem
         anchors {
             top: parent.top
             bottom: parent.bottom
         }
         width: height
-        Image {
-            id: imageItem
+        Rectangle {
             anchors.fill: parent
-            source: currentItem.thumbnail
-            fillMode: Image.PreserveAspectFit
+            color: "black"
+            visible: imageItem.status == Image.Ready
+            Image {
+                id: imageItem
+                anchors.fill: parent
+                source: currentItem ? currentItem.thumbnail : ""
+                fillMode: Image.PreserveAspectFit
+            }
         }
         PlasmaCore.IconItem {
             anchors.fill: parent
@@ -51,21 +57,19 @@ Row {
 
     Column {
         id: dataColumn
-        width: parent.width - x
+        width: parent.width - thumbnailItem.width - root.spacing
         height: childrenRect.height
         anchors.bottom: parent.bottom
 
         Row {
             anchors { left: parent.left; right: parent.right }
             Label {
-                text: currentItem.title
+                text: currentItem ? currentItem.title : ""
                 width: parent.width - trackNumLabel.width
                 elide: Text.ElideRight
             }
             Label {
                 id: trackNumLabel
-                anchors.right: parent.right
-                anchors.bottom: artistLabel.top
                 anchors.bottomMargin: 6
                 text: playlist ? playlist.currentTrackNumber + "/" + playlist.count : "0/0"
             }
@@ -89,7 +93,7 @@ Row {
                     width: theme.iconSizes.small
                     height: width
                     source: "draw-star"
-                    visible: currentItem !== null && (currentItem.type === "movie" || currentItem.type === "unknown")
+                    visible: currentItem ?(currentItem.type === "movie" || currentItem.type === "unknown") : false
                 }
             }
             Repeater {
@@ -98,7 +102,7 @@ Row {
                     width: theme.iconSizes.small
                     height: width
                     source: "draw-star"
-                    visible: currentItem !== null && (currentItem.type === "movie" || currentItem.type === "unknown")
+                    visible: currentItem ? (currentItem.type === "movie" || currentItem.type === "unknown") : false
                     opacity: 0.3
                 }
             }
@@ -117,6 +121,7 @@ Row {
             // Not implemented in plasma yet... Hopefully starts working one day
             valueIndicatorVisible: true
             valueIndicatorText:{
+                if (!activePlayer) return ""
                 var targetTime = 100 * activePlayer.durationInSecs / progress.value;
                 targetTime = Math.min(targetTime, activePlayer.durationInSecs);
                 targetTime = Math.max(targetTime, 0);
@@ -146,7 +151,7 @@ Row {
             Binding {
                 target: progress
                 property: "value"
-                value: activePlayer.percentage
+                value: activePlayer ? activePlayer.percentage : 0
                 when: !progress.pressed
             }
         }
@@ -159,11 +164,11 @@ Row {
             height: childrenRect.height
             Label {
                 anchors.left: parent.left
-                text: activePlayer.time
+                text: activePlayer ? activePlayer.time : "0:00"
             }
             Label {
                 anchors.right: parent.right
-                text: activePlayer.currentItem.durationString
+                text: activePlayer ? activePlayer.currentItem.durationString : "0:00"
             }
         }
     }

@@ -47,6 +47,7 @@ DeclarativePopup::DeclarativePopup(QGraphicsWidget *parent) :
     connect(this, SIGNAL(finished()), this, SLOT(qmlCreationFinished()));
     connect(parent, SIGNAL(newStatus(Plasma::ItemStatus)), this, SLOT(newStatus(Plasma::ItemStatus)));
     connect(Xbmc::instance(), SIGNAL(connectedChanged(bool)), this, SLOT(connectionChanged(bool)));
+    connect(Xbmc::instance()->hostModel(), SIGNAL(rowsRemoved(QModelIndex, int, int)), SLOT(hostRemoved()));
 
 //    readConfig();
 
@@ -85,6 +86,25 @@ void DeclarativePopup::connectionChanged(bool connected)
 
 }
 
+void DeclarativePopup::hostRemoved()
+{
+    // We need to check if all our stored hosts are still in hostList
+    for(int i = 0; i < m_settings->hostList().count();) {
+        bool found = false;
+        for(int j = 0; j < Xbmc::instance()->hostModel()->rowCount(QModelIndex()); ++j) {
+            if(m_settings->hostList().at(i).address() == Xbmc::instance()->hostModel()->get(j, "address").toString()) {
+                found = true;
+                break;
+            }
+        }
+        if(!found) {
+            m_settings->removeHost(m_settings->hostList().at(i));
+            qDebug() << "removed host" << i;
+        } else {
+            ++i;
+        }
+    }
+}
 
 //void DeclarativeNMPopup::readConfig()
 //{

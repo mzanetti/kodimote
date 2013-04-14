@@ -43,6 +43,8 @@ private Q_SLOTS:
 
     void connectionChanged(bool connected);
 
+    void hostRemoved();
+
 private:
     QDeclarativeContext * m_rootContext;
     Settings *m_settings;

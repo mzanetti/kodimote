@@ -80,6 +80,7 @@ Item {
                     height: theme.iconSizes.small
                     anchors.verticalCenter: parent.verticalCenter
                     source: "system-shutdown"
+                    visible: hwaddr.length > 0
                     MouseArea { anchors.fill: parent;
                         onClicked: {
                             xbmc.hostModel().wakeup(index)
@@ -166,7 +167,12 @@ Item {
         Button {
             text: qsTr("OK")
             onClicked: {
-                var newIndex = xbmc.hostModel().createHost(hostnameTextField.text, hostnameTextField.text, portTextField.text, macTextField.text);
+                print("macText", macTextField.text)
+                var hwaddr = ""
+                if (macTextField.text !== ":::::") {
+                    hwaddr = macTextField.text;
+                }
+                var newIndex = xbmc.hostModel().createHost(hostnameTextField.text, hostnameTextField.text, portTextField.text, hwaddr);
                 xbmc.hostModel().connectToHost(newIndex);
                 root.state = "connect";
                 root.hostSelected()

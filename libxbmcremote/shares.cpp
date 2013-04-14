@@ -44,6 +44,7 @@ Shares::Shares(const QString &mediatype, XbmcLibrary *parent):
         m_list.append(item);
 
         endInsertRows();
+        setBusy(false);
     }
 }
 

@@ -61,6 +61,9 @@ bool XbmcFilterModel::caseSensitive()
 
 int XbmcFilterModel::mapToSourceIndex(int i)
 {
+    if (i < 0) {
+        return i;
+    }
     if (i >= sourceModel()->rowCount()) {
         return 0;
     }

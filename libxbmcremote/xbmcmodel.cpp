@@ -50,7 +50,7 @@ XbmcModel *XbmcModel::parentModel() const
 
 QVariant XbmcModel::data(const QModelIndex &index, int role) const
 {
-    if(index.row() >= m_list.count()) {
+    if(index.row() < 0 || index.row() >= m_list.count()) {
         return QVariant();
     }
     // Lets add a cache here

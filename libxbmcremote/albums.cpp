@@ -76,7 +76,7 @@ void Albums::fetchItemDetails(int index)
     QVariantList properties;
 //    properties.append("title");
     properties.append("description");
-//    properties.append("artist");
+    properties.append("artist");
     properties.append("genre");
 //    properties.append("theme");
 //    properties.append("mood");
@@ -116,7 +116,9 @@ void Albums::listReceived(const QVariantMap &rsp)
         QVariantMap itemMap = itemVariant.toMap();
         LibraryItem *item = new LibraryItem();
         item->setTitle(itemMap.value("label").toString());
-        item->setSubtitle(itemMap.value("artist").toString());
+        if (itemMap.value("artist").toStringList().count() > 0) {
+            item->setSubtitle(itemMap.value("artist").toStringList().first());
+        }
         item->setAlbumId(itemMap.value("albumid").toInt());
         item->setThumbnail(itemMap.value("thumbnail").toString());
         item->setFileType("directory");
