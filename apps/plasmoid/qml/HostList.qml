@@ -148,6 +148,7 @@ Item {
 
         TextField {
             id: hostnameTextField
+            width: parent.width - x
         }
         Label {
             text: qsTr("Port:")
@@ -156,6 +157,7 @@ Item {
             id: portTextField
             text: "8080"
             inputMask: "00000"
+            width: parent.width - x
         }
         Label {
             text: qsTr("MAC Address for WakeOnLan (optional):")
@@ -163,7 +165,16 @@ Item {
         TextField {
             id: macTextField
             inputMask: "HH:HH:HH:HH:HH:HH;_"
+            width: parent.width - x
         }
+    }
+    Row {
+        anchors {
+            right: parent.right
+            bottom: parent.bottom
+        }
+        spacing: root.spacing
+
         Button {
             text: qsTr("OK")
             onClicked: {

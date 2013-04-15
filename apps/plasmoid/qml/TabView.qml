@@ -31,8 +31,16 @@ Item {
             left: parent.left
             right: parent.right
         }
-        TabButton { tab: nowPlaying; text: i18n("Now Playing")}
-        TabButton { tab: library; text: i18n("Library")}
+        TabButton { id: libraryButton; tab: library; text: i18n("Library")}
+        TabButton { tab: nowPlaying; text: i18n("Now Playing"); enabled: xbmc.activePlayer !== null}
+        Connections {
+            target: xbmc
+            onActivePlayerChanged: {
+                if (xbmc.activePlayer == null) {
+                    libraryButton.clicked();
+                }
+            }
+        }
     }
 
     TabGroup {
@@ -44,17 +52,17 @@ Item {
             right: parent.right
         }
 
-        NowPlaying {
-            id: nowPlaying
-            spacing: root.spacing
-            height: root.height
-            width: root.width
-        }
         Browser {
             id: library
             height: root.height
             width: root.width
             spacing: root.spacing
+        }
+        NowPlaying {
+            id: nowPlaying
+            spacing: root.spacing
+            height: root.height
+            width: root.width
         }
     }
 }

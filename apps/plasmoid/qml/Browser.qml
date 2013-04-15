@@ -27,8 +27,6 @@ import Separator 0.1
 Row {
     id: root
 
-    property variant model: xbmc.audioLibrary()
-
     function resetToModel(model) {
         while (pagestack.depth > 1) {
             var page = pagestack.pop();
@@ -37,38 +35,30 @@ Row {
         browserPage.model = model;
     }
 
+    ListModel {
+        id: mainMenuModel
+
+        // Hack: Its' not possible to call a function in ListElements :/
+        Component.onCompleted: {
+            append({ iconSource: "audio-headphones", targetModel: xbmc.audioLibrary() });
+            append({ iconSource: "media-optical-blu-ray", targetModel: xbmc.videoLibrary() })
+            append({ iconSource: "camera-photo", targetModel: xbmc.shares("pictures") })
+            append({ iconSource: "video-television", targetModel: xbmc.channelGroups() })
+            append({ iconSource: "document-open-folder", targetModel: xbmc.shares("") })
+            browserPage.model = mainMenuModel.get(0).targetModel;
+        }
+    }
+
     Column {
         spacing: root.spacing
 
-        MediaControlButton {
-            source: "audio-headphones"
-            onClicked: {
-                root.resetToModel(xbmc.audioLibrary())
-            }
-
-        }
-        MediaControlButton {
-            source: "media-optical-blu-ray"
-            onClicked: {
-                root.resetToModel(xbmc.videoLibrary());
-            }
-        }
-        MediaControlButton {
-            source: "camera-photo"
-            onClicked: {
-                root.resetToModel(xbmc.shares("pictures"))
-            }
-        }
-        MediaControlButton {
-            source: "video-television"
-            onClicked: {
-                root.resetToModel(xbmc.channelGroups());
-            }
-        }
-        MediaControlButton {
-            source: "document-open-folder"
-            onClicked: {
-                root.resetToModel(xbmc.shares(""));
+        Repeater {
+            model: mainMenuModel
+            delegate: MediaControlButton {
+                source: model.iconSource
+                onClicked: {
+                    root.resetToModel(model.targetModel)
+                }
             }
         }
     }
@@ -91,10 +81,8 @@ Row {
         BrowserPage {
             id: browserPage
             anchors.fill: parent
-            model: root.model
             spacing: root.spacing
         }
-
     }
 
     Separator {
@@ -188,14 +176,21 @@ Row {
         Loader {
             anchors.fill: parent
 
-            sourceComponent: pagestack.currentPage.model.parentModel() == null ? libraryButtons : itemDetails
+            sourceComponent: {
+                var currentModel = pagestack.currentPage.model;
+                if (currentModel.parentModel() == null) {
+                    var audioLib = mainMenuModel.get(0).targetModel;
+                    var videoLib = mainMenuModel.get(1).targetModel;
+                    if (currentModel == audioLib || currentModel == videoLib) {
+                        return libraryButtons;
+                    } else {
+                        return undefined;
+                    }
+                } else {
+                    return itemDetails;
+                }
+            }
         }
-
-//        Item {
-//            height: parent.height - y - filterTextField.height - parent.spacing
-//            width: parent.width
-//        }
-
     }
 }
 
