@@ -143,7 +143,7 @@ Row {
             }
 
             onPressedChanged: {
-                if (!pressed) {
+                if (activePlayer.percentage !== value) {
                     activePlayer.seek(value);
                 }
             }

@@ -115,7 +115,7 @@ Item {
                     anchors.verticalCenter: parent.verticalCenter
                     stepSize: 5
                     onValueChanged: {
-                        if (pressed) {
+                        if (value !== xbmc.value) {
                             xbmc.volume = value;
                         }
                     }

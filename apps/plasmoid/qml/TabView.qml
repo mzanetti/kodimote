@@ -33,7 +33,6 @@ Item {
         }
         TabButton { tab: nowPlaying; text: i18n("Now Playing")}
         TabButton { tab: library; text: i18n("Library")}
-
     }
 
     TabGroup {
@@ -57,26 +56,5 @@ Item {
             width: root.width
             spacing: root.spacing
         }
-
     }
-
-//    VisualItemModel {
-//        id: tabModel
-//        NowPlaying {
-//            id: nowPlaying
-//            spacing: root.spacing
-//            height: view.height
-//            width: view.width
-//        }
-//        Rectangle {
-//            height: view.height
-//            width: view.width
-//            color: "blue"
-//        }
-//    }
-//    ListView {
-//        id: view
-//        anchors.fill: parent
-//        model: tabModel
-//    }
 }

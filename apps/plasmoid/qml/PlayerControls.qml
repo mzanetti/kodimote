@@ -39,7 +39,7 @@ Row {
         onClicked: player.stop()
     }
     MediaControlButton {
-        source: player ? (player.state == "playing" ? "media-playback-pause" : "media-playback-start") : "media-playback-start"
+        source: player ? (player.speed === 1 && player.state == "playing" ? "media-playback-pause" : "media-playback-start") : "media-playback-start"
         onClicked: player.playPause()
     }
     MediaControlButton {

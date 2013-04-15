@@ -119,10 +119,12 @@ Row {
                 Button {
                     text: qsTr("Update library")
                     width: parent.width
+                    onClicked: browserPage.model.scanForContent();
                 }
                 Button {
                     text: qsTr("Clean library")
                     width: parent.width
+                    onClicked: browserPage.model.clean();
                 }
             }
         }
