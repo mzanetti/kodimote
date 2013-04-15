@@ -5,8 +5,19 @@
 export DH_VERBOSE=1
 
 override_dh_auto_configure:
-	qmake --version
-	qmake xbmcremote.pro CONFIG+=package
+	mkdir ubuntu-touch
+	mkdir plasmoid
+	cd ubuntu-touch && qmake -qt=qt5 ../xbmcremote.pro CONFIG+=package
+	cd plasmoid && cmake ..
+
+override_dh_auto_build:
+	cd ubuntu-touch && make
+	cd plasmoid && make
+
+override_dh_clean:
+	dh_clean
+	rm -rf ubuntu-touch
+	rm -rf plasmoid
 
 override_dh_install:
 	dh_install --fail-missing

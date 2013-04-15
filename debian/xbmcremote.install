@@ -1,0 +1,3 @@
+ubuntu-touch/apps/ubuntu/xbmcremote /usr/bin/
+apps/ubuntu/qml/ /usr/share/xbmcremote/
+apps/ubuntu/xbmcremote.desktop /usr/share/applications/

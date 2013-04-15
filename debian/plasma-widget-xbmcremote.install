@@ -1,0 +1,3 @@
+plasmoid/lib/plasma_applet_xbmcremote.so /usr/lib/kde4/
+apps/plasmoid/qml/ /usr/share/kde4/apps/xbmcremote/
+apps/plasmoid/plasma-applet-xbmcremote.desktop /usr/share/kde4/services/
