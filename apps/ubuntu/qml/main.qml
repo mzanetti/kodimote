@@ -25,14 +25,14 @@ import Ubuntu.Components.Popups 0.1
 MainView {
     id: appWindow
 
-//    tools: mainLoader.item.tools
+    tools: mainLoader.item.tools
 
     property int pageMargins: units.gu(2)
 
-//    Rectangle {
-//        anchors.fill: parent
-//        color: "#ebebeb"
-//    }
+    Rectangle {
+        anchors.fill: parent
+        color: "#ebebeb"
+    }
 
     Loader {
         id: mainLoader

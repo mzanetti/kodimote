@@ -160,10 +160,10 @@ Page {
         cacheBuffer: 88 * 3
         model: filterModel
 
-        property bool draggedForSearch: browserPage.model.allowSearch && contentY < -100
+        property bool draggedForSearch: browserPage.model.allowSearch && contentY < -units.gu(15)
         property bool useThumbnails: settings.useThumbnails
 
-        property int itemHeight: browserPage.model.thumbnailFormat === XbmcModel.ThumbnailFormatPortrait ? 122 : 88
+        property int itemHeight: browserPage.model.thumbnailFormat === XbmcModel.ThumbnailFormatPortrait ? units.gu(8) : units.gu(6)
 
         onDraggedForSearchChanged: {
             searchBar.expanded = true;
@@ -175,6 +175,8 @@ Page {
             text: title
             subText: subtitle
             icon: thumbnail
+            __iconHeight: height - units.gu(0.5)
+            __iconWidth: browserPage.model.thumbnailFormat === XbmcModel.ThumbnailFormatPortrait ? __iconHeight * 3/4 : (browserPage.model.thumbnailFormat === XbmcModel.ThumbnailFormatLandscape ? __iconHeight * 16/9 : __iconHeight)
 
             onClicked: {
                 if(filetype === "directory") {
