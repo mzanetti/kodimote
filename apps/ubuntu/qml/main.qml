@@ -25,14 +25,14 @@ import Ubuntu.Components.Popups 0.1
 MainView {
     id: appWindow
 
-    tools: mainLoader.item.tools
+//    tools: mainLoader.item.tools
 
     property int pageMargins: units.gu(2)
 
-    Rectangle {
-        anchors.fill: parent
-        color: "#ebebeb"
-    }
+//    Rectangle {
+//        anchors.fill: parent
+//        color: "#ebebeb"
+//    }
 
     Loader {
         id: mainLoader
@@ -50,6 +50,7 @@ MainView {
                 text: "Not connected"
             }
             Button {
+                id: connectButton
                 anchors.top: connectionLabel.bottom
                 anchors.topMargin: units.gu(1)
                 anchors.horizontalCenter: parent.horizontalCenter
@@ -57,7 +58,11 @@ MainView {
                 width: units.gu(15)
                 onClicked: {
                     var sheet = Qt.createComponent("ConnectionSheet.qml");
-                    PopupUtils.open(sheet);
+                    var obj = PopupUtils.open(sheet, connectButton);
+                    obj.hostSelected.connect(function connectToHost(index) {
+                                                 xbmc.hostModel().connectToHost(index)
+                                                 PopupUtils.close(sheet);
+                                               })
                 }
             }
         }
@@ -65,6 +70,7 @@ MainView {
 
     Component {
         id: tabsComponent
+
         Tabs {
             id: tabs
             anchors.fill: parent
@@ -102,7 +108,7 @@ MainView {
                     id: nowPlayingPage
                     anchors.fill: parent
 
-                    timerActive: tabListView.currentIndex === 1
+                    timerActive: tabs.currentIndex === 1
                 }
             }
 
@@ -117,5 +123,4 @@ MainView {
             }
         }
     }
-
 }

@@ -10,9 +10,10 @@ DefaultSheet {
     doneButton: hostListView.currentIndex !== -1
     contentsWidth: units.gu(40)
     onDoneClicked: {
-        xbmc.hostModel().connectToHost(hostListView.currentIndex)
-        PopupUtils.close(sheet)
+        hostSelected(hostListView.currentIndex);
     }
+
+    signal hostSelected(int index);
 
     XbmcDiscovery {
     }

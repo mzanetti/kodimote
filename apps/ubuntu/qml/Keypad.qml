@@ -53,7 +53,7 @@ Page {
         Item {
             width: parent.width
             height: jumpPointRow.height
-            Rectangle { anchors.fill: parent; opacity: theme.inverted ? 0.1 : 0.05; radius: 20; color: theme.inverted ? "white" : "black" }
+            Rectangle { anchors.fill: parent; opacity: 0.05; radius: 20; color: "black" }
             Row {
                 id: jumpPointRow
                 width: parent.width
@@ -180,7 +180,7 @@ Page {
         Item {
             width: parent.width
             height: colorButtonRow.height
-            Rectangle { anchors.fill: parent; opacity: theme.inverted ? 0.1 : 0.05; radius: 20; color: theme.inverted ? "white" : "black" }
+            Rectangle { anchors.fill: parent; opacity: 0.05; radius: 20; color: "black" }
 
             Row {
                 id: colorButtonRow

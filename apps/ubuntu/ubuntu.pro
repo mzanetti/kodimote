@@ -21,7 +21,7 @@ package {
 
 } else {
     qml.files = qml
-    qml.path = apps/ubuntu/
+    qml.path = $$OUT_PWD
 
-    INSTALLS += target qml
+    INSTALLS += qml
 }
