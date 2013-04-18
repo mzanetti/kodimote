@@ -132,67 +132,70 @@ Item {
         }
     }
 
-    Grid {
+    Item {
         id: addHost
-        columns: 2
         anchors.fill: parent
-        spacing: root.spacing
+        Grid {
+            columns: 2
+            anchors.fill: parent
+            spacing: root.spacing
 
-        Behavior on anchors.bottomMargin {
-            NumberAnimation { duration: 200 }
-        }
+            Behavior on anchors.bottomMargin {
+                NumberAnimation { duration: 200 }
+            }
 
-        Label {
-            text: qsTr("Host:")
-        }
+            Label {
+                text: qsTr("Host:")
+            }
 
-        TextField {
-            id: hostnameTextField
-            width: parent.width - x
-        }
-        Label {
-            text: qsTr("Port:")
-        }
-        TextField {
-            id: portTextField
-            text: "8080"
-            inputMask: "00000"
-            width: parent.width - x
-        }
-        Label {
-            text: qsTr("MAC Address for WakeOnLan (optional):")
-        }
-        TextField {
-            id: macTextField
-            inputMask: "HH:HH:HH:HH:HH:HH;_"
-            width: parent.width - x
-        }
-    }
-    Row {
-        anchors {
-            right: parent.right
-            bottom: parent.bottom
-        }
-        spacing: root.spacing
-
-        Button {
-            text: qsTr("OK")
-            onClicked: {
-                print("macText", macTextField.text)
-                var hwaddr = ""
-                if (macTextField.text !== ":::::") {
-                    hwaddr = macTextField.text;
-                }
-                var newIndex = xbmc.hostModel().createHost(hostnameTextField.text, hostnameTextField.text, portTextField.text, hwaddr);
-                xbmc.hostModel().connectToHost(newIndex);
-                root.state = "connect";
-                root.hostSelected()
+            TextField {
+                id: hostnameTextField
+                width: parent.width - x
+            }
+            Label {
+                text: qsTr("Port:")
+            }
+            TextField {
+                id: portTextField
+                text: "8080"
+                inputMask: "00000"
+                width: parent.width - x
+            }
+            Label {
+                text: qsTr("MAC Address for WakeOnLan (optional):")
+            }
+            TextField {
+                id: macTextField
+                inputMask: "HH:HH:HH:HH:HH:HH;_"
+                width: parent.width - x
             }
         }
-        Button {
-            text: qsTr("Cancel")
-            onClicked: {
-                root.state = "connect";
+        Row {
+            anchors {
+                right: parent.right
+                bottom: parent.bottom
+            }
+            spacing: root.spacing
+
+            Button {
+                text: qsTr("OK")
+                onClicked: {
+                    print("macText", macTextField.text)
+                    var hwaddr = ""
+                    if (macTextField.text !== ":::::") {
+                        hwaddr = macTextField.text;
+                    }
+                    var newIndex = xbmc.hostModel().createHost(hostnameTextField.text, hostnameTextField.text, portTextField.text, hwaddr);
+                    xbmc.hostModel().connectToHost(newIndex);
+                    root.state = "connect";
+                    root.hostSelected()
+                }
+            }
+            Button {
+                text: qsTr("Cancel")
+                onClicked: {
+                    root.state = "connect";
+                }
             }
         }
     }
