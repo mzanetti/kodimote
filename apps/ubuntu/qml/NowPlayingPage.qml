@@ -111,39 +111,44 @@ Page {
                 text: currentItem ? currentItem.durationString : "00:00"
             }
 
-            Item {
+            PlayerControls {
                 id: controlButtons
                 anchors {left:parent.left; right: parent.right; bottom: progressBar.top }
-                height: 50
-                anchors.bottomMargin: 20
-                Rectangle {
-                    color: "green"
-                    height: 50; width: 50
-                    anchors.left: parent.left
-                    MouseArea {
-                        anchors.fill: parent
-                        onClicked: player.skipPrevious();
-                    }
-                }
-                Rectangle {
-                    color: "blue"
-                    height: 50; width: 50
-                    anchors.horizontalCenter: parent.horizontalCenter
-                    MouseArea {
-                        anchors.fill: parent
-                        onClicked: player.playPause();
-                    }
-                }
-                Rectangle {
-                    color: "red"
-                    height: 50; width: 50
-                    anchors.right: parent.right
-                    MouseArea {
-                        anchors.fill: parent
-                        onClicked: player.skipNext();
-                    }
-                }
             }
+
+//            Item {
+//                id: controlButtons
+//                anchors {left:parent.left; right: parent.right; bottom: progressBar.top }
+//                height: 50
+//                anchors.bottomMargin: 20
+//                Icon {
+//                    name: "media-skip-forward"
+//                    height: 50; width: 50
+//                    anchors.left: parent.left
+//                    MouseArea {
+//                        anchors.fill: parent
+//                        onClicked: player.skipPrevious();
+//                    }
+//                }
+//                Rectangle {
+//                    color: "blue"
+//                    height: 50; width: 50
+//                    anchors.horizontalCenter: parent.horizontalCenter
+//                    MouseArea {
+//                        anchors.fill: parent
+//                        onClicked: player.playPause();
+//                    }
+//                }
+//                Rectangle {
+//                    color: "red"
+//                    height: 50; width: 50
+//                    anchors.right: parent.right
+//                    MouseArea {
+//                        anchors.fill: parent
+//                        onClicked: player.skipNext();
+//                    }
+//                }
+//            }
 
             ProgressBar {
                 id: progressBar

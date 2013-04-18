@@ -66,11 +66,11 @@ Page {
                 }
                 MediaControlButton {
                     id: musicButton
-                    iconSource: "icon-m-music-video-all-songs"
+                    source: "icon-m-music-video-all-songs"
                     onClicked: xbmc.switchToWindow(Xbmc.GuiWindowMusic);
                 }
                 MediaControlButton {
-                    platformIconId: "toolbar-home"
+                    source: "toolbar-home"
                     onClicked: keys.home();
                 }
                 MediaControlButton {
@@ -92,7 +92,7 @@ Page {
             MediaControlButton {
                 id: backButton
                 anchors { left: parent.left; top: parent.top; margins: 10 }
-                platformIconId: "toolbar-main-view"
+                source: "toolbar-main-view"
                 rotation: -90
                 MouseArea {
                     width: parent.width * 2
@@ -109,8 +109,7 @@ Page {
 
             MediaControlButton {
                 anchors { right: parent.right; top: parent.top; margins: 10 }
-                platformIconId: usePictureControls ? "" : "toolbar-main-view"
-                iconSource: usePictureControls ? "icon-m-input-add" : ""
+                source: usePictureControls ? "" : "toolbar-main-view"
                 rotation: usePictureControls ? 0 : 45
                 MouseArea {
                     width: parent.width * 2
@@ -130,7 +129,6 @@ Page {
             MediaControlButton {
                 anchors { left: parent.left; bottom: parent.bottom; margins: 10 }
                 source: usePictureControls ? "" : "icons/icon-m-toolbar-info.png"
-                iconSource: usePictureControls ? "icon-m-image-edit-rotate-right" : ""
                 MouseArea {
                     width: parent.width * 2
                     height: parent.height * 1.2
@@ -148,8 +146,7 @@ Page {
             }
             MediaControlButton {
                 anchors { right: parent.right; bottom: parent.bottom; margins: 10 }
-                platformIconId: usePictureControls ? "" : "toolbar-view-menu"
-                iconSource: usePictureControls ? "icon-m-input-remove" : ""
+                source: usePictureControls ? "" : "toolbar-view-menu"
                 MouseArea {
                     width: parent.width * 2
                     height: parent.height * 1.2
