@@ -1,7 +1,7 @@
 project(xbmcremote)
 
 find_package(Qt4 REQUIRED)
-find_package(KDE4 "4.10.0" REQUIRED)
+find_package(KDE4 "4.9.2" REQUIRED)
 
 include (KDE4Defaults)
 include(MacroOptionalAddSubdirectory)
