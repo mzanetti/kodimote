@@ -53,5 +53,5 @@ contains(MEEGO_EDITION,harmattan) {
     qml.files = qml
     qml.path = $$OUT_PWD
 
-    INSTALLS += target qml
+    INSTALLS += qml
 }

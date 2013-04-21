@@ -505,7 +505,15 @@ Page {
                 anchors.verticalCenter: parent.verticalCenter
                 font.pixelSize: 28
                 text: model.title
-                elide: Text.ElideLeft
+                elide: Text.ElideRight
+                width: parent.width - x - busyIndicator.width
+            }
+            BusyIndicator {
+                id: busyIndicator
+                anchors.verticalCenter: parent.verticalCenter
+                platformStyle: BusyIndicatorStyle { size: "medium" }
+                running: model.busy
+                visible: model.busy
             }
         }
     }
@@ -528,13 +536,5 @@ Page {
                 }
             }
         }
-    }
-
-    BusyIndicator {
-        id: busyIndicator
-        anchors.centerIn: parent
-        platformStyle: BusyIndicatorStyle { size: "large" }
-        running: model.busy
-        visible: model.busy
     }
 }

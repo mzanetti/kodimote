@@ -39,7 +39,7 @@ Songs::~Songs()
     qDebug() << "deleting songs model";
 }
 
-void Songs::refresh()
+void Songs::refresh(int start, int end)
 {
     QVariantMap params;
 
@@ -67,6 +67,11 @@ void Songs::refresh()
     }
     sort.insert("order", "ascending");
     params.insert("sort", sort);
+
+    QVariantMap limits;
+    limits.insert("start", start);
+    limits.insert("end", end);
+    params.insert("limits", limits);
 
     if (m_albumId == XbmcModel::ItemIdRecentlyAdded && m_artistId == XbmcModel::ItemIdRecentlyAdded) {
         XbmcConnection::sendCommand("AudioLibrary.GetRecentlyAddedSongs", params, this, "listReceived");
@@ -128,6 +133,10 @@ void Songs::download(int index, const QString &path)
 
 void Songs::listReceived(const QVariantMap &rsp)
 {
+    int startItem = rsp.value("result").toMap().value("limits").toMap().value("start").toInt();
+    int endItem = rsp.value("result").toMap().value("limits").toMap().value("end").toInt();
+    int totalItems = rsp.value("result").toMap().value("limits").toMap().value("total").toInt();
+
     QList<XbmcModelItem*> list;
 //    qDebug() << "got songs:" << rsp.value("result");
     QVariantList responseList = rsp.value("result").toMap().value("songs").toList();
@@ -151,12 +160,18 @@ void Songs::listReceived(const QVariantMap &rsp)
         item->setPlayable(true);
         list.append(item);
     }
-    beginInsertRows(QModelIndex(), 0, list.count() - 1);
+    qDebug() << "inserting items"<< m_list.count() << m_list.count() + list.count() - 1 << totalItems;
+    beginInsertRows(QModelIndex(), m_list.count(), m_list.count() + list.count() - 1);
     foreach(XbmcModelItem *item, list) {
         m_list.append(item);
     }
     endInsertRows();
-    setBusy(false);
+
+    if (endItem < totalItems) {
+        refresh(endItem + 1, qMin(endItem + 200, totalItems));
+    } else {
+        setBusy(false);
+    }
 }
 
 void Songs::detailsReceived(const QVariantMap &rsp)

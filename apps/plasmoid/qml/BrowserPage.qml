@@ -34,21 +34,24 @@ Item {
         model.exit();
     }
 
-    Row {
+    Item {
         id: header
         anchors {
             left: parent.left
             right: parent.right
             top: parent.top
         }
-
-        spacing: root.spacing / 2
+        height: childrenRect.height
 
         MediaControlButton {
+            id: backButton
             source: "go-previous"
             enabled: root.model ? root.model.parentModel() !== null : false
             width: theme.iconSizes.small
-            anchors.verticalCenter: parent.verticalCenter
+            anchors {
+                left: parent.left
+                verticalCenter: parent.verticalCenter
+            }
             onClicked: {
                 pagestack.pop()
                 root.destroy(); // Seems pages are not deleted on pop()... huh?
@@ -57,13 +60,34 @@ Item {
         Label {
             text: root.model ? root.model.title : ""
             font.weight: Font.Bold
-            width: parent.width - x - filterButton.width - parent.spacing
+            anchors {
+                left: backButton.right
+                right: busyIndicator.left
+                margins: root.spacing / 2
+                verticalCenter: parent.verticalCenter
+            }
+            elide: Text.ElideRight
         }
+
+        BusyIndicator {
+            id: busyIndicator
+            anchors {
+                right: parent.right
+                margins: filterButton.width + root.spacing / 2
+                verticalCenter: parent.verticalCenter
+            }
+            running: root.model ? root.model.busy : false
+            visible: running
+        }
+
         MediaControlButton {
             id: filterButton
             source: "view-filter"
             width: theme.iconSizes.small
-            anchors.verticalCenter: parent.verticalCenter
+            anchors {
+                right: parent.right
+                verticalCenter: parent.verticalCenter
+            }
             onClicked: {
                 filterTextField.searchEnabled = true;
                 filterTextField.forceActiveFocus();
@@ -195,12 +219,6 @@ Item {
                 right: listView.right
                 bottom: listView.bottom
             }
-        }
-
-        BusyIndicator {
-            anchors.centerIn: parent
-            running: root.model ? root.model.busy : false
-            visible: running
         }
 
         Keys.onPressed: {

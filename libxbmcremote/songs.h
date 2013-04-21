@@ -43,7 +43,8 @@ public:
     Q_INVOKABLE void download(int index, const QString &path);
 
 public slots:
-    void refresh();
+    void refresh() { refresh(0, 200); }
+    void refresh(int start, int end);
 
 private slots:
     void listReceived(const QVariantMap &rsp);
