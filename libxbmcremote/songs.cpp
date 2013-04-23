@@ -26,6 +26,7 @@
 #include "xbmcconnection.h"
 #include "libraryitem.h"
 #include "xbmcdownload.h"
+#include "xdebug.h"
 
 Songs::Songs(int artistid, int albumid, XbmcModel *parent):
     XbmcLibrary(parent),
@@ -72,6 +73,7 @@ void Songs::refresh(int start, int end)
     limits.insert("start", start);
     limits.insert("end", end);
     params.insert("limits", limits);
+    xDebug(XDAREA_LIBRARY) << "requesting items. From:" << start << "to:" << end;
 
     if (m_albumId == XbmcModel::ItemIdRecentlyAdded && m_artistId == XbmcModel::ItemIdRecentlyAdded) {
         XbmcConnection::sendCommand("AudioLibrary.GetRecentlyAddedSongs", params, this, "listReceived");
@@ -160,7 +162,7 @@ void Songs::listReceived(const QVariantMap &rsp)
         item->setPlayable(true);
         list.append(item);
     }
-    qDebug() << "inserting items"<< m_list.count() << m_list.count() + list.count() - 1 << totalItems;
+    xDebug(XDAREA_LIBRARY) << "inserting items. FromIndex:"<< m_list.count() << "toIndex:" << m_list.count() + list.count() - 1 << "Total:" << totalItems;
     beginInsertRows(QModelIndex(), m_list.count(), m_list.count() + list.count() - 1);
     foreach(XbmcModelItem *item, list) {
         m_list.append(item);
@@ -168,7 +170,7 @@ void Songs::listReceived(const QVariantMap &rsp)
     endInsertRows();
 
     if (endItem < totalItems) {
-        refresh(endItem + 1, qMin(endItem + 200, totalItems));
+        refresh(endItem, qMin(endItem + 200, totalItems));
     } else {
         setBusy(false);
     }

@@ -23,39 +23,26 @@ import Ubuntu.Components 0.1
 
 Item {
     id: root
-    width: units.gu(2)
-    height: units.gu(2)
+    width: units.gu(4)
+    height: units.gu(4)
 
     property string source
     property bool enabled: true
     property bool selected: false
-    property string text: ""
-    property alias font: label.font
 
     signal clicked()
 
-    Row {
+    UbuntuShape {
         anchors.fill: parent
-
-        Icon {
-            anchors {
-                top: parent.top
-                bottom: parent.bottom
-            }
-            width: height
-            name: root.source
-        }
-        Label {
-            id: label
-            anchors.verticalCenter: parent.verticalCenter
-            text: root.text
+        image: Image {
+            anchors.fill: parent
+            source: root.source
         }
     }
 
     MouseArea {
         anchors.fill: parent
         onClicked: {
-            rumbleEffect.start(2);
             root.clicked();
         }
     }

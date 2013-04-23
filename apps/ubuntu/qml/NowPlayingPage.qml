@@ -23,12 +23,14 @@ import Ubuntu.Components 0.1
 import Xbmc 1.0
 
 Page {
-    id: mainPage
+    id: root
     property QtObject player: xbmc.activePlayer
     property QtObject playlist: player ? player.playlist() : null
     property QtObject currentItem: player ? player.currentItem : null
 
     property string orientation: width > height ? "landscape" : "portrait"
+
+    property int spacing: units.gu(1)
 
     property ActionList tools: ActionList {
         Action {
@@ -41,7 +43,7 @@ Page {
 
     onPlayerChanged: {
         if(player === null) {
-            if(mainPage.status === PageStatus.Active) {
+            if(root.status === PageStatus.Active) {
                 pageStack.pop();
             }
         }
@@ -70,14 +72,14 @@ Page {
     Grid {
         id: mainGrid
         anchors.fill: parent
-        columns: mainPage.orientation == "portrait" ? 1 : 2
+        columns: root.orientation == "portrait" ? 1 : 2
         spacing: appWindow.pageMargins
         anchors.margins: appWindow.pageMargins
 
         Item {
             id: imageItem
-            height: mainPage.orientation == "portrait" ? parent.width : parent.height
-            width: mainPage.orientation == "portrait" ? parent.width : height
+            height: root.orientation == "portrait" ? parent.width : parent.height
+            width: root.orientation == "portrait" ? parent.width : height
             UbuntuShape {
                 // iw : ih = uw : uh
                 height: parent.height
@@ -85,7 +87,7 @@ Page {
                 anchors.horizontalCenter: parent.horizontalCenter
                 radius: "medium"
                 color: "black"
-                //image:
+                image:
                     Image {
                         anchors.fill: parent
                     source: !currentItem || currentItem.thumbnail.length === 0 ? "" : currentItem.thumbnail
@@ -96,8 +98,8 @@ Page {
 
         Item {
             id: textItem
-            width: mainPage.orientation == "portrait" ? parent.width : parent.width - imageItem.width - parent.spacing
-            height: mainPage.orientation == "portrait" ? parent.height - imageItem.height - parent.spacing : parent.height
+            width: root.orientation == "portrait" ? parent.width : parent.width - imageItem.width - parent.spacing
+            height: root.orientation == "portrait" ? parent.height - imageItem.height - parent.spacing : parent.height
             Label {
                 id: currentTime
                 anchors.left: parent.left
@@ -111,49 +113,10 @@ Page {
                 text: currentItem ? currentItem.durationString : "00:00"
             }
 
-            PlayerControls {
-                id: controlButtons
-                anchors {left:parent.left; right: parent.right; bottom: progressBar.top }
-            }
-
-//            Item {
-//                id: controlButtons
-//                anchors {left:parent.left; right: parent.right; bottom: progressBar.top }
-//                height: 50
-//                anchors.bottomMargin: 20
-//                Icon {
-//                    name: "media-skip-forward"
-//                    height: 50; width: 50
-//                    anchors.left: parent.left
-//                    MouseArea {
-//                        anchors.fill: parent
-//                        onClicked: player.skipPrevious();
-//                    }
-//                }
-//                Rectangle {
-//                    color: "blue"
-//                    height: 50; width: 50
-//                    anchors.horizontalCenter: parent.horizontalCenter
-//                    MouseArea {
-//                        anchors.fill: parent
-//                        onClicked: player.playPause();
-//                    }
-//                }
-//                Rectangle {
-//                    color: "red"
-//                    height: 50; width: 50
-//                    anchors.right: parent.right
-//                    MouseArea {
-//                        anchors.fill: parent
-//                        onClicked: player.skipNext();
-//                    }
-//                }
-//            }
-
             ProgressBar {
                 id: progressBar
                 anchors { left: parent.left; right: parent.right; bottom: currentTime.top }
-                anchors.bottomMargin: 10
+                anchors.bottomMargin: root.spacing
                 width: 300
                 //height: gu.height(1)
                 minimumValue: 0
@@ -190,8 +153,8 @@ Page {
                 MouseArea {
                     id: progressBarMouseArea
                     anchors.fill: progressBar
-                    anchors.topMargin: -10
-                    anchors.bottomMargin: -10
+                    anchors.topMargin: -root.spacing
+                    anchors.bottomMargin: -root.spacing
                     preventStealing: true
 
                     onPositionChanged: {
@@ -226,12 +189,19 @@ Page {
                 }
             }
 
+            PlayerControls {
+                id: controlButtons
+                anchors {left:parent.left; right: parent.right; bottom: progressBar.top }
+                anchors.bottomMargin: root.spacing
+                player: root.player
+            }
+
             Row {
                 id: albumRow
                 anchors.bottom: controlButtons.top
                 height: albumLabel.height
                 anchors.left: parent.left
-                anchors.bottomMargin: 10
+                anchors.bottomMargin: root.spacing
                 spacing: units.gu(.5)
                 Label {
                     id: albumLabel
@@ -266,7 +236,7 @@ Page {
 
             Label {
                 id: artistLabel
-                anchors.bottomMargin: 6
+//                anchors.bottomMargin: root.spacing
                 anchors.left: parent.left
                 anchors.bottom: albumRow.top
                 anchors.right: infoButton.left
@@ -291,7 +261,7 @@ Page {
                 //anchors.right: trackNumLabel.right
                 width: parent.width - trackNumLabel.width
                 anchors.bottom: artistLabel.top
-                anchors.bottomMargin: 6
+//                anchors.bottomMargin: root.spacing
                 text: currentItem ? currentItem.title : ""
                 elide: Text.ElideRight
                 font.bold: true
@@ -300,7 +270,7 @@ Page {
                 id: trackNumLabel
                 anchors.right: parent.right
                 anchors.bottom: artistLabel.top
-                anchors.bottomMargin: 6
+//                anchors.bottomMargin: root.spacing
                 text: playlist ? playlist.currentTrackNumber + "/" + playlist.count : "0/0"
             }
         }

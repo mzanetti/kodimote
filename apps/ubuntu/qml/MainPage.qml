@@ -27,23 +27,9 @@ Page {
 //    anchors.margins: appWindow.pageMargin
     title: qsTr("XBMC on %1").arg(xbmc.connectedHostName)
 
+    property int spacing
 
-    tools: ToolbarActions {
-        Action {
-            text: "settings"
-//            iconSource: Qt.resolvedUrl("1.png")
-            onTriggered: print("First action")
-         }
-
-        Action {
-            text: "Connect..."
-            onTriggered: {
-                var sheet = Qt.createComponent("ConnectionSheet.qml");
-                PopupUtils.open(sheet);
-            }
-        }
-    }
-
+    tools: mainTools
 
     Component.onCompleted: {
         if(settings.musicShowsFiles) {
@@ -71,13 +57,19 @@ Page {
             subtitle: ""
             mode: "files"
         }
+        ListElement {
+            icon: "icon-m-content-image"
+            subtitle: ""
+            mode: "library"
+        }
         // workaround: its not possible to have qsTr() in ListElements for now...
         function title(index) {
             if (title["text"] === undefined) {
                 title.text = [
                     qsTr("Music"),
                     qsTr("Videos"),
-                    qsTr("Pictures")
+                    qsTr("Pictures"),
+                    qsTr("TV Channels"),
                 ]
             }
             return title.text[index];
@@ -90,42 +82,24 @@ Page {
         anchors { top: parent.top; left: parent.left; right: parent.right; bottom: parent.bottom }
 //        header: headerLayout
         model: mainMenuModel
-        spacing: 20
+        spacing: units.gu(2)
         anchors.margins: appWindow.pageMargins
+        interactive: false
         property int currentSelected
 
-        delegate:  Item {
+        delegate:  UbuntuShape {
             id: listItem
-            height: 150
+            height: (listView.height) / listView.count - listView.spacing * 2
             width: parent.width
-            clip: true
 
-            Rectangle {
-                id: background
-                anchors.fill: parent
-                opacity: 0.05
-                // Fill page borders
-//                anchors.leftMargin: -mainPage.anchors.leftMargin
-//                anchors.rightMargin: -mainPage.anchors.rightMargin
-                color: "black"
-                radius: 20
-            }
-
-            BorderImage {
-                id: backgroundPressed
-                anchors.fill: parent
-                // Fill page borders
-                visible: mouseArea.pressed
-//                source: "image://theme/meegotouch-list-background-pressed-center"
-            }
-
+            color: Qt.rgba(0, 0, 0, mouseArea.pressed ? 0.1 : 0.05)
 
             Row {
                 id: textRow
                 anchors.fill: parent
                 height: 150
-                spacing: 20
-                anchors.margins: 20
+                spacing: units.gu(4)
+                anchors.margins: units.gu(4)
 
 
                 Image {
@@ -141,25 +115,16 @@ Page {
                         id: mainText
                         text: listView.model.title(index)
                         font.weight: Font.Bold
-                        font.pixelSize: 26
+                        fontSize: "large"
                     }
 
                     Label {
                         id: subText
                         text: mode === "library" ? qsTr("Library") : qsTr("Files")
-                        font.weight: Font.Light
-                        font.pixelSize: 24
-                        color: "#848684"
                         visible: text != ""
                     }
                 }
             }
-//            Image {
-//                id: arrow
-//                source: "image://theme/icon-m-common-drilldown-arrow" + (theme.inverted ? "-inverse" : "")
-//                anchors.right: parent.right;
-//                anchors.verticalCenter: parent.verticalCenter
-//            }
 
             MouseArea {
                 id: mouseArea
@@ -196,10 +161,10 @@ Page {
                             newModel = xbmc.shares("pictures");
                             console.log("created model: " + newModel);
                             break;
-//                        case 3:
-//                            newModel = xbmc.shares("video");
-//                            console.log("created model: " + newModel);
-//                            break;
+                        case 3:
+                            newModel = xbmc.channelGroups();
+                            console.log("created model: " + newModel);
+                            break;
                         }
                         console.log("setting model: " + newModel);
                         pageStack.push(component, {model: newModel});

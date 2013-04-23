@@ -91,18 +91,12 @@ Item {
         }
     }
 
-    Item {
+    UbuntuShape {
         id: bgImage
         anchors.centerIn: parent
         width: parent.width
         height: width * 0.75
-
-        Rectangle {
-            anchors.fill: parent
-            opacity: theme.inverted ? 0.1 : 0.05
-            radius: 20
-            color: theme.inverted ? "white" : "black"
-        }
+        color: Qt.rgba(0, 0, 0, 0.05)
 
         Image {
             anchors.fill: parent

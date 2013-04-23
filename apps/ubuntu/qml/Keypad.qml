@@ -23,13 +23,15 @@ import Ubuntu.Components 0.1
 import Xbmc 1.0
 
 Page {
-    id: keyPad
+    id: root
 
     property QtObject player: xbmc.activePlayer
     property QtObject picturePlayer: xbmc.picturePlayer()
 
     property bool usePictureControls: xbmc.picturePlayerActive && !pictureControlsOverride
     property bool pictureControlsOverride: false
+
+    property int spacing: units.gu(2)
 
     tools: ToolbarActions {
         Action {
@@ -46,18 +48,29 @@ Page {
     property QtObject keys: xbmc.keys()
 
     Column {
-        width: parent.width - 30
-        anchors.centerIn: parent
-        spacing: 30
+        anchors {
+            left: parent.left
+            right: parent.right
+            margins: root.spacing
+            verticalCenter: parent.verticalCenter
+        }
+        spacing: root.spacing
 
-        Item {
+        UbuntuShape {
             width: parent.width
-            height: jumpPointRow.height
-            Rectangle { anchors.fill: parent; opacity: 0.05; radius: 20; color: "black" }
+            height: musicButton.height + root.spacing * 2
+            color: Qt.rgba(0, 0, 0, 0.05)
+
             Row {
                 id: jumpPointRow
-                width: parent.width
-                anchors.horizontalCenter: parent.horizontalCenter
+                anchors {
+                    left: parent.left
+                    right: parent.right
+                    margins: root.spacing
+                    verticalCenter: parent.verticalCenter
+                }
+                height: musicButton.height
+
                 spacing: (width - musicButton.width * 5) / 4
 
                 MediaControlButton {
@@ -91,9 +104,9 @@ Page {
 
             MediaControlButton {
                 id: backButton
-                anchors { left: parent.left; top: parent.top; margins: 10 }
+                anchors { left: parent.left; top: parent.top; margins: root.spacing }
                 source: "toolbar-main-view"
-                rotation: -90
+//                rotation: -90
                 MouseArea {
                     width: parent.width * 2
                     height: parent.height * 1.2
@@ -108,9 +121,9 @@ Page {
             }
 
             MediaControlButton {
-                anchors { right: parent.right; top: parent.top; margins: 10 }
+                anchors { right: parent.right; top: parent.top; margins: root.spacing }
                 source: usePictureControls ? "" : "toolbar-main-view"
-                rotation: usePictureControls ? 0 : 45
+//                rotation: usePictureControls ? 0 : 45
                 MouseArea {
                     width: parent.width * 2
                     height: parent.height * 1.2
@@ -127,7 +140,7 @@ Page {
                 }
             }
             MediaControlButton {
-                anchors { left: parent.left; bottom: parent.bottom; margins: 10 }
+                anchors { left: parent.left; bottom: parent.bottom; margins: root.spacing }
                 source: usePictureControls ? "" : "icons/icon-m-toolbar-info.png"
                 MouseArea {
                     width: parent.width * 2
@@ -145,7 +158,7 @@ Page {
                 }
             }
             MediaControlButton {
-                anchors { right: parent.right; bottom: parent.bottom; margins: 10 }
+                anchors { right: parent.right; bottom: parent.bottom; margins: root.spacing }
                 source: usePictureControls ? "" : "toolbar-view-menu"
                 MouseArea {
                     width: parent.width * 2
@@ -165,19 +178,31 @@ Page {
             }
         }
 
-        PlayerControls {
-            id: controlButtons
-            anchors.horizontalCenter: parent.horizontalCenter
-            anchors.bottomMargin: 20
-            width: parent.width
-            player: usePictureControls ? keyPad.picturePlayer : keyPad.player
-            Rectangle { anchors.fill: controlButtons; opacity: theme.inverted ? 0.1 : 0.05; radius: 20; color: theme.inverted ? "white" : "black"; z: -1 }
+        UbuntuShape {
+            anchors {
+                left: parent.left
+                right: parent.right
+            }
+            height: controlButtons.height + root.spacing * 2
+            color: Qt.rgba(0, 0, 0, 0.05)
+
+            PlayerControls {
+                id: controlButtons
+                anchors {
+                    left: parent.left
+                    right: parent.right
+                    margins: root.spacing
+                    verticalCenter: parent.verticalCenter
+                }
+
+                player: usePictureControls ? root.picturePlayer : root.player
+            }
         }
 
-        Item {
+        UbuntuShape {
             width: parent.width
-            height: colorButtonRow.height
-            Rectangle { anchors.fill: parent; opacity: 0.05; radius: 20; color: "black" }
+            height: colorButtonRow.height + root.spacing * 2
+            color: Qt.rgba(0, 0, 0, 0.05)
 
             Row {
                 id: colorButtonRow
@@ -185,16 +210,16 @@ Page {
                 anchors.centerIn: parent
                 height: controlButtons.height
                 spacing: parent.width / 8
-                Rectangle { height: 20; width: parent.spacing; color: "red"; anchors.verticalCenter: parent.verticalCenter; radius: 2
+                UbuntuShape { height: units.gu(2); width: parent.spacing; color: "red"; anchors.verticalCenter: parent.verticalCenter;
                     MouseArea { anchors.fill: parent; anchors.margins: -10; onClicked: { rumbleEffect.start(2); keys.red() } }
                 }
-                Rectangle { height: 20; width: parent.spacing; color: "green"; anchors.verticalCenter: parent.verticalCenter; radius: 2
+                UbuntuShape { height: units.gu(2); width: parent.spacing; color: "green"; anchors.verticalCenter: parent.verticalCenter;
                     MouseArea { anchors.fill: parent; anchors.margins: -10; onClicked: { rumbleEffect.start(2); keys.green() } }
                 }
-                Rectangle { height: 20; width: parent.spacing; color: "yellow"; anchors.verticalCenter: parent.verticalCenter; radius: 2
+                UbuntuShape { height: units.gu(2); width: parent.spacing; color: "yellow"; anchors.verticalCenter: parent.verticalCenter;
                     MouseArea { anchors.fill: parent; anchors.margins: -10; onClicked: { rumbleEffect.start(2); keys.yellow() } }
                 }
-                Rectangle { height: 20; width: parent.spacing; color: "blue"; anchors.verticalCenter: parent.verticalCenter; radius: 2
+                UbuntuShape { height: units.gu(2); width: parent.spacing; color: "blue"; anchors.verticalCenter: parent.verticalCenter;
                     MouseArea { anchors.fill: parent; anchors.margins: -10; onClicked: { rumbleEffect.start(2); keys.blue() } }
                 }
             }

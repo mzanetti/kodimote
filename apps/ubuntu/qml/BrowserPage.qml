@@ -24,18 +24,12 @@ import Ubuntu.Components.ListItems 0.1 as ListItems
 import Xbmc 1.0
 
 Page {
-    id: browserPage
-    property variant model
+    id: root
     title: model.title
+    tools: browsingTools
 
-    tools: ToolbarActions {
-        Action {
-            text: "home"
-            onTriggered: {
-                pageStack.home();
-            }
-        }
-    }
+    property variant model
+    property int spacing: units.gu(1)
 
     Component.onCompleted: {
         console.log("setting model " + model)
@@ -53,11 +47,13 @@ Page {
         Row {
             width: listView.width
             height: 20
+            spacing: root.spacing
+
             Item {
-                width: listView.width - 25
+                width: listView.width - sectionHeadingLabel.width - parent.spacing
                 height: parent.height
                 Rectangle {
-                    width: parent.width - 50
+                    width: parent.width - root.spacing * 2
                     height: 1
                     color: "#848684"
                     anchors.centerIn: parent
@@ -65,9 +61,10 @@ Page {
             }
 
             Label {
+                id: sectionHeadingLabel
                 text: section
                 font.bold: true
-                font.pixelSize: 16
+                fontSize: "small"
                 anchors.verticalCenter: parent.verticalCenter
                 color: "#848684"
             }
@@ -79,8 +76,7 @@ Page {
         anchors.top: parent.top
         anchors.topMargin: listView.currentItem.state == "expanded" ? -height : 0
         width: parent.width
-        //height: 80
-        height: expanded ? 80 : 0
+        height: expanded ? searchTextField.height + root.spacing * 2 : 0
         property bool expanded
 
         Timer {
@@ -103,31 +99,32 @@ Page {
     TextField {
         id: searchTextField
         anchors { left: parent.left; right: parent.right; bottom: listView.top }
-        anchors.leftMargin: 10
-        anchors.rightMargin: 10
-        anchors.bottomMargin: listView.contentY + (80 - height) / 2
+        anchors.leftMargin: root.spacing
+        anchors.rightMargin: root.spacing
+        anchors.bottomMargin: listView.contentY + root.spacing
         opacity: searchBar.expanded ? 1 : 0
-        enabled: opacity == 1
+        enabled: searchBar.expanded
+        z: 2
 
         Keys.onReturnPressed: {
             listView.forceActiveFocus();
             platformCloseSoftwareInputPanel();
         }
 
-        Image {
-            id: searchimage
-            source: searchTextField.text.length == 0 ? "image://theme/icon-m-common-search" : "image://theme/icon-m-browser-clear"
-            anchors.right: parent.right
-            anchors.rightMargin: 10
-            anchors.verticalCenter: parent.verticalCenter
+//        Image {
+//            id: searchimage
+//            source: searchTextField.text.length == 0 ? "image://theme/icon-m-common-search" : "image://theme/icon-m-browser-clear"
+//            anchors.right: parent.right
+//            anchors.rightMargin: 10
+//            anchors.verticalCenter: parent.verticalCenter
 
-            MouseArea {
-                anchors.fill: parent
-                anchors.margins: -20
-                onClicked: searchTextField.text = "";
-            }
+//            MouseArea {
+//                anchors.fill: parent
+//                anchors.margins: -20
+//                onClicked: searchTextField.text = "";
+//            }
 
-        }
+//        }
 
         Behavior on opacity {
             NumberAnimation { duration: 300; easing.type: Easing.OutQuad }
@@ -140,7 +137,7 @@ Page {
 
     XbmcFilterModel {
         id: filterModel
-        model: browserPage.model
+        model: root.model
         caseSensitive: false
 
         // When the model is filtered, contentY is messed up sometimes
@@ -157,39 +154,71 @@ Page {
         //snapMode: ListView.SnapToItem
         //        header: listHeader
         highlightFollowsCurrentItem: true
-        cacheBuffer: 88 * 3
+        cacheBuffer: itemHeight * 3
         model: filterModel
 
-        property bool draggedForSearch: browserPage.model.allowSearch && contentY < -units.gu(15)
+        property bool draggedForSearch: root.model.allowSearch && contentY < -units.gu(15)
         property bool useThumbnails: settings.useThumbnails
 
-        property int itemHeight: browserPage.model.thumbnailFormat === XbmcModel.ThumbnailFormatPortrait ? units.gu(8) : units.gu(6)
+        property int itemHeight: root.model.thumbnailFormat === XbmcModel.ThumbnailFormatPortrait ? units.gu(10) : units.gu(8)
 
         onDraggedForSearchChanged: {
             searchBar.expanded = true;
         }
 
-        delegate:  ListItems.Subtitled {
-            height: listView.itemHeight
-            width: parent.width
-            text: title
-            subText: subtitle
-            icon: thumbnail
-            __iconHeight: height - units.gu(0.5)
-            __iconWidth: browserPage.model.thumbnailFormat === XbmcModel.ThumbnailFormatPortrait ? __iconHeight * 3/4 : (browserPage.model.thumbnailFormat === XbmcModel.ThumbnailFormatLandscape ? __iconHeight * 16/9 : __iconHeight)
+        delegate:  ListItems.Empty {
+            __height: listView.itemHeight
+            width: listView.width
+
+            UbuntuShape {
+                id: thumbnailImage
+                anchors {
+                    left: parent.left
+                    leftMargin: root.spacing * 2
+                    verticalCenter: parent.verticalCenter
+                }
+
+                height: parent.height - root.spacing * 2
+                width: root.model.thumbnailFormat === XbmcModel.ThumbnailFormatPortrait ? height * 3/4 : (root.model.thumbnailFormat === XbmcModel.ThumbnailFormatLandscape ? height * 16/9 : height)
+                image: Image {
+                    anchors.fill: parent
+                    source: thumbnail
+                }
+            }
+
+            Column {
+                anchors {
+                    left: thumbnailImage.right
+                    leftMargin: root.spacing
+                    right: parent.right
+                    rightMargin: root.spacing * 2
+                    verticalCenter: parent.verticalCenter
+                }
+                Label {
+                    text: title
+                    anchors { left: parent.left; right: parent.right }
+                    elide: Text.ElideRight
+                }
+                Label {
+                    text: subtitle
+                    anchors { left: parent.left; right: parent.right }
+                    fontSize: "small"
+                    elide: Text.ElideRight
+                }
+            }
 
             onClicked: {
                 if(filetype === "directory") {
                     var component = Qt.createComponent("BrowserPage.qml")
                     if (component.status === Component.Ready) {
-                        var newModel = browserPage.model.enterItem(filterModel.mapToSourceIndex(index));
+                        var newModel = root.model.enterItem(filterModel.mapToSourceIndex(index));
                         newModel.ignoreArticle = settings.ignoreArticle;
                         pageStack.push(component, {model: newModel});
                     } else {
                         console.log("Error loading component:", component.errorString());
                     }
                 } else {
-                    browserPage.model.playItem(filterModel.mapToSourceIndex(index));
+                    root.model.playItem(filterModel.mapToSourceIndex(index));
                 }
             }
 
@@ -210,8 +239,8 @@ Page {
 //                onPressed: listView.currentIndex = index
 
 //                onPressAndHold: {
-//                    if(browserPage.model.hasDetails()) {
-//                        browserPage.model.fetchItemDetails(filterModel.mapToSourceIndex(listView.currentIndex))
+//                    if(root.model.hasDetails()) {
+//                        root.model.fetchItemDetails(filterModel.mapToSourceIndex(listView.currentIndex))
 //                        listItem.state = "expanded"
 //                        print("expandingfromVariant:", listView.currentIndex, listView.count)
 //                    } else if(playable) {
@@ -226,14 +255,14 @@ Page {
 //                        if(filetype === "directory") {
 //                            var component = Qt.createComponent("BrowserPage.qml")
 //                            if (component.status === Component.Ready) {
-//                                var newModel = browserPage.model.enterItem(filterModel.mapToSourceIndex(index));
+//                                var newModel = root.model.enterItem(filterModel.mapToSourceIndex(index));
 //                                newModel.ignoreArticle = settings.ignoreArticle;
 //                                pageStack.push(component, {model: newModel});
 //                            } else {
 //                                console.log("Error loading component:", component.errorString());
 //                            }
 //                        } else {
-//                            browserPage.model.playItem(filterModel.mapToSourceIndex(index));
+//                            root.model.playItem(filterModel.mapToSourceIndex(index));
 //                        }
 //                    }
 //                }
@@ -243,8 +272,8 @@ Page {
 //                id: background
 //                anchors.fill: parent
 //                // Fill page borders
-//                //                anchors.leftMargin: -browserPage.anchors.leftMargin
-//                //                anchors.rightMargin: -browserPage.anchors.rightMargin
+//                //                anchors.leftMargin: -root.anchors.leftMargin
+//                //                anchors.rightMargin: -root.anchors.rightMargin
 //                visible: mouseArea.pressed
 //                source: "image://theme/meegotouch-list-background-pressed-center"
 //            }
@@ -261,14 +290,14 @@ Page {
 
 //            Thumbnail {
 //                id: thumbnailImage
-//                height: browserPage.model.thumbnailFormat === XbmcModel.ThumbnailFormatPortrait ? 120 : (browserPage.model.thumbnailFormat === XbmcModel.ThumbnailFormatNone ? 0 : 86 )
-//                width: browserPage.model.thumbnailFormat === XbmcModel.ThumbnailFormatPortrait ? 80 : (browserPage.model.thumbnailFormat === XbmcModel.ThumbnailFormatLandscape ? 152 : height)
+//                height: root.model.thumbnailFormat === XbmcModel.ThumbnailFormatPortrait ? 120 : (root.model.thumbnailFormat === XbmcModel.ThumbnailFormatNone ? 0 : 86 )
+//                width: root.model.thumbnailFormat === XbmcModel.ThumbnailFormatPortrait ? 80 : (root.model.thumbnailFormat === XbmcModel.ThumbnailFormatLandscape ? 152 : height)
 
 //                anchors.left: highlightBar.right
 //                anchors.leftMargin: 2
 //                anchors.top: parent.top
 //                anchors.topMargin: 1
-//                visible: listView.useThumbnails && browserPage.model.thumbnailFormat !== XbmcModel.ThumbnailFormatNone
+//                visible: listView.useThumbnails && root.model.thumbnailFormat !== XbmcModel.ThumbnailFormatNone
 
 //                artworkSource: thumbnail
 //                defaultText: title
@@ -359,15 +388,15 @@ Page {
 
 //                        onPlayItem: {
 //                            print("playItem()!")
-//                            browserPage.model.playItem(filterModel.mapToSourceIndex(index))
+//                            root.model.playItem(filterModel.mapToSourceIndex(index))
 //                        }
 
 //                        onAddToPlaylist: {
-//                            browserPage.model.addToPlaylist(filterModel.mapToSourceIndex(index))
+//                            root.model.addToPlaylist(filterModel.mapToSourceIndex(index))
 //                        }
 
 //                        onDownload: {
-//                            browserPage.model.download(filterModel.mapToSourceIndex(index), "/home/user/MyDocs/");
+//                            root.model.download(filterModel.mapToSourceIndex(index), "/home/user/MyDocs/");
 //                        }
 //                    }
 //                }

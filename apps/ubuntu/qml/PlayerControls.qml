@@ -25,41 +25,41 @@ import Xbmc 1.0
 Row {
     id: controlButtons
 
+    height: button.height
+
     property QtObject player
+    spacing: (width - (button.width * 6)) / 5
 
     MediaControlButton {
+        id: button
         source: "media-skip-backward"
         onClicked: player.skipPrevious();
-        width: parent.width / 6
     }
     MediaControlButton {
         source: "toolbar-mediacontrol-backwards"
         enabled: player ? player.state == "playing" && player.type !== Player.PlayerTypePictures : false
         selected: player ? player.speed < 0 : false
         onClicked: player.seekBackward();
-        width: parent.width / 6
     }
     MediaControlButton {
         source: "media-playback-stop"
         enabled: player ? player.state == "playing" : false
         onClicked: player.stop();
-        width: parent.width / 6
     }
     MediaControlButton {
         source: (player && player.speed === 1 && player.state === "playing") ? "media-playback-pause" : "media-playback-start"
         onClicked: player.playPause();
-        width: parent.width / 6
     }
     MediaControlButton {
         source: "toolbar-mediacontrol-forward"
         enabled: player ? player.state == "playing" && player.type !== Player.PlayerTypePictures : false
         selected: player ? player.speed > 1 : false
         onClicked: player.seekForward();
-        width: parent.width / 6
     }
     MediaControlButton {
         source: "media-skip-forward"
         onClicked: player.skipNext();
-        width: parent.width / 6
     }
 }
+
+

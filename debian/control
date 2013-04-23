@@ -25,7 +25,7 @@ Description: An application to blabla
   An application to blabla
 
 Package: plasma-widget-xbmcremote
-Architecture: any
+Architecture: i386 amd64
 Depends: ${shlibs:Depends},
          ${misc:Depends},
 Description: An application to blabla

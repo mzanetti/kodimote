@@ -7,3 +7,5 @@ Exec=xbmcremote %u
 Terminal=false
 Icon=/usr/share/pixmaps/xbmcremote80.png
 
+X-Ubuntu-Touch=true
+X-Ubuntu-StageHint=SideStage

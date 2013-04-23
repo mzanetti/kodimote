@@ -40,6 +40,12 @@ MainView {
         sourceComponent: xbmc.connected ? tabsComponent : noConnectionComponent
     }
 
+    FocusScope {
+        focus: true
+        Keys.onVolumeUpPressed: xbmc.volume += 5
+        Keys.onVolumeDownPressed: xbmc.volume -= 5
+    }
+
     Component {
         id: noConnectionComponent
 
@@ -77,8 +83,6 @@ MainView {
             parent: leftPane
             ItemStyle.class: "new-tabs"
 
-            property variant tabPageItems: [ mainTab.page, nowPlayingTab.page ]
-
             property ActionList tools: selectedTab.page.tools
 
             Tab {
@@ -86,7 +90,6 @@ MainView {
                 title: "Media"
                 page: PageStack {
                     id: pageStack
-                    anchors.fill: parent
 
                     Component.onCompleted: pageStack.push(mainPage)
 
@@ -94,6 +97,34 @@ MainView {
                         pageStack.clear();
                         pageStack.push(mainPage)
                     }
+
+                    ToolbarActions {
+                        id: browsingTools
+                        Action {
+                            text: "home"
+                            onTriggered: {
+                                pageStack.home();
+                            }
+                        }
+                    }
+
+                    ToolbarActions {
+                        id: mainTools
+                        Action {
+                            text: "settings"
+                //            iconSource: Qt.resolvedUrl("1.png")
+                            onTriggered: print("First action")
+                         }
+
+                        Action {
+                            text: "Connect..."
+                            onTriggered: {
+                                var sheet = Qt.createComponent("ConnectionSheet.qml");
+                                PopupUtils.open(sheet);
+                            }
+                        }
+                    }
+
 
                     MainPage {
                         id: mainPage
@@ -106,8 +137,6 @@ MainView {
                 title: "Now Playing"
                 page: NowPlayingPage {
                     id: nowPlayingPage
-                    anchors.fill: parent
-
                     timerActive: tabs.currentIndex === 1
                 }
             }
@@ -118,7 +147,6 @@ MainView {
                 title: "Keypad"
 
                 page: Keypad {
-                    anchors.fill: parent
                 }
             }
         }
