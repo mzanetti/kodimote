@@ -32,12 +32,14 @@ Page {
 
     property int spacing: units.gu(1)
 
-    property ActionList tools: ActionList {
+    tools: ToolbarActions {
         Action {
+            iconSource: "/usr/share/icons/ubuntu-mobile/actions/scalable/reload.svg"
             text: "repeat"
         }
         Action {
             text: "shuffle"
+            iconSource: "/usr/share/icons/ubuntu-mobile/actions/scalable/help.svg"
         }
     }
 
@@ -78,12 +80,12 @@ Page {
 
         Item {
             id: imageItem
-            height: root.orientation == "portrait" ? parent.width : parent.height
+            height: root.orientation == "portrait" ? Math.min(parent.width, parent.height - textItem.height - parent.spacing) : parent.height
             width: root.orientation == "portrait" ? parent.width : height
             UbuntuShape {
                 // iw : ih = uw : uh
                 height: parent.height
-                width: parent.width
+                width: parent.height
                 anchors.horizontalCenter: parent.horizontalCenter
                 radius: "medium"
                 color: "black"
@@ -96,28 +98,72 @@ Page {
             }
         }
 
-        Item {
+        Column {
             id: textItem
             width: root.orientation == "portrait" ? parent.width : parent.width - imageItem.width - parent.spacing
-            height: root.orientation == "portrait" ? parent.height - imageItem.height - parent.spacing : parent.height
+            spacing: root.spacing
+            Row {
+                width: parent.width
+                spacing: root.spacing
+                Label {
+                    id: trackLabel
+                    width: parent.width - trackNumLabel.width - parent.spacing
+                    text: currentItem ? currentItem.title : ""
+                    elide: Text.ElideRight
+                    font.bold: true
+                }
+                Label {
+                    id: trackNumLabel
+                    text: playlist ? playlist.currentTrackNumber + "/" + playlist.count : "0/0"
+                }
+            }
             Label {
-                id: currentTime
-                anchors.left: parent.left
-                anchors.bottom: parent.bottom
-                text: player ? player.time : "00:00"
+                id: artistLabel
+                width: parent.width
+                text: !currentItem ? "" : (xbmc.state == "audio" ? currentItem.artist : (currentItem.type == "episode" ? currentItem.tvShow : qsTr("Year:") + " " + currentItem.year))
+            }
+            Row {
+                id: albumRow
+                height: albumLabel.height
+                spacing: units.gu(.5)
+                Label {
+                    id: albumLabel
+                    text: !currentItem ? "" : (xbmc.state == "audio" ? currentItem.album : (currentItem.type == "episode" ? qsTr("Season:") + " " + currentItem.season + "   " + qsTr("Episode:") + " " + currentItem.episode : qsTr("Rating:") + " "))
+                }
+                property int starCount: !currentItem ? 0 : (currentItem.rating > 10 ? Math.floor(currentItem.rating / 20) : Math.floor(currentItem.rating / 2))
+                Repeater {
+                    model: parent.starCount
+                    Icon {
+                        height: units.gu(2)
+                        width: units.gu(2)
+                        name: "/usr/share/icons/ubuntu-mobile/actions/scalable/favorite-selected.svg"
+                        anchors.verticalCenter: albumLabel.verticalCenter
+                        visible: currentItem !== null && (currentItem.type === "movie" || currentItem.type === "unknown")
+                        //source: theme.inverted ? "image://theme/meegotouch-indicator-rating-inverted-background-star" : "image://theme/meegotouch-indicator-rating-star"
+                    }
+                }
+                Repeater {
+                    model: 5 - parent.starCount
+                    Icon {
+                        height: units.gu(2)
+                        width: units.gu(2)
+                        name: "/usr/share/icons/ubuntu-mobile/actions/scalable/favorite-unselected.svg"
+                        anchors.verticalCenter: albumLabel.verticalCenter
+                        visible: currentItem !== null && (currentItem.type === "movie" || currentItem.type === "unknown")
+                        //source: theme.inverted ? "image://theme/meegotouch-indicator-rating-background-star" : "image://theme/meegotouch-indicator-rating-background-star"
+                    }
+                }
+            }
+            PlayerControls {
+                id: controlButtons
+                player: root.player
+                width: parent.width
             }
 
-            Label {
-                anchors.right: parent.right
-                anchors.bottom: parent.bottom
-                text: currentItem ? currentItem.durationString : "00:00"
-            }
 
             ProgressBar {
                 id: progressBar
-                anchors { left: parent.left; right: parent.right; bottom: currentTime.top }
-                anchors.bottomMargin: root.spacing
-                width: 300
+                width: parent.width
                 //height: gu.height(1)
                 minimumValue: 0
                 maximumValue: 100
@@ -189,90 +235,24 @@ Page {
                 }
             }
 
-            PlayerControls {
-                id: controlButtons
-                anchors {left:parent.left; right: parent.right; bottom: progressBar.top }
-                anchors.bottomMargin: root.spacing
-                player: root.player
-            }
 
             Row {
-                id: albumRow
-                anchors.bottom: controlButtons.top
-                height: albumLabel.height
-                anchors.left: parent.left
-                anchors.bottomMargin: root.spacing
-                spacing: units.gu(.5)
+                width: parent.width
+                spacing: root.spacing
                 Label {
-                    id: albumLabel
-                    text: !currentItem ? "" : (xbmc.state == "audio" ? currentItem.album : (currentItem.type == "episode" ? qsTr("Season:") + " " + currentItem.season + "   " + qsTr("Episode:") + " " + currentItem.episode : qsTr("Rating:") + " "))
+                    id: currentTime
+                    text: player ? player.time : "00:00"
+                    width: (parent.width - parent.spacing) / 2
                 }
-                property int starCount: !currentItem ? 0 : (currentItem.rating > 10 ? Math.floor(currentItem.rating / 20) : Math.floor(currentItem.rating / 2))
-                Repeater {
-                    model: parent.starCount
-                    Rectangle {
-                        height: units.gu(1)
-                        width: units.gu(1)
-                        radius: width / 2
-                        anchors.verticalCenter: albumLabel.verticalCenter
-                        visible: currentItem !== null && (currentItem.type === "movie" || currentItem.type === "unknown")
-                        color: "black"
-                        //source: theme.inverted ? "image://theme/meegotouch-indicator-rating-inverted-background-star" : "image://theme/meegotouch-indicator-rating-star"
-                    }
-                }
-                Repeater {
-                    model: 5 - parent.starCount
-                    Rectangle {
-                        height: units.gu(1)
-                        width: units.gu(1)
-                        radius: width / 2
-                        anchors.verticalCenter: albumLabel.verticalCenter
-                        visible: currentItem !== null && (currentItem.type === "movie" || currentItem.type === "unknown")
-                        color: "#22000000"
-                        //source: theme.inverted ? "image://theme/meegotouch-indicator-rating-background-star" : "image://theme/meegotouch-indicator-rating-background-star"
-                    }
+
+                Label {
+                    text: currentItem ? currentItem.durationString : "00:00"
+                    horizontalAlignment: Text.AlignRight
+                    width: (parent.width - parent.spacing) / 2
                 }
             }
 
-            Label {
-                id: artistLabel
-//                anchors.bottomMargin: root.spacing
-                anchors.left: parent.left
-                anchors.bottom: albumRow.top
-                anchors.right: infoButton.left
-                text: !currentItem ? "" : (xbmc.state == "audio" ? currentItem.artist : (currentItem.type == "episode" ? currentItem.tvShow : qsTr("Year:") + " " + currentItem.year))
-            }
-            Button {
-                id: infoButton
-                text: "i"
-                width: height
-                anchors.top: trackNumLabel.bottom
-                anchors.right: parent.right
 
-                onClicked: {
-                    //listView.model.fetchItemDetails(listView.currentIndex)
-                    pageStack.push(Qt.createComponent(Qt.resolvedUrl("NowPlayingDetails.qml")));
-                }
-            }
-
-            Label {
-                id: trackLabel
-                anchors.left: parent.left
-                //anchors.right: trackNumLabel.right
-                width: parent.width - trackNumLabel.width
-                anchors.bottom: artistLabel.top
-//                anchors.bottomMargin: root.spacing
-                text: currentItem ? currentItem.title : ""
-                elide: Text.ElideRight
-                font.bold: true
-            }
-            Label {
-                id: trackNumLabel
-                anchors.right: parent.right
-                anchors.bottom: artistLabel.top
-//                anchors.bottomMargin: root.spacing
-                text: playlist ? playlist.currentTrackNumber + "/" + playlist.count : "0/0"
-            }
         }
     }
 }

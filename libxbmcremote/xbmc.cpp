@@ -612,3 +612,8 @@ XbmcImageCache *Xbmc::imageCache()
 {
     return m_imageCache;
 }
+
+void Xbmc::disconnectFromHost()
+{
+    XbmcConnection::disconnectFromHost();
+}

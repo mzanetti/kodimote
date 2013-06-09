@@ -1,3 +1,4 @@
 ubuntu-touch/apps/ubuntu/xbmcremote /usr/bin/
 apps/ubuntu/qml/ /usr/share/xbmcremote/
 apps/ubuntu/xbmcremote.desktop /usr/share/applications/
+apps/ubuntu/xbmcremote-square.svg /usr/share/icons/hicolor/scalable/apps/

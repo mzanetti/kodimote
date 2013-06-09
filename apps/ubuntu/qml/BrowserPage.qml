@@ -26,10 +26,15 @@ import Xbmc 1.0
 Page {
     id: root
     title: model.title
-    tools: browsingTools
 
     property variant model
     property int spacing: units.gu(1)
+
+    tools: ToolbarActions {
+        Action {
+            text: "home"
+        }
+    }
 
     Component.onCompleted: {
         console.log("setting model " + model)
@@ -74,7 +79,6 @@ Page {
     Item {
         id: searchBar
         anchors.top: parent.top
-        anchors.topMargin: listView.currentItem.state == "expanded" ? -height : 0
         width: parent.width
         height: expanded ? searchTextField.height + root.spacing * 2 : 0
         property bool expanded
@@ -105,26 +109,16 @@ Page {
         opacity: searchBar.expanded ? 1 : 0
         enabled: searchBar.expanded
         z: 2
+        primaryItem: Image {
+            height: searchTextField.height - units.gu(1)
+            width: height
+            source: "/usr/share/icons/ubuntu-mobile/actions/scalable/filter.svg"
+        }
 
         Keys.onReturnPressed: {
             listView.forceActiveFocus();
             platformCloseSoftwareInputPanel();
         }
-
-//        Image {
-//            id: searchimage
-//            source: searchTextField.text.length == 0 ? "image://theme/icon-m-common-search" : "image://theme/icon-m-browser-clear"
-//            anchors.right: parent.right
-//            anchors.rightMargin: 10
-//            anchors.verticalCenter: parent.verticalCenter
-
-//            MouseArea {
-//                anchors.fill: parent
-//                anchors.margins: -20
-//                onClicked: searchTextField.text = "";
-//            }
-
-//        }
 
         Behavior on opacity {
             NumberAnimation { duration: 300; easing.type: Easing.OutQuad }
@@ -162,48 +156,32 @@ Page {
 
         property int itemHeight: root.model.thumbnailFormat === XbmcModel.ThumbnailFormatPortrait ? units.gu(10) : units.gu(8)
 
+        signal collapse()
+
         onDraggedForSearchChanged: {
             searchBar.expanded = true;
         }
 
-        delegate:  ListItems.Empty {
-            __height: listView.itemHeight
+        delegate:  ListItems.Subtitled {
+            id: delegateItem
+            height: listView.itemHeight
             width: listView.width
 
-            UbuntuShape {
-                id: thumbnailImage
-                anchors {
-                    left: parent.left
-                    leftMargin: root.spacing * 2
-                    verticalCenter: parent.verticalCenter
-                }
+            text: title
+            subText: subtitle
+            progression: filetype == "directory"
 
-                height: parent.height - root.spacing * 2
-                width: root.model.thumbnailFormat === XbmcModel.ThumbnailFormatPortrait ? height * 3/4 : (root.model.thumbnailFormat === XbmcModel.ThumbnailFormatLandscape ? height * 16/9 : height)
-                image: Image {
-                    anchors.fill: parent
-                    source: thumbnail
-                }
-            }
-
-            Column {
-                anchors {
-                    left: thumbnailImage.right
-                    leftMargin: root.spacing
-                    right: parent.right
-                    rightMargin: root.spacing * 2
-                    verticalCenter: parent.verticalCenter
-                }
-                Label {
-                    text: title
-                    anchors { left: parent.left; right: parent.right }
-                    elide: Text.ElideRight
-                }
-                Label {
-                    text: subtitle
-                    anchors { left: parent.left; right: parent.right }
-                    fontSize: "small"
-                    elide: Text.ElideRight
+            icon: Item {
+                width: thumbnailImage.width
+                UbuntuShape {
+                    id: thumbnailImage
+                    height: listView.itemHeight - units.gu(2)
+                    width: root.model.thumbnailFormat === XbmcModel.ThumbnailFormatPortrait ? height * 3/4 : (root.model.thumbnailFormat === XbmcModel.ThumbnailFormatLandscape ? height * 16/9 : height)
+                    anchors.centerIn: parent
+                    image: Image {
+                        anchors.fill: parent
+                        source: thumbnail
+                    }
                 }
             }
 
@@ -222,154 +200,16 @@ Page {
                 }
             }
 
+            onPressAndHold: {
+                root.model.fetchItemDetails(filterModel.mapToSourceIndex(index))
+                openEffect.positionPx = delegateItem.y - listView.contentY
+                print("***._", delegateItem.y, listView.contentY, listView.itemHeight, openEffect.positionPx)
+                openEffect.gap = 1.0
+                itemDetailsLoader.selectedItem = root.model.getItem(filterModel.mapToSourceIndex(index))
+            }
         }
 
 
-//        Item {
-//            id: listItem
-//            height: listView.itemHeight
-//            width: parent.width
-//            //ListView.delayRemove: thumbnailImage.status == Image.Loading
-//            state: "collapsed"
-
-//            MouseArea {
-//                id: mouseArea
-//                anchors.fill: parent
-
-//                onPressed: listView.currentIndex = index
-
-//                onPressAndHold: {
-//                    if(root.model.hasDetails()) {
-//                        root.model.fetchItemDetails(filterModel.mapToSourceIndex(listView.currentIndex))
-//                        listItem.state = "expanded"
-//                        print("expandingfromVariant:", listView.currentIndex, listView.count)
-//                    } else if(playable) {
-//                        longTapMenu.open();
-//                    }
-//                }
-
-//                onClicked: {
-//                    if(listItem.state == "expanded") {
-//                        listItem.state = "collapsed"
-//                    } else {
-//                        if(filetype === "directory") {
-//                            var component = Qt.createComponent("BrowserPage.qml")
-//                            if (component.status === Component.Ready) {
-//                                var newModel = root.model.enterItem(filterModel.mapToSourceIndex(index));
-//                                newModel.ignoreArticle = settings.ignoreArticle;
-//                                pageStack.push(component, {model: newModel});
-//                            } else {
-//                                console.log("Error loading component:", component.errorString());
-//                            }
-//                        } else {
-//                            root.model.playItem(filterModel.mapToSourceIndex(index));
-//                        }
-//                    }
-//                }
-//            }
-
-//            BorderImage {
-//                id: background
-//                anchors.fill: parent
-//                // Fill page borders
-//                //                anchors.leftMargin: -root.anchors.leftMargin
-//                //                anchors.rightMargin: -root.anchors.rightMargin
-//                visible: mouseArea.pressed
-//                source: "image://theme/meegotouch-list-background-pressed-center"
-//            }
-
-//            Rectangle {
-//                id: highlightBar
-//                color: "#0067bd"
-//                height: parent.height - 4
-//                anchors.verticalCenter: parent.verticalCenter
-//                width: 8
-//                anchors.left: parent.left
-//                visible: playcount === 0
-//            }
-
-//            Thumbnail {
-//                id: thumbnailImage
-//                height: root.model.thumbnailFormat === XbmcModel.ThumbnailFormatPortrait ? 120 : (root.model.thumbnailFormat === XbmcModel.ThumbnailFormatNone ? 0 : 86 )
-//                width: root.model.thumbnailFormat === XbmcModel.ThumbnailFormatPortrait ? 80 : (root.model.thumbnailFormat === XbmcModel.ThumbnailFormatLandscape ? 152 : height)
-
-//                anchors.left: highlightBar.right
-//                anchors.leftMargin: 2
-//                anchors.top: parent.top
-//                anchors.topMargin: 1
-//                visible: listView.useThumbnails && root.model.thumbnailFormat !== XbmcModel.ThumbnailFormatNone
-
-//                artworkSource: thumbnail
-//                defaultText: title
-
-//                Image {
-//                    id: playingOverlay
-//                    source: playingState === "playing" ? "image://theme/icon-l-common-video-playback" : "image://theme/icon-l-pause"
-//                    visible: playingState !== ""
-////                    height: 60
-////                    width: 60
-//                    z: 2
-//                    anchors.centerIn: thumbnailImage
-
-//                    SequentialAnimation on opacity {
-//                        loops: Animation.Infinite
-//                        running: playingOverlay.visible
-//                        NumberAnimation {target: playingOverlay; properties: "opacity"; from: 1; to: 0.5; duration: 1000; easing.type: Easing.InOutQuad}
-//                        NumberAnimation {target: playingOverlay; properties: "opacity"; from: 0.5; to: 1; duration: 1000; easing.type: Easing.InOutQuad}
-//                    }
-//                }
-//            }
-
-//            Row {
-//                id: itemRow
-//                anchors {left: parent.left; top: parent.top; right: parent.right }
-//                height: listItem.height
-//                anchors.leftMargin: (settings.useThumbnails ? thumbnailImage.width : 0) + 15
-//                anchors.rightMargin: 5
-
-//                Column {
-//                    anchors.verticalCenter: parent.verticalCenter
-
-//                    Text {
-//                        id: mainText
-//                        text: title
-//                        font.weight: Font.Bold
-//                        font.pixelSize: 26
-//                        width: itemRow.width - arrow.width
-//                        elide: Text.ElideRight
-//                        color: "black"
-
-//                        states: [
-//                            State {
-//                                name: "highlighted"; when: playingState === "playing" || playingState === "paused"
-//                                PropertyChanges { target: mainText; color: "#318ee7" }
-//                            }
-
-//                        ]
-//                    }
-
-//                    Text {
-//                        id: subText
-//                        text: subtitle
-//                        font.weight: Font.Light
-//                        font.pixelSize: 24
-//                        color: "#848684"
-//                        width: mainText.width
-//                        elide: Text.ElideRight
-//                        visible: text != ""
-//                    }
-//                    Text {
-//                        id: subSubText
-//                        text: year
-//                        font.weight: Font.Light
-//                        font.pixelSize: 24
-//                        color: "#848684"
-//                        width: mainText.width
-//                        elide: Text.ElideRight
-//                        visible: text != ""
-//                    }
-//                }
-//            }
 
 //            Item {
 //                id: expandedContent
@@ -507,11 +347,83 @@ Page {
         }
     }
 
-//    BusyIndicator {
-//        id: busyIndicator
-//        anchors.centerIn: parent
-//        platformStyle: BusyIndicatorStyle { size: "large" }
-//        running: model.busy
-//        visible: model.busy
-//    }
+    ActivityIndicator {
+        id: busyIndicator
+        anchors.centerIn: parent
+        running: model.busy
+        visible: model.busy
+    }
+
+    OpenEffect {
+        id: openEffect
+        anchors.fill: parent
+        anchors.bottomMargin: -bottomOverflow
+        sourceItem: listView
+
+        topGapPx: targetTopGapPx + (1 - gap) * (positionPx - targetTopGapPx)
+        topOpacity: Math.max(0, (1 - gap * 0.8))
+        bottomGapPx: positionPx + gap * (targetBottomGapPx - positionPx)
+        bottomOverflow: units.gu(6)
+        bottomOpacity: 1 - (gap * 0.8)
+
+        property int targetTopGapPx: units.gu(10) // The page header might be there...
+        property int targetBottomGapPx: root.height - listView.itemHeight
+        property real gap: 0.0
+
+        Behavior on gap {
+            NumberAnimation {
+                duration: 200
+                easing.type: Easing.InOutQuad
+            }
+        }
+    }
+
+    MouseArea {
+        anchors.fill: parent
+        enabled: itemDetailsLoader.status == Loader.Ready
+        onClicked: openEffect.gap = 0
+    }
+
+    Rectangle {
+        anchors.fill: parent
+        anchors.topMargin: openEffect.bottomGapPx
+        opacity: openEffect.gap * 0.3
+        color: "black"
+
+    }
+
+    Rectangle {
+        anchors {
+            left: parent.left
+            right: parent.right
+            top: parent.top
+        }
+        height: openEffect.topGapPx
+        opacity: openEffect.gap * 0.3
+        color: "black"
+
+    }
+
+    Loader {
+        id: itemDetailsLoader
+        height: openEffect.bottomGapPx - openEffect.topGapPx
+        anchors {
+            top: parent.top
+            topMargin: openEffect.topGapPx
+            left: parent.left
+            right: parent.right
+        }
+        source: openEffect.gap > 0 ? "ItemDetails.qml" : ""
+
+        property variant selectedItem
+
+        onItemChanged: {
+            print("setting item to", selectedItem)
+            item.selectedItem = selectedItem
+        }
+        onSelectedItemChanged: {
+            print("selitemchanged", selectedItem)
+            item.selectedItem = selectedItem
+        }
+    }
 }

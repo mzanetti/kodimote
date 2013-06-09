@@ -14,12 +14,13 @@ package {
     desktopfile.files = xbmcremote.desktop
     desktopfile.path = /usr/share/applications/
 
-    icon.files = xbmcremote80.png
-    icon.path = /usr/share/pixmaps/
+    icon.files = xbmcremote-square.svg
+    icon.path = /usr/share/icons/hicolor/scalable/apps/
 
     INSTALLS += target qml desktopfile icon
 
 } else {
+message("fdsfsdfdsfdssad")
     qml.files = qml
     qml.path = $$OUT_PWD
 

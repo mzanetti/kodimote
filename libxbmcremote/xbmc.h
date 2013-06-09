@@ -129,6 +129,7 @@ public:
     XbmcImageCache *imageCache();
 
 public slots:
+    void disconnectFromHost();
     void quit();
     void suspend();
     void hibernate();

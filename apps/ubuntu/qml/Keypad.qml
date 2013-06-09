@@ -38,7 +38,8 @@ Page {
 //            platformIconId: usePictureControls ? "toolbar-dialer" : "toolbar-image-edit";
 //            anchors.horizontalCenter: parent===undefined ? undefined : parent.horizontalCenter
             text: "pictures"
-            visible: xbmc.picturePlayerActive
+//            visible: xbmc.picturePlayerActive
+            iconSource: "/usr/share/icons/ubuntu-mobile/apps/symbolic/gallery-symbolic.svg"
             onTriggered: {
                 pictureControlsOverride = !pictureControlsOverride;
             }
@@ -58,7 +59,7 @@ Page {
 
         UbuntuShape {
             width: parent.width
-            height: musicButton.height + root.spacing * 2
+            height: musicButton.height + root.spacing
             color: Qt.rgba(0, 0, 0, 0.05)
 
             Row {
@@ -66,7 +67,7 @@ Page {
                 anchors {
                     left: parent.left
                     right: parent.right
-                    margins: root.spacing
+                    margins: root.spacing / 2
                     verticalCenter: parent.verticalCenter
                 }
                 height: musicButton.height
@@ -104,9 +105,8 @@ Page {
 
             MediaControlButton {
                 id: backButton
-                anchors { left: parent.left; top: parent.top; margins: root.spacing }
-                source: "toolbar-main-view"
-//                rotation: -90
+                anchors { left: parent.left; top: parent.top; margins: root.spacing / 2 }
+                source: "back"
                 MouseArea {
                     width: parent.width * 2
                     height: parent.height * 1.2
@@ -121,8 +121,8 @@ Page {
             }
 
             MediaControlButton {
-                anchors { right: parent.right; top: parent.top; margins: root.spacing }
-                source: usePictureControls ? "" : "toolbar-main-view"
+                anchors { right: parent.right; top: parent.top; margins: root.spacing / 2 }
+                source: usePictureControls ? "" : "view-fullscreen"
 //                rotation: usePictureControls ? 0 : 45
                 MouseArea {
                     width: parent.width * 2
@@ -140,7 +140,7 @@ Page {
                 }
             }
             MediaControlButton {
-                anchors { left: parent.left; bottom: parent.bottom; margins: root.spacing }
+                anchors { left: parent.left; bottom: parent.bottom; margins: root.spacing / 2 }
                 source: usePictureControls ? "" : "icons/icon-m-toolbar-info.png"
                 MouseArea {
                     width: parent.width * 2
@@ -158,7 +158,7 @@ Page {
                 }
             }
             MediaControlButton {
-                anchors { right: parent.right; bottom: parent.bottom; margins: root.spacing }
+                anchors { right: parent.right; bottom: parent.bottom; margins: root.spacing / 2 }
                 source: usePictureControls ? "" : "toolbar-view-menu"
                 MouseArea {
                     width: parent.width * 2
@@ -183,7 +183,7 @@ Page {
                 left: parent.left
                 right: parent.right
             }
-            height: controlButtons.height + root.spacing * 2
+            height: controlButtons.height + root.spacing
             color: Qt.rgba(0, 0, 0, 0.05)
 
             PlayerControls {
@@ -191,7 +191,7 @@ Page {
                 anchors {
                     left: parent.left
                     right: parent.right
-                    margins: root.spacing
+                    margins: root.spacing / 2
                     verticalCenter: parent.verticalCenter
                 }
 
@@ -201,7 +201,7 @@ Page {
 
         UbuntuShape {
             width: parent.width
-            height: colorButtonRow.height + root.spacing * 2
+            height: colorButtonRow.height + root.spacing
             color: Qt.rgba(0, 0, 0, 0.05)
 
             Row {

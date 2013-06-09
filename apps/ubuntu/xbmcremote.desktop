@@ -1,11 +1,11 @@
 [Desktop Entry]
 Type=Application
 Name=Xbmcremote
-GenericName=xbmcremote
+GenericName=/usr/bin/xbmcremote
 Comment=XBMC Remote control
 Exec=xbmcremote %u
 Terminal=false
-Icon=/usr/share/pixmaps/xbmcremote80.png
+Icon=/usr/share/icons/hicolor/scalable/apps/xbmcremote-square.svg
 
 X-Ubuntu-Touch=true
 X-Ubuntu-StageHint=SideStage

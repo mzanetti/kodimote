@@ -36,7 +36,7 @@ Item {
         anchors.fill: parent
         image: Image {
             anchors.fill: parent
-            source: root.source
+            source: "/usr/share/icons/ubuntu-mobile/actions/scalable/" + root.source + ".svg"
         }
     }
 

@@ -85,6 +85,7 @@ public:
     bool connecting();
     bool connected();
     QString connectionError();
+    void disconnectFromHost();
     void setAuthCredentials(const QString &username, const QString &password);
 
     int sendCommand(const QString &command, const QVariant &parms = QVariant());

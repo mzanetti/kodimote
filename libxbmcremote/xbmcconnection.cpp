@@ -93,6 +93,11 @@ QString connectionError()
     return instance()->connectionError();
 }
 
+void disconnectFromHost()
+{
+    instance()->disconnectFromHost();
+}
+
 QNetworkAccessManager *nam()
 {
     return instance()->nam();
@@ -737,6 +742,11 @@ bool XbmcConnectionPrivate::connected()
 QString XbmcConnectionPrivate::connectionError()
 {
     return m_connectionError;
+}
+
+void XbmcConnectionPrivate::disconnectFromHost()
+{
+    m_socket->disconnectFromHost();
 }
 
 void XbmcConnectionPrivate::authenticationRequired(QNetworkReply *reply, QAuthenticator *authenticator)

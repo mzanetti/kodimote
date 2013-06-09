@@ -261,6 +261,7 @@ void Player::receivedAnnouncement(const QVariantMap &map)
     } else if(map.value("method").toString() == "Player.OnPlay") {
         m_state = "playing";
         emit stateChanged();
+        refresh();
         m_speed = data.value("player").toMap().value("speed").toInt();
         qDebug() << "set speed to" << m_speed;
         emit speedChanged();

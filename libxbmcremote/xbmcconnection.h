@@ -34,6 +34,7 @@ namespace XbmcConnection
 void connect(XbmcHost *host);
 bool connecting();
 XbmcHost *connectedHost();
+void disconnectFromHost();
 void setAuthCredentials(const QString &username, const QString &password);
 
 bool connected();
