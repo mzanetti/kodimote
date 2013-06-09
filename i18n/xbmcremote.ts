@@ -60,6 +60,14 @@
         <source>Audio Library</source>
         <translation>Musikbibliothek</translation>
     </message>
+    <message>
+        <source>Recently added</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Recently played</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>AudioPlaylist</name>
@@ -131,6 +139,31 @@
     </message>
 </context>
 <context>
+    <name>Browser</name>
+    <message>
+        <source>Update library</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Clean library</source>
+        <translation type="unfinished">Bibliothek bereinigen</translation>
+    </message>
+</context>
+<context>
+    <name>ChannelGroups</name>
+    <message>
+        <source>TV Channels</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>Channels</name>
+    <message>
+        <source>TV Channels</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>ConnectDialog</name>
     <message>
         <source>Host:</source>
@@ -165,10 +198,6 @@
         <translation>Suche XBMC.</translation>
     </message>
     <message>
-        <source>Please enable the following options in the Network settings of XBMC:</source>
-        <translation>Bitte aktivieren Sie die folgenden Funktionen in den XBMC-Netzwerkeinstellungen:</translation>
-    </message>
-    <message>
         <source>If you don&apos;t use Zeroconf, add a host manually.</source>
         <translation>Wenn Sie Zeroconf nicht benutzen, fügen Sie den Ihr XBMC manuell hinzu.</translation>
     </message>
@@ -187,6 +216,10 @@
     <message>
         <source>Back</source>
         <translation>Zurück</translation>
+    </message>
+    <message>
+        <source>Please enable the following options in the Services settings of XBMC:</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -232,10 +265,6 @@
         <translation>Suche XBMC.</translation>
     </message>
     <message>
-        <source>Please enable the following options in the Network settings of XBMC:</source>
-        <translation>Bitte aktivieren Sie die folgenden Funktionen in den XBMC-Netzwerkeinstellungen:</translation>
-    </message>
-    <message>
         <source>If you don&apos;t use Zeroconf, add a host manually.</source>
         <translation>Wenn Sie Zeroconf nicht benutzen, fügen Sie den Ihr XBMC manuell hinzu.</translation>
     </message>
@@ -252,28 +281,31 @@
         <translation>Zeroconf-Veröffentlichung</translation>
     </message>
     <message>
-        <source>Remove %1</source>
-        <translation>%1 entfernen</translation>
+        <source>Please enable the following options in the Services settings of XBMC:</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Remove host?</source>
-        <translation>Rechner entfernen?</translation>
+        <source>Waking up %1...</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>DownloadDialog</name>
+    <message>
+        <source>Start download?</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Start downloading %1?</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Yes</source>
-        <translation>Ja</translation>
+        <translation type="unfinished">Ja</translation>
     </message>
     <message>
         <source>No</source>
-        <translation>Nein</translation>
-    </message>
-    <message>
-        <source>No XBMC hosts configured yet.</source>
-        <translation>Kein XBMC Rechner eingerichtet.</translation>
-    </message>
-    <message>
-        <source>After having set up those options, add your XBMC host here.</source>
-        <translation>Nachdem Sie diese Einstellungen vorgenommen haben, fügen Sie den Rechner hier hinzu.</translation>
+        <translation type="unfinished">Nein</translation>
     </message>
 </context>
 <context>
@@ -304,6 +336,41 @@
     <message>
         <source>Library</source>
         <translation>Bibliothek</translation>
+    </message>
+</context>
+<context>
+    <name>HostList</name>
+    <message>
+        <source>Add</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Remove</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Connect</source>
+        <translation type="unfinished">Verbinden</translation>
+    </message>
+    <message>
+        <source>Host:</source>
+        <translation type="unfinished">Rechner:</translation>
+    </message>
+    <message>
+        <source>Port:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>MAC Address for WakeOnLan (optional):</source>
+        <translation type="unfinished">MAC Adresse (optional):</translation>
+    </message>
+    <message>
+        <source>OK</source>
+        <translation type="unfinished">OK</translation>
+    </message>
+    <message>
+        <source>Cancel</source>
+        <translation type="unfinished">Abbrechen</translation>
     </message>
 </context>
 <context>
@@ -400,6 +467,10 @@
         <source>Download</source>
         <translation>Herunterladen</translation>
     </message>
+    <message>
+        <source>Title:</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>LibraryView</name>
@@ -465,6 +536,18 @@
     <message>
         <source>Clean library</source>
         <translation>Bibliothek bereinigen</translation>
+    </message>
+    <message>
+        <source>TV Channels</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Settings</source>
+        <translation type="unfinished">Einstellungen</translation>
+    </message>
+    <message>
+        <source>Disconnect</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -547,6 +630,25 @@
     <message>
         <source>Connect</source>
         <translation>Verbinden</translation>
+    </message>
+</context>
+<context>
+    <name>NowPlaying</name>
+    <message>
+        <source>Year:</source>
+        <translation type="unfinished">Jahr:</translation>
+    </message>
+    <message>
+        <source>Season:</source>
+        <translation type="unfinished">Staffel:</translation>
+    </message>
+    <message>
+        <source>Episode:</source>
+        <translation type="unfinished">Folge:</translation>
+    </message>
+    <message>
+        <source>Rating:</source>
+        <translation type="unfinished">Bewertung:</translation>
     </message>
 </context>
 <context>
@@ -650,6 +752,26 @@
         <source>Episode:</source>
         <translation>Folge:</translation>
     </message>
+    <message>
+        <source>Select audio track</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Off</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Select subtitle</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Cancel</source>
+        <translation type="unfinished">Abbrechen</translation>
+    </message>
+    <message>
+        <source>OK</source>
+        <translation type="unfinished">OK</translation>
+    </message>
 </context>
 <context>
     <name>NowPlayingView</name>
@@ -675,6 +797,44 @@
     <message>
         <source>Clear playlist</source>
         <translation>Liste löschen</translation>
+    </message>
+</context>
+<context>
+    <name>PopupDialog</name>
+    <message>
+        <source>Xbmc on %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Connect to...</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>RecentItems</name>
+    <message>
+        <source>Albums</source>
+        <translation type="unfinished">Alben</translation>
+    </message>
+    <message>
+        <source>Songs</source>
+        <translation type="unfinished">Lieder</translation>
+    </message>
+    <message>
+        <source>Movies</source>
+        <translation type="unfinished">Filme</translation>
+    </message>
+    <message>
+        <source>Episodes</source>
+        <translation type="unfinished">Episoden</translation>
+    </message>
+    <message>
+        <source>Music Videos</source>
+        <translation type="unfinished">Musikvideos</translation>
+    </message>
+    <message>
+        <source>Recently added</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -766,16 +926,20 @@
         <translation>Anrufbenachrichtigung anzeigen</translation>
     </message>
     <message>
-        <source>Click</source>
-        <translation>Klicke</translation>
+        <source>Music</source>
+        <translation type="unfinished">Musik</translation>
     </message>
     <message>
-        <source>Swipe</source>
-        <translation>Wische</translation>
+        <source>Videos</source>
+        <translation type="unfinished">Videos</translation>
     </message>
     <message>
-        <source>keypad arrows</source>
-        <translation>pfeile im Tastenfeld</translation>
+        <source>Pictures</source>
+        <translation type="unfinished">Bilder</translation>
+    </message>
+    <message>
+        <source>TV Channels</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -792,19 +956,24 @@
         <source>Picture Files</source>
         <translation>Bilder</translation>
     </message>
+    <message>
+        <source>Music</source>
+        <translation type="unfinished">Musik</translation>
+    </message>
+    <message>
+        <source>Videos</source>
+        <translation type="unfinished">Videos</translation>
+    </message>
+    <message>
+        <source>Shares</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>Songs</name>
     <message>
         <source>Songs</source>
         <translation>Lieder</translation>
-    </message>
-</context>
-<context>
-    <name>SymbianHelper</name>
-    <message>
-        <source>Incoming call</source>
-        <translation>Eingehender Anruf</translation>
     </message>
 </context>
 <context>
@@ -831,6 +1000,10 @@
     <message>
         <source>Music Videos</source>
         <translation>Musikvideos</translation>
+    </message>
+    <message>
+        <source>Recently added</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -860,10 +1033,6 @@
     </message>
     <message>
         <source>Write NFC Tag</source>
-        <translation>NFC Tag schreiben</translation>
-    </message>
-    <message>
-        <source>Write NFC tag</source>
         <translation>NFC Tag schreiben</translation>
     </message>
 </context>
@@ -897,8 +1066,8 @@
         <translation>Zeitüberschreitung bei Verbindung zu %1...</translation>
     </message>
     <message>
-        <source>Xbmcremote is designed to work with XBMC Eden (v11.0). It seems you have connected to an older version of XMBC. Please upgrade XBMC in order to use Xbmcremote.</source>
-        <translation>Xbmcremote funktioniert nur mit XBMC Eden (v11.0). Sie haben sich zu einer älteren Version von XBMC verbunden. Bitte aktualisieren Sie XBMC um Xbmcremote zu verwenden.</translation>
+        <source>This version of Xbmcremote is designed to work with XBMC Frodo (v12.0). It seems you have connected to an older version of XMBC. Please upgrade XBMC in order to use Xbmcremote.</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -964,8 +1133,60 @@
         <translation>Flattr</translation>
     </message>
     <message>
-        <source>Quit XBMC?</source>
-        <translation>XBMC beenden?</translation>
+        <source>OK</source>
+        <translation type="unfinished">OK</translation>
+    </message>
+    <message>
+        <source>Searching for XBMC hosts.</source>
+        <translation type="unfinished">Suche XBMC.</translation>
+    </message>
+    <message>
+        <source>Please enable the following options in the Services settings of XBMC:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Allow control of XBMC via HTTP</source>
+        <translation type="unfinished">Steuerung über Webinterface zulassen</translation>
+    </message>
+    <message>
+        <source>Allow programs on other systems to control XBMC</source>
+        <translation type="unfinished">Stuerung über entfernte Programme zulassen</translation>
+    </message>
+    <message>
+        <source>Announce these services to other systems via Zeroconf</source>
+        <translation type="unfinished">Zeroconf-Veröffentlichung</translation>
+    </message>
+    <message>
+        <source>If you don&apos;t use Zeroconf, add a host manually.</source>
+        <translation type="unfinished">Wenn Sie Zeroconf nicht benutzen, fügen Sie den Ihr XBMC manuell hinzu.</translation>
+    </message>
+    <message>
+        <source>Remove</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Wake up</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Add host</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Name:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Hostname or IP Address:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Port:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Mac Address:</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 </TS>

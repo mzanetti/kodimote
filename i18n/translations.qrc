@@ -1,14 +1,21 @@
 <RCC>
     <qresource prefix="/">
+        <file>xbmcremote_ar.qm</file>
         <file>xbmcremote_de.qm</file>
         <file>xbmcremote_el.qm</file>
+        <file>xbmcremote_en.qm</file>
+        <file>xbmcremote_es_AR.qm</file>
         <file>xbmcremote_fi.qm</file>
+        <file>xbmcremote_fr.qm</file>
         <file>xbmcremote_it.qm</file>
         <file>xbmcremote_nl.qm</file>
-        <file>xbmcremote_pt.qm</file>
+        <file>xbmcremote_pl.qm</file>
         <file>xbmcremote_pt_BR.qm</file>
+        <file>xbmcremote_pt.qm</file>
         <file>xbmcremote_ro.qm</file>
+        <file>xbmcremote_sv.qm</file>
         <file>xbmcremote_tr.qm</file>
+        <file>xbmcremote_tr_TR.qm</file>
         <file>xbmcremote_zh.qm</file>
     </qresource>
 </RCC>

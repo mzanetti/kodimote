@@ -1,4 +1,6 @@
-<?xml version="1.0" ?><!DOCTYPE TS><TS language="ro" version="2.0">
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE TS>
+<TS version="2.0" language="ro">
 <context>
     <name>AboutDialog</name>
     <message>
@@ -35,7 +37,7 @@
 <context>
     <name>Albums</name>
     <message>
-        <location filename="../libxbmcremote/albums.cpp" line="185"/>
+        <location filename="../libxbmcremote/albums.cpp" line="187"/>
         <source>Albums</source>
         <translation>Albume</translation>
     </message>
@@ -167,6 +169,19 @@
     </message>
 </context>
 <context>
+    <name>Browser</name>
+    <message>
+        <location filename="../apps/plasmoid/qml/Browser.qml" line="108"/>
+        <source>Update library</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../apps/plasmoid/qml/Browser.qml" line="113"/>
+        <source>Clean library</source>
+        <translation type="unfinished">Golește biblioteca</translation>
+    </message>
+</context>
+<context>
     <name>ChannelGroups</name>
     <message>
         <location filename="../libxbmcremote/channelgroups.cpp" line="34"/>
@@ -197,7 +212,7 @@
     <message>
         <location filename="../apps/generic/ui/connectdialog.cpp" line="53"/>
         <source>Please enable the following options in the Services settings of XBMC:</source>
-        <translation type="unfinished"/>
+        <translation>Activați următoarele opțiuni în XBMC, în secțiunea Servicii:</translation>
     </message>
     <message>
         <location filename="../apps/generic/ui/connectdialog.cpp" line="54"/>
@@ -276,7 +291,7 @@
     <message>
         <location filename="../apps/harmattan/qml/ConnectionSheet.qml" line="82"/>
         <source>Please enable the following options in the Services settings of XBMC:</source>
-        <translation type="unfinished"/>
+        <translation>Activați următoarele opțiuni în XBMC, în secțiunea Servicii:</translation>
     </message>
     <message>
         <location filename="../apps/harmattan/qml/ConnectionSheet.qml" line="83"/>
@@ -399,144 +414,218 @@
     </message>
 </context>
 <context>
+    <name>HostList</name>
+    <message>
+        <location filename="../apps/plasmoid/qml/HostList.qml" line="109"/>
+        <source>Add</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../apps/plasmoid/qml/HostList.qml" line="116"/>
+        <source>Remove</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../apps/plasmoid/qml/HostList.qml" line="126"/>
+        <source>Connect</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../apps/plasmoid/qml/HostList.qml" line="148"/>
+        <source>Host:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../apps/plasmoid/qml/HostList.qml" line="156"/>
+        <source>Port:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../apps/plasmoid/qml/HostList.qml" line="165"/>
+        <source>MAC Address for WakeOnLan (optional):</source>
+        <translation type="unfinished">Adresa MAC pentru WakeOnLAN(opțional).</translation>
+    </message>
+    <message>
+        <location filename="../apps/plasmoid/qml/HostList.qml" line="181"/>
+        <source>OK</source>
+        <translation type="unfinished">OK</translation>
+    </message>
+    <message>
+        <location filename="../apps/plasmoid/qml/HostList.qml" line="195"/>
+        <source>Cancel</source>
+        <translation type="unfinished">Anulează</translation>
+    </message>
+</context>
+<context>
     <name>ItemDetails</name>
     <message>
         <location filename="../apps/generic/qml/ItemDetails.qml" line="113"/>
         <location filename="../apps/harmattan/qml/ItemDetails.qml" line="64"/>
+        <location filename="../apps/ubuntu/qml/ItemDetails.qml" line="81"/>
         <source>Rating:</source>
         <translation>Calificativ:</translation>
     </message>
     <message>
         <location filename="../apps/generic/qml/ItemDetails.qml" line="119"/>
         <location filename="../apps/harmattan/qml/ItemDetails.qml" line="83"/>
+        <location filename="../apps/ubuntu/qml/ItemDetails.qml" line="106"/>
         <source>Season:</source>
         <translation>Sezon:</translation>
     </message>
     <message>
         <location filename="../apps/generic/qml/ItemDetails.qml" line="125"/>
         <location filename="../apps/harmattan/qml/ItemDetails.qml" line="89"/>
+        <location filename="../apps/ubuntu/qml/ItemDetails.qml" line="112"/>
         <source>Episode:</source>
         <translation>Episodul:</translation>
     </message>
     <message>
         <location filename="../apps/generic/qml/ItemDetails.qml" line="131"/>
         <location filename="../apps/harmattan/qml/ItemDetails.qml" line="95"/>
+        <location filename="../apps/ubuntu/qml/ItemDetails.qml" line="118"/>
         <source>First aired:</source>
         <translation>Prima difuzare:</translation>
     </message>
     <message>
         <location filename="../apps/generic/qml/ItemDetails.qml" line="137"/>
         <location filename="../apps/harmattan/qml/ItemDetails.qml" line="101"/>
+        <location filename="../apps/ubuntu/qml/ItemDetails.qml" line="124"/>
         <source>Genre:</source>
         <translation>Genul:</translation>
     </message>
     <message>
         <location filename="../apps/generic/qml/ItemDetails.qml" line="143"/>
         <location filename="../apps/harmattan/qml/ItemDetails.qml" line="107"/>
+        <location filename="../apps/ubuntu/qml/ItemDetails.qml" line="130"/>
         <source>Year:</source>
         <translation>Anul:</translation>
     </message>
     <message>
         <location filename="../apps/generic/qml/ItemDetails.qml" line="149"/>
         <location filename="../apps/harmattan/qml/ItemDetails.qml" line="113"/>
+        <location filename="../apps/ubuntu/qml/ItemDetails.qml" line="136"/>
         <source>Director:</source>
         <translation>Regizor:</translation>
     </message>
     <message>
         <location filename="../apps/generic/qml/ItemDetails.qml" line="155"/>
         <location filename="../apps/harmattan/qml/ItemDetails.qml" line="119"/>
+        <location filename="../apps/ubuntu/qml/ItemDetails.qml" line="142"/>
         <source>Tagline:</source>
         <translation>Poveste:</translation>
     </message>
     <message>
         <location filename="../apps/generic/qml/ItemDetails.qml" line="161"/>
         <location filename="../apps/harmattan/qml/ItemDetails.qml" line="125"/>
+        <location filename="../apps/ubuntu/qml/ItemDetails.qml" line="148"/>
         <source>MPAA:</source>
         <translation>MPAA:</translation>
     </message>
     <message>
         <location filename="../apps/generic/qml/ItemDetails.qml" line="167"/>
         <location filename="../apps/harmattan/qml/ItemDetails.qml" line="131"/>
+        <location filename="../apps/ubuntu/qml/ItemDetails.qml" line="154"/>
         <source>Instrument:</source>
         <translation>Instrument:</translation>
     </message>
     <message>
         <location filename="../apps/generic/qml/ItemDetails.qml" line="173"/>
         <location filename="../apps/harmattan/qml/ItemDetails.qml" line="137"/>
+        <location filename="../apps/ubuntu/qml/ItemDetails.qml" line="160"/>
         <source>Style:</source>
         <translation>Stilul:</translation>
     </message>
     <message>
         <location filename="../apps/generic/qml/ItemDetails.qml" line="179"/>
         <location filename="../apps/harmattan/qml/ItemDetails.qml" line="143"/>
+        <location filename="../apps/ubuntu/qml/ItemDetails.qml" line="166"/>
         <source>Mood:</source>
         <translation>Ton:</translation>
     </message>
     <message>
         <location filename="../apps/generic/qml/ItemDetails.qml" line="185"/>
         <location filename="../apps/harmattan/qml/ItemDetails.qml" line="149"/>
+        <location filename="../apps/ubuntu/qml/ItemDetails.qml" line="172"/>
         <source>Born:</source>
         <translation>Născut:</translation>
     </message>
     <message>
         <location filename="../apps/generic/qml/ItemDetails.qml" line="191"/>
         <location filename="../apps/harmattan/qml/ItemDetails.qml" line="155"/>
+        <location filename="../apps/ubuntu/qml/ItemDetails.qml" line="178"/>
         <source>Formed:</source>
         <translation>Format:</translation>
     </message>
     <message>
         <location filename="../apps/generic/qml/ItemDetails.qml" line="197"/>
         <location filename="../apps/harmattan/qml/ItemDetails.qml" line="161"/>
+        <location filename="../apps/ubuntu/qml/ItemDetails.qml" line="184"/>
         <source>Died:</source>
         <translation>Decedat:</translation>
     </message>
     <message>
         <location filename="../apps/generic/qml/ItemDetails.qml" line="203"/>
         <location filename="../apps/harmattan/qml/ItemDetails.qml" line="167"/>
+        <location filename="../apps/ubuntu/qml/ItemDetails.qml" line="190"/>
         <source>Disbanded:</source>
         <translation>Desființat:</translation>
     </message>
     <message>
         <location filename="../apps/generic/qml/ItemDetails.qml" line="209"/>
         <location filename="../apps/harmattan/qml/ItemDetails.qml" line="173"/>
+        <location filename="../apps/ubuntu/qml/ItemDetails.qml" line="196"/>
         <source>Duration:</source>
         <translation>Durată:</translation>
     </message>
     <message>
         <location filename="../apps/generic/qml/ItemDetails.qml" line="215"/>
         <location filename="../apps/harmattan/qml/ItemDetails.qml" line="179"/>
+        <location filename="../apps/ubuntu/qml/ItemDetails.qml" line="202"/>
         <source>Comment:</source>
         <translation>Comentariu</translation>
     </message>
     <message>
         <location filename="../apps/generic/qml/ItemDetails.qml" line="221"/>
         <location filename="../apps/harmattan/qml/ItemDetails.qml" line="185"/>
+        <location filename="../apps/ubuntu/qml/ItemDetails.qml" line="208"/>
         <source>Playcount:</source>
         <translation>Număr de redări:</translation>
     </message>
     <message>
         <location filename="../apps/generic/qml/ItemDetails.qml" line="227"/>
         <location filename="../apps/harmattan/qml/ItemDetails.qml" line="191"/>
+        <location filename="../apps/ubuntu/qml/ItemDetails.qml" line="214"/>
         <source>Cast:</source>
         <translation>Distribuție:</translation>
     </message>
     <message>
         <location filename="../apps/harmattan/qml/ItemDetails.qml" line="249"/>
         <location filename="../apps/harmattan/qml/ItemDetails.qml" line="273"/>
+        <location filename="../apps/ubuntu/qml/ItemDetails.qml" line="271"/>
+        <location filename="../apps/ubuntu/qml/ItemDetails.qml" line="294"/>
         <source>Play</source>
         <translation>Redare</translation>
     </message>
     <message>
         <location filename="../apps/harmattan/qml/ItemDetails.qml" line="253"/>
         <location filename="../apps/harmattan/qml/ItemDetails.qml" line="277"/>
+        <location filename="../apps/ubuntu/qml/ItemDetails.qml" line="275"/>
+        <location filename="../apps/ubuntu/qml/ItemDetails.qml" line="298"/>
         <source>Add to playlist</source>
         <translation>Adaugă</translation>
     </message>
     <message>
         <location filename="../apps/harmattan/qml/ItemDetails.qml" line="257"/>
         <location filename="../apps/harmattan/qml/ItemDetails.qml" line="281"/>
+        <location filename="../apps/ubuntu/qml/ItemDetails.qml" line="279"/>
+        <location filename="../apps/ubuntu/qml/ItemDetails.qml" line="302"/>
         <source>Download</source>
         <translation>Descarcă</translation>
+    </message>
+    <message>
+        <location filename="../apps/ubuntu/qml/ItemDetails.qml" line="100"/>
+        <source>Title:</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -571,64 +660,85 @@
     <name>MainPage</name>
     <message>
         <location filename="../apps/harmattan/qml/MainPage.qml" line="49"/>
-        <location filename="../apps/ubuntu/qml/MainPage.qml" line="27"/>
+        <location filename="../apps/ubuntu/apps/ubuntu/qml/MainPage.qml" line="28"/>
+        <location filename="../apps/ubuntu/qml/MainPage.qml" line="29"/>
         <source>XBMC on %1</source>
         <translation>XBMC pe %1</translation>
     </message>
     <message>
         <location filename="../apps/harmattan/qml/MainPage.qml" line="91"/>
-        <location filename="../apps/ubuntu/qml/MainPage.qml" line="60"/>
+        <location filename="../apps/ubuntu/apps/ubuntu/qml/MainPage.qml" line="78"/>
+        <location filename="../apps/ubuntu/qml/MainPage.qml" line="90"/>
         <source>Music</source>
         <translation>Muzică</translation>
     </message>
     <message>
         <location filename="../apps/harmattan/qml/MainPage.qml" line="94"/>
-        <location filename="../apps/ubuntu/qml/MainPage.qml" line="61"/>
+        <location filename="../apps/ubuntu/apps/ubuntu/qml/MainPage.qml" line="79"/>
+        <location filename="../apps/ubuntu/qml/MainPage.qml" line="91"/>
         <source>Videos</source>
         <translation>Filme</translation>
     </message>
     <message>
         <location filename="../apps/harmattan/qml/MainPage.qml" line="97"/>
-        <location filename="../apps/ubuntu/qml/MainPage.qml" line="62"/>
+        <location filename="../apps/ubuntu/apps/ubuntu/qml/MainPage.qml" line="80"/>
+        <location filename="../apps/ubuntu/qml/MainPage.qml" line="92"/>
         <source>Pictures</source>
         <translation>Poze</translation>
     </message>
     <message>
         <location filename="../apps/harmattan/qml/MainPage.qml" line="100"/>
+        <location filename="../apps/ubuntu/qml/MainPage.qml" line="93"/>
         <source>TV Channels</source>
         <translation>Canale TV</translation>
     </message>
     <message>
         <location filename="../apps/harmattan/qml/MainPage.qml" line="193"/>
-        <location filename="../apps/ubuntu/qml/MainPage.qml" line="131"/>
+        <location filename="../apps/ubuntu/apps/ubuntu/qml/MainPage.qml" line="149"/>
+        <location filename="../apps/ubuntu/qml/MainPage.qml" line="168"/>
         <source>Library</source>
         <translation>Bibliotecă</translation>
     </message>
     <message>
         <location filename="../apps/harmattan/qml/MainPage.qml" line="195"/>
-        <location filename="../apps/ubuntu/qml/MainPage.qml" line="131"/>
+        <location filename="../apps/ubuntu/apps/ubuntu/qml/MainPage.qml" line="149"/>
+        <location filename="../apps/ubuntu/qml/MainPage.qml" line="168"/>
         <source>Files</source>
         <translation>Fișiere</translation>
     </message>
     <message>
         <location filename="../apps/harmattan/qml/MainPage.qml" line="267"/>
+        <location filename="../apps/ubuntu/qml/MainPage.qml" line="264"/>
         <source>Show files</source>
         <translation>Afișează fișierele</translation>
     </message>
     <message>
         <location filename="../apps/harmattan/qml/MainPage.qml" line="280"/>
+        <location filename="../apps/ubuntu/qml/MainPage.qml" line="267"/>
         <source>Show library</source>
         <translation>Afișează biblioteca</translation>
     </message>
     <message>
         <location filename="../apps/harmattan/qml/MainPage.qml" line="293"/>
+        <location filename="../apps/ubuntu/qml/MainPage.qml" line="270"/>
         <source>Rescan library</source>
         <translation>Re-scanează biblioteca</translation>
     </message>
     <message>
         <location filename="../apps/harmattan/qml/MainPage.qml" line="309"/>
+        <location filename="../apps/ubuntu/qml/MainPage.qml" line="271"/>
         <source>Clean library</source>
         <translation>Golește biblioteca</translation>
+    </message>
+    <message>
+        <location filename="../apps/ubuntu/qml/MainPage.qml" line="36"/>
+        <source>Settings</source>
+        <translation type="unfinished">Opțiuni</translation>
+    </message>
+    <message>
+        <location filename="../apps/ubuntu/qml/MainPage.qml" line="42"/>
+        <source>Disconnect</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -729,6 +839,29 @@
         <location filename="../apps/harmattan/qml/NoConnectionPage.qml" line="47"/>
         <source>Connect</source>
         <translation>Conectează</translation>
+    </message>
+</context>
+<context>
+    <name>NowPlaying</name>
+    <message>
+        <location filename="../apps/plasmoid/qml/NowPlaying.qml" line="78"/>
+        <source>Year:</source>
+        <translation type="unfinished">Anul:</translation>
+    </message>
+    <message>
+        <location filename="../apps/plasmoid/qml/NowPlaying.qml" line="85"/>
+        <source>Season:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../apps/plasmoid/qml/NowPlaying.qml" line="85"/>
+        <source>Episode:</source>
+        <translation type="unfinished">Episodul:</translation>
+    </message>
+    <message>
+        <location filename="../apps/plasmoid/qml/NowPlaying.qml" line="85"/>
+        <source>Rating:</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -852,36 +985,40 @@
         <translation>Selectează subtitrarea</translation>
     </message>
     <message>
-        <location filename="../apps/harmattan/qml/NowPlayingPage.qml" line="297"/>
-        <location filename="../apps/ubuntu/qml/NowPlayingPage.qml" line="218"/>
+        <location filename="../apps/harmattan/qml/NowPlayingPage.qml" line="298"/>
+        <location filename="../apps/ubuntu/apps/ubuntu/qml/NowPlayingPage.qml" line="233"/>
+        <location filename="../apps/ubuntu/qml/NowPlayingPage.qml" line="131"/>
         <source>Season:</source>
         <translation>Sezon:</translation>
     </message>
     <message>
-        <location filename="../apps/harmattan/qml/NowPlayingPage.qml" line="297"/>
-        <location filename="../apps/ubuntu/qml/NowPlayingPage.qml" line="218"/>
+        <location filename="../apps/harmattan/qml/NowPlayingPage.qml" line="298"/>
+        <location filename="../apps/ubuntu/apps/ubuntu/qml/NowPlayingPage.qml" line="233"/>
+        <location filename="../apps/ubuntu/qml/NowPlayingPage.qml" line="131"/>
         <source>Episode:</source>
         <translation>Episodul:</translation>
     </message>
     <message>
-        <location filename="../apps/harmattan/qml/NowPlayingPage.qml" line="303"/>
-        <location filename="../apps/ubuntu/qml/NowPlayingPage.qml" line="218"/>
+        <location filename="../apps/harmattan/qml/NowPlayingPage.qml" line="304"/>
+        <location filename="../apps/ubuntu/apps/ubuntu/qml/NowPlayingPage.qml" line="233"/>
+        <location filename="../apps/ubuntu/qml/NowPlayingPage.qml" line="131"/>
         <source>Rating:</source>
         <translation>Calificativ:</translation>
     </message>
     <message>
-        <location filename="../apps/harmattan/qml/NowPlayingPage.qml" line="329"/>
-        <location filename="../apps/ubuntu/qml/NowPlayingPage.qml" line="253"/>
+        <location filename="../apps/harmattan/qml/NowPlayingPage.qml" line="330"/>
+        <location filename="../apps/ubuntu/apps/ubuntu/qml/NowPlayingPage.qml" line="268"/>
+        <location filename="../apps/ubuntu/qml/NowPlayingPage.qml" line="123"/>
         <source>Year:</source>
         <translation>Anul:</translation>
     </message>
     <message>
-        <location filename="../apps/harmattan/qml/NowPlayingPage.qml" line="370"/>
+        <location filename="../apps/harmattan/qml/NowPlayingPage.qml" line="371"/>
         <source>Cancel</source>
         <translation>Anulează</translation>
     </message>
     <message>
-        <location filename="../apps/harmattan/qml/NowPlayingPage.qml" line="371"/>
+        <location filename="../apps/harmattan/qml/NowPlayingPage.qml" line="372"/>
         <source>OK</source>
         <translation>OK</translation>
     </message>
@@ -915,6 +1052,19 @@
         <location filename="../apps/harmattan/qml/PlaylistPage.qml" line="169"/>
         <source>Clear playlist</source>
         <translation>Golește lista</translation>
+    </message>
+</context>
+<context>
+    <name>PopupDialog</name>
+    <message>
+        <location filename="../apps/plasmoid/qml/PopupDialog.qml" line="61"/>
+        <source>Xbmc on %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../apps/plasmoid/qml/PopupDialog.qml" line="80"/>
+        <source>Connect to...</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -1036,17 +1186,17 @@
     <message>
         <location filename="../apps/harmattan/qml/SettingsSheet.qml" line="69"/>
         <source>Music</source>
-        <translation type="unfinished"/>
+        <translation>Muzică</translation>
     </message>
     <message>
         <location filename="../apps/harmattan/qml/SettingsSheet.qml" line="75"/>
         <source>Videos</source>
-        <translation type="unfinished"/>
+        <translation>Filme</translation>
     </message>
     <message>
         <location filename="../apps/harmattan/qml/SettingsSheet.qml" line="85"/>
         <source>Pictures</source>
-        <translation type="unfinished"/>
+        <translation>Poze</translation>
     </message>
     <message>
         <location filename="../apps/harmattan/qml/SettingsSheet.qml" line="91"/>
@@ -1082,25 +1232,40 @@
 <context>
     <name>Shares</name>
     <message>
-        <location filename="../libxbmcremote/shares.cpp" line="92"/>
+        <location filename="../libxbmcremote/shares.cpp" line="35"/>
+        <source>Music</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../libxbmcremote/shares.cpp" line="41"/>
+        <source>Videos</source>
+        <translation type="unfinished">Filme</translation>
+    </message>
+    <message>
+        <location filename="../libxbmcremote/shares.cpp" line="116"/>
         <source>Music Files</source>
         <translation>Fișiere audio</translation>
     </message>
     <message>
-        <location filename="../libxbmcremote/shares.cpp" line="94"/>
+        <location filename="../libxbmcremote/shares.cpp" line="118"/>
         <source>Video Files</source>
         <translation>Fișiere video</translation>
     </message>
     <message>
-        <location filename="../libxbmcremote/shares.cpp" line="96"/>
+        <location filename="../libxbmcremote/shares.cpp" line="120"/>
         <source>Picture Files</source>
         <translation>Fișiere cu poze</translation>
+    </message>
+    <message>
+        <location filename="../libxbmcremote/shares.cpp" line="122"/>
+        <source>Shares</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>Songs</name>
     <message>
-        <location filename="../libxbmcremote/songs.cpp" line="209"/>
+        <location filename="../libxbmcremote/songs.cpp" line="226"/>
         <source>Songs</source>
         <translation>Melodii</translation>
     </message>
@@ -1193,23 +1358,23 @@
 <context>
     <name>XbmcConnection::XbmcConnectionPrivate</name>
     <message>
-        <location filename="../libxbmcremote/xbmcconnection.cpp" line="207"/>
+        <location filename="../libxbmcremote/xbmcconnection.cpp" line="212"/>
         <source>Connecting to %1...</source>
         <translation>Se conectează la %1</translation>
     </message>
     <message>
-        <location filename="../libxbmcremote/xbmcconnection.cpp" line="261"/>
+        <location filename="../libxbmcremote/xbmcconnection.cpp" line="266"/>
         <source>The connection has been disconnected</source>
         <translation>Conexiunea a fost întreruptă</translation>
     </message>
     <message>
-        <location filename="../libxbmcremote/xbmcconnection.cpp" line="271"/>
-        <location filename="../libxbmcremote/xbmcconnection.cpp" line="330"/>
+        <location filename="../libxbmcremote/xbmcconnection.cpp" line="276"/>
+        <location filename="../libxbmcremote/xbmcconnection.cpp" line="335"/>
         <source>Connection failed: %1</source>
         <translation>Conexiunea a esuat: %1</translation>
     </message>
     <message>
-        <location filename="../libxbmcremote/xbmcconnection.cpp" line="382"/>
+        <location filename="../libxbmcremote/xbmcconnection.cpp" line="387"/>
         <source>This version of Xbmcremote is designed to work with XBMC Frodo (v12.0). It seems you have connected to an older version of XMBC. Please upgrade XBMC in order to use Xbmcremote.</source>
         <translation>Această versiune de Xbmcremote este compatibilă cu XBMC Frodo (v12.0). Se pare că v-ați conectat la o versiune mai veche de XBMC, care nu este suportată. Pentru a putea folosi Xbmcremote va trebui să actualizați XBMC.
 
@@ -1217,7 +1382,7 @@
  Please upgrade XBMC in order to use Xbmcremote.</translation>
     </message>
     <message>
-        <location filename="../libxbmcremote/xbmcconnection.cpp" line="591"/>
+        <location filename="../libxbmcremote/xbmcconnection.cpp" line="606"/>
         <source>Connection to %1 timed out...</source>
         <translation>Conexiunea la %1 a expirat...</translation>
     </message>
@@ -1253,6 +1418,7 @@
         <location filename="../apps/harmattan/qml/main.qml" line="210"/>
         <location filename="../apps/harmattan/qml/main.qml" line="231"/>
         <location filename="../apps/harmattan/qml/main.qml" line="253"/>
+        <location filename="../apps/ubuntu/qml/main.qml" line="187"/>
         <source>OK</source>
         <translation>OK</translation>
     </message>
@@ -1286,6 +1452,7 @@
         <location filename="../apps/harmattan/qml/main.qml" line="232"/>
         <location filename="../apps/harmattan/qml/main.qml" line="254"/>
         <location filename="../apps/harmattan/qml/main.qml" line="359"/>
+        <location filename="../apps/ubuntu/qml/main.qml" line="182"/>
         <source>Cancel</source>
         <translation>Anulează</translation>
     </message>
@@ -1308,6 +1475,71 @@
         <location filename="../apps/harmattan/qml/main.qml" line="418"/>
         <source>Flattr</source>
         <translation>Flattr</translation>
+    </message>
+    <message>
+        <location filename="../apps/ubuntu/qml/main.qml" line="91"/>
+        <source>Searching for XBMC hosts.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../apps/ubuntu/qml/main.qml" line="92"/>
+        <source>Please enable the following options in the Services settings of XBMC:</source>
+        <translation type="unfinished">Activați următoarele opțiuni în XBMC, în secțiunea Servicii:</translation>
+    </message>
+    <message>
+        <location filename="../apps/ubuntu/qml/main.qml" line="93"/>
+        <source>Allow control of XBMC via HTTP</source>
+        <translation type="unfinished">Permiteți controlul XBMC prin HTTP</translation>
+    </message>
+    <message>
+        <location filename="../apps/ubuntu/qml/main.qml" line="94"/>
+        <source>Allow programs on other systems to control XBMC</source>
+        <translation type="unfinished">Permiteți programelor de pe alte sisteme să controleze XBMC</translation>
+    </message>
+    <message>
+        <location filename="../apps/ubuntu/qml/main.qml" line="95"/>
+        <source>Announce these services to other systems via Zeroconf</source>
+        <translation type="unfinished">Publicați aceste servicii prin Zeroconf</translation>
+    </message>
+    <message>
+        <location filename="../apps/ubuntu/qml/main.qml" line="96"/>
+        <source>If you don&apos;t use Zeroconf, add a host manually.</source>
+        <translation type="unfinished">Dacă nu folosiți Zeroconf, adăugați manual.</translation>
+    </message>
+    <message>
+        <location filename="../apps/ubuntu/qml/main.qml" line="127"/>
+        <source>Remove</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../apps/ubuntu/qml/main.qml" line="132"/>
+        <source>Wake up</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../apps/ubuntu/qml/main.qml" line="144"/>
+        <source>Add host</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../apps/ubuntu/qml/main.qml" line="149"/>
+        <source>Name:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../apps/ubuntu/qml/main.qml" line="156"/>
+        <source>Hostname or IP Address:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../apps/ubuntu/qml/main.qml" line="163"/>
+        <source>Port:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../apps/ubuntu/qml/main.qml" line="171"/>
+        <source>Mac Address:</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 </TS>

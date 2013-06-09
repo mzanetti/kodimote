@@ -1,4 +1,6 @@
-<?xml version="1.0" ?><!DOCTYPE TS><TS language="zh" version="2.0">
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE TS>
+<TS version="2.0" language="zh">
 <context>
     <name>AboutDialog</name>
     <message>
@@ -35,7 +37,7 @@
 <context>
     <name>Albums</name>
     <message>
-        <location filename="../libxbmcremote/albums.cpp" line="185"/>
+        <location filename="../libxbmcremote/albums.cpp" line="187"/>
         <source>Albums</source>
         <translation>专辑</translation>
     </message>
@@ -164,6 +166,19 @@
         <location filename="../apps/harmattan/qml/AuthenticationSheet.qml" line="52"/>
         <source>Password:</source>
         <translation>密码：</translation>
+    </message>
+</context>
+<context>
+    <name>Browser</name>
+    <message>
+        <location filename="../apps/plasmoid/qml/Browser.qml" line="108"/>
+        <source>Update library</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../apps/plasmoid/qml/Browser.qml" line="113"/>
+        <source>Clean library</source>
+        <translation type="unfinished">清除资料库</translation>
     </message>
 </context>
 <context>
@@ -399,144 +414,218 @@
     </message>
 </context>
 <context>
+    <name>HostList</name>
+    <message>
+        <location filename="../apps/plasmoid/qml/HostList.qml" line="109"/>
+        <source>Add</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../apps/plasmoid/qml/HostList.qml" line="116"/>
+        <source>Remove</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../apps/plasmoid/qml/HostList.qml" line="126"/>
+        <source>Connect</source>
+        <translation type="unfinished">连接</translation>
+    </message>
+    <message>
+        <location filename="../apps/plasmoid/qml/HostList.qml" line="148"/>
+        <source>Host:</source>
+        <translation type="unfinished">主机：</translation>
+    </message>
+    <message>
+        <location filename="../apps/plasmoid/qml/HostList.qml" line="156"/>
+        <source>Port:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../apps/plasmoid/qml/HostList.qml" line="165"/>
+        <source>MAC Address for WakeOnLan (optional):</source>
+        <translation type="unfinished">MAC地址用于网络唤醒(可选)：</translation>
+    </message>
+    <message>
+        <location filename="../apps/plasmoid/qml/HostList.qml" line="181"/>
+        <source>OK</source>
+        <translation type="unfinished">确定</translation>
+    </message>
+    <message>
+        <location filename="../apps/plasmoid/qml/HostList.qml" line="195"/>
+        <source>Cancel</source>
+        <translation type="unfinished">取消</translation>
+    </message>
+</context>
+<context>
     <name>ItemDetails</name>
     <message>
         <location filename="../apps/generic/qml/ItemDetails.qml" line="113"/>
         <location filename="../apps/harmattan/qml/ItemDetails.qml" line="64"/>
+        <location filename="../apps/ubuntu/qml/ItemDetails.qml" line="81"/>
         <source>Rating:</source>
         <translation>等级：</translation>
     </message>
     <message>
         <location filename="../apps/generic/qml/ItemDetails.qml" line="119"/>
         <location filename="../apps/harmattan/qml/ItemDetails.qml" line="83"/>
+        <location filename="../apps/ubuntu/qml/ItemDetails.qml" line="106"/>
         <source>Season:</source>
         <translation>季“</translation>
     </message>
     <message>
         <location filename="../apps/generic/qml/ItemDetails.qml" line="125"/>
         <location filename="../apps/harmattan/qml/ItemDetails.qml" line="89"/>
+        <location filename="../apps/ubuntu/qml/ItemDetails.qml" line="112"/>
         <source>Episode:</source>
         <translation>插曲：</translation>
     </message>
     <message>
         <location filename="../apps/generic/qml/ItemDetails.qml" line="131"/>
         <location filename="../apps/harmattan/qml/ItemDetails.qml" line="95"/>
+        <location filename="../apps/ubuntu/qml/ItemDetails.qml" line="118"/>
         <source>First aired:</source>
         <translation>首播：</translation>
     </message>
     <message>
         <location filename="../apps/generic/qml/ItemDetails.qml" line="137"/>
         <location filename="../apps/harmattan/qml/ItemDetails.qml" line="101"/>
+        <location filename="../apps/ubuntu/qml/ItemDetails.qml" line="124"/>
         <source>Genre:</source>
         <translation>类型：</translation>
     </message>
     <message>
         <location filename="../apps/generic/qml/ItemDetails.qml" line="143"/>
         <location filename="../apps/harmattan/qml/ItemDetails.qml" line="107"/>
+        <location filename="../apps/ubuntu/qml/ItemDetails.qml" line="130"/>
         <source>Year:</source>
         <translation>年代：</translation>
     </message>
     <message>
         <location filename="../apps/generic/qml/ItemDetails.qml" line="149"/>
         <location filename="../apps/harmattan/qml/ItemDetails.qml" line="113"/>
+        <location filename="../apps/ubuntu/qml/ItemDetails.qml" line="136"/>
         <source>Director:</source>
         <translation>导演：</translation>
     </message>
     <message>
         <location filename="../apps/generic/qml/ItemDetails.qml" line="155"/>
         <location filename="../apps/harmattan/qml/ItemDetails.qml" line="119"/>
+        <location filename="../apps/ubuntu/qml/ItemDetails.qml" line="142"/>
         <source>Tagline:</source>
         <translation>标语：</translation>
     </message>
     <message>
         <location filename="../apps/generic/qml/ItemDetails.qml" line="161"/>
         <location filename="../apps/harmattan/qml/ItemDetails.qml" line="125"/>
+        <location filename="../apps/ubuntu/qml/ItemDetails.qml" line="148"/>
         <source>MPAA:</source>
         <translation>分级：</translation>
     </message>
     <message>
         <location filename="../apps/generic/qml/ItemDetails.qml" line="167"/>
         <location filename="../apps/harmattan/qml/ItemDetails.qml" line="131"/>
+        <location filename="../apps/ubuntu/qml/ItemDetails.qml" line="154"/>
         <source>Instrument:</source>
         <translation>乐器：</translation>
     </message>
     <message>
         <location filename="../apps/generic/qml/ItemDetails.qml" line="173"/>
         <location filename="../apps/harmattan/qml/ItemDetails.qml" line="137"/>
+        <location filename="../apps/ubuntu/qml/ItemDetails.qml" line="160"/>
         <source>Style:</source>
         <translation>风格：</translation>
     </message>
     <message>
         <location filename="../apps/generic/qml/ItemDetails.qml" line="179"/>
         <location filename="../apps/harmattan/qml/ItemDetails.qml" line="143"/>
+        <location filename="../apps/ubuntu/qml/ItemDetails.qml" line="166"/>
         <source>Mood:</source>
         <translation>旋律：</translation>
     </message>
     <message>
         <location filename="../apps/generic/qml/ItemDetails.qml" line="185"/>
         <location filename="../apps/harmattan/qml/ItemDetails.qml" line="149"/>
+        <location filename="../apps/ubuntu/qml/ItemDetails.qml" line="172"/>
         <source>Born:</source>
         <translation>出生：</translation>
     </message>
     <message>
         <location filename="../apps/generic/qml/ItemDetails.qml" line="191"/>
         <location filename="../apps/harmattan/qml/ItemDetails.qml" line="155"/>
+        <location filename="../apps/ubuntu/qml/ItemDetails.qml" line="178"/>
         <source>Formed:</source>
         <translation>题材：</translation>
     </message>
     <message>
         <location filename="../apps/generic/qml/ItemDetails.qml" line="197"/>
         <location filename="../apps/harmattan/qml/ItemDetails.qml" line="161"/>
+        <location filename="../apps/ubuntu/qml/ItemDetails.qml" line="184"/>
         <source>Died:</source>
         <translation>逝于：</translation>
     </message>
     <message>
         <location filename="../apps/generic/qml/ItemDetails.qml" line="203"/>
         <location filename="../apps/harmattan/qml/ItemDetails.qml" line="167"/>
+        <location filename="../apps/ubuntu/qml/ItemDetails.qml" line="190"/>
         <source>Disbanded:</source>
         <translation>解散：</translation>
     </message>
     <message>
         <location filename="../apps/generic/qml/ItemDetails.qml" line="209"/>
         <location filename="../apps/harmattan/qml/ItemDetails.qml" line="173"/>
+        <location filename="../apps/ubuntu/qml/ItemDetails.qml" line="196"/>
         <source>Duration:</source>
         <translation>时长：</translation>
     </message>
     <message>
         <location filename="../apps/generic/qml/ItemDetails.qml" line="215"/>
         <location filename="../apps/harmattan/qml/ItemDetails.qml" line="179"/>
+        <location filename="../apps/ubuntu/qml/ItemDetails.qml" line="202"/>
         <source>Comment:</source>
         <translation>注释：</translation>
     </message>
     <message>
         <location filename="../apps/generic/qml/ItemDetails.qml" line="221"/>
         <location filename="../apps/harmattan/qml/ItemDetails.qml" line="185"/>
+        <location filename="../apps/ubuntu/qml/ItemDetails.qml" line="208"/>
         <source>Playcount:</source>
         <translation>播放次数：</translation>
     </message>
     <message>
         <location filename="../apps/generic/qml/ItemDetails.qml" line="227"/>
         <location filename="../apps/harmattan/qml/ItemDetails.qml" line="191"/>
+        <location filename="../apps/ubuntu/qml/ItemDetails.qml" line="214"/>
         <source>Cast:</source>
         <translation>演员”</translation>
     </message>
     <message>
         <location filename="../apps/harmattan/qml/ItemDetails.qml" line="249"/>
         <location filename="../apps/harmattan/qml/ItemDetails.qml" line="273"/>
+        <location filename="../apps/ubuntu/qml/ItemDetails.qml" line="271"/>
+        <location filename="../apps/ubuntu/qml/ItemDetails.qml" line="294"/>
         <source>Play</source>
         <translation>播放</translation>
     </message>
     <message>
         <location filename="../apps/harmattan/qml/ItemDetails.qml" line="253"/>
         <location filename="../apps/harmattan/qml/ItemDetails.qml" line="277"/>
+        <location filename="../apps/ubuntu/qml/ItemDetails.qml" line="275"/>
+        <location filename="../apps/ubuntu/qml/ItemDetails.qml" line="298"/>
         <source>Add to playlist</source>
         <translation>添加到播放列表</translation>
     </message>
     <message>
         <location filename="../apps/harmattan/qml/ItemDetails.qml" line="257"/>
         <location filename="../apps/harmattan/qml/ItemDetails.qml" line="281"/>
+        <location filename="../apps/ubuntu/qml/ItemDetails.qml" line="279"/>
+        <location filename="../apps/ubuntu/qml/ItemDetails.qml" line="302"/>
         <source>Download</source>
         <translation>下载</translation>
+    </message>
+    <message>
+        <location filename="../apps/ubuntu/qml/ItemDetails.qml" line="100"/>
+        <source>Title:</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -571,64 +660,85 @@
     <name>MainPage</name>
     <message>
         <location filename="../apps/harmattan/qml/MainPage.qml" line="49"/>
-        <location filename="../apps/ubuntu/qml/MainPage.qml" line="27"/>
+        <location filename="../apps/ubuntu/apps/ubuntu/qml/MainPage.qml" line="28"/>
+        <location filename="../apps/ubuntu/qml/MainPage.qml" line="29"/>
         <source>XBMC on %1</source>
         <translation>主机：%1</translation>
     </message>
     <message>
         <location filename="../apps/harmattan/qml/MainPage.qml" line="91"/>
-        <location filename="../apps/ubuntu/qml/MainPage.qml" line="60"/>
+        <location filename="../apps/ubuntu/apps/ubuntu/qml/MainPage.qml" line="78"/>
+        <location filename="../apps/ubuntu/qml/MainPage.qml" line="90"/>
         <source>Music</source>
         <translation>音乐</translation>
     </message>
     <message>
         <location filename="../apps/harmattan/qml/MainPage.qml" line="94"/>
-        <location filename="../apps/ubuntu/qml/MainPage.qml" line="61"/>
+        <location filename="../apps/ubuntu/apps/ubuntu/qml/MainPage.qml" line="79"/>
+        <location filename="../apps/ubuntu/qml/MainPage.qml" line="91"/>
         <source>Videos</source>
         <translation>视频</translation>
     </message>
     <message>
         <location filename="../apps/harmattan/qml/MainPage.qml" line="97"/>
-        <location filename="../apps/ubuntu/qml/MainPage.qml" line="62"/>
+        <location filename="../apps/ubuntu/apps/ubuntu/qml/MainPage.qml" line="80"/>
+        <location filename="../apps/ubuntu/qml/MainPage.qml" line="92"/>
         <source>Pictures</source>
         <translation>图片</translation>
     </message>
     <message>
         <location filename="../apps/harmattan/qml/MainPage.qml" line="100"/>
+        <location filename="../apps/ubuntu/qml/MainPage.qml" line="93"/>
         <source>TV Channels</source>
         <translation>电视节目</translation>
     </message>
     <message>
         <location filename="../apps/harmattan/qml/MainPage.qml" line="193"/>
-        <location filename="../apps/ubuntu/qml/MainPage.qml" line="131"/>
+        <location filename="../apps/ubuntu/apps/ubuntu/qml/MainPage.qml" line="149"/>
+        <location filename="../apps/ubuntu/qml/MainPage.qml" line="168"/>
         <source>Library</source>
         <translation>资料库</translation>
     </message>
     <message>
         <location filename="../apps/harmattan/qml/MainPage.qml" line="195"/>
-        <location filename="../apps/ubuntu/qml/MainPage.qml" line="131"/>
+        <location filename="../apps/ubuntu/apps/ubuntu/qml/MainPage.qml" line="149"/>
+        <location filename="../apps/ubuntu/qml/MainPage.qml" line="168"/>
         <source>Files</source>
         <translation>文件</translation>
     </message>
     <message>
         <location filename="../apps/harmattan/qml/MainPage.qml" line="267"/>
+        <location filename="../apps/ubuntu/qml/MainPage.qml" line="264"/>
         <source>Show files</source>
         <translation>以文件显示</translation>
     </message>
     <message>
         <location filename="../apps/harmattan/qml/MainPage.qml" line="280"/>
+        <location filename="../apps/ubuntu/qml/MainPage.qml" line="267"/>
         <source>Show library</source>
         <translation>以资料库显示</translation>
     </message>
     <message>
         <location filename="../apps/harmattan/qml/MainPage.qml" line="293"/>
+        <location filename="../apps/ubuntu/qml/MainPage.qml" line="270"/>
         <source>Rescan library</source>
         <translation>重新扫描库</translation>
     </message>
     <message>
         <location filename="../apps/harmattan/qml/MainPage.qml" line="309"/>
+        <location filename="../apps/ubuntu/qml/MainPage.qml" line="271"/>
         <source>Clean library</source>
         <translation>清除资料库</translation>
+    </message>
+    <message>
+        <location filename="../apps/ubuntu/qml/MainPage.qml" line="36"/>
+        <source>Settings</source>
+        <translation type="unfinished">设置</translation>
+    </message>
+    <message>
+        <location filename="../apps/ubuntu/qml/MainPage.qml" line="42"/>
+        <source>Disconnect</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -729,6 +839,29 @@
         <location filename="../apps/harmattan/qml/NoConnectionPage.qml" line="47"/>
         <source>Connect</source>
         <translation>连接</translation>
+    </message>
+</context>
+<context>
+    <name>NowPlaying</name>
+    <message>
+        <location filename="../apps/plasmoid/qml/NowPlaying.qml" line="78"/>
+        <source>Year:</source>
+        <translation type="unfinished">年代：</translation>
+    </message>
+    <message>
+        <location filename="../apps/plasmoid/qml/NowPlaying.qml" line="85"/>
+        <source>Season:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../apps/plasmoid/qml/NowPlaying.qml" line="85"/>
+        <source>Episode:</source>
+        <translation type="unfinished">插曲：</translation>
+    </message>
+    <message>
+        <location filename="../apps/plasmoid/qml/NowPlaying.qml" line="85"/>
+        <source>Rating:</source>
+        <translation type="unfinished">等级：</translation>
     </message>
 </context>
 <context>
@@ -852,36 +985,40 @@
         <translation>选择字幕</translation>
     </message>
     <message>
-        <location filename="../apps/harmattan/qml/NowPlayingPage.qml" line="297"/>
-        <location filename="../apps/ubuntu/qml/NowPlayingPage.qml" line="218"/>
+        <location filename="../apps/harmattan/qml/NowPlayingPage.qml" line="298"/>
+        <location filename="../apps/ubuntu/apps/ubuntu/qml/NowPlayingPage.qml" line="233"/>
+        <location filename="../apps/ubuntu/qml/NowPlayingPage.qml" line="131"/>
         <source>Season:</source>
         <translation>季：</translation>
     </message>
     <message>
-        <location filename="../apps/harmattan/qml/NowPlayingPage.qml" line="297"/>
-        <location filename="../apps/ubuntu/qml/NowPlayingPage.qml" line="218"/>
+        <location filename="../apps/harmattan/qml/NowPlayingPage.qml" line="298"/>
+        <location filename="../apps/ubuntu/apps/ubuntu/qml/NowPlayingPage.qml" line="233"/>
+        <location filename="../apps/ubuntu/qml/NowPlayingPage.qml" line="131"/>
         <source>Episode:</source>
         <translation>插曲：</translation>
     </message>
     <message>
-        <location filename="../apps/harmattan/qml/NowPlayingPage.qml" line="303"/>
-        <location filename="../apps/ubuntu/qml/NowPlayingPage.qml" line="218"/>
+        <location filename="../apps/harmattan/qml/NowPlayingPage.qml" line="304"/>
+        <location filename="../apps/ubuntu/apps/ubuntu/qml/NowPlayingPage.qml" line="233"/>
+        <location filename="../apps/ubuntu/qml/NowPlayingPage.qml" line="131"/>
         <source>Rating:</source>
         <translation>等级：</translation>
     </message>
     <message>
-        <location filename="../apps/harmattan/qml/NowPlayingPage.qml" line="329"/>
-        <location filename="../apps/ubuntu/qml/NowPlayingPage.qml" line="253"/>
+        <location filename="../apps/harmattan/qml/NowPlayingPage.qml" line="330"/>
+        <location filename="../apps/ubuntu/apps/ubuntu/qml/NowPlayingPage.qml" line="268"/>
+        <location filename="../apps/ubuntu/qml/NowPlayingPage.qml" line="123"/>
         <source>Year:</source>
         <translation>年代：</translation>
     </message>
     <message>
-        <location filename="../apps/harmattan/qml/NowPlayingPage.qml" line="370"/>
+        <location filename="../apps/harmattan/qml/NowPlayingPage.qml" line="371"/>
         <source>Cancel</source>
         <translation>取消</translation>
     </message>
     <message>
-        <location filename="../apps/harmattan/qml/NowPlayingPage.qml" line="371"/>
+        <location filename="../apps/harmattan/qml/NowPlayingPage.qml" line="372"/>
         <source>OK</source>
         <translation>确定</translation>
     </message>
@@ -915,6 +1052,19 @@
         <location filename="../apps/harmattan/qml/PlaylistPage.qml" line="169"/>
         <source>Clear playlist</source>
         <translation>清除播放列表</translation>
+    </message>
+</context>
+<context>
+    <name>PopupDialog</name>
+    <message>
+        <location filename="../apps/plasmoid/qml/PopupDialog.qml" line="61"/>
+        <source>Xbmc on %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../apps/plasmoid/qml/PopupDialog.qml" line="80"/>
+        <source>Connect to...</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -1082,25 +1232,40 @@
 <context>
     <name>Shares</name>
     <message>
-        <location filename="../libxbmcremote/shares.cpp" line="92"/>
+        <location filename="../libxbmcremote/shares.cpp" line="35"/>
+        <source>Music</source>
+        <translation type="unfinished">音乐</translation>
+    </message>
+    <message>
+        <location filename="../libxbmcremote/shares.cpp" line="41"/>
+        <source>Videos</source>
+        <translation type="unfinished">视频</translation>
+    </message>
+    <message>
+        <location filename="../libxbmcremote/shares.cpp" line="116"/>
         <source>Music Files</source>
         <translation>音乐文件</translation>
     </message>
     <message>
-        <location filename="../libxbmcremote/shares.cpp" line="94"/>
+        <location filename="../libxbmcremote/shares.cpp" line="118"/>
         <source>Video Files</source>
         <translation>视频文件</translation>
     </message>
     <message>
-        <location filename="../libxbmcremote/shares.cpp" line="96"/>
+        <location filename="../libxbmcremote/shares.cpp" line="120"/>
         <source>Picture Files</source>
         <translation>图片文件</translation>
+    </message>
+    <message>
+        <location filename="../libxbmcremote/shares.cpp" line="122"/>
+        <source>Shares</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>Songs</name>
     <message>
-        <location filename="../libxbmcremote/songs.cpp" line="209"/>
+        <location filename="../libxbmcremote/songs.cpp" line="226"/>
         <source>Songs</source>
         <translation>音乐</translation>
     </message>
@@ -1193,28 +1358,28 @@
 <context>
     <name>XbmcConnection::XbmcConnectionPrivate</name>
     <message>
-        <location filename="../libxbmcremote/xbmcconnection.cpp" line="207"/>
+        <location filename="../libxbmcremote/xbmcconnection.cpp" line="212"/>
         <source>Connecting to %1...</source>
         <translation>连接到%1。。</translation>
     </message>
     <message>
-        <location filename="../libxbmcremote/xbmcconnection.cpp" line="261"/>
+        <location filename="../libxbmcremote/xbmcconnection.cpp" line="266"/>
         <source>The connection has been disconnected</source>
         <translation>连接已断开</translation>
     </message>
     <message>
-        <location filename="../libxbmcremote/xbmcconnection.cpp" line="271"/>
-        <location filename="../libxbmcremote/xbmcconnection.cpp" line="330"/>
+        <location filename="../libxbmcremote/xbmcconnection.cpp" line="276"/>
+        <location filename="../libxbmcremote/xbmcconnection.cpp" line="335"/>
         <source>Connection failed: %1</source>
         <translation>连接失败：%1</translation>
     </message>
     <message>
-        <location filename="../libxbmcremote/xbmcconnection.cpp" line="382"/>
+        <location filename="../libxbmcremote/xbmcconnection.cpp" line="387"/>
         <source>This version of Xbmcremote is designed to work with XBMC Frodo (v12.0). It seems you have connected to an older version of XMBC. Please upgrade XBMC in order to use Xbmcremote.</source>
         <translation>本版本的Xbmcremote适用于XBMC Frodo (v12.0)。好像你现在连接的是个旧版的XBMC，请更新XBMC后再使用Xbmcremote。</translation>
     </message>
     <message>
-        <location filename="../libxbmcremote/xbmcconnection.cpp" line="591"/>
+        <location filename="../libxbmcremote/xbmcconnection.cpp" line="606"/>
         <source>Connection to %1 timed out...</source>
         <translation>连接到 %1 超时。</translation>
     </message>
@@ -1250,6 +1415,7 @@
         <location filename="../apps/harmattan/qml/main.qml" line="210"/>
         <location filename="../apps/harmattan/qml/main.qml" line="231"/>
         <location filename="../apps/harmattan/qml/main.qml" line="253"/>
+        <location filename="../apps/ubuntu/qml/main.qml" line="187"/>
         <source>OK</source>
         <translation>确定</translation>
     </message>
@@ -1283,6 +1449,7 @@
         <location filename="../apps/harmattan/qml/main.qml" line="232"/>
         <location filename="../apps/harmattan/qml/main.qml" line="254"/>
         <location filename="../apps/harmattan/qml/main.qml" line="359"/>
+        <location filename="../apps/ubuntu/qml/main.qml" line="182"/>
         <source>Cancel</source>
         <translation>取消</translation>
     </message>
@@ -1305,6 +1472,71 @@
         <location filename="../apps/harmattan/qml/main.qml" line="418"/>
         <source>Flattr</source>
         <translation>Flattr</translation>
+    </message>
+    <message>
+        <location filename="../apps/ubuntu/qml/main.qml" line="91"/>
+        <source>Searching for XBMC hosts.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../apps/ubuntu/qml/main.qml" line="92"/>
+        <source>Please enable the following options in the Services settings of XBMC:</source>
+        <translation type="unfinished">请在XBMC的系统设置里的“服务”选项下，允许以下选项</translation>
+    </message>
+    <message>
+        <location filename="../apps/ubuntu/qml/main.qml" line="93"/>
+        <source>Allow control of XBMC via HTTP</source>
+        <translation type="unfinished">允许通过HTTP控制XBMC</translation>
+    </message>
+    <message>
+        <location filename="../apps/ubuntu/qml/main.qml" line="94"/>
+        <source>Allow programs on other systems to control XBMC</source>
+        <translation type="unfinished">允许其他系统上的程序控制XBMC</translation>
+    </message>
+    <message>
+        <location filename="../apps/ubuntu/qml/main.qml" line="95"/>
+        <source>Announce these services to other systems via Zeroconf</source>
+        <translation type="unfinished">通过Zeroconf协议发布这些服务</translation>
+    </message>
+    <message>
+        <location filename="../apps/ubuntu/qml/main.qml" line="96"/>
+        <source>If you don&apos;t use Zeroconf, add a host manually.</source>
+        <translation type="unfinished">如果你使用的不是Zeroconf,，请手动添加主机。</translation>
+    </message>
+    <message>
+        <location filename="../apps/ubuntu/qml/main.qml" line="127"/>
+        <source>Remove</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../apps/ubuntu/qml/main.qml" line="132"/>
+        <source>Wake up</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../apps/ubuntu/qml/main.qml" line="144"/>
+        <source>Add host</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../apps/ubuntu/qml/main.qml" line="149"/>
+        <source>Name:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../apps/ubuntu/qml/main.qml" line="156"/>
+        <source>Hostname or IP Address:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../apps/ubuntu/qml/main.qml" line="163"/>
+        <source>Port:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../apps/ubuntu/qml/main.qml" line="171"/>
+        <source>Mac Address:</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 </TS>
