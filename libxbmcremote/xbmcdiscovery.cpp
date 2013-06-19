@@ -32,6 +32,9 @@
 
 // Zeroconf query for _xbmc-jsonrpc._tcp, _http._tcp and _workstation._tcp
 
+#define ADJUST(x) datagram = datagram.right(datagram.length() - x);
+#define READLEN len = data.left(4).toInt(0, 16);
+
 char query_jsonrpc_http_workstations[] = {
     // DNS-SD Header
     0x00, 0x00, 0x00, 0x00, // Flags (Standard Query)
@@ -105,30 +108,33 @@ void XbmcDiscovery::readDatagram()
 {
     xDebug(XDAREA_DISCOVERY) << "***** multicast packet recieve *****";
 
+
     while (m_socket->hasPendingDatagrams()) {
         int size = m_socket->pendingDatagramSize();
-        // qDebug() << "**** next datagram **** size:" << size;
+        qDebug() << "**** next datagram **** size:" << size;
         char *data = (char*)malloc(size);
         m_socket->readDatagram(data, size);
         QByteArray datagram = QByteArray(data, size).toHex();
+        QByteArray fullDatagram = datagram;
         free(data);
+        qDebug() << datagram;
 
         // ignore transaction id
-        datagram = datagram.right(datagram.length() - 4);
+        ADJUST(4);
 
         // ignore flags
-        datagram = datagram.right(datagram.length() - 4);
+        ADJUST(4);
 
         // read number of queries in this datagram
         int queryCount = datagram.left(4).toInt(0, 16);
-        datagram = datagram.right(datagram.length() - 4);
+        ADJUST(4)
         if(queryCount > 0) {
             qDebug() << "there are" << queryCount << "queries in the datagram";
         }
 
         // read number of answer records in this datagram
         int answerCount = datagram.left(4).toInt(0, 16);
-        datagram = datagram.right(datagram.length() - 4);
+        ADJUST(4)
         if(answerCount > 0) {
             xDebug(XDAREA_DISCOVERY) << "there are" << answerCount << "answer records in the datagram";
         } else {
@@ -138,24 +144,40 @@ void XbmcDiscovery::readDatagram()
 
         // read number of authority records in this datagram
         int authorityCount = datagram.left(4).toInt(0, 16);
-        datagram = datagram.right(datagram.length() - 4);
+        ADJUST(4)
         if(authorityCount > 0) {
             xDebug(XDAREA_DISCOVERY) << "there are" << authorityCount << "authority records in the datagram";
         }
 
         // ignore rest
         datagram = datagram.right(datagram.length() - 4);
-//        qDebug() << datagram;
+        qDebug() << datagram;
 
         XbmcHost host;
 
+        for (int i = 0; i < queryCount; ++i) {
+            int queryLen = datagram.left(2).toInt(0, 16);
+            qDebug() << "discarding query" << queryLen << datagram;
+            datagram = datagram.right(datagram.length() - 2);
+
+            datagram = datagram.right(datagram.length() - (queryLen * 2));
+
+            if (datagram.startsWith("c01a")) {
+                datagram = datagram.right(datagram.length() - 4);
+            } else {
+                datagram = datagram.right(datagram.length() - (queryLen * 2) + 2);
+            }
+
+            datagram = datagram.right(datagram.length() - 8);
+            qDebug() << "discarded query" << datagram;
+        }
+
         int len = 0;
-        bool isXbmcHttpRecord = false;
         while(!datagram.isEmpty()) {
-            //qDebug() << "starting record:" << datagram;
+            qDebug() << "starting record:" << datagram;
             QString currentService;
 
-            if(!(datagram.startsWith("c0") || datagram.startsWith("c1"))) {
+            if(!(datagram.startsWith("c"))) {
                 //qDebug() << datagram;
 
                 len = datagram.left(2).toInt(0, 16);
@@ -163,25 +185,21 @@ void XbmcDiscovery::readDatagram()
                 datagram = datagram.right(datagram.length() - 2);
                 currentService = QString(QByteArray::fromHex(datagram.left(len * 2)));;
                 datagram = datagram.right(datagram.length() - len * 2);
-                //qDebug() << "*SERVICE:" << currentService;
-
-                // new service... reset isXbmcHttpPort
-                isXbmcHttpRecord = false;
-                //httpPort = 0;
+                qDebug() << "*SERVICE:" << currentService;
 
                 if(datagram.startsWith("c0")) {
                     // its a reference name.. ignore it
-                    //qDebug() << "ignoring reference";
+                    qDebug() << "ignoring reference";
                     datagram = datagram.right(datagram.length() - 4);
                 } else {
                     len = datagram.left(2).toInt(0, 16);
                     datagram = datagram.right(datagram.length() - 2);
-                    //qDebug() << "proto:" << QString(QByteArray::fromHex(datagram.left(len * 2)));
+                    qDebug() << "proto:" << QString(QByteArray::fromHex(datagram.left(len * 2)));
                     datagram = datagram.right(datagram.length() - len * 2);
 
                     len = datagram.left(2).toInt(0, 16);
                     datagram = datagram.right(datagram.length() - 2);
-                    //qDebug() << "domain:" << QString(QByteArray::fromHex(datagram.left(len * 2)));
+                    qDebug() << "domain:" << QString(QByteArray::fromHex(datagram.left(len * 2)));
                     datagram = datagram.right(datagram.length() - len * 2);
 
                     // trim 0 termination
@@ -190,17 +208,19 @@ void XbmcDiscovery::readDatagram()
                 // ignore flags:
                 datagram = datagram.right(datagram.length() - 16);
 
+                qDebug() << "datagram" << datagram;
+
                 len = datagram.left(4).toInt(0, 16);
                 datagram = datagram.right(datagram.length() - 4);
                 QString domain = QString(QByteArray::fromHex(datagram.left(len * 2)));
                 datagram = datagram.right(datagram.length() - len * 2);
-                xDebug(XDAREA_DISCOVERY) << "fqdn:" << domain;
+                xDebug(XDAREA_DISCOVERY) << "fqdn:" << domain << domain.length() << len;
 
                 if(currentService == "_workstation") {
                     domain = domain.right(domain.length() - 1);
                     QString hostname = domain.split("[").first();
                     hostname = hostname.left(hostname.length() - 1);
-//                    qDebug() << "hostname:" << hostname;
+                    qDebug() << "hostname:" << hostname;
                     host.setHostname(hostname);
 
                     if(domain.split('[').count() > 1) {
@@ -209,26 +229,30 @@ void XbmcDiscovery::readDatagram()
                         host.setHwAddr(hwAddr);
                     }
                 } else if(currentService == "_http") {
-//                    if(domain.contains("XBMC")) {
-                        //qDebug() << "is xbmcHttp record!";
-                        isXbmcHttpRecord = true;
-                        host.setXbmcHttpSupported(true);
-//                    }
+                    qDebug() << "is xbmcHttp record!";
+                    host.setXbmcHttpSupported(true);
                 } else if(currentService == "_xbmc-jsonrpc") {
                     host.setXbmcJsonrpcSupported(true);
                 }
 
 
             } else {
-                //qDebug() << "got a 2er record";
-                datagram = datagram.right(datagram.length() - 2);
+                qDebug() << "got a 2er record" << datagram[0]<<datagram[1];
+                datagram = datagram.right(datagram.length() - 1);
 
                 // ignore name
-                datagram = datagram.right(datagram.length() - 2);
+                int index = datagram.left(3).toInt(0, 16);
+                if (datagram[1] == '!') {
+
+                }
+                QString serviceName = extractName(fullDatagram, index);
+                qDebug() << "got index" << index << serviceName;
+
+                datagram = datagram.right(datagram.length() - 3);
 
                 // type
                 if(datagram.startsWith("0010")) {
-                    //qDebug() << "got TXT record";
+                    qDebug() << "got TXT record";
                     datagram = datagram.right(datagram.length() - 4);
 
                     // ignoring flags
@@ -236,11 +260,11 @@ void XbmcDiscovery::readDatagram()
 
                     len = datagram.left(4).toInt(0, 16);
                     datagram = datagram.right(datagram.length() - 4);
-                    //qDebug() << "Text:" << QString(QByteArray::fromHex(datagram.left(len * 2))) << "len:" << len;
+                    qDebug() << "Text:" << QString(QByteArray::fromHex(datagram.left(len * 2))) << "len:" << len;
                     datagram = datagram.right(datagram.length() - len * 2);
 
                 } else if(datagram.startsWith("0021")) {
-                    //qDebug() << "got SRV record";
+                    qDebug() << "got SRV record";
                     datagram = datagram.right(datagram.length() - 4);
 
                     // ignoring flags
@@ -249,7 +273,7 @@ void XbmcDiscovery::readDatagram()
                     // get length
                     len = datagram.left(4).toInt(0, 16);
                     datagram = datagram.right(datagram.length() - 4);
-                    //qDebug() << "record length:" << len;
+                    qDebug() << "record length:" << len;
 
                     // ignoring priority
                     if(len > 0) {
@@ -267,14 +291,18 @@ void XbmcDiscovery::readDatagram()
                     if(len > 0) {
                         len -= 2;
                         int port = datagram.left(4).toInt(0, 16);
-                        //qDebug() << "Port:" << port;
+                        qDebug() << "Port:" << port;
                         datagram = datagram.right(datagram.length() - 4);
 
-                        //qDebug() << "it is still?" << isXbmcHttpRecord;
+                        qDebug() << "it is still?" << serviceName;
 
-                        if(isXbmcHttpRecord) {
-                            isXbmcHttpRecord = false;
+
+                        if(serviceName.contains("_http")) {
                             host.setPort(port);
+                            host.setXbmcHttpSupported(true);
+                        }
+                        if (serviceName.contains("_xbmc-jsonrpc")) {
+                            host.setXbmcJsonrpcSupported(true);
                         }
                     }
 
@@ -282,7 +310,7 @@ void XbmcDiscovery::readDatagram()
                     datagram = datagram.right(datagram.length() - len * 2);
 
                 } else if(datagram.startsWith("001c")) {
-                    //qDebug() << "got a type AAA record";
+                    qDebug() << "got a type AAA record";
                     datagram = datagram.right(datagram.length() - 4);
 
                     // ignoring flags
@@ -291,11 +319,11 @@ void XbmcDiscovery::readDatagram()
                     // ipv6 addr
                     len = datagram.left(4).toInt(0, 16);
                     datagram = datagram.right(datagram.length() - 4);
-//                    qDebug() << "IPv6 Address:" << QString(QByteArray::fromHex(datagram.left(len * 2))) << "len:" << len;
+                    qDebug() << "IPv6 Address:" << QString(QByteArray::fromHex(datagram.left(len * 2))) << "len:" << len;
                     datagram = datagram.right(datagram.length() - len * 2);
 
                 } else if(datagram.startsWith("0001")) {
-                    //qDebug() << "got a type A record";
+                    qDebug() << "got a type A record";
                     datagram = datagram.right(datagram.length() - 4);
 
                     // ignoring flags
@@ -313,11 +341,11 @@ void XbmcDiscovery::readDatagram()
                     datagram = datagram.right(datagram.length() - 2);
                     int ip4 = datagram.left(2).toInt(0, 16);
                     datagram = datagram.right(datagram.length() - 2);
-                    //qDebug() << "IPv4 Address:" << addr;
                     host.setAddress(QString::number(ip1) + "." + QString::number(ip2) + "." + QString::number(ip3) + "." + QString::number(ip4));
+                    qDebug() << "IPv4 Address:" << host.address();
 
                 } else if(datagram.startsWith("000c")){
-                    //qDebug() << "got a PTR record";
+                    qDebug() << "got a PTR record";
                     datagram = datagram.right(datagram.length() - 4);
 
                     // ignoring flags
@@ -326,7 +354,7 @@ void XbmcDiscovery::readDatagram()
                     // ignoring rest
                     len = datagram.left(4).toInt(0, 16);
                     datagram = datagram.right(datagram.length() - 4);
-                    //qDebug() << "PTR:" << QString(QByteArray::fromHex(datagram.left(len * 2))) << "len:" << len;
+                    qDebug() << "PTR:" << QString(QByteArray::fromHex(datagram.left(len * 2))) << "len:" << len;
                     datagram = datagram.right(datagram.length() - len * 2);
                 }
             }
@@ -414,6 +442,23 @@ bool XbmcDiscovery::setMulticastGroup(const QHostAddress &groupAddress, bool joi
         return false;
     }
     return true;
+}
+
+QString XbmcDiscovery::extractName(const QByteArray datagram, int index)
+{
+    QString name;
+    index *=2;
+    qDebug() << "***" << datagram[index] << datagram[index+1] << datagram[index+2] << datagram[index+3] << datagram[index+4] << datagram[index+5] << datagram[index+6] << datagram[index+7];
+    while (!(datagram[index] == '0' && datagram[index+1] == '0') && !(datagram[index] == 'c' && datagram[index+1] == '0')) {
+        name.append(QString(QByteArray::fromHex(datagram.right(datagram.length() - index).left(2))));
+        index += 2;
+    }
+    if (datagram[index] == 'c' && datagram[index+1] == '0') {
+        index += 2;
+        int newIndex = datagram.right(datagram.length() - index).left(2).toInt(0, 16);
+        name.append(extractName(datagram, newIndex));
+    }
+    return name;
 }
 
 void XbmcDiscovery::setContinuousDiscovery(bool cd)

@@ -1,3 +1,16 @@
+xbmcremote (1.3~testing1ubuntu4) saucy; urgency=low
+
+  * fix packaging
+
+ -- Michael Zanetti <michael_zanetti@gmx.net>  Tue, 18 Jun 2013 23:24:24 +0200
+
+xbmcremote (1.3~testing0ubuntu3) saucy; urgency=low
+
+  * some more work
+  * saucy package
+
+ -- Michael Zanetti <michael_zanetti@gmx.net>  Tue, 18 Jun 2013 22:46:30 +0200
+
 xbmcremote (1.3~testing0ubuntu2) raring; urgency=low
 
   * foo

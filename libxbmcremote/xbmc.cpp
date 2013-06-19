@@ -100,6 +100,8 @@ Xbmc::Xbmc(QObject *parent) :
                 foreach(const QString &debugString, debuglist) {
                     if(debugString == "connection") {
                         XDebug::addAllowedArea(XDAREA_CONNECTION);
+                    } else if(debugString == "discovery") {
+                        XDebug::addAllowedArea(XDAREA_DISCOVERY);
                     } else if(debugString == "player") {
                         XDebug::addAllowedArea(XDAREA_PLAYER);
                     } else if(debugString == "library") {

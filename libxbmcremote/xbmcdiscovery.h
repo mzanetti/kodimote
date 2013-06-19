@@ -48,6 +48,8 @@ private slots:
 private:
     bool setMulticastGroup(const QHostAddress &groupAddress, bool join);
 
+    QString extractName(const QByteArray data, int index);
+
     QTimer m_continuousDiscoveryTimer;
     QUdpSocket *m_socket;
     QHostAddress m_multicastAddress;

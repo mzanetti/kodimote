@@ -31,6 +31,8 @@ Page {
     property int spacing: units.gu(1)
 
     tools: ToolbarActions {
+        opened: true
+        locked: true
         Action {
             text: "home"
         }
@@ -144,7 +146,8 @@ Page {
 
     ListView {
         id: listView
-        anchors {left: parent.left; top: searchBar.bottom; right: parent.right; bottom: parent.bottom }
+        anchors {left: parent.left; top: searchBar.bottom; right: parent.right; bottom: parent.bottom; bottomMargin: units.gu(8)}
+        clip: true
         //snapMode: ListView.SnapToItem
         //        header: listHeader
         highlightFollowsCurrentItem: true
