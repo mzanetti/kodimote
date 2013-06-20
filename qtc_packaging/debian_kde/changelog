@@ -1,3 +1,15 @@
+plasma-widget-xbmcremote (1.3~testing3) saucy; urgency=low
+
+  * fix package
+
+ -- Michael Zanetti <michael_zanetti@gmx.net>  Thu, 20 Jun 2013 20:45:49 +0200
+
+plasma-widget-xbmcremote (1.3~testing2) saucy; urgency=low
+
+  * standalone KDE package
+
+ -- Michael Zanetti <michael_zanetti@gmx.net>  Thu, 20 Jun 2013 20:45:49 +0200
+
 xbmcremote (1.3~testing1ubuntu4) saucy; urgency=low
 
   * fix packaging
