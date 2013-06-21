@@ -303,6 +303,16 @@ void XbmcDiscovery::readDatagram()
                         }
                         if (serviceName.contains("_xbmc-jsonrpc")) {
                             host.setXbmcJsonrpcSupported(true);
+                            if (serviceName.split('.').count() >= 2) {
+                                host.setHostname(serviceName.split('.').at(1));
+                            }
+                        }
+                        if (serviceName.contains("_workstation")) {
+                            if(serviceName.split('[').count() > 1) {
+                                QString hwAddr = serviceName.split("[").at(1);
+                                hwAddr = hwAddr.left(17);
+                                host.setHwAddr(hwAddr);
+                            }
                         }
                     }
 
@@ -448,9 +458,12 @@ QString XbmcDiscovery::extractName(const QByteArray datagram, int index)
 {
     QString name;
     index *=2;
-    qDebug() << "***" << datagram[index] << datagram[index+1] << datagram[index+2] << datagram[index+3] << datagram[index+4] << datagram[index+5] << datagram[index+6] << datagram[index+7];
     while (!(datagram[index] == '0' && datagram[index+1] == '0') && !(datagram[index] == 'c' && datagram[index+1] == '0')) {
-        name.append(QString(QByteArray::fromHex(datagram.right(datagram.length() - index).left(2))));
+        QChar character = QChar(QByteArray::fromHex(datagram.right(datagram.length() - index).left(2))[0]);
+        if ((datagram[index] == '0' && datagram[index+1] <= 'f')) {
+            character = QChar('.');
+        }
+        name.append(character);
         index += 2;
     }
     if (datagram[index] == 'c' && datagram[index+1] == '0') {
