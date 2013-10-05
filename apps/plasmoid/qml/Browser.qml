@@ -124,7 +124,7 @@ Row {
                     anchors.fill: parent
                     fillMode: Image.PreserveAspectFit
                     smooth: false
-                    source: pagestack.currentPage.model.get(pagestack.currentPage.currentIndex, "thumbnail")
+                    source: pagestack.currentPage.model.get(pagestack.currentPage.currentIndex, "largeThumbnail")
                     sourceSize.height: height
 
                     Rectangle {
