@@ -34,7 +34,9 @@
 
 int main(int argc, char** argv)
 {
-    QGuiApplication::setApplicationName("Xbmcremote");
+
+    QCoreApplication::setOrganizationName("com.ubuntu.developer.mzanetti.xbmcremote");
+    QCoreApplication::setApplicationName("xbmcremote");
 
     QGuiApplication application(argc, argv);
 
@@ -47,7 +49,8 @@ int main(int argc, char** argv)
     view->setTitle("Xbmcremote");
     view->engine()->rootContext()->setContextProperty("xbmc", Xbmc::instance());
 
-    Settings settings("com.ubuntu.developer.mzanetti.xbmcremote");
+
+    Settings settings;
     view->engine()->rootContext()->setContextProperty("settings", &settings);
 
     if(QCoreApplication::applicationDirPath() == QDir(("/usr/bin")).canonicalPath()) {
