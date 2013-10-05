@@ -169,7 +169,7 @@ void Movies::listReceived(const QVariantMap &rsp)
         QVariantMap itemMap = itemVariant.toMap();
         LibraryItem *item = new LibraryItem();
         item->setTitle(itemMap.value("label").toString());
-        item->setSubtitle(itemMap.value("genre").toString());
+        item->setSubtitle(itemMap.value("genre").toStringList().join(", "));
         item->setMovieId(itemMap.value("movieid").toInt());
         item->setYear(itemMap.value("year").toString());
         item->setFanart(itemMap.value("fanart").toString());

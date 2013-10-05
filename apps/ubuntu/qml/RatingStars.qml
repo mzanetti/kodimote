@@ -18,54 +18,30 @@
  *                                                                           *
  ****************************************************************************/
 
-#include "libxbmcremote/xbmc.h"
-#include "libxbmcremote/settings.h"
-#include "libxbmcremote/eventclient.h"
+import QtQuick 2.0
+import Ubuntu.Components 0.1
 
-#include "ubuntuhelper.h"
-
-#include <QGuiApplication>
-
-#include <QDebug>
-#include <QQuickView>
-#include <QQmlEngine>
-#include <QQmlContext>
-#include <QDir>
-
-int main(int argc, char** argv)
-{
-    QGuiApplication::setApplicationName("Xbmcremote");
-
-    QGuiApplication application(argc, argv);
-
-
-    Xbmc::instance()->setDataPath(QDir::homePath() + "/.cache/com.ubuntu.developer.mzanetti.xbmcremote/");
-    Xbmc::instance()->eventClient()->setApplicationThumbnail("xbmcremote80.png");
-
-    QQuickView *view = new QQuickView();
-    view->setResizeMode(QQuickView::SizeRootObjectToView);
-    view->setTitle("Xbmcremote");
-    view->engine()->rootContext()->setContextProperty("xbmc", Xbmc::instance());
-
-    Settings settings("com.ubuntu.developer.mzanetti.xbmcremote");
-    view->engine()->rootContext()->setContextProperty("settings", &settings);
-
-    if(QCoreApplication::applicationDirPath() == QDir(("/usr/bin")).canonicalPath()) {
-        view->setSource(QUrl::fromLocalFile("/usr/share/xbmcremote/qml/main.qml"));
-    } else {
-        view->setSource(QUrl::fromLocalFile("qml/main.qml"));
+Row {
+    id: row
+    property int count: 5
+    property int rated: 0
+    Repeater {
+        model: parent.rated
+        Icon {
+            height: row.height
+            width: height
+            name: "favorite-selected"
+            color: "white"
+        }
     }
 
-    UbuntuHelper helper(&settings);
-    Q_UNUSED(helper);
-
-    if(QGuiApplication::arguments().contains("--fullscreen")) {
-        view->showFullScreen();
-    } else {
-        view->resize(QSize(720, 1280));
-        view->show();
+    Repeater {
+        model: parent.count - parent.rated
+        Icon {
+            height: parent.height
+            width: height
+            name: "favorite-unselected"
+            color: "white"
+        }
     }
-
-    return application.exec();
 }
-

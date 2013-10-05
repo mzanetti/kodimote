@@ -495,7 +495,7 @@ void Player::updatePlaytime()
     QDateTime currentTime = QDateTime::currentDateTime();
     int elapsedMSeconds = m_lastPlaytimeUpdate.msecsTo(currentTime);
     m_lastPlaytime += elapsedMSeconds * m_speed;
-    m_percentage = (double)m_lastPlaytime / duration * 100;
+    m_percentage = qMax(0.0, qMin(100.0, (double)m_lastPlaytime / duration * 100));
     m_lastPlaytimeUpdate = currentTime;
 
     emit percentageChanged();

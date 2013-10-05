@@ -2,7 +2,10 @@ include(../../config.pri)
 
 QT += quick
 
-SOURCES += main.cpp
+SOURCES += main.cpp \
+            ubuntuhelper.cpp
+
+HEADERS += ubuntuhelper.h
 
 # debian/rules builds with CONFIG+=package
 package {
@@ -20,9 +23,11 @@ package {
     INSTALLS += target qml desktopfile icon
 
 } else {
-message("fdsfsdfdsfdssad")
     qml.files = qml
     qml.path = $$OUT_PWD
 
-    INSTALLS += qml
+    icon.files = xbmcremote80.png
+    icon.path = $$OUT_PWD
+
+    INSTALLS += qml icon
 }

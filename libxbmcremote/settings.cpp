@@ -23,11 +23,12 @@
 #include <QSettings>
 #include <QStringList>
 
-Settings::Settings(QObject *parent) :
-    QObject(parent)
+Settings::Settings(const QString &settingsDir, QObject *parent) :
+    QObject(parent),
+    m_settingsPath(settingsDir)
 {
     // Write defaults for hidden configs to file so that users have a chance to find them
-    QSettings settings("xbmcremote");
+    QSettings settings(m_settingsPath, "xbmcremote");
     if(!settings.contains("VolumeUpCommand")) {
         settings.setValue("VolumeUpCommand", QString());
     }
@@ -38,39 +39,39 @@ Settings::Settings(QObject *parent) :
 
 bool Settings::themeInverted() const
 {
-    QSettings settings("xbmcremote");
+    QSettings settings(m_settingsPath, "xbmcremote");
     return settings.value("InvertTheme", true).toBool();
 }
 
 void Settings::setThemeInverted(bool inverted)
 {
-    QSettings settings("xbmcremote");
+    QSettings settings(m_settingsPath, "xbmcremote");
     settings.setValue("InvertTheme", inverted);
     emit themeInvertedChanged();
 }
 
 bool Settings::useThumbnails() const
 {
-    QSettings settings("xbmcremote");
+    QSettings settings(m_settingsPath, "xbmcremote");
     return settings.value("UseThumbnails", true).toBool();
 }
 
 void Settings::setIgnoreArticle(bool ignoreArticle)
 {
-    QSettings settings("xbmcremote");
+    QSettings settings(m_settingsPath, "xbmcremote");
     settings.setValue("IgnoreArticle", ignoreArticle);
     emit ignoreArticleChanged();
 }
 
 bool Settings::ignoreArticle() const
 {
-    QSettings settings("xbmcremote");
+    QSettings settings(m_settingsPath, "xbmcremote");
     return settings.value("IgnoreArticle", true).toBool();
 }
 
 void Settings::setUseThumbnails(bool useThumbnails)
 {
-    QSettings settings("xbmcremote");
+    QSettings settings(m_settingsPath, "xbmcremote");
     settings.setValue("UseThumbnails", useThumbnails);
     emit useThumbnailsChanged();
 }
@@ -78,72 +79,72 @@ void Settings::setUseThumbnails(bool useThumbnails)
 
 void Settings::setVolumeOnCall(int volume)
 {
-    QSettings settings("xbmcremote");
+    QSettings settings(m_settingsPath, "xbmcremote");
     settings.setValue("VolumeOnCall", volume);
     emit volumeOnCallChanged();
 }
 
 int Settings::volumeOnCall() const
 {
-    QSettings settings("xbmcremote");
+    QSettings settings(m_settingsPath, "xbmcremote");
     return settings.value("VolumeOnCall", 10).toInt();
 }
 
 void Settings::setShowCallNotifications(bool show)
 {
-    QSettings settings("xbmcremote");
+    QSettings settings(m_settingsPath, "xbmcremote");
     settings.setValue("ShowCallNotifications", show);
     emit showCallNotificationsChanged();
 }
 
 bool Settings::showCallNotifications()
 {
-    QSettings settings("xbmcremote");
+    QSettings settings(m_settingsPath, "xbmcremote");
     return settings.value("ShowCallNotifications", true).toBool();
 }
 
 bool Settings::changeVolumeOnCall() const
 {
-    QSettings settings("xbmcremote");
+    QSettings settings(m_settingsPath, "xbmcremote");
     return settings.value("ChangeVolumeOnCall", true).toBool();
 }
 
 void Settings::setChangeVolumeOnCall(bool changeVolume)
 {
-    QSettings settings("xbmcremote");
+    QSettings settings(m_settingsPath, "xbmcremote");
     settings.setValue("ChangeVolumeOnCall", changeVolume);
     emit changeVolumeOnCallChanged();
 }
 
 bool Settings::pauseVideoOnCall() const
 {
-    QSettings settings("xbmcremote");
+    QSettings settings(m_settingsPath, "xbmcremote");
     return settings.value("PauseVideoOnCall", true).toBool();
 }
 
 void Settings::setPauseVideoOnCall(bool pause)
 {
-    QSettings settings("xbmcremote");
+    QSettings settings(m_settingsPath, "xbmcremote");
     settings.setValue("PauseVideoOnCall", pause);
     emit pauseVideoOnCallChanged();
 }
 
 bool Settings::pauseMusicOnCall() const
 {
-    QSettings settings("xbmcremote");
+    QSettings settings(m_settingsPath, "xbmcremote");
     return settings.value("PauseMusicOnCall", false).toBool();
 }
 
 void Settings::setPauseMusicOnCall(bool pause)
 {
-    QSettings settings("xbmcremote");
+    QSettings settings(m_settingsPath, "xbmcremote");
     settings.setValue("PauseMusicOnCall", pause);
     emit pauseMusicOnCallChanged();
 }
 
 void Settings::addHost(const XbmcHost &host)
 {
-    QSettings settings("xbmcremote");
+    QSettings settings(m_settingsPath, "xbmcremote");
     settings.beginGroup("Hosts");
     settings.beginGroup(host.address());
     settings.setValue("Hostname", host.hostname());
@@ -157,7 +158,7 @@ void Settings::addHost(const XbmcHost &host)
 
 void Settings::removeHost(const XbmcHost &host)
 {
-    QSettings settings("xbmcremote");
+    QSettings settings(m_settingsPath, "xbmcremote");
     settings.beginGroup("Hosts");
     settings.beginGroup(host.address());
     settings.remove("");
@@ -167,7 +168,7 @@ QList<XbmcHost> Settings::hostList() const
 {
     QList<XbmcHost> list;
 
-    QSettings settings("xbmcremote");
+    QSettings settings(m_settingsPath, "xbmcremote");
     settings.beginGroup("Hosts");
     foreach(const QString &hostGroup, settings.childGroups()) {
         settings.beginGroup(hostGroup);
@@ -190,7 +191,7 @@ QList<XbmcHost> Settings::hostList() const
 
 XbmcHost Settings::lastHost() const
 {
-    QSettings settings("xbmcremote");
+    QSettings settings(m_settingsPath, "xbmcremote");
     XbmcHost host;
     if(settings.contains("LastHost")) {
         QString lastHost = settings.value("LastHost").toString();
@@ -212,97 +213,97 @@ XbmcHost Settings::lastHost() const
 
 void Settings::setLastHost(const XbmcHost &host)
 {
-    QSettings settings("xbmcremote");
+    QSettings settings(m_settingsPath, "xbmcremote");
     settings.setValue("LastHost", host.address());
 }
 
 bool Settings::keepDisplayLit() const
 {
-    QSettings settings("xbmcremote");
+    QSettings settings(m_settingsPath, "xbmcremote");
     return settings.value("KeepDisplayLit", false).toBool();
 }
 
 void Settings::setKeepDisplayLit(bool keepLit)
 {
-    QSettings settings("xbmcremote");
+    QSettings settings(m_settingsPath, "xbmcremote");
     settings.setValue("KeepDisplayLit", keepLit);
     emit keepDisplayLitChanged();
 }
 
 bool Settings::musicShowsFiles() const
 {
-    QSettings settings("xbmcremote");
+    QSettings settings(m_settingsPath, "xbmcremote");
     return settings.value("MusicShowsFiles", false).toBool();
 }
 
 void Settings::setMusicShowsFiles(bool showFiles)
 {
-    QSettings settings("xbmcremote");
+    QSettings settings(m_settingsPath, "xbmcremote");
     settings.setValue("MusicShowsFiles", showFiles);
     emit musicShowsFilesChanged();
 }
 
 bool Settings::videoShowsFiles() const
 {
-    QSettings settings("xbmcremote");
+    QSettings settings(m_settingsPath, "xbmcremote");
     return settings.value("VideoShowsFiles", false).toBool();
 }
 
 void Settings::setVideoShowsFiles(bool showFiles)
 {
-    QSettings settings("xbmcremote");
+    QSettings settings(m_settingsPath, "xbmcremote");
     settings.setValue("VideoShowsFiles", showFiles);
     emit videoShowsFilesChanged();
 }
 
 bool Settings::musicEnabled() const
 {
-    QSettings settings("xbmcremote");
+    QSettings settings(m_settingsPath, "xbmcremote");
     return settings.value("MusicEnabled", true).toBool();
 }
 
 void Settings::setMusicEnabled(bool enabled)
 {
-    QSettings settings("xbmcremote");
+    QSettings settings(m_settingsPath, "xbmcremote");
     settings.setValue("MusicEnabled", enabled);
     emit musicEnabledChanged();
 }
 
 bool Settings::videosEnabled() const
 {
-    QSettings settings("xbmcremote");
+    QSettings settings(m_settingsPath, "xbmcremote");
     return settings.value("VideosEnabled", true).toBool();
 }
 
 void Settings::setVideosEnabled(bool enabled)
 {
-    QSettings settings("xbmcremote");
+    QSettings settings(m_settingsPath, "xbmcremote");
     settings.setValue("VideosEnabled", enabled);
     emit videosEnabledChanged();
 }
 
 bool Settings::picturesEnabled() const
 {
-    QSettings settings("xbmcremote");
+    QSettings settings(m_settingsPath, "xbmcremote");
     return settings.value("PicturesEnabled", true).toBool();
 }
 
 void Settings::setPicturesEnabled(bool enabled)
 {
-    QSettings settings("xbmcremote");
+    QSettings settings(m_settingsPath, "xbmcremote");
     settings.setValue("PicturesEnabled", enabled);
     emit picturesEnabledChanged();
 }
 
 bool Settings::pvrEnabled() const
 {
-    QSettings settings("xbmcremote");
+    QSettings settings(m_settingsPath, "xbmcremote");
     return settings.value("PvrEnabled", true).toBool();
 }
 
 void Settings::setPvrEnabled(bool enabled)
 {
-    QSettings settings("xbmcremote");
+    QSettings settings(m_settingsPath, "xbmcremote");
     settings.setValue("PvrEnabled", enabled);
     emit pvrEnabledChanged();
 }

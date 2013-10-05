@@ -22,6 +22,7 @@
 
 #include "playlistitem.h"
 #include "xbmcconnection.h"
+#include "xdebug.h"
 
 Playlist::Playlist(Player *parent) :
     m_currentItem(-1),
@@ -128,6 +129,7 @@ PlaylistItem* Playlist::currentItem() const
 
 void Playlist::setCurrentIndex(int index)
 {
+    xDebug(XDAREA_PLAYLIST) << "setting current index to" << index;
     m_currentItem = index;
     queryItemData(m_currentItem);
     emit currentChanged();

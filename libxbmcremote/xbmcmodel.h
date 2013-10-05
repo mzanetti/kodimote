@@ -55,6 +55,7 @@ public:
         RoleChannelGroupId,
         RoleChannelId,
         RoleThumbnail,
+        RoleLargeThumbnail,
         RoleSortingTitle,
         RolePlot,
         RoleRating,

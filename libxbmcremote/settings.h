@@ -45,7 +45,7 @@ class Settings : public QObject
     Q_PROPERTY(bool pvrEnabled READ pvrEnabled WRITE setPvrEnabled NOTIFY pvrEnabledChanged)
 
 public:
-    explicit Settings(QObject *parent = 0);
+    explicit Settings(const QString &settingsDir, QObject *parent = 0);
 
     void setThemeInverted(bool inverted);
     bool themeInverted() const;
@@ -117,6 +117,9 @@ signals:
     void videosEnabledChanged();
     void picturesEnabledChanged();
     void pvrEnabledChanged();
+
+private:
+    QString m_settingsPath;
 };
 
 #endif // SETTINGS_H

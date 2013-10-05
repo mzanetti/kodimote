@@ -18,54 +18,25 @@
  *                                                                           *
  ****************************************************************************/
 
-#include "libxbmcremote/xbmc.h"
-#include "libxbmcremote/settings.h"
-#include "libxbmcremote/eventclient.h"
+#ifndef UBUNTUHELPER_H
+#define UBUNTUHELPER_H
 
-#include "ubuntuhelper.h"
+#include <QObject>
 
-#include <QGuiApplication>
+class Settings;
 
-#include <QDebug>
-#include <QQuickView>
-#include <QQmlEngine>
-#include <QQmlContext>
-#include <QDir>
-
-int main(int argc, char** argv)
+class UbuntuHelper : public QObject
 {
-    QGuiApplication::setApplicationName("Xbmcremote");
+    Q_OBJECT
+public:
+    explicit UbuntuHelper(Settings *settings, QObject *parent = 0);
 
-    QGuiApplication application(argc, argv);
+private slots:
+    void connectionChanged(bool connected);
+    void hostRemoved();
 
+private:
+    Settings *m_settings;
+};
 
-    Xbmc::instance()->setDataPath(QDir::homePath() + "/.cache/com.ubuntu.developer.mzanetti.xbmcremote/");
-    Xbmc::instance()->eventClient()->setApplicationThumbnail("xbmcremote80.png");
-
-    QQuickView *view = new QQuickView();
-    view->setResizeMode(QQuickView::SizeRootObjectToView);
-    view->setTitle("Xbmcremote");
-    view->engine()->rootContext()->setContextProperty("xbmc", Xbmc::instance());
-
-    Settings settings("com.ubuntu.developer.mzanetti.xbmcremote");
-    view->engine()->rootContext()->setContextProperty("settings", &settings);
-
-    if(QCoreApplication::applicationDirPath() == QDir(("/usr/bin")).canonicalPath()) {
-        view->setSource(QUrl::fromLocalFile("/usr/share/xbmcremote/qml/main.qml"));
-    } else {
-        view->setSource(QUrl::fromLocalFile("qml/main.qml"));
-    }
-
-    UbuntuHelper helper(&settings);
-    Q_UNUSED(helper);
-
-    if(QGuiApplication::arguments().contains("--fullscreen")) {
-        view->showFullScreen();
-    } else {
-        view->resize(QSize(720, 1280));
-        view->show();
-    }
-
-    return application.exec();
-}
-
+#endif

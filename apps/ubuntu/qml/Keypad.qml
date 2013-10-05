@@ -21,6 +21,7 @@
 import QtQuick 2.0
 import Ubuntu.Components 0.1
 import Xbmc 1.0
+import QtFeedback 5.0
 
 Page {
     id: root
@@ -33,12 +34,17 @@ Page {
 
     property int spacing: units.gu(2)
 
-    tools: ToolbarActions {
-        Action {
-//            platformIconId: usePictureControls ? "toolbar-dialer" : "toolbar-image-edit";
-//            anchors.horizontalCenter: parent===undefined ? undefined : parent.horizontalCenter
+    tools: ToolbarItems {
+        id: keypadTools
+        states: [
+            State {
+                name: "hidded"
+                when: !xbmc.picturePlayerActive
+                PropertyChanges { target: keypadTools; locked: true; opened: false }
+            }
+        ]
+        ToolbarButton {
             text: "pictures"
-//            visible: xbmc.picturePlayerActive
             iconSource: "/usr/share/icons/ubuntu-mobile/apps/symbolic/gallery-symbolic.svg"
             onTriggered: {
                 pictureControlsOverride = !pictureControlsOverride;
@@ -47,6 +53,16 @@ Page {
     }
 
     property QtObject keys: xbmc.keys()
+
+    HapticsEffect {
+        id: rumbleEffect
+        attackIntensity: 0
+        attackTime: 250
+        intensity: 1.0
+        fadeTime: 250
+        fadeIntensity: 0
+        period: 100
+    }
 
     Column {
         anchors {
@@ -75,25 +91,25 @@ Page {
                 spacing: (width - musicButton.width * 5) / 4
 
                 MediaControlButton {
-                    source: "icons/pictures.png"
+                    source: "image://theme/gallery-symbolic"
                     onClicked: xbmc.switchToWindow(Xbmc.GuiWindowPictures);
                 }
                 MediaControlButton {
                     id: musicButton
-                    source: "icon-m-music-video-all-songs"
+                    source: "images/music.svg"
                     onClicked: xbmc.switchToWindow(Xbmc.GuiWindowMusic);
                 }
                 MediaControlButton {
-                    source: "toolbar-home"
+                    source: "images/home.svg"
                     onClicked: keys.home();
                 }
                 MediaControlButton {
-                    source: "icons/videos.png"
+                    source: "image://theme/camcorder"
                     onClicked: xbmc.switchToWindow(Xbmc.GuiWindowVideos);
 
                 }
                 MediaControlButton {
-                    source: "icons/livetv.png"
+                    source: "images/livetv.svg"
                     onClicked: xbmc.switchToWindow(Xbmc.GuiWindowLiveTV);
                 }
             }
@@ -102,11 +118,12 @@ Page {
         GesturePad {
             id: gesturePad
             width: parent.width
+            height: width * 3 / 4
 
             MediaControlButton {
                 id: backButton
-                anchors { left: parent.left; top: parent.top; margins: root.spacing / 2 }
-                source: "back"
+                anchors { left: parent.left; top: parent.top; margins: units.gu(1.5) }
+                source: "image://theme/back"
                 MouseArea {
                     width: parent.width * 2
                     height: parent.height * 1.2
@@ -121,8 +138,8 @@ Page {
             }
 
             MediaControlButton {
-                anchors { right: parent.right; top: parent.top; margins: root.spacing / 2 }
-                source: usePictureControls ? "" : "view-fullscreen"
+                anchors { right: parent.right; top: parent.top; margins: units.gu(1.5) }
+                source: usePictureControls ? "" : "image://theme/view-fullscreen"
 //                rotation: usePictureControls ? 0 : 45
                 MouseArea {
                     width: parent.width * 2
@@ -140,8 +157,8 @@ Page {
                 }
             }
             MediaControlButton {
-                anchors { left: parent.left; bottom: parent.bottom; margins: root.spacing / 2 }
-                source: usePictureControls ? "" : "icons/icon-m-toolbar-info.png"
+                anchors { left: parent.left; bottom: parent.bottom; margins: units.gu(1.5) }
+                source: usePictureControls ? "" : "images/info.svg"
                 MouseArea {
                     width: parent.width * 2
                     height: parent.height * 1.2
@@ -158,8 +175,8 @@ Page {
                 }
             }
             MediaControlButton {
-                anchors { right: parent.right; bottom: parent.bottom; margins: root.spacing / 2 }
-                source: usePictureControls ? "" : "toolbar-view-menu"
+                anchors { right: parent.right; bottom: parent.bottom; margins: units.gu(1.5) }
+                source: usePictureControls ? "" : "images/menu.svg"
                 MouseArea {
                     width: parent.width * 2
                     height: parent.height * 1.2

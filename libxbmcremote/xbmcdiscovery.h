@@ -46,9 +46,40 @@ private slots:
     void readDatagram();
 
 private:
+    enum RecordType {
+        RecordTypeQuery,
+        RecordTypeAnswer,
+        RecordTypeAuthority,
+        RecordTypeAdditional
+    };
+
     bool setMulticastGroup(const QHostAddress &groupAddress, bool join);
 
-    QString extractName(const QByteArray data, int index);
+
+    void parseDatagram(const QByteArray &datagram, int &index, RecordType recordType, XbmcHost *host = 0);
+    void parsePtrRecord(const QByteArray &datagram, int &index, RecordType recordType);
+    void parseTxtRecord(const QByteArray &datagram, int &index, RecordType recordType);
+
+    /// @returns The SRV Port
+    int parseSrvRecord(const QByteArray &datagram, int &index, RecordType recordType);
+
+    /// @returns The IP address
+    QString parseARecord(const QByteArray &datagram, int &index, RecordType recordType);
+
+    void parseAAAARecord(const QByteArray &datagram, int &index, RecordType recordType);
+
+    /// skip a record, adjusting the index
+    void skipRecord(const QByteArray &datagram, int &index, RecordType recordType);
+
+
+    /// Parses a label, following references and adjusting the index
+    QString parseLabel(const QByteArray &datagram, int &index);
+
+    /// Reads a string with the given length, not adjusting the index
+    QString readString(const QByteArray &datagram, int index, int count);
+
+    /// Reads a number with the giben length, not adjusting the index
+    int readNum(const QByteArray &datagram, int index, int count);
 
     QTimer m_continuousDiscoveryTimer;
     QUdpSocket *m_socket;

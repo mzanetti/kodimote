@@ -27,16 +27,30 @@ import Xbmc 1.0
 MainView {
     id: appWindow
 
+    headerColor: "#1b62c8"
+    backgroundColor: "#0c2e71"
+    footerColor: "#0a2663"
+
+
     property int pageMargins: units.gu(2)
 
-    Rectangle {
-        anchors.fill: parent
-        color: "#ebebeb"
+    focus: true
+    Keys.onVolumeUpPressed: {
+        xbmc.volume += 5;
+    }
+
+    Keys.onVolumeDownPressed: {
+        xbmc.volume -= 5;
     }
 
     Loader {
         anchors.fill: parent
         sourceComponent: xbmc.connected ? mainComponent : noConnectionComponent
+    }
+
+    Connections {
+        target: xbmc
+        onConnectingChanged: print("connecting.....", xbmc.connecting)
     }
 
     Component {
@@ -45,16 +59,24 @@ MainView {
             id: noConnectionPage
             title: "Select Host"
             anchors.fill: parent
+            property bool showList: !xbmc.connecting
+
             ListView {
                 id: hostListView
                 anchors.fill: parent
                 model: xbmc.hostModel()
+                opacity: noConnectionPage.showList ? 1 : 0
+                Behavior on opacity { UbuntuNumberAnimation {} }
+
                 delegate: ListItems.Standard {
                     id: hostDelegate
                     text: hostname
-                    selected: index === ListView.view.currentIndex
 
-                    onClicked: xbmc.hostModel().connectToHost(index)
+                    onClicked: {
+                        noConnectionPage.showList = false
+                        xbmc.hostModel().connectToHost(index)
+                    }
+
                     onPressAndHold: {
                         var obj = PopupUtils.open(removePopoverComponent, hostDelegate)
                         obj.removeClicked.connect(function() {
@@ -98,13 +120,50 @@ MainView {
                 }
 
                 XbmcDiscovery {
-                    continuousDiscovery: true
+                    continuousDiscovery: noConnectionPage.showList
+                }
+
+
+            }
+            Column {
+                anchors.verticalCenter: parent.verticalCenter
+                anchors {
+                    left: parent.left
+                    right: parent.right
+                    margins: units.gu(2)
+                }
+                height: childrenRect.height
+                spacing: units.gu(2)
+                opacity: noConnectionPage.showList ? 0 : 1
+                Behavior on opacity { UbuntuNumberAnimation {} }
+
+                Label {
+                    id: label
+                    anchors.horizontalCenter: parent.horizontalCenter
+                    anchors {
+                        left: parent.left
+                        right: parent.right
+                    }
+                    text: xbmc.connectionError
+                    wrapMode: Text.WordWrap
+                    horizontalAlignment: Text.AlignHCenter
+                }
+                Button{
+                    text: qsTr("Cancel")
+                    anchors {
+                        left: parent.left
+                        right: parent.right
+                    }
+
+                    onClicked: {
+                        noConnectionPage.showList = true
+                    }
                 }
             }
 
 
-            tools: ToolbarActions {
-                Action {
+            tools: ToolbarItems {
+                ToolbarButton {
                     text: "add"
                     iconSource: "/usr/share/icons/ubuntu-mobile/actions/scalable/add.svg"
                     onTriggered: {
@@ -142,54 +201,72 @@ MainView {
         Dialog {
             id: addHostDialog
             title: qsTr("Add host")
-            Column {
+            Item {
                 width: parent.width
-                spacing: units.gu(1)
-                Label {
-                    text: qsTr("Name:")
-                }
-                TextField {
-                    id: nameTextField
+                height: units.gu(40)
+
+                Flickable {
                     width: parent.width
-                }
-                Label {
-                    text: qsTr("Hostname or IP Address:")
-                }
-                TextField {
-                    id: addressTextField
-                    width: parent.width
-                }
-                Label {
-                    text: qsTr("Port:")
-                }
-                TextField {
-                    id: portTextField
-                    text: "8080"
-                    width: parent.width
-                }
-                Label {
-                    text: qsTr("Mac Address:")
-                }
-                TextField {
-                    id: macTextField
-                    width: parent.width
-                    inputMask: "HH:HH:HH:HH:HH:HH;_"
-                }
-                Row {
-                    width: parent.width
-                    spacing: units.gu(1)
-                    Button {
-                        text: qsTr("Cancel")
-                        width: (parent.width - parent.spacing) / 2
-                        onClicked: PopupUtils.close(addHostDialog)
-                    }
-                    Button {
-                        text: qsTr("OK")
-                        width: (parent.width - parent.spacing) / 2
-                        color: "#dd4814"
-                        onClicked: {
-                            xbmc.hostModel().createHost(nameTextField.text, addressTextField.text, portTextField.text, macTextField.text)
-                            PopupUtils.close(addHostDialog)
+                    height: parent.height
+                    contentHeight: addColumn.height
+                    clip: true
+                    interactive: contentHeight > height
+
+                    Column {
+                        id: addColumn
+                        width: parent.width
+                        spacing: units.gu(1)
+                        Label {
+                            text: qsTr("Name:")
+                        }
+                        TextField {
+                            id: nameTextField
+                            width: parent.width
+                        }
+                        Label {
+                            text: qsTr("Hostname or IP Address:")
+                        }
+                        TextField {
+                            id: addressTextField
+                            width: parent.width
+                        }
+                        Label {
+                            text: qsTr("Port:")
+                        }
+                        TextField {
+                            id: portTextField
+                            text: "8080"
+                            width: parent.width
+                        }
+                        Label {
+                            text: qsTr("Mac Address:")
+                        }
+                        TextField {
+                            id: macTextField
+                            width: parent.width
+                            inputMask: "HH:HH:HH:HH:HH:HH;_"
+                        }
+                        Row {
+                            width: parent.width
+                            spacing: units.gu(1)
+                            Button {
+                                text: qsTr("Cancel")
+                                width: (parent.width - parent.spacing) / 2
+                                onClicked: PopupUtils.close(addHostDialog)
+                            }
+                            Button {
+                                text: qsTr("OK")
+                                width: (parent.width - parent.spacing) / 2
+                                color: "#dd4814"
+                                onClicked: {
+                                    xbmc.hostModel().createHost(nameTextField.text, addressTextField.text, portTextField.text, macTextField.text)
+                                    PopupUtils.close(addHostDialog)
+                                }
+                            }
+                        }
+                        Item {
+                            width: parent.width
+                            height: Qt.inputMethod.keyboardRectangle.height
                         }
                     }
                 }
@@ -197,14 +274,29 @@ MainView {
         }
     }
 
+    property bool showToolbars: true
+    function resetToolBars() {
+        showToolbars = false;
+        showToolbars = true;
+    }
+
     Component {
         id: mainComponent
         Tabs {
+            id: tabs
+            property int oldTabIndex: -1
+            onSelectedTabIndexChanged: {
+                if (oldTabIndex > 0 && selectedTabIndex == 0) {
+                    resetToolBars()
+                }
+                oldTabIndex = selectedTabIndex;
+            }
             Tab {
                 title: "Media"
                 page: PageStack {
                     id: pageStack
                     Component.onCompleted: push(mainPage)
+                    onCurrentPageChanged: resetToolBars()
                     MainPage {
                         id: mainPage
                         visible: false
@@ -216,7 +308,7 @@ MainView {
             Tab {
                 title: "Now playing"
                 page: NowPlayingPage {
-
+                    timerActive: tabs.selectedTabIndex === 1
                 }
             }
             Tab {
@@ -227,133 +319,4 @@ MainView {
             }
         }
     }
-
-
-/*    Loader {
-        id: mainLoader
-        anchors.fill: parent
-        sourceComponent: xbmc.connected ? tabsComponent : noConnectionComponent
-    }
-
-    FocusScope {
-        focus: true
-        Keys.onVolumeUpPressed: xbmc.volume += 5
-        Keys.onVolumeDownPressed: xbmc.volume -= 5
-    }
-
-    Component {
-        id: noConnectionComponent
-
-        Item {
-            Column {
-                anchors.fill: parent
-                anchors.margins: units.gu(1)
-                spacing: units.gu(1)
-                ListView {
-                    id: hostListView
-                    anchors.left: parent.left
-                    anchors.right: parent.right
-                    height: parent.height - buttonRow.height - parent.spacing
-                    model: xbmc.hostModel()
-                    delegate: ListItems.Standard {
-                        text: hostname
-                        selected: index === ListView.view.currentIndex
-
-                        onClicked: ListView.view.currentIndex = index;
-                    }
-                    XbmcDiscovery {
-                    }
-                }
-                Row {
-                    id: buttonRow
-                    spacing: units.gu(1)
-                    width: parent.width
-
-                    Button {
-                        text: "Remove"
-                        width: (parent.width - parent.spacing) / 2
-                        onClicked: {
-                            hostSelected(hostListView.currentIndex);
-                        }
-                    }
-                    Button {
-                        text: "Add"
-                        width: (parent.width - parent.spacing) / 2
-                        onClicked: {
-                            hostSelected(hostListView.currentIndex);
-                        }
-                    }
-                }
-            }
-         }
-
 }
-    Component {
-        id: connectionDialog
-        ConnectionSheet {
-
-        }
-    }
-
-    Component {
-        id: tabsComponent
-
-        Tabs {
-            id: tabs
-            anchors.fill: parent
-            parent: leftPane
-            ItemStyle.class: "new-tabs"
-
-            property ActionList tools: selectedTab.page.tools
-
-            Tab {
-                id: mainTab
-                title: "Media"
-                page: PageStack {
-                    id: pageStack
-
-                    Component.onCompleted: pageStack.push(mainPage)
-
-                    function home() {
-                        pageStack.clear();
-                        pageStack.push(mainPage)
-                    }
-
-                    ToolbarActions {
-                        id: browsingTools
-                        Action {
-                            text: "home"
-                            onTriggered: {
-                                pageStack.home();
-                            }
-                        }
-                    }
-
-
-
-                    MainPage {
-                        id: mainPage
-                    }
-                }
-            }
-
-            Tab {
-                id: nowPlayingTab
-                title: "Now Playing"
-                page: NowPlayingPage {
-                    id: nowPlayingPage
-                    timerActive: tabs.currentIndex === 1
-                }
-            }
-
-            Tab {
-                id: keypadTab
-
-                title: "Keypad"
-
-                page: Keypad {
-                }
-            }
-        }
-    }
-*/}

@@ -54,7 +54,6 @@
 
 #include "imagecache.h"
 
-#include <QSettings>
 
 #ifdef QT5_BUILD
 #include <QtQuick>
@@ -82,7 +81,8 @@ Xbmc::Xbmc(QObject *parent) :
     m_pvrAvailable(false),
     m_pvrRecording(false),
     m_pvrScanning(false),
-    m_imageCache(new XbmcImageCache(this))
+    m_imageCache(new XbmcImageCache(this)),
+    m_dataPath(QDir::home().absolutePath() + "/.xbmcremote/")
 {
 
     // Load debug stuff
@@ -156,6 +156,7 @@ Xbmc::Xbmc(QObject *parent) :
     m_hosts = new XbmcHostModel(this);
 
     connect(XbmcConnection::notifier(), SIGNAL(connectionChanged()), SLOT(connectionChanged()));
+    connect(XbmcConnection::notifier(), SIGNAL(connectionChanged()), SIGNAL(connectingChanged()));
     connect(XbmcConnection::notifier(), SIGNAL(receivedAnnouncement(QVariantMap)), SLOT(parseAnnouncement(QVariantMap)));
     connect(XbmcConnection::notifier(), SIGNAL(authenticationRequired(QString,QString)), SIGNAL(authenticationRequired(QString, QString)));
     connect(XbmcConnection::notifier(), SIGNAL(downloadAdded(XbmcDownload*)), SLOT(slotDownloadAdded(XbmcDownload*)));
@@ -613,6 +614,16 @@ bool Xbmc::pvrScanning()
 XbmcImageCache *Xbmc::imageCache()
 {
     return m_imageCache;
+}
+
+QString Xbmc::dataPath() const
+{
+    return m_dataPath;
+}
+
+void Xbmc::setDataPath(const QString &path)
+{
+    m_dataPath = path;
 }
 
 void Xbmc::disconnectFromHost()

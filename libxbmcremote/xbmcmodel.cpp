@@ -65,7 +65,20 @@ QVariant XbmcModel::data(const QModelIndex &index, int role) const
         // Size optimized for list view icons.
         int job = Xbmc::instance()->imageCache()->fetch(thumbnail, const_cast<XbmcModel*>(this), "imageFetched", QSize(152, 120), 0);
         m_imageFetchJobs.insert(job, index.row());
-        return QString();
+        return QString("loading");
+    }
+    if(role == RoleLargeThumbnail) {
+        QString thumbnail = m_list.at(index.row())->data(RoleThumbnail).toString();
+        if(thumbnail.isEmpty()) {
+            return QString();
+        }
+        if(Xbmc::instance()->imageCache()->contains(thumbnail, 1)) {
+            return Xbmc::instance()->imageCache()->cachedFile(thumbnail, 1);
+        }
+        // Size optimized for big representations.
+        int job = Xbmc::instance()->imageCache()->fetch(thumbnail, const_cast<XbmcModel*>(this), "imageFetched", QSize(1000, 1000), 1);
+        m_imageFetchJobs.insert(job, index.row());
+        return QString("loading");
     }
     if(role == RoleDuration) {
         QTime duration = m_list.at(index.row())->data(role).toTime();
@@ -121,6 +134,7 @@ QHash<int, QByteArray> XbmcModel::roleNames() const
     roleNames.insert(RolePlayable, "playable");
     roleNames.insert(RoleFileName, "filename");
     roleNames.insert(RoleThumbnail, "thumbnail");
+    roleNames.insert(RoleLargeThumbnail, "largeThumbnail");
     roleNames.insert(RoleSortingTitle, "sortingTitle");
     roleNames.insert(RolePlot, "plot");
     roleNames.insert(RoleRating, "rating");

@@ -20,21 +20,31 @@
 
 import QtQuick 2.0
 import Ubuntu.Components 0.1
+import Ubuntu.Components.Popups 0.1
 import Ubuntu.Components.ListItems 0.1 as ListItems
 import Xbmc 1.0
 
 Page {
     id: root
     title: model.title
+    clip: true
 
     property variant model
     property int spacing: units.gu(1)
 
-    tools: ToolbarActions {
+    tools: showToolbars ? browserTools : null
+    ToolbarItems {
+        id: browserTools
         opened: true
         locked: true
-        Action {
-            text: "home"
+        ToolbarButton {
+            text: qsTr("Home")
+            iconSource: "images/home.svg"
+            onTriggered: {
+                while (pageStack.depth > 1) {
+                    pageStack.pop()
+                }
+            }
         }
     }
 
@@ -146,15 +156,12 @@ Page {
 
     ListView {
         id: listView
-        anchors {left: parent.left; top: searchBar.bottom; right: parent.right; bottom: parent.bottom; bottomMargin: units.gu(8)}
-        clip: true
-        //snapMode: ListView.SnapToItem
-        //        header: listHeader
+        anchors {left: parent.left; top: searchBar.bottom; right: parent.right; bottom: parent.bottom}
         highlightFollowsCurrentItem: true
         cacheBuffer: itemHeight * 3
         model: filterModel
 
-        property bool draggedForSearch: root.model.allowSearch && contentY < -units.gu(15)
+        property bool draggedForSearch: root.model.allowSearch && contentY < -units.gu(6)
         property bool useThumbnails: settings.useThumbnails
 
         property int itemHeight: root.model.thumbnailFormat === XbmcModel.ThumbnailFormatPortrait ? units.gu(10) : units.gu(8)
@@ -165,50 +172,139 @@ Page {
             searchBar.expanded = true;
         }
 
-        delegate:  ListItems.Subtitled {
+        delegate:  Item {
             id: delegateItem
-            height: listView.itemHeight
-            width: listView.width
+            width: parent.width
+            height: expanded ? listView.height : collapsedItem.height
 
-            text: title
-            subText: subtitle
-            progression: filetype == "directory"
+            property bool expanded: false
 
-            icon: Item {
-                width: thumbnailImage.width
-                UbuntuShape {
-                    id: thumbnailImage
-                    height: listView.itemHeight - units.gu(2)
-                    width: root.model.thumbnailFormat === XbmcModel.ThumbnailFormatPortrait ? height * 3/4 : (root.model.thumbnailFormat === XbmcModel.ThumbnailFormatLandscape ? height * 16/9 : height)
-                    anchors.centerIn: parent
-                    image: Image {
-                        anchors.fill: parent
-                        source: thumbnail
+            Behavior on height {
+                UbuntuNumberAnimation {}
+            }
+
+            states: [
+                State {
+                    name: "expanded"; when: expanded
+                    PropertyChanges { target: listView; interactive: false; contentY: index * listView.itemHeight }
+                    PropertyChanges { target: browserTools; opened: false }
+                    PropertyChanges { target: fastScroller; enabled: false }
+                }
+            ]
+
+            Rectangle {
+                anchors {
+                    left: parent.left
+                    right: parent.right
+                    top: parent.top
+                    bottom: collapsedItem.top
+                }
+
+                color: Qt.rgba(0, 0, 0, 0.4)
+                opacity: delegateItem.expanded ? 1 : 0
+                Behavior on opacity {
+                    UbuntuNumberAnimation {}
+                }
+
+                Loader {
+                    id: contentLoader
+                    anchors.fill: parent
+
+                    source: delegateItem.expanded ? "ItemDetails.qml" : ""
+                    Connections {
+                        target: contentLoader.item
+
+                        onPlayItem: {
+                            print("playItem()!")
+                            root.model.playItem(filterModel.mapToSourceIndex(index))
+                        }
+
+                        onAddToPlaylist: {
+                            root.model.addToPlaylist(filterModel.mapToSourceIndex(index))
+                        }
+
+                        onDownload: {
+                            root.model.download(filterModel.mapToSourceIndex(index), "/home/user/MyDocs/");
+                        }
                     }
+
                 }
             }
 
-            onClicked: {
-                if(filetype === "directory") {
-                    var component = Qt.createComponent("BrowserPage.qml")
-                    if (component.status === Component.Ready) {
-                        var newModel = root.model.enterItem(filterModel.mapToSourceIndex(index));
-                        newModel.ignoreArticle = settings.ignoreArticle;
-                        pageStack.push(component, {model: newModel});
+
+            ListItems.Subtitled {
+                id: collapsedItem
+                height: listView.itemHeight
+                width: listView.width
+                anchors {
+                    left: parent.left
+                    right: parent.right
+                    bottom: parent.bottom
+                }
+
+                text: title
+                subText: subtitle + (year.length > 0 ? '\n' + year : "")
+                progression: filetype == "directory"
+                opacity: delegateItem.expanded ? 0.6 : 1
+
+
+                MouseArea {
+                    anchors.fill: parent
+                    enabled: delegateItem.expanded
+                    onClicked: delegateItem.expanded = false
+                }
+
+                icon: Item {
+                    width: root.model.thumbnailFormat === XbmcModel.ThumbnailFormatNone ? 0 : thumbnailImage.width
+                    visible: root.model.thumbnailFormat !== XbmcModel.ThumbnailFormatNone
+                    UbuntuShape {
+                        id: thumbnailImage
+                        height: listView.itemHeight - units.gu(2)
+                        width: root.model.thumbnailFormat === XbmcModel.ThumbnailFormatPortrait ? height * 3/4 : (root.model.thumbnailFormat === XbmcModel.ThumbnailFormatLandscape ? height * 16/9 : height)
+                        anchors.centerIn: parent
+                        image: Image {
+                            anchors.fill: parent
+                            source: thumbnail
+                        }
+                    }
+                }
+
+                Image {
+                    anchors {
+                        right: parent.right
+                        bottom: parent.bottom
+                        bottomMargin: units.gu(1)
+                    }
+                    width: units.gu(2)
+                    height: width
+                    visible: playcount > 0
+                    source: "images/tick.png"
+                }
+                onClicked: {
+                    if(filetype === "directory") {
+                        var component = Qt.createComponent("BrowserPage.qml")
+                        if (component.status === Component.Ready) {
+                            var newModel = root.model.enterItem(filterModel.mapToSourceIndex(index));
+                            newModel.ignoreArticle = settings.ignoreArticle;
+                            pageStack.push(component, {model: newModel});
+                        } else {
+                            console.log("Error loading component:", component.errorString());
+                        }
                     } else {
-                        console.log("Error loading component:", component.errorString());
+                        root.model.playItem(filterModel.mapToSourceIndex(index));
                     }
-                } else {
-                    root.model.playItem(filterModel.mapToSourceIndex(index));
                 }
-            }
 
-            onPressAndHold: {
-                root.model.fetchItemDetails(filterModel.mapToSourceIndex(index))
-                openEffect.positionPx = delegateItem.y - listView.contentY
-                print("***._", delegateItem.y, listView.contentY, listView.itemHeight, openEffect.positionPx)
-                openEffect.gap = 1.0
-                itemDetailsLoader.selectedItem = root.model.getItem(filterModel.mapToSourceIndex(index))
+                onPressAndHold: {
+                    root.model.fetchItemDetails(filterModel.mapToSourceIndex(index))
+                    delegateItem.expanded = true
+
+                    //openEffect.positionPx = delegateItem.y - listView.contentY
+                    //print("***._", delegateItem.y, listView.contentY, listView.itemHeight, openEffect.positionPx)
+                    //openEffect.gap = 1.0
+                    //itemDetailsLoader.selectedItem = root.model.getItem(filterModel.mapToSourceIndex(index))
+                    //PopupUtils.open(itemDetailsComponent, delegateItem, {selectedItem: root.model.getItem(filterModel.mapToSourceIndex(index))})
+                }
             }
         }
 
@@ -296,7 +392,7 @@ Page {
     MouseArea {
         id:fastScroller
         anchors {top: searchBar.bottom; right: parent.right; bottom: parent.bottom }
-        width: 75
+        width: units.gu(6)
 
         Rectangle {
             id: scrollBackground
@@ -334,7 +430,7 @@ Page {
         opacity: scrollBackground.opacity * 4
         anchors.left: parent.left
         anchors.right: parent.right
-        height: 150
+        height: units.gu(10)
 
         Rectangle {
             anchors.fill: parent
@@ -344,9 +440,9 @@ Page {
             id: scrollIndicatorLabel
             anchors.fill: scrollIndicator
             verticalAlignment: Text.AlignVCenter
-            anchors.margins: 10
+            anchors.margins: units.gu(2)
             color: "white"
-            font.pixelSize: 64
+            fontSize: "x-large"
         }
     }
 
@@ -355,78 +451,5 @@ Page {
         anchors.centerIn: parent
         running: model.busy
         visible: model.busy
-    }
-
-    OpenEffect {
-        id: openEffect
-        anchors.fill: parent
-        anchors.bottomMargin: -bottomOverflow
-        sourceItem: listView
-
-        topGapPx: targetTopGapPx + (1 - gap) * (positionPx - targetTopGapPx)
-        topOpacity: Math.max(0, (1 - gap * 0.8))
-        bottomGapPx: positionPx + gap * (targetBottomGapPx - positionPx)
-        bottomOverflow: units.gu(6)
-        bottomOpacity: 1 - (gap * 0.8)
-
-        property int targetTopGapPx: units.gu(10) // The page header might be there...
-        property int targetBottomGapPx: root.height - listView.itemHeight
-        property real gap: 0.0
-
-        Behavior on gap {
-            NumberAnimation {
-                duration: 200
-                easing.type: Easing.InOutQuad
-            }
-        }
-    }
-
-    MouseArea {
-        anchors.fill: parent
-        enabled: itemDetailsLoader.status == Loader.Ready
-        onClicked: openEffect.gap = 0
-    }
-
-    Rectangle {
-        anchors.fill: parent
-        anchors.topMargin: openEffect.bottomGapPx
-        opacity: openEffect.gap * 0.3
-        color: "black"
-
-    }
-
-    Rectangle {
-        anchors {
-            left: parent.left
-            right: parent.right
-            top: parent.top
-        }
-        height: openEffect.topGapPx
-        opacity: openEffect.gap * 0.3
-        color: "black"
-
-    }
-
-    Loader {
-        id: itemDetailsLoader
-        height: openEffect.bottomGapPx - openEffect.topGapPx
-        anchors {
-            top: parent.top
-            topMargin: openEffect.topGapPx
-            left: parent.left
-            right: parent.right
-        }
-        source: openEffect.gap > 0 ? "ItemDetails.qml" : ""
-
-        property variant selectedItem
-
-        onItemChanged: {
-            print("setting item to", selectedItem)
-            item.selectedItem = selectedItem
-        }
-        onSelectedItemChanged: {
-            print("selitemchanged", selectedItem)
-            item.selectedItem = selectedItem
-        }
     }
 }

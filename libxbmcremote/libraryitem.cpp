@@ -179,7 +179,7 @@ QString LibraryItem::thumbnail() const
     // scaleTo size optimized for big representations.
     int id = Xbmc::instance()->imageCache()->fetch(m_thumbnail, const_cast<LibraryItem*>(this), "imageFetched", QSize(1000, 1000), 1);
     m_imageFetchJobs.insert(id, ImageTypeThumbnail);
-    return QString();
+    return QString("loading");
 }
 
 void LibraryItem::setThumbnail(const QString &thumbnail)
@@ -582,7 +582,7 @@ QString LibraryItem::durationString() const
 
 int LibraryItem::durationInSecs() const
 {
-    QTime nullTime;
+    QTime nullTime(0, 0, 0, 0);
     return nullTime.msecsTo(m_duration) / 1000;
 }
 

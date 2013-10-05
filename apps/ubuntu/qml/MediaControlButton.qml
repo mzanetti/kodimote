@@ -34,9 +34,11 @@ Item {
 
     UbuntuShape {
         anchors.fill: parent
-        image: Image {
+        XIcon {
+            id: image
             anchors.fill: parent
-            source: "/usr/share/icons/ubuntu-mobile/actions/scalable/" + root.source + ".svg"
+            name: root.source
+            color: "white"
         }
     }
 

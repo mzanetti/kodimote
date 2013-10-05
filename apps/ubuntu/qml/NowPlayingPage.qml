@@ -20,6 +20,8 @@
 
 import QtQuick 2.0
 import Ubuntu.Components 0.1
+import Ubuntu.Components.Popups 0.1
+import Ubuntu.Components.ListItems 0.1
 import Xbmc 1.0
 
 Page {
@@ -32,14 +34,39 @@ Page {
 
     property int spacing: units.gu(1)
 
-    tools: ToolbarActions {
-        Action {
+    onCurrentItemChanged: print("************", currentItem.thumbnail)
+
+    tools: ToolbarItems {
+        ToolbarButton {
             iconSource: "/usr/share/icons/ubuntu-mobile/actions/scalable/reload.svg"
             text: "repeat"
+            visible: xbmc.activePlayer.type == Player.PlayerTypeAudio
         }
-        Action {
+        ToolbarButton {
             text: "shuffle"
             iconSource: "/usr/share/icons/ubuntu-mobile/actions/scalable/help.svg"
+            visible: xbmc.activePlayer.type == Player.PlayerTypeAudio
+        }
+        ToolbarButton {
+            iconSource: "image://theme/messages"
+            text: qsTr("Subtitle")
+            visible: xbmc.activePlayer.type == Player.PlayerTypeVideo
+            enabled: !(xbmc.state === "video" && player.subtitles.length === 0)
+            onTriggered: {
+                var popup = PopupUtils.open(toolbarMenuComponent, audioTrackButton, {model: player.subtitles, currentIndex: player.currentSubtitle})
+                popup.accepted.connect(function(selectedIndex) {player.currentSubtitle = selectedIndex})
+            }
+        }
+        ToolbarButton {
+            id: audioTrackButton
+            text: qsTr("Audio track")
+            iconSource: "image://theme/speaker"
+            visible: xbmc.activePlayer.type == Player.PlayerTypeVideo
+            //enabled: player.audiostreams.size > 0
+            onTriggered: {
+                var popup = PopupUtils.open(toolbarMenuComponent, audioTrackButton, {model: player.audiostreams, currentIndex: player.currentAudiostream})
+                popup.accepted.connect(function(selectedIndex) {player.currentAudiostream = selectedIndex})
+            }
         }
     }
 
@@ -71,188 +98,314 @@ Page {
         console.log("playlist is " + playlist)
     }
 
-    Grid {
-        id: mainGrid
+    Item {
         anchors.fill: parent
-        columns: root.orientation == "portrait" ? 1 : 2
-        spacing: appWindow.pageMargins
-        anchors.margins: appWindow.pageMargins
+        ListView {
+            id: playlistView
+            anchors {
+                left: parent.left
+                top: parent.top
+                right: parent.right
+            }
+            height: showPlaylist ? parent.height - units.gu(8) : 0
+            property bool showPlaylist: false
+            clip: true
+            Behavior on height {
+                UbuntuNumberAnimation {}
+            }
 
-        Item {
-            id: imageItem
-            height: root.orientation == "portrait" ? Math.min(parent.width, parent.height - textItem.height - parent.spacing) : parent.height
-            width: root.orientation == "portrait" ? parent.width : height
-            UbuntuShape {
-                // iw : ih = uw : uh
-                height: parent.height
-                width: parent.height
-                anchors.horizontalCenter: parent.horizontalCenter
-                radius: "medium"
-                color: "black"
-                image:
-                    Image {
-                        anchors.fill: parent
-                    source: !currentItem || currentItem.thumbnail.length === 0 ? "" : currentItem.thumbnail
-                    fillMode: Image.PreserveAspectFit
+            Rectangle {
+                anchors.fill: parent
+                color: Qt.rgba(0, 0, 0, 0.3)
+            }
+
+            model: playlist
+            delegate: SingleValue {
+                id: playlistDelegate
+                text: title
+                value: duration
+                selected: index === ListView.view.model.currentTrackNumber - 1
+                onClicked: {
+                    player.playItem(index);
+                }
+                onPressAndHold: {
+                    PopupUtils.open(playlistPopoverComponent, playlistDelegate, {selectedIndex: index})
                 }
             }
         }
 
-        Column {
-            id: textItem
-            width: root.orientation == "portrait" ? parent.width : parent.width - imageItem.width - parent.spacing
-            spacing: root.spacing
-            Row {
-                width: parent.width
+        MouseArea {
+            anchors {
+                left: parent.left
+                right: parent.right
+                top: playlistView.bottom
+                bottom: parent.bottom
+            }
+            enabled: playlistView.showPlaylist
+            onClicked: playlistView.showPlaylist = false
+
+            z: 2
+        }
+
+        Grid {
+            id: mainGrid
+            anchors {
+                left: parent.left
+                right: parent.right
+                top: playlistView.bottom
+                leftMargin: appWindow.pageMargins
+                rightMargin: appWindow.pageMargins
+                topMargin: appWindow.pageMargins
+            }
+            height: parent.height - appWindow.pageMargins * 2
+//            anchors.fill: parent
+
+            columns: root.orientation == "portrait" ? 1 : 2
+            spacing: appWindow.pageMargins
+            opacity: playlistView.showPlaylist ? .6 : 1
+            Behavior on opacity { UbuntuNumberAnimation {} }
+
+            Item {
+                id: imageItem
+                height: root.orientation == "portrait" ? Math.min(parent.width, parent.height - textItem.height - parent.spacing) : parent.height
+                width: root.orientation == "portrait" ? parent.width : height
+
+                LazyImage {
+                    id: imageShape
+                    anchors.fill: parent
+                    opacity: 1
+                    source: !currentItem || currentItem.thumbnail.length === 0 ? "" : currentItem.thumbnail
+                    initialWidth: parent.width
+                    initialHeight: parent.height
+                    scaleTo: "fit"
+
+                    MouseArea {
+                        anchors.fill: parent
+                        onClicked: playlistView.showPlaylist = true
+                    }
+                }
+            }
+
+            Column {
+                id: textItem
+                width: root.orientation == "portrait" ? parent.width : parent.width - imageItem.width - parent.spacing
                 spacing: root.spacing
+                Row {
+                    width: parent.width
+                    spacing: root.spacing
+                    Label {
+                        id: trackLabel
+                        width: parent.width - trackNumLabel.width - parent.spacing
+                        text: currentItem ? currentItem.title : ""
+                        elide: Text.ElideRight
+                        font.bold: true
+                    }
+                    Label {
+                        id: trackNumLabel
+                        text: playlist ? playlist.currentTrackNumber + "/" + playlist.count : "0/0"
+                    }
+                }
                 Label {
-                    id: trackLabel
-                    width: parent.width - trackNumLabel.width - parent.spacing
-                    text: currentItem ? currentItem.title : ""
+                    id: artistLabel
+                    width: parent.width
                     elide: Text.ElideRight
-                    font.bold: true
+                    text: !currentItem ? "" : (xbmc.state == "audio" ? currentItem.artist : (currentItem.type == "episode" ? currentItem.tvShow : qsTr("Year:") + " " + currentItem.year))
                 }
-                Label {
-                    id: trackNumLabel
-                    text: playlist ? playlist.currentTrackNumber + "/" + playlist.count : "0/0"
-                }
-            }
-            Label {
-                id: artistLabel
-                width: parent.width
-                text: !currentItem ? "" : (xbmc.state == "audio" ? currentItem.artist : (currentItem.type == "episode" ? currentItem.tvShow : qsTr("Year:") + " " + currentItem.year))
-            }
-            Row {
-                id: albumRow
-                height: albumLabel.height
-                spacing: units.gu(.5)
-                Label {
-                    id: albumLabel
-                    text: !currentItem ? "" : (xbmc.state == "audio" ? currentItem.album : (currentItem.type == "episode" ? qsTr("Season:") + " " + currentItem.season + "   " + qsTr("Episode:") + " " + currentItem.episode : qsTr("Rating:") + " "))
-                }
-                property int starCount: !currentItem ? 0 : (currentItem.rating > 10 ? Math.floor(currentItem.rating / 20) : Math.floor(currentItem.rating / 2))
-                Repeater {
-                    model: parent.starCount
-                    Icon {
-                        height: units.gu(2)
-                        width: units.gu(2)
-                        name: "/usr/share/icons/ubuntu-mobile/actions/scalable/favorite-selected.svg"
-                        anchors.verticalCenter: albumLabel.verticalCenter
+                Row {
+                    id: albumRow
+                    height: albumLabel.height
+                    width: parent.width
+                    spacing: units.gu(.5)
+                    Label {
+                        id: albumLabel
+                        width: Math.min(implicitWidth, parent.width)
+                        elide: Text.ElideRight
+                        text: !currentItem ? "" : (xbmc.state == "audio" ? currentItem.album : (currentItem.type == "episode" ? qsTr("Season:") + " " + currentItem.season + "   " + qsTr("Episode:") + " " + currentItem.episode : qsTr("Rating:") + " "))
+                    }
+                    property int starCount: !currentItem ? 0 : (currentItem.rating > 10 ? Math.floor(currentItem.rating / 20) : Math.floor(currentItem.rating / 2))
+
+                    RatingStars {
+                        count: 5
+                        rated: parent.starCount
+                        height: albumLabel.height
                         visible: currentItem !== null && (currentItem.type === "movie" || currentItem.type === "unknown")
-                        //source: theme.inverted ? "image://theme/meegotouch-indicator-rating-inverted-background-star" : "image://theme/meegotouch-indicator-rating-star"
                     }
                 }
-                Repeater {
-                    model: 5 - parent.starCount
-                    Icon {
-                        height: units.gu(2)
-                        width: units.gu(2)
-                        name: "/usr/share/icons/ubuntu-mobile/actions/scalable/favorite-unselected.svg"
-                        anchors.verticalCenter: albumLabel.verticalCenter
-                        visible: currentItem !== null && (currentItem.type === "movie" || currentItem.type === "unknown")
-                        //source: theme.inverted ? "image://theme/meegotouch-indicator-rating-background-star" : "image://theme/meegotouch-indicator-rating-background-star"
+
+                PlayerControls {
+                    id: controlButtons
+                    player: root.player
+                    width: parent.width
+                }
+
+
+                UbuntuShape {
+                    id: progressBar
+                    width: parent.width
+                    height: units.gu(1)
+                    property int minimumValue: 0
+                    property int maximumValue: 100
+                    property int value: player ? player.percentage : 0
+
+                    UbuntuShape {
+                        anchors.fill: parent
+                        anchors.rightMargin: parent.width - (parent.width * parent.value / 100)
+                        color: "#1b62c8"
+                    }
+
+                    Rectangle {
+                        color: "black"
+                        rotation: 45
+                        width: 10
+                        height: 10
+                        anchors.horizontalCenter: progressBarLabel.horizontalCenter
+                        anchors.verticalCenter: progressBarLabel.bottom
+                        visible: progressBarLabel.visible
+                    }
+
+                    UbuntuShape {
+                        id: progressBarLabel
+                        color: "black"
+                        anchors.bottom: parent.top
+                        anchors.bottomMargin: 40
+                        height: 40
+                        width: progressBarLabelText.width + 20
+                        visible: progressBarMouseArea.pressed
+
+                        Label {
+                            id: progressBarLabelText
+                            anchors.centerIn: parent
+                            color: "white"
+                        }
+                    }
+
+                    MouseArea {
+                        id: progressBarMouseArea
+                        anchors.fill: progressBar
+                        anchors.topMargin: -root.spacing
+                        anchors.bottomMargin: -root.spacing
+                        preventStealing: true
+                        property var targetTime
+                        drag.target: anchorItem
+
+                        onPositionChanged: {
+                            // Center label on mouseX
+                            progressBarLabel.x = mouseX - progressBarLabel.width / 2;
+
+                            // Calculate time under mouseX
+                            var progressedWidth = mouseX - progressBar.x;
+                            var targetTime = progressedWidth * currentItem.durationInSecs / progressBar.width;
+                            targetTime = Math.min(targetTime, currentItem.durationInSecs);
+                            targetTime = Math.max(targetTime, 0);
+                            print("currentItem", currentItem.durationInSecs)
+
+                            // Translate to human readable time
+                            var hours = Math.floor(targetTime / 60 / 60);
+                            var minutes = Math.floor(targetTime / 60) % 60;
+                            if(minutes < 10) minutes = "0" + minutes;
+                            var seconds = Math.floor(targetTime) % 60;
+                            if(seconds < 10) seconds = "0" + seconds;
+
+                            // Write into the label
+                            if(currentItem.durationInSecs < 60 * 60) {
+                                progressBarLabelText.text = minutes + ":" + seconds;
+                            } else {
+                                progressBarLabelText.text = hours + ":" + minutes + ":" + seconds;
+                            }
+                            mouse.accepted = true
+                            print("mouse accepted")
+                        }
+                        onReleased: {
+                            //player.seek(mouseX * 100 / width)
+                        }
                     }
                 }
-            }
-            PlayerControls {
-                id: controlButtons
-                player: root.player
-                width: parent.width
-            }
 
-
-            ProgressBar {
-                id: progressBar
-                width: parent.width
-                //height: gu.height(1)
-                minimumValue: 0
-                maximumValue: 100
-                value: player ? player.percentage : 0
-
-                Rectangle {
-                    color: "black"
-                    rotation: 45
-                    width: 10
-                    height: 10
-                    anchors.horizontalCenter: progressBarLabel.horizontalCenter
-                    anchors.verticalCenter: progressBarLabel.bottom
-                    visible: progressBarLabel.visible
-                }
-
-                Rectangle {
-                    id: progressBarLabel
-                    color: "black"
-                    anchors.bottom: parent.top
-                    anchors.bottomMargin: 40
-                    height: 40
-                    width: progressBarLabelText.width + 20
-                    radius: 5
-                    visible: progressBarMouseArea.pressed
+                Row {
+                    width: parent.width
+                    spacing: root.spacing
+                    Label {
+                        id: currentTime
+                        text: player ? player.time : "00:00"
+                        width: (parent.width - parent.spacing) / 2
+                    }
 
                     Label {
-                        id: progressBarLabelText
-                        anchors.centerIn: parent
-                        color: "black"
-                    }
-                }
-
-                MouseArea {
-                    id: progressBarMouseArea
-                    anchors.fill: progressBar
-                    anchors.topMargin: -root.spacing
-                    anchors.bottomMargin: -root.spacing
-                    preventStealing: true
-
-                    onPositionChanged: {
-                        // Center label on mouseX
-                        progressBarLabel.x = mouseX - progressBarLabel.width / 2;
-
-                        // Calculate time under mouseX
-                        var progressedWidth = mouseX - progressBar.x;
-                        var targetTime = progressedWidth * currentItem.durationInSecs / progressBar.width;
-                        targetTime = Math.min(targetTime, currentItem.durationInSecs);
-                        targetTime = Math.max(targetTime, 0);
-
-                        // Translate to human readable time
-                        var hours = Math.floor(targetTime / 60 / 60);
-                        var minutes = Math.floor(targetTime / 60) % 60;
-                        if(minutes < 10) minutes = "0" + minutes;
-                        var seconds = Math.floor(targetTime) % 60;
-                        if(seconds < 10) seconds = "0" + seconds;
-
-                        // Write into the label
-                        if(currentItem.durationInSecs < 60 * 60) {
-                            progressBarLabelText.text = minutes + ":" + seconds;
-                        } else {
-                            progressBarLabelText.text = hours + ":" + minutes + ":" + seconds;
-                        }
-                        mouse.accepted = true
-                        print("mouse accepted")
-                    }
-                    onReleased: {
-                        player.seek(mouseX * 100 / width)
+                        text: currentItem ? currentItem.durationString : "00:00"
+                        horizontalAlignment: Text.AlignRight
+                        width: (parent.width - parent.spacing) / 2
                     }
                 }
             }
+        }
+    }
 
 
-            Row {
-                width: parent.width
-                spacing: root.spacing
-                Label {
-                    id: currentTime
-                    text: player ? player.time : "00:00"
-                    width: (parent.width - parent.spacing) / 2
+    Component {
+        id: toolbarMenuComponent
+        Popover {
+            id: toolbarMenu
+            property alias model: listView.model
+            property alias currentIndex: listView.currentIndex
+
+            signal accepted(int selectedIndex)
+
+            ListView {
+                id: listView
+                anchors {
+                    left: parent.left
+                    right: parent.right
+                    top: parent.top
                 }
-
-                Label {
-                    text: currentItem ? currentItem.durationString : "00:00"
-                    horizontalAlignment: Text.AlignRight
-                    width: (parent.width - parent.spacing) / 2
+                height: contentHeight
+                model: toolbarMenuModel
+                delegate: Standard {
+                    text: modelData
+                    selected: listView.currentIndex == index
+                    onClicked: {
+                        toolbarMenu.accepted(index)
+                        PopupUtils.close(toolbarMenu)
+                    }
                 }
             }
+        }
+    }
 
+    Component {
+        id: playlistPopoverComponent
+        Popover {
+            id: playlistPopover
+            property int selectedIndex
+            Column {
+                anchors {
+                    left: parent.left
+                    right: parent.right
+                    top: parent.top
+                }
+                height: childrenRect.height
 
+                Standard {
+                    text: qsTr("Play")
+                    onClicked: {
+                        player.playItem(selectedIndex)
+                        PopupUtils.close(playlistPopover)
+                    }
+                }
+                Standard {
+                    text: qsTr("Remove from playlist")
+                    onClicked: {
+                        playlist.removeItem(selectedIndex)
+                        PopupUtils.close(playlistPopover)
+                    }
+                }
+                Standard {
+                    text: qsTr("Clear playlist")
+                    onClicked: {
+                        playlist.clear()
+                        PopupUtils.close(playlistPopover)
+                    }
+                }
+            }
         }
     }
 }

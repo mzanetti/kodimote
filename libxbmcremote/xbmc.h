@@ -128,6 +128,9 @@ public:
 
     XbmcImageCache *imageCache();
 
+    QString dataPath() const;
+    void setDataPath(const QString &path);
+
 public slots:
     void disconnectFromHost();
     void quit();
@@ -208,6 +211,7 @@ private:
     bool m_pvrScanning;
 
     XbmcImageCache *m_imageCache;
+    QString m_dataPath;
 };
 
 #endif // XBMC_H

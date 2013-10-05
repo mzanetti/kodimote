@@ -32,32 +32,32 @@ Row {
 
     MediaControlButton {
         id: button
-        source: "media-skip-backward"
+        source: "image://theme/media-skip-backward"
         onClicked: player.skipPrevious();
     }
     MediaControlButton {
-        source: "toolbar-mediacontrol-backwards"
+        source: "images/rewind.svg"
         enabled: player ? player.state == "playing" && player.type !== Player.PlayerTypePictures : false
         selected: player ? player.speed < 0 : false
         onClicked: player.seekBackward();
     }
     MediaControlButton {
-        source: "media-playback-stop"
+        source: "images/stop.svg"
         enabled: player ? player.state == "playing" : false
         onClicked: player.stop();
     }
     MediaControlButton {
-        source: (player && player.speed === 1 && player.state === "playing") ? "media-playback-pause" : "media-playback-start"
+        source: "image://theme/media-playback-" + ((player && player.speed === 1 && player.state === "playing") ? "pause" : "start")
         onClicked: player.playPause();
     }
     MediaControlButton {
-        source: "toolbar-mediacontrol-forward"
+        source: "images/fast-forward.svg"
         enabled: player ? player.state == "playing" && player.type !== Player.PlayerTypePictures : false
         selected: player ? player.speed > 1 : false
         onClicked: player.seekForward();
     }
     MediaControlButton {
-        source: "media-skip-forward"
+        source: "image://theme/media-skip-forward"
         onClicked: player.skipNext();
     }
 }

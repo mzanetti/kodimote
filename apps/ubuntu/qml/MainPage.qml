@@ -30,17 +30,18 @@ Page {
 
     property int spacing
 
-    tools: ToolbarActions {
+    tools: showToolbars ? mainTools : null
+    ToolbarItems {
         id: mainTools
-        Action {
+        ToolbarButton {
             text: qsTr("Settings")
-            iconSource: "/usr/share/icons/ubuntu-mobile/actions/scalable/settings.svg"
+            iconSource: "image://theme/settings"
             onTriggered: print("First action")
          }
 
-        Action {
+        ToolbarButton {
             text: qsTr("Disconnect")
-            iconSource: "/usr/share/icons/ubuntu-mobile/actions/scalable/close.svg"
+            iconSource: "image://theme/close"
             onTriggered: {
                 xbmc.disconnectFromHost()
             }
@@ -117,11 +118,11 @@ Page {
             gradientColor: "black"
             radius: "medium"
 
-            image: Image {
+/*            image: Image {
                 source: "images/" + target + ".jpg"
                 fillMode: Image.PreserveAspectCrop
             }
-            UbuntuShape {
+*/            UbuntuShape {
                 id: sourceShape
                 anchors.fill: parent
                 color: "black"

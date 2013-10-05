@@ -47,6 +47,7 @@ void AudioPlaylist::refresh()
     properties.append("duration");
     properties.append("artist");
     properties.append("album");
+    properties.append("thumbnail");
     params.insert("properties", properties);
 
     params.insert("playlistid", playlistId());
@@ -98,6 +99,7 @@ void AudioPlaylist::itemsReceived(const QVariantMap &rsp)
         item->setDuration(QTime(0, 0, 0).addSecs(itemMap.value("duration").toInt()));
         item->setArtist(itemMap.value("artist").toString());
         item->setAlbum(itemMap.value("album").toString());
+        item->setThumbnail(itemMap.value("thumbnail").toString());
         m_itemList.append(item);
     }
     if(modelResetted) {

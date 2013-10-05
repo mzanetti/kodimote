@@ -92,12 +92,11 @@ void VideoPlaylist::itemsReceived(const QVariantMap &rsp)
     foreach(const QVariant &itemVariant, responseList) {
         QVariantMap itemMap = itemVariant.toMap();
         VideoPlaylistItem *item = new VideoPlaylistItem();
-//        item.setFanart(itemMap.value("fanart").toString());
         item->setLabel(itemMap.value("label").toString());
         item->setDuration(QTime(0, 0, 0).addSecs(itemMap.value("runtime").toDouble()));
 //        item.setTitle(itemMap.value("title").toString());
 //        item.setArtist(itemMap.value("artist").toString());
-//        xDebug(XDAREA_PLAYLIST) << "adding item:" << item.label();
+        xDebug(XDAREA_PLAYLIST) << "adding item:" << item->label() << item->fanart();
         m_itemList.append(item);
     }
     if(modelResetted) {

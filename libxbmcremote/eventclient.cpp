@@ -56,10 +56,10 @@ void EventClient::connectToHost(XbmcHost *host)
     m_xbmcHost.Bind(m_socket);
 
     if (!m_thumbnail.isEmpty()) {
-        CPacketHELO HeloPackage("N9 Xbmcremote", ICON_PNG, m_thumbnail.toLatin1().data());
+        CPacketHELO HeloPackage("Xbmcremote", ICON_PNG, m_thumbnail.toLatin1().data());
         HeloPackage.Send(m_socket, m_xbmcHost);
     } else {
-        CPacketHELO HeloPackage("N9 Xbmcremote", ICON_NONE);
+        CPacketHELO HeloPackage("Xbmcremote", ICON_NONE);
         HeloPackage.Send(m_socket, m_xbmcHost);
     }
 

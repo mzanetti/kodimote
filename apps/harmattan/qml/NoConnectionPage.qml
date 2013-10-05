@@ -44,7 +44,7 @@ Page {
             horizontalAlignment: Text.AlignHCenter
         }
         Button{
-            text: qsTr("Connect")
+            text: qsTr("Connect...")
             anchors.horizontalCenter: parent.horizontalCenter
             onClicked: {
                 var component = Qt.createComponent("ConnectionSheet.qml")

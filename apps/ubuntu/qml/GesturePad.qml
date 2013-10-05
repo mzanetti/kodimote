@@ -55,9 +55,12 @@ Item {
                 id: arrowRepeater
                 model: 3
 
-                Image {
+                Icon {
                     id: arrowImage
-                    source: "image://theme/icon-m-toolbar-next-white"
+                    height: units.gu(2)
+                    width: height
+                    name: "chevron"
+                    color: "white"
                     opacity: 0.3
 
                     Connections {
@@ -76,11 +79,11 @@ Item {
                             }
                         }
 
-//                        onCompleted: {
-//                            if (index === arrowRepeater.count - 1 ) {
-//                                arrowsRoot.isRunning = false;
-//                            }
-//                        }
+                        onStopped: {
+                            if (index === arrowRepeater.count - 1 ) {
+                                arrowsRoot.isRunning = false;
+                            }
+                        }
 
                         PauseAnimation { duration: 100 * index }
                         NumberAnimation { target: arrowImage; properties: "opacity"; from: 0.3; to: 1; duration: 200 }
@@ -100,7 +103,7 @@ Item {
 
         Image {
             anchors.fill: parent
-            source: "icons/pad-separator.png"
+            source: "images/pad-separator.svg"
         }
 
         Loader {
@@ -148,7 +151,7 @@ Item {
         }
 
         onPressAndHold: {
-            rumbleEffect.start(4);
+//            rumbleEffect.start(4);
             scrollTimer.start();
         }
 
@@ -216,7 +219,7 @@ Item {
                 return;
             }
 
-            rumbleEffect.start(2);
+//            rumbleEffect.start(2);
 
             // if horizontal delta is larger than twice the minimum distance,
             // we always go left/right, no matter what the vertical delta is.

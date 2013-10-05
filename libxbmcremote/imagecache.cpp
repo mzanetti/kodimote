@@ -82,7 +82,7 @@ QString XbmcImageCache::cachedFile(const QString &image, int cacheId)
 
 QString XbmcImageCache::cachePath(int cacheId)
 {
-    return QDir::home().absolutePath() + "/.xbmcremote/imagecache/" + QString::number(cacheId) + "/";
+    return Xbmc::instance()->dataPath() + "/imagecache/" + QString::number(cacheId) + "/";
 }
 
 void XbmcImageCache::run()
