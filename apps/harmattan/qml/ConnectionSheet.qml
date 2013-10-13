@@ -181,7 +181,7 @@ Sheet {
                     TextField {
                         width: parent.width
                         id: hostnameTextField
-
+                        inputMethodHints: Qt.ImhSensitiveData|Qt.ImhNoAutoUppercase|Qt.ImhPreferLowercase|Qt.ImhUrlCharactersOnly
                     }
                     Item {
                         width: parent.width
@@ -196,7 +196,7 @@ Sheet {
                         width: parent.width
                         id: portTextField
                         inputMask: "00000"
-                        inputMethodHints: Qt.ImhPreferNumbers
+                        inputMethodHints: Qt.ImhDigitsOnly|Qt.ImhSensitiveData
                     }
                     Item {
                         width: parent.width
