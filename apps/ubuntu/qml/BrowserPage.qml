@@ -97,7 +97,7 @@ Page {
 
         Timer {
             id: searchTimer
-            interval: 3000
+            interval: 5000
             repeat: false
             running: searchBar.expanded && !searchTextField.activeFocus && filterModel.filter.length === 0
 
@@ -108,16 +108,20 @@ Page {
 
 
         Behavior on height {
-            NumberAnimation { duration: 1500; easing.type: Easing.OutElastic }
+            NumberAnimation { duration: UbuntuAnimation.SnapDuration; easing.type: Easing.OutQuad; }
         }
     }
 
     TextField {
         id: searchTextField
-        anchors { left: parent.left; right: parent.right; bottom: listView.top }
-        anchors.leftMargin: root.spacing
-        anchors.rightMargin: root.spacing
-        anchors.bottomMargin: listView.contentY + root.spacing
+        anchors {
+            left: parent.left
+            right: parent.right
+            bottom: listView.top
+            leftMargin: root.spacing
+            rightMargin: root.spacing
+            bottomMargin: listView.contentY + root.spacing
+        }
         opacity: searchBar.expanded ? 1 : 0
         enabled: searchBar.expanded
         z: 2
@@ -156,7 +160,14 @@ Page {
 
     ListView {
         id: listView
-        anchors {left: parent.left; top: searchBar.bottom; right: parent.right; bottom: parent.bottom}
+        anchors {
+            left: parent.left
+            top: searchBar.bottom
+            right: parent.right
+            bottom: parent.bottom
+            topMargin: -listView.topMargin
+        }
+        topMargin: searchBar.height
         highlightFollowsCurrentItem: true
         cacheBuffer: itemHeight * 3
         model: filterModel
