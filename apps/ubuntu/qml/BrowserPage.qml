@@ -172,7 +172,7 @@ Page {
         cacheBuffer: itemHeight * 3
         model: filterModel
 
-        property bool draggedForSearch: root.model.allowSearch && contentY < -units.gu(6)
+        property bool draggedForSearch: root.model.allowSearch && contentY < -units.gu(6) && dragging
         property bool useThumbnails: settings.useThumbnails
 
         property int itemHeight: root.model.thumbnailFormat === XbmcModel.ThumbnailFormatPortrait ? units.gu(10) : units.gu(8)
