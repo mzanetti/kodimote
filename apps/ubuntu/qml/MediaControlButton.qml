@@ -32,14 +32,11 @@ Item {
 
     signal clicked()
 
-    UbuntuShape {
+    XIcon {
+        id: image
         anchors.fill: parent
-        XIcon {
-            id: image
-            anchors.fill: parent
-            name: root.source
-            color: "white"
-        }
+        name: root.source
+        color: "white"
     }
 
     MouseArea {
