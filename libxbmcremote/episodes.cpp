@@ -86,14 +86,14 @@ void Episodes::refresh()
     properties.append("file");
     params.insert("properties", properties);
 
-    QVariantMap sort;
-    sort.insert("method", "episode");
-    sort.insert("order", "ascending");
-    params.insert("sort", sort);
-
     if (m_tvshowid == XbmcModel::ItemIdRecentlyAdded && m_seasonid == XbmcModel::ItemIdRecentlyAdded) {
         XbmcConnection::sendCommand("VideoLibrary.GetRecentlyAddedEpisodes", params, this, "listReceived");
     } else {
+        QVariantMap sort;
+        sort.insert("method", "episode");
+        sort.insert("order", "ascending");
+        params.insert("sort", sort);
+
         XbmcConnection::sendCommand("VideoLibrary.GetEpisodes", params, this, "listReceived");
     }
 }

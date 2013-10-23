@@ -74,15 +74,16 @@ void MusicVideos::refresh()
     properties.append("playcount");
     params.insert("properties", properties);
 
-    QVariantMap sort;
-    sort.insert("method", "label");
-    sort.insert("order", "ascending");
-    sort.insert("ignorearticle", ignoreArticle());
-    params.insert("sort", sort);
 
     if (m_recentlyAdded) {
         XbmcConnection::sendCommand("VideoLibrary.GetMusicVideos", params, this, "listReceived");
     } else {
+        QVariantMap sort;
+        sort.insert("method", "label");
+        sort.insert("order", "ascending");
+        sort.insert("ignorearticle", ignoreArticle());
+        params.insert("sort", sort);
+
         XbmcConnection::sendCommand("VideoLibrary.GetRecentlyAddedMusicVideos", params, this, "listReceived");
     }
 }

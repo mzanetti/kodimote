@@ -83,15 +83,16 @@ void Movies::refresh()
     properties.append("year");
     params.insert("properties", properties);
 
-    QVariantMap sort;
-    sort.insert("method", "label");
-    sort.insert("order", "ascending");
-    sort.insert("ignorearticle", ignoreArticle());
-    params.insert("sort", sort);
 
     if (m_recentlyAdded) {
         XbmcConnection::sendCommand("VideoLibrary.GetRecentlyAddedMovies", params, this, "listReceived");
     } else {
+        QVariantMap sort;
+        sort.insert("method", "label");
+        sort.insert("order", "ascending");
+        sort.insert("ignorearticle", ignoreArticle());
+        params.insert("sort", sort);
+
         XbmcConnection::sendCommand("VideoLibrary.GetMovies", params, this, "listReceived");
     }
 }

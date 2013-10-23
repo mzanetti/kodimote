@@ -58,16 +58,16 @@ void Songs::refresh(int start, int end)
 
     params.insert("properties", properties);
 
-    QVariantMap sort;
-    if(m_albumId == XbmcModel::ItemIdInvalid) {
-        sort.insert("method", "label");
-    } else if (m_albumId == XbmcModel::ItemIdRecentlyAdded || m_albumId == XbmcModel::ItemIdRecentlyPlayed){
-        sort.insert("method", "album");
-    } else {
-        sort.insert("method", "track");
-    }
-    sort.insert("order", "ascending");
-    params.insert("sort", sort);
+    if (m_albumId != XbmcModel::ItemIdRecentlyAdded && m_albumId != XbmcModel::ItemIdRecentlyPlayed){
+        QVariantMap sort;
+        if(m_albumId == XbmcModel::ItemIdInvalid) {
+            sort.insert("method", "label");
+        } else {
+            sort.insert("method", "track");
+        }
+        sort.insert("order", "ascending");
+        params.insert("sort", sort);
+}
 
     QVariantMap limits;
     limits.insert("start", start);

@@ -54,16 +54,17 @@ void Albums::refresh()
     properties.append("thumbnail");
     params.insert("properties", properties);
 
-    QVariantMap sort;
-    sort.insert("method", "label");
-    sort.insert("order", "ascending");
-    sort.insert("ignorearticle", ignoreArticle());
-    params.insert("sort", sort);
     if (m_artistId == XbmcModel::ItemIdRecentlyAdded) {
         XbmcConnection::sendCommand("AudioLibrary.GetRecentlyAddedAlbums", params, this, "listReceived");
     } else if (m_artistId == XbmcModel::ItemIdRecentlyPlayed) {
         XbmcConnection::sendCommand("AudioLibrary.GetRecentlyPlayedAlbums", params, this, "listReceived");
     } else {
+        QVariantMap sort;
+        sort.insert("method", "label");
+        sort.insert("order", "ascending");
+        sort.insert("ignorearticle", ignoreArticle());
+        params.insert("sort", sort);
+
         XbmcConnection::sendCommand("AudioLibrary.GetAlbums", params, this, "listReceived");
     }
 }
