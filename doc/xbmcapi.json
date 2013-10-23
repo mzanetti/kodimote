@@ -3,7 +3,7 @@
 "jsonrpc":"2.0",
 "result":{
   "description":"JSON-RPC API of XBMC",
-  "id":"http://www.xbmc.org/jsonrpc/ServiceDescription.json",
+  "id":"http://xbmc.org/jsonrpc/ServiceDescription.json",
   "methods":{
     "Addons.ExecuteAddon":{
       "description":"Executes the given addon with the given parameters (if possible)",
@@ -1144,6 +1144,86 @@
       ],
       "returns":{
         "type":"string"
+      },
+      "type":"method"
+    },
+    
+    "Favourites.AddFavourite":{
+      "description":"Add a favourite with the given details",
+      "params":[
+        {
+          "name":"title",
+          "required":true,
+          "type":"string"
+        },
+        {
+          "$ref":"Favourite.Type",
+          "name":"type",
+          "required":true
+        },
+        {
+          "$ref":"Optional.String",
+          "default":null,
+          "description":"Required for media and script favourites types",
+          "name":"path"
+        },
+        {
+          "$ref":"Optional.String",
+          "default":null,
+          "description":"Required for window favourite type",
+          "name":"window"
+        },
+        {
+          "$ref":"Optional.String",
+          "default":null,
+          "name":"windowparameter"
+        },
+        {
+          "$ref":"Optional.String",
+          "default":null,
+          "name":"thumbnail"
+        }
+      ],
+      "returns":{
+        "type":"string"
+      },
+      "type":"method"
+    },
+    
+    "Favourites.GetFavourites":{
+      "description":"Retrieve all favourites",
+      "params":[
+        {
+          "default":null,
+          "name":"type",
+          "type":[
+            {
+              "type":"null"
+            },
+            {
+              "$ref":"Favourite.Type"
+            }
+          ]
+        },
+        {
+          "$ref":"Favourite.Fields.Favourite",
+          "name":"properties"
+        }
+      ],
+      "returns":{
+        "properties":{
+          "favourites":{
+            "items":{
+              "$ref":"Favourite.Details.Favourite"
+            },
+            "type":"array"
+          },
+          "limits":{
+            "$ref":"List.LimitsReturned",
+            "required":true
+          }
+        },
+        "type":"object"
       },
       "type":"method"
     },
@@ -2708,6 +2788,81 @@
       "type":"method"
     },
     
+    "Profiles.GetCurrentProfile":{
+      "description":"Retrieve the current profile",
+      "params":[
+        {
+          "$ref":"Profiles.Fields.Profile",
+          "name":"properties"
+        }
+      ],
+      "returns":{
+        "$ref":"Profiles.Details.Profile"
+      },
+      "type":"method"
+    },
+    
+    "Profiles.GetProfiles":{
+      "description":"Retrieve all profiles",
+      "params":[
+        {
+          "$ref":"Profiles.Fields.Profile",
+          "name":"properties"
+        },
+        {
+          "$ref":"List.Limits",
+          "name":"limits"
+        },
+        {
+          "$ref":"List.Sort",
+          "name":"sort"
+        }
+      ],
+      "returns":{
+        "properties":{
+          "limits":{
+            "$ref":"List.LimitsReturned",
+            "required":true
+          },
+          "profiles":{
+            "items":{
+              "$ref":"Profiles.Details.Profile"
+            },
+            "required":true,
+            "type":"array"
+          }
+        },
+        "type":"object"
+      },
+      "type":"method"
+    },
+    
+    "Profiles.LoadProfile":{
+      "description":"Load the specified profile",
+      "params":[
+        {
+          "description":"Profile name",
+          "name":"profile",
+          "required":true,
+          "type":"string"
+        },
+        {
+          "default":false,
+          "description":"Prompt for password",
+          "name":"prompt",
+          "type":"boolean"
+        },
+        {
+          "$ref":"Profiles.Password",
+          "name":"password"
+        }
+      ],
+      "returns":{
+        "type":"string"
+      },
+      "type":"method"
+    },
+    
     "System.EjectOpticalDrive":{
       "description":"Ejects or closes the optical disc drive (if available)",
       "params":[
@@ -3870,6 +4025,18 @@
               "$ref":"Media.Artwork"
             }
           ]
+        },
+        {
+          "default":null,
+          "name":"resume",
+          "type":[
+            {
+              "type":"null"
+            },
+            {
+              "$ref":"Video.Resume"
+            }
+          ]
         }
       ],
       "returns":{
@@ -4077,6 +4244,18 @@
               "$ref":"Media.Artwork"
             }
           ]
+        },
+        {
+          "default":null,
+          "name":"resume",
+          "type":[
+            {
+              "type":"null"
+            },
+            {
+              "$ref":"Video.Resume"
+            }
+          ]
         }
       ],
       "returns":{
@@ -4213,6 +4392,18 @@
             },
             {
               "$ref":"Media.Artwork"
+            }
+          ]
+        },
+        {
+          "default":null,
+          "name":"resume",
+          "type":[
+            {
+              "type":"null"
+            },
+            {
+              "$ref":"Video.Resume"
             }
           ]
         }
@@ -5588,8 +5779,8 @@
           "yearsactive",
           "musicbrainzartistid",
           "fanart",
-          "compilationartist",
-          "thumbnail"
+          "thumbnail",
+          "compilationartist"
         ],
         "type":"string"
       }
@@ -5693,6 +5884,67 @@
       "type":"object"
     },
     
+    "Favourite.Details.Favourite":{
+      "id":"Favourite.Details.Favourite",
+      "items":{
+        "additionalProperties":false,
+        "properties":{
+          "path":{
+            "default":"",
+            "type":"string"
+          },
+          "thumbnail":{
+            "default":"",
+            "type":"string"
+          },
+          "title":{
+            "required":true,
+            "type":"string"
+          },
+          "type":{
+            "$ref":"Favourite.Type",
+            "required":true
+          },
+          "window":{
+            "default":"",
+            "type":"string"
+          },
+          "windowparameter":{
+            "default":"",
+            "type":"string"
+          }
+        },
+        "type":"object"
+      },
+      "type":"array"
+    },
+    
+    "Favourite.Fields.Favourite":{
+      "extends":"Item.Fields.Base",
+      "id":"Favourite.Fields.Favourite",
+      "items":{
+        "enums":[
+          "window",
+          "windowparameter",
+          "thumbnail",
+          "path"
+        ],
+        "type":"string"
+      }
+    },
+    
+    "Favourite.Type":{
+      "default":"media",
+      "enums":[
+        "media",
+        "window",
+        "script",
+        "unknown"
+      ],
+      "id":"Favourite.Type",
+      "type":"string"
+    },
+    
     "Files.Media":{
       "default":"video",
       "enums":[
@@ -5766,7 +6018,6 @@
     },
     
     "GUI.Window":{
-      "default":"home",
       "enums":[
         "home",
         "programs",
@@ -5885,6 +6136,7 @@
         "addon"
       ],
       "id":"GUI.Window",
+      "required":true,
       "type":"string"
     },
     
@@ -6116,6 +6368,15 @@
         "decreasepar",
         "volampup",
         "volampdown",
+        "createbookmark",
+        "createepisodebookmark",
+        "settingsreset",
+        "settingslevelchange",
+        "stereomode",
+        "nextstereomode",
+        "previousstereomode",
+        "togglestereomode",
+        "stereomodetomono",
         "channelup",
         "channeldown",
         "previouschannelgroup",
@@ -6491,7 +6752,8 @@
         "label",
         "rating",
         "playcount",
-        "playlist"
+        "playlist",
+        "virtualfolder"
       ],
       "id":"List.Filter.Fields.Albums",
       "required":true,
@@ -6510,7 +6772,8 @@
         "bandformed",
         "disbanded",
         "died",
-        "playlist"
+        "playlist",
+        "virtualfolder"
       ],
       "id":"List.Filter.Fields.Artists",
       "required":true,
@@ -6549,7 +6812,8 @@
         "audiolanguage",
         "subtitlelanguage",
         "videoaspect",
-        "playlist"
+        "playlist",
+        "virtualfolder"
       ],
       "id":"List.Filter.Fields.Episodes",
       "type":"string"
@@ -6590,7 +6854,8 @@
         "audiolanguage",
         "subtitlelanguage",
         "videoaspect",
-        "playlist"
+        "playlist",
+        "virtualfolder"
       ],
       "id":"List.Filter.Fields.Movies",
       "type":"string"
@@ -6621,14 +6886,14 @@
         "audiolanguage",
         "subtitlelanguage",
         "videoaspect",
-        "playlist"
+        "playlist",
+        "virtualfolder"
       ],
       "id":"List.Filter.Fields.MusicVideos",
       "type":"string"
     },
     
     "List.Filter.Fields.Songs":{
-      "default":"genre",
       "enums":[
         "genre",
         "album",
@@ -6644,10 +6909,11 @@
         "lastplayed",
         "rating",
         "comment",
-        "dateadded",
-        "playlist"
+        "playlist",
+        "virtualfolder"
       ],
       "id":"List.Filter.Fields.Songs",
+      "required":true,
       "type":"string"
     },
     
@@ -6673,7 +6939,8 @@
         "lastplayed",
         "inprogress",
         "tag",
-        "playlist"
+        "playlist",
+        "virtualfolder"
       ],
       "id":"List.Filter.Fields.TVShows",
       "type":"string"
@@ -7197,7 +7464,7 @@
         },
         "size":{
           "default":0,
-          "description":"Size of the file in kB (1000 Byte)",
+          "description":"Size of the file in bytes",
           "type":"integer"
         }
       }
@@ -8064,6 +8331,14 @@
             "directory":{
               "required":true,
               "type":"string"
+            },
+            "media":{
+              "$ref":"Files.Media",
+              "default":"video"
+            },
+            "recursive":{
+              "default":false,
+              "type":"boolean"
             }
           },
           "type":"object"
@@ -8186,6 +8461,54 @@
       ],
       "id":"Playlist.Type",
       "type":"string"
+    },
+    
+    "Profiles.Details.Profile":{
+      "extends":"Item.Details.Base",
+      "id":"Profiles.Details.Profile",
+      "properties":{
+        "lockmode":{
+          "default":0,
+          "type":"integer"
+        },
+        "thumbnail":{
+          "default":"",
+          "type":"string"
+        }
+      }
+    },
+    
+    "Profiles.Fields.Profile":{
+      "extends":"Item.Fields.Base",
+      "id":"Profiles.Fields.Profile",
+      "items":{
+        "enums":[
+          "thumbnail",
+          "lockmode"
+        ],
+        "type":"string"
+      }
+    },
+    
+    "Profiles.Password":{
+      "id":"Profiles.Password",
+      "properties":{
+        "encryption":{
+          "default":"md5",
+          "description":"Password Encryption",
+          "enums":[
+            "none",
+            "md5"
+          ],
+          "type":"string"
+        },
+        "value":{
+          "description":"Password",
+          "required":true,
+          "type":"string"
+        }
+      },
+      "type":"object"
     },
     
     "System.Property.Name":{
@@ -8894,6 +9217,6 @@
       "type":"object"
     }
   },
-  "version":"6.1.0"
+  "version":"6.6.0"
 }
 }
