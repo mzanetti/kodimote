@@ -202,6 +202,7 @@ Page {
 
                 color: Qt.rgba(0, 0, 0, 0.4)
                 opacity: delegateItem.expanded ? 1 : 0
+                visible: opacity > 0
                 Behavior on opacity {
                     UbuntuNumberAnimation {}
                 }
@@ -265,6 +266,10 @@ Page {
                         image: Image {
                             anchors.fill: parent
                             source: thumbnail
+                            sourceSize {
+                                width: thumbnailImage.width
+                                height: thumbnailImage.height
+                            }
                         }
                     }
                 }
@@ -298,84 +303,11 @@ Page {
                 onPressAndHold: {
                     root.model.fetchItemDetails(filterModel.mapToSourceIndex(index))
                     delegateItem.expanded = true
-
-                    //openEffect.positionPx = delegateItem.y - listView.contentY
-                    //print("***._", delegateItem.y, listView.contentY, listView.itemHeight, openEffect.positionPx)
-                    //openEffect.gap = 1.0
-                    //itemDetailsLoader.selectedItem = root.model.getItem(filterModel.mapToSourceIndex(index))
-                    //PopupUtils.open(itemDetailsComponent, delegateItem, {selectedItem: root.model.getItem(filterModel.mapToSourceIndex(index))})
                 }
             }
         }
 
 
-
-//            Item {
-//                id: expandedContent
-//                anchors {left: parent.left; top: itemRow.bottom; right: parent.right}
-//                anchors.bottom: parent.bottom
-//                anchors.leftMargin: 15
-//                width: parent.width - 20
-
-//                Loader {
-//                    id: contentLoader
-//                    anchors.fill: parent
-//                    onLoaded: print("loaderheight: " + childrenRect.height)
-
-//                    Connections {
-//                        target: contentLoader.item
-
-//                        onPlayItem: {
-//                            print("playItem()!")
-//                            root.model.playItem(filterModel.mapToSourceIndex(index))
-//                        }
-
-//                        onAddToPlaylist: {
-//                            root.model.addToPlaylist(filterModel.mapToSourceIndex(index))
-//                        }
-
-//                        onDownload: {
-//                            root.model.download(filterModel.mapToSourceIndex(index), "/home/user/MyDocs/");
-//                        }
-//                    }
-//                }
-//                Behavior on opacity {
-//                    NumberAnimation { duration: 300 }
-//                }
-//            }
-
-//            Image {
-//                id: arrow
-//                //source: "image://theme/icon-m-common-drilldown-arrow" + (theme.inverted ? "-inverse" : "")
-//                anchors.right: parent.right;
-//                anchors.verticalCenter: parent.verticalCenter
-//                visible: filetype === "directory" && listItem.state == "collapsed" ? true : false;
-//                opacity: .5
-//            }
-
-
-//            states: [
-//                State {
-//                    name: "expanded"
-//                    PropertyChanges { target: listItem; height: listView.height; clip: true }
-//                    //                    PropertyChanges { target: listView; snapMode: ListView.SnapOneItem }
-//                    PropertyChanges { target: background; visible: false }
-//                    PropertyChanges { target: expandedContent; opacity: 1 }
-//                    PropertyChanges { target: contentLoader; source: "ItemDetails.qml" }
-//                    PropertyChanges { target: listView; interactive: false; contentY: listView.itemHeight * listView.currentIndex }
-//                    PropertyChanges { target: fastScroller; enabled: false }
-////                    PropertyChanges { target: mouseArea; enabled: false }
-//                }
-
-//            ]
-
-//            Behavior on height {
-//                NumberAnimation {
-//                    easing.type: Easing.InOutQuad
-//                    duration: 300
-//                }
-//            }
-//        }
         section.property: "sortingTitle"
         section.criteria: ViewSection.FirstCharacter
         // section.delegate: model.parentModel() != null ? sectionHeading : undefined
