@@ -49,13 +49,15 @@ char query_jsonrpc_http_workstations[] = {
     0x00, 0x0c,             // Type PTR
     0x00, 0x01,             // Class: IN
 
-    // Question for _http._tcp
-    0x05,                   // Length of text field
-    0x5f, 0x68, 0x74, 0x74, 0x70, 0x04, 0x5f, 0x74,  // _http._t
-    0x63, 0x70, 0x05, 0x6c, 0x6f, 0x63, 0x61, 0x6c,  // cp.local
+    // Question for _xbmc-jsonrpc-h._tcp
+    0x0f,                   // Length of following ttext ield
+    0x5f, 0x78, 0x62, 0x6d, 0x63, 0x2d, 0x6a, 0x73, // _xbmc-js
+    0x6f, 0x6e, 0x72, 0x70, 0x63, 0x2d, 0x68, 0x04, // onrpc-h.
+    0x5f, 0x74, 0x63, 0x70, 0x05, 0x6c, 0x6f, 0x63, // _tcp.loc
+    0x61, 0x6c,                                     // al
     0x00,                   // \0
     0x00, 0x0c,             // Type PTR
-    0x00 ,0x01,             // Class IN
+    0x00, 0x01,             // Class: IN
 
     // Question for _workstation._tcp
     0x0c,                   // Length of text field
@@ -72,7 +74,12 @@ XbmcDiscovery::XbmcDiscovery(QObject *parent) :
 {
 
     m_socket = new QUdpSocket(this);
-    m_socket->bind(5353, QUdpSocket::ShareAddress);
+    bool bound = m_socket->bind(5353, QUdpSocket::ShareAddress | QUdpSocket::ReuseAddressHint);
+    if (!bound) {
+        xDebug(XDAREA_DISCOVERY) << "Failed to bind Zeroconf socket:" << m_socket->errorString();
+        return;
+    }
+    xDebug(XDAREA_DISCOVERY) << "Bound Zeroconf socket successfully.";
 
     m_multicastAddress = QHostAddress("224.0.0.251");
     setMulticastGroup(m_multicastAddress, true);
@@ -92,7 +99,7 @@ XbmcDiscovery::~XbmcDiscovery()
 void XbmcDiscovery::discover()
 {
     xDebug(XDAREA_DISCOVERY) << "Sending Zeroconf Query packet";
-    m_socket->writeDatagram(QByteArray(query_jsonrpc_http_workstations, 93), m_multicastAddress, 5353);
+    m_socket->writeDatagram(QByteArray(query_jsonrpc_http_workstations, 103), m_multicastAddress, 5353);
 }
 
 bool XbmcDiscovery::continuousDiscovery()
@@ -272,7 +279,7 @@ void XbmcDiscovery::parseDatagram(const QByteArray &datagram, int &index, Record
 
     if (type == "0021") {
         int port = parseSrvRecord(datagram, index, recordType);
-        if (host && serviceName.contains("_http._tcp.local")) {
+        if (host && serviceName.contains("_xbmc-jsonrpc-h._tcp.local")) {
             host->setXbmcHttpSupported(true);
             host->setPort(port);
         }
