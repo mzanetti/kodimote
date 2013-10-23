@@ -33,11 +33,19 @@ Page {
     tools: showToolbars ? mainTools : null
     ToolbarItems {
         id: mainTools
+
         ToolbarButton {
             text: qsTr("Settings")
             iconSource: "image://theme/settings"
-            onTriggered: print("First action")
+            onTriggered: PopupUtils.open(Qt.resolvedUrl("SettingsSheet.qml"), mainPage)
          }
+
+        ToolbarButton {
+            id: powerButton
+            text: "Power"
+            iconSource: "image://theme/system-shutdown"
+            onTriggered: PopupUtils.open(powerMenuComponent, powerButton)
+        }
 
         ToolbarButton {
             text: qsTr("Disconnect")
@@ -56,10 +64,11 @@ Page {
         if(settings.videoShowsFiles) {
             mainMenuModel.setProperty(1, "mode", "files");
         }
+        populateMainMenu();
     }
 
     ListModel {
-        id: mainMenuModel
+        id: mainMenuModelTemplate
         ListElement {
             icon: "icon-m-content-audio"
             subtitle: ""
@@ -84,20 +93,51 @@ Page {
             mode: "library"
             target: "tv"
         }
+    }
+    ListModel {
+        id: mainMenuModel
         // workaround: its not possible to have qsTr() in ListElements for now...
         function title(index) {
-            if (title["text"] === undefined) {
-                title.text = [
-                    qsTr("Music"),
-                    qsTr("Videos"),
-                    qsTr("Pictures"),
-                    qsTr("TV Channels"),
-                ]
+            var target = mainMenuModel.get(index).target;
+            if (target === "music") {
+                return qsTr("Music");
             }
-            return title.text[index];
+            if (target === "videos") {
+                return qsTr("Videos");
+            }
+            if (target === "pictures") {
+                return qsTr("Pictures");
+            }
+            if (target === "tv") {
+                return qsTr("TV Channels");
+            }
+            return "";
         }
     }
 
+    function populateMainMenu() {
+        mainMenuModel.clear();
+        if (settings.musicEnabled) {
+            mainMenuModel.append(mainMenuModelTemplate.get(0));
+        }
+        if (settings.videosEnabled) {
+            mainMenuModel.append(mainMenuModelTemplate.get(1));
+        }
+        if (settings.picturesEnabled) {
+            mainMenuModel.append(mainMenuModelTemplate.get(2));
+        }
+        if (settings.pvrEnabled) {
+            mainMenuModel.append(mainMenuModelTemplate.get(3));
+        }
+    }
+
+    Connections {
+        target: settings
+        onMusicEnabledChanged: populateMainMenu();
+        onVideosEnabledChanged: populateMainMenu();
+        onPicturesEnabledChanged: populateMainMenu();
+        onPvrEnabledChanged: populateMainMenu();
+    }
 
     ListView {
         id: listView
@@ -111,7 +151,7 @@ Page {
 
         delegate:  UbuntuShape {
             id: listItem
-            height: (listView.height) / listView.count - listView.spacing * 2
+            height: (listView.height) / 4 - listView.spacing * 2
             width: parent.width
 
 //            color: Qt.rgba(0, 0, 0, mouseArea.pressed ? 0.1 : 0.05)
@@ -190,7 +230,8 @@ Page {
                 onPressed: listView.currentSelected = index;
 
                 onPressAndHold: {
-                    if(index === 0 || index  === 1) {
+
+                    if (mainMenuModel.get(index).target === "music" || mainMenuModel.get(index).target === "videos") {
                         var popover = openLongTapMenu(listItem, index)
                         popover.selected.connect(function(actionId) {
                             switch (actionId) {
@@ -230,26 +271,26 @@ Page {
                     var component = Qt.createComponent("BrowserPage.qml")
                     var newModel;
                     if (component.status === Component.Ready) {
-                        switch(index) {
-                        case 0:
+                        switch(mainMenuModel.get(index).target) {
+                        case "music":
                             if(mode === "library") {
                                 newModel = xbmc.audioLibrary();
                             } else {
                                 newModel = xbmc.shares("music");
                             }
                             break
-                        case 1:
+                        case "videos":
                             if(mode === "library") {
                                 newModel = xbmc.videoLibrary();
                             } else {
                                 newModel = xbmc.shares("video");
                             }
                             break;
-                        case 2:
+                        case "pictures":
                             newModel = xbmc.shares("pictures");
                             console.log("created model: " + newModel);
                             break;
-                        case 3:
+                        case "tv":
                             newModel = xbmc.channelGroups();
                             console.log("created model: " + newModel);
                             break;
@@ -297,6 +338,43 @@ Page {
                 delegate: ListItems.Standard {
                     text: modelData
                     onClicked: popover.selected(actionId)
+                }
+            }
+        }
+    }
+
+    Component {
+        id: powerMenuComponent
+        Popover {
+            id: powerMenu
+
+            Column {
+                width: parent.width
+                height: childrenRect.height
+
+                ListItems.Standard {
+                    text: qsTr("Quit")
+                    onClicked: xbmc.quit();
+                }
+                ListItems.Standard {
+                    text: qsTr("Shutdown")
+                    visible: xbmc.canShutdown
+                    onClicked: xbmc.quit();
+                }
+                ListItems.Standard {
+                    text: qsTr("Reboot")
+                    visible: xbmc.canReboot
+                    onClicked: xbmc.reboot();
+                }
+                ListItems.Standard {
+                    text: qsTr("Suspend")
+                    visible: xbmc.canSuspend
+                    onClicked: xbmc.suspend();
+                }
+                ListItems.Standard {
+                    text: qsTr("Hibernate")
+                    visible: xbmc.canHibernate
+                    onClicked: xbmc.hibernate();
                 }
             }
         }
