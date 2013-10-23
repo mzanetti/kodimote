@@ -272,11 +272,12 @@ Page {
                     UbuntuShape {
                         id: thumbnailImage
                         height: listView.itemHeight - units.gu(2)
-                        width: root.model.thumbnailFormat === XbmcModel.ThumbnailFormatPortrait ? height * 3/4 : (root.model.thumbnailFormat === XbmcModel.ThumbnailFormatLandscape ? height * 16/9 : height)
+                        width: root.model.thumbnailFormat === XbmcModel.ThumbnailFormatPortrait ? height * 2/3 : (root.model.thumbnailFormat === XbmcModel.ThumbnailFormatLandscape ? height * 16/9 : height)
                         anchors.centerIn: parent
                         image: Image {
                             anchors.fill: parent
                             source: thumbnail
+                            fillMode: Image.PreserveAspectCrop
                             sourceSize {
                                 width: thumbnailImage.width
                                 height: thumbnailImage.height
