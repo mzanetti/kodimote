@@ -2,7 +2,7 @@
     "description": "A remote control application for XBMC",
     "framework": "ubuntu-sdk-13.10",
     "hooks": {
-        "fahrplan2": {
+        "xbmcremote": {
             "apparmor": "xbmcremote.json",
             "desktop": "xbmcremote.desktop"
         }
