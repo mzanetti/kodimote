@@ -70,6 +70,7 @@ int XbmcHostModel::insertOrUpdateHost(const XbmcHost &newHost)
     endInsertRows();
 
     qDebug() << "host inserted";
+    emit countChanged();
     return m_hosts.count() - 1;
 }
 
@@ -90,6 +91,7 @@ void XbmcHostModel::removeHost(int index)
     beginRemoveRows(QModelIndex(), index, index);
     m_hosts.removeAt(index);
     endRemoveRows();
+    emit countChanged();
 }
 
 QHash<int, QByteArray> XbmcHostModel::roleNames() const
@@ -103,6 +105,11 @@ QHash<int, QByteArray> XbmcHostModel::roleNames() const
 }
 
 int XbmcHostModel::rowCount(const QModelIndex &) const
+{
+    return m_hosts.count();
+}
+
+int XbmcHostModel::count() const
 {
     return m_hosts.count();
 }

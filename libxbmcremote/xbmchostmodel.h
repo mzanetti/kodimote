@@ -29,6 +29,7 @@ class XbmcHost;
 class XbmcHostModel : public QAbstractListModel
 {
     Q_OBJECT
+    Q_PROPERTY(int count READ count NOTIFY countChanged)
 public:
     enum Role{
         RoleHostname = Qt::DisplayRole,
@@ -40,6 +41,8 @@ public:
     explicit XbmcHostModel(QObject *parent = 0);
 
     int rowCount(const QModelIndex &parent) const;
+    int count() const;
+
     QVariant data(const QModelIndex &index, int role) const;
 
     Q_INVOKABLE QVariant get(int row, const QString &roleName);
@@ -53,6 +56,9 @@ public:
     Q_INVOKABLE void removeHost(int index);
 
     QHash<int, QByteArray> roleNames() const;
+
+signals:
+    void countChanged();
 
 private:
     QList<XbmcHost*> m_hosts;

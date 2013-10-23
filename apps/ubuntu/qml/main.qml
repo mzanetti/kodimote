@@ -222,6 +222,30 @@ MainView {
                         TextField {
                             id: nameTextField
                             width: parent.width
+                            property bool conflicting: false
+
+                            onTextChanged: {
+                                print("model count", xbmc.hostModel().count)
+                                for (var i = 0; i < xbmc.hostModel().count; ++i) {
+                                    print("got:", xbmc.hostModel().get(i, "name"))
+                                    if (xbmc.hostModel().get(i, "name") == text) {
+                                        conflicting = true;
+                                        return;
+                                    }
+                                    conflicting = false;
+                                }
+                            }
+
+                            states: [
+                                State {
+                                    name: "conflicting"; when: nameTextField.conflicting
+                                    PropertyChanges {
+                                        target: nameTextField
+                                        color: "red"
+                                    }
+                                }
+
+                            ]
                         }
                         Label {
                             text: qsTr("Hostname or IP Address:")
@@ -258,6 +282,7 @@ MainView {
                                 text: qsTr("OK")
                                 width: (parent.width - parent.spacing) / 2
                                 color: "#dd4814"
+                                enabled: nameTextField.text.length > 0 && !nameTextField.conflicting && addressTextField.text.length > 0
                                 onClicked: {
                                     xbmc.hostModel().createHost(nameTextField.text, addressTextField.text, portTextField.text, macTextField.text)
                                     PopupUtils.close(addHostDialog)
