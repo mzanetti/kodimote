@@ -1,6 +1,7 @@
 {
     "description": "A remote control application for XBMC",
     "framework": "ubuntu-sdk-13.10",
+    "architecture": "armhf",
     "hooks": {
         "xbmcremote": {
             "apparmor": "xbmcremote.json",
