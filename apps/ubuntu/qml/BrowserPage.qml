@@ -143,6 +143,12 @@ Page {
         onTextChanged: {
             filterModel.filter = text;
         }
+
+        InverseMouseArea {
+            anchors.fill: parent
+            enabled: searchTextField.focus
+            onClicked: searchTextField.focus = false
+        }
     }
 
     XbmcFilterModel {
