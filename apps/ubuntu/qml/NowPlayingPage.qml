@@ -98,8 +98,29 @@ Page {
         console.log("playlist is " + playlist)
     }
 
+    Label {
+        anchors.centerIn: parent
+        width: parent.width - units.gu(4)
+        text: qsTr("No active playback. Please select some content from the media tab.")
+        wrapMode: Text.WordWrap
+        fontSize: "large"
+        opacity: xbmc.activePlayer == null ? 1 : 0
+        visible: opacity > 0
+        horizontalAlignment: Text.AlignHCenter
+
+        Behavior on opacity {
+            UbuntuNumberAnimation {}
+        }
+    }
+
     Item {
         anchors.fill: parent
+        opacity: xbmc.activePlayer !== null ? 1 : 0
+        visible: opacity > 0
+        Behavior on opacity {
+            UbuntuNumberAnimation {}
+        }
+
         ListView {
             id: playlistView
             anchors {

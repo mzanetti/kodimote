@@ -328,7 +328,6 @@ MainView {
 
                     }
                 }
-
             }
             Tab {
                 title: "Now playing"
