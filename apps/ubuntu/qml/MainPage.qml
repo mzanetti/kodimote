@@ -250,8 +250,17 @@ Page {
                                 } else if (mainMenuModel.get(index).target === "videos") {
                                     settings.videosShowsFiles = false;
                                 }
-                                break;
                             case 2:
+                                var lib = xbmc.audioLibrary();
+                                if (index == 0) {
+                                    lib = xbmc.audioLibrary();
+                                } else {
+                                    lib = xbmc.videoLibrary();
+                                }
+                                lib.scanForContent();
+                                lib.exit();
+                                break;
+                            case 3:
                                 var lib = xbmc.audioLibrary();
                                 if (index == 0) {
                                     lib = xbmc.audioLibrary();

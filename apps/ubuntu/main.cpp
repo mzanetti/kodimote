@@ -21,6 +21,7 @@
 #include "libxbmcremote/xbmc.h"
 #include "libxbmcremote/settings.h"
 #include "libxbmcremote/eventclient.h"
+#include "libxbmcremote/networkaccessmanagerfactory.h"
 
 #include "ubuntuhelper.h"
 
@@ -46,6 +47,9 @@ int main(int argc, char** argv)
 
     QQuickView *view = new QQuickView();
     view->setResizeMode(QQuickView::SizeRootObjectToView);
+
+    view->engine()->setNetworkAccessManagerFactory(new NetworkAccessManagerFactory());
+
     view->setTitle("Xbmcremote");
     view->engine()->rootContext()->setContextProperty("xbmc", Xbmc::instance());
 

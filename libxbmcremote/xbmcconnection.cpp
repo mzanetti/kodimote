@@ -751,9 +751,11 @@ void XbmcConnectionPrivate::disconnectFromHost()
 
 void XbmcConnectionPrivate::authenticationRequired(QNetworkReply *reply, QAuthenticator *authenticator)
 {
+    xDebug(XDAREA_CONNECTION) << "Authentication required";
     if(reply == m_lastAuthRequest) {
         m_connectionError = "Wrong username or password";
-//        emit m_notifier->connectionChanged();
+        m_lastAuthRequest = 0;
+        m_host->setPassword(QString());
 //        emit m_notifier->authenticationRequired(m_host->hostname(), m_host->address());
     }
     if(!m_host->username().isEmpty() && !m_host->password().isEmpty()) {

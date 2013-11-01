@@ -61,7 +61,7 @@ setup_adb_forwarding() {
 install_dependencies() {
     exec_with_adb apt-get update
     exec_with_adb apt-get -y install openssh-server
-    exec_with_ssh $SUDO apt-get -y install build-essential rsync bzr ccache gdb ninja-build devscripts equivs
+    exec_with_ssh $SUDO apt-get -y install build-essential rsync bzr ccache gdb ninja-build devscripts equivs qtdeclarative5-dev
 }
 
 sync_code() {
@@ -74,9 +74,7 @@ sync_code() {
 
 build() {
     exec_with_ssh mkdir -p $CODE_DIR/$BUILD_DIR
-    exec_with_ssh cp -r $CODE_DIR/qtc_packaging/ubuntu/debian $CODE_DIR
-    exec_with_ssh "[ $CODE_DIR/debian/control -nt $PACKAGE-build-deps*deb ] && $SUDO mk-build-deps --tool=\\\"apt-get -y --no-install-recommends\\\" --build-dep --install $CODE_DIR/debian/control"
-    exec_with_ssh PATH=/usr/lib/ccache:$PATH "cd $CODE_DIR/$BUILD_DIR && PATH=/usr/lib/ccache:$PATH qmake .. CONFIG+=ubuntu"
+    exec_with_ssh QT_SELECT=qt5 PATH=/usr/lib/ccache:$PATH "cd $CODE_DIR/$BUILD_DIR && PATH=/usr/lib/ccache:$PATH qmake .. CONFIG+=ubuntu"
     exec_with_ssh PATH=/usr/lib/ccache:$PATH "cd $CODE_DIR/$BUILD_DIR && PATH=/usr/lib/ccache:$PATH make -j2"
 }
 

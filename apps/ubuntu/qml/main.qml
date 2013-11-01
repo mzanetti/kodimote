@@ -23,6 +23,7 @@ import Ubuntu.Components 0.1
 import Ubuntu.Components.Popups 0.1
 import Ubuntu.Components.ListItems 0.1 as ListItems
 import Xbmc 1.0
+import "components"
 
 MainView {
     id: appWindow
@@ -33,6 +34,7 @@ MainView {
 
 
     property int pageMargins: units.gu(2)
+    property var inputDialog
 
     focus: true
     Keys.onVolumeUpPressed: {
@@ -51,6 +53,48 @@ MainView {
     Connections {
         target: xbmc
         onConnectingChanged: print("connecting.....", xbmc.connecting)
+
+        onAuthenticationRequired: {
+            print("auth required");
+            PopupUtils.open(authComponent, appWindow, {hostname: hostname})
+        }
+
+/*        onDisplayNotification: {
+            print("************ notification", text, notificationBanner)
+            notificationBanner.text = text;
+            notificationBanner.show();
+        }
+        */
+    }
+
+    Connections {
+        target: xbmc.keys()
+        onInputRequested: {
+            if (type === "date") {
+                var year = value.split("/")[2]
+                var month = value.split("/")[1] - 1
+                var day = value.split("/")[0]
+                var p = PopupUtils.open(datePicker, appWindow, {day: day, month: month, year: year});
+                appWindow.inputDialog = p;
+                return;
+            }
+
+            if (type === "time") {
+                var p = PopupUtils.open(timePicker, appWindow);
+                p.hour = value.split(":")[0]
+                p.minute = value.split(":")[1]
+                appWindow.inputDialog = p;
+                return;
+            }
+
+            appWindow.inputDialog = PopupUtils.open(inputSheetComponent, appWindow);
+            if (type === "number" || type === "numericpassword" || type === "seconds") {
+                appWindow.inputDialog.inputMethodHints = Qt.ImhDigitsOnly
+            }
+            appWindow.inputDialog.description = title;
+            appWindow.inputDialog.initialValue = value;
+        }
+        onInputFinished: PopupUtils.close(appWindow.inputDialog);
     }
 
     Component {
@@ -343,4 +387,137 @@ MainView {
             }
         }
     }
+
+    Component {
+        id: authComponent
+
+        Dialog {
+            id: authDialog
+//            title: qsTr("Add host")
+//            title: hostname
+//            title: qsTr("XBMC on %1 requires authentication:").arg(hostname);
+
+            property string hostname
+
+            Flickable {
+                id: flickbl
+                width: parent.width
+                height: units.gu(60)
+                contentHeight: authColumn.height
+                interactive: contentHeight > height
+                Column {
+                    id: authColumn
+                    width: parent.width
+                    spacing: units.gu(1)
+                    Label {
+                        width: parent.width
+                        text: qsTr("XBMC on %1 requires authentication:").arg(hostname);
+                        wrapMode: Text.WordWrap
+                    }
+                    Label {
+                        text: qsTr("Username")
+                    }
+                    TextField {
+                        width: parent.width
+                        id: username
+                    }
+                    Label {
+                        text: qsTr("Password")
+                    }
+                    TextField {
+                        width: parent.width
+                        id: password
+                    }
+                    Row {
+                        width: parent.width
+                        spacing: units.gu(1)
+
+                        Button {
+                            text: qsTr("Cancel")
+                            width: (parent.width - parent.spacing) / 2
+                            onClicked: PopupUtils.close(authDialog)
+                        }
+                        Button {
+                            text: qsTr("OK")
+                            width: (parent.width - parent.spacing) / 2
+                            onClicked: {
+                                xbmc.setAuthCredentials(username.text, password.text);
+                                PopupUtils.close(authDialog)
+                            }
+                        }
+                    }
+
+                    Item {
+                        width: parent.width
+                        height: Qt.inputMethod.keyboardRectangle.height
+                    }
+                }
+            }
+        }
+    }
+
+    Component {
+        id: datePicker
+        DatePicker {
+            onAccepted: {
+                var date = new Date(year, month, day);
+                var dateString = Qt.formatDate(date, "dd/MM/yyyy");
+                print("Sending text", dateString);
+                xbmc.keys().sendText(dateString);
+            }
+            onRejected: {
+                xbmc.keys().previousMenu();
+            }
+        }
+    }
+
+    Component {
+        id: timePicker
+        TimePicker {
+            onAccepted: {
+                var date = new Date(0, 0, 0, hour, minute);
+                var timeString = Qt.formatTime(date, "hh:mm");
+                print("Sending text", timeString);
+                xbmc.keys().sendText(timeString);
+            }
+            onRejected: {
+                xbmc.keys().previousMenu();
+            }
+        }
+    }
+
+    Component {
+        id: inputSheetComponent
+        ComposerSheet {
+            id: inputSheet
+            property alias description: descriptionLabel.text
+            property alias initialValue: inputField.text
+            property alias inputMethodHints: inputField.inputMethodHints
+
+            Component.onCompleted: inputField.forceActiveFocus();
+
+            Column {
+                anchors.fill: parent
+                anchors.margins: 10
+                spacing: 20
+                Label {
+                    id: descriptionLabel
+                    width: parent.width
+                    wrapMode: Text.WordWrap
+                }
+
+                TextField {
+                    width: parent.width
+                    id: inputField
+                }
+            }
+            onConfirmClicked: {
+                xbmc.keys().sendText(inputField.text);
+            }
+            onCancelClicked: {
+                xbmc.keys().previousMenu();
+            }
+        }
+    }
+
 }

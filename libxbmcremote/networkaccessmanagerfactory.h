@@ -21,7 +21,9 @@
 #ifndef NETWORKACCESSMANAGERFACTORY_H
 #define NETWORKACCESSMANAGERFACTORY_H
 
-#ifdef QT5_BUILD
+#include <qglobal.h>
+
+#if QT_VERSION >= 0x050000
 
 #include <QQmlNetworkAccessManagerFactory>
 class NetworkAccessManagerFactory : public QQmlNetworkAccessManagerFactory
