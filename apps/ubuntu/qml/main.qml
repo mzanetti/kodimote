@@ -494,7 +494,12 @@ MainView {
             property alias initialValue: inputField.text
             property alias inputMethodHints: inputField.inputMethodHints
 
-            Component.onCompleted: inputField.forceActiveFocus();
+
+            Component.onCompleted: {
+                inputField.forceActiveFocus();
+                __foreground.__styleInstance.headerColor = "#0a2663"
+                __foreground.__styleInstance.backgroundColor = "#1b62c8"
+            }
 
             Column {
                 anchors.fill: parent
