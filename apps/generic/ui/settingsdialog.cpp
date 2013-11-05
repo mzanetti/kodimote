@@ -55,6 +55,10 @@ SettingsDialog::SettingsDialog(QWidget *parent) :
 
 
 #ifdef Q_WS_MAEMO_5
+    // set the margins to zero to avoid horizontal kinetic scrolling
+    // of the sttings menu items
+    gridLayout->setContentsMargins(0,0,0,0);
+
     setLayout(hLayout);
 #else
     QVBoxLayout *vLayout = new QVBoxLayout();
