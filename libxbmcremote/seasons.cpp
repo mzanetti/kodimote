@@ -120,7 +120,8 @@ void Seasons::listReceived(const QVariantMap &rsp)
         LibraryItem *item = new LibraryItem();
         item->setTitle(itemMap.value("label").toString());
         item->setSubtitle(itemMap.value("showtitle").toString());
-        item->setSeasonId(itemMap.value("season").toInt());
+        item->setSeason(itemMap.value("season").toInt());
+        item->setSeasonId(itemMap.value("seasonid").toInt());
         item->setThumbnail(itemMap.value("thumbnail").toString());
         item->setPlaycount(itemMap.value("playcount").toInt());
         item->setIgnoreArticle(ignoreArticle());
@@ -132,6 +133,22 @@ void Seasons::listReceived(const QVariantMap &rsp)
     beginInsertRows(QModelIndex(), 0, list.count() - 1);
     m_list = list;
     endInsertRows();
+}
+
+void Seasons::seasonDetailsReceived(const QVariantMap &rsp)
+{
+    qDebug() << "got item details:" << rsp;
+    int id = rsp.value("id").toInt();
+    int row = m_detailsRequestMap.take(id);
+    LibraryItem *item = qobject_cast<LibraryItem*>(m_list.at(row));
+    QVariantMap details = rsp.value("result").toMap().value("seasondetails").toMap();
+    item->setSeason(details.value("season").toInt());
+    item->setTvShow(details.value("showtitle").toString());
+    item->setPlaycount(details.value("playcount").toInt());
+    item->setEpisode(details.value("episode").toInt());
+    item->setFanart(details.value("fanart").toString());
+    item->setTvshowId(details.value("tvshowid").toInt());
+    emit dataChanged(index(row, 0, QModelIndex()), index(row, 0, QModelIndex()));
 }
 
 XbmcModel *Seasons::enterItem(int index)
@@ -154,4 +171,26 @@ void Seasons::addToPlaylist(int row)
 QString Seasons::title() const
 {
     return tr("Seasons");
+}
+
+void Seasons::fetchItemDetails(int index)
+{
+    QVariantMap params;
+    params.insert("seasonid", m_list.at(index)->data(RoleSeasonId).toInt());
+
+    QVariantList properties;
+    properties.append("season");
+    properties.append("showtitle");
+    properties.append("playcount");
+    properties.append("episode");
+    properties.append("fanart");
+    properties.append("thumbnail");
+    properties.append("tvshowid");
+    properties.append("watchedepisodes");
+    properties.append("art");
+
+    params.insert("properties", properties);
+
+    int id = XbmcConnection::sendCommand("VideoLibrary.GetSeasonDetails", params, this, "seasonDetailsReceived");
+    m_detailsRequestMap.insert(id, index);
 }

@@ -37,6 +37,9 @@ public:
 
     QString title() const;
 
+    Q_INVOKABLE void fetchItemDetails(int index);
+    Q_INVOKABLE bool hasDetails() { return true; }
+
     XbmcModel::ThumbnailFormat thumbnailFormat() const { return XbmcModel::ThumbnailFormatPortrait; }
 
 public slots:
@@ -44,11 +47,13 @@ public slots:
 
 private slots:
     void listReceived(const QVariantMap &rsp);
+    void seasonDetailsReceived(const QVariantMap &rsp);
     void receivedAnnouncement(const QVariantMap &map);
     void playcountReceived(const QVariantMap &rsp);
 
 private:
     int m_tvshowid;
+    QMap<int, int> m_detailsRequestMap;
     QMap<int, int> m_seasonIndexMapping;
     bool m_refreshing;
 };
