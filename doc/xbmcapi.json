@@ -14,7 +14,7 @@
           "type":"string"
         },
         {
-          "default":null,
+          "default":"",
           "name":"params",
           "type":[
             {
@@ -29,6 +29,10 @@
                 "type":"string"
               },
               "type":"array"
+            },
+            {
+              "description":"URL path (must start with / or ?",
+              "type":"string"
             }
           ]
         },
@@ -1419,6 +1423,26 @@
       "type":"method"
     },
     
+    "GUI.GetStereoscopicModes":{
+      "description":"Returns the supported stereoscopic modes of the GUI",
+      "params":[
+        
+      ],
+      "returns":{
+        "properties":{
+          "stereoscopicmodes":{
+            "items":{
+              "$ref":"GUI.Stereoscopy.Mode"
+            },
+            "type":"array",
+            "uniqueItems":true
+          }
+        },
+        "type":"object"
+      },
+      "type":"method"
+    },
+    
     "GUI.SetFullscreen":{
       "description":"Toggle fullscreen/GUI",
       "params":[
@@ -1431,6 +1455,36 @@
       "returns":{
         "description":"Fullscreen state",
         "type":"boolean"
+      },
+      "type":"method"
+    },
+    
+    "GUI.SetStereoscopicMode":{
+      "description":"Sets the stereoscopic mode of the GUI to the given mode",
+      "params":[
+        {
+          "enums":[
+            "toggle",
+            "tomono",
+            "next",
+            "previous",
+            "select",
+            "off",
+            "split_vertical",
+            "split_horizontal",
+            "row_interleaved",
+            "hardware_based",
+            "anaglyph_cyan_red",
+            "anaglyph_green_magenta",
+            "monoscopic"
+          ],
+          "name":"mode",
+          "required":true,
+          "type":"string"
+        }
+      ],
+      "returns":{
+        "type":"string"
       },
       "type":"method"
     },
@@ -1816,6 +1870,66 @@
             "minimum":0,
             "required":true,
             "type":"integer"
+          }
+        },
+        "type":"object"
+      },
+      "type":"method"
+    },
+    
+    "PVR.GetBroadcastDetails":{
+      "description":"Retrieves the details of a specific broadcast",
+      "params":[
+        {
+          "$ref":"Library.Id",
+          "name":"broadcastid",
+          "required":true
+        },
+        {
+          "$ref":"PVR.Fields.Broadcast",
+          "name":"properties"
+        }
+      ],
+      "returns":{
+        "properties":{
+          "broadcastdetails":{
+            "$ref":"PVR.Details.Broadcast"
+          }
+        },
+        "type":"object"
+      },
+      "type":"method"
+    },
+    
+    "PVR.GetBroadcasts":{
+      "description":"Retrieves the program of a specific channel",
+      "params":[
+        {
+          "$ref":"Library.Id",
+          "name":"channelid",
+          "required":true
+        },
+        {
+          "$ref":"PVR.Fields.Broadcast",
+          "name":"properties"
+        },
+        {
+          "$ref":"List.Limits",
+          "name":"limits"
+        }
+      ],
+      "returns":{
+        "properties":{
+          "broadcasts":{
+            "items":{
+              "$ref":"PVR.Details.Broadcast"
+            },
+            "required":true,
+            "type":"array"
+          },
+          "limits":{
+            "$ref":"List.LimitsReturned",
+            "required":true
           }
         },
         "type":"object"
@@ -2603,9 +2717,19 @@
           "required":true
         },
         {
-          "$ref":"Playlist.Item",
           "name":"item",
-          "required":true
+          "required":true,
+          "type":[
+            {
+              "$ref":"Playlist.Item"
+            },
+            {
+              "items":{
+                "$ref":"Playlist.Item"
+              },
+              "type":"array"
+            }
+          ]
         }
       ],
       "returns":{
@@ -2732,9 +2856,19 @@
           "required":true
         },
         {
-          "$ref":"Playlist.Item",
           "name":"item",
-          "required":true
+          "required":true,
+          "type":[
+            {
+              "$ref":"Playlist.Item"
+            },
+            {
+              "items":{
+                "$ref":"Playlist.Item"
+              },
+              "type":"array"
+            }
+          ]
         }
       ],
       "returns":{
@@ -2863,6 +2997,180 @@
       "type":"method"
     },
     
+    "Settings.GetCategories":{
+      "description":"Retrieves all setting categories",
+      "params":[
+        {
+          "$ref":"Setting.Level",
+          "default":"standard",
+          "name":"level"
+        },
+        {
+          "default":"",
+          "name":"section",
+          "type":"string"
+        },
+        {
+          "extends":"Item.Fields.Base",
+          "items":{
+            "enums":[
+              "settings"
+            ],
+            "type":"string"
+          },
+          "name":"properties"
+        }
+      ],
+      "returns":{
+        "properties":{
+          "categories":{
+            "items":{
+              "$ref":"Setting.Details.Category"
+            },
+            "type":"array"
+          }
+        },
+        "type":"object"
+      },
+      "type":"method"
+    },
+    
+    "Settings.GetSections":{
+      "description":"Retrieves all setting sections",
+      "params":[
+        {
+          "$ref":"Setting.Level",
+          "default":"standard",
+          "name":"level"
+        },
+        {
+          "extends":"Item.Fields.Base",
+          "items":{
+            "enums":[
+              "categories"
+            ],
+            "type":"string"
+          },
+          "name":"properties"
+        }
+      ],
+      "returns":{
+        "properties":{
+          "sections":{
+            "items":{
+              "$ref":"Setting.Details.Section"
+            },
+            "type":"array"
+          }
+        },
+        "type":"object"
+      },
+      "type":"method"
+    },
+    
+    "Settings.GetSettingValue":{
+      "description":"Retrieves the value of a setting",
+      "params":[
+        {
+          "minLength":1,
+          "name":"setting",
+          "required":true,
+          "type":"string"
+        }
+      ],
+      "returns":{
+        "properties":{
+          "value":{
+            "$ref":"Setting.Value.Extended",
+            "required":true
+          }
+        },
+        "type":"object"
+      },
+      "type":"method"
+    },
+    
+    "Settings.GetSettings":{
+      "description":"Retrieves all settings",
+      "params":[
+        {
+          "$ref":"Setting.Level",
+          "default":"standard",
+          "name":"level"
+        },
+        {
+          "name":"filter",
+          "type":[
+            {
+              "additionalProperties":false,
+              "properties":{
+                "category":{
+                  "minLength":1,
+                  "required":true,
+                  "type":"string"
+                },
+                "section":{
+                  "minLength":1,
+                  "required":true,
+                  "type":"string"
+                }
+              },
+              "type":"object"
+            }
+          ]
+        }
+      ],
+      "returns":{
+        "properties":{
+          "settings":{
+            "items":{
+              "$ref":"Setting.Details.Setting"
+            },
+            "type":"array"
+          }
+        },
+        "type":"object"
+      },
+      "type":"method"
+    },
+    
+    "Settings.ResetSettingValue":{
+      "description":"Resets the value of a setting",
+      "params":[
+        {
+          "minLength":1,
+          "name":"setting",
+          "required":true,
+          "type":"string"
+        }
+      ],
+      "returns":{
+        "type":"string"
+      },
+      "type":"method"
+    },
+    
+    "Settings.SetSettingValue":{
+      "description":"Changes the value of a setting",
+      "params":[
+        {
+          "minLength":1,
+          "name":"setting",
+          "required":true,
+          "type":"string"
+        },
+        {
+          "$ref":"Setting.Value.Extended",
+          "name":"value",
+          "required":true
+        }
+      ],
+      "returns":{
+        "type":"boolean"
+      },
+      "type":"method"
+    },
+    
     "System.EjectOpticalDrive":{
       "description":"Ejects or closes the optical disc drive (if available)",
       "params":[
@@ -2930,6 +3238,49 @@
       "description":"Suspends the system running XBMC",
       "params":[
         
+      ],
+      "returns":{
+        "type":"string"
+      },
+      "type":"method"
+    },
+    
+    "Textures.GetTextures":{
+      "description":"Retrieve all textures",
+      "params":[
+        {
+          "$ref":"Textures.Fields.Texture",
+          "name":"properties"
+        },
+        {
+          "$ref":"List.Filter.Textures",
+          "name":"filter"
+        }
+      ],
+      "returns":{
+        "properties":{
+          "textures":{
+            "items":{
+              "$ref":"Textures.Details.Texture"
+            },
+            "required":true,
+            "type":"array"
+          }
+        },
+        "type":"object"
+      },
+      "type":"method"
+    },
+    
+    "Textures.RemoveTexture":{
+      "description":"Remove the specified texture",
+      "params":[
+        {
+          "$ref":"Library.Id",
+          "description":"Texture database identifier",
+          "name":"textureid",
+          "required":true
+        }
       ],
       "returns":{
         "type":"string"
@@ -3666,6 +4017,30 @@
       "type":"method"
     },
     
+    "VideoLibrary.GetSeasonDetails":{
+      "description":"Retrieve details about a specific tv show season",
+      "params":[
+        {
+          "$ref":"Library.Id",
+          "name":"seasonid",
+          "required":true
+        },
+        {
+          "$ref":"Video.Fields.Season",
+          "name":"properties"
+        }
+      ],
+      "returns":{
+        "properties":{
+          "seasondetails":{
+            "$ref":"Video.Details.Season"
+          }
+        },
+        "type":"object"
+      },
+      "type":"method"
+    },
+    
     "VideoLibrary.GetSeasons":{
       "description":"Retrieve all tv seasons",
       "params":[
@@ -4022,7 +4397,7 @@
               "type":"null"
             },
             {
-              "$ref":"Media.Artwork"
+              "$ref":"Media.Artwork.Set"
             }
           ]
         },
@@ -4241,7 +4616,7 @@
               "type":"null"
             },
             {
-              "$ref":"Media.Artwork"
+              "$ref":"Media.Artwork.Set"
             }
           ]
         },
@@ -4254,6 +4629,38 @@
             },
             {
               "$ref":"Video.Resume"
+            }
+          ]
+        }
+      ],
+      "returns":{
+        "type":"string"
+      },
+      "type":"method"
+    },
+    
+    "VideoLibrary.SetMovieSetDetails":{
+      "description":"Update the given movie set with the given details",
+      "params":[
+        {
+          "$ref":"Library.Id",
+          "name":"setid",
+          "required":true
+        },
+        {
+          "$ref":"Optional.String",
+          "default":null,
+          "name":"title"
+        },
+        {
+          "default":null,
+          "name":"art",
+          "type":[
+            {
+              "type":"null"
+            },
+            {
+              "$ref":"Media.Artwork.Set"
             }
           ]
         }
@@ -4391,7 +4798,7 @@
               "type":"null"
             },
             {
-              "$ref":"Media.Artwork"
+              "$ref":"Media.Artwork.Set"
             }
           ]
         },
@@ -4404,6 +4811,33 @@
             },
             {
               "$ref":"Video.Resume"
+            }
+          ]
+        }
+      ],
+      "returns":{
+        "type":"string"
+      },
+      "type":"method"
+    },
+    
+    "VideoLibrary.SetSeasonDetails":{
+      "description":"Update the given season with the given details",
+      "params":[
+        {
+          "$ref":"Library.Id",
+          "name":"seasonid",
+          "required":true
+        },
+        {
+          "default":null,
+          "name":"art",
+          "type":[
+            {
+              "type":"null"
+            },
+            {
+              "$ref":"Media.Artwork.Set"
             }
           ]
         }
@@ -4536,7 +4970,7 @@
               "type":"null"
             },
             {
-              "$ref":"Media.Artwork"
+              "$ref":"Media.Artwork.Set"
             }
           ]
         }
@@ -5885,38 +6319,35 @@
     },
     
     "Favourite.Details.Favourite":{
+      "additionalProperties":false,
       "id":"Favourite.Details.Favourite",
-      "items":{
-        "additionalProperties":false,
-        "properties":{
-          "path":{
-            "default":"",
-            "type":"string"
-          },
-          "thumbnail":{
-            "default":"",
-            "type":"string"
-          },
-          "title":{
-            "required":true,
-            "type":"string"
-          },
-          "type":{
-            "$ref":"Favourite.Type",
-            "required":true
-          },
-          "window":{
-            "default":"",
-            "type":"string"
-          },
-          "windowparameter":{
-            "default":"",
-            "type":"string"
-          }
+      "properties":{
+        "path":{
+          "default":"",
+          "type":"string"
         },
-        "type":"object"
+        "thumbnail":{
+          "default":"",
+          "type":"string"
+        },
+        "title":{
+          "required":true,
+          "type":"string"
+        },
+        "type":{
+          "$ref":"Favourite.Type",
+          "required":true
+        },
+        "window":{
+          "default":"",
+          "type":"string"
+        },
+        "windowparameter":{
+          "default":"",
+          "type":"string"
+        }
       },
-      "type":"array"
+      "type":"object"
     },
     
     "Favourite.Fields.Favourite":{
@@ -5964,7 +6395,8 @@
         "currentwindow",
         "currentcontrol",
         "skin",
-        "fullscreen"
+        "fullscreen",
+        "stereoscopicmode"
       ],
       "id":"GUI.Property.Name",
       "type":"string"
@@ -6012,12 +6444,42 @@
             }
           },
           "type":"object"
+        },
+        "stereoscopicmode":{
+          "$ref":"GUI.Stereoscopy.Mode",
+          "default":null
+        }
+      },
+      "type":"object"
+    },
+    
+    "GUI.Stereoscopy.Mode":{
+      "id":"GUI.Stereoscopy.Mode",
+      "properties":{
+        "label":{
+          "required":true,
+          "type":"string"
+        },
+        "mode":{
+          "enums":[
+            "off",
+            "split_vertical",
+            "split_horizontal",
+            "row_interleaved",
+            "hardware_based",
+            "anaglyph_cyan_red",
+            "anaglyph_green_magenta",
+            "monoscopic"
+          ],
+          "required":true,
+          "type":"string"
         }
       },
       "type":"object"
     },
     
     "GUI.Window":{
+      "default":"home",
       "enums":[
         "home",
         "programs",
@@ -6104,6 +6566,7 @@
         "karaokelargeselector",
         "sliderdialog",
         "addoninformation",
+        "subtitlesearch",
         "musicplaylist",
         "musicfiles",
         "musiclibrary",
@@ -6136,7 +6599,6 @@
         "addon"
       ],
       "id":"GUI.Window",
-      "required":true,
       "type":"string"
     },
     
@@ -6231,6 +6693,8 @@
         "stepback",
         "bigstepforward",
         "bigstepback",
+        "chapterorbigstepforward",
+        "chapterorbigstepback",
         "osd",
         "showsubtitles",
         "nextsubtitle",
@@ -6946,6 +7410,23 @@
       "type":"string"
     },
     
+    "List.Filter.Fields.Textures":{
+      "enums":[
+        "textureid",
+        "url",
+        "cachedurl",
+        "lasthashcheck",
+        "imagehash",
+        "width",
+        "height",
+        "usecount",
+        "lastused"
+      ],
+      "id":"List.Filter.Fields.Textures",
+      "required":true,
+      "type":"string"
+    },
+    
     "List.Filter.Movies":{
       "id":"List.Filter.Movies",
       "type":[
@@ -7141,6 +7622,17 @@
       }
     },
     
+    "List.Filter.Rule.Textures":{
+      "extends":"List.Filter.Rule",
+      "id":"List.Filter.Rule.Textures",
+      "properties":{
+        "field":{
+          "$ref":"List.Filter.Fields.Textures",
+          "required":true
+        }
+      }
+    },
+    
     "List.Filter.Songs":{
       "id":"List.Filter.Songs",
       "type":[
@@ -7207,6 +7699,41 @@
         },
         {
           "$ref":"List.Filter.Rule.TVShows"
+        }
+      ]
+    },
+    
+    "List.Filter.Textures":{
+      "id":"List.Filter.Textures",
+      "type":[
+        {
+          "properties":{
+            "and":{
+              "items":{
+                "$ref":"List.Filter.Textures"
+              },
+              "minItems":1,
+              "required":true,
+              "type":"array"
+            }
+          },
+          "type":"object"
+        },
+        {
+          "properties":{
+            "or":{
+              "items":{
+                "$ref":"List.Filter.Textures"
+              },
+              "minItems":1,
+              "required":true,
+              "type":"array"
+            }
+          },
+          "type":"object"
+        },
+        {
+          "$ref":"List.Filter.Rule.Textures"
         }
       ]
     },
@@ -7614,6 +8141,68 @@
       "type":"object"
     },
     
+    "Media.Artwork.Set":{
+      "additionalProperties":{
+        "default":null,
+        "type":[
+          {
+            "type":"null"
+          },
+          {
+            "$ref":"Global.String.NotEmpty"
+          }
+        ]
+      },
+      "id":"Media.Artwork.Set",
+      "properties":{
+        "banner":{
+          "default":"",
+          "type":[
+            {
+              "type":"null"
+            },
+            {
+              "$ref":"Global.String.NotEmpty"
+            }
+          ]
+        },
+        "fanart":{
+          "default":"",
+          "type":[
+            {
+              "type":"null"
+            },
+            {
+              "$ref":"Global.String.NotEmpty"
+            }
+          ]
+        },
+        "poster":{
+          "default":"",
+          "type":[
+            {
+              "type":"null"
+            },
+            {
+              "$ref":"Global.String.NotEmpty"
+            }
+          ]
+        },
+        "thumb":{
+          "default":"",
+          "type":[
+            {
+              "type":"null"
+            },
+            {
+              "$ref":"Global.String.NotEmpty"
+            }
+          ]
+        }
+      },
+      "type":"object"
+    },
+    
     "Media.Details.Base":{
       "extends":"Item.Details.Base",
       "id":"Media.Details.Base",
@@ -7883,6 +8472,89 @@
       ]
     },
     
+    "PVR.Details.Broadcast":{
+      "extends":"Item.Details.Base",
+      "id":"PVR.Details.Broadcast",
+      "properties":{
+        "broadcastid":{
+          "$ref":"Library.Id",
+          "required":true
+        },
+        "endtime":{
+          "default":"",
+          "type":"string"
+        },
+        "episodename":{
+          "default":"",
+          "type":"string"
+        },
+        "episodenum":{
+          "default":0,
+          "type":"integer"
+        },
+        "episodepart":{
+          "default":0,
+          "type":"integer"
+        },
+        "firstaired":{
+          "default":"",
+          "type":"string"
+        },
+        "genre":{
+          "default":"",
+          "type":"string"
+        },
+        "hastimer":{
+          "default":false,
+          "type":"boolean"
+        },
+        "isactive":{
+          "default":false,
+          "type":"boolean"
+        },
+        "plot":{
+          "default":"",
+          "type":"string"
+        },
+        "plotoutline":{
+          "default":"",
+          "type":"string"
+        },
+        "progress":{
+          "default":0,
+          "type":"integer"
+        },
+        "progresspercentage":{
+          "default":0.0,
+          "type":"number"
+        },
+        "rating":{
+          "default":0,
+          "type":"integer"
+        },
+        "runtime":{
+          "default":0,
+          "type":"integer"
+        },
+        "starttime":{
+          "default":"",
+          "type":"string"
+        },
+        "thumbnail":{
+          "default":"",
+          "type":"string"
+        },
+        "title":{
+          "default":"",
+          "type":"string"
+        },
+        "wasactive":{
+          "default":false,
+          "type":"boolean"
+        }
+      }
+    },
+    
     "PVR.Details.Channel":{
       "extends":"Item.Details.Base",
       "id":"PVR.Details.Channel",
@@ -7947,6 +8619,34 @@
           "$ref":"List.LimitsReturned",
           "required":true
         }
+      }
+    },
+    
+    "PVR.Fields.Broadcast":{
+      "extends":"Item.Fields.Base",
+      "id":"PVR.Fields.Broadcast",
+      "items":{
+        "enums":[
+          "title",
+          "plot",
+          "plotoutline",
+          "starttime",
+          "endtime",
+          "runtime",
+          "progress",
+          "progresspercentage",
+          "genre",
+          "episodename",
+          "episodenum",
+          "episodepart",
+          "firstaired",
+          "hastimer",
+          "isactive",
+          "parentalrating",
+          "wasactive",
+          "thumbnail"
+        ],
+        "type":"string"
       }
     },
     
@@ -8334,7 +9034,7 @@
             },
             "media":{
               "$ref":"Files.Media",
-              "default":"video"
+              "default":"files"
             },
             "recursive":{
               "default":false,
@@ -8511,6 +9211,556 @@
       "type":"object"
     },
     
+    "Setting.Details.Base":{
+      "id":"Setting.Details.Base",
+      "properties":{
+        "help":{
+          "default":"",
+          "type":"string"
+        },
+        "id":{
+          "minLength":1,
+          "required":true,
+          "type":"string"
+        },
+        "label":{
+          "required":true,
+          "type":"string"
+        }
+      },
+      "type":"object"
+    },
+    
+    "Setting.Details.Category":{
+      "additionalProperties":false,
+      "extends":"Setting.Details.Base",
+      "id":"Setting.Details.Category",
+      "properties":{
+        "groups":{
+          "items":{
+            "$ref":"Setting.Details.Group"
+          },
+          "minItems":1,
+          "type":"array",
+          "uniqueItems":true
+        }
+      }
+    },
+    
+    "Setting.Details.Control":{
+      "id":"Setting.Details.Control",
+      "type":[
+        {
+          "$ref":"Setting.Details.ControlCheckmark"
+        },
+        {
+          "$ref":"Setting.Details.ControlSpinner"
+        },
+        {
+          "$ref":"Setting.Details.ControlEdit"
+        },
+        {
+          "$ref":"Setting.Details.ControlButton"
+        },
+        {
+          "$ref":"Setting.Details.ControlList"
+        }
+      ]
+    },
+    
+    "Setting.Details.ControlBase":{
+      "id":"Setting.Details.ControlBase",
+      "properties":{
+        "delayed":{
+          "required":true,
+          "type":"boolean"
+        },
+        "format":{
+          "required":true,
+          "type":"string"
+        },
+        "type":{
+          "required":true,
+          "type":"string"
+        }
+      },
+      "type":"object"
+    },
+    
+    "Setting.Details.ControlButton":{
+      "extends":"Setting.Details.ControlHeading",
+      "id":"Setting.Details.ControlButton",
+      "properties":{
+        "type":{
+          "enums":[
+            "button"
+          ],
+          "required":true,
+          "type":"string"
+        }
+      }
+    },
+    
+    "Setting.Details.ControlCheckmark":{
+      "extends":"Setting.Details.ControlBase",
+      "id":"Setting.Details.ControlCheckmark",
+      "properties":{
+        "format":{
+          "enums":[
+            "boolean"
+          ],
+          "required":true,
+          "type":"string"
+        },
+        "type":{
+          "enums":[
+            "toggle"
+          ],
+          "required":true,
+          "type":"string"
+        }
+      }
+    },
+    
+    "Setting.Details.ControlEdit":{
+      "extends":"Setting.Details.ControlHeading",
+      "id":"Setting.Details.ControlEdit",
+      "properties":{
+        "hidden":{
+          "required":true,
+          "type":"boolean"
+        },
+        "type":{
+          "enums":[
+            "edit"
+          ],
+          "required":true,
+          "type":"string"
+        },
+        "verifynewvalue":{
+          "required":true,
+          "type":"boolean"
+        }
+      }
+    },
+    
+    "Setting.Details.ControlHeading":{
+      "extends":"Setting.Details.ControlBase",
+      "id":"Setting.Details.ControlHeading",
+      "properties":{
+        "heading":{
+          "default":"",
+          "type":"string"
+        }
+      }
+    },
+    
+    "Setting.Details.ControlList":{
+      "extends":"Setting.Details.ControlHeading",
+      "id":"Setting.Details.ControlList",
+      "properties":{
+        "multiselect":{
+          "required":true,
+          "type":"boolean"
+        },
+        "type":{
+          "enums":[
+            "list"
+          ],
+          "required":true,
+          "type":"string"
+        }
+      }
+    },
+    
+    "Setting.Details.ControlSpinner":{
+      "extends":"Setting.Details.ControlBase",
+      "id":"Setting.Details.ControlSpinner",
+      "properties":{
+        "formatlabel":{
+          "default":"",
+          "type":"string"
+        },
+        "minimumlabel":{
+          "default":"",
+          "type":"string"
+        },
+        "type":{
+          "enums":[
+            "spinner"
+          ],
+          "required":true,
+          "type":"string"
+        }
+      }
+    },
+    
+    "Setting.Details.Group":{
+      "additionalProperties":false,
+      "id":"Setting.Details.Group",
+      "properties":{
+        "id":{
+          "minLength":1,
+          "required":true,
+          "type":"string"
+        },
+        "settings":{
+          "items":{
+            "$ref":"Setting.Details.Setting"
+          },
+          "minItems":1,
+          "type":"array",
+          "uniqueItems":true
+        }
+      },
+      "type":"object"
+    },
+    
+    "Setting.Details.Section":{
+      "additionalProperties":false,
+      "extends":"Setting.Details.Base",
+      "id":"Setting.Details.Section",
+      "properties":{
+        "categories":{
+          "items":{
+            "$ref":"Setting.Details.Category"
+          },
+          "minItems":1,
+          "type":"array",
+          "uniqueItems":true
+        }
+      }
+    },
+    
+    "Setting.Details.Setting":{
+      "id":"Setting.Details.Setting",
+      "type":[
+        {
+          "$ref":"Setting.Details.SettingBool"
+        },
+        {
+          "$ref":"Setting.Details.SettingInt"
+        },
+        {
+          "$ref":"Setting.Details.SettingNumber"
+        },
+        {
+          "$ref":"Setting.Details.SettingString"
+        },
+        {
+          "$ref":"Setting.Details.SettingAction"
+        },
+        {
+          "$ref":"Setting.Details.SettingList"
+        },
+        {
+          "$ref":"Setting.Details.SettingPath"
+        },
+        {
+          "$ref":"Setting.Details.SettingAddon"
+        }
+      ]
+    },
+    
+    "Setting.Details.SettingAction":{
+      "additionalProperties":false,
+      "extends":"Setting.Details.SettingBase",
+      "id":"Setting.Details.SettingAction"
+    },
+    
+    "Setting.Details.SettingAddon":{
+      "additionalProperties":false,
+      "extends":"Setting.Details.SettingString",
+      "id":"Setting.Details.SettingAddon",
+      "properties":{
+        "addontype":{
+          "$ref":"Addon.Types",
+          "required":true
+        }
+      }
+    },
+    
+    "Setting.Details.SettingBase":{
+      "additionalProperties":false,
+      "extends":"Setting.Details.Base",
+      "id":"Setting.Details.SettingBase",
+      "properties":{
+        "control":{
+          "$ref":"Setting.Details.Control"
+        },
+        "enabled":{
+          "required":true,
+          "type":"boolean"
+        },
+        "level":{
+          "required":true,
+          "type":"integer"
+        },
+        "parent":{
+          "default":"",
+          "type":"string"
+        },
+        "type":{
+          "$ref":"Setting.Type",
+          "required":true
+        }
+      }
+    },
+    
+    "Setting.Details.SettingBool":{
+      "additionalProperties":false,
+      "extends":"Setting.Details.SettingBase",
+      "id":"Setting.Details.SettingBool",
+      "properties":{
+        "default":{
+          "required":true,
+          "type":"boolean"
+        },
+        "value":{
+          "required":true,
+          "type":"boolean"
+        }
+      }
+    },
+    
+    "Setting.Details.SettingInt":{
+      "additionalProperties":false,
+      "extends":"Setting.Details.SettingBase",
+      "id":"Setting.Details.SettingInt",
+      "properties":{
+        "default":{
+          "required":true,
+          "type":"integer"
+        },
+        "maximum":{
+          "default":0,
+          "type":"integer"
+        },
+        "minimum":{
+          "default":0,
+          "type":"integer"
+        },
+        "options":{
+          "items":{
+            "properties":{
+              "label":{
+                "required":true,
+                "type":"string"
+              },
+              "value":{
+                "required":true,
+                "type":"integer"
+              }
+            },
+            "type":"object"
+          },
+          "type":"array"
+        },
+        "step":{
+          "default":0,
+          "type":"integer"
+        },
+        "value":{
+          "required":true,
+          "type":"integer"
+        }
+      }
+    },
+    
+    "Setting.Details.SettingList":{
+      "additionalProperties":false,
+      "extends":"Setting.Details.SettingBase",
+      "id":"Setting.Details.SettingList",
+      "properties":{
+        "default":{
+          "$ref":"Setting.Value.List",
+          "required":true
+        },
+        "definition":{
+          "$ref":"Setting.Details.Setting",
+          "required":true
+        },
+        "delimiter":{
+          "required":true,
+          "type":"string"
+        },
+        "elementtype":{
+          "$ref":"Setting.Type",
+          "required":true
+        },
+        "maximum":{
+          "default":0,
+          "type":"integer"
+        },
+        "minimum":{
+          "default":0,
+          "type":"integer"
+        },
+        "value":{
+          "$ref":"Setting.Value.List",
+          "required":true
+        }
+      }
+    },
+    
+    "Setting.Details.SettingNumber":{
+      "additionalProperties":false,
+      "extends":"Setting.Details.SettingBase",
+      "id":"Setting.Details.SettingNumber",
+      "properties":{
+        "default":{
+          "required":true,
+          "type":"number"
+        },
+        "maximum":{
+          "required":true,
+          "type":"number"
+        },
+        "minimum":{
+          "required":true,
+          "type":"number"
+        },
+        "step":{
+          "required":true,
+          "type":"number"
+        },
+        "value":{
+          "required":true,
+          "type":"number"
+        }
+      }
+    },
+    
+    "Setting.Details.SettingPath":{
+      "additionalProperties":false,
+      "extends":"Setting.Details.SettingString",
+      "id":"Setting.Details.SettingPath",
+      "properties":{
+        "sources":{
+          "items":{
+            "type":"string"
+          },
+          "type":"array"
+        },
+        "writable":{
+          "required":true,
+          "type":"boolean"
+        }
+      }
+    },
+    
+    "Setting.Details.SettingString":{
+      "extends":"Setting.Details.SettingBase",
+      "id":"Setting.Details.SettingString",
+      "properties":{
+        "allowempty":{
+          "required":true,
+          "type":"boolean"
+        },
+        "default":{
+          "required":true,
+          "type":"string"
+        },
+        "options":{
+          "items":{
+            "properties":{
+              "label":{
+                "required":true,
+                "type":"string"
+              },
+              "value":{
+                "required":true,
+                "type":"string"
+              }
+            },
+            "type":"object"
+          },
+          "type":"array"
+        },
+        "value":{
+          "required":true,
+          "type":"string"
+        }
+      }
+    },
+    
+    "Setting.Level":{
+      "default":"basic",
+      "enums":[
+        "basic",
+        "standard",
+        "advanced",
+        "expert"
+      ],
+      "id":"Setting.Level",
+      "type":"string"
+    },
+    
+    "Setting.Type":{
+      "default":"boolean",
+      "enums":[
+        "boolean",
+        "integer",
+        "number",
+        "string",
+        "action",
+        "list",
+        "path",
+        "addon"
+      ],
+      "id":"Setting.Type",
+      "type":"string"
+    },
+    
+    "Setting.Value":{
+      "default":null,
+      "id":"Setting.Value",
+      "type":[
+        {
+          "type":"boolean"
+        },
+        {
+          "type":"integer"
+        },
+        {
+          "type":"number"
+        },
+        {
+          "type":"string"
+        }
+      ]
+    },
+    
+    "Setting.Value.Extended":{
+      "default":null,
+      "id":"Setting.Value.Extended",
+      "type":[
+        {
+          "type":"boolean"
+        },
+        {
+          "type":"integer"
+        },
+        {
+          "type":"number"
+        },
+        {
+          "type":"string"
+        },
+        {
+          "$ref":"Setting.Value.List"
+        }
+      ]
+    },
+    
+    "Setting.Value.List":{
+      "id":"Setting.Value.List",
+      "items":{
+        "$ref":"Setting.Value"
+      },
+      "type":"array"
+    },
+    
     "System.Property.Name":{
       "default":"canshutdown",
       "enums":[
@@ -8544,6 +9794,90 @@
         }
       },
       "type":"object"
+    },
+    
+    "Textures.Details.Size":{
+      "id":"Textures.Details.Size",
+      "properties":{
+        "height":{
+          "default":0,
+          "description":"Height of texture",
+          "type":"integer"
+        },
+        "lastused":{
+          "default":"",
+          "description":"Date of last use",
+          "type":"string"
+        },
+        "size":{
+          "default":0,
+          "description":"Size of the texture (1 == largest)",
+          "type":"integer"
+        },
+        "usecount":{
+          "default":0,
+          "description":"Number of uses",
+          "type":"integer"
+        },
+        "width":{
+          "default":0,
+          "description":"Width of texture",
+          "type":"integer"
+        }
+      },
+      "type":"object"
+    },
+    
+    "Textures.Details.Texture":{
+      "id":"Textures.Details.Texture",
+      "properties":{
+        "cachedurl":{
+          "default":"",
+          "description":"Cached URL on disk",
+          "type":"string"
+        },
+        "imagehash":{
+          "default":"",
+          "description":"Hash of image",
+          "type":"string"
+        },
+        "lasthashcheck":{
+          "default":"",
+          "description":"Last time source was checked for changes",
+          "type":"string"
+        },
+        "sizes":{
+          "items":{
+            "$ref":"Textures.Details.Size"
+          },
+          "type":"array"
+        },
+        "textureid":{
+          "$ref":"Library.Id",
+          "default":-1
+        },
+        "url":{
+          "default":"",
+          "description":"Original source URL",
+          "type":"string"
+        }
+      },
+      "type":"object"
+    },
+    
+    "Textures.Fields.Texture":{
+      "extends":"Item.Fields.Base",
+      "id":"Textures.Fields.Texture",
+      "items":{
+        "enums":[
+          "url",
+          "cachedurl",
+          "lasthashcheck",
+          "imagehash",
+          "sizes"
+        ],
+        "type":"string"
+      }
     },
     
     "Video.Cast":{
@@ -8857,6 +10191,10 @@
         "season":{
           "required":true,
           "type":"integer"
+        },
+        "seasonid":{
+          "$ref":"Library.Id",
+          "required":true
         },
         "showtitle":{
           "default":"",
@@ -9217,6 +10555,6 @@
       "type":"object"
     }
   },
-  "version":"6.6.0"
+  "version":"6.13.0"
 }
 }
