@@ -250,7 +250,7 @@ Page {
             }
 
 
-            ListItems.Subtitled {
+            ListItems.Base {
                 id: collapsedItem
                 height: listView.itemHeight
                 width: listView.width
@@ -260,8 +260,27 @@ Page {
                     bottom: parent.bottom
                 }
 
-                text: title
-                subText: subtitle + (year.length > 0 ? '\n' + year : "")
+                Column {
+                    anchors {left: parent.left; right: parent.right; verticalCenter: parent.verticalCenter}
+                    height: childrenRect.height
+
+                    Label {
+                        width: parent.width
+                        text: title
+                        elide: Text.ElideRight
+                    }
+                    Label {
+                        width: parent.width
+                        text: subtitle + (year.length > 0 ? '\n' + year : "")
+                        height: text.length == 0 ? 0 : implicitHeight
+                        fontSize: "small"
+                        color: Theme.palette.normal.backgroundText
+                        wrapMode: Text.WordWrap
+                        maximumLineCount: 3
+                        elide: Text.ElideRight
+                    }
+                }
+
                 progression: filetype == "directory"
                 opacity: delegateItem.expanded ? 0.6 : 1
 
