@@ -106,6 +106,8 @@ void Channels::listReceived(const QVariantMap &rsp)
         item->setIgnoreArticle(ignoreArticle());
         item->setPlayable(true);
         list.append(item);
+
+        fetchBroadcasts(item->channelId());
     }
     beginInsertRows(QModelIndex(), 0, list.count() - 1);
     foreach(XbmcModelItem *item, list) {
@@ -125,4 +127,48 @@ void Channels::detailsReceived(const QVariantMap &rsp)
     // TODO: fill in details once there is anything interesting
 
     emit dataChanged(index(row, 0, QModelIndex()), index(row, 0, QModelIndex()));
+}
+
+void Channels::fetchBroadcasts(int channelId)
+{
+    QVariantMap params;
+    params.insert("channelid", channelId);
+
+    QVariantList properties;
+    properties.append("title");
+    properties.append("starttime");
+    properties.append("endtime");
+
+    params.insert("properties", properties);
+
+    int id = XbmcConnection::sendCommand("PVR.GetBroadcasts", params, this, "broadcastsReceived");
+    m_broadcastRequestMap.insert(id, channelId);
+}
+
+void Channels::broadcastsReceived(const QVariantMap &rsp)
+{
+    if (!m_broadcastRequestMap.contains(rsp.value("id").toInt())) {
+        return;
+    }
+    int channelId = m_broadcastRequestMap.take(rsp.value("id").toInt());
+
+    QVariantList broadcasts = rsp.value("result").toMap().value("broadcasts").toList();
+    foreach (const QVariant &broadcast, broadcasts) {
+        QDateTime startTime = broadcast.toMap().value("starttime").toDateTime();
+        startTime.setTimeSpec(Qt::UTC);
+        QDateTime endTime = broadcast.toMap().value("endtime").toDateTime();
+        endTime.setTimeSpec(Qt::UTC);
+        QDateTime nowTime = QDateTime::currentDateTime();
+
+        if (startTime < nowTime && nowTime < endTime) {
+            for (int i = 0; i < m_list.count(); ++i) {
+                LibraryItem *item = qobject_cast<LibraryItem*>(m_list.at(i));
+                if (item->channelId() == channelId) {
+                    item->setSubtitle(broadcast.toMap().value("label").toString());
+                    emit dataChanged(index(i, 0, QModelIndex()),index(i, 0, QModelIndex()));
+                    return;
+                }
+            }
+        }
+    }
 }

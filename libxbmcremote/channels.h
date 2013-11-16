@@ -44,10 +44,14 @@ private slots:
     void listReceived(const QVariantMap &rsp);
     void detailsReceived(const QVariantMap &rsp);
 
+    void fetchBroadcasts(int channelId);
+    void broadcastsReceived(const QVariantMap &rsp);
+
 private:
     int m_channelgroupid;
 
     QMap<int, int> m_detailsRequestMap;
+    QMap<int, int> m_broadcastRequestMap;
 };
 
 #endif // CHANNELS_H
