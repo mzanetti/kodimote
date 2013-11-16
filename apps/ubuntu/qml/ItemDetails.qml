@@ -42,7 +42,8 @@ Item {
     Flickable {
         anchors {
             fill: parent
-            margins: units.gu(1)
+            leftMargin: units.gu(1)
+            rightMargin: units.gu(1)
         }
         contentWidth: width
         contentHeight: labelColumn.height
@@ -53,9 +54,13 @@ Item {
         Column {
             id: labelColumn
             spacing: units.gu(1)
-            height: childrenRect.height
-            anchors.left: parent.left
-            anchors.right: parent.right
+            height: childrenRect.height + units.gu(2)
+            anchors {
+                top: parent.top
+                topMargin: units.gu(1)
+                left: parent.left
+                right: parent.right
+            }
 
             LazyImage {
                 width: parent.width

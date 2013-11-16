@@ -38,13 +38,13 @@ Page {
 
     tools: ToolbarItems {
         ToolbarButton {
-            iconSource: "/usr/share/icons/ubuntu-mobile/actions/scalable/reload.svg"
+            iconSource: "image://theme/media-playlist-repeat"
             text: "repeat"
             visible: xbmc.activePlayer.type == Player.PlayerTypeAudio
         }
         ToolbarButton {
             text: "shuffle"
-            iconSource: "/usr/share/icons/ubuntu-mobile/actions/scalable/help.svg"
+            iconSource: "image://theme/media-playlist-shuffle"
             visible: xbmc.activePlayer.type == Player.PlayerTypeAudio
         }
         ToolbarButton {

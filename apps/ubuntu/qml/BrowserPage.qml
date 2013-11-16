@@ -35,8 +35,8 @@ Page {
     tools: showToolbars ? browserTools : null
     ToolbarItems {
         id: browserTools
-        opened: true
-        locked: true
+//        opened: true
+//        locked: true
         ToolbarButton {
             text: qsTr("Home")
             iconSource: "images/home.svg"
@@ -331,10 +331,7 @@ Page {
         // section.delegate: model.parentModel() != null ? sectionHeading : undefined
 
         Behavior on contentY {
-            NumberAnimation {
-                easing.type: Easing.OutQuad
-                duration: 300
-            }
+            UbuntuNumberAnimation {}
         }
 
     }
