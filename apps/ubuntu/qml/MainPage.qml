@@ -363,27 +363,42 @@ Page {
 
                 ListItems.Standard {
                     text: qsTr("Quit")
-                    onClicked: xbmc.quit();
+                    onClicked: {
+                        xbmc.quit();
+                        PopupUtils.close(powerMenu)
+                    }
                 }
                 ListItems.Standard {
                     text: qsTr("Shutdown")
                     visible: xbmc.canShutdown
-                    onClicked: xbmc.quit();
+                    onClicked: {
+                        xbmc.quit();
+                        PopupUtils.close(powerMenu)
+                    }
                 }
                 ListItems.Standard {
                     text: qsTr("Reboot")
                     visible: xbmc.canReboot
-                    onClicked: xbmc.reboot();
+                    onClicked: {
+                        xbmc.reboot();
+                        PopupUtils.close(powerMenu)
+                    }
                 }
                 ListItems.Standard {
                     text: qsTr("Suspend")
                     visible: xbmc.canSuspend
-                    onClicked: xbmc.suspend();
+                    onClicked: {
+                        PopupUtils.close(powerMenu)
+                        xbmc.suspend();
+                    }
                 }
                 ListItems.Standard {
                     text: qsTr("Hibernate")
                     visible: xbmc.canHibernate
-                    onClicked: xbmc.hibernate();
+                    onClicked: {
+                        PopupUtils.close(powerMenu)
+                        xbmc.hibernate();
+                    }
                 }
             }
         }
