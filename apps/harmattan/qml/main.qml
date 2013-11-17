@@ -381,7 +381,7 @@ PageStackWindow {
                 anchors.topMargin: 20
                 color: "white"
                 font.pixelSize: 32
-                text: "Xbmcremote 1.3.1"
+                text: "Xbmcremote 1.4.0"
             }
 
         }
