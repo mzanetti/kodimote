@@ -32,6 +32,7 @@ class XbmcFilterModel : public QSortFilterProxyModel
     Q_PROPERTY(QObject* model READ model WRITE setModel NOTIFY modelChanged)
     Q_PROPERTY(QString filter READ filter WRITE setFilter NOTIFY filterChanged)
     Q_PROPERTY(bool hideWatched READ hideWatched WRITE setHideWatched NOTIFY hideWatchedChanged)
+    Q_PROPERTY(Qt::SortOrder sortOrder READ sortOrder WRITE setSortOrder NOTIFY sortOrderChanged)
 
 public:
     explicit XbmcFilterModel(QObject *parent = 0);
@@ -45,6 +46,9 @@ public:
     void setHideWatched(bool hideWatched);
     bool hideWatched() const;
 
+    void setSortOrder(Qt::SortOrder sortOrder);
+    Qt::SortOrder sortOrder() const;
+
     Q_INVOKABLE int mapToSourceIndex(int index);
 
 signals:
@@ -52,13 +56,16 @@ signals:
     void filterChanged();
     void caseSensitivityChanged();
     void hideWatchedChanged();
+    void sortOrderChanged();
 
 protected:
     bool filterAcceptsRow(int source_row, const QModelIndex &source_parent) const;
+    bool lessThan(const QModelIndex &left, const QModelIndex &right) const;
 
 private:
     QString m_filterString;
     bool m_hideWatched;
+    Qt::SortOrder m_sortOrder;
 };
 
 #endif // XBMCFILTERMODEL_H

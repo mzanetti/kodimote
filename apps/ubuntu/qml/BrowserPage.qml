@@ -47,11 +47,18 @@ Page {
         }
         ToolbarButtons.Spacer {}
         ToolbarButton {
-            text: "Hide watched"
-            iconSource: filterModel.hideWatched ? "image://theme/select" : "images/unchecked.svg"
+            text: "Watched"
+            iconSource: filterModel.hideWatched ? "images/unchecked.svg" : "image://theme/select"
             visible: model.allowWatchedFilter
             onTriggered: {
                 filterModel.hideWatched = !filterModel.hideWatched
+            }
+        }
+        ToolbarButton {
+            text: "Sorting"
+            iconSource: filterModel.sortOrder == Qt.AscendingOrder ? "images/go-down.svg" : "images/go-up.svg"
+            onTriggered: {
+                filterModel.sortOrder = filterModel.sortOrder == Qt.AscendingOrder ? Qt.DescendingOrder : Qt.AscendingOrder
             }
         }
     }

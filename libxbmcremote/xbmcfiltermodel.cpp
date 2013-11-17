@@ -22,7 +22,8 @@
 
 XbmcFilterModel::XbmcFilterModel(QObject *parent) :
     QSortFilterProxyModel(parent),
-    m_hideWatched(false)
+    m_hideWatched(false),
+    m_sortOrder(Qt::AscendingOrder)
 {
 }
 
@@ -35,6 +36,7 @@ void XbmcFilterModel::setModel(QObject *model)
 {
     setSourceModel(static_cast<QAbstractItemModel*>(model));
     emit modelChanged();
+    sort(m_sortOrder);
 }
 
 void XbmcFilterModel::setFilter(const QString &filter)
@@ -63,6 +65,20 @@ bool XbmcFilterModel::hideWatched() const
     return m_hideWatched;
 }
 
+void XbmcFilterModel::setSortOrder(Qt::SortOrder sortOrder)
+{
+    if (m_sortOrder != sortOrder) {
+        m_sortOrder = sortOrder;
+        emit sortOrderChanged();
+        sort(0, sortOrder);
+    }
+}
+
+Qt::SortOrder XbmcFilterModel::sortOrder() const
+{
+    return m_sortOrder;
+}
+
 int XbmcFilterModel::mapToSourceIndex(int i)
 {
     if (i < 0) {
@@ -83,5 +99,11 @@ bool XbmcFilterModel::filterAcceptsRow(int source_row, const QModelIndex &source
         return false;
     }
     return true;
+}
+
+bool XbmcFilterModel::lessThan(const QModelIndex &left, const QModelIndex &right) const
+{
+    // We're keeping sorting from xbmc, just invert it. Comapre source rows:
+    return left.row() < right.row();
 }
 
