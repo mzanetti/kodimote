@@ -292,7 +292,6 @@ Page {
                         color: Theme.palette.normal.backgroundText
                         wrapMode: Text.WordWrap
                         maximumLineCount: 3
-                        elide: Text.ElideRight
                     }
                 }
 
