@@ -23,6 +23,7 @@ import Ubuntu.Components 0.1
 import Ubuntu.Components.Popups 0.1
 import Ubuntu.Components.ListItems 0.1
 import Xbmc 1.0
+import "components/ToolbarButtons" as ToolbarButtons
 
 Page {
     id: root
@@ -37,20 +38,22 @@ Page {
     onCurrentItemChanged: print("************", currentItem.thumbnail)
 
     tools: ToolbarItems {
+        ToolbarButtons.SystemMenu {}
+        ToolbarButtons.Spacer {}
         ToolbarButton {
             iconSource: "image://theme/media-playlist-repeat"
             text: "repeat"
-            visible: xbmc.activePlayer.type == Player.PlayerTypeAudio
+            visible: xbmc.activePlayer && xbmc.activePlayer.type == Player.PlayerTypeAudio
         }
         ToolbarButton {
             text: "shuffle"
             iconSource: "image://theme/media-playlist-shuffle"
-            visible: xbmc.activePlayer.type == Player.PlayerTypeAudio
+            visible: xbmc.activePlayer && xbmc.activePlayer.type == Player.PlayerTypeAudio
         }
         ToolbarButton {
             iconSource: "image://theme/messages"
             text: qsTr("Subtitle")
-            visible: xbmc.activePlayer.type == Player.PlayerTypeVideo
+            visible: xbmc.activePlayer && xbmc.activePlayer.type == Player.PlayerTypeVideo
             enabled: !(xbmc.state === "video" && player.subtitles.length === 0)
             onTriggered: {
                 var popup = PopupUtils.open(toolbarMenuComponent, audioTrackButton, {model: player.subtitles, currentIndex: player.currentSubtitle})
@@ -61,7 +64,7 @@ Page {
             id: audioTrackButton
             text: qsTr("Audio track")
             iconSource: "image://theme/speaker"
-            visible: xbmc.activePlayer.type == Player.PlayerTypeVideo
+            visible: xbmc.activePlayer && xbmc.activePlayer.type == Player.PlayerTypeVideo
             //enabled: player.audiostreams.size > 0
             onTriggered: {
                 var popup = PopupUtils.open(toolbarMenuComponent, audioTrackButton, {model: player.audiostreams, currentIndex: player.currentAudiostream})

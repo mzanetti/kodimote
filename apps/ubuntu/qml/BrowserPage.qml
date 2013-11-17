@@ -23,6 +23,7 @@ import Ubuntu.Components 0.1
 import Ubuntu.Components.Popups 0.1
 import Ubuntu.Components.ListItems 0.1 as ListItems
 import Xbmc 1.0
+import "components/ToolbarButtons" as ToolbarButtons
 
 Page {
     id: root
@@ -35,8 +36,6 @@ Page {
     tools: showToolbars ? browserTools : null
     ToolbarItems {
         id: browserTools
-//        opened: true
-//        locked: true
         ToolbarButton {
             text: qsTr("Home")
             iconSource: "images/home.svg"
@@ -46,6 +45,7 @@ Page {
                 }
             }
         }
+        ToolbarButtons.Spacer {}
     }
 
     Component.onCompleted: {

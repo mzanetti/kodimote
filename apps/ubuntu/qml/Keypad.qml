@@ -22,6 +22,7 @@ import QtQuick 2.0
 import Ubuntu.Components 0.1
 import Xbmc 1.0
 import QtFeedback 5.0
+import "components/ToolbarButtons" as ToolbarButtons
 
 Page {
     id: root
@@ -36,16 +37,12 @@ Page {
 
     tools: ToolbarItems {
         id: keypadTools
-        states: [
-            State {
-                name: "hidded"
-                when: !xbmc.picturePlayerActive
-                PropertyChanges { target: keypadTools; locked: true; opened: false }
-            }
-        ]
+        ToolbarButtons.SystemMenu {}
+        ToolbarButtons.Spacer {}
         ToolbarButton {
             text: "pictures"
             iconSource: "/usr/share/icons/ubuntu-mobile/apps/symbolic/gallery-symbolic.svg"
+            visible: xbmc.picturePlayerActive
             onTriggered: {
                 pictureControlsOverride = !pictureControlsOverride;
             }

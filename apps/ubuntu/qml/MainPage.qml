@@ -22,6 +22,7 @@ import QtQuick 2.0
 import Ubuntu.Components 0.1
 import Ubuntu.Components.Popups 0.1
 import Ubuntu.Components.ListItems 0.1 as ListItems
+import "components/ToolbarButtons" as ToolbarButtons
 
 Page {
     id: mainPage
@@ -33,29 +34,17 @@ Page {
     tools: showToolbars ? mainTools : null
     ToolbarItems {
         id: mainTools
-
+        ToolbarButtons.SystemMenu {}
+        ToolbarButtons.Spacer {}
         ToolbarButton {
-            text: qsTr("Settings")
+            text: qsTr("Browsing")
             iconSource: "image://theme/settings"
-            onTriggered: PopupUtils.open(Qt.resolvedUrl("SettingsSheet.qml"), mainPage)
-         }
-
-        ToolbarButton {
-            id: powerButton
-            text: "Power"
-            iconSource: "image://theme/system-shutdown"
-            onTriggered: PopupUtils.open(powerMenuComponent, powerButton)
-        }
-
-        ToolbarButton {
-            text: qsTr("Disconnect")
-            iconSource: "image://theme/close"
             onTriggered: {
-                xbmc.disconnectFromHost()
+                PopupUtils.open(Qt.resolvedUrl("SettingsSheet.qml"), mainTools)
             }
         }
-    }
 
+    }
 
     Component.onCompleted: {
         if(settings.musicShowsFiles) {
@@ -347,58 +336,6 @@ Page {
                 delegate: ListItems.Standard {
                     text: modelData
                     onClicked: popover.selected(actionId)
-                }
-            }
-        }
-    }
-
-    Component {
-        id: powerMenuComponent
-        Popover {
-            id: powerMenu
-
-            Column {
-                width: parent.width
-                height: childrenRect.height
-
-                ListItems.Standard {
-                    text: qsTr("Quit")
-                    onClicked: {
-                        xbmc.quit();
-                        PopupUtils.close(powerMenu)
-                    }
-                }
-                ListItems.Standard {
-                    text: qsTr("Shutdown")
-                    visible: xbmc.canShutdown
-                    onClicked: {
-                        xbmc.quit();
-                        PopupUtils.close(powerMenu)
-                    }
-                }
-                ListItems.Standard {
-                    text: qsTr("Reboot")
-                    visible: xbmc.canReboot
-                    onClicked: {
-                        xbmc.reboot();
-                        PopupUtils.close(powerMenu)
-                    }
-                }
-                ListItems.Standard {
-                    text: qsTr("Suspend")
-                    visible: xbmc.canSuspend
-                    onClicked: {
-                        PopupUtils.close(powerMenu)
-                        xbmc.suspend();
-                    }
-                }
-                ListItems.Standard {
-                    text: qsTr("Hibernate")
-                    visible: xbmc.canHibernate
-                    onClicked: {
-                        PopupUtils.close(powerMenu)
-                        xbmc.hibernate();
-                    }
                 }
             }
         }
