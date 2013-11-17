@@ -23,6 +23,7 @@ import Ubuntu.Components 0.1
 import Ubuntu.Components.Popups 0.1
 import Ubuntu.Components.ListItems 0.1
 import Xbmc 1.0
+import "components"
 import "components/ToolbarButtons" as ToolbarButtons
 
 Page {

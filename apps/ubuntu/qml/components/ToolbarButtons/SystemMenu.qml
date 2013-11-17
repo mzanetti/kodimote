@@ -143,6 +143,11 @@ ToolbarButton {
                 ListItems.Standard {
                     text: qsTr("Hibernate")
                     visible: xbmc.canHibernate
+                    icon: Icon {
+                        name: "save"
+                        height: parent.height
+                        width: height
+                    }
                     onClicked: {
                         PopupUtils.close(powerMenu)
                         xbmc.hibernate();

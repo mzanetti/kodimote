@@ -22,6 +22,7 @@ import QtQuick 2.0
 import Ubuntu.Components 0.1
 import Xbmc 1.0
 import QtFeedback 5.0
+import "components"
 import "components/ToolbarButtons" as ToolbarButtons
 
 Page {
@@ -97,11 +98,11 @@ Page {
                 }
                 MediaControlButton {
                     id: musicButton
-                    source: "images/music.svg"
+                    source: "../images/music.svg"
                     onClicked: xbmc.switchToWindow(Xbmc.GuiWindowMusic);
                 }
                 MediaControlButton {
-                    source: "images/home.svg"
+                    source: "../images/home.svg"
                     onClicked: keys.home();
                 }
                 MediaControlButton {
@@ -110,7 +111,7 @@ Page {
 
                 }
                 MediaControlButton {
-                    source: "images/livetv.svg"
+                    source: "../images/livetv.svg"
                     onClicked: xbmc.switchToWindow(Xbmc.GuiWindowLiveTV);
                 }
             }
@@ -158,7 +159,7 @@ Page {
             }
             MediaControlButton {
                 anchors { left: parent.left; bottom: parent.bottom; margins: units.gu(1.5) }
-                source: usePictureControls ? "image://theme/reload" : "images/info.svg"
+                source: usePictureControls ? "image://theme/reload" : "../images/info.svg"
                 MouseArea {
                     width: parent.width * 2
                     height: parent.height * 1.2
@@ -176,7 +177,7 @@ Page {
             }
             MediaControlButton {
                 anchors { right: parent.right; bottom: parent.bottom; margins: units.gu(1.5) }
-                source: usePictureControls ? "images/remove.svg" : "image://theme/navigation-menu"
+                source: usePictureControls ? "../images/remove.svg" : "image://theme/navigation-menu"
                 MouseArea {
                     width: parent.width * 2
                     height: parent.height * 1.2

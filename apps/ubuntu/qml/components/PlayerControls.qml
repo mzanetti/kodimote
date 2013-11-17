@@ -36,13 +36,13 @@ Row {
         onClicked: player.skipPrevious();
     }
     MediaControlButton {
-        source: "images/rewind.svg"
+        source: "../images/rewind.svg"
         enabled: player ? player.state == "playing" && player.type !== Player.PlayerTypePictures : false
         selected: player ? player.speed < 0 : false
         onClicked: player.seekBackward();
     }
     MediaControlButton {
-        source: "images/stop.svg"
+        source: "../images/stop.svg"
         enabled: player ? player.state == "playing" : false
         onClicked: player.stop();
     }
@@ -51,7 +51,7 @@ Row {
         onClicked: player.playPause();
     }
     MediaControlButton {
-        source: "images/fast-forward.svg"
+        source: "../images/fast-forward.svg"
         enabled: player ? player.state == "playing" && player.type !== Player.PlayerTypePictures : false
         selected: player ? player.speed > 1 : false
         onClicked: player.seekForward();
