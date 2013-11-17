@@ -45,6 +45,7 @@ public:
     Q_INVOKABLE virtual void download(int index, const QString &path);
 
     ThumbnailFormat thumbnailFormat() const { return ThumbnailFormatPortrait; }
+    bool allowWatchedFilter() { return true; }
 
 public slots:
     void refresh();

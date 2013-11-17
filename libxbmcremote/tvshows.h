@@ -42,6 +42,7 @@ public:
     Q_INVOKABLE bool hasDetails() { return true; }
 
     ThumbnailFormat thumbnailFormat() const { return ThumbnailFormatLandscape; }
+    bool allowWatchedFilter() { return true; }
 
 public slots:
     void refresh();

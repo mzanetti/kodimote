@@ -46,6 +46,14 @@ Page {
             }
         }
         ToolbarButtons.Spacer {}
+        ToolbarButton {
+            text: "Hide watched"
+            iconSource: filterModel.hideWatched ? "image://theme/select" : "images/unchecked.svg"
+            visible: model.allowWatchedFilter
+            onTriggered: {
+                filterModel.hideWatched = !filterModel.hideWatched
+            }
+        }
     }
 
     Component.onCompleted: {
@@ -154,7 +162,7 @@ Page {
     XbmcFilterModel {
         id: filterModel
         model: root.model
-        caseSensitive: false
+        filterCaseSensitivity: Qt.CaseInsensitive
 
         // When the model is filtered, contentY is messed up sometimes
         // Lets unset and reset the model to keep the searchbar in place

@@ -31,19 +31,19 @@ class XbmcFilterModel : public QSortFilterProxyModel
 
     Q_PROPERTY(QObject* model READ model WRITE setModel NOTIFY modelChanged)
     Q_PROPERTY(QString filter READ filter WRITE setFilter NOTIFY filterChanged)
-    Q_PROPERTY(bool caseSensitive READ caseSensitive WRITE setCaseSensitive NOTIFY caseSensitivityChanged)
+    Q_PROPERTY(bool hideWatched READ hideWatched WRITE setHideWatched NOTIFY hideWatchedChanged)
 
 public:
     explicit XbmcFilterModel(QObject *parent = 0);
     
-    QAbstractItemModel *model();
+    QAbstractItemModel *model() const;
     void setModel(QObject* model);
 
     void setFilter(const QString &filter);
-    QString filter();
+    QString filter() const;
 
-    void setCaseSensitive(bool cs);
-    bool caseSensitive();
+    void setHideWatched(bool hideWatched);
+    bool hideWatched() const;
 
     Q_INVOKABLE int mapToSourceIndex(int index);
 
@@ -51,10 +51,14 @@ signals:
     void modelChanged();
     void filterChanged();
     void caseSensitivityChanged();
+    void hideWatchedChanged();
+
+protected:
+    bool filterAcceptsRow(int source_row, const QModelIndex &source_parent) const;
 
 private:
     QString m_filterString;
-    bool m_cs;
+    bool m_hideWatched;
 };
 
 #endif // XBMCFILTERMODEL_H

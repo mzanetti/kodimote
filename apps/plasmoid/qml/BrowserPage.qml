@@ -98,7 +98,7 @@ Item {
     XbmcFilterModel {
         id: filterModel
         model: root.model ? root.model : null
-        caseSensitive: false
+        filterCaseSensitivity: false
 
         // When the model is filtered, contentY is messed up sometimes
         // Lets unset and reset the model to keep the searchbar in place

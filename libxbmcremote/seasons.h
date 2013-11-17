@@ -41,6 +41,7 @@ public:
     Q_INVOKABLE bool hasDetails() { return true; }
 
     XbmcModel::ThumbnailFormat thumbnailFormat() const { return XbmcModel::ThumbnailFormatPortrait; }
+    bool allowWatchedFilter() { return true; }
 
 public slots:
     void refresh();

@@ -162,7 +162,7 @@ Page {
     XbmcFilterModel {
         id: filterModel
         model: browserPage.model
-        caseSensitive: false
+        filterCaseSensitivity: Qt.CaseInsensitive
 
         // When the model is filtered, contentY is messed up sometimes
         // Lets unset and reset the model to keep the searchbar in place

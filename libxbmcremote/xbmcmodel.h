@@ -36,6 +36,7 @@ class XbmcModel : public QAbstractItemModel
     Q_PROPERTY(bool ignoreArticle READ ignoreArticle WRITE setIgnoreArticle NOTIFY ignoreArticleChanged)
     Q_PROPERTY(ThumbnailFormat thumbnailFormat READ thumbnailFormat NOTIFY thumbnailFormatChanged)
     Q_PROPERTY(bool allowSearch READ allowSearch NOTIFY allowSearchChanged)
+    Q_PROPERTY(bool allowWatchedFilter READ allowWatchedFilter NOTIFY allowWatchedFilterChanged)
 
 public:
     enum Roles {
@@ -125,6 +126,7 @@ public:
 
     virtual ThumbnailFormat thumbnailFormat() const { return ThumbnailFormatSquare; }
     virtual bool allowSearch() { return true; }
+    virtual bool allowWatchedFilter() { return false; }
 
     Q_INVOKABLE void imageFetched(int id);
 public slots:
@@ -137,6 +139,7 @@ signals:
     void ignoreArticleChanged();
     void thumbnailFormatChanged();
     void allowSearchChanged();
+    void allowWatchedFilterChanged();
 
 protected:
     XbmcModel *m_parentModel;
