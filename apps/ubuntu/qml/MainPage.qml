@@ -37,8 +37,8 @@ Page {
         ToolbarButtons.SystemMenu {}
         ToolbarButtons.Spacer {}
         ToolbarButton {
-            text: qsTr("Browsing")
-            iconSource: "image://theme/settings"
+            text: qsTr("Options")
+            iconSource: "image://theme/properties"
             onTriggered: {
                 PopupUtils.open(Qt.resolvedUrl("SettingsSheet.qml"), mainTools)
             }
@@ -170,8 +170,8 @@ Page {
                 uniform sampler2D source;
                 void main(void)
                 {
-                    vec4 sourceColor = texture2D(source, qt_TexCoord0);
-                    float alpha = 1.0 - qt_TexCoord0.x;
+                    highp vec4 sourceColor = texture2D(source, qt_TexCoord0);
+                    highp float alpha = 1.0 - qt_TexCoord0.x;
                     sourceColor *= alpha;
                     gl_FragColor = sourceColor;
                 }

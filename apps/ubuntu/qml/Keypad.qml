@@ -44,8 +44,8 @@ Page {
         ToolbarButtons.SystemMenu {}
         ToolbarButtons.Spacer {}
         ToolbarButton {
-            text: "pictures"
-            iconSource: "/usr/share/icons/ubuntu-mobile/apps/symbolic/gallery-symbolic.svg"
+            text: usePictureControls ? "Keypad" : "Pictures"
+            iconSource: usePictureControls ? "image://theme/keypad" : "image://theme/gallery-symbolic"
             visible: xbmc.picturePlayerActive
             onTriggered: {
                 pictureControlsOverride = !pictureControlsOverride;
@@ -140,8 +140,7 @@ Page {
 
             MediaControlButton {
                 anchors { right: parent.right; top: parent.top; margins: units.gu(1.5) }
-                source: usePictureControls ? "" : "image://theme/view-fullscreen"
-//                rotation: usePictureControls ? 0 : 45
+                source: usePictureControls ? "image://theme/add" : "image://theme/view-fullscreen"
                 MouseArea {
                     width: parent.width * 2
                     height: parent.height * 1.2
@@ -159,7 +158,7 @@ Page {
             }
             MediaControlButton {
                 anchors { left: parent.left; bottom: parent.bottom; margins: units.gu(1.5) }
-                source: usePictureControls ? "" : "images/info.svg"
+                source: usePictureControls ? "image://theme/reload" : "images/info.svg"
                 MouseArea {
                     width: parent.width * 2
                     height: parent.height * 1.2
@@ -177,7 +176,7 @@ Page {
             }
             MediaControlButton {
                 anchors { right: parent.right; bottom: parent.bottom; margins: units.gu(1.5) }
-                source: usePictureControls ? "" : "images/menu.svg"
+                source: usePictureControls ? "images/remove.svg" : "image://theme/navigation-menu"
                 MouseArea {
                     width: parent.width * 2
                     height: parent.height * 1.2

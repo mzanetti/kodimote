@@ -34,11 +34,15 @@ Item {
         id: teaseTimer
         interval: 1000
         onTriggered: {
-            leftArrows.item.animate();
-            rightArrows.item.animate();
-            upArrows.item.animate();
-            downArrows.item.animate();
+            animateAll();
         }
+    }
+
+    function animateAll() {
+        leftArrows.item.animate();
+        rightArrows.item.animate();
+        upArrows.item.animate();
+        downArrows.item.animate();
     }
 
     Component {
@@ -224,6 +228,7 @@ Item {
             if (dxAbs < maxClickDistance && dyAbs < maxClickDistance) {
                 print("pressing enter")
                 keys.select();
+                animateAll();
                 return;
             }
 

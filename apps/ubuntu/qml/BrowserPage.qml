@@ -21,7 +21,7 @@
 import QtQuick 2.0
 import Ubuntu.Components 0.1
 import Ubuntu.Components.Popups 0.1
-import Ubuntu.Components.ListItems 0.1 as ListItems
+import Ubuntu.Components.ListItems 0.1
 import Xbmc 1.0
 import "components/ToolbarButtons" as ToolbarButtons
 
@@ -73,6 +73,33 @@ Page {
         model.exit();
     }
 
+    Column {
+        id: header
+        anchors {
+            left: parent.left
+            top: parent.top
+            topMargin: units.gu(1)
+            right: parent.right
+        }
+        height: childrenRect.height
+        spacing: units.gu(1)
+        Label {
+            anchors {
+                left: parent.left
+                right: parent.right
+                margins: units.gu(2)
+            }
+            text: model.title
+            fontSize: "large"
+        }
+        Divider {
+            anchors {
+                left: parent.left
+                right: parent.right
+            }
+        }
+    }
+
     // The delegate for each section header
     Component {
         id: sectionHeading
@@ -103,28 +130,17 @@ Page {
         }
     }
 
-    Item {
-        id: searchBar
-        anchors.top: parent.top
-        width: parent.width
-        height: expanded ? searchTextField.height + root.spacing * 2 : 0
-        property bool expanded
+    XbmcFilterModel {
+        id: filterModel
+        model: root.model
+        filterCaseSensitivity: Qt.CaseInsensitive
 
-        Timer {
-            id: searchTimer
-            interval: 5000
-            repeat: false
-            running: searchBar.expanded && !searchTextField.activeFocus && filterModel.filter.length === 0
-
-            onTriggered: {
-                searchBar.expanded = false;
-            }
-        }
-
-
-        Behavior on height {
-            NumberAnimation { duration: UbuntuAnimation.SnapDuration; easing.type: Easing.OutQuad; }
-        }
+//        // When the model is filtered, contentY is messed up sometimes
+//        // Lets unset and reset the model to keep the searchbar in place
+//        onFilterChanged: {
+//            listView.model = undefined
+//            listView.model = filterModel
+//        }
     }
 
     TextField {
@@ -166,32 +182,21 @@ Page {
         }
     }
 
-    XbmcFilterModel {
-        id: filterModel
-        model: root.model
-        filterCaseSensitivity: Qt.CaseInsensitive
-
-        // When the model is filtered, contentY is messed up sometimes
-        // Lets unset and reset the model to keep the searchbar in place
-        onFilterChanged: {
-            listView.model = undefined
-            listView.model = filterModel
-        }
-    }
 
     ListView {
         id: listView
         anchors {
             left: parent.left
-            top: searchBar.bottom
+            top: header.bottom
             right: parent.right
             bottom: parent.bottom
-            topMargin: -listView.topMargin
+//            topMargin: -listView.topMargin
         }
         topMargin: searchBar.height
         highlightFollowsCurrentItem: true
         cacheBuffer: itemHeight * 3
         model: filterModel
+        clip: true
 
         property bool draggedForSearch: root.model.allowSearch && contentY < -units.gu(6) && dragging
         property bool useThumbnails: settings.useThumbnails
@@ -202,6 +207,30 @@ Page {
 
         onDraggedForSearchChanged: {
             searchBar.expanded = true;
+        }
+
+        Item {
+            id: searchBar
+            anchors.top: parent.top
+            width: parent.width
+            height: expanded ? searchTextField.height + root.spacing * 2 : 0
+            property bool expanded
+
+            Timer {
+                id: searchTimer
+                interval: 5000
+                repeat: false
+                running: searchBar.expanded && !searchTextField.activeFocus && filterModel.filter.length === 0
+
+                onTriggered: {
+                    searchBar.expanded = false;
+                }
+            }
+
+
+            Behavior on height {
+                NumberAnimation { duration: UbuntuAnimation.SnapDuration; easing.type: Easing.OutQuad; }
+            }
         }
 
         delegate:  Item {
@@ -265,7 +294,7 @@ Page {
             }
 
 
-            ListItems.Base {
+            Base {
                 id: collapsedItem
                 height: listView.itemHeight
                 width: listView.width
