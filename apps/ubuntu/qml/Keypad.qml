@@ -35,6 +35,10 @@ Page {
 
     property int spacing: units.gu(2)
 
+    function teaseArrows() {
+        gesturePad.teaseArrows();
+    }
+
     tools: ToolbarItems {
         id: keypadTools
         ToolbarButtons.SystemMenu {}

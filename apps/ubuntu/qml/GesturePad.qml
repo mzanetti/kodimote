@@ -27,6 +27,20 @@ Item {
     height: bgImage.height
     width: parent.width
 
+    function teaseArrows() {
+        teaseTimer.start()
+    }
+    Timer {
+        id: teaseTimer
+        interval: 1000
+        onTriggered: {
+            leftArrows.item.animate();
+            rightArrows.item.animate();
+            upArrows.item.animate();
+            downArrows.item.animate();
+        }
+    }
+
     Component {
         id: arrows
         Row {
@@ -57,7 +71,7 @@ Item {
 
                 Icon {
                     id: arrowImage
-                    height: units.gu(2)
+                    height: units.gu(3)
                     width: height
                     name: "chevron"
                     color: "white"
@@ -109,27 +123,27 @@ Item {
         Loader {
             id: rightArrows
             anchors.centerIn: parent
-            anchors.horizontalCenterOffset: parent.width / 4
+            anchors.horizontalCenterOffset: parent.width / 4.5
             sourceComponent: arrows
         }
         Loader {
             id: leftArrows
             anchors.centerIn: parent
-            anchors.horizontalCenterOffset: -parent.width / 4
+            anchors.horizontalCenterOffset: -parent.width / 4.5
             rotation: 180
             sourceComponent: arrows
         }
         Loader {
             id: downArrows
             anchors.centerIn: parent
-            anchors.verticalCenterOffset: parent.height / 4
+            anchors.verticalCenterOffset: parent.height / 4.5
             rotation: 90
             sourceComponent: arrows
         }
         Loader {
             id: upArrows
             anchors.centerIn: parent
-            anchors.verticalCenterOffset: -parent.height / 4
+            anchors.verticalCenterOffset: -parent.height / 4.5
             rotation: -90
             sourceComponent: arrows
         }

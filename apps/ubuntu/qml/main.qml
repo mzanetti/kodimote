@@ -359,6 +359,12 @@ MainView {
                     resetToolBars()
                 }
                 oldTabIndex = selectedTabIndex;
+
+            }
+            onSelectedTabChanged: {
+                if (selectedTab == keypadTab) {
+                    keypad.teaseArrows();
+                }
             }
             Tab {
                 title: "Media"
@@ -374,15 +380,17 @@ MainView {
                 }
             }
             Tab {
+                id: nowPlayingTab
                 title: "Now playing"
                 page: NowPlayingPage {
                     timerActive: tabs.selectedTabIndex === 1
                 }
             }
             Tab {
+                id: keypadTab
                 title: "Keypad"
                 page: Keypad {
-
+                    id: keypad
                 }
             }
         }
