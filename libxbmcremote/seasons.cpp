@@ -153,7 +153,7 @@ void Seasons::seasonDetailsReceived(const QVariantMap &rsp)
 
 XbmcModel *Seasons::enterItem(int index)
 {
-    return new Episodes(m_tvshowid, m_list.at(index)->data(RoleSeasonId).toInt(), m_list.at(index)->title(), this);
+    return new Episodes(m_tvshowid, m_list.at(index)->data(RoleSeason).toInt(), m_list.at(index)->title(), this);
 }
 
 void Seasons::playItem(int index)

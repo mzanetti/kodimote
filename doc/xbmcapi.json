@@ -5871,7 +5871,7 @@
       "id":"Addon.Types",
       "type":"string"
     },
-    
+
     "Application.Property.Name":{
       "default":"volume",
       "enums":[
