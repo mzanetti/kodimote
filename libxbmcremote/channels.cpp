@@ -22,7 +22,7 @@
 
 #include "xbmc.h"
 #include "xbmcconnection.h"
-#include "libraryitem.h"
+#include "channelitem.h"
 #include "videoplaylistitem.h"
 #include "videoplayer.h"
 #include "playlist.h"
@@ -69,6 +69,21 @@ void Channels::addToPlaylist(int index)
 
 }
 
+QHash<int, QByteArray> Channels::roleNames() const
+{
+    QHash<int, QByteArray> roles = XbmcLibrary::roleNames();
+    roles.insert(Qt::UserRole + 2000, "progressPercentage");
+    return roles;
+}
+
+QVariant Channels::data(const QModelIndex &index, int role) const
+{
+    if (role == Qt::UserRole + 2000) {
+        return static_cast<ChannelItem*>(m_list.at(index.row()))->progressPercent();
+    }
+    return XbmcLibrary::data(index, role);
+}
+
 void Channels::fetchItemDetails(int index)
 {
     QVariantMap params;
@@ -96,9 +111,10 @@ void Channels::listReceived(const QVariantMap &rsp)
     QVariantList responseList = rsp.value("result").toMap().value("channels").toList();
     foreach(const QVariant &itemVariant, responseList) {
         QVariantMap itemMap = itemVariant.toMap();
-        LibraryItem *item = new LibraryItem();
+        ChannelItem *item = new ChannelItem();
 
         item->setTitle(itemMap.value("label").toString());
+        item->setSubtitle(" "); // there will be date... prevent the ui from jumping
         item->setChannelId(itemMap.value("channelid").toInt());
         item->setThumbnail(itemMap.value("thumbnail").toString());
 
@@ -121,12 +137,13 @@ void Channels::detailsReceived(const QVariantMap &rsp)
     qDebug() << "got item details:" << rsp;
     int id = rsp.value("id").toInt();
     int row = m_detailsRequestMap.take(id);
-    LibraryItem *item = qobject_cast<LibraryItem*>(m_list.at(row));
-    QVariantMap details = rsp.value("result").toMap().value("channeldetails").toMap();
+//    LibraryItem *item = qobject_cast<LibraryItem*>(m_list.at(row));
+//    QVariantMap details = rsp.value("result").toMap().value("channeldetails").toMap();
 
     // TODO: fill in details once there is anything interesting
 
-    emit dataChanged(index(row, 0, QModelIndex()), index(row, 0, QModelIndex()));
+//    emit dataChanged(index(row, 0, QModelIndex()), index(row, 0, QModelIndex()));
+    qDebug() << "done 2";
 }
 
 void Channels::fetchBroadcasts(int channelId)
@@ -137,9 +154,19 @@ void Channels::fetchBroadcasts(int channelId)
     QVariantList properties;
     properties.append("title");
     properties.append("starttime");
+    properties.append("progresspercentage");
     properties.append("endtime");
+    properties.append("thumbnail");
+    properties.append("isactive");
+    properties.append("hastimer");
 
     params.insert("properties", properties);
+
+    QVariantMap limits;
+    limits.insert("start", 0);
+    limits.insert("end", 20);
+
+    params.insert("limits", limits);
 
     int id = XbmcConnection::sendCommand("PVR.GetBroadcasts", params, this, "broadcastsReceived");
     m_broadcastRequestMap.insert(id, channelId);
@@ -147,28 +174,56 @@ void Channels::fetchBroadcasts(int channelId)
 
 void Channels::broadcastsReceived(const QVariantMap &rsp)
 {
+    qDebug() << "start";
     if (!m_broadcastRequestMap.contains(rsp.value("id").toInt())) {
         return;
     }
+
     int channelId = m_broadcastRequestMap.take(rsp.value("id").toInt());
+    ChannelItem *item = 0;
+    int itemIndex = -1;
+    for (int i = 0; i < m_list.count(); ++i) {
+        ChannelItem *tmp = qobject_cast<ChannelItem*>(m_list.at(i));
+        if (tmp->channelId() == channelId) {
+            itemIndex = i;
+            item = tmp;
+            break;
+        }
+    }
+    if (itemIndex == -1) {
+        return; // model probably cleared since the request
+    }
+
+    qDebug() << "got broadcasts for channel" << item->title();
 
     QVariantList broadcasts = rsp.value("result").toMap().value("broadcasts").toList();
+
+    QDateTime nowTime = QDateTime::currentDateTime();
+
     foreach (const QVariant &broadcast, broadcasts) {
         QDateTime startTime = broadcast.toMap().value("starttime").toDateTime();
         startTime.setTimeSpec(Qt::UTC);
+
         QDateTime endTime = broadcast.toMap().value("endtime").toDateTime();
         endTime.setTimeSpec(Qt::UTC);
-        QDateTime nowTime = QDateTime::currentDateTime();
 
+        QString title = broadcast.toMap().value("label").toString();
+
+        Broadcast b;
+        b.m_title = title;
+        b.m_startTime = startTime;
+        b.m_endTime = endTime;
+        b.m_isActive = broadcast.toMap().value("isactive").toBool();
+        qDebug() << "isActive" << b.m_isActive << title << broadcast;
+        b.m_hasTimer = broadcast.toMap().value("hastimer").toBool();
+        b.m_progressPercentage = broadcast.toMap().value("progresspercentage").toInt();
+
+        item->channelBroadcasts()->addBroadcast(b);
         if (startTime < nowTime && nowTime < endTime) {
-            for (int i = 0; i < m_list.count(); ++i) {
-                LibraryItem *item = qobject_cast<LibraryItem*>(m_list.at(i));
-                if (item->channelId() == channelId) {
-                    item->setSubtitle(broadcast.toMap().value("label").toString());
-                    emit dataChanged(index(i, 0, QModelIndex()),index(i, 0, QModelIndex()));
-                    return;
-                }
-            }
+            item->setSubtitle(title);
+            item->setProgressPercentage(b.m_progressPercentage);
         }
     }
+    emit dataChanged(index(itemIndex, 0, QModelIndex()),index(itemIndex, 0, QModelIndex()));
+    qDebug() << "end";
 }

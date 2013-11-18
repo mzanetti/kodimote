@@ -35,6 +35,7 @@
 #include "shares.h"
 #include "channelgroups.h"
 #include "channels.h"
+#include "channelbroadcasts.h"
 
 #include "playlist.h"
 #include "audioplaylist.h"
@@ -141,6 +142,7 @@ Xbmc::Xbmc(QObject *parent) :
     qmlRegisterType<Shares>();
     qmlRegisterType<ChannelGroups>();
     qmlRegisterType<Channels>();
+    qmlRegisterType<ChannelBroadcasts>();
     qmlRegisterType<Keys>();
     qmlRegisterType<EventClient>();
     qmlRegisterType<XbmcFilterModel>("Xbmc", 1, 0, "XbmcFilterModel");

@@ -35,8 +35,12 @@ public:
     void playItem(int index);
     void addToPlaylist(int index);
 
+    virtual QHash<int, QByteArray> roleNames() const;
+    virtual QVariant data(const QModelIndex &index, int role) const;
+
+    ThumbnailFormat thumbnailFormat() const { return ThumbnailFormat43; }
     Q_INVOKABLE void fetchItemDetails(int index);
-    Q_INVOKABLE bool hasDetails() { return false; } // Disabled for now as there is nothing interesting
+    Q_INVOKABLE bool hasDetails() { return true; }
 
 signals:
     

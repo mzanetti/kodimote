@@ -57,7 +57,9 @@ SOURCES +=  xbmc.cpp \
             channels.cpp \
             channelgroups.cpp \
     eventclient.cpp \
-    recentitems.cpp
+    recentitems.cpp \
+    channelitem.cpp \
+    channelbroadcasts.cpp
 
 HEADERS += libxbmcremote_global.h \
            xbmc.h \
@@ -105,4 +107,6 @@ HEADERS += libxbmcremote_global.h \
            channels.h \
            channelgroups.h \
     eventclient.h \
-    recentitems.h
+    recentitems.h \
+    channelitem.h \
+    channelbroadcasts.h

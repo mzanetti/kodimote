@@ -32,7 +32,6 @@ MainView {
     backgroundColor: "#0c2e71"
     footerColor: "#0a2663"
 
-
     property int pageMargins: units.gu(2)
     property var inputDialog
 

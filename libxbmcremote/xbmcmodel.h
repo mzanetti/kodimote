@@ -87,7 +87,8 @@ public:
         ThumbnailFormatNone,
         ThumbnailFormatSquare,
         ThumbnailFormatLandscape,
-        ThumbnailFormatPortrait
+        ThumbnailFormatPortrait,
+        ThumbnailFormat43
     };
 
     enum ItemId {

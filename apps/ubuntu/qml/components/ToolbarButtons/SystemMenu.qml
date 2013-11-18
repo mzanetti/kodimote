@@ -215,7 +215,7 @@ ToolbarButton {
                     Button {
                         id: donateButton
                         width: parent.width
-                        text: "donate";
+                        text: "Donate";
                         onClicked: Qt.openUrlExternally("https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=CWFYRZH8XNYF2")
                     }
                     Button {
@@ -224,9 +224,7 @@ ToolbarButton {
                         onClicked: Qt.openUrlExternally("http://flattr.com/thing/412274/Xbmcremote")
                     }
                 }
-
             }
-
         }
     }
 }

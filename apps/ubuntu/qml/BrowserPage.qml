@@ -92,7 +92,7 @@ Page {
             text: model.title
             fontSize: "large"
         }
-        Divider {
+        ThinDivider {
             anchors {
                 left: parent.left
                 right: parent.right
@@ -272,7 +272,12 @@ Page {
                     id: contentLoader
                     anchors.fill: parent
 
-                    source: delegateItem.expanded ? "ItemDetails.qml" : ""
+                    source: delegateItem.expanded ? root.model.getItem(filterModel.mapToSourceIndex(index)).type == "channel" ? "ChannelDetails.qml" : "ItemDetails.qml" : ""
+
+                    onLoaded: {
+                        item.item = root.model.getItem(index)
+                    }
+
                     Connections {
                         target: contentLoader.item
 
@@ -320,7 +325,30 @@ Page {
                         fontSize: "small"
                         color: Theme.palette.normal.backgroundText
                         wrapMode: Text.WordWrap
-                        maximumLineCount: 3
+                        maximumLineCount: root.model.getItem(filterModel.mapToSourceIndex(index)).type === "channel" ? 2 : 3
+                    }
+                }
+
+                UbuntuShape {
+                    id: progressBar
+                    anchors {
+                        left:parent.left
+                        right: parent.right
+                        bottom: parent.bottom
+                        bottomMargin: units.gu(.5)
+                    }
+                    visible: root.model.getItem(filterModel.mapToSourceIndex(index)).type === "channel"
+                    color: "#22000000"
+
+                    height: units.dp(3)
+                    property int minimumValue: 0
+                    property int maximumValue: 100
+                    property int value: progressPercentage
+
+                    UbuntuShape {
+                        anchors.fill: parent
+                        anchors.rightMargin: parent.width - (parent.width * parent.value / 100)
+                        color: "#1b62c8"
                     }
                 }
 
@@ -340,7 +368,11 @@ Page {
                     UbuntuShape {
                         id: thumbnailImage
                         height: listView.itemHeight - units.gu(2)
-                        width: root.model.thumbnailFormat === XbmcModel.ThumbnailFormatPortrait ? height * 2/3 : (root.model.thumbnailFormat === XbmcModel.ThumbnailFormatLandscape ? height * 16/9 : height)
+                        width: root.model.thumbnailFormat === XbmcModel.ThumbnailFormatPortrait ?
+                                   height * 2/3 :
+                                   (root.model.thumbnailFormat === XbmcModel.ThumbnailFormatLandscape ?
+                                        height * 16/9 :
+                                        (root.model.thumbnailFormat === XbmcModel.ThumbnailFormat43 ? height * 4/3 : height))
                         anchors.centerIn: parent
                         image: Image {
                             anchors.fill: parent
