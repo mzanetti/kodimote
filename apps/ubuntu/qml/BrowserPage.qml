@@ -143,45 +143,6 @@ Page {
 //        }
     }
 
-    TextField {
-        id: searchTextField
-        anchors {
-            left: parent.left
-            right: parent.right
-            bottom: listView.top
-            leftMargin: root.spacing
-            rightMargin: root.spacing
-            bottomMargin: listView.contentY + root.spacing
-        }
-        opacity: searchBar.expanded ? 1 : 0
-        enabled: searchBar.expanded
-        z: 2
-        primaryItem: Image {
-            height: searchTextField.height - units.gu(1)
-            width: height
-            source: "/usr/share/icons/ubuntu-mobile/actions/scalable/filter.svg"
-        }
-
-        Keys.onReturnPressed: {
-            listView.forceActiveFocus();
-            platformCloseSoftwareInputPanel();
-        }
-
-        Behavior on opacity {
-            NumberAnimation { duration: 300; easing.type: Easing.OutQuad }
-        }
-
-        onTextChanged: {
-            filterModel.filter = text;
-        }
-
-        InverseMouseArea {
-            anchors.fill: parent
-            enabled: searchTextField.focus
-            onClicked: searchTextField.focus = false
-        }
-    }
-
 
     ListView {
         id: listView
@@ -232,6 +193,45 @@ Page {
                 NumberAnimation { duration: UbuntuAnimation.SnapDuration; easing.type: Easing.OutQuad; }
             }
         }
+
+        TextField {
+            id: searchTextField
+            anchors {
+                left: parent.left
+                right: parent.right
+                leftMargin: root.spacing
+                rightMargin: root.spacing
+            }
+            y: listView.contentItem.y - height - root.spacing
+            opacity: searchBar.expanded ? 1 : 0
+            enabled: searchBar.expanded
+            z: 2
+            primaryItem: Image {
+                height: searchTextField.height - units.gu(1)
+                width: height
+                source: "/usr/share/icons/ubuntu-mobile/actions/scalable/filter.svg"
+            }
+
+            Keys.onReturnPressed: {
+                listView.forceActiveFocus();
+                platformCloseSoftwareInputPanel();
+            }
+
+            Behavior on opacity {
+                NumberAnimation { duration: 300; easing.type: Easing.OutQuad }
+            }
+
+            onTextChanged: {
+                filterModel.filter = text;
+            }
+
+            InverseMouseArea {
+                anchors.fill: parent
+                enabled: searchTextField.focus
+                onClicked: searchTextField.focus = false
+            }
+        }
+
 
         delegate:  Item {
             id: delegateItem
@@ -381,8 +381,10 @@ Page {
                 }
 
                 onPressAndHold: {
-                    root.model.fetchItemDetails(filterModel.mapToSourceIndex(index))
-                    delegateItem.expanded = true
+                    if (root.model.hasDetails()) {
+                        root.model.fetchItemDetails(filterModel.mapToSourceIndex(index))
+                        delegateItem.expanded = true
+                    }
                 }
             }
         }
