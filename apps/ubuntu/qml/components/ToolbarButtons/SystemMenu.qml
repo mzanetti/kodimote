@@ -162,26 +162,35 @@ ToolbarButton {
 
         Dialog {
             id: aboutDialog
-            title: "Xbmcremote 1.4"
-            text: "Michael Zanetti\nmichael_zanetti@gmx.net"
+            title: "        Xbmcremote 1.4"
+            text: "Michael Zanetti<br>michael_zanetti@gmx.net<br><a href=\"http://notyetthere.org/ubuntu/xbmcremote\">http://notyetthere.org/ubuntu/xbmcremote</a>"
+
 
             Item {
                 width: parent.width
-                height: units.gu(40)
+                height: units.gu(34)
+                MouseArea {
+                    anchors { left: parent.left; right: parent.right; bottom: parent.top; bottomMargin: units.gu(2) }
+                    height: units.gu(4)
+                    onClicked: Qt.openUrlExternally("http://notyetthere.org/ubuntu/xbmcremote")
+                }
+
+                UbuntuShape {
+                    anchors.left: parent.left
+                    anchors.bottom: parent.top
+                    anchors.bottomMargin: units.gu(10.5)
+                    height: units.gu(6)
+                    width: units.gu(6)
+                    radius: "medium"
+                    image: Image {
+                        source: "../../images/xbmcremote.svg"
+                    }
+                }
                 Column {
                     id: contentColumn
                     anchors.fill: parent
                     spacing: units.gu(1)
 
-                    UbuntuShape {
-                        anchors.horizontalCenter: parent.horizontalCenter
-                        height: units.gu(6)
-                        width: units.gu(6)
-                        radius: "medium"
-                        image: Image {
-                            source: "../../images/xbmcremote.svg"
-                        }
-                    }
 
                     Flickable {
                         width: parent.width
