@@ -325,7 +325,7 @@ Page {
                         fontSize: "small"
                         color: Theme.palette.normal.backgroundText
                         wrapMode: Text.WordWrap
-                        maximumLineCount: root.model.getItem(filterModel.mapToSourceIndex(index)).type === "channel" ? 2 : 3
+                        maximumLineCount: index >= 0 && root.model.getItem(filterModel.mapToSourceIndex(index)).type === "channel" ? 2 : 3
                     }
                 }
 
@@ -337,7 +337,7 @@ Page {
                         bottom: parent.bottom
                         bottomMargin: units.gu(.5)
                     }
-                    visible: root.model.getItem(filterModel.mapToSourceIndex(index)).type === "channel"
+                    visible: index >= 0 ? root.model.getItem(filterModel.mapToSourceIndex(index)).type === "channel" : false
                     color: "#22000000"
 
                     height: units.dp(3)
