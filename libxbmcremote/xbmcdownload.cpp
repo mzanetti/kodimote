@@ -39,7 +39,8 @@ QString XbmcDownload::source() const
 
 void XbmcDownload::setDestination(const QString &destination)
 {
-    m_destination = destination;
+    QString dest(destination);
+    m_destination = dest.replace(':', ' ');
     emit destinationChanged();
 }
 
