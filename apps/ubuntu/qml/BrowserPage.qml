@@ -309,48 +309,80 @@ Page {
                     bottom: parent.bottom
                 }
 
-                Column {
-                    anchors {left: parent.left; right: parent.right; verticalCenter: parent.verticalCenter}
-                    height: childrenRect.height
+                Row {
+                    width: parent.width
+                    height: parent.height
+                    spacing: units.gu(1)
 
-                    Label {
-                        width: parent.width
-                        text: title
-                        elide: Text.ElideRight
+                    Item {
+                        width: root.model.thumbnailFormat === XbmcModel.ThumbnailFormatNone ? 0 : thumbnailImage.width
+                        visible: root.model.thumbnailFormat !== XbmcModel.ThumbnailFormatNone
+                        anchors.verticalCenter: parent.verticalCenter
+                        height: thumbnailImage.height
+
+                        UbuntuShape {
+                            id: thumbnailImage
+                            height: listView.itemHeight - units.gu(2)
+                            width: root.model.thumbnailFormat === XbmcModel.ThumbnailFormatPortrait ?
+                                       height * 2/3 :
+                                       (root.model.thumbnailFormat === XbmcModel.ThumbnailFormatLandscape ?
+                                            height * 16/9 :
+                                            (root.model.thumbnailFormat === XbmcModel.ThumbnailFormat43 ? height * 4/3 : height))
+                            anchors.centerIn: parent
+                            image: Image {
+                                anchors.fill: parent
+                                source: thumbnail
+                                fillMode: Image.PreserveAspectCrop
+                                sourceSize {
+                                    width: thumbnailImage.width
+                                    height: thumbnailImage.height
+                                }
+                            }
+                        }
                     }
-                    Label {
-                        width: parent.width
-                        text: subtitle + (year.length > 0 ? '\n' + year : "")
-                        height: text.length == 0 ? 0 : implicitHeight
-                        fontSize: "small"
-                        color: Theme.palette.normal.backgroundText
-                        wrapMode: Text.WordWrap
-                        maximumLineCount: index >= 0 && root.model.getItem(filterModel.mapToSourceIndex(index)).type === "channel" ? 2 : 3
+                    Column {
+                        anchors { verticalCenter: parent.verticalCenter }
+                        width: parent.width - x
+                        height: childrenRect.height
+                        spacing: units.gu(.5)
+
+                        Label {
+                            width: parent.width
+                            text: title
+                            elide: Text.ElideRight
+                        }
+                        Label {
+                            width: parent.width
+                            text: subtitle + (year.length > 0 ? '\n' + year : "")
+                            height: text.length == 0 ? 0 : implicitHeight
+                            fontSize: "small"
+                            color: Theme.palette.normal.backgroundText
+                            wrapMode: Text.WordWrap
+                            maximumLineCount: index >= 0 && root.model.getItem(filterModel.mapToSourceIndex(index)).type === "channel" ? 2 : 3
+                        }
+                        UbuntuShape {
+                            id: progressBar
+                            anchors {
+                                left:parent.left
+                                right: parent.right
+                            }
+                            visible: index >= 0 ? root.model.getItem(filterModel.mapToSourceIndex(index)).type === "channel" : false
+                            color: "#22000000"
+
+                            height: units.dp(3)
+                            property int minimumValue: 0
+                            property int maximumValue: 100
+                            property int value: progressPercentage
+
+                            UbuntuShape {
+                                anchors.fill: parent
+                                anchors.rightMargin: parent.width - (parent.width * parent.value / 100)
+                                color: "#1b62c8"
+                            }
+                        }
                     }
                 }
 
-                UbuntuShape {
-                    id: progressBar
-                    anchors {
-                        left:parent.left
-                        right: parent.right
-                        bottom: parent.bottom
-                        bottomMargin: units.gu(.5)
-                    }
-                    visible: index >= 0 ? root.model.getItem(filterModel.mapToSourceIndex(index)).type === "channel" : false
-                    color: "#22000000"
-
-                    height: units.dp(3)
-                    property int minimumValue: 0
-                    property int maximumValue: 100
-                    property int value: progressPercentage
-
-                    UbuntuShape {
-                        anchors.fill: parent
-                        anchors.rightMargin: parent.width - (parent.width * parent.value / 100)
-                        color: "#1b62c8"
-                    }
-                }
 
                 progression: filetype == "directory"
                 opacity: delegateItem.expanded ? 0.6 : 1
@@ -360,30 +392,6 @@ Page {
                     anchors.fill: parent
                     enabled: delegateItem.expanded
                     onClicked: delegateItem.expanded = false
-                }
-
-                icon: Item {
-                    width: root.model.thumbnailFormat === XbmcModel.ThumbnailFormatNone ? 0 : thumbnailImage.width
-                    visible: root.model.thumbnailFormat !== XbmcModel.ThumbnailFormatNone
-                    UbuntuShape {
-                        id: thumbnailImage
-                        height: listView.itemHeight - units.gu(2)
-                        width: root.model.thumbnailFormat === XbmcModel.ThumbnailFormatPortrait ?
-                                   height * 2/3 :
-                                   (root.model.thumbnailFormat === XbmcModel.ThumbnailFormatLandscape ?
-                                        height * 16/9 :
-                                        (root.model.thumbnailFormat === XbmcModel.ThumbnailFormat43 ? height * 4/3 : height))
-                        anchors.centerIn: parent
-                        image: Image {
-                            anchors.fill: parent
-                            source: thumbnail
-                            fillMode: Image.PreserveAspectCrop
-                            sourceSize {
-                                width: thumbnailImage.width
-                                height: thumbnailImage.height
-                            }
-                        }
-                    }
                 }
 
                 Image {
