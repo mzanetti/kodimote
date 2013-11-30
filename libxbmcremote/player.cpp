@@ -651,14 +651,14 @@ void Player::setTimerActive(bool active)
     }
 }
 
-void Player::seek(int position)
+void Player::seek(double percentage)
 {
-    if(m_seeking && position != m_percentage) {
+    if(m_seeking && percentage != m_percentage) {
         return;
     }
     QVariantMap params;
     params.insert("playerid", playerId());
-    params.insert("value", position);
+    params.insert("value", percentage);
 
     m_seeking = true;
     XbmcConnection::sendCommand("Player.Seek", params);

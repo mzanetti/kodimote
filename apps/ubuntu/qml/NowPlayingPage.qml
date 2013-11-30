@@ -341,7 +341,7 @@ Page {
                             print("mouse accepted")
                         }
                         onReleased: {
-                            //player.seek(mouseX * 100 / width)
+                            player.seek(mouseX * 100 / width)
                         }
                     }
                 }

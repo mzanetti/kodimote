@@ -104,7 +104,7 @@ public:
     bool timerActive() const;
     void setTimerActive(bool active);
 
-    Q_INVOKABLE void seek(int position);
+    Q_INVOKABLE void seek(double percentage);
 
     LibraryItem* currentItem() const;
 
