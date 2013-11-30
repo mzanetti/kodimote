@@ -121,7 +121,7 @@ Item {
 
         Image {
             anchors.fill: parent
-            source: "images/pad-separator.svg"
+            source: "images/pad-separator.png"
         }
 
         Loader {
