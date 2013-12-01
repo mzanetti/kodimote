@@ -1,4 +1,5 @@
 include(../../config.pri)
+include(../../i18n/i18n.pri)
 
 QT += quick
 
@@ -19,6 +20,7 @@ package {
 
     icon.files = xbmcremote-square.svg
     icon.path = /usr/share/icons/hicolor/scalable/apps/
+
 
     INSTALLS += target qml desktopfile icon
 

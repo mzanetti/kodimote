@@ -37,7 +37,7 @@
 <context>
     <name>Albums</name>
     <message>
-        <location filename="../libxbmcremote/albums.cpp" line="187"/>
+        <location filename="../libxbmcremote/albums.cpp" line="188"/>
         <source>Albums</source>
         <translation>Albums</translation>
     </message>
@@ -87,32 +87,32 @@
     <name>AudioPlaylist</name>
     <message>
         <location filename="../apps/generic/qml/AudioPlaylist.qml" line="64"/>
-        <location filename="../libxbmcremote/audioplaylist.cpp" line="150"/>
+        <location filename="../libxbmcremote/audioplaylist.cpp" line="152"/>
         <source>Now Playing</source>
         <translation>Speelt af</translation>
     </message>
     <message>
         <location filename="../apps/generic/qml/AudioPlaylist.qml" line="64"/>
         <source>Playlist</source>
-        <translation>Afspeellijst</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../apps/generic/qml/AudioPlaylist.qml" line="204"/>
         <source>Play</source>
-        <translation>Afspelen</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../apps/generic/qml/AudioPlaylist.qml" line="205"/>
         <source>Remove from playlist</source>
-        <translation>Verwijderen van afspeellijst</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../apps/generic/qml/AudioPlaylist.qml" line="206"/>
         <source>Clear playlist</source>
-        <translation>Afspeellijst leegmaken</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../libxbmcremote/audioplaylist.cpp" line="150"/>
+        <location filename="../libxbmcremote/audioplaylist.cpp" line="152"/>
         <source>Music</source>
         <translation>Muziek</translation>
     </message>
@@ -145,27 +145,27 @@
     <message>
         <location filename="../apps/harmattan/qml/AuthenticationSheet.qml" line="27"/>
         <source>OK</source>
-        <translation>OK</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../apps/harmattan/qml/AuthenticationSheet.qml" line="28"/>
         <source>Cancel</source>
-        <translation>Annuleren</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../apps/harmattan/qml/AuthenticationSheet.qml" line="39"/>
         <source>XBMC on %1 requires authentication:</source>
-        <translation>XBMC op %1 vereist authenticatie:</translation>
+        <translation type="unfinished">XBMC op %1 vereist authenticatie:</translation>
     </message>
     <message>
         <location filename="../apps/harmattan/qml/AuthenticationSheet.qml" line="43"/>
         <source>Username:</source>
-        <translation>Gebruikersnaam:</translation>
+        <translation type="unfinished">Gebruikersnaam:</translation>
     </message>
     <message>
         <location filename="../apps/harmattan/qml/AuthenticationSheet.qml" line="52"/>
         <source>Password:</source>
-        <translation>Wachtwoord:</translation>
+        <translation type="unfinished">Wachtwoord:</translation>
     </message>
 </context>
 <context>
@@ -178,7 +178,26 @@
     <message>
         <location filename="../apps/plasmoid/qml/Browser.qml" line="113"/>
         <source>Clean library</source>
-        <translation type="unfinished">Bibliotheek opruimen</translation>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>BrowserPage</name>
+    <message>
+        <location filename="../apps/ubuntu/qml/BrowserPage.qml" line="40"/>
+        <location filename="../blubb/qml/BrowserPage.qml" line="41"/>
+        <source>Home</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../apps/ubuntu/qml/BrowserPage.qml" line="50"/>
+        <source>Watched</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../apps/ubuntu/qml/BrowserPage.qml" line="58"/>
+        <source>Sorting</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -276,82 +295,105 @@
     <message>
         <location filename="../apps/harmattan/qml/ConnectionSheet.qml" line="29"/>
         <source>Connect</source>
-        <translation>Verbinden</translation>
+        <translation type="unfinished">Verbinden</translation>
     </message>
     <message>
         <location filename="../apps/harmattan/qml/ConnectionSheet.qml" line="30"/>
         <source>Cancel</source>
-        <translation>Annuleren</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../apps/harmattan/qml/ConnectionSheet.qml" line="81"/>
         <source>Searching for XBMC hosts.</source>
-        <translation>Bezig met zoeken naar XBMC host.</translation>
+        <translation type="unfinished">Zoeken naar XBMC hosts.</translation>
     </message>
     <message>
         <location filename="../apps/harmattan/qml/ConnectionSheet.qml" line="82"/>
         <source>Please enable the following options in the Services settings of XBMC:</source>
-        <translation>Schakel de volgende opties in onder de Diensten-instellingen van XBMC:</translation>
+        <translation type="unfinished">Schakel de volgende opties in onder de Diensten-instellingen van XBMC:</translation>
     </message>
     <message>
         <location filename="../apps/harmattan/qml/ConnectionSheet.qml" line="83"/>
         <source>Allow control of XBMC via HTTP</source>
-        <translation>Gebeurtenissen op afstand activeren</translation>
+        <translation type="unfinished">Gebeurtenissen op afstand activeren</translation>
     </message>
     <message>
         <location filename="../apps/harmattan/qml/ConnectionSheet.qml" line="84"/>
         <source>Allow programs on other systems to control XBMC</source>
-        <translation>Gebeurtenissen van andere computers ontvangen</translation>
+        <translation type="unfinished">Gebeurtenissen van andere computers ontvangen</translation>
     </message>
     <message>
         <location filename="../apps/harmattan/qml/ConnectionSheet.qml" line="85"/>
         <source>Announce these services to other systems via Zeroconf</source>
-        <translation>Zeroconf publishing</translation>
+        <translation type="unfinished">Zeroconf publishing</translation>
     </message>
     <message>
         <location filename="../apps/harmattan/qml/ConnectionSheet.qml" line="86"/>
         <source>If you don&apos;t use Zeroconf, add a host manually.</source>
-        <translation>Als je geen gebruik maakt van Zeroconf, voeg dan manueel een host toe.</translation>
+        <translation type="unfinished">Als je geen gebruik maakt van Zeroconf, voeg dan manueel een host toe.</translation>
     </message>
     <message>
         <location filename="../apps/harmattan/qml/ConnectionSheet.qml" line="128"/>
         <source>XBMC on %1</source>
-        <translation>XBMC op %1</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../apps/harmattan/qml/ConnectionSheet.qml" line="142"/>
         <source>Waking up %1...</source>
-        <translation>%1 ontwaken...</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../apps/harmattan/qml/ConnectionSheet.qml" line="159"/>
         <source>Remove Host</source>
-        <translation>Host verwijderen</translation>
+        <translation type="unfinished">Host verwijderen</translation>
     </message>
     <message>
         <location filename="../apps/harmattan/qml/ConnectionSheet.qml" line="166"/>
         <source>Add Host</source>
-        <translation>Host toevoegen</translation>
+        <translation type="unfinished">Host toevoegen</translation>
     </message>
     <message>
         <location filename="../apps/harmattan/qml/ConnectionSheet.qml" line="179"/>
         <source>Host:</source>
-        <translation>Host:</translation>
+        <translation type="unfinished">Host:</translation>
     </message>
     <message>
         <location filename="../apps/harmattan/qml/ConnectionSheet.qml" line="192"/>
         <source>HTTP Port:</source>
-        <translation>HTTP poort:</translation>
+        <translation type="unfinished">HTTP poort:</translation>
     </message>
     <message>
         <location filename="../apps/harmattan/qml/ConnectionSheet.qml" line="206"/>
         <source>MAC Address for WakeOnLan (optional):</source>
-        <translation>MAC Adres voor WakeOnLan (optioneel):</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../apps/harmattan/qml/ConnectionSheet.qml" line="217"/>
         <source>Back</source>
-        <translation>Vorige</translation>
+        <translation type="unfinished">Vorige</translation>
+    </message>
+</context>
+<context>
+    <name>DatePicker</name>
+    <message>
+        <location filename="../apps/ubuntu/qml/components/DatePicker.qml" line="26"/>
+        <source>Date</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../apps/ubuntu/qml/components/DatePicker.qml" line="73"/>
+        <source>Day</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../apps/ubuntu/qml/components/DatePicker.qml" line="89"/>
+        <source>Month</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../apps/ubuntu/qml/components/DatePicker.qml" line="114"/>
+        <source>Year</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -359,22 +401,22 @@
     <message>
         <location filename="../apps/harmattan/qml/DownloadDialog.qml" line="35"/>
         <source>Start download?</source>
-        <translation>Download starten?</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../apps/harmattan/qml/DownloadDialog.qml" line="49"/>
         <source>Start downloading %1?</source>
-        <translation>Start downloaden van %1?</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../apps/harmattan/qml/DownloadDialog.qml" line="58"/>
         <source>Yes</source>
-        <translation>Ja</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../apps/harmattan/qml/DownloadDialog.qml" line="63"/>
         <source>No</source>
-        <translation>Nee</translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -390,27 +432,27 @@
     <message>
         <location filename="../apps/generic/qml/HomeMenu.qml" line="56"/>
         <source>Music</source>
-        <translation>Muziek</translation>
+        <translation type="unfinished">Muziek</translation>
     </message>
     <message>
         <location filename="../apps/generic/qml/HomeMenu.qml" line="57"/>
         <source>Videos</source>
-        <translation>Video&apos;s</translation>
+        <translation type="unfinished">Video&apos;s</translation>
     </message>
     <message>
         <location filename="../apps/generic/qml/HomeMenu.qml" line="58"/>
         <source>Pictures</source>
-        <translation>Afbeeldingen</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../apps/generic/qml/HomeMenu.qml" line="196"/>
         <source>Files</source>
-        <translation>Bestanden</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../apps/generic/qml/HomeMenu.qml" line="197"/>
         <source>Library</source>
-        <translation>Bibliotheek</translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -443,7 +485,7 @@
     <message>
         <location filename="../apps/plasmoid/qml/HostList.qml" line="165"/>
         <source>MAC Address for WakeOnLan (optional):</source>
-        <translation type="unfinished">MAC Adres voor WakeOnLan (optioneel):</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../apps/plasmoid/qml/HostList.qml" line="181"/>
@@ -453,7 +495,7 @@
     <message>
         <location filename="../apps/plasmoid/qml/HostList.qml" line="195"/>
         <source>Cancel</source>
-        <translation type="unfinished">Annuleren</translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -461,169 +503,188 @@
     <message>
         <location filename="../apps/generic/qml/ItemDetails.qml" line="113"/>
         <location filename="../apps/harmattan/qml/ItemDetails.qml" line="64"/>
-        <location filename="../apps/ubuntu/qml/ItemDetails.qml" line="81"/>
+        <location filename="../apps/ubuntu/qml/ItemDetails.qml" line="76"/>
+        <location filename="../blubb/qml/ItemDetails.qml" line="71"/>
         <source>Rating:</source>
-        <translation>Waardering:</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../apps/generic/qml/ItemDetails.qml" line="119"/>
         <location filename="../apps/harmattan/qml/ItemDetails.qml" line="83"/>
-        <location filename="../apps/ubuntu/qml/ItemDetails.qml" line="106"/>
+        <location filename="../apps/ubuntu/qml/ItemDetails.qml" line="94"/>
+        <location filename="../blubb/qml/ItemDetails.qml" line="89"/>
         <source>Season:</source>
-        <translation>Seizoen:</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../apps/generic/qml/ItemDetails.qml" line="125"/>
         <location filename="../apps/harmattan/qml/ItemDetails.qml" line="89"/>
-        <location filename="../apps/ubuntu/qml/ItemDetails.qml" line="112"/>
+        <location filename="../apps/ubuntu/qml/ItemDetails.qml" line="100"/>
+        <location filename="../blubb/qml/ItemDetails.qml" line="95"/>
         <source>Episode:</source>
-        <translation>Aflevering:</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../apps/generic/qml/ItemDetails.qml" line="131"/>
         <location filename="../apps/harmattan/qml/ItemDetails.qml" line="95"/>
-        <location filename="../apps/ubuntu/qml/ItemDetails.qml" line="118"/>
+        <location filename="../apps/ubuntu/qml/ItemDetails.qml" line="106"/>
+        <location filename="../blubb/qml/ItemDetails.qml" line="101"/>
         <source>First aired:</source>
-        <translation>Eerst uitgezonden:</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../apps/generic/qml/ItemDetails.qml" line="137"/>
         <location filename="../apps/harmattan/qml/ItemDetails.qml" line="101"/>
-        <location filename="../apps/ubuntu/qml/ItemDetails.qml" line="124"/>
+        <location filename="../apps/ubuntu/qml/ItemDetails.qml" line="112"/>
+        <location filename="../blubb/qml/ItemDetails.qml" line="107"/>
         <source>Genre:</source>
-        <translation>Genre:</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../apps/generic/qml/ItemDetails.qml" line="143"/>
         <location filename="../apps/harmattan/qml/ItemDetails.qml" line="107"/>
-        <location filename="../apps/ubuntu/qml/ItemDetails.qml" line="130"/>
+        <location filename="../apps/ubuntu/qml/ItemDetails.qml" line="118"/>
+        <location filename="../blubb/qml/ItemDetails.qml" line="113"/>
         <source>Year:</source>
-        <translation>Jaar:</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../apps/generic/qml/ItemDetails.qml" line="149"/>
         <location filename="../apps/harmattan/qml/ItemDetails.qml" line="113"/>
-        <location filename="../apps/ubuntu/qml/ItemDetails.qml" line="136"/>
+        <location filename="../apps/ubuntu/qml/ItemDetails.qml" line="124"/>
+        <location filename="../blubb/qml/ItemDetails.qml" line="119"/>
         <source>Director:</source>
-        <translation>Regisseur:</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../apps/generic/qml/ItemDetails.qml" line="155"/>
         <location filename="../apps/harmattan/qml/ItemDetails.qml" line="119"/>
-        <location filename="../apps/ubuntu/qml/ItemDetails.qml" line="142"/>
+        <location filename="../apps/ubuntu/qml/ItemDetails.qml" line="130"/>
+        <location filename="../blubb/qml/ItemDetails.qml" line="125"/>
         <source>Tagline:</source>
-        <translation>Tagline:</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../apps/generic/qml/ItemDetails.qml" line="161"/>
         <location filename="../apps/harmattan/qml/ItemDetails.qml" line="125"/>
-        <location filename="../apps/ubuntu/qml/ItemDetails.qml" line="148"/>
+        <location filename="../apps/ubuntu/qml/ItemDetails.qml" line="136"/>
+        <location filename="../blubb/qml/ItemDetails.qml" line="131"/>
         <source>MPAA:</source>
-        <translation>Leeftijdsadvies:</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../apps/generic/qml/ItemDetails.qml" line="167"/>
         <location filename="../apps/harmattan/qml/ItemDetails.qml" line="131"/>
-        <location filename="../apps/ubuntu/qml/ItemDetails.qml" line="154"/>
+        <location filename="../apps/ubuntu/qml/ItemDetails.qml" line="142"/>
+        <location filename="../blubb/qml/ItemDetails.qml" line="137"/>
         <source>Instrument:</source>
-        <translation>Instrument:</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../apps/generic/qml/ItemDetails.qml" line="173"/>
         <location filename="../apps/harmattan/qml/ItemDetails.qml" line="137"/>
-        <location filename="../apps/ubuntu/qml/ItemDetails.qml" line="160"/>
+        <location filename="../apps/ubuntu/qml/ItemDetails.qml" line="148"/>
+        <location filename="../blubb/qml/ItemDetails.qml" line="143"/>
         <source>Style:</source>
-        <translation>Stijl:</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../apps/generic/qml/ItemDetails.qml" line="179"/>
         <location filename="../apps/harmattan/qml/ItemDetails.qml" line="143"/>
-        <location filename="../apps/ubuntu/qml/ItemDetails.qml" line="166"/>
+        <location filename="../apps/ubuntu/qml/ItemDetails.qml" line="154"/>
+        <location filename="../blubb/qml/ItemDetails.qml" line="149"/>
         <source>Mood:</source>
-        <translation>Stemming:</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../apps/generic/qml/ItemDetails.qml" line="185"/>
         <location filename="../apps/harmattan/qml/ItemDetails.qml" line="149"/>
-        <location filename="../apps/ubuntu/qml/ItemDetails.qml" line="172"/>
+        <location filename="../apps/ubuntu/qml/ItemDetails.qml" line="160"/>
+        <location filename="../blubb/qml/ItemDetails.qml" line="155"/>
         <source>Born:</source>
-        <translation>Geboortedatum:</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../apps/generic/qml/ItemDetails.qml" line="191"/>
         <location filename="../apps/harmattan/qml/ItemDetails.qml" line="155"/>
-        <location filename="../apps/ubuntu/qml/ItemDetails.qml" line="178"/>
+        <location filename="../apps/ubuntu/qml/ItemDetails.qml" line="166"/>
+        <location filename="../blubb/qml/ItemDetails.qml" line="161"/>
         <source>Formed:</source>
-        <translation>Opleiding:</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../apps/generic/qml/ItemDetails.qml" line="197"/>
         <location filename="../apps/harmattan/qml/ItemDetails.qml" line="161"/>
-        <location filename="../apps/ubuntu/qml/ItemDetails.qml" line="184"/>
+        <location filename="../apps/ubuntu/qml/ItemDetails.qml" line="172"/>
+        <location filename="../blubb/qml/ItemDetails.qml" line="167"/>
         <source>Died:</source>
-        <translation>Gestorven:</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../apps/generic/qml/ItemDetails.qml" line="203"/>
         <location filename="../apps/harmattan/qml/ItemDetails.qml" line="167"/>
-        <location filename="../apps/ubuntu/qml/ItemDetails.qml" line="190"/>
+        <location filename="../apps/ubuntu/qml/ItemDetails.qml" line="178"/>
+        <location filename="../blubb/qml/ItemDetails.qml" line="173"/>
         <source>Disbanded:</source>
-        <translation>Ontbonden:</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../apps/generic/qml/ItemDetails.qml" line="209"/>
         <location filename="../apps/harmattan/qml/ItemDetails.qml" line="173"/>
-        <location filename="../apps/ubuntu/qml/ItemDetails.qml" line="196"/>
+        <location filename="../apps/ubuntu/qml/ItemDetails.qml" line="184"/>
+        <location filename="../blubb/qml/ItemDetails.qml" line="179"/>
         <source>Duration:</source>
-        <translation>Duur:</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../apps/generic/qml/ItemDetails.qml" line="215"/>
         <location filename="../apps/harmattan/qml/ItemDetails.qml" line="179"/>
-        <location filename="../apps/ubuntu/qml/ItemDetails.qml" line="202"/>
+        <location filename="../apps/ubuntu/qml/ItemDetails.qml" line="190"/>
+        <location filename="../blubb/qml/ItemDetails.qml" line="185"/>
         <source>Comment:</source>
-        <translation>Commentaar:</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../apps/generic/qml/ItemDetails.qml" line="221"/>
         <location filename="../apps/harmattan/qml/ItemDetails.qml" line="185"/>
-        <location filename="../apps/ubuntu/qml/ItemDetails.qml" line="208"/>
+        <location filename="../apps/ubuntu/qml/ItemDetails.qml" line="196"/>
+        <location filename="../blubb/qml/ItemDetails.qml" line="191"/>
         <source>Playcount:</source>
-        <translation>Aantal keer afgespeeld:</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../apps/generic/qml/ItemDetails.qml" line="227"/>
         <location filename="../apps/harmattan/qml/ItemDetails.qml" line="191"/>
-        <location filename="../apps/ubuntu/qml/ItemDetails.qml" line="214"/>
+        <location filename="../apps/ubuntu/qml/ItemDetails.qml" line="202"/>
+        <location filename="../blubb/qml/ItemDetails.qml" line="197"/>
         <source>Cast:</source>
-        <translation>Cast:</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../apps/harmattan/qml/ItemDetails.qml" line="249"/>
         <location filename="../apps/harmattan/qml/ItemDetails.qml" line="273"/>
-        <location filename="../apps/ubuntu/qml/ItemDetails.qml" line="271"/>
-        <location filename="../apps/ubuntu/qml/ItemDetails.qml" line="294"/>
+        <location filename="../apps/ubuntu/qml/ItemDetails.qml" line="220"/>
+        <location filename="../blubb/qml/ItemDetails.qml" line="215"/>
         <source>Play</source>
-        <translation>Afspelen</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../apps/harmattan/qml/ItemDetails.qml" line="253"/>
         <location filename="../apps/harmattan/qml/ItemDetails.qml" line="277"/>
-        <location filename="../apps/ubuntu/qml/ItemDetails.qml" line="275"/>
-        <location filename="../apps/ubuntu/qml/ItemDetails.qml" line="298"/>
+        <location filename="../apps/ubuntu/qml/ItemDetails.qml" line="225"/>
+        <location filename="../blubb/qml/ItemDetails.qml" line="220"/>
         <source>Add to playlist</source>
-        <translation>Toevoegen aan afspeellijst</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../apps/harmattan/qml/ItemDetails.qml" line="257"/>
         <location filename="../apps/harmattan/qml/ItemDetails.qml" line="281"/>
-        <location filename="../apps/ubuntu/qml/ItemDetails.qml" line="279"/>
-        <location filename="../apps/ubuntu/qml/ItemDetails.qml" line="302"/>
         <source>Download</source>
-        <translation>Download</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../apps/ubuntu/qml/ItemDetails.qml" line="100"/>
+        <location filename="../apps/ubuntu/qml/ItemDetails.qml" line="88"/>
+        <location filename="../blubb/qml/ItemDetails.qml" line="83"/>
         <source>Title:</source>
         <translation type="unfinished"></translation>
     </message>
@@ -633,111 +694,146 @@
     <message>
         <location filename="../apps/generic/qml/LibraryView.qml" line="219"/>
         <source>Play</source>
-        <translation>Afspelen</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../apps/generic/qml/LibraryView.qml" line="220"/>
         <source>Add to playlist</source>
-        <translation>Toevoegen aan afspeellijst</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../apps/generic/qml/LibraryView.qml" line="221"/>
         <source>Rescan library</source>
-        <translation>Bibliotheek herscannen</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../apps/generic/qml/LibraryView.qml" line="222"/>
         <source>Details</source>
-        <translation>Details</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../apps/generic/qml/LibraryView.qml" line="223"/>
         <source>Download</source>
-        <translation>Download</translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>MainPage</name>
     <message>
         <location filename="../apps/harmattan/qml/MainPage.qml" line="49"/>
-        <location filename="../apps/ubuntu/apps/ubuntu/qml/MainPage.qml" line="28"/>
-        <location filename="../apps/ubuntu/qml/MainPage.qml" line="29"/>
+        <location filename="../apps/ubuntu/qml/MainPage.qml" line="30"/>
+        <location filename="../blubb/qml/MainPage.qml" line="29"/>
         <source>XBMC on %1</source>
-        <translation>XBMC op %1</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../apps/harmattan/qml/MainPage.qml" line="91"/>
-        <location filename="../apps/ubuntu/apps/ubuntu/qml/MainPage.qml" line="78"/>
-        <location filename="../apps/ubuntu/qml/MainPage.qml" line="90"/>
+        <location filename="../apps/ubuntu/qml/MainPage.qml" line="92"/>
+        <location filename="../blubb/qml/MainPage.qml" line="103"/>
         <source>Music</source>
-        <translation>Muziek</translation>
+        <translation type="unfinished">Muziek</translation>
     </message>
     <message>
         <location filename="../apps/harmattan/qml/MainPage.qml" line="94"/>
-        <location filename="../apps/ubuntu/apps/ubuntu/qml/MainPage.qml" line="79"/>
-        <location filename="../apps/ubuntu/qml/MainPage.qml" line="91"/>
+        <location filename="../apps/ubuntu/qml/MainPage.qml" line="95"/>
+        <location filename="../blubb/qml/MainPage.qml" line="106"/>
         <source>Videos</source>
-        <translation>Video&apos;s</translation>
+        <translation type="unfinished">Video&apos;s</translation>
     </message>
     <message>
         <location filename="../apps/harmattan/qml/MainPage.qml" line="97"/>
-        <location filename="../apps/ubuntu/apps/ubuntu/qml/MainPage.qml" line="80"/>
-        <location filename="../apps/ubuntu/qml/MainPage.qml" line="92"/>
+        <location filename="../apps/ubuntu/qml/MainPage.qml" line="98"/>
+        <location filename="../blubb/qml/MainPage.qml" line="109"/>
         <source>Pictures</source>
-        <translation>Afbeeldingen</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../apps/harmattan/qml/MainPage.qml" line="100"/>
-        <location filename="../apps/ubuntu/qml/MainPage.qml" line="93"/>
+        <location filename="../apps/ubuntu/qml/MainPage.qml" line="101"/>
+        <location filename="../blubb/qml/MainPage.qml" line="112"/>
         <source>TV Channels</source>
-        <translation>TV Kanalen</translation>
+        <translation type="unfinished">TV Kanalen</translation>
     </message>
     <message>
         <location filename="../apps/harmattan/qml/MainPage.qml" line="193"/>
-        <location filename="../apps/ubuntu/apps/ubuntu/qml/MainPage.qml" line="149"/>
-        <location filename="../apps/ubuntu/qml/MainPage.qml" line="168"/>
+        <location filename="../apps/ubuntu/qml/MainPage.qml" line="198"/>
+        <location filename="../blubb/qml/MainPage.qml" line="209"/>
         <source>Library</source>
-        <translation>Bibliotheek</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../apps/harmattan/qml/MainPage.qml" line="195"/>
-        <location filename="../apps/ubuntu/apps/ubuntu/qml/MainPage.qml" line="149"/>
-        <location filename="../apps/ubuntu/qml/MainPage.qml" line="168"/>
+        <location filename="../apps/ubuntu/qml/MainPage.qml" line="198"/>
+        <location filename="../blubb/qml/MainPage.qml" line="209"/>
         <source>Files</source>
-        <translation>Bestanden</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../apps/harmattan/qml/MainPage.qml" line="267"/>
-        <location filename="../apps/ubuntu/qml/MainPage.qml" line="264"/>
+        <location filename="../apps/ubuntu/qml/MainPage.qml" line="304"/>
+        <location filename="../blubb/qml/MainPage.qml" line="306"/>
         <source>Show files</source>
-        <translation>Toon bestanden</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../apps/harmattan/qml/MainPage.qml" line="280"/>
-        <location filename="../apps/ubuntu/qml/MainPage.qml" line="267"/>
+        <location filename="../apps/ubuntu/qml/MainPage.qml" line="307"/>
+        <location filename="../blubb/qml/MainPage.qml" line="309"/>
         <source>Show library</source>
-        <translation>Toon bibliotheek</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../apps/harmattan/qml/MainPage.qml" line="293"/>
-        <location filename="../apps/ubuntu/qml/MainPage.qml" line="270"/>
+        <location filename="../apps/ubuntu/qml/MainPage.qml" line="310"/>
+        <location filename="../blubb/qml/MainPage.qml" line="312"/>
         <source>Rescan library</source>
-        <translation>Herscan bibliotheek</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../apps/harmattan/qml/MainPage.qml" line="309"/>
-        <location filename="../apps/ubuntu/qml/MainPage.qml" line="271"/>
+        <location filename="../apps/ubuntu/qml/MainPage.qml" line="311"/>
+        <location filename="../blubb/qml/MainPage.qml" line="313"/>
         <source>Clean library</source>
-        <translation>Bibliotheek opruimen</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../apps/ubuntu/qml/MainPage.qml" line="36"/>
+        <location filename="../apps/ubuntu/qml/MainPage.qml" line="40"/>
+        <source>Options</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../blubb/qml/MainPage.qml" line="38"/>
         <source>Settings</source>
         <translation type="unfinished">Instellingen</translation>
     </message>
     <message>
-        <location filename="../apps/ubuntu/qml/MainPage.qml" line="42"/>
+        <location filename="../blubb/qml/MainPage.qml" line="51"/>
         <source>Disconnect</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../blubb/qml/MainPage.qml" line="346"/>
+        <source>Quit</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../blubb/qml/MainPage.qml" line="350"/>
+        <source>Shutdown</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../blubb/qml/MainPage.qml" line="355"/>
+        <source>Reboot</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../blubb/qml/MainPage.qml" line="360"/>
+        <source>Suspend</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../blubb/qml/MainPage.qml" line="365"/>
+        <source>Hibernate</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -790,7 +886,7 @@
 <context>
     <name>Movies</name>
     <message>
-        <location filename="../libxbmcremote/movies.cpp" line="233"/>
+        <location filename="../libxbmcremote/movies.cpp" line="234"/>
         <source>Movies</source>
         <translation>Speelfilms</translation>
     </message>
@@ -798,7 +894,7 @@
 <context>
     <name>MusicVideos</name>
     <message>
-        <location filename="../libxbmcremote/musicvideos.cpp" line="187"/>
+        <location filename="../libxbmcremote/musicvideos.cpp" line="188"/>
         <source>Music Videos</source>
         <translation>Muziekvideo&apos;s</translation>
     </message>
@@ -837,8 +933,8 @@
     <name>NoConnectionPage</name>
     <message>
         <location filename="../apps/harmattan/qml/NoConnectionPage.qml" line="47"/>
-        <source>Connect</source>
-        <translation>Verbinden</translation>
+        <source>Connect...</source>
+        <translation type="unfinished">Verbinden...</translation>
     </message>
 </context>
 <context>
@@ -846,22 +942,22 @@
     <message>
         <location filename="../apps/plasmoid/qml/NowPlaying.qml" line="78"/>
         <source>Year:</source>
-        <translation type="unfinished">Jaar:</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../apps/plasmoid/qml/NowPlaying.qml" line="85"/>
         <source>Season:</source>
-        <translation type="unfinished">Seizoen:</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../apps/plasmoid/qml/NowPlaying.qml" line="85"/>
         <source>Episode:</source>
-        <translation type="unfinished">Aflevering:</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../apps/plasmoid/qml/NowPlaying.qml" line="85"/>
         <source>Rating:</source>
-        <translation type="unfinished">Waardering:</translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -869,102 +965,102 @@
     <message>
         <location filename="../apps/harmattan/qml/NowPlayingDetails.qml" line="98"/>
         <source>Rating:</source>
-        <translation>Waardering:</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../apps/harmattan/qml/NowPlayingDetails.qml" line="117"/>
         <source>Season:</source>
-        <translation>Seizoen:</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../apps/harmattan/qml/NowPlayingDetails.qml" line="123"/>
         <source>Episode:</source>
-        <translation>Aflevering:</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../apps/harmattan/qml/NowPlayingDetails.qml" line="129"/>
         <source>First aired:</source>
-        <translation>Eerst uitgezonden:</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../apps/harmattan/qml/NowPlayingDetails.qml" line="135"/>
         <source>Genre:</source>
-        <translation>Genre:</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../apps/harmattan/qml/NowPlayingDetails.qml" line="141"/>
         <source>Year:</source>
-        <translation>Jaar:</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../apps/harmattan/qml/NowPlayingDetails.qml" line="147"/>
         <source>Director:</source>
-        <translation>Regisseur:</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../apps/harmattan/qml/NowPlayingDetails.qml" line="153"/>
         <source>Tagline:</source>
-        <translation>Tagline:</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../apps/harmattan/qml/NowPlayingDetails.qml" line="159"/>
         <source>MPAA:</source>
-        <translation>Leeftijdsadvies:</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../apps/harmattan/qml/NowPlayingDetails.qml" line="165"/>
         <source>Instrument:</source>
-        <translation>Instrument:</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../apps/harmattan/qml/NowPlayingDetails.qml" line="171"/>
         <source>Style:</source>
-        <translation>Stijl:</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../apps/harmattan/qml/NowPlayingDetails.qml" line="177"/>
         <source>Mood:</source>
-        <translation>Stemming:</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../apps/harmattan/qml/NowPlayingDetails.qml" line="183"/>
         <source>Born:</source>
-        <translation>Geboortedatum:</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../apps/harmattan/qml/NowPlayingDetails.qml" line="189"/>
         <source>Formed:</source>
-        <translation>Opleiding:</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../apps/harmattan/qml/NowPlayingDetails.qml" line="195"/>
         <source>Died:</source>
-        <translation>Gestorven:</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../apps/harmattan/qml/NowPlayingDetails.qml" line="201"/>
         <source>Disbanded:</source>
-        <translation>Ontbonden:</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../apps/harmattan/qml/NowPlayingDetails.qml" line="207"/>
         <source>Duration:</source>
-        <translation>Duur:</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../apps/harmattan/qml/NowPlayingDetails.qml" line="213"/>
         <source>Comment:</source>
-        <translation>Commentaar:</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../apps/harmattan/qml/NowPlayingDetails.qml" line="219"/>
         <source>Playcount:</source>
-        <translation>Aantal keer afgespeeld:</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../apps/harmattan/qml/NowPlayingDetails.qml" line="225"/>
         <source>Cast:</source>
-        <translation>Cast:</translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -972,55 +1068,101 @@
     <message>
         <location filename="../apps/harmattan/qml/NowPlayingPage.qml" line="77"/>
         <source>Select audio track</source>
-        <translation>Selecteer geluidskanaal</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../apps/harmattan/qml/NowPlayingPage.qml" line="139"/>
         <source>Off</source>
-        <translation>Geen</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../apps/harmattan/qml/NowPlayingPage.qml" line="140"/>
         <source>Select subtitle</source>
-        <translation>Selecteer ondertitels</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../apps/harmattan/qml/NowPlayingPage.qml" line="298"/>
-        <location filename="../apps/ubuntu/apps/ubuntu/qml/NowPlayingPage.qml" line="233"/>
-        <location filename="../apps/ubuntu/qml/NowPlayingPage.qml" line="131"/>
+        <location filename="../apps/ubuntu/qml/NowPlayingPage.qml" line="248"/>
+        <location filename="../blubb/qml/NowPlayingPage.qml" line="244"/>
         <source>Season:</source>
-        <translation>Seizoen:</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../apps/harmattan/qml/NowPlayingPage.qml" line="298"/>
-        <location filename="../apps/ubuntu/apps/ubuntu/qml/NowPlayingPage.qml" line="233"/>
-        <location filename="../apps/ubuntu/qml/NowPlayingPage.qml" line="131"/>
+        <location filename="../apps/ubuntu/qml/NowPlayingPage.qml" line="248"/>
+        <location filename="../blubb/qml/NowPlayingPage.qml" line="244"/>
         <source>Episode:</source>
-        <translation>Aflevering:</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../apps/harmattan/qml/NowPlayingPage.qml" line="304"/>
-        <location filename="../apps/ubuntu/apps/ubuntu/qml/NowPlayingPage.qml" line="233"/>
-        <location filename="../apps/ubuntu/qml/NowPlayingPage.qml" line="131"/>
+        <location filename="../apps/ubuntu/qml/NowPlayingPage.qml" line="248"/>
+        <location filename="../blubb/qml/NowPlayingPage.qml" line="244"/>
         <source>Rating:</source>
-        <translation>Waardering:</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../apps/harmattan/qml/NowPlayingPage.qml" line="330"/>
-        <location filename="../apps/ubuntu/apps/ubuntu/qml/NowPlayingPage.qml" line="268"/>
-        <location filename="../apps/ubuntu/qml/NowPlayingPage.qml" line="123"/>
+        <location filename="../apps/ubuntu/qml/NowPlayingPage.qml" line="237"/>
+        <location filename="../blubb/qml/NowPlayingPage.qml" line="233"/>
         <source>Year:</source>
-        <translation>Jaar:</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../apps/harmattan/qml/NowPlayingPage.qml" line="371"/>
         <source>Cancel</source>
-        <translation>Annuleren</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../apps/harmattan/qml/NowPlayingPage.qml" line="372"/>
         <source>OK</source>
-        <translation>Akkoord</translation>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../apps/ubuntu/qml/NowPlayingPage.qml" line="46"/>
+        <source>Repeat</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../apps/ubuntu/qml/NowPlayingPage.qml" line="50"/>
+        <source>shuffle</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../apps/ubuntu/qml/NowPlayingPage.qml" line="56"/>
+        <location filename="../blubb/qml/NowPlayingPage.qml" line="52"/>
+        <source>Subtitle</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../apps/ubuntu/qml/NowPlayingPage.qml" line="66"/>
+        <location filename="../blubb/qml/NowPlayingPage.qml" line="62"/>
+        <source>Audio track</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../apps/ubuntu/qml/NowPlayingPage.qml" line="108"/>
+        <location filename="../blubb/qml/NowPlayingPage.qml" line="104"/>
+        <source>No active playback. Please select some content from the media tab.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../apps/ubuntu/qml/NowPlayingPage.qml" line="413"/>
+        <location filename="../blubb/qml/NowPlayingPage.qml" line="409"/>
+        <source>Play</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../apps/ubuntu/qml/NowPlayingPage.qml" line="420"/>
+        <location filename="../blubb/qml/NowPlayingPage.qml" line="416"/>
+        <source>Remove from playlist</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../apps/ubuntu/qml/NowPlayingPage.qml" line="427"/>
+        <location filename="../blubb/qml/NowPlayingPage.qml" line="423"/>
+        <source>Clear playlist</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -1028,12 +1170,12 @@
     <message>
         <location filename="../apps/generic/qml/NowPlayingView.qml" line="214"/>
         <source>Now playing:</source>
-        <translation>Speelt af:</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../apps/generic/qml/NowPlayingView.qml" line="224"/>
         <source>Track:</source>
-        <translation>Nummer:</translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -1041,17 +1183,17 @@
     <message>
         <location filename="../apps/harmattan/qml/PlaylistPage.qml" line="157"/>
         <source>Play</source>
-        <translation>Afspelen</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../apps/harmattan/qml/PlaylistPage.qml" line="163"/>
         <source>Remove from playlist</source>
-        <translation>Verwijderen van afspeellijst</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../apps/harmattan/qml/PlaylistPage.qml" line="169"/>
         <source>Clear playlist</source>
-        <translation>Afspeellijst leegmaken</translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -1103,7 +1245,7 @@
 <context>
     <name>Seasons</name>
     <message>
-        <location filename="../libxbmcremote/seasons.cpp" line="156"/>
+        <location filename="../libxbmcremote/seasons.cpp" line="173"/>
         <source>Seasons</source>
         <translation>Seizoenen</translation>
     </message>
@@ -1151,82 +1293,100 @@
     <message>
         <location filename="../apps/harmattan/qml/SettingsSheet.qml" line="26"/>
         <source>Save</source>
-        <translation>Opslaan</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../apps/harmattan/qml/SettingsSheet.qml" line="27"/>
         <source>Cancel</source>
-        <translation>Annuleren</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../apps/harmattan/qml/SettingsSheet.qml" line="40"/>
+        <location filename="../apps/ubuntu/qml/SettingsSheet.qml" line="26"/>
+        <location filename="../blubb/qml/SettingsSheet.qml" line="26"/>
         <source>Look and feel</source>
-        <translation>Gebruikerservaring</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../apps/harmattan/qml/SettingsSheet.qml" line="46"/>
         <source>Invert theme</source>
-        <translation>Thema omkeren</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../apps/harmattan/qml/SettingsSheet.qml" line="51"/>
         <source>Use Thumbnails</source>
-        <translation>Gebruik thumbnails</translation>
+        <translation type="unfinished">Gebruik thumbnails</translation>
     </message>
     <message>
         <location filename="../apps/harmattan/qml/SettingsSheet.qml" line="56"/>
         <source>Keep display on when charging</source>
-        <translation>Laat scherm aan tijdens opladen</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../apps/harmattan/qml/SettingsSheet.qml" line="61"/>
+        <location filename="../apps/ubuntu/qml/SettingsSheet.qml" line="47"/>
+        <location filename="../blubb/qml/SettingsSheet.qml" line="47"/>
         <source>Ignore articles for sorting</source>
-        <translation>Artikels negeren voor sorteren</translation>
+        <translation type="unfinished">Artikels negeren voor sorteren</translation>
     </message>
     <message>
         <location filename="../apps/harmattan/qml/SettingsSheet.qml" line="69"/>
+        <location filename="../apps/ubuntu/qml/SettingsSheet.qml" line="70"/>
+        <location filename="../blubb/qml/SettingsSheet.qml" line="70"/>
         <source>Music</source>
-        <translation>Muziek</translation>
+        <translation type="unfinished">Muziek</translation>
     </message>
     <message>
         <location filename="../apps/harmattan/qml/SettingsSheet.qml" line="75"/>
+        <location filename="../apps/ubuntu/qml/SettingsSheet.qml" line="80"/>
+        <location filename="../blubb/qml/SettingsSheet.qml" line="80"/>
         <source>Videos</source>
-        <translation>Video&apos;s</translation>
+        <translation type="unfinished">Video&apos;s</translation>
     </message>
     <message>
         <location filename="../apps/harmattan/qml/SettingsSheet.qml" line="85"/>
+        <location filename="../apps/ubuntu/qml/SettingsSheet.qml" line="90"/>
+        <location filename="../blubb/qml/SettingsSheet.qml" line="90"/>
         <source>Pictures</source>
-        <translation>Afbeeldingen</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../apps/harmattan/qml/SettingsSheet.qml" line="91"/>
+        <location filename="../apps/ubuntu/qml/SettingsSheet.qml" line="100"/>
+        <location filename="../blubb/qml/SettingsSheet.qml" line="100"/>
         <source>TV Channels</source>
-        <translation>TV Kanalen</translation>
+        <translation type="unfinished">TV Kanalen</translation>
     </message>
     <message>
         <location filename="../apps/harmattan/qml/SettingsSheet.qml" line="98"/>
         <source>Phone calls</source>
-        <translation>Oproepen</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../apps/harmattan/qml/SettingsSheet.qml" line="104"/>
         <source>Change volume</source>
-        <translation>Volume veranderen</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../apps/harmattan/qml/SettingsSheet.qml" line="117"/>
         <source>Pause video</source>
-        <translation>Pauzeer Video</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../apps/harmattan/qml/SettingsSheet.qml" line="122"/>
         <source>Pause music</source>
-        <translation>Pauzeer Muziek</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../apps/harmattan/qml/SettingsSheet.qml" line="127"/>
         <source>Show call notifications</source>
-        <translation>Toon inkomende oproepen.</translation>
+        <translation type="unfinished">Toon inkomende oproepen</translation>
+    </message>
+    <message>
+        <location filename="../apps/ubuntu/qml/SettingsSheet.qml" line="54"/>
+        <location filename="../blubb/qml/SettingsSheet.qml" line="54"/>
+        <source>Used media</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -1271,6 +1431,77 @@
     </message>
 </context>
 <context>
+    <name>SystemMenu</name>
+    <message>
+        <location filename="../apps/ubuntu/qml/components/ToolbarButtons/SystemMenu.qml" line="29"/>
+        <source>More</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../apps/ubuntu/qml/components/ToolbarButtons/SystemMenu.qml" line="42"/>
+        <source>About</source>
+        <translation type="unfinished">Over</translation>
+    </message>
+    <message>
+        <location filename="../apps/ubuntu/qml/components/ToolbarButtons/SystemMenu.qml" line="56"/>
+        <source>Disconnect</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../apps/ubuntu/qml/components/ToolbarButtons/SystemMenu.qml" line="68"/>
+        <source>Power</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../apps/ubuntu/qml/components/ToolbarButtons/SystemMenu.qml" line="93"/>
+        <source>Quit</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../apps/ubuntu/qml/components/ToolbarButtons/SystemMenu.qml" line="105"/>
+        <source>Shutdown</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../apps/ubuntu/qml/components/ToolbarButtons/SystemMenu.qml" line="118"/>
+        <source>Reboot</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../apps/ubuntu/qml/components/ToolbarButtons/SystemMenu.qml" line="131"/>
+        <source>Suspend</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../apps/ubuntu/qml/components/ToolbarButtons/SystemMenu.qml" line="144"/>
+        <source>Hibernate</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../apps/ubuntu/qml/components/ToolbarButtons/SystemMenu.qml" line="221"/>
+        <source>Close</source>
+        <translation type="unfinished">Sluiten</translation>
+    </message>
+</context>
+<context>
+    <name>TimePicker</name>
+    <message>
+        <location filename="../apps/ubuntu/qml/components/TimePicker.qml" line="26"/>
+        <source>Time</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../apps/ubuntu/qml/components/TimePicker.qml" line="51"/>
+        <source>Hour</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../apps/ubuntu/qml/components/TimePicker.qml" line="63"/>
+        <source>Minute</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>TvShows</name>
     <message>
         <location filename="../libxbmcremote/tvshows.cpp" line="200"/>
@@ -1309,12 +1540,12 @@
 <context>
     <name>VideoPlaylist</name>
     <message>
-        <location filename="../libxbmcremote/videoplaylist.cpp" line="167"/>
+        <location filename="../libxbmcremote/videoplaylist.cpp" line="166"/>
         <source>Now Playing</source>
         <translation>Speelt af</translation>
     </message>
     <message>
-        <location filename="../libxbmcremote/videoplaylist.cpp" line="167"/>
+        <location filename="../libxbmcremote/videoplaylist.cpp" line="166"/>
         <source>Videos</source>
         <translation>Video&apos;s</translation>
     </message>
@@ -1324,33 +1555,33 @@
     <message>
         <location filename="../apps/harmattan/qml/WriteNfcTagSheet.qml" line="46"/>
         <source>Tap a NFC tag to write XBMC connection information to it. You can then use the tag to connect to this XBMC.</source>
-        <translation>Tik op een NFC tag om XBMC verbindingsinformatie te schrijven. Je kan dan deze tag gebruiken om te verbinden met deze XBMC.</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../apps/harmattan/qml/WriteNfcTagSheet.qml" line="58"/>
         <source>Close</source>
-        <translation>Sluiten</translation>
+        <translation type="unfinished">Sluiten</translation>
     </message>
     <message>
         <location filename="../apps/harmattan/qml/WriteNfcTagSheet.qml" line="70"/>
         <source>Cancel</source>
-        <translation>Annuleren</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../apps/harmattan/qml/WriteNfcTagSheet.qml" line="70"/>
         <source>Write NFC Tag</source>
-        <translation>NFC tag schrijven</translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>Xbmc</name>
     <message>
-        <location filename="../libxbmcremote/xbmc.cpp" line="222"/>
+        <location filename="../libxbmcremote/xbmc.cpp" line="227"/>
         <source>Finished downloading %1</source>
         <translation>%1 gedownload</translation>
     </message>
     <message>
-        <location filename="../libxbmcremote/xbmc.cpp" line="224"/>
+        <location filename="../libxbmcremote/xbmc.cpp" line="229"/>
         <source>Error downloading %1</source>
         <translation>Fout bij downloaden van %1</translation>
     </message>
@@ -1389,153 +1620,202 @@
     <message>
         <location filename="../apps/harmattan/qml/main.qml" line="99"/>
         <source>Connect...</source>
-        <translation>Verbinden...</translation>
+        <translation type="unfinished">Verbinden...</translation>
     </message>
     <message>
         <location filename="../apps/harmattan/qml/main.qml" line="110"/>
         <source>Quit xbmc</source>
-        <translation>XBMC afsluiten</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../apps/harmattan/qml/main.qml" line="117"/>
         <source>Write NFC Tag</source>
-        <translation>NFC tag schrijven</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../apps/harmattan/qml/main.qml" line="129"/>
         <source>Settings</source>
-        <translation>Instellingen</translation>
+        <translation type="unfinished">Instellingen</translation>
     </message>
     <message>
         <location filename="../apps/harmattan/qml/main.qml" line="142"/>
         <source>About</source>
-        <translation>Over</translation>
+        <translation type="unfinished">Over</translation>
     </message>
     <message>
         <location filename="../apps/harmattan/qml/main.qml" line="210"/>
         <location filename="../apps/harmattan/qml/main.qml" line="231"/>
         <location filename="../apps/harmattan/qml/main.qml" line="253"/>
-        <location filename="../apps/ubuntu/qml/main.qml" line="187"/>
+        <location filename="../apps/ubuntu/qml/main.qml" line="325"/>
+        <location filename="../apps/ubuntu/qml/main.qml" line="448"/>
+        <location filename="../blubb/qml/main.qml" line="282"/>
         <source>OK</source>
-        <translation>Akkoord</translation>
-    </message>
-    <message>
-        <location filename="../apps/harmattan/qml/main.qml" line="333"/>
-        <source>Quit</source>
-        <translation>Afsluiten</translation>
-    </message>
-    <message>
-        <location filename="../apps/harmattan/qml/main.qml" line="337"/>
-        <source>Shutdown</source>
-        <translation>Systeem afsluiten</translation>
-    </message>
-    <message>
-        <location filename="../apps/harmattan/qml/main.qml" line="342"/>
-        <source>Reboot</source>
-        <translation>Opnieuw opstarten</translation>
-    </message>
-    <message>
-        <location filename="../apps/harmattan/qml/main.qml" line="347"/>
-        <source>Suspend</source>
-        <translation>Sluimerstand</translation>
-    </message>
-    <message>
-        <location filename="../apps/harmattan/qml/main.qml" line="352"/>
-        <source>Hibernate</source>
-        <translation>Slaapstand</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../apps/harmattan/qml/main.qml" line="211"/>
         <location filename="../apps/harmattan/qml/main.qml" line="232"/>
         <location filename="../apps/harmattan/qml/main.qml" line="254"/>
         <location filename="../apps/harmattan/qml/main.qml" line="359"/>
-        <location filename="../apps/ubuntu/qml/main.qml" line="182"/>
+        <location filename="../apps/ubuntu/qml/main.qml" line="195"/>
+        <location filename="../apps/ubuntu/qml/main.qml" line="320"/>
+        <location filename="../apps/ubuntu/qml/main.qml" line="443"/>
+        <location filename="../blubb/qml/main.qml" line="152"/>
+        <location filename="../blubb/qml/main.qml" line="277"/>
         <source>Cancel</source>
-        <translation>Annuleren</translation>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../apps/harmattan/qml/main.qml" line="333"/>
+        <source>Quit</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../apps/harmattan/qml/main.qml" line="337"/>
+        <source>Shutdown</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../apps/harmattan/qml/main.qml" line="342"/>
+        <source>Reboot</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../apps/harmattan/qml/main.qml" line="347"/>
+        <source>Suspend</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../apps/harmattan/qml/main.qml" line="352"/>
+        <source>Hibernate</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../apps/harmattan/qml/main.qml" line="398"/>
         <source>Copyright</source>
-        <translation>Auteursrecht</translation>
+        <translation type="unfinished">Auteur</translation>
     </message>
     <message>
         <location filename="../apps/harmattan/qml/main.qml" line="405"/>
         <source>Close</source>
-        <translation>Sluiten</translation>
+        <translation type="unfinished">Sluiten</translation>
     </message>
     <message>
         <location filename="../apps/harmattan/qml/main.qml" line="412"/>
         <source>Donate</source>
-        <translation>Schenken</translation>
+        <translation type="unfinished">Schenken</translation>
     </message>
     <message>
         <location filename="../apps/harmattan/qml/main.qml" line="418"/>
         <source>Flattr</source>
-        <translation>Flattr</translation>
+        <translation type="unfinished">Flattr</translation>
     </message>
     <message>
-        <location filename="../apps/ubuntu/qml/main.qml" line="91"/>
+        <location filename="../apps/ubuntu/qml/main.qml" line="156"/>
+        <location filename="../blubb/qml/main.qml" line="113"/>
         <source>Searching for XBMC hosts.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Zoeken naar XBMC hosts.</translation>
     </message>
     <message>
-        <location filename="../apps/ubuntu/qml/main.qml" line="92"/>
+        <location filename="../apps/ubuntu/qml/main.qml" line="157"/>
+        <location filename="../blubb/qml/main.qml" line="114"/>
         <source>Please enable the following options in the Services settings of XBMC:</source>
         <translation type="unfinished">Schakel de volgende opties in onder de Diensten-instellingen van XBMC:</translation>
     </message>
     <message>
-        <location filename="../apps/ubuntu/qml/main.qml" line="93"/>
+        <location filename="../apps/ubuntu/qml/main.qml" line="158"/>
+        <location filename="../blubb/qml/main.qml" line="115"/>
         <source>Allow control of XBMC via HTTP</source>
         <translation type="unfinished">Gebeurtenissen op afstand activeren</translation>
     </message>
     <message>
-        <location filename="../apps/ubuntu/qml/main.qml" line="94"/>
+        <location filename="../apps/ubuntu/qml/main.qml" line="159"/>
+        <location filename="../blubb/qml/main.qml" line="116"/>
         <source>Allow programs on other systems to control XBMC</source>
         <translation type="unfinished">Gebeurtenissen van andere computers ontvangen</translation>
     </message>
     <message>
-        <location filename="../apps/ubuntu/qml/main.qml" line="95"/>
+        <location filename="../apps/ubuntu/qml/main.qml" line="160"/>
+        <location filename="../blubb/qml/main.qml" line="117"/>
         <source>Announce these services to other systems via Zeroconf</source>
         <translation type="unfinished">Zeroconf publishing</translation>
     </message>
     <message>
-        <location filename="../apps/ubuntu/qml/main.qml" line="96"/>
+        <location filename="../apps/ubuntu/qml/main.qml" line="161"/>
+        <location filename="../blubb/qml/main.qml" line="118"/>
         <source>If you don&apos;t use Zeroconf, add a host manually.</source>
         <translation type="unfinished">Als je geen gebruik maakt van Zeroconf, voeg dan manueel een host toe.</translation>
     </message>
     <message>
-        <location filename="../apps/ubuntu/qml/main.qml" line="127"/>
+        <location filename="../apps/ubuntu/qml/main.qml" line="229"/>
+        <location filename="../blubb/qml/main.qml" line="186"/>
         <source>Remove</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../apps/ubuntu/qml/main.qml" line="132"/>
+        <location filename="../apps/ubuntu/qml/main.qml" line="234"/>
+        <location filename="../blubb/qml/main.qml" line="191"/>
         <source>Wake up</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../apps/ubuntu/qml/main.qml" line="144"/>
+        <location filename="../apps/ubuntu/qml/main.qml" line="246"/>
+        <location filename="../blubb/qml/main.qml" line="203"/>
         <source>Add host</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../apps/ubuntu/qml/main.qml" line="149"/>
+        <location filename="../apps/ubuntu/qml/main.qml" line="263"/>
+        <location filename="../blubb/qml/main.qml" line="220"/>
         <source>Name:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../apps/ubuntu/qml/main.qml" line="156"/>
+        <location filename="../apps/ubuntu/qml/main.qml" line="294"/>
+        <location filename="../blubb/qml/main.qml" line="251"/>
         <source>Hostname or IP Address:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../apps/ubuntu/qml/main.qml" line="163"/>
+        <location filename="../apps/ubuntu/qml/main.qml" line="301"/>
+        <location filename="../blubb/qml/main.qml" line="258"/>
         <source>Port:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../apps/ubuntu/qml/main.qml" line="171"/>
+        <location filename="../apps/ubuntu/qml/main.qml" line="309"/>
+        <location filename="../blubb/qml/main.qml" line="266"/>
         <source>Mac Address:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../apps/ubuntu/qml/main.qml" line="369"/>
+        <source>Media</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../apps/ubuntu/qml/main.qml" line="383"/>
+        <source>Now playing</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../apps/ubuntu/qml/main.qml" line="390"/>
+        <source>Keypad</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../apps/ubuntu/qml/main.qml" line="421"/>
+        <source>XBMC on %1 requires authentication:</source>
+        <translation type="unfinished">XBMC op %1 vereist authenticatie:</translation>
+    </message>
+    <message>
+        <location filename="../apps/ubuntu/qml/main.qml" line="425"/>
+        <source>Username</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../apps/ubuntu/qml/main.qml" line="432"/>
+        <source>Password</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

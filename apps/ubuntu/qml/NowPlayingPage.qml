@@ -43,11 +43,11 @@ Page {
         ToolbarButtons.Spacer {}
         ToolbarButton {
             iconSource: "image://theme/media-playlist-repeat"
-            text: "repeat"
+            text: qsTr("Repeat")
             visible: xbmc.activePlayer && xbmc.activePlayer.type == Player.PlayerTypeAudio
         }
         ToolbarButton {
-            text: "shuffle"
+            text: qsTr("shuffle")
             iconSource: "image://theme/media-playlist-shuffle"
             visible: xbmc.activePlayer && xbmc.activePlayer.type == Player.PlayerTypeAudio
         }

@@ -32,6 +32,8 @@
 #include <QQmlEngine>
 #include <QQmlContext>
 #include <QDir>
+#include <QTranslator>
+#include <QLibraryInfo>
 
 int main(int argc, char** argv)
 {
@@ -40,6 +42,23 @@ int main(int argc, char** argv)
     QCoreApplication::setApplicationName("xbmcremote");
 
     QGuiApplication application(argc, argv);
+
+    // Load language file
+    QString language = QLocale::system().bcp47Name();
+    qDebug() << "got language:" << language;
+
+    QTranslator qtTranslator;
+
+    if(!qtTranslator.load("qt_" + language, QLibraryInfo::location(QLibraryInfo::TranslationsPath))) {
+        qDebug() << "couldn't load qt_" + language;
+    }
+    application.installTranslator(&qtTranslator);
+
+    QTranslator translator;
+    if (!translator.load(":/xbmcremote_" + language + ".qm")) {
+        qDebug() << "Cannot load translation file" << "xbmcremote_" + language + ".pm";
+    }
+    application.installTranslator(&translator);
 
 
     Xbmc::instance()->setDataPath(QDir::homePath() + "/.cache/com.ubuntu.developer.mzanetti.xbmcremote/");

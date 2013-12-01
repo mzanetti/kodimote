@@ -47,7 +47,7 @@ Page {
         }
         ToolbarButtons.Spacer {}
         ToolbarButton {
-            text: "Watched"
+            text: qsTr("Watched")
             iconSource: filterModel.hideWatched ? "images/unchecked.svg" : "image://theme/select"
             visible: model.allowWatchedFilter
             onTriggered: {
@@ -55,7 +55,7 @@ Page {
             }
         }
         ToolbarButton {
-            text: "Sorting"
+            text: qsTr("Sorting")
             iconSource: filterModel.sortOrder == Qt.AscendingOrder ? "images/go-down.svg" : "images/go-up.svg"
             onTriggered: {
                 filterModel.sortOrder = filterModel.sortOrder == Qt.AscendingOrder ? Qt.DescendingOrder : Qt.AscendingOrder

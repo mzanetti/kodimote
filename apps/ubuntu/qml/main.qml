@@ -366,7 +366,7 @@ MainView {
                 }
             }
             Tab {
-                title: "Media"
+                title: qsTr("Media")
                 page: PageStack {
                     id: pageStack
                     Component.onCompleted: push(mainPage)
@@ -380,14 +380,14 @@ MainView {
             }
             Tab {
                 id: nowPlayingTab
-                title: "Now playing"
+                title: qsTr("Now playing")
                 page: NowPlayingPage {
                     timerActive: tabs.selectedTabIndex === 1
                 }
             }
             Tab {
                 id: keypadTab
-                title: "Keypad"
+                title: qsTr("Keypad")
                 page: Keypad {
                     id: keypad
                 }
