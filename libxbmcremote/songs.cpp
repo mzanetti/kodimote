@@ -135,7 +135,7 @@ void Songs::download(int index, const QString &path)
 
 void Songs::listReceived(const QVariantMap &rsp)
 {
-    int startItem = rsp.value("result").toMap().value("limits").toMap().value("start").toInt();
+//  int startItem = rsp.value("result").toMap().value("limits").toMap().value("start").toInt();
     int endItem = rsp.value("result").toMap().value("limits").toMap().value("end").toInt();
     int totalItems = rsp.value("result").toMap().value("limits").toMap().value("total").toInt();
 

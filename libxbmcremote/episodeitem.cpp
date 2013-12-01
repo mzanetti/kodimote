@@ -23,4 +23,5 @@
 EpisodeItem::EpisodeItem(QObject *parent) :
     LibraryItem()
 {
+    Q_UNUSED(parent);
 }

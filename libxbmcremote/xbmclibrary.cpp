@@ -103,6 +103,8 @@ XbmcModelItem *XbmcLibrary::getItem(int index)
 
 void XbmcLibrary::download(int index, const QString &path)
 {
+    Q_UNUSED(index);
+    Q_UNUSED(path);
     qDebug() << "This model does not support downloading";
 }
 

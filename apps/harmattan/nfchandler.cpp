@@ -157,6 +157,8 @@ void NfcHandler::ndefMessageWritten()
 
 void NfcHandler::error(QNearFieldTarget::Error error, const QNearFieldTarget::RequestId &id)
 {
+    Q_UNUSED(id);
+
     qDebug() << "tag write error:" << error;
     if(m_writeError) {
         emit tagWritten(tr("Error writing NFC tag."));

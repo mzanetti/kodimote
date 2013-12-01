@@ -15,6 +15,7 @@ void ChannelBroadcasts::clear()
 
 int ChannelBroadcasts::rowCount(const QModelIndex &parent) const
 {
+    Q_UNUSED(parent);
     return m_list.count();
 }
 

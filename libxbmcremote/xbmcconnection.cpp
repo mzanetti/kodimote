@@ -116,9 +116,9 @@ XbmcConnectionPrivate::XbmcConnectionPrivate(QObject *parent) :
     QObject(parent),
     m_commandId(0),
     m_versionRequestId(-1),
-    m_host(0),
     m_xbmcVersionMajor(0),
     m_xbmcVersionMinor(0),
+    m_host(0),
     m_connecting(false),
     m_connected(false),
     m_networkSession(0)
