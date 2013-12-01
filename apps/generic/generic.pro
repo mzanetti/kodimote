@@ -26,12 +26,13 @@ maemo5: {
     INSTALLS += desktopfile qml target icon
 } else {
 
-    target.path = $$top_builddir/apps/generic
+#    target.path = $$top_builddir/apps/generic
 
     qml.files = qml
-    qml.path = $$top_builddir/apps/generic/
+    qml.path = $$OUT_PWD
 
-    INSTALLS += target qml
+#    INSTALLS += target qml
+    INSTALLS += qml
 }
 
 
