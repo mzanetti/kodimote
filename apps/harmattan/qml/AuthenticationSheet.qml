@@ -45,6 +45,7 @@ Sheet {
         TextField {
             width: parent.width
             id: username
+            inputMethodHints: Qt.ImhSensitiveData|Qt.ImhNoAutoUppercase|Qt.ImhPreferLowercase|Qt.ImhUrlCharactersOnly
 //            text: xbmc.username
 
         }
@@ -54,6 +55,7 @@ Sheet {
         TextField {
             width: parent.width
             id: password
+            echoMode: TextInput.PasswordEchoOnEdit
 //            text: xbmc.password
         }
     }

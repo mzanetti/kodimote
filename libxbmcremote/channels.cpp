@@ -28,8 +28,8 @@
 #include "playlist.h"
 
 Channels::Channels(int channelgroupid, XbmcModel *parent) :
-    m_channelgroupid(channelgroupid),
-    XbmcLibrary(parent)
+    XbmcLibrary(parent),
+    m_channelgroupid(channelgroupid)
 {
 }
 
@@ -53,12 +53,16 @@ void Channels::refresh()
 
 XbmcModel *Channels::enterItem(int index)
 {
+    Q_UNUSED(index);
+
     qDebug() << "cannot enter channel";
     return 0;
 }
 
 void Channels::playItem(int index)
 {
+    Q_UNUSED(index);
+
     VideoPlaylistItem item;
     item.setChannelId(m_list.at(index)->data(RoleChannelId).toInt());
     Xbmc::instance()->videoPlayer()->open(item);
@@ -66,7 +70,7 @@ void Channels::playItem(int index)
 
 void Channels::addToPlaylist(int index)
 {
-
+    Q_UNUSED(index);
 }
 
 QHash<int, QByteArray> Channels::roleNames() const
@@ -135,8 +139,8 @@ void Channels::listReceived(const QVariantMap &rsp)
 void Channels::detailsReceived(const QVariantMap &rsp)
 {
     qDebug() << "got item details:" << rsp;
-    int id = rsp.value("id").toInt();
-    int row = m_detailsRequestMap.take(id);
+//    int id = rsp.value("id").toInt();
+//    int row = m_detailsRequestMap.take(id);
 //    LibraryItem *item = qobject_cast<LibraryItem*>(m_list.at(row));
 //    QVariantMap details = rsp.value("result").toMap().value("channeldetails").toMap();
 

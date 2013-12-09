@@ -1,10 +1,13 @@
 .directory
 *.user
 *~
+*.o
 Makefile
 .make.cache
 bld.inf
 moc
+moc_*.cpp
+qrc_*.cpp
 rcc
 xbmcremote.loc
 xbmcremote.rss
@@ -17,3 +20,5 @@ xbmcremote_reg.rss
 xbmcremote_stub.pkg
 xbmcremote_template.pkg
 build
+apps/generic/xbmcremote
+libxbmcremote/libxbmcremote.a

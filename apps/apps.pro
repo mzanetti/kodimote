@@ -11,7 +11,7 @@ contains(MEEGO_EDITION,harmattan) {
     message("Desktop Qt5 build. Building Ubuntu version.")
     SUBDIRS += ubuntu
 } else:simulator {
-    message("Simulator build")
+    message("Simulator build. Building harmattan app.")
     SUBDIRS += harmattan
 } else {
     message("Desktop Qt4 build. Building generic app.")

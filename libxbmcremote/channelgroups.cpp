@@ -57,7 +57,7 @@ void ChannelGroups::playItem(int index)
 
 void ChannelGroups::addToPlaylist(int index)
 {
-
+    Q_UNUSED(index);
 }
 
 void ChannelGroups::listReceived(const QVariantMap &rsp)

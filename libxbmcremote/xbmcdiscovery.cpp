@@ -348,7 +348,7 @@ void XbmcDiscovery::parsePtrRecord(const QByteArray &datagram, int &index, Recor
         // TTL
         index += 8;
 
-        int len = readNum(datagram, index, 4);
+//      int len = readNum(datagram, index, 4);
         index += 4;
         qDebug() << "PTR:" << parseLabel(datagram, index);
     }
@@ -357,6 +357,8 @@ void XbmcDiscovery::parsePtrRecord(const QByteArray &datagram, int &index, Recor
 
 void XbmcDiscovery::parseTxtRecord(const QByteArray &datagram, int &index, XbmcDiscovery::RecordType recordType)
 {
+    Q_UNUSED(recordType);
+
     // class
     index += 4;
 
@@ -371,13 +373,15 @@ void XbmcDiscovery::parseTxtRecord(const QByteArray &datagram, int &index, XbmcD
 
 int XbmcDiscovery::parseSrvRecord(const QByteArray &datagram, int &index, XbmcDiscovery::RecordType recordType)
 {
+    Q_UNUSED(recordType);
+
     // class
     index += 4;
 
     // TTL
     index += 8;
 
-    int len = readNum(datagram, index, 4);
+//  int len = readNum(datagram, index, 4);
     index += 4;
 
     // priority
@@ -397,13 +401,15 @@ int XbmcDiscovery::parseSrvRecord(const QByteArray &datagram, int &index, XbmcDi
 
 QString XbmcDiscovery::parseARecord(const QByteArray &datagram, int &index, XbmcDiscovery::RecordType recordType)
 {
+    Q_UNUSED(recordType);
+
     // class
     index += 4;
 
     // TTL
     index += 8;
 
-    int len = readNum(datagram, index, 4);
+//  int len = readNum(datagram, index, 4);
     index += 4;
 
     int ip1 = readNum(datagram, index, 2);

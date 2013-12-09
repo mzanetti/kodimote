@@ -60,6 +60,7 @@ AuthenticationDialog::AuthenticationDialog(const QString &hostname, QWidget *par
     gridLayout->addWidget(passwordLabel, 1, 0);
 
     m_passwordEdit = new QLineEdit();
+    m_passwordEdit->setEchoMode(QLineEdit::PasswordEchoOnEdit);
     gridLayout->addWidget(m_passwordEdit, 1, 1);
 
     layout->addLayout(vLayout);

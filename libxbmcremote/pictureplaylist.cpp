@@ -26,4 +26,5 @@ PicturePlaylist::PicturePlaylist()
 
 void PicturePlaylist::receivedAnnouncement(const QVariantMap &map)
 {
+    Q_UNUSED(map);
 }
