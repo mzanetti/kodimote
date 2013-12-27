@@ -7,6 +7,9 @@ contains(MEEGO_EDITION,harmattan) {
 } else:maemo5{
     message("Fremantle build. Building generic app.")
     SUBDIRS += generic
+} else:packagesExist(sailfishapp) {
+    message("Sailfish build. Building sailfish app.")
+    SUBDIRS += sailfish
 } else:contains(QT_VERSION, ^5\\..\\..*) {
     message("Desktop Qt5 build. Building Ubuntu version.")
     SUBDIRS += ubuntu

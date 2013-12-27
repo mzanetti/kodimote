@@ -1,0 +1,27 @@
+Name: xbmcremote
+Summary: A remote control for xbmc written in Qt with QML
+Version: 1.3.1
+Release: 1
+Group: Qt/Qt
+URL: http://example.org/
+License: GPL
+Sources:
+- '%{name}-%{version}.tar.bz2'
+Description: |
+  A remote control for xbmc written in Qt with QML for XBMC Frodo (12.0)
+  NOTE: This application does not work with other versions of XBMC
+Configure: none
+Builder: qtc5
+PkgConfigBR:
+- Qt5Quick
+- Qt5Qml
+- Qt5Core
+- sailfishapp >= 0.0.10
+Requires:
+- sailfishsilica-qt5 >= 0.10.9
+Files:
+- '%{_bindir}'
+- '%{_datadir}/%{name}/qml'
+- '%{_datadir}/applications/%{name}.desktop'
+- '%{_datadir}/icons/hicolor/86x86/apps/%{name}.png'
+PkgBR: []
