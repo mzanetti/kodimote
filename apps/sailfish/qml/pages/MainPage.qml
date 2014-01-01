@@ -88,6 +88,36 @@ Page {
                             listView.contextMenu = contextMenuComponent.createObject(listView);
                         listView.contextMenu.show(listItem);
                     }
+
+                    onClicked: {
+                        var component = Qt.createComponent("BrowserPage.qml")
+                        var newModel;
+                        if (component.status === Component.Ready) {
+                            if (target === "music") {
+                                if(mode === "library") {
+                                    newModel = xbmc.audioLibrary();
+                                } else {
+                                    newModel = xbmc.shares("music");
+                                }
+                            } else if (target === "videos") {
+                                if(mode === "library") {
+                                    newModel = xbmc.videoLibrary();
+                                } else {
+                                    newModel = xbmc.shares("video");
+                                }
+                            } else if (target === "pictures") {
+                                newModel = xbmc.shares("pictures");
+                                console.log("created model: " + newModel);
+                            } else if (target === "pvr") {
+                                newModel = xbmc.channelGroups();
+                                console.log("created model: " + newModel);
+                            }
+                            console.log("setting model: " + newModel);
+                            pageStack.push(component, {model: newModel});
+                        } else {
+                            console.log("Error loading component:", component.errorString());
+                        }
+                    }
                 }
             }
 
