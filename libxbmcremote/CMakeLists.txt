@@ -34,6 +34,8 @@ set(libxbmcremote_SRCS
     recentitems.cpp
     channelgroups.cpp
     channels.cpp
+    channelitem.cpp
+    channelbroadcasts.cpp
 
     imagecache.cpp
 
