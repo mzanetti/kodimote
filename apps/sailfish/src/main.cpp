@@ -18,9 +18,8 @@
  *                                                                           *
  ****************************************************************************/
 
-#ifdef QT_QML_DEBUG
+#include <QDir>
 #include <QtQuick>
-#endif
 
 #include "libxbmcremote/xbmc.h"
 #include "libxbmcremote/eventclient.h"
