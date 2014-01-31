@@ -17,47 +17,37 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.     *
  *                                                                           *
  ****************************************************************************/
+
 import QtQuick 2.0
 import Sailfish.Silica 1.0
-import "pages"
 
-ApplicationWindow
-{
-    property bool connected: xbmc.connected
+Page {
+    id: noConnectionDialog
+    Column {
+        anchors.verticalCenter: parent.verticalCenter
+        width: parent.width
+        spacing: 20
 
-    initialPage: connected ? mainPageComponent : noConnectionComponent
+        Label {
+            id: label
+            anchors.horizontalCenter: parent.horizontalCenter
+            width: parent.width - 100
+            text: xbmc.connectionError
+            wrapMode: Text.WordWrap
+            horizontalAlignment: Text.AlignHCenter
+        }
 
-    Component {
-        id: mainPageComponent
-        MainPage {
-
+        Button{
+            text: qsTr("Connect")
+            anchors.horizontalCenter: parent.horizontalCenter
+            onClicked: {
+                var component = Qt.createComponent("ConnectionDialog.qml")
+                if (component.status === Component.Ready) {
+                    component.createObject(noConnectionDialog).open()
+                } else {
+                    console.log("Error loading component:", component.errorString());
+                }
+            }
         }
     }
-
-    Component {
-        id: noConnectionComponent
-        NoConnectionPage {
-
-        }
-    }
-
-    Component {
-        id: connectDialogComponent
-        ConnectionDialog {
-
-        }
-    }
-
-    onConnectedChanged: {
-        pageStack.clear();
-        if(connected) {
-            pageStack.push(mainPageComponent);
-        } else {
-            pageStack.push(noConnectionComponent);
-        }
-    }
-
-    cover: Qt.resolvedUrl("cover/CoverPage.qml")
 }
-
-

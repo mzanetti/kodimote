@@ -16,8 +16,9 @@ OTHER_FILES += \
     qml/main.qml \
     qml/pages/MainPage.qml \
     qml/pages/AddHostDialog.qml \
-    qml/pages/ConnectPage.qml \
     qml/pages/BrowserPage.qml \
-    qml/Thumbnail.qml
-    qml/icons/icon-cover-stop.png
+    qml/Thumbnail.qml \
+    qml/pages/NoConnectionPage.qml \
+    qml/icons/icon-cover-stop.png \
+    qml/pages/ConnectionDialog.qml
 
