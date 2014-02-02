@@ -56,6 +56,13 @@ Page {
             MenuPlayerControls {
 
             }
+
+            MenuItem {
+                text: qsTr("Home")
+                onClicked: {
+                    pageStack.pop(mainPage);
+                }
+            }
         }
 
         BusyIndicator {
