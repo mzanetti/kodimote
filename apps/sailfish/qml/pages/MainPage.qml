@@ -23,12 +23,26 @@ import Sailfish.Silica 1.0
 import ".."
 
 Page {
+    id: mainPage
+
     SilicaFlickable {
         anchors.fill: parent
 
         PullDownMenu {
             MenuPlayerControls {
 
+            }
+
+            MenuItem {
+                text: qsTr("Connect...")
+                onClicked: {
+                    var component = Qt.createComponent("ConnectionDialog.qml")
+                    if (component.status === Component.Ready) {
+                        component.createObject(mainPage).open()
+                    } else {
+                        console.log("Error loading component:", component.errorString());
+                    }
+                }
             }
         }
 

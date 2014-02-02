@@ -22,7 +22,7 @@ import QtQuick 2.0
 import Sailfish.Silica 1.0
 
 Page {
-    id: noConnectionDialog
+    id: noConnectionPage
     Column {
         anchors.verticalCenter: parent.verticalCenter
         width: parent.width
@@ -43,7 +43,7 @@ Page {
             onClicked: {
                 var component = Qt.createComponent("ConnectionDialog.qml")
                 if (component.status === Component.Ready) {
-                    component.createObject(noConnectionDialog).open()
+                    component.createObject(noConnectionPage).open()
                 } else {
                     console.log("Error loading component:", component.errorString());
                 }
