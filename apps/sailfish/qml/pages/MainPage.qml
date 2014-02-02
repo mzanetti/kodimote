@@ -34,6 +34,18 @@ Page {
             }
 
             MenuItem {
+                text: qsTr("About")
+                onClicked: {
+                    var component = Qt.createComponent("AboutDialog.qml")
+                    if (component.status === Component.Ready) {
+                        component.createObject(mainPage).open()
+                    } else {
+                        console.log("Error loading component:", component.errorString());
+                    }
+                }
+            }
+
+            MenuItem {
                 text: qsTr("Quit xbmc")
                 onClicked: {
                     var component = Qt.createComponent("QuitDialog.qml")

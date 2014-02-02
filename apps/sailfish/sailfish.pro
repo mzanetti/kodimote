@@ -22,5 +22,6 @@ OTHER_FILES += \
     qml/icons/icon-cover-stop.png \
     qml/pages/ConnectionDialog.qml \
     qml/MenuPlayerControls.qml \
-    qml/pages/QuitDialog.qml
+    qml/pages/QuitDialog.qml \
+    qml/pages/AboutDialog.qml
 
