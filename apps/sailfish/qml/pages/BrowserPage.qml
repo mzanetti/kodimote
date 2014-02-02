@@ -52,6 +52,12 @@ Page {
         interactive: !listView.flicking
         anchors.fill: parent
 
+        PullDownMenu {
+            MenuPlayerControls {
+
+            }
+        }
+
         BusyIndicator {
             id: busyIndicator
             anchors.centerIn: parent

@@ -20,10 +20,18 @@
 
 import QtQuick 2.0
 import Sailfish.Silica 1.0
+import ".."
 
 Page {
     SilicaFlickable {
         anchors.fill: parent
+
+        PullDownMenu {
+            MenuPlayerControls {
+
+            }
+        }
+
         PageHeader {
             id: header
             title: qsTr("XBMC on %1").arg(xbmc.connectedHostName)
