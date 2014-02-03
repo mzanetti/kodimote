@@ -30,7 +30,6 @@ Dialog {
 
         DialogHeader {
             acceptText: qsTr("Add")
-            cancelText: qsTr("Cancel")
         }
 
         Label {

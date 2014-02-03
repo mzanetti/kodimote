@@ -23,5 +23,6 @@ OTHER_FILES += \
     qml/pages/ConnectionDialog.qml \
     qml/MenuPlayerControls.qml \
     qml/pages/QuitDialog.qml \
-    qml/pages/AboutDialog.qml
+    qml/pages/AboutDialog.qml \
+    qml/pages/AuthenticationDialog.qml
 

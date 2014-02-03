@@ -17,62 +17,49 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.     *
  *                                                                           *
  ****************************************************************************/
+
 import QtQuick 2.0
 import Sailfish.Silica 1.0
-import "pages"
 
-ApplicationWindow
-{
-    property bool connected: xbmc.connected
+Dialog {
+    id: authenticationDialog
 
-    initialPage: connected ? mainPageComponent : noConnectionComponent
+    property string hostname
 
-    Component {
-        id: mainPageComponent
-        MainPage {
+    DialogHeader {
+        id: header
+        acceptText: qsTr("Authenticate")
+    }
 
+    Column {
+        anchors {top: header.bottom; bottom: parent.bottom; left: parent.left; right: parent.right; margins: Theme.paddingMedium }
+
+        Label {
+            text: qsTr("XBMC on %1 requires authentication:").arg(hostname);
+            wrapMode: Text.WordWrap
+            font.family: Theme.fontFamilyHeading
+            color: Theme.highlightColor
+        }
+
+        Label {
+            text: qsTr("Username:")
+        }
+
+        TextField {
+            id: username
+            width: parent.width
+        }
+
+        Label {
+            text: qsTr("Password:")
+        }
+        TextField {
+            id: password
+            width: parent.width
         }
     }
 
-    Component {
-        id: noConnectionComponent
-        NoConnectionPage {
-
-        }
+    onAccepted: {
+        xbmc.setAuthCredentials(username.text, password.text);
     }
-
-    Component {
-        id: connectDialogComponent
-        ConnectionDialog {
-
-        }
-    }
-
-    onConnectedChanged: {
-        pageStack.clear();
-
-        if(connected) {
-            pageStack.push(mainPageComponent);
-        } else {
-            pageStack.push(noConnectionComponent);
-        }
-    }
-
-    Connections {
-            target: xbmc
-            onAuthenticationRequired: {
-                var component = Qt.createComponent("pages/AuthenticationDialog.qml")
-                if (component.status == Component.Ready) {
-                    var authDialog = component.createObject(initialPage);
-                    authDialog.hostname = hostname;
-                    authDialog.open();
-                } else {
-                    console.log("Error loading component:", component.errorString());
-                }
-            }
-    }
-
-    cover: Qt.resolvedUrl("cover/CoverPage.qml")
 }
-
-

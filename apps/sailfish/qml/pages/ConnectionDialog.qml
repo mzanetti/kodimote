@@ -51,7 +51,6 @@ Dialog {
             id: hostList
             anchors { top: header.bottom; left: parent.left; right: parent.right; bottom: parent.bottom }
             model: xbmc.hostModel()
-            anchors.margins: Theme.paddingMedium
             opacity: count > 0 ? 1 : 0
             Behavior on opacity { NumberAnimation {} }
             highlightFollowsCurrentItem: true
@@ -60,25 +59,49 @@ Dialog {
                 id: hostDelegate
                 contentHeight: Theme.itemSizeMedium
                 highlighted: down || menuOpen || hostList.currentIndex == index
+                anchors.margins: Theme.paddingMedium
 
                 menu: contextMenuComponent
                 onClicked: {
                     hostList.currentIndex = index
                 }
 
+                function removeHost() {
+                    xbmc.hostModel().removeHost(index);
+                }
+
                 Label {
                     text: hostname
-                    anchors.verticalCenter: parent.verticalCenter
+                    anchors {
+                        left: parent.left
+                        leftMargin: Theme.paddingSmall
+                        right: wolButton.left
+                        verticalCenter: parent.verticalCenter
+                    }
+                    elide: Text.ElideRight
                     font.pixelSize: Theme.fontSizeLarge
                 }
-            }
 
-            Component {
-                id: contextMenuComponent
-                ContextMenu {
-                    MenuItem {
-                        text: qsTr("Remove Host")
-                        onClicked: xbmc.hostModel().removeHost(hostList.currentIndex);
+                IconButton {
+                    id: wolButton
+                    icon.source: "image://theme/icon-m-alarm"
+                    anchors.verticalCenter: parent.verticalCenter
+                    anchors.right: parent.right
+                    visible: hwaddr.length > 0
+                    onClicked: {
+                        xbmc.hostModel().wakeup(index)
+                    }
+                }
+
+                Component {
+                    id: contextMenuComponent
+                    ContextMenu {
+                        MenuItem {
+                            text: qsTr("Remove Host")
+                            onClicked: {
+                                hostDelegate.remorseAction(qsTr("Removing Host %1").arg(hostname), hostDelegate.removeHost)
+                            }
+                        }
                     }
                 }
             }

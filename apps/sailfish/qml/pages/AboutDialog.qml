@@ -41,7 +41,7 @@ Dialog {
 
         Label {
             font.pixelSize: Theme.fontSizeSmall
-            text: "Michael Zanetti<br>michael_zanetti@gmx.net<br><a href=\"http://notyetthere.org/ubuntu/xbmcremote\">http://notyetthere.org/ubuntu/xbmcremote</a>" +
+            text: "Michael Zanetti<br>michael_zanetti@gmx.net<br>http://notyetthere.org/maemomeego/xbmcremote" +
                   "<br>Sailfish port by:<br>Robert Meijers<br>robert.meijers@gmail.com";
         }
 
