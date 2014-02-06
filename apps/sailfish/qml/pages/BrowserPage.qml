@@ -45,10 +45,7 @@ Page {
     }
 
     SilicaFlickable {
-        PageHeader {
-            id: header
-            title: model.title
-        }
+        id: flickable
         interactive: !listView.flicking
         anchors.fill: parent
 
@@ -63,6 +60,11 @@ Page {
                     pageStack.pop(mainPage);
                 }
             }
+        }
+
+        PageHeader {
+            id: header
+            title: model.title
         }
 
         BusyIndicator {
@@ -80,124 +82,195 @@ Page {
             anchors.top: header.bottom
             anchors.bottom: parent.bottom
             width: parent.width
+            clip: true
 
             property bool useThumbnails: settings.useThumbnails
             property int itemHeight: browserPage.model.thumbnailFormat === XbmcModel.ThumbnailFormatPortrait ? 122 : 88
 
-            delegate: Item {
-                height: contentItem.height
-                width: parent.width
+            delegate: Drawer {
+                id: drawer
 
-                BackgroundItem {
-                    id: contentItem
-                    height: listView.itemHeight
+                width: parent.width
+                height: opened && listView.height * drawer._progress > contentItem.height ? listView.height * drawer._progress : contentItem.height
+                dock: Dock.Bottom
+
+                background: Item {
+                    anchors.fill: parent
+                    anchors.leftMargin: 15
+                    width: drawer.width - 20
+
+                    Loader {
+                        id: contentLoader
+                        anchors.fill: parent
+
+                        Connections {
+                            target: contentLoader.item
+
+                            onPlayItem: {
+                                print("playItem()!")
+                                browserPage.model.playItem(filterModel.mapToSourceIndex(index))
+                            }
+
+                            onAddToPlaylist: {
+                                browserPage.model.addToPlaylist(filterModel.mapToSourceIndex(index))
+                            }
+                        }
+                    }
+                }
+
+                backgroundSize: drawer.height - contentItem.height
+
+                Item {
+                    height: contentItem.height
                     width: parent.width
 
-                    onClicked: {
-                        if (filetype === "directory") {
-                            var component = Qt.createComponent("BrowserPage.qml")
-                            if (component.status === Component.Ready) {
-                                var newModel = browserPage.model.enterItem(filterModel.mapToSourceIndex(index));
-                                newModel.ignoreArticle = settings.ignoreArticle;
-                                pageStack.push(component, {model: newModel});
-                            } else {
-                                console.log("Error loading component:", component.errorString());
-                            }
-                        } else {
-                            browserPage.model.playItem(filterModel.mapToSourceIndex(index));
-                        }
-                    }
-
-                    Rectangle {
-                        id: highlightBar
-                        color: Theme.highlightColor
-                        height: parent.height - 4
-                        anchors.verticalCenter: parent.verticalCenter
-                        width: 8
-                        anchors.left: parent.left
-                        visible: playcount === 0
-                    }
-
-                    Thumbnail {
-                        id: thumbnailImage
-                        height: browserPage.model.thumbnailFormat === XbmcModel.ThumbnailFormatPortrait ? 120 : (browserPage.model.thumbnailFormat === XbmcModel.ThumbnailFormatNone ? 0 : 86 )
-                        width: browserPage.model.thumbnailFormat === XbmcModel.ThumbnailFormatPortrait ? 80 : (browserPage.model.thumbnailFormat === XbmcModel.ThumbnailFormatLandscape ? 152 : height)
-
-                        anchors.left: highlightBar.right
-                        anchors.leftMargin: 2
-                        anchors.top: parent.top
-                        anchors.topMargin: 1
-                        visible: listView.useThumbnails && browserPage.model.thumbnailFormat !== XbmcModel.ThumbnailFormatNone
-
-                        artworkSource: thumbnail
-                        defaultText: title
-
-                        IconButton {
-                            id: playingOverlay
-                            icon.source: playingState === "playing" ? "image://theme/icon-m-play" : "image://theme/icon-m-pause"
-                            visible: playingState === "playing" || playingState == "paused"
-                            z: 2
-                            anchors.centerIn: thumbnailImage
-
-                            SequentialAnimation on opacity {
-                                loops: Animation.Infinite
-                                running: playingOverlay.visible
-                                NumberAnimation {target: playingOverlay; properties: "opacity"; from: 1; to: 0.5; duration: 1000; easing.type: Easing.InOutQuad}
-                                NumberAnimation {target: playingOverlay; properties: "opacity"; from: 0.5; to: 1; duration: 1000; easing.type: Easing.InOutQuad}
-                            }
-                        }
-                    }
-
-                    Row {
-                        id: itemRow
-                        anchors {left: parent.left; top: parent.top; right: parent.right }
+                    BackgroundItem {
+                        id: contentItem
                         height: listView.itemHeight
-                        anchors.leftMargin: (settings.useThumbnails ? thumbnailImage.width : 0) + 15
-                        anchors.rightMargin: 5
+                        width: parent.width
 
-                        Column {
-                            anchors.verticalCenter: parent.verticalCenter
+                        onPressed: {
+                            listView.currentIndex = index
+                        }
 
-                            Text {
-                                id: mainText
-                                text: title
-                                font.weight: Font.Bold
-                                font.pixelSize: Theme.fontSizeMedium
-                                width: itemRow.width
-                                elide: Text.ElideRight
-                                color: Theme.primaryColor
+                        onPressAndHold: {
+                            if(browserPage.model.hasDetails()) {
+                                browserPage.model.fetchItemDetails(filterModel.mapToSourceIndex(listView.currentIndex));
+                                drawer.open = true;
+                            }
+                        }
 
-                                states: [
-                                    State {
-                                        name: "highlighted"; when: playingState === "playing" || playingState === "paused"
-                                        PropertyChanges { target: mainText; color: Theme.highlightColor }
+                        onClicked: {
+                            if (drawer.open) {
+                                drawer.open = false;
+                            } else {
+                                if (filetype === "directory") {
+                                    var component = Qt.createComponent("BrowserPage.qml")
+                                    if (component.status === Component.Ready) {
+                                        var newModel = browserPage.model.enterItem(filterModel.mapToSourceIndex(index));
+                                        newModel.ignoreArticle = settings.ignoreArticle;
+                                        pageStack.push(component, {model: newModel});
+                                    } else {
+                                        console.log("Error loading component:", component.errorString());
                                     }
-
-                                ]
+                                } else {
+                                    browserPage.model.playItem(filterModel.mapToSourceIndex(index));
+                                }
                             }
+                        }
 
-                            Label {
-                                id: subText
-                                text: subtitle
-                                font.weight: Font.Light
-                                font.pixelSize: Theme.fontSizeSmall
-                                color: Theme.secondaryColor
-                                width: mainText.width
-                                elide: Text.ElideRight
-                                visible: text != ""
+                        Rectangle {
+                            id: highlightBar
+                            color: Theme.highlightColor
+                            height: parent.height - 4
+                            anchors.verticalCenter: parent.verticalCenter
+                            width: 8
+                            anchors.left: parent.left
+                            visible: playcount === 0
+                        }
+
+                        Thumbnail {
+                            id: thumbnailImage
+                            height: browserPage.model.thumbnailFormat === XbmcModel.ThumbnailFormatPortrait ? 120 : (browserPage.model.thumbnailFormat === XbmcModel.ThumbnailFormatNone ? 0 : 86 )
+                            width: browserPage.model.thumbnailFormat === XbmcModel.ThumbnailFormatPortrait ? 80 : (browserPage.model.thumbnailFormat === XbmcModel.ThumbnailFormatLandscape ? 152 : height)
+
+                            anchors.left: highlightBar.right
+                            anchors.leftMargin: 2
+                            anchors.top: parent.top
+                            anchors.topMargin: 1
+                            visible: listView.useThumbnails && browserPage.model.thumbnailFormat !== XbmcModel.ThumbnailFormatNone
+
+                            artworkSource: thumbnail
+                            defaultText: title
+
+                            IconButton {
+                                id: playingOverlay
+                                icon.source: playingState === "playing" ? "image://theme/icon-m-play" : "image://theme/icon-m-pause"
+                                visible: playingState === "playing" || playingState == "paused"
+                                z: 2
+                                anchors.centerIn: thumbnailImage
+
+                                SequentialAnimation on opacity {
+                                    loops: Animation.Infinite
+                                    running: playingOverlay.visible
+                                    NumberAnimation {target: playingOverlay; properties: "opacity"; from: 1; to: 0.5; duration: 1000; easing.type: Easing.InOutQuad}
+                                    NumberAnimation {target: playingOverlay; properties: "opacity"; from: 0.5; to: 1; duration: 1000; easing.type: Easing.InOutQuad}
+                                }
                             }
-                            Label {
-                                id: subSubText
-                                text: year
-                                font.weight: Font.Light
-                                font.pixelSize: Theme.fontSizeSmall
-                                color: Theme.secondaryColor
-                                width: mainText.width
-                                elide: Text.ElideRight
-                                visible: text != ""
+                        }
+
+                        Row {
+                            id: itemRow
+                            anchors {left: parent.left; top: parent.top; right: parent.right }
+                            height: listView.itemHeight
+                            anchors.leftMargin: (settings.useThumbnails ? thumbnailImage.width : 0) + 15
+                            anchors.rightMargin: 5
+
+                            Column {
+                                anchors.verticalCenter: parent.verticalCenter
+
+                                Text {
+                                    id: mainText
+                                    text: title
+                                    font.weight: Font.Bold
+                                    font.pixelSize: Theme.fontSizeMedium
+                                    width: itemRow.width
+                                    elide: Text.ElideRight
+                                    color: Theme.primaryColor
+
+                                    states: [
+                                        State {
+                                            name: "highlighted"; when: playingState === "playing" || playingState === "paused"
+                                            PropertyChanges { target: mainText; color: Theme.highlightColor }
+                                        }
+
+                                    ]
+                                }
+
+                                Label {
+                                    id: subText
+                                    text: subtitle
+                                    font.weight: Font.Light
+                                    font.pixelSize: Theme.fontSizeSmall
+                                    color: Theme.secondaryColor
+                                    width: mainText.width
+                                    elide: Text.ElideRight
+                                    visible: text != ""
+                                }
+                                Label {
+                                    id: subSubText
+                                    text: year
+                                    font.weight: Font.Light
+                                    font.pixelSize: Theme.fontSizeSmall
+                                    color: Theme.secondaryColor
+                                    width: mainText.width
+                                    elide: Text.ElideRight
+                                    visible: text != ""
+                                }
                             }
                         }
                     }
+                }
+
+                states: [
+                    State {
+                        when: open
+                        PropertyChanges { target: listView; interactive: false;contentY: listView.itemHeight * listView.currentIndex }
+                        PropertyChanges { target: flickable; interactive: false }
+                        PropertyChanges { target: contentLoader; source: "ItemDetails.qml" }
+                    },
+                    State {
+                        when: opened
+                        PropertyChanges { target: listView; interactive: false }
+                        PropertyChanges { target: flickable; interactive: false }
+                    }
+                ]
+            }
+
+            Behavior on contentY {
+                NumberAnimation {
+                    easing.type: Easing.OutQuad
+                    duration: 300
                 }
             }
         }
