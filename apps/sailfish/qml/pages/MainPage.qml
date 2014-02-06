@@ -154,7 +154,7 @@ Page {
                             } else if (target === "pictures") {
                                 newModel = xbmc.shares("pictures");
                                 console.log("created model: " + newModel);
-                            } else if (target === "pvr") {
+                            } else if (target === "tv") {
                                 newModel = xbmc.channelGroups();
                                 console.log("created model: " + newModel);
                             }
