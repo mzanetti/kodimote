@@ -35,13 +35,6 @@ Page {
         id: filterModel
         model: browserPage.model
         filterCaseSensitivity: Qt.CaseInsensitive
-
-        // When the model is filtered, contentY is messed up sometimes
-        // Lets unset and reset the model to keep the searchbar in place
-        onFilterChanged: {
-            listView.model = undefined
-            listView.model = filterModel
-        }
     }
 
     SilicaFlickable {
@@ -62,9 +55,28 @@ Page {
             }
         }
 
-        PageHeader {
-            id: header
-            title: model.title
+
+        Column {
+            id: headerContainer
+            width: parent.width
+
+            PageHeader {
+                id: header
+                title: model.title
+            }
+
+
+            SearchField {
+                id: searchField
+                width: parent.width
+                visible: !model.busy && browserPage.model.allowSearch
+
+                Binding {
+                    target: filterModel
+                    property: "filter"
+                    value: searchField.text
+                }
+            }
         }
 
         BusyIndicator {
@@ -79,7 +91,7 @@ Page {
             id: listView
             highlightFollowsCurrentItem: true
             model: filterModel
-            anchors.top: header.bottom
+            anchors.top: headerContainer.bottom
             anchors.bottom: parent.bottom
             width: parent.width
             clip: true
