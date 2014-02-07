@@ -22,22 +22,28 @@ import QtQuick 2.0
 import Sailfish.Silica 1.0
 
 Dialog {
-    canAccept: nameTextField.text && addressTextField.text && portTextField.text
+    id: addHostDialog
+
+    canAccept: nameTextField.text.length > 0 && addressTextField.text.length > 0 && portTextField.text.length > 0
 
     Column {
-        anchors.margins: Theme.paddingMedium
         anchors.fill: parent
 
         DialogHeader {
             acceptText: qsTr("Add")
         }
 
-        Label {
-            text: qsTr("Name:")
-        }
         TextField {
             id: nameTextField
             width: parent.width
+
+            placeholderText: qsTr("Name")
+            label: qsTr("Name")
+
+            EnterKey.enabled: text.length > 0
+            EnterKey.iconSource: "image://theme/icon-m-enter-next"
+            EnterKey.onClicked: addressTextField.focus = true
+
             property bool conflicting: false
 
             onTextChanged: {
@@ -59,30 +65,44 @@ Dialog {
                         color: "red"
                     }
                 }
-
             ]
         }
-        Label {
-            text: qsTr("Hostname or IP Address:")
-        }
+
         TextField {
             id: addressTextField
             width: parent.width
+
+            placeholderText: qsTr("Hostname or IP Address")
+            label: qsTr("Hostname or IP Address")
+
+            EnterKey.enabled: text.length > 0
+            EnterKey.iconSource: "image://theme/icon-m-enter-next"
+            EnterKey.onClicked: portTextField.focus = true
         }
-        Label {
-            text: qsTr("Port:")
-        }
+
         TextField {
             id: portTextField
             text: "8080"
             width: parent.width
+
+            placeholderText: qsTr("Port")
+            label: qsTr("Port")
+
+            EnterKey.enabled: text.length > 0
+            EnterKey.iconSource: "image://theme/icon-m-enter-next"
+            EnterKey.onClicked: macTextField.focus = true
         }
-        Label {
-            text: qsTr("Mac Address:")
-        }
+
         TextField {
             id: macTextField
             width: parent.width
+
+            placeholderText: qsTr("Mac Address")
+            label: qsTr("Mac Address")
+
+            EnterKey.enabled: addHostDialog.canAccept
+            EnterKey.iconSource: "image://theme/icon-m-close"
+            EnterKey.onClicked: addHostDialog.accept()
         }
     }
 
