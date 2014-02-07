@@ -31,8 +31,48 @@ Dialog {
         xbmc.hostModel().connectToHost(hostList.currentIndex);
     }
 
-    SilicaFlickable {
+    SilicaListView {
+        id: hostList
         anchors.fill: parent
+        model: xbmc.hostModel()
+        highlightFollowsCurrentItem: true
+
+        header: DialogHeader {
+            id: header
+            acceptText: qsTr("Connect")
+            cancelText: qsTr("Cancel")
+        }
+
+        ViewPlaceholder {
+            enabled: hostList.count == 0
+
+            Column {
+                spacing: Theme.paddingMedium
+                visible: hostList.count == 0
+                anchors {
+                    left: parent.left
+                    right: parent.right
+                    verticalCenter: parent.verticalCenter
+                }
+
+                BusyIndicator {
+                    running: parent.visible
+                    anchors.horizontalCenter: parent.horizontalCenter
+                }
+
+                Label {
+                    font.pixelSize: Theme.fontSizeMedium
+                    width: parent.width
+                    wrapMode: Text.WordWrap
+                    text: qsTr("Searching for XBMC hosts.") + "\n" + "\n"
+                          + qsTr("Please enable the following options in the Services settings of XBMC:") + "\n- "
+                          + qsTr("Allow control of XBMC via HTTP") + "\n- "
+                          + qsTr("Allow programs on other systems to control XBMC") + "\n- "
+                          + qsTr("Announce these services to other systems via Zeroconf") + "\n"
+                          + qsTr("If you don't use Zeroconf, add a host manually.");
+                }
+            }
+        }
 
         PullDownMenu {
             MenuItem {
@@ -41,101 +81,60 @@ Dialog {
             }
         }
 
-        DialogHeader {
-            id: header
-            acceptText: qsTr("Connect")
-            cancelText: qsTr("Cancel")
-        }
+        delegate: ListItem {
+            id: hostDelegate
+            contentHeight: Theme.itemSizeMedium
+            highlighted: down || menuOpen || hostList.currentIndex == index
+            anchors.margins: Theme.paddingLarge
 
-        SilicaListView {
-            id: hostList
-            anchors { top: header.bottom; left: parent.left; right: parent.right; bottom: parent.bottom }
-            model: xbmc.hostModel()
-            opacity: count > 0 ? 1 : 0
-            Behavior on opacity { NumberAnimation {} }
-            highlightFollowsCurrentItem: true
+            menu: contextMenuComponent
+            onClicked: {
+                hostList.currentIndex = index
+            }
 
-            delegate: ListItem {
-                id: hostDelegate
-                contentHeight: Theme.itemSizeMedium
-                highlighted: down || menuOpen || hostList.currentIndex == index
-                anchors.margins: Theme.paddingMedium
+            function wakeupHost() {
+                xbmc.hostModel().wakeup(index);
+            }
 
-                menu: contextMenuComponent
-                onClicked: {
-                    hostList.currentIndex = index
+            function removeHost() {
+                xbmc.hostModel().removeHost(index);
+            }
+
+            Label {
+                text: hostname
+                anchors {
+                    left: parent.left
+                    leftMargin: Theme.paddingLarge
+                    right: parent.right
+                    rightMargin: Theme.paddingLarge
+                    verticalCenter: parent.verticalCenter
                 }
+                elide: Text.ElideRight
+                font.pixelSize: Theme.fontSizeLarge
+            }
 
-                function removeHost() {
-                    xbmc.hostModel().removeHost(index);
-                }
-
-                Label {
-                    text: hostname
-                    anchors {
-                        left: parent.left
-                        leftMargin: Theme.paddingSmall
-                        right: wolButton.left
-                        verticalCenter: parent.verticalCenter
+            Component {
+                id: contextMenuComponent
+                ContextMenu {
+                    MenuItem {
+                        text: qsTr("Remove host")
+                        onClicked: {
+                            hostDelegate.remorseAction(qsTr("Removing host %1").arg(hostname), hostDelegate.removeHost)
+                        }
                     }
-                    elide: Text.ElideRight
-                    font.pixelSize: Theme.fontSizeLarge
-                }
-
-                IconButton {
-                    id: wolButton
-                    icon.source: "image://theme/icon-m-alarm"
-                    anchors.verticalCenter: parent.verticalCenter
-                    anchors.right: parent.right
-                    visible: hwaddr.length > 0
-                    onClicked: {
-                        xbmc.hostModel().wakeup(index)
-                    }
-                }
-
-                Component {
-                    id: contextMenuComponent
-                    ContextMenu {
-                        MenuItem {
-                            text: qsTr("Remove Host")
-                            onClicked: {
-                                hostDelegate.remorseAction(qsTr("Removing Host %1").arg(hostname), hostDelegate.removeHost)
-                            }
+                    MenuItem {
+                        text: qsTr("Wake up")
+                        visible: hwaddr.length > 0
+                        onClicked: {
+                            hostDelegate.wakeupHost();
                         }
                     }
                 }
             }
         }
+    }
 
-        Column {
-            spacing: Theme.paddingMedium
-            visible: hostList.count == 0
-            anchors {
-                left: parent.left
-                right: parent.right
-                verticalCenter: parent.verticalCenter
-            }
-
-            BusyIndicator {
-                running: parent.visible
-                anchors.horizontalCenter: parent.horizontalCenter
-            }
-
-            Label {
-                font.pixelSize: Theme.fontSizeMedium
-                width: parent.width
-                wrapMode: Text.WordWrap
-                text: qsTr("Searching for XBMC hosts.") + "\n" + "\n"
-                      + qsTr("Please enable the following options in the Services settings of XBMC:") + "\n- "
-                      + qsTr("Allow control of XBMC via HTTP") + "\n- "
-                      + qsTr("Allow programs on other systems to control XBMC") + "\n- "
-                      + qsTr("Announce these services to other systems via Zeroconf") + "\n"
-                      + qsTr("If you don't use Zeroconf, add a host manually.");
-            }
-        }
-
-        XbmcDiscovery {
-            continuousDiscovery: true
-        }
+    XbmcDiscovery {
+        continuousDiscovery: true
     }
 }
