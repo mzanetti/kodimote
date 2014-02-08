@@ -25,18 +25,28 @@ import ".."
 Page {
     id: mainPage
 
-    SilicaFlickable {
+    SilicaListView {
+        id: listView
         anchors.fill: parent
+        model: mainMenuModel
+        property int currentSelected
+
+        header: PageHeader {
+            id: header
+            title: qsTr("XBMC on %1").arg(xbmc.connectedHostName)
+        }
 
         PullDownMenu {
             MenuPlayerControls {
 
             }
+        }
 
+        PushUpMenu {
             MenuItem {
-                text: qsTr("About")
+                text: qsTr("Connect...")
                 onClicked: {
-                    var component = Qt.createComponent("AboutDialog.qml")
+                    var component = Qt.createComponent("ConnectionDialog.qml")
                     if (component.status === Component.Ready) {
                         component.createObject(mainPage).open()
                     } else {
@@ -58,9 +68,9 @@ Page {
             }
 
             MenuItem {
-                text: qsTr("Connect...")
+                text: qsTr("About")
                 onClicked: {
-                    var component = Qt.createComponent("ConnectionDialog.qml")
+                    var component = Qt.createComponent("AboutDialog.qml")
                     if (component.status === Component.Ready) {
                         component.createObject(mainPage).open()
                     } else {
@@ -70,100 +80,60 @@ Page {
             }
         }
 
-        PageHeader {
-            id: header
-            title: qsTr("XBMC on %1").arg(xbmc.connectedHostName)
-        }
+        delegate: ListItem {
+            id: listItem
 
-        SilicaListView {
-            id: listView
-            anchors { top: header.bottom; left: parent.left; right: parent.right; bottom: parent.bottom }
-            model: mainMenuModel
-            interactive: false
-            property Item contextMenu
-            property int currentSelected
+            contentHeight: Theme.itemSizeExtraLarge
+            menu: contextMenuComponent
 
-            delegate: Item {
-                id: listItem
-                property bool menuOpen: listView.contextMenu != null && listView.contextMenu.parent === listItem
+            Column {
+                anchors.verticalCenter: parent.verticalCenter
+                anchors.left: parent.left
+                anchors.right: parent.right
+                anchors.leftMargin: 14
 
-                height: menuOpen ? listView.contextMenu.height + contentItem.height : contentItem.height
-                width: parent.width
-                BackgroundItem {
-                    id: contentItem
-                    height: Theme.itemSizeExtraLarge
-                    width: parent.width
+                Label {
+                    id: mainText
+                    text: listView.model.title(index)
+                    font.weight: Font.Bold
+                    font.pixelSize: Theme.fontSizeLarge
+                    color: listItem.highlighted ? Theme.highlightColor : Theme.primaryColor
+                }
 
-                    Column {
-                        anchors.verticalCenter: parent.verticalCenter
-                        anchors.left: parent.left
-                        anchors.right: parent.right
-                        anchors.leftMargin: 14
-
-                        Label {
-                            id: mainText
-                            text: listView.model.title(index)
-                            font.weight: Font.Bold
-                            font.pixelSize: Theme.fontSizeLarge
-                            color: Theme.primaryColor
-                        }
-
-                        Label {
-                            id: subText
-                            text: {
-                                if (mode === "library") {
-                                    return qsTr("Library");
-                                } else if (mode == "files") {
-                                    return qsTr("Files");
-                                } else {
-                                    return ""
-                                }
-                            }
-                            visible: text != ""
-                            color: Theme.secondaryColor
-                        }
-                    }
-
-                    onPressed: listView.currentSelected = index;
-
-                    onPressAndHold: {
-                        if (!listView.model.get(index).hasMenu)
-                            return;
-
-                        if (!listView.contextMenu)
-                            listView.contextMenu = contextMenuComponent.createObject(listView);
-                        listView.contextMenu.show(listItem);
-                    }
-
-                    onClicked: {
-                        var component = Qt.createComponent("BrowserPage.qml")
-                        var newModel;
-                        if (component.status === Component.Ready) {
-                            if (target === "music") {
-                                if(mode === "library") {
-                                    newModel = xbmc.audioLibrary();
-                                } else {
-                                    newModel = xbmc.shares("music");
-                                }
-                            } else if (target === "videos") {
-                                if(mode === "library") {
-                                    newModel = xbmc.videoLibrary();
-                                } else {
-                                    newModel = xbmc.shares("video");
-                                }
-                            } else if (target === "pictures") {
-                                newModel = xbmc.shares("pictures");
-                                console.log("created model: " + newModel);
-                            } else if (target === "tv") {
-                                newModel = xbmc.channelGroups();
-                                console.log("created model: " + newModel);
-                            }
-                            console.log("setting model: " + newModel);
-                            pageStack.push(component, {model: newModel});
+                Label {
+                    id: subText
+                    text: {
+                        if (mode === "library") {
+                            return qsTr("Library");
+                        } else if (mode == "files") {
+                            return qsTr("Files");
                         } else {
-                            console.log("Error loading component:", component.errorString());
+                            return ""
                         }
                     }
+                    visible: libraryTarget && sharesTarget
+                    color: listItem.highlighted ? Theme.secondaryHighlightColor : Theme.secondaryColor
+                }
+            }
+
+            onPressed: listView.currentSelected = index;
+
+            showMenuOnPressAndHold: listView.model.get(index).hasMenu
+
+            onClicked: {
+                var component = Qt.createComponent("BrowserPage.qml")
+                if (component.status === Component.Ready) {
+                    var newModel;
+                    if (mode === "library") {
+                        newModel = xbmc[libraryTarget]();
+                    } else {
+                        newModel = xbmc.shares(target);
+                    }
+
+                    console.log("setting model: " + newModel);
+                    pageStack.push(component, {model: newModel});
+                } else {
+                    console.log("Error loading component:", component.errorString());
                 }
             }
 
@@ -172,38 +142,27 @@ Page {
 
                 ContextMenu {
                     id: contextMenu
-                    property string mode: listView.model.get(listView.currentSelected).mode
-                    property string target: listView.model.get(listView.currentSelected).target
-                    property string targetNormalized: {
-                        if (target === "videos") {
-                            return "video";
-                        } else if (target === "pictures") {
-                            return "picture";
-                        } else {
-                            return target;
-                        }
-                    }
 
                     MenuItem {
                         visible: mode !== "files" && mode !== "single"
                         text: qsTr("Show files")
                         onClicked: {
                             listView.model.get(listView.currentSelected).mode = "files";
-                            settings[contextMenu.targetNormalized + "ShowsFiles"] = true;
+                            settings[target + "ShowsFiles"] = true;
                         }
                     }
                     MenuItem {
-                        visible: contextMenu.mode !== "library" && contextMenu.mode !== "single"
+                        visible: mode !== "library" && mode !== "single"
                         text: qsTr("Show library")
                         onClicked: {
                             listView.model.get(listView.currentSelected).mode = "library";
-                            settings[contextMenu.targetNormalized + "ShowsFiles"] = false;
+                            settings[target + "ShowsFiles"] = false;
                         }
                     }
                     MenuItem {
                         text: qsTr("Rescan library")
                         onClicked: {
-                            var lib = xbmc[contextMenu.targetNormalized + "Library"]();
+                            var lib = xbmc[libraryTarget]();
                             lib.scanForContent();
                             lib.exit();
                         }
@@ -211,7 +170,7 @@ Page {
                     MenuItem {
                         text: qsTr("Clean library")
                         onClicked: {
-                            var lib = xbmc[contextMenu.targetNormalized + "Library"]();
+                            var lib = xbmc[libraryTarget]();
                             lib.clean();
                             lib.exit();
                         }
@@ -222,13 +181,13 @@ Page {
     }
 
     Component.onCompleted: {
+        populateMainMenu();
         if(settings.musicShowsFiles) {
            mainMenuModel.setProperty(0, "mode", "files");
         }
         if(settings.videoShowsFiles) {
             mainMenuModel.setProperty(1, "mode", "files");
         }
-        populateMainMenu();
     }
 
     ListModel {
@@ -238,27 +197,33 @@ Page {
             subtitle: ""
             mode: "library"
             target: "music"
+            libraryTarget: "audioLibrary"
+            sharesTarget: "music"
             hasMenu: true
         }
         ListElement {
             icon: "icon-m-content-videos"
             subtitle: ""
             mode: "library"
-            target: "videos"
+            target: "video"
+            libraryTarget: "videoLibrary"
+            sharesTarget: "video"
             hasMenu: true
         }
         ListElement {
             icon: "icon-m-content-image"
             subtitle: ""
-            mode: "single"
+            mode: "files"
             target: "pictures"
+            sharesTarget: "picture"
             hasMenu: false
         }
         ListElement {
             icon: "icon-m-content-image"
             subtitle: ""
-            mode: "single"
+            mode: "library"
             target: "tv"
+            libraryTarget: "channelGroups"
             hasMenu: false
         }
     }
@@ -270,7 +235,7 @@ Page {
             if (target === "music") {
                 return qsTr("Music");
             }
-            if (target === "videos") {
+            if (target === "video") {
                 return qsTr("Videos");
             }
             if (target === "pictures") {
