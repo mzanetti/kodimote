@@ -20,6 +20,7 @@
 
 #include <QDir>
 #include <QtQuick>
+#include <QStandardPaths>
 
 #include "libxbmcremote/xbmc.h"
 #include "libxbmcremote/eventclient.h"
@@ -30,9 +31,12 @@
 
 int main(int argc, char *argv[])
 {
+    QCoreApplication::setOrganizationName("xbmcremote");
+    QCoreApplication::setApplicationName("xbmcremote");
+
     QGuiApplication *application = SailfishApp::application(argc, argv);
 
-    Xbmc::instance()->setDataPath(QDir::homePath() + "/.cache/xbmcremote/");
+    Xbmc::instance()->setDataPath(QStandardPaths::writableLocation(QStandardPaths::CacheLocation));
 
     Settings settings;
 
