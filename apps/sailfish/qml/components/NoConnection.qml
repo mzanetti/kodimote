@@ -21,32 +21,46 @@
 import QtQuick 2.0
 import Sailfish.Silica 1.0
 
-Page {
-    id: noConnectionPage
-    Column {
-        anchors.verticalCenter: parent.verticalCenter
-        width: parent.width
-        spacing: 20
+Item {
+    id: noConnection
 
-        Label {
-            id: label
-            anchors.horizontalCenter: parent.horizontalCenter
-            width: parent.width - 100
-            text: xbmc.connectionError
-            wrapMode: Text.WordWrap
-            horizontalAlignment: Text.AlignHCenter
+    signal showConnect
+
+    width: (parent ? parent.width : screen.width) - 2 * Theme.paddingLarge
+    height: _content ? _content.height : 0
+    anchors.horizontalCenter: parent.horizontalCenter
+    anchors.verticalCenter: parent.verticalCenter
+    visible: false
+
+    onVisibleChanged: {
+        if (visible && !_content) {
+            _content = activeContent.createObject(noConnection)
         }
+    }
 
-        Button{
-            text: qsTr("Connect")
-            anchors.horizontalCenter: parent.horizontalCenter
-            onClicked: {
-                var component = Qt.createComponent("ConnectionDialog.qml")
-                if (component.status === Component.Ready) {
-                    component.createObject(noConnectionPage).open()
-                } else {
-                    console.log("Error loading component:", component.errorString());
-                }
+    property Item _content
+
+    Component {
+        id: activeContent
+
+        Column {
+            anchors.verticalCenter: parent.verticalCenter
+            width: parent.width
+            spacing: 20
+
+            Label {
+                id: label
+                anchors.horizontalCenter: parent.horizontalCenter
+                width: parent.width - 100
+                text: xbmc.connectionError
+                wrapMode: Text.WordWrap
+                horizontalAlignment: Text.AlignHCenter
+            }
+
+            Button{
+                text: qsTr("Connect")
+                anchors.horizontalCenter: parent.horizontalCenter
+                onClicked: noConnection.showConnect()
             }
         }
     }

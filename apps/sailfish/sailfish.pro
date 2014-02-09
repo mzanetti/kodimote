@@ -17,13 +17,13 @@ OTHER_FILES += \
     qml/pages/MainPage.qml \
     qml/pages/AddHostDialog.qml \
     qml/pages/BrowserPage.qml \
-    qml/Thumbnail.qml \
-    qml/pages/NoConnectionPage.qml \
+    qml/components/Thumbnail.qml \
     qml/icons/icon-cover-stop.png \
     qml/pages/ConnectionDialog.qml \
-    qml/MenuPlayerControls.qml \
+    qml/components/MenuPlayerControls.qml \
     qml/pages/QuitDialog.qml \
     qml/pages/AboutDialog.qml \
     qml/pages/AuthenticationDialog.qml \
-    qml/pages/ItemDetails.qml
+    qml/components/ItemDetails.qml \
+    qml/components/NoConnection.qml
 

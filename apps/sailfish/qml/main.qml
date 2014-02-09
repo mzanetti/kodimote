@@ -23,9 +23,7 @@ import "pages"
 
 ApplicationWindow
 {
-    property bool connected: xbmc.connected
-
-    initialPage: connected ? mainPageComponent : noConnectionComponent
+    initialPage: mainPageComponent
 
     Component {
         id: mainPageComponent
@@ -34,42 +32,18 @@ ApplicationWindow
         }
     }
 
-    Component {
-        id: noConnectionComponent
-        NoConnectionPage {
-
-        }
-    }
-
-    Component {
-        id: connectDialogComponent
-        ConnectionDialog {
-
-        }
-    }
-
-    onConnectedChanged: {
-        pageStack.clear();
-
-        if(connected) {
-            pageStack.push(mainPageComponent);
-        } else {
-            pageStack.push(noConnectionComponent);
-        }
-    }
-
     Connections {
-            target: xbmc
-            onAuthenticationRequired: {
-                var component = Qt.createComponent("pages/AuthenticationDialog.qml")
-                if (component.status == Component.Ready) {
-                    var authDialog = component.createObject(initialPage);
-                    authDialog.hostname = hostname;
-                    authDialog.open();
-                } else {
-                    console.log("Error loading component:", component.errorString());
-                }
+        target: xbmc
+        onAuthenticationRequired: {
+            var component = Qt.createComponent("pages/AuthenticationDialog.qml")
+            if (component.status == Component.Ready) {
+                var authDialog = component.createObject(initialPage);
+                authDialog.hostname = hostname;
+                authDialog.open();
+            } else {
+                console.log("Error loading component:", component.errorString());
             }
+        }
     }
 
     cover: Qt.resolvedUrl("cover/CoverPage.qml")

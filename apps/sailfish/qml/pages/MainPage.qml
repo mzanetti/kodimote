@@ -20,23 +20,53 @@
 
 import QtQuick 2.0
 import Sailfish.Silica 1.0
-import ".."
+import "../components/"
 
 Page {
     id: mainPage
 
+    property bool connected: xbmc.connected
+
+    states: [
+        State {
+            when: connected
+            PropertyChanges { target: listView.headerItem; visible: true }
+            PropertyChanges { target: mainMenu; visible: true }
+            PropertyChanges { target: listView; model: mainMenuModel }
+            PropertyChanges { target: quitXbmc; visible: true }
+            PropertyChanges { target: noConnection; visible: false }
+        }
+    ]
+
+    onConnectedChanged: {
+        pageStack.pop(mainPage);
+        populateMainMenu();
+    }
+
+    function showConnect() {
+        var component = Qt.createComponent("ConnectionDialog.qml")
+        if (component.status === Component.Ready) {
+            component.createObject(mainPage).open()
+        } else {
+            console.log("Error loading component:", component.errorString());
+        }
+    }
+
     SilicaListView {
         id: listView
         anchors.fill: parent
-        model: mainMenuModel
+        model: null
         property int currentSelected
 
         header: PageHeader {
-            id: header
+            id: pageHeader
+            visible: false
             title: qsTr("XBMC on %1").arg(xbmc.connectedHostName)
         }
 
         PullDownMenu {
+            id: mainMenu
+            visible: false
             MenuPlayerControls {
 
             }
@@ -45,17 +75,12 @@ Page {
         PushUpMenu {
             MenuItem {
                 text: qsTr("Connect...")
-                onClicked: {
-                    var component = Qt.createComponent("ConnectionDialog.qml")
-                    if (component.status === Component.Ready) {
-                        component.createObject(mainPage).open()
-                    } else {
-                        console.log("Error loading component:", component.errorString());
-                    }
-                }
+                onClicked: showConnect()
             }
 
             MenuItem {
+                id: quitXbmc
+                visible: false
                 text: qsTr("Quit xbmc")
                 onClicked: {
                     var component = Qt.createComponent("QuitDialog.qml")
@@ -78,6 +103,14 @@ Page {
                     }
                 }
             }
+        }
+
+        NoConnection {
+            id: noConnection
+            anchors.fill: parent
+            visible: true
+
+            onShowConnect: mainPage.showConnect()
         }
 
         delegate: ListItem {
@@ -118,7 +151,7 @@ Page {
 
             onPressed: listView.currentSelected = index;
 
-            showMenuOnPressAndHold: listView.model.get(index).hasMenu
+            showMenuOnPressAndHold: hasMenu
 
             onClicked: {
                 var component = Qt.createComponent("BrowserPage.qml")
@@ -182,12 +215,6 @@ Page {
 
     Component.onCompleted: {
         populateMainMenu();
-        if(settings.musicShowsFiles) {
-           mainMenuModel.setProperty(0, "mode", "files");
-        }
-        if(settings.videoShowsFiles) {
-            mainMenuModel.setProperty(1, "mode", "files");
-        }
     }
 
     ListModel {
@@ -261,6 +288,13 @@ Page {
         }
         if (settings.pvrEnabled) {
             mainMenuModel.append(mainMenuModelTemplate.get(3));
+        }
+
+        if(settings.musicShowsFiles) {
+           mainMenuModel.setProperty(0, "mode", "files");
+        }
+        if(settings.videoShowsFiles) {
+            mainMenuModel.setProperty(1, "mode", "files");
         }
     }
 
