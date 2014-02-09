@@ -39,11 +39,25 @@ Item {
         contentHeight: labelColumn.height
         clip: true
 
+        PullDownMenu {
+            MenuItem {
+                text: qsTr("Add to playlist")
+                onClicked: itemDetails.addToPlaylist()
+            }
+            MenuItem {
+                text: qsTr("Play")
+                onClicked: itemDetails.playItem()
+            }
+        }
+
         Column {
             id: labelColumn
             spacing: 5
             height: childrenRect.height
-            width: parent.width
+            anchors.left: parent.left
+            anchors.leftMargin: Theme.paddingSmall + Theme.paddingLarge
+            anchors.right: parent.right
+            anchors.rightMargin: Theme.paddingLarge
 
             Row {
                 width: parent.width; spacing: 10; visible: rating > -1
@@ -183,8 +197,6 @@ Item {
                 Label { text: cast; width: parent.width - castLabel.width - parent.spacing; wrapMode: Text.WordWrap }
             }
 
-            /*SectionHeader { width: parent.width }*/
-
             Label {
                 id: plotLabel; width: parent.width; visible: plot.length > 0
                 text: plot;
@@ -194,17 +206,6 @@ Item {
                 id: descriptionLabel; width: parent.width; visible: description.length > 0
                 text: description;
                 wrapMode: Text.WrapAtWordBoundaryOrAnywhere
-            }
-
-            Button {
-                text: qsTr("Play")
-                width: parent.width
-                onClicked: itemDetails.playItem()
-            }
-            Button {
-                text: qsTr("Add to playlist")
-                width: parent.width
-                onClicked: itemDetails.addToPlaylist()
             }
         }
     }
