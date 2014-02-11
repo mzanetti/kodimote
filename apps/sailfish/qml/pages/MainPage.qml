@@ -214,7 +214,20 @@ Page {
         }
     }
 
+    Timer {
+        /*Hack, we can't use pageStack.push in the onCompleted handler*/
+        id: delayedConnect
+        interval: 10
+        repeat: false
+        running: false
+        onTriggered: showConnect()
+    }
+
     Component.onCompleted: {
+        if (!xbmc.connected && !xbmc.connecting) {
+            delayedConnect.start();
+        }
+
         populateMainMenu();
     }
 
