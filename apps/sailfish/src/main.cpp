@@ -40,13 +40,13 @@ int main(int argc, char *argv[])
 
     Settings settings;
 
+    SailfishHelper helper(&settings);
+    Q_UNUSED(helper)
+
     QQuickView *view = SailfishApp::createView();
     view->engine()->rootContext()->setContextProperty("xbmc", Xbmc::instance());
     view->engine()->rootContext()->setContextProperty("settings", &settings);
     view->setSource(SailfishApp::pathTo("qml/main.qml"));
-
-    SailfishHelper helper(&settings);
-    Q_UNUSED(helper)
 
     view->show();
 
