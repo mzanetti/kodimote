@@ -32,16 +32,42 @@ ApplicationWindow
         }
     }
 
+    function showAuthenticate(hostname) {
+        var component = Qt.createComponent("pages/AuthenticationDialog.qml")
+        if (component.status == Component.Ready) {
+            var authDialog = component.createObject(initialPage);
+            authDialog.hostname = hostname;
+            authDialog.open();
+        } else {
+            console.log("Error loading component:", component.errorString());
+        }
+    }
+
+    Timer {
+        /*Hack, we can't use pageStack.push while the pageStack is animating*/
+        id: delayedAuthenticate
+        interval: 10
+        repeat: true
+        running: false
+        onTriggered: {
+            if (pageStack.busy) {
+                return;
+            }
+
+            stop();
+            showAuthenticate(hostname)
+        }
+        property string hostname
+    }
+
     Connections {
         target: xbmc
         onAuthenticationRequired: {
-            var component = Qt.createComponent("pages/AuthenticationDialog.qml")
-            if (component.status == Component.Ready) {
-                var authDialog = component.createObject(initialPage);
-                authDialog.hostname = hostname;
-                authDialog.open();
+            if (pageStack.busy) {
+                delayedAuthenticate.hostname = hostname;
+                delayedAuthenticate.start();
             } else {
-                console.log("Error loading component:", component.errorString());
+                showAuthenticate(hostname);
             }
         }
     }
