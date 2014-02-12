@@ -272,18 +272,22 @@ Page {
         id: mainMenuModel
         // workaround: its not possible to have qsTr() in ListElements for now...
         function title(index) {
-            var target = mainMenuModel.get(index).target;
-            if (target === "music") {
-                return qsTr("Music");
-            }
-            if (target === "video") {
-                return qsTr("Videos");
-            }
-            if (target === "pictures") {
-                return qsTr("Pictures");
-            }
-            if (target === "tv") {
-                return qsTr("TV Channels");
+            var item = mainMenuModel.get(index);
+
+            if (item) {
+                var target = mainMenuModel.get(index).target;
+                if (target === "music") {
+                    return qsTr("Music");
+                }
+                if (target === "video") {
+                    return qsTr("Videos");
+                }
+                if (target === "pictures") {
+                    return qsTr("Pictures");
+                }
+                if (target === "tv") {
+                    return qsTr("TV Channels");
+                }
             }
             return "";
         }
