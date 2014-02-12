@@ -32,30 +32,43 @@ Dialog {
     }
 
     Column {
-        anchors {top: header.bottom; bottom: parent.bottom; left: parent.left; right: parent.right; margins: Theme.paddingMedium }
+        anchors {
+            top: header.bottom;
+            bottom: parent.bottom;
+            left: parent.left;
+            right: parent.right;
+        }
 
         Label {
+            anchors.left: parent.left
+            anchors.right: parent.right
+            anchors.margins: Theme.paddingLarge
             text: qsTr("XBMC on %1 requires authentication:").arg(hostname);
             wrapMode: Text.WordWrap
             font.family: Theme.fontFamilyHeading
             color: Theme.highlightColor
         }
 
-        Label {
-            text: qsTr("Username:")
-        }
-
         TextField {
             id: username
             width: parent.width
+            placeholderText: qsTr("Username")
+            label: qsTr("Username")
+
+            EnterKey.enabled: text.length > 0
+            EnterKey.iconSource: "image://theme/icon-m-enter-next"
+            EnterKey.onClicked: password.focus = true
         }
 
-        Label {
-            text: qsTr("Password:")
-        }
         TextField {
             id: password
             width: parent.width
+            placeholderText: qsTr("Password")
+            label: qsTr("Password")
+
+            EnterKey.enabled: text.length > 0
+            EnterKey.iconSource: "image://theme/icon-m-enter-accept"
+            EnterKey.onClicked: authenticationDialog.accept()
         }
     }
 

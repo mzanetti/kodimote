@@ -101,7 +101,7 @@ Dialog {
             label: qsTr("Mac Address")
 
             EnterKey.enabled: addHostDialog.canAccept
-            EnterKey.iconSource: "image://theme/icon-m-close"
+            EnterKey.iconSource: "image://theme/icon-m-enter-accept"
             EnterKey.onClicked: addHostDialog.accept()
         }
     }
