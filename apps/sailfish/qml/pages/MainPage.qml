@@ -95,6 +95,14 @@ Page {
             MenuPlayerControls {
 
             }
+
+            MenuItem {
+                text: qsTr("Now playing")
+                enabled: xbmc.activePlayer !== null
+                onClicked: {
+                    pageStack.push("NowPlayingPage.qml")
+                }
+            }
         }
 
         PushUpMenu {
