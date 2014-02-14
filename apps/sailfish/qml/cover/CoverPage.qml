@@ -69,6 +69,10 @@ CoverBackground {
             PropertyChanges { target: actionsLoader; sourceComponent: playingActionsComponent }
         },
         State {
+            when: xbmc.connected
+            PropertyChanges { target: actionsLoader; sourceComponent: connectedActionsComponent }
+        },
+        State {
             when: !xbmc.connected
             PropertyChanges { target: actionsLoader; sourceComponent: disconnectedActionsComponent }
         }
@@ -98,6 +102,34 @@ CoverBackground {
                     pageStack.clear();
                     pageStack.push(appWindow.initialPage);
                     pageStack.currentPage.showConnect();
+                    appWindow.activate();
+                }
+            }
+        }
+    }
+
+    Component {
+        id: connectedActionsComponent
+
+        CoverActionList {
+            id: playingActions
+
+            CoverAction {
+                iconSource: "image://theme/icon-l-music"
+                onTriggered: {
+                    pageStack.clear();
+                    pageStack.push(appWindow.initialPage);
+                    pageStack.currentPage.browse("music");
+                    appWindow.activate();
+                }
+            }
+
+            CoverAction {
+                iconSource: "image://theme/icon-l-video"
+                onTriggered: {
+                    pageStack.clear();
+                    pageStack.push(appWindow.initialPage);
+                    pageStack.currentPage.browse("video");
                     appWindow.activate();
                 }
             }
