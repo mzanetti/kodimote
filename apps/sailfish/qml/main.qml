@@ -24,6 +24,8 @@ import "pages"
 
 ApplicationWindow
 {
+    id: appWindow
+
     initialPage: mainPageComponent
 
     Component {

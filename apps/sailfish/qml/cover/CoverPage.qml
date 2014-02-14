@@ -59,18 +59,66 @@ CoverBackground {
                                qsTr("Disconnected")
     }
 
-    CoverActionList {
-        id: playingActions
-        enabled: cover.player && (cover.player.state === "playing" || cover.player.state === "paused")
+    Loader {
+        id: actionsLoader
+    }
 
-        CoverAction {
-            iconSource: "../icons/icon-cover-stop.png"
-            onTriggered: cover.player.stop()
+    states: [
+        State {
+            when: cover.player && (cover.player.state === "playing" || cover.player.state === "paused")
+            PropertyChanges { target: actionsLoader; sourceComponent: playingActionsComponent }
+        },
+        State {
+            when: !xbmc.connected
+            PropertyChanges { target: actionsLoader; sourceComponent: disconnectedActionsComponent }
         }
 
-        CoverAction {
-            iconSource: "image://theme/icon-cover-" + (cover.player && cover.player.state === "playing" ? "pause" : "play")
-            onTriggered: cover.player.playPause()
+    ]
+
+    Component {
+        id: disconnectedActionsComponent
+
+        CoverActionList {
+            id: playingActions
+
+            CoverAction {
+                iconSource: "image://theme/icon-cover-new"
+                onTriggered: {
+                    pageStack.clear();
+                    pageStack.push(appWindow.initialPage);
+                    pageStack.currentPage.showConnect(PageStackAction.Immediate);
+                    pageStack.currentPage.addHost();
+                    appWindow.activate();
+                }
+            }
+
+            CoverAction {
+                iconSource: "image://theme/icon-cover-search"
+                onTriggered: {
+                    pageStack.clear();
+                    pageStack.push(appWindow.initialPage);
+                    pageStack.currentPage.showConnect();
+                    appWindow.activate();
+                }
+            }
+        }
+    }
+
+    Component {
+        id: playingActionsComponent
+
+        CoverActionList {
+            id: playingActions
+
+            CoverAction {
+                iconSource: "../icons/icon-cover-stop.png"
+                onTriggered: cover.player.stop()
+            }
+
+            CoverAction {
+                iconSource: "image://theme/icon-cover-" + (cover.player && cover.player.state === "playing" ? "pause" : "play")
+                onTriggered: cover.player.playPause()
+            }
         }
     }
 }

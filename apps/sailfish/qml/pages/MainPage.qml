@@ -44,10 +44,10 @@ Page {
         populateMainMenu();
     }
 
-    function showConnect() {
+    function showConnect(operationType) {
         var component = Qt.createComponent("ConnectionDialog.qml")
         if (component.status === Component.Ready) {
-            component.createObject(mainPage).open()
+            component.createObject(mainPage).open(false, operationType);
         } else {
             console.log("Error loading component:", component.errorString());
         }
