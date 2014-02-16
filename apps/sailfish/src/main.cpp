@@ -26,6 +26,7 @@
 #include "libxbmcremote/xbmc.h"
 #include "libxbmcremote/eventclient.h"
 #include "libxbmcremote/settings.h"
+#include "libxbmcremote/networkaccessmanagerfactory.h"
 #include "sailfishhelper.h"
 
 #include <sailfishapp.h>
@@ -45,6 +46,7 @@ int main(int argc, char *argv[])
     Q_UNUSED(helper)
 
     QQuickView *view = SailfishApp::createView();
+    view->engine()->setNetworkAccessManagerFactory(new NetworkAccessManagerFactory());
     view->engine()->rootContext()->setContextProperty("xbmc", Xbmc::instance());
     view->engine()->rootContext()->setContextProperty("settings", &settings);
     view->setSource(SailfishApp::pathTo("qml/main.qml"));
