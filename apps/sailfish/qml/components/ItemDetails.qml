@@ -33,11 +33,9 @@ Item {
         id: flickable
         anchors {
             fill: parent
-            topMargin: 10
-            bottomMargin: 10
         }
         contentWidth: parent.width
-        contentHeight: labelColumn.height
+        contentHeight: labelColumn.height + (labelColumn.y * 2)
         clip: true
 
         PullDownMenu {
@@ -58,10 +56,13 @@ Item {
             id: labelColumn
             spacing: 5
             height: childrenRect.height
-            anchors.left: parent.left
-            anchors.leftMargin: Theme.paddingSmall + Theme.paddingLarge
-            anchors.right: parent.right
-            anchors.rightMargin: Theme.paddingLarge
+            anchors {
+                left: parent.left
+                leftMargin: Theme.paddingSmall + Theme.paddingLarge
+                right: parent.right
+                rightMargin: Theme.paddingLarge
+            }
+            y: Theme.paddingMedium
 
             Row {
                 width: parent.width; spacing: 10; visible: rating > -1
