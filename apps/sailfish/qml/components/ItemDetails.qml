@@ -41,6 +41,9 @@ Item {
         clip: true
 
         PullDownMenu {
+            enabled: playable
+            visible: enabled
+
             MenuItem {
                 text: qsTr("Add to playlist")
                 onClicked: itemDetails.addToPlaylist()
