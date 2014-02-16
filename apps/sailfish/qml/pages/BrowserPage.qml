@@ -277,6 +277,10 @@ Page {
                     duration: 300
                 }
             }
+
+            VerticalScrollDecorator {
+                flickable: listView
+            }
         }
     }
 
