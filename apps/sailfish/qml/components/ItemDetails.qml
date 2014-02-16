@@ -88,118 +88,101 @@ Item {
                 }
             }
 
-            Row {
-                width: parent.width; spacing: 10; visible: season > -1
-                Label { text: qsTr("Season:"); font.bold: true; color: Theme.highlightColor }
-                Label { text: season; color: Theme.highlightColor }
+            ItemDetailRow {
+                visible: season > -1
+                title: qsTr("Season:")
+                text: season
             }
 
-            Row {
-                width: parent.width; spacing: 10; visible: episode > -1
-                Label { text: qsTr("Episode:"); font.bold: true; color: Theme.highlightColor }
-                Label { text: episode; color: Theme.highlightColor }
+            ItemDetailRow {
+                visible: episode > -1
+                title: qsTr("Episode:")
+                text: episode
             }
 
-            Row {
-                width: parent.width; spacing: 10; visible: firstaired.length > 0
-                Label { text: qsTr("First aired:"); font.bold: true; color: Theme.highlightColor }
-                Label { text: firstaired; color: Theme.highlightColor }
+            ItemDetailRow {
+                title: qsTr("First aired:")
+                text: firstaired
             }
 
-            Row {
-                width: parent.width; spacing: 10; visible: genre.length > 0
-                Label { id: genreLabel; text: qsTr("Genre:"); font.bold: true; color: Theme.highlightColor }
-                Label { text: genre; width: parent.width - genreLabel.width - parent.spacing; wrapMode: Text.WordWrap; color: Theme.highlightColor }
+            ItemDetailRow {
+                title: qsTr("Genre:")
+                text: genre
             }
 
-            Row {
-                width: parent.width; spacing: 10; visible: year.length > 0
-                Label { text: qsTr("Year:"); font.bold: true; color: Theme.highlightColor }
-                Label { text: year; color: Theme.highlightColor }
+            ItemDetailRow {
+                title: qsTr("Year:")
+                text: year
             }
 
-            Row {
-                width: parent.width; spacing: 10; visible: director.length > 0
-                Label { id: directorLabel; text: qsTr("Director:"); font.bold: true; color: Theme.highlightColor }
-                Label { text: director; width: parent.width - directorLabel.width - parent.spacing; wrapMode: Text.WordWrap; color: Theme.highlightColor }
+            ItemDetailRow {
+                title: qsTr("Director:")
+                text: director
             }
 
-            Row {
-                width: parent.width; spacing: 10; visible: tagline.length > 0
-                Label { id: taglineLabel; text: qsTr("Tagline:"); font.bold: true; color: Theme.highlightColor }
-                Label { text: tagline; width: parent.width - taglineLabel.width - parent.spacing; wrapMode: Text.WordWrap; color: Theme.highlightColor }
+            ItemDetailRow {
+                title: qsTr("Tagline:")
+                text: tagline
             }
 
-            Row {
-                width: parent.width; spacing: 10; visible: mpaa.length > 0
-                Label { text: qsTr("MPAA:"); font.bold: true; color: Theme.highlightColor }
-                Label { text: mpaa; color: Theme.highlightColor }
+            ItemDetailRow {
+                title: qsTr("MPAA:")
+                text: mpaa
             }
 
-            Row {
-                width: parent.width; spacing: 10; visible: instrument.length > 0
-                Label { text: qsTr("Instrument:"); font.bold: true; color: Theme.highlightColor }
-                Label { text: instrument; color: Theme.highlightColor }
+            ItemDetailRow {
+                title: qsTr("Instrument:")
+                text: instrument
             }
 
-            Row {
-                width: parent.width; spacing: 10; visible: style.length > 0
-                Label { id: styleLabel; text: qsTr("Style:"); font.bold: true; color: Theme.highlightColor }
-                Label { text: model.style; width: parent.width - styleLabel.width - parent.spacing; wrapMode: Text.WordWrap; color: Theme.highlightColor }
+            ItemDetailRow {
+                title: qsTr("Style:")
+                text: model.style
             }
 
-            Row {
-                width: parent.width; spacing: 10; visible: mood.length > 0
-                Label { id: moodLabel; text: qsTr("Mood:"); font.bold: true; color: Theme.highlightColor }
-                Label { text: mood; width: parent.width - moodLabel.width - parent.spacing; wrapMode: Text.WordWrap; color: Theme.highlightColor }
+            ItemDetailRow {
+                title: qsTr("Mood:")
+                text: mood
             }
 
-            Row {
-                width: parent.width; spacing: 10; visible: born.length > 0
-                Label { text: qsTr("Born:"); font.bold: true; color: Theme.highlightColor }
-                Label { text: born; color: Theme.highlightColor }
+            ItemDetailRow {
+                title: qsTr("Born:")
+                text: born
             }
 
-            Row {
-                width: parent.width; spacing: 10; visible: formed.length > 0
-                Label { text: qsTr("Formed:"); font.bold: true; color: Theme.highlightColor }
-                Label { text: formed; color: Theme.highlightColor }
+            ItemDetailRow {
+                title: qsTr("Formed:")
+                text: formed
             }
 
-            Row {
-                width: parent.width; spacing: 10; visible: died.length > 0
-                Label { text: qsTr("Died:"); font.bold: true; color: Theme.highlightColor }
-                Label { text: died; color: Theme.highlightColor }
+            ItemDetailRow {
+                title: qsTr("Died:")
+                text: died
             }
 
-            Row {
-                width: parent.width; spacing: 10; visible: disbanded.length > 0
-                Label { text: qsTr("Disbanded:"); font.bold: true; color: Theme.highlightColor }
-                Label { text: disbanded; color: Theme.highlightColor }
+            ItemDetailRow {
+                title: qsTr("Disbanded:")
+                text: disbanded
             }
 
-            Row {
-                width: parent.width; spacing: 10; visible: duration.length > 0
-                Label { text: qsTr("Duration:"); font.bold: true; color: Theme.highlightColor }
-                Label { text: duration; color: Theme.highlightColor }
+            ItemDetailRow {
+                title: qsTr("Duration:")
+                text: duration
             }
 
-            Row {
-                width: parent.width; spacing: 10; visible: comment.length > 0
-                Label { id: commentLabel; text: qsTr("Comment:"); font.bold: true; color: Theme.highlightColor }
-                Label { text: comment; width: parent.width - commentLabel.width - parent.spacing; wrapMode: Text.WordWrap; color: Theme.highlightColor }
+            ItemDetailRow {
+                title: qsTr("Comment:")
+                text: comment
             }
 
-            Row {
-                width: parent.width; spacing: 10; visible: playcount.length > 0
-                Label { text: qsTr("Playcount:"); font.bold: true; color: Theme.highlightColor }
-                Label { text: playcount; color: Theme.highlightColor }
+            ItemDetailRow {
+                title: qsTr("Playcount:")
+                text: playcount
             }
 
-            Row {
-                width: parent.width; spacing: 10; visible: cast.length > 0
-                Label { id: castLabel; text: qsTr("Cast:"); font.bold: true; color: Theme.highlightColor }
-                Label { text: cast; width: parent.width - castLabel.width - parent.spacing; wrapMode: Text.WordWrap; color: Theme.highlightColor }
+            ItemDetailRow {
+                title: qsTr("Cast:")
+                text: cast
             }
 
             Label {

@@ -25,5 +25,6 @@ OTHER_FILES += \
     qml/pages/AboutDialog.qml \
     qml/pages/AuthenticationDialog.qml \
     qml/components/ItemDetails.qml \
-    qml/components/NoConnection.qml
+    qml/components/NoConnection.qml \
+    qml/components/ItemDetailRow.qml
 
