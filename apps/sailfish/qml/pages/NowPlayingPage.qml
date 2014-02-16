@@ -45,6 +45,10 @@ Page {
         }
     }
 
+    property bool timerActive: Qt.application.active && nowPlayingPage.status == PageStatus.Active
+
+    onTimerActiveChanged: { player.timerActive = timerActive }
+
     SilicaFlickable {
         anchors.fill: parent
 
@@ -181,10 +185,37 @@ Page {
 
                 Column {
                     id: playerColumn
+                    width: parent.width
 
                     PlayerControls {
                         anchors.horizontalCenter: parent.horizontalCenter
                         player: nowPlayingPage.player
+                    }
+
+                    ProgressBar {
+                        width: parent.width
+                        leftMargin: 0
+                        rightMargin: 0
+
+                        minimumValue: 0
+                        maximumValue: 100
+                        value: player ? player.percentage : 0
+
+                        Label {
+                            anchors.left: parent.left
+                            anchors.bottom: parent.bottom
+                            color: Theme.highlightColor
+                            font.pixelSize: Theme.fontSizeExtraSmall
+                            text: player ? player.time : "00:00"
+                        }
+
+                        Label {
+                            anchors.right: parent.right
+                            anchors.bottom: parent.bottom
+                            color: Theme.highlightColor
+                            font.pixelSize: Theme.fontSizeExtraSmall
+                            text: currentItem ? currentItem.durationString : "00:00"
+                        }
                     }
                 }
 
