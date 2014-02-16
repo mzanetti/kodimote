@@ -211,5 +211,7 @@ Item {
                 color: Theme.highlightColor
             }
         }
+
+        VerticalScrollDecorator { }
     }
 }

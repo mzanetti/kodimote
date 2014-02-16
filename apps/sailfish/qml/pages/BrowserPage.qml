@@ -278,9 +278,7 @@ Page {
                 }
             }
 
-            VerticalScrollDecorator {
-                flickable: listView
-            }
+            VerticalScrollDecorator { }
         }
     }
 
