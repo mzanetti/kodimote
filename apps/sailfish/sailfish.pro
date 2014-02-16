@@ -29,5 +29,6 @@ OTHER_FILES += \
     qml/components/ItemDetailRow.qml \
     qml/pages/SettingsDialog.qml \
     qml/pages/NowPlayingPage.qml \
-    qml/components/PlayerControls.qml
+    qml/components/PlayerControls.qml \
+    qml/components/NowPlayingDetails.qml
 

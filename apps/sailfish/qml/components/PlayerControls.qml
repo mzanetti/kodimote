@@ -25,8 +25,6 @@ import Sailfish.Silica 1.0
 Row {
     id: playerControls
 
-    height: button.height
-
     property QtObject player
     spacing: Theme.paddingSmall
 

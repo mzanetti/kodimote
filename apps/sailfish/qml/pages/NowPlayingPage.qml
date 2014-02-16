@@ -39,101 +39,152 @@ Page {
         }
     }
 
-    Drawer {
-        id: drawer
-
+    SilicaFlickable {
         anchors.fill: parent
-        backgroundSize: height
 
-        SilicaFlickable {
-            anchors.fill: parent
+        PullDownMenu {
+            MenuPlayerControls {
 
-            PullDownMenu {
-                MenuPlayerControls {
+            }
 
-                }
-
-                MenuItem {
-                    text: qsTr("Media")
-                    onClicked: {
-                        pageStack.pop();
-                    }
-                }
-
-                MenuItem {
-                    text: qsTr("Now playing")
-                    enabled: false
+            MenuItem {
+                text: qsTr("Media")
+                onClicked: {
+                    pageStack.pop();
                 }
             }
 
-            Grid {
-                anchors.fill: parent
-                anchors.margins: Theme.paddingLarge
-                columns: nowPlayingPage.isPortrait ? 1 : 2
-                spacing: Theme.paddingMedium
+            MenuItem {
+                text: qsTr("Now playing")
+                enabled: false
+            }
+        }
 
-                Thumbnail {
-                    id: imageItem
-                    artworkSource: currentItem ? currentItem.thumbnail : ""
-                    height: nowPlayingPage.isPortrait ? parent.width : parent.height
-                    width: nowPlayingPage.isPortrait ? parent.width : height
-                    fillMode: Image.PreserveAspectFit
-                    smooth: true
-                    defaultText: currentItem ? currentItem.title : ""
+        contentHeight: column.childrenRect.height
+
+        Column {
+            id: column
+            anchors.left: parent.left
+            anchors.right: parent.right
+            anchors.margins: Theme.paddingLarge
+
+            Thumbnail {
+                artworkSource: currentItem ? currentItem.thumbnail : ""
+                width: parent.width
+                height: parent.width
+                fillMode: Image.PreserveAspectFit
+                smooth: true
+                defaultText: currentItem ? currentItem.title : ""
+
+                MouseArea {
+                    anchors.fill: parent
+                    onClicked: drawer.open = !drawer.open
+                }
+            }
+
+            Item {
+                height: titleLabel.height
+                anchors.left: parent.left
+                anchors.right: parent.right
+                Label {
+                    id: titleLabel
+                    anchors {
+                        left: parent.left
+                        right: playlistItemLabel.left
+                        rightMargin: Theme.paddingMedium
+                    }
+                    font {
+                        bold: true
+                        family: Theme.fontFamilyHeading
+                    }
+                    elide: Text.ElideRight
+                    text: currentItem ? currentItem.title : ""
+
+                    MouseArea {
+                        anchors.fill: parent
+
+                        onClicked: drawer.open = !drawer.open
+                    }
                 }
 
+                Label {
+                    id: playlistItemLabel
+                    anchors.right: parent.right
+                    color: Theme.highlightColor
+                    elide: Text.ElideRight
+                    text: playlist ? playlist.currentTrackNumber + "/" + playlist.count : "0/0"
+
+                    Behavior on opacity {
+                        NumberAnimation {
+                            property: "opacity"
+                            duration: 300
+                            easing.type: Easing.InOutQuad
+                        }
+                    }
+                }
+            }
+
+            Label {
+                text: currentItem.subtitle
+                width: parent.width
+                elide: Text.ElideRight
+                color: Theme.highlightColor
+                visible: text.length > 0
+                font {
+                    family: Theme.fontFamilyHeading
+                    bold: true
+                }
+            }
+
+            Label {
+                text: currentItem.album
+                width: parent.width
+                elide: Text.ElideRight
+                visible: text.length > 0
+                font.bold: true
+            }
+
+            ItemDetailRow {
+                visible: currentItem.season > -1
+                title: qsTr("Season:")
+                text: currentItem.season
+            }
+
+            ItemDetailRow {
+                visible: currentItem.episode > -1
+                title: qsTr("Episode:")
+                text: currentItem.episode
+            }
+
+            Drawer {
+                id: drawer
+                backgroundSize: itemDetails.height
+                property real backgroundHeight: itemDetails.height * drawer._progress
+
+                background: NowPlayingDetails {
+                    id: itemDetails
+
+                    width: parent.width
+                }
+
+                height: playerColumn.height < backgroundHeight ? backgroundHeight : playerColumn.height
+                width: parent.width
+
                 Column {
-                    id: textItem
-                    width: nowPlayingPage.isPortrait ? parent.width : parent.width - imageItem.width - parent.spacing
-                    height: nowPlayingPage.isPortrait ? parent.height - imageItem.height - parent.spacing : parent.height
-                    spacing: Theme.paddingSmall
-
-                    Item {
-                        height: titleLabel.height
-                        anchors.left: parent.left
-                        anchors.right: parent.right
-                        Label {
-                            id: titleLabel
-                            anchors {
-                                left: parent.left
-                                right: playlistItemLabel.left
-                                rightMargin: Theme.paddingMedium
-                            }
-                            font {
-                                bold: true
-                                family: Theme.fontFamilyHeading
-                            }
-                            color: Theme.highlightColor
-                            elide: Text.ElideRight
-                            text: currentItem ? currentItem.title : ""
-                        }
-
-                        Label {
-                            id: playlistItemLabel
-                            anchors.right: parent.right
-                            color: Theme.highlightColor
-                            elide: Text.ElideRight
-                            text: playlist ? playlist.currentTrackNumber + "/" + playlist.count : "0/0"
-                        }
-                    }
-
-                    Label {
-                        color: Theme.highlightColor
-                        elide: Text.ElideRight
-                        text: currentItem ?  (xbmc.state == "audio" ? currentItem.artist : (currentItem.type == "episode" ? currentItem.tvShow : qsTr("Year:") + " " + currentItem.year)) : ""
-                    }
-
-                    Label {
-                        color: Theme.highlightColor
-                        elide: Text.ElideRight
-                        text: currentItem ? (xbmc.state == "audio" ? currentItem.album : (currentItem.type == "episode" ? qsTr("Season:") + " " + currentItem.season + "   " + qsTr("Episode:") + " " + currentItem.episode : qsTr("Rating:") + " ")) : ""
-                    }
+                    id: playerColumn
 
                     PlayerControls {
                         anchors.horizontalCenter: parent.horizontalCenter
                         player: nowPlayingPage.player
                     }
                 }
+
+                states: [
+                    State {
+                        when: drawer.opened
+                        PropertyChanges { target: playlistItemLabel; opacity: 0 }
+                    }
+                ]
             }
         }
     }
