@@ -30,5 +30,6 @@ OTHER_FILES += \
     qml/pages/SettingsDialog.qml \
     qml/pages/NowPlayingPage.qml \
     qml/components/PlayerControls.qml \
-    qml/components/NowPlayingDetails.qml
+    qml/components/NowPlayingDetails.qml \
+    qml/pages/PlaylistPage.qml
 

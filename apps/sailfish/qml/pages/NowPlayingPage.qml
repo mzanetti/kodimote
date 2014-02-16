@@ -39,6 +39,12 @@ Page {
         }
     }
 
+    onStatusChanged: {
+        if (status === PageStatus.Active) {
+            pageStack.pushAttached(Qt.resolvedUrl("PlaylistPage.qml"));
+        }
+    }
+
     SilicaFlickable {
         anchors.fill: parent
 
@@ -102,7 +108,6 @@ Page {
 
                     MouseArea {
                         anchors.fill: parent
-
                         onClicked: drawer.open = !drawer.open
                     }
                 }
@@ -110,7 +115,6 @@ Page {
                 Label {
                     id: playlistItemLabel
                     anchors.right: parent.right
-                    color: Theme.highlightColor
                     elide: Text.ElideRight
                     text: playlist ? playlist.currentTrackNumber + "/" + playlist.count : "0/0"
 
@@ -120,6 +124,11 @@ Page {
                             duration: 300
                             easing.type: Easing.InOutQuad
                         }
+                    }
+
+                    MouseArea {
+                        anchors.fill: parent
+                        onClicked: pageStack.navigateForward()
                     }
                 }
             }
