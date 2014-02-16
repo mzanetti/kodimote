@@ -42,6 +42,7 @@ Dialog {
 
         Label {
             font.pixelSize: Theme.fontSizeSmall
+            color: Theme.highlightColor
             text: "Michael Zanetti<br>michael_zanetti@gmx.net<br>http://notyetthere.org/maemomeego/xbmcremote" +
                   "<br>Sailfish port by:<br>Robert Meijers<br>robert.meijers@gmail.com";
         }
@@ -57,6 +58,7 @@ Dialog {
                 width: parent.width
                 wrapMode: Text.WordWrap
                 font.pixelSize: Theme.fontSizeSmall * 0.75
+                color: Theme.highlightColor
                 text: "This program is free software: you can redistribute it and/or modify " +
                       "it under the terms of the GNU General Public License as published by " +
                       "the Free Software Foundation, either version 3 of the License, or " +

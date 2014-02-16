@@ -132,7 +132,6 @@ Page {
                     text: listView.model.title(index)
                     font.weight: Font.Bold
                     font.pixelSize: Theme.fontSizeLarge
-                    color: listItem.highlighted ? Theme.highlightColor : Theme.primaryColor
                 }
 
                 Label {
@@ -147,7 +146,7 @@ Page {
                         }
                     }
                     visible: libraryTarget && sharesTarget
-                    color: listItem.highlighted ? Theme.secondaryHighlightColor : Theme.secondaryColor
+                    color: Theme.secondaryColor
                 }
             }
 

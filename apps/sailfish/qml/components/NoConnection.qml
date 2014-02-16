@@ -56,6 +56,7 @@ Item {
                 text: xbmc.connectionError
                 wrapMode: Text.WordWrap
                 horizontalAlignment: Text.AlignHCenter
+                color: Theme.highlightColor
             }
 
             Button{

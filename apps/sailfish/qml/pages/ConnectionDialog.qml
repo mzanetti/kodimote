@@ -65,6 +65,7 @@ Dialog {
                     font.pixelSize: Theme.fontSizeMedium
                     width: parent.width
                     wrapMode: Text.WordWrap
+                    color: Theme.highlightColor
                     text: qsTr("Searching for XBMC hosts.") + "\n" + "\n"
                           + qsTr("Please enable the following options in the Services settings of XBMC:") + "\n- "
                           + qsTr("Allow control of XBMC via HTTP") + "\n- "
