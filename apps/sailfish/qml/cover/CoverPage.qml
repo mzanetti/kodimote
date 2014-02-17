@@ -46,7 +46,7 @@ CoverBackground {
     }
 
     Label {
-        id: label
+        id: description
         anchors.centerIn: parent
         width: parent.width - 2*Theme.paddingLarge
         color: Theme.secondaryColor
@@ -54,9 +54,6 @@ CoverBackground {
         verticalAlignment: Text.AlignVCenter
         wrapMode: Text.Wrap
         fontSizeMode: Text.Fit
-
-        text: xbmc.connected ? xbmc.connectedHostName : qsTr("XBMC remote") + "\n" +
-                               qsTr("Disconnected")
     }
 
     Loader {
@@ -66,15 +63,37 @@ CoverBackground {
     states: [
         State {
             when: cover.player && (cover.player.state === "playing" || cover.player.state === "paused")
-            PropertyChanges { target: actionsLoader; sourceComponent: playingActionsComponent }
+            PropertyChanges {
+                target: actionsLoader
+                sourceComponent: playingActionsComponent
+            }
+            PropertyChanges {
+                target: description
+                text: cover.currentItem ? (cover.currentItem.title + "\n" + cover.currentItem.subtitle) : ""
+            }
         },
         State {
             when: xbmc.connected
-            PropertyChanges { target: actionsLoader; sourceComponent: connectedActionsComponent }
+            PropertyChanges {
+                target: actionsLoader
+                sourceComponent: connectedActionsComponent
+            }
+            PropertyChanges {
+                target: description
+                text: qsTr("XBMC on") + "\n" + xbmc.connectedHostName
+            }
         },
         State {
             when: !xbmc.connected
-            PropertyChanges { target: actionsLoader; sourceComponent: disconnectedActionsComponent }
+            PropertyChanges {
+                target: actionsLoader
+                sourceComponent: disconnectedActionsComponent
+            }
+            PropertyChanges {
+                target: description
+                text: qsTr("XBMC remote") + "\n" +
+                      qsTr("Disconnected")
+            }
         }
 
     ]
