@@ -37,6 +37,11 @@ Row {
     }
 
     IconButton {
+        icon.source: "../icons/icon-m-stop.png"
+        onClicked: playerControls.player.stop()
+    }
+
+    IconButton {
         icon.source: "image://theme/icon-m-" + (playerControls.player && playerControls.player.state === "playing" ? "pause" : "play")
         onClicked: playerControls.player.playPause()
     }
