@@ -193,6 +193,7 @@ Page {
                     }
 
                     ProgressBar {
+                        id: progressBar
                         width: parent.width
                         leftMargin: 0
                         rightMargin: 0
@@ -215,6 +216,71 @@ Page {
                             color: Theme.highlightColor
                             font.pixelSize: Theme.fontSizeExtraSmall
                             text: currentItem ? currentItem.durationString : "00:00"
+                        }
+
+                        Rectangle {
+                            color: Theme.primaryColor
+                            rotation: 45
+                            width: 10
+                            height: 10
+                            anchors.horizontalCenter: progressBarLabel.horizontalCenter
+                            anchors.verticalCenter: progressBarLabel.bottom
+                            visible: progressBarLabel.visible
+                        }
+
+                        Rectangle {
+                            id: progressBarLabel
+                            color: Theme.primaryColor
+                            anchors.bottom: parent.bottom
+                            anchors.bottomMargin: (Theme.paddingLarge * 2) + Theme.fontSizeSmall
+                            height: 40
+                            width: progressBarLabelText.width + 20
+                            radius: 5
+                            visible: progressBarMouseArea.pressed
+
+                            Label {
+                                id: progressBarLabelText
+                                anchors.centerIn: parent
+                                color: Theme.highlightSecondaryColor
+                            }
+                        }
+
+                        MouseArea {
+                            id: progressBarMouseArea
+                            height: Theme.paddingLarge
+                            width: parent.width
+                            anchors.bottom: parent.bottom
+                            anchors.bottomMargin: Theme.fontSizeSmall
+                            preventStealing: true
+
+                            onMouseXChanged: {
+                                // Center label on mouseX
+                                progressBarLabel.x = mouseX - progressBarLabel.width / 2;
+
+                                // Calculate time under mouseX
+                                var progressedWidth = mouseX - progressBar.x;
+                                var targetTime = progressedWidth * currentItem.durationInSecs / progressBar.width;
+                                targetTime = Math.min(targetTime, currentItem.durationInSecs);
+                                targetTime = Math.max(targetTime, 0);
+
+                                // Translate to human readable time
+                                var hours = Math.floor(targetTime / 60 / 60);
+                                var minutes = Math.floor(targetTime / 60) % 60;
+                                if(minutes < 10) minutes = "0" + minutes;
+                                var seconds = Math.floor(targetTime) % 60;
+                                if(seconds < 10) seconds = "0" + seconds;
+
+                                // Write into the label
+                                if(currentItem.durationInSecs < 60 * 60) {
+                                    progressBarLabelText.text = minutes + ":" + seconds;
+                                } else {
+                                    progressBarLabelText.text = hours + ":" + minutes + ":" + seconds;
+                                }
+                            }
+
+                            onReleased: {
+                                player.seek(mouseX * 100 / width)
+                            }
                         }
                     }
                 }
