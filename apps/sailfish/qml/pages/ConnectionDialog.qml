@@ -32,6 +32,10 @@ Dialog {
         xbmc.hostModel().connectToHost(hostList.currentIndex);
     }
 
+    function addHost() {
+        pageStack.push(Qt.resolvedUrl("AddHostDialog.qml"));
+    }
+
     SilicaListView {
         id: hostList
         anchors.fill: parent
@@ -79,7 +83,7 @@ Dialog {
         PullDownMenu {
             MenuItem {
                 text: qsTr("Add host")
-                onClicked: pageStack.push(Qt.resolvedUrl("AddHostDialog.qml"))
+                onClicked: connectionDialog.addHost()
             }
         }
 

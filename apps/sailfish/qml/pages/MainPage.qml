@@ -44,10 +44,40 @@ Page {
         populateMainMenu();
     }
 
-    function showConnect() {
+    function showConnect(operationType) {
         var component = Qt.createComponent("ConnectionDialog.qml")
         if (component.status === Component.Ready) {
-            component.createObject(mainPage).open()
+            component.createObject(mainPage).open(false, operationType);
+        } else {
+            console.log("Error loading component:", component.errorString());
+        }
+    }
+
+    function browse(target) {
+        var menuModel = null;
+
+        for (var i = mainMenuModel.count; i--;) {
+            menuModel = mainMenuModel.get(i);
+            if (menuModel.target === target) {
+                break;
+            }
+        }
+
+        if (menuModel < 0) {
+            return;
+        }
+
+        var component = Qt.createComponent("BrowserPage.qml")
+        if (component.status === Component.Ready) {
+            var newModel;
+            if (menuModel.mode === "library") {
+                newModel = xbmc[menuModel.libraryTarget]();
+            } else {
+                newModel = xbmc.shares(menuModel.target);
+            }
+
+            console.log("setting model: " + newModel);
+            pageStack.push(component, {model: newModel});
         } else {
             console.log("Error loading component:", component.errorString());
         }
@@ -154,22 +184,7 @@ Page {
 
             showMenuOnPressAndHold: hasMenu
 
-            onClicked: {
-                var component = Qt.createComponent("BrowserPage.qml")
-                if (component.status === Component.Ready) {
-                    var newModel;
-                    if (mode === "library") {
-                        newModel = xbmc[libraryTarget]();
-                    } else {
-                        newModel = xbmc.shares(target);
-                    }
-
-                    console.log("setting model: " + newModel);
-                    pageStack.push(component, {model: newModel});
-                } else {
-                    console.log("Error loading component:", component.errorString());
-                }
-            }
+            onClicked: browse(target)
 
             Component {
                 id: contextMenuComponent
