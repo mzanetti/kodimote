@@ -22,6 +22,7 @@
 import QtQuick 2.0
 import Sailfish.Silica 1.0
 import "../components/"
+import Xbmc 1.0
 
 Page {
     id: nowPlayingPage
@@ -280,6 +281,33 @@ Page {
 
                             onReleased: {
                                 player.seek(mouseX * 100 / width)
+                            }
+                        }
+                    }
+
+                    Row {
+                        spacing: Theme.itemSizeSmall
+                        anchors.horizontalCenter: parent.horizontalCenter
+
+                        Switch {
+                            icon.source: "image://theme/icon-l-shuffle"
+                            visible: xbmc.state == "audio"
+                            checked: player && player.shuffle
+                            onClicked: player.shuffle = ! player.shuffle
+                        }
+                        Switch {
+                            icon.source: player && player.repeat === Player.RepeatOne ? "../icons/icon-l-repeat-one.png" : "image://theme/icon-l-repeat"
+                            visible: xbmc.state == "audio"
+                            checked: player && player.repeat !== Player.RepeatNone
+                            automaticCheck: false
+                            onClicked: {
+                                if (player.repeat === Player.RepeatNone) {
+                                    player.repeat = Player.RepeatOne;
+                                } else if (player.repeat === Player.RepeatOne) {
+                                    player.repeat = Player.RepeatAll;
+                                } else {
+                                    player.repeat = Player.RepeatNone;
+                                }
                             }
                         }
                     }
