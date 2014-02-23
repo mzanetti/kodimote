@@ -125,6 +125,19 @@ Page {
             }
 
             MenuItem {
+                id: settingsMenu
+                text: qsTr("Settings")
+                onClicked: {
+                    var component = Qt.createComponent("SettingsDialog.qml")
+                    if (component.status === Component.Ready) {
+                        component.createObject(mainPage).open()
+                    } else {
+                        console.log("Error loading component:", component.errorString());
+                    }
+                }
+            }
+
+            MenuItem {
                 text: qsTr("About")
                 onClicked: {
                     var component = Qt.createComponent("AboutDialog.qml")
