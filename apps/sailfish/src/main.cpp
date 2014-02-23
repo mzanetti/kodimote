@@ -38,6 +38,22 @@ int main(int argc, char *argv[])
 
     QGuiApplication *application = SailfishApp::application(argc, argv);
 
+    // Load language file
+    QString language = QLocale::system().bcp47Name();
+    qDebug() << "got language:" << language;
+
+    QTranslator qtTranslator;
+    if(!qtTranslator.load("qt_" + language, QLibraryInfo::location(QLibraryInfo::TranslationsPath))) {
+        qDebug() << "couldn't load qt_" + language;
+    }
+    application->installTranslator(&qtTranslator);
+
+    QTranslator translator;
+    if (!translator.load(":/xbmcremote_" + language + ".qm")) {
+        qDebug() << "Cannot load translation file" << "xbmcremote_" + language + ".qm";
+    }
+    application->installTranslator(&translator);
+
     Xbmc::instance()->setDataPath(QStandardPaths::writableLocation(QStandardPaths::CacheLocation));
 
     Settings settings;
