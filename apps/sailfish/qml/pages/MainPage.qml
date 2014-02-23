@@ -34,7 +34,7 @@ Page {
             PropertyChanges { target: listView.headerItem; visible: true }
             PropertyChanges { target: mainMenu; visible: true; enabled: true }
             PropertyChanges { target: listView; model: mainMenuModel }
-            PropertyChanges { target: quitXbmc; visible: true }
+            PropertyChanges { target: powerItem; visible: true }
             PropertyChanges { target: noConnection; visible: false }
         }
     ]
@@ -111,9 +111,9 @@ Page {
             }
 
             MenuItem {
-                id: quitXbmc
+                id: powerItem
                 visible: false
-                text: qsTr("Quit xbmc")
+                text: qsTr("Power")
                 onClicked: {
                     var component = Qt.createComponent("QuitDialog.qml")
                     if (component.status === Component.Ready) {

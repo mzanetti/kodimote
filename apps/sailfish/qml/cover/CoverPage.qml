@@ -34,7 +34,7 @@ CoverBackground {
         width: cover.hasThumbnail > 0 ? parent.width - 2*Theme.paddingLarge : 80
 
         anchors.top: parent.top
-        anchors.bottom: label.top
+        anchors.bottom: description.top
         anchors.topMargin: Theme.paddingLarge
         anchors.bottomMargin: Theme.paddingLarge
         anchors.horizontalCenter: parent.horizontalCenter
