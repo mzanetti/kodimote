@@ -26,6 +26,7 @@ ApplicationWindow
 {
     id: appWindow
 
+    cover: Qt.resolvedUrl("cover/CoverPage.qml")
     initialPage: mainPageComponent
 
     Component {
@@ -75,5 +76,96 @@ ApplicationWindow
         }
     }
 
-    cover: Qt.resolvedUrl("cover/CoverPage.qml")
+    Component {
+        id: datePickerComponent
+        DatePickerDialog {
+            property string initialValue
+            readonly property string value: Qt.formatDate(date, "dd/MM/yyyy")
+
+            onInitialValueChanged: {
+                var splitted = initialValue.split("/");
+                date = new Date(splitted[2], splitted[1], splitted[0]);
+            }
+        }
+    }
+
+    Component {
+        id: timePickerComponent
+        TimePickerDialog {
+            property string initialValue
+            readonly property string value: Qt.formatTime(time, "hh:mm")
+
+            onInitialValueChanged: {
+                var splitted = initialValue.split(":");
+                hour = splitted[0];
+                minute = splitted[1];
+            }
+        }
+    }
+
+    Component {
+        id: inputComponent
+
+        Dialog {
+            property alias initialValue: inputField.text
+            property alias value: inputField.text
+
+            property alias title: inputField.label
+            property alias inputMethodHints: inputField.inputMethodHints
+
+            Component.onCompleted: inputField.forceActiveFocus()
+
+            DialogHeader {
+                id: header
+            }
+
+            TextField {
+                id: inputField
+                anchors.top: header.bottom
+                width: parent.width
+
+                placeholderText: label
+
+                EnterKey.iconSource: "image://theme/icon-m-enter-accept"
+                EnterKey.onClicked: parent.accept()
+            }
+        }
+    }
+
+    property variant inputDialog
+
+    Connections {
+        target: xbmc.keys()
+        onInputRequested: {
+            if (type === "date") {
+                appWindow.inputDialog = datePickerComponent.createObject(appWindow);
+            } else if (type === "time") {
+                appWindow.inputDialog = timePickerComponent.createObject(appWindow);
+            } else {
+                appWindow.inputDialog = inputComponent.createObject(appWindow);
+                appWindow.inputDialog.title = title;
+
+                if (type === "number" || type === "numericpassword" || type === "seconds") {
+                    appWindow.inputDialog.inputMethodHints = Qt.ImhDigitsOnly;
+                }
+            }
+
+            appWindow.inputDialog.initialValue = value;
+            appWindow.inputDialog.accepted.connect(function() {
+                var value = appWindow.inputDialog.value;
+                console.log("Sending text: " + value)
+                xbmc.keys().sendText(value);
+            });
+            appWindow.inputDialog.rejected.connect(function() {
+                xbmc.keys().previousMenu();
+            });
+            appWindow.inputDialog.open();
+        }
+        onInputFinished: {
+            if (appWindow.inputDialog) {
+                appWindow.inputDialog.close();
+                appWindow.inputDialog = null;
+            }
+        }
+    }
 }
