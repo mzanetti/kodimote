@@ -45,12 +45,7 @@ Page {
     }
 
     function showConnect(operationType) {
-        var component = Qt.createComponent("ConnectionDialog.qml")
-        if (component.status === Component.Ready) {
-            component.createObject(mainPage).open(false, operationType);
-        } else {
-            console.log("Error loading component:", component.errorString());
-        }
+        pageStack.push("ConnectionDialog.qml", undefined, operationType);
     }
 
     function browse(target) {
@@ -67,20 +62,15 @@ Page {
             return;
         }
 
-        var component = Qt.createComponent("BrowserPage.qml")
-        if (component.status === Component.Ready) {
-            var newModel;
-            if (menuModel.mode === "library") {
-                newModel = xbmc[menuModel.libraryTarget]();
-            } else {
-                newModel = xbmc.shares(menuModel.target);
-            }
-
-            console.log("setting model: " + newModel);
-            pageStack.push(component, {model: newModel});
+        var newModel;
+        if (menuModel.mode === "library") {
+            newModel = xbmc[menuModel.libraryTarget]();
         } else {
-            console.log("Error loading component:", component.errorString());
+            newModel = xbmc.shares(menuModel.target);
         }
+
+        console.log("setting model: " + newModel);
+        pageStack.push("BrowserPage.qml", {model: newModel});
     }
 
     SilicaListView {
@@ -115,12 +105,7 @@ Page {
                 visible: false
                 text: qsTr("Power")
                 onClicked: {
-                    var component = Qt.createComponent("QuitDialog.qml")
-                    if (component.status === Component.Ready) {
-                        component.createObject(mainPage).open()
-                    } else {
-                        console.log("Error loading component:", component.errorString());
-                    }
+                    pageStack.push("QuitDialog.qml");
                 }
             }
 
@@ -128,24 +113,14 @@ Page {
                 id: settingsMenu
                 text: qsTr("Settings")
                 onClicked: {
-                    var component = Qt.createComponent("SettingsDialog.qml")
-                    if (component.status === Component.Ready) {
-                        component.createObject(mainPage).open()
-                    } else {
-                        console.log("Error loading component:", component.errorString());
-                    }
+                    pageStack.push("SettingsDialog.qml");
                 }
             }
 
             MenuItem {
                 text: qsTr("About")
                 onClicked: {
-                    var component = Qt.createComponent("AboutDialog.qml")
-                    if (component.status === Component.Ready) {
-                        component.createObject(mainPage).open()
-                    } else {
-                        console.log("Error loading component:", component.errorString());
-                    }
+                    pageStack.push("AboutDialog.qml");
                 }
             }
         }

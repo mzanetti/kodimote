@@ -145,14 +145,9 @@ Page {
                             drawer.open = false;
                         } else {
                             if (filetype === "directory") {
-                                var component = Qt.createComponent("BrowserPage.qml")
-                                if (component.status === Component.Ready) {
-                                    var newModel = browserPage.model.enterItem(filterModel.mapToSourceIndex(index));
-                                    newModel.ignoreArticle = settings.ignoreArticle;
-                                    pageStack.push(component, {model: newModel});
-                                } else {
-                                    console.log("Error loading component:", component.errorString());
-                                }
+                                var newModel = browserPage.model.enterItem(filterModel.mapToSourceIndex(index));
+                                newModel.ignoreArticle = settings.ignoreArticle;
+                                pageStack.push("BrowserPage.qml", {model: newModel});
                             } else {
                                 browserPage.model.playItem(filterModel.mapToSourceIndex(index));
                             }
