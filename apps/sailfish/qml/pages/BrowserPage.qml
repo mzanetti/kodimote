@@ -28,8 +28,12 @@ Page {
     id: browserPage
     property variant model
 
+    signal home();
+
     Component.onDestruction: {
-        model.exit();
+        if (model) {
+            model.exit();
+        }
     }
 
     XbmcFilterModel {
@@ -51,7 +55,7 @@ Page {
             MenuItem {
                 text: qsTr("Home")
                 onClicked: {
-                    pageStack.pop(mainPage);
+                    browserPage.home();
                 }
             }
         }
@@ -63,15 +67,15 @@ Page {
 
             PageHeader {
                 id: header
-                title: model.title
+                title: model ? model.title : ""
             }
         }
 
         BusyIndicator {
             id: busyIndicator
             anchors.centerIn: parent
-            running: model.busy
-            visible: model.busy
+            running: model && model.busy
+            visible: model && model.busy
             size: BusyIndicatorSize.Large
         }
 
@@ -85,9 +89,9 @@ Page {
             clip: true
 
             property bool useThumbnails: settings.useThumbnails
-            property int itemHeight: browserPage.model.thumbnailFormat === XbmcModel.ThumbnailFormatPortrait ? 122 : 88
+            property int itemHeight: browserPage.model && browserPage.model.thumbnailFormat === XbmcModel.ThumbnailFormatPortrait ? 122 : 88
 
-            header: !model.busy && browserPage.model.allowSearch ? searchFieldComponent : null
+            header: !model.busy && browserPage.model && browserPage.model.allowSearch ? searchFieldComponent : null
 
             delegate: Drawer {
                 id: drawer
@@ -147,7 +151,10 @@ Page {
                             if (filetype === "directory") {
                                 var newModel = browserPage.model.enterItem(filterModel.mapToSourceIndex(index));
                                 newModel.ignoreArticle = settings.ignoreArticle;
-                                pageStack.push("BrowserPage.qml", {model: newModel});
+                                var browser = pageStack.push("BrowserPage.qml", {model: newModel});
+                                browser.home.connect(function() {
+                                    browserPage.home();
+                                });
                             } else {
                                 browserPage.model.playItem(filterModel.mapToSourceIndex(index));
                             }

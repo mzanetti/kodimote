@@ -70,7 +70,10 @@ Page {
         }
 
         console.log("setting model: " + newModel);
-        pageStack.push("BrowserPage.qml", {model: newModel});
+        var browser = pageStack.push("BrowserPage.qml", {model: newModel});
+        browser.home.connect(function() {
+            pageStack.pop(mainPage);
+        });
     }
 
     SilicaListView {
