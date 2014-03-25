@@ -42,9 +42,9 @@ Dialog {
             anchors.right: parent.right
             anchors.margins: Theme.paddingLarge
             spacing: Theme.paddingSmall
+
             SectionHeader {
                 text: qsTr("Look and feel")
-                width: parent.width
             }
 
             TextSwitch {
@@ -61,6 +61,10 @@ Dialog {
                 id: ignoreArticle
                 text: qsTr("Ignore articles for sorting")
                 checked: settings.ignoreArticle
+            }
+
+            SectionHeader {
+                text: qsTr("Used media")
             }
 
             Row {
