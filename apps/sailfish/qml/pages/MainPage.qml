@@ -99,7 +99,7 @@ Page {
 
         PushUpMenu {
             MenuItem {
-                text: qsTr("Connect...")
+                text: qsTr("Change connection...")
                 onClicked: showConnect()
             }
 
