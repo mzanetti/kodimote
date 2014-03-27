@@ -45,6 +45,7 @@ Page {
     SilicaFlickable {
         id: flickable
         interactive: !listView.flicking
+        pressDelay: 0
         anchors.fill: parent
 
         PullDownMenu {
@@ -87,6 +88,7 @@ Page {
             anchors.bottom: parent.bottom
             width: parent.width
             clip: true
+            pressDelay: 0
 
             property bool useThumbnails: settings.useThumbnails
             property int itemHeight: browserPage.model && browserPage.model.thumbnailFormat === XbmcModel.ThumbnailFormatPortrait ? 122 : 88
