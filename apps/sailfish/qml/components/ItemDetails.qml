@@ -36,7 +36,6 @@ Item {
         }
         contentWidth: parent.width
         contentHeight: labelColumn.height + (labelColumn.y * 2)
-        clip: true
 
         PullDownMenu {
             enabled: playable

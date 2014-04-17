@@ -87,7 +87,6 @@ Page {
             anchors.top: headerContainer.bottom
             anchors.bottom: parent.bottom
             width: parent.width
-            clip: true
             pressDelay: 0
             cacheBuffer: itemHeight * 3
 
