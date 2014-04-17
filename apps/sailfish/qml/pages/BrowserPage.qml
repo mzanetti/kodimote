@@ -89,6 +89,7 @@ Page {
             width: parent.width
             clip: true
             pressDelay: 0
+            cacheBuffer: itemHeight * 3
 
             property bool useThumbnails: settings.useThumbnails
             property int itemHeight: browserPage.model && browserPage.model.thumbnailFormat === XbmcModel.ThumbnailFormatPortrait ? 122 : 88
