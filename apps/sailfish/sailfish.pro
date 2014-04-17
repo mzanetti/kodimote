@@ -27,5 +27,10 @@ OTHER_FILES += \
     qml/components/ItemDetails.qml \
     qml/components/NoConnection.qml \
     qml/components/ItemDetailRow.qml \
-    qml/pages/SettingsDialog.qml
+    qml/pages/SettingsDialog.qml \
+    qml/pages/NowPlayingPage.qml \
+    qml/components/PlayerControls.qml \
+    qml/components/NowPlayingDetails.qml \
+    qml/pages/PlaylistPage.qml \
+    qml/pages/MediaSelectionDialog.qml
 

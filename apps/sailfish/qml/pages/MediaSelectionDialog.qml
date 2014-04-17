@@ -22,32 +22,40 @@
 import QtQuick 2.0
 import Sailfish.Silica 1.0
 
-Row {
-    id: playerControls
+Dialog {
+    id: mediaSelectionDialog
 
-    property QtObject player: xbmc.activePlayer
-    property QtObject currentItem: player ? player.currentItem : null
+    property alias mediaModel: mediaSelection.model
+    property int currentIndex
+    property bool supportsOff: false
 
-    anchors.horizontalCenter: parent.horizontalCenter
-    visible: player
+    SilicaListView {
+        id: mediaSelection
 
-    IconButton {
-        icon.source: "image://theme/icon-m-previous"
-        onClicked: playerControls.player.skipPrevious()
-    }
+        header: DialogHeader {
+            cancelText: mediaSelectionDialog.supportsOff ? qsTr("Off") : undefined;
+        }
 
-    IconButton {
-        icon.source: "../icons/icon-m-stop.png"
-        onClicked: playerControls.player.stop()
-    }
+        anchors.fill: parent
 
-    IconButton {
-        icon.source: "image://theme/icon-m-" + (playerControls.player && playerControls.player.state === "playing" ? "pause" : "play")
-        onClicked: playerControls.player.playPause()
-    }
+        delegate: ListItem {
+            height: Theme.itemSizeLarge
+            width: parent.width
+            highlighted: down || index === mediaSelectionDialog.currentIndex
 
-    IconButton {
-        icon.source: "image://theme/icon-m-next"
-        onClicked: playerControls.player.skipNext()
+            onClicked: {
+                mediaSelectionDialog.currentIndex = index;
+            }
+
+            Label {
+                anchors {
+                    left: parent.left
+                    right: parent.right
+                    margins: Theme.paddingLarge
+                    verticalCenter: parent.verticalCenter
+                }
+                text: modelData
+            }
+        }
     }
 }

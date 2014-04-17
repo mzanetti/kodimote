@@ -25,15 +25,18 @@ import Sailfish.Silica 1.0
 Row {
     id: playerControls
 
-    property QtObject player: xbmc.activePlayer
-    property QtObject currentItem: player ? player.currentItem : null
-
-    anchors.horizontalCenter: parent.horizontalCenter
-    visible: player
+    property QtObject player
+    spacing: Theme.paddingSmall
 
     IconButton {
         icon.source: "image://theme/icon-m-previous"
         onClicked: playerControls.player.skipPrevious()
+    }
+
+    IconButton {
+        icon.source: "../icons/icon-m-backwards.png"
+        onClicked: playerControls.player.seekBackward()
+        highlighted: down || (playerControls.player && playerControls.player.speed < 0)
     }
 
     IconButton {
@@ -44,6 +47,12 @@ Row {
     IconButton {
         icon.source: "image://theme/icon-m-" + (playerControls.player && playerControls.player.state === "playing" ? "pause" : "play")
         onClicked: playerControls.player.playPause()
+    }
+
+    IconButton {
+        icon.source: "../icons/icon-m-forward.png"
+        onClicked: playerControls.player.seekForward()
+        highlighted: down || (playerControls.player && playerControls.player.speed > 1)
     }
 
     IconButton {
