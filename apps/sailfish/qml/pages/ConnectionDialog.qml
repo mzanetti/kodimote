@@ -58,6 +58,8 @@ Dialog {
                     left: parent.left
                     right: parent.right
                     verticalCenter: parent.verticalCenter
+                    leftMargin: Theme.paddingLarge
+                    rightMargin: Theme.paddingLarge
                 }
 
                 BusyIndicator {
