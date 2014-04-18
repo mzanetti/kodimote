@@ -5,6 +5,10 @@ contains(QT_VERSION, ^5\\..\\..*) {
     QT += network declarative
 }
 
+packagesExist(sailfishapp) {
+    DEFINES += SAILFISH
+}
+
 TARGET = xbmcremote
 TEMPLATE = lib
 CONFIG += static

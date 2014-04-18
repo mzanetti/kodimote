@@ -123,7 +123,15 @@ Xbmc::Xbmc(QObject *parent) :
         }
     }
 
-    qmlRegisterUncreatableType<Xbmc>("Xbmc", 1, 0, "Xbmc", "use context property xbmc");
+#ifdef SAILFISH
+    // @uri harbour.xbmcremote
+    const char *qmlUri = "harbour.xbmcremote";
+#else
+    // @uri Xbmc
+    const char *qmlUri = "Xbmc";
+#endif
+
+    qmlRegisterUncreatableType<Xbmc>(qmlUri, 1, 0, "Xbmc", "use context property xbmc");
     qmlRegisterType<AudioLibrary>();
     qmlRegisterType<VideoLibrary>();
     qmlRegisterType<LibraryItem>();
@@ -145,15 +153,15 @@ Xbmc::Xbmc(QObject *parent) :
     qmlRegisterType<ChannelBroadcasts>();
     qmlRegisterType<Keys>();
     qmlRegisterType<EventClient>();
-    qmlRegisterType<XbmcFilterModel>("Xbmc", 1, 0, "XbmcFilterModel");
+    qmlRegisterType<XbmcFilterModel>(qmlUri, 1, 0, "XbmcFilterModel");
 
     // Hack: QML seems to have problems with enums exposed by a qmlRegisterUncreatableType
     // Because XbmcModel and Player are abstract, lets register one of their subclasses
-    qmlRegisterType<Artists>("Xbmc", 1, 0, "XbmcModel");
-    qmlRegisterType<AudioPlayer>("Xbmc", 1, 0, "Player");
+    qmlRegisterType<Artists>(qmlUri, 1, 0, "XbmcModel");
+    qmlRegisterType<AudioPlayer>(qmlUri, 1, 0, "Player");
 
     qmlRegisterType<XbmcHostModel>();
-    qmlRegisterType<XbmcDiscovery>("Xbmc", 1, 0, "XbmcDiscovery");
+    qmlRegisterType<XbmcDiscovery>(qmlUri, 1, 0, "XbmcDiscovery");
 
     m_hosts = new XbmcHostModel(this);
 
