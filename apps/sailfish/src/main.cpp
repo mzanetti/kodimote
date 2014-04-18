@@ -33,9 +33,6 @@
 
 int main(int argc, char *argv[])
 {
-    QCoreApplication::setOrganizationName("xbmcremote");
-    QCoreApplication::setApplicationName("xbmcremote");
-
     QGuiApplication *application = SailfishApp::application(argc, argv);
 
     // Load language file
