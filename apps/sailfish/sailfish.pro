@@ -1,6 +1,8 @@
 include(../../config.pri)
 include(../../i18n/i18n.pri)
 
+TARGET = harbour-xbmcremote
+
 CONFIG += sailfishapp
 
 SOURCES += \
@@ -12,7 +14,7 @@ HEADERS += \
 
 OTHER_FILES += \
     qml/cover/CoverPage.qml \
-    xbmcremote.desktop \
+    harbour-xbmcremote.desktop \
     qml/main.qml \
     qml/pages/MainPage.qml \
     qml/pages/AddHostDialog.qml \
