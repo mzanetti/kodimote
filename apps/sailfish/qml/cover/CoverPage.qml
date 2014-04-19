@@ -39,8 +39,6 @@ CoverBackground {
         anchors.bottomMargin: Theme.paddingLarge
         anchors.horizontalCenter: parent.horizontalCenter
 
-        opacity: 0.4
-
         source: cover.hasThumbnail > 0 ? cover.currentItem.thumbnail : "../icons/xbmcremote.png"
         fillMode: Image.PreserveAspectFit
     }
