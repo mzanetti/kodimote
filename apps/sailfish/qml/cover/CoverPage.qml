@@ -47,13 +47,16 @@ CoverBackground {
 
     Label {
         id: description
-        anchors.centerIn: parent
-        width: parent.width - 2*Theme.paddingLarge
+        anchors.verticalCenter: cover.verticalCenter
+        anchors.left: cover.left
+        anchors.right: cover.right
+        anchors.leftMargin: Theme.paddingLarge
+        anchors.rightMargin: Theme.paddingLarge
         color: Theme.secondaryColor
         horizontalAlignment: Text.AlignHCenter
-        verticalAlignment: Text.AlignVCenter
         wrapMode: Text.Wrap
-        fontSizeMode: Text.Fit
+        fontSizeMode: Text.HorizontalFit
+        height: lineCount * font.pixelSize
     }
 
     Loader {
