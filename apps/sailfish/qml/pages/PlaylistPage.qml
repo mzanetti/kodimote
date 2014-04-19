@@ -91,6 +91,16 @@ Page {
                     width: listView.width - durationLabel.width
                     elide: Text.ElideRight
                     color: listItem.highlighted ? Theme.highlightColor : Theme.primaryColor
+                    states: [
+                        State {
+                            name: "highlighted"
+                            when: index === listView.model.currentTrackNumber - 1
+                            PropertyChanges {
+                                target: mainText
+                                color: Theme.highlightColor
+                            }
+                        }
+                    ]
                 }
 
                 Label {
