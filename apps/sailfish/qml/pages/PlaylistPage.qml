@@ -76,7 +76,12 @@ Page {
             }
 
             Column {
-                anchors.verticalCenter: parent.verticalCenter
+                anchors {
+                    verticalCenter: parent.verticalCenter
+                    left: parent.left
+                    right: durationLabel.left
+                    leftMargin: Theme.paddingLarge
+                }
 
                 Label {
                     id: mainText
@@ -103,8 +108,11 @@ Page {
             Label {
                 id: durationLabel
                 text: duration
-                anchors.right: parent.right;
-                anchors.verticalCenter: parent.verticalCenter
+                anchors {
+                    right: parent.right
+                    rightMargin: Theme.paddingLarge
+                    verticalCenter: parent.verticalCenter
+                }
             }
         }
 
