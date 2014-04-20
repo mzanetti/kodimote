@@ -31,7 +31,7 @@ CoverBackground {
 
     Image {
         source: "./background.png"
-        anchors.horizontalCenter: parent.horizontalCenter
+        anchors.verticalCenter: parent.verticalCenter
         width: parent.width
     }
 
@@ -57,7 +57,7 @@ CoverBackground {
         anchors.right: cover.right
         anchors.leftMargin: Theme.paddingLarge
         anchors.rightMargin: Theme.paddingLarge
-        color: Theme.secondaryColor
+        color: Theme.primaryColor
         horizontalAlignment: Text.AlignHCenter
         wrapMode: Text.Wrap
         fontSizeMode: Text.HorizontalFit
