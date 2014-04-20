@@ -29,6 +29,43 @@ CoverBackground {
     property QtObject currentItem: player ? player.currentItem : null
     property bool hasThumbnail: cover.currentItem && cover.currentItem.thumbnail.length
 
+    function addHost() {
+        pageStack.clear();
+        pageStack.push(appWindow.initialPage);
+        pageStack.currentPage.showConnect(PageStackAction.Immediate);
+        pageStack.currentPage.addHost();
+        appWindow.activate();
+    }
+
+    function browseMusic() {
+        pageStack.clear();
+        pageStack.push(appWindow.initialPage);
+        pageStack.currentPage.browse("music");
+        appWindow.activate();
+    }
+
+    function browseVideo() {
+        pageStack.clear();
+        pageStack.push(appWindow.initialPage);
+        pageStack.currentPage.browse("video");
+        appWindow.activate();
+    }
+
+    function connectToHost() {
+        pageStack.clear();
+        pageStack.push(appWindow.initialPage);
+        pageStack.currentPage.showConnect();
+        appWindow.activate();
+    }
+
+    function playPause() {
+        cover.player.playPause();
+    }
+
+    function stop() {
+        cover.player.stop();
+    }
+
     Image {
         source: "./background.png"
         anchors.verticalCenter: parent.verticalCenter
@@ -64,122 +101,72 @@ CoverBackground {
         height: lineCount * font.pixelSize
     }
 
-    Loader {
-        id: actionsLoader
+    CoverActionList {
+        id: actions
+
+        CoverAction {
+            id: leftAction
+        }
+
+        CoverAction {
+            id: rightAction
+        }
     }
 
     states: [
         State {
             when: cover.player && (cover.player.state === "playing" || cover.player.state === "paused")
             PropertyChanges {
-                target: actionsLoader
-                sourceComponent: playingActionsComponent
-            }
-            PropertyChanges {
                 target: description
                 text: cover.currentItem ? (cover.currentItem.title + "\n" + cover.currentItem.subtitle) : ""
+            }
+            PropertyChanges {
+                target: leftAction
+                iconSource: "../icons/icon-cover-stop.png"
+                onTriggered: stop()
+            }
+            PropertyChanges {
+                target: rightAction
+                iconSource: "image://theme/icon-cover-" + (cover.player && cover.player.state === "playing" ? "pause" : "play")
+                onTriggered: playPause()
             }
         },
         State {
             when: xbmc.connected
             PropertyChanges {
-                target: actionsLoader
-                sourceComponent: connectedActionsComponent
-            }
-            PropertyChanges {
                 target: description
                 text: qsTr("XBMC on") + "\n" + xbmc.connectedHostName
+            }
+            PropertyChanges {
+                target: leftAction
+                iconSource: "image://theme/icon-l-music"
+                onTriggered: browseMusic()
+            }
+            PropertyChanges {
+                target: rightAction
+                iconSource: "image://theme/icon-l-video"
+                onTriggered: browseVideo()
             }
         },
         State {
             when: !xbmc.connected
             PropertyChanges {
-                target: actionsLoader
-                sourceComponent: disconnectedActionsComponent
-            }
-            PropertyChanges {
                 target: description
                 text: qsTr("XBMC remote") + "\n" +
                       qsTr("Disconnected")
             }
-        }
-
-    ]
-
-    Component {
-        id: disconnectedActionsComponent
-
-        CoverActionList {
-            id: playingActions
-
-            CoverAction {
+            PropertyChanges {
+                target: leftAction
                 iconSource: "image://theme/icon-cover-new"
-                onTriggered: {
-                    pageStack.clear();
-                    pageStack.push(appWindow.initialPage);
-                    pageStack.currentPage.showConnect(PageStackAction.Immediate);
-                    pageStack.currentPage.addHost();
-                    appWindow.activate();
-                }
+                onTriggered: addHost()
             }
-
-            CoverAction {
+            PropertyChanges {
+                target: rightAction
                 iconSource: "image://theme/icon-cover-search"
-                onTriggered: {
-                    pageStack.clear();
-                    pageStack.push(appWindow.initialPage);
-                    pageStack.currentPage.showConnect();
-                    appWindow.activate();
-                }
+                onTriggered: connectToHost()
             }
         }
-    }
-
-    Component {
-        id: connectedActionsComponent
-
-        CoverActionList {
-            id: playingActions
-
-            CoverAction {
-                iconSource: "image://theme/icon-l-music"
-                onTriggered: {
-                    pageStack.clear();
-                    pageStack.push(appWindow.initialPage);
-                    pageStack.currentPage.browse("music");
-                    appWindow.activate();
-                }
-            }
-
-            CoverAction {
-                iconSource: "image://theme/icon-l-video"
-                onTriggered: {
-                    pageStack.clear();
-                    pageStack.push(appWindow.initialPage);
-                    pageStack.currentPage.browse("video");
-                    appWindow.activate();
-                }
-            }
-        }
-    }
-
-    Component {
-        id: playingActionsComponent
-
-        CoverActionList {
-            id: playingActions
-
-            CoverAction {
-                iconSource: "../icons/icon-cover-stop.png"
-                onTriggered: cover.player.stop()
-            }
-
-            CoverAction {
-                iconSource: "image://theme/icon-cover-" + (cover.player && cover.player.state === "playing" ? "pause" : "play")
-                onTriggered: cover.player.playPause()
-            }
-        }
-    }
+    ]
 }
 
 
