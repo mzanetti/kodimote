@@ -30,6 +30,12 @@ CoverBackground {
     property bool hasThumbnail: cover.currentItem && cover.currentItem.thumbnail.length
 
     Image {
+        source: "./background.png"
+        anchors.horizontalCenter: parent.horizontalCenter
+        width: parent.width
+    }
+
+    Image {
         id: thumbnail
         width: cover.hasThumbnail > 0 ? parent.width - 2*Theme.paddingLarge : 80
 
@@ -39,7 +45,8 @@ CoverBackground {
         anchors.bottomMargin: Theme.paddingLarge
         anchors.horizontalCenter: parent.horizontalCenter
 
-        source: cover.hasThumbnail > 0 ? cover.currentItem.thumbnail : "../icons/xbmcremote.png"
+        visible: cover.hasThumbnail
+        source: cover.hasThumbnail > 0 ? cover.currentItem.thumbnail : ""
         fillMode: Image.PreserveAspectFit
     }
 
