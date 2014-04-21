@@ -97,6 +97,13 @@ Page {
             }
 
             MenuItem {
+                text: qsTr("Keypad")
+                onClicked: {
+                    pageStack.push("Keypad.qml")
+                }
+            }
+
+            MenuItem {
                 text: qsTr("Now playing")
                 enabled: xbmc.activePlayer !== null
                 onClicked: {

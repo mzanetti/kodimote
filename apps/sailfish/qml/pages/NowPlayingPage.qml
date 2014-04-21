@@ -66,6 +66,13 @@ Page {
             }
 
             MenuItem {
+                text: qsTr("Keypad")
+                onClicked: {
+                    pageStack.replace("Keypad.qml")
+                }
+            }
+
+            MenuItem {
                 text: qsTr("Now playing")
                 enabled: false
             }
