@@ -150,9 +150,18 @@ Page {
             contentHeight: Theme.itemSizeExtraLarge
             menu: contextMenuComponent
 
+            Image {
+                id: img
+                anchors.left: parent.left
+                anchors.leftMargin: Theme.paddingLarge
+                anchors.verticalCenter: parent.verticalCenter
+
+                source: icon
+            }
+
             Column {
                 anchors.verticalCenter: parent.verticalCenter
-                anchors.left: parent.left
+                anchors.left: img.right
                 anchors.right: parent.right
                 anchors.leftMargin: 14
 
@@ -243,7 +252,7 @@ Page {
     ListModel {
         id: mainMenuModelTemplate
         ListElement {
-            icon: "icon-m-content-audio"
+            icon: "image://theme/icon-l-music"
             subtitle: ""
             mode: "library"
             target: "music"
@@ -252,7 +261,7 @@ Page {
             hasMenu: true
         }
         ListElement {
-            icon: "icon-m-content-videos"
+            icon: "image://theme/icon-l-video"
             subtitle: ""
             mode: "library"
             target: "video"
@@ -261,7 +270,7 @@ Page {
             hasMenu: true
         }
         ListElement {
-            icon: "icon-m-content-image"
+            icon: "image://theme/icon-l-image"
             subtitle: ""
             mode: "files"
             target: "pictures"
@@ -269,7 +278,7 @@ Page {
             hasMenu: false
         }
         ListElement {
-            icon: "icon-m-content-image"
+            icon: "../icons/icon-l-tv.png"
             subtitle: ""
             mode: "library"
             target: "tv"

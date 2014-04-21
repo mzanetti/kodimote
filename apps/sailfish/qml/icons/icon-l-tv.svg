@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   xmlns:osb="http://www.openswatchbook.org/uri/2009/osb"
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="94"
+   height="94"
+   id="svg2"
+   version="1.1"
+   inkscape:version="0.48.4 r9939"
+   inkscape:export-filename="/home/robert/xbmcremote/apps/sailfish/qml/icons/icon-l-tv.png"
+   inkscape:export-xdpi="90"
+   inkscape:export-ydpi="90"
+   sodipodi:docname="icon-l-tv.svg">
+  <defs
+     id="defs4">
+    <linearGradient
+       id="linearGradient4143"
+       osb:paint="solid">
+      <stop
+         style="stop-color:#ffffff;stop-opacity:1;"
+         offset="0"
+         id="stop4145" />
+    </linearGradient>
+  </defs>
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="2.8284271"
+     inkscape:cx="-71.326179"
+     inkscape:cy="43.731719"
+     inkscape:document-units="px"
+     inkscape:current-layer="layer1"
+     showgrid="false"
+     borderlayer="false"
+     inkscape:showpageshadow="true"
+     inkscape:snap-nodes="true"
+     inkscape:window-width="1920"
+     inkscape:window-height="1180"
+     inkscape:window-x="-2"
+     inkscape:window-y="-3"
+     inkscape:window-maximized="1" />
+  <metadata
+     id="metadata7">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1"
+     transform="translate(0,-958.36218)">
+    <rect
+       style="fill:#ffffff;fill-opacity:0.47058824;stroke:#ffffff;stroke-width:2.03851581;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+       id="rect2985"
+       width="72.961487"
+       height="45.961483"
+       x="10.019258"
+       y="984.38141"
+       ry="0" />
+    <path
+       style="fill:none;stroke:#ffffff;stroke-width:2;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;marker-start:none"
+       d="m 29.219232,971.58143 12.561536,12.56154"
+       id="path3943"
+       inkscape:connector-curvature="0" />
+    <path
+       style="fill:none;stroke:#ffffff;stroke-width:2;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+       d="M 69.374358,967.61347 52.625643,984.36218"
+       id="path3943-1"
+       inkscape:connector-curvature="0" />
+  </g>
+</svg>
