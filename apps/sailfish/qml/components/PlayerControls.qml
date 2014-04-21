@@ -21,6 +21,7 @@
 
 import QtQuick 2.0
 import Sailfish.Silica 1.0
+import harbour.xbmcremote 1.0
 
 Row {
     id: playerControls
@@ -30,33 +31,39 @@ Row {
 
     IconButton {
         icon.source: "image://theme/icon-m-previous"
+        enabled: !!player
         onClicked: playerControls.player.skipPrevious()
     }
 
     IconButton {
         icon.source: "../icons/icon-m-backwards.png"
+        enabled: player ? player.state == "playing" && player.type !== Player.PlayerTypePictures : false
         onClicked: playerControls.player.seekBackward()
         highlighted: down || (playerControls.player && playerControls.player.speed < 0)
     }
 
     IconButton {
         icon.source: "../icons/icon-m-stop.png"
+        enabled: player ? player.state == "playing" : false
         onClicked: playerControls.player.stop()
     }
 
     IconButton {
         icon.source: "image://theme/icon-m-" + (playerControls.player && playerControls.player.state === "playing" ? "pause" : "play")
+        enabled: !!player
         onClicked: playerControls.player.playPause()
     }
 
     IconButton {
         icon.source: "../icons/icon-m-forward.png"
+        enabled: player ? player.state == "playing" && player.type !== Player.PlayerTypePictures : false
         onClicked: playerControls.player.seekForward()
         highlighted: down || (playerControls.player && playerControls.player.speed > 1)
     }
 
     IconButton {
         icon.source: "image://theme/icon-m-next"
+        enabled: !!player
         onClicked: playerControls.player.skipNext()
     }
 }
