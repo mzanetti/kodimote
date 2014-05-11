@@ -34,7 +34,6 @@ Page {
             PropertyChanges { target: listView.headerItem; visible: true }
             PropertyChanges { target: mainMenu; visible: true; enabled: true }
             PropertyChanges { target: listView; model: mainMenuModel }
-            PropertyChanges { target: powerItem; visible: true }
             PropertyChanges { target: noConnection; visible: false }
         }
     ]
@@ -42,6 +41,11 @@ Page {
     onConnectedChanged: {
         pageStack.pop(mainPage);
         populateMainMenu();
+        if (connected) {
+            pageStack.pushAttached("XbmcPage.qml");
+        } else {
+            pageStack.popAttached();
+        }
     }
 
     function showConnect(operationType) {
@@ -85,7 +89,7 @@ Page {
         header: PageHeader {
             id: pageHeader
             visible: false
-            title: qsTr("XBMC on %1").arg(xbmc.connectedHostName)
+            title: qsTr("Browse %1").arg(xbmc.connectedHostName)
         }
 
         PullDownMenu {
@@ -116,15 +120,6 @@ Page {
             MenuItem {
                 text: qsTr("Change connection...")
                 onClicked: showConnect()
-            }
-
-            MenuItem {
-                id: powerItem
-                visible: false
-                text: qsTr("Power")
-                onClicked: {
-                    pageStack.push("QuitDialog.qml");
-                }
             }
 
             MenuItem {
@@ -249,6 +244,10 @@ Page {
             if (!xbmc.connected && !xbmc.connecting) {
                 showConnect();
             }
+
+            if (xbmc.connected) {
+                pageStack.pushAttached("XbmcPage.qml");
+            }
         }
     }
 
@@ -289,8 +288,6 @@ Page {
             subtitle: ""
             mode: "library"
             target: "tv"
-            libraryTarget: "channelGroups"
-            hasMenu: false
         }
     }
     ListModel {
