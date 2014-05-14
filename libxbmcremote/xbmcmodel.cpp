@@ -88,9 +88,6 @@ QVariant XbmcModel::data(const QModelIndex &index, int role) const
         }
         return duration.toString("mm:ss");
     }
-    qDebug() << "got item" << m_list.count() << index.row();
-    qDebug() << "got item" << m_list.at(index.row());
-    qDebug() << "got item" << m_list.at(index.row())->data(role);
     return m_list.at(index.row())->data(role);
 }
 
