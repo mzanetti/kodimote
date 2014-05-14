@@ -117,7 +117,7 @@ void Seasons::listReceived(const QVariantMap &rsp)
     m_seasonIndexMapping.clear();
     foreach(const QVariant &itemVariant, responseList) {
         QVariantMap itemMap = itemVariant.toMap();
-        LibraryItem *item = new LibraryItem();
+        LibraryItem *item = new LibraryItem(this);
         item->setTitle(itemMap.value("label").toString());
         item->setSubtitle(itemMap.value("showtitle").toString());
         item->setSeason(itemMap.value("season").toInt());

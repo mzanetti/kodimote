@@ -21,7 +21,7 @@
 #include "episodeitem.h"
 
 EpisodeItem::EpisodeItem(QObject *parent) :
-    LibraryItem()
+    LibraryItem(parent)
 {
     Q_UNUSED(parent);
 }

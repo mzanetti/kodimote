@@ -64,7 +64,7 @@ Page {
     }
 
     Component.onCompleted: {
-        console.log("setting model " + model)
+        console.log("BrowserPage: setting model " + model)
         //filterModel.model = model
     }
 

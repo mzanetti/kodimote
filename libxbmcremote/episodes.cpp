@@ -161,7 +161,7 @@ void Episodes::listReceived(const QVariantMap &rsp)
     m_idIndexMapping.clear();
     foreach(const QVariant &itemVariant, responseList) {
         QVariantMap itemMap = itemVariant.toMap();
-        LibraryItem *item = new LibraryItem();
+        LibraryItem *item = new LibraryItem(this);
         item->setTitle(itemMap.value("episode").toString() + ". " + itemMap.value("label").toString());
         //        item->setData(itemMap.value("showtitle").toString() + " - " + itemMap.value("season").toString(), Qt::UserRole+2);
         item->setSubtitle(itemMap.value("showtitle").toString() + (m_seasonString.isEmpty() ? "" :  (" - " + m_seasonString)));

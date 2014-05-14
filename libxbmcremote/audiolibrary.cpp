@@ -30,27 +30,27 @@ AudioLibrary::AudioLibrary() :
     XbmcLibrary(0)
 {
     setBusy(false);
-    LibraryItem *item = new LibraryItem(tr("Artists"));
+    LibraryItem *item = new LibraryItem(tr("Artists"), QString(), this);
     item->setFileType("directory");
     item->setPlayable(false);
     m_list.append(item);
 
-    item = new LibraryItem(tr("Albums"));
+    item = new LibraryItem(tr("Albums"), QString(), this);
     item->setFileType("directory");
     item->setPlayable(false);
     m_list.append(item);
 
-    item = new LibraryItem(tr("Titles"));
+    item = new LibraryItem(tr("Titles"), QString(), this);
     item->setFileType("directory");
     item->setPlayable(false);
     m_list.append(item);
 
-    item = new LibraryItem(tr("Recently added"));
+    item = new LibraryItem(tr("Recently added"), QString(), this);
     item->setFileType("directory");
     item->setPlayable(false);
     m_list.append(item);
 
-    item = new LibraryItem(tr("Recently played"));
+    item = new LibraryItem(tr("Recently played"), QString(), this);
     item->setFileType("directory");
     item->setPlayable(false);
     m_list.append(item);

@@ -31,13 +31,13 @@ Shares::Shares(const QString &mediatype, XbmcLibrary *parent):
     if (m_mediaType.isEmpty()) {
         beginInsertRows(QModelIndex(), 0, 1);
 
-        LibraryItem *item = new LibraryItem();
+        LibraryItem *item = new LibraryItem(this);
         item->setTitle(tr("Music"));
         item->setFileName("music");
         item->setFileType("directory");
         m_list.append(item);
 
-        item = new LibraryItem();
+        item = new LibraryItem(this);
         item->setTitle(tr("Videos"));
         item->setFileName("video");
         item->setFileType("directory");
@@ -77,7 +77,7 @@ void Shares::sourcesReceived(const QVariantMap &rsp)
     QVariantList responseList = rsp.value("result").toMap().value("sources").toList();
     foreach(const QVariant &itemVariant, responseList) {
         QVariantMap itemMap = itemVariant.toMap();
-        LibraryItem *item = new LibraryItem();
+        LibraryItem *item = new LibraryItem(this);
         item->setTitle(itemMap.value("label").toString());
         item->setFileName(itemMap.value("file").toString());
         item->setIgnoreArticle(ignoreArticle());

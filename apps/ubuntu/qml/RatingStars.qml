@@ -38,7 +38,7 @@ Row {
     Repeater {
         model: parent.count - parent.rated
         Icon {
-            height: parent.height
+            height: row.height
             width: height
             name: "favorite-unselected"
             color: "white"

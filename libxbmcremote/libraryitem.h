@@ -76,7 +76,8 @@ class LibraryItem : public XbmcModelItem
     Q_PROPERTY(QString cast READ cast WRITE setCast NOTIFY castChanged)
 
 public:
-    explicit LibraryItem(const QString &title = QString(), const QString &subTitle = QString());
+    explicit LibraryItem(const QString &title, const QString &subTitle = QString(), QObject *parent = 0);
+    explicit LibraryItem(QObject *parent = 0);
 
     QString type() const;
     void setType(const QString &type);

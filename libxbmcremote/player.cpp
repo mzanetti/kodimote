@@ -37,13 +37,14 @@ Player::Player(PlayerType type, QObject *parent) :
     m_percentage(0),
     m_lastPlaytime(0),
     m_lastPlaytimeUpdate(QDateTime::currentDateTime()),
-    m_currentItem(new LibraryItem()),
+    m_currentItem(new LibraryItem(this)),
     m_seeking(false),
     m_shuffle(false),
     m_repeat(RepeatNone),
     m_currentSubtitle(-1),
     m_currentAudiostream(0)
 {
+    qDebug() << "player created libraryItem" << m_currentItem << m_currentItem->rating();
     connect(XbmcConnection::notifier(), SIGNAL(receivedAnnouncement(QVariantMap)), SLOT(receivedAnnouncement(QVariantMap)));
 
     m_playtimeTimer.setInterval(1000);
@@ -387,7 +388,7 @@ void Player::detailsReceived(const QVariantMap &rsp)
     if(m_currentItem) {
         m_currentItem->deleteLater();
     }
-    m_currentItem = new LibraryItem();
+    m_currentItem = new LibraryItem(this);
 
     int id = itemMap.value("id").toInt();
     QString type = itemMap.value("type").toString();
@@ -427,6 +428,7 @@ void Player::detailsReceived(const QVariantMap &rsp)
     }
     m_currentItem->setSeason(itemMap.value("season", -1).toInt());
     m_currentItem->setRating(itemMap.value("rating", -1).toInt());
+    qDebug() << "set rating to" << m_currentItem->rating();
     m_currentItem->setEpisode(itemMap.value("episode", -1).toInt());
     m_currentItem->setYear(itemMap.value("year").toString());
     m_currentItem->setDirector(itemMap.value("director").toString());

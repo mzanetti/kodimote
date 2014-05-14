@@ -23,8 +23,8 @@
 #include "xbmc.h"
 #include "imagecache.h"
 
-LibraryItem::LibraryItem(const QString &title, const QString &subTitle):
-    XbmcModelItem(title, subTitle),
+LibraryItem::LibraryItem(const QString &title, const QString &subTitle, QObject *parent):
+    XbmcModelItem(title, subTitle, parent),
     m_fileName(QString()),
     m_thumbnail(QString()),
     m_fileType("directory"),
@@ -62,6 +62,12 @@ LibraryItem::LibraryItem(const QString &title, const QString &subTitle):
     m_playcount(-1),
     m_cast(QString())
 {
+}
+
+LibraryItem::LibraryItem(QObject *parent):
+    LibraryItem(QString(), QString(), parent)
+{
+
 }
 
 QString LibraryItem::type() const
@@ -382,6 +388,7 @@ void LibraryItem::setPlot(const QString &plot)
 
 int LibraryItem::rating() const
 {
+    qDebug() << "rating" << m_rating;
     return m_rating;
 }
 

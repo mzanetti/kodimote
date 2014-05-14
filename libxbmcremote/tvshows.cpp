@@ -145,7 +145,7 @@ void TvShows::showsReceived(const QVariantMap &rsp)
     m_idIndexMapping.clear();
     foreach(const QVariant &itemVariant, responseList) {
         QVariantMap itemMap = itemVariant.toMap();
-        LibraryItem *item = new LibraryItem();
+        LibraryItem *item = new LibraryItem(this);
         item->setTitle(itemMap.value("label").toString());
         item->setTvshowId(itemMap.value("tvshowid").toInt());
         item->setThumbnail(itemMap.value("fanart").toString());

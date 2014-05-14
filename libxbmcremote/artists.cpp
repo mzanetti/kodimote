@@ -95,7 +95,7 @@ void Artists::listReceived(const QVariantMap &rsp)
     QVariantList responseList = rsp.value("result").toMap().value("artists").toList();
     foreach(const QVariant &itemVariant, responseList) {
         QVariantMap itemMap = itemVariant.toMap();
-        LibraryItem *item = new LibraryItem();
+        LibraryItem *item = new LibraryItem(this);
         item->setTitle(itemMap.value("label").toString());
         item->setFileName("directory");
         item->setArtistId(itemMap.value("artistid").toInt());

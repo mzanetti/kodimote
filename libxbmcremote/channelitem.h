@@ -12,7 +12,8 @@ class ChannelItem : public LibraryItem
     Q_PROPERTY(int progressPercent READ progressPercent NOTIFY progressPercentageChanged)
 
 public:
-    explicit ChannelItem(const QString &title = QString(), const QString &subtitle = QString());
+    explicit ChannelItem(const QString &title = QString(), const QString &subtitle = QString(), QObject *parent = 0);
+    ~ChannelItem();
 
     ChannelBroadcasts* channelBroadcasts() const;
 

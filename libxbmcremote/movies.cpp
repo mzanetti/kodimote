@@ -168,7 +168,7 @@ void Movies::listReceived(const QVariantMap &rsp)
     m_idIndexMapping.clear();
     foreach(const QVariant &itemVariant, responseList) {
         QVariantMap itemMap = itemVariant.toMap();
-        LibraryItem *item = new LibraryItem();
+        LibraryItem *item = new LibraryItem(this);
         item->setTitle(itemMap.value("label").toString());
         item->setSubtitle(itemMap.value("genre").toStringList().join(", "));
         item->setMovieId(itemMap.value("movieid").toInt());

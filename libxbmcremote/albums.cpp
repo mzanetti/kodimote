@@ -115,7 +115,7 @@ void Albums::listReceived(const QVariantMap &rsp)
     QVariantList responseList = rsp.value("result").toMap().value("albums").toList();
     foreach(const QVariant &itemVariant, responseList) {
         QVariantMap itemMap = itemVariant.toMap();
-        LibraryItem *item = new LibraryItem();
+        LibraryItem *item = new LibraryItem(this);
         item->setTitle(itemMap.value("label").toString());
         if (itemMap.value("artist").toStringList().count() > 0) {
             item->setSubtitle(itemMap.value("artist").toStringList().first());

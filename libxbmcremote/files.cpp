@@ -67,7 +67,7 @@ void Files::listReceived(const QVariantMap &rsp)
     QVariantList responseList = rsp.value("result").toMap().value("files").toList();
     foreach(const QVariant &itemVariant, responseList) {
         QVariantMap itemMap = itemVariant.toMap();
-        LibraryItem *item = new LibraryItem();
+        LibraryItem *item = new LibraryItem(this);
         item->setTitle(itemMap.value("label").toString());
         item->setFileType(itemMap.value("filetype").toString());
         item->setFileName(itemMap.value("file").toString());
