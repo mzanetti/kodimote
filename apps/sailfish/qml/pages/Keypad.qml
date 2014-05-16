@@ -118,6 +118,11 @@ Page {
                 }
             }
 
+            GesturePad {
+                id: gesturePad
+                width: parent.width
+            }
+
             Rectangle {
                 width: parent.width
                 color: Theme.rgba(Theme.highlightBackgroundColor, Theme.highlightBackgroundOpacity)
