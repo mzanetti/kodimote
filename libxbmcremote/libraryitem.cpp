@@ -24,49 +24,55 @@
 #include "imagecache.h"
 
 LibraryItem::LibraryItem(const QString &title, const QString &subTitle, QObject *parent):
-    XbmcModelItem(title, subTitle, parent),
-    m_fileName(QString()),
-    m_thumbnail(QString()),
-    m_fileType("directory"),
-    m_playable(false),
-    m_artistId(-1),
-    m_albumId(-1),
-    m_songId(-1),
-    m_musicvideoId(-1),
-    m_tvshowId(-1),
-    m_seasonId(-1),
-    m_episodeId(-1),
-    m_movieId(-1),
-    m_channelgroupId(-1),
-    m_channelId(-1),
-    m_plot(QString()),
-    m_rating(-1),
-    m_season(-1),
-    m_episode(-1),
-    m_firstAired(QString()),
-    m_genre(QString()),
-    m_year(QString()),
-    m_director(QString()),
-    m_tagline(QString()),
-    m_mpaa(QString()),
-    m_description(QString()),
-    m_instrument(QString()),
-    m_style(QString()),
-    m_mood(QString()),
-    m_born(QString()),
-    m_formed(QString()),
-    m_died(QString()),
-    m_disbanded(QString()),
-    m_duration(QTime()),
-    m_comment(QString()),
-    m_playcount(-1),
-    m_cast(QString())
+    XbmcModelItem(title, subTitle, parent)
 {
+    init();
 }
 
 LibraryItem::LibraryItem(QObject *parent):
-    LibraryItem(QString(), QString(), parent)
+    XbmcModelItem(parent)
 {
+    init();
+}
+
+void LibraryItem::init()
+{
+    m_fileName = QString();
+    m_thumbnail = QString();
+    m_fileType = "directory";
+    m_playable = false;
+    m_artistId = -1;
+    m_albumId = -1;
+    m_songId = -1;
+    m_musicvideoId = -1;
+    m_tvshowId = -1;
+    m_seasonId = -1;
+    m_episodeId = -1;
+    m_movieId = -1;
+    m_channelgroupId = -1;
+    m_channelId = -1;
+    m_plot = QString();
+    m_rating = -1;
+    m_season = -1;
+    m_episode = -1;
+    m_firstAired = QString();
+    m_genre = QString();
+    m_year = QString();
+    m_director = QString();
+    m_tagline = QString();
+    m_mpaa = QString();
+    m_description = QString();
+    m_instrument = QString();
+    m_style = QString();
+    m_mood = QString();
+    m_born = QString();
+    m_formed = QString();
+    m_died = QString();
+    m_disbanded = QString();
+    m_duration = QTime();
+    m_comment = QString();
+    m_playcount = -1;
+    m_cast = QString();
 
 }
 
@@ -645,4 +651,3 @@ void LibraryItem::imageFetched(int id)
         }
     }
 }
-

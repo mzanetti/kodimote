@@ -253,6 +253,8 @@ private slots:
     Q_INVOKABLE void imageFetched(int id);
 
 private:
+    void init();
+
     QString m_type;
     QString m_fileName;
     QString m_thumbnail;
