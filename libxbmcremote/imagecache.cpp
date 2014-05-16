@@ -33,7 +33,8 @@
 XbmcImageCache::XbmcImageCache(QObject *parent) :
     QThread(parent),
     m_jobId(0),
-    m_currentJob(0)
+    m_currentJob(0),
+    m_doubleDecode(false)
 {
     m_fetchNextTimer = new QTimer(this);
     m_fetchNextTimer->setSingleShot(true);
@@ -180,7 +181,18 @@ void XbmcImageCache::imageFetched()
             delete job;
         }
     } else {
-        qDebug() << "image fetching failed" << reply->errorString();
+        qDebug() << "image fetching failed" << reply->errorString() << reply->error();
+
+        // Hack: There is something fishy with Xbmc's image urls. Some versions require decoding
+        // from PercentageDecoding once, some twice... Let's retry doubleDecoding if if we get a 404
+        if (!m_doubleDecode && reply->error() == QNetworkReply::ContentNotFoundError) {
+            m_doubleDecode = true;
+            m_downloadQueue.prepend(m_currentJob);
+            m_currentJob = 0;
+            m_fetchNextTimer->start();
+            return;
+        }
+
         QVariant possibleRedirectUrl = reply->attribute(QNetworkRequest::RedirectionTargetAttribute);
         qDebug() << possibleRedirectUrl;
 
@@ -244,8 +256,13 @@ void XbmcImageCache::downloadPrepared(const QVariantMap &rsp)
     QUrl imageUrl;
 
 #ifdef QT5_BUILD
-    QByteArray path = "/" + QByteArray::fromPercentEncoding(result.value("details").toMap().value("path").toByteArray());
-    imageUrl = QUrl::fromEncoded(path);
+    qDebug() << "***" << result.value("details").toMap().value("path").toByteArray();
+    if (m_doubleDecode) {
+        QByteArray path = "/" + QByteArray::fromPercentEncoding(result.value("details").toMap().value("path").toByteArray());
+        imageUrl = QUrl::fromEncoded(path);
+    } else {
+        imageUrl = QUrl::fromEncoded("/" + result.value("details").toMap().value("path").toByteArray());
+    }
 #else
     QString path = "/" + QUrl::fromPercentEncoding(result.value("details").toMap().value("path").toByteArray());
     imageUrl.setPath(path);
@@ -254,6 +271,8 @@ void XbmcImageCache::downloadPrepared(const QVariantMap &rsp)
     imageUrl.setScheme(result.value("protocol").toString());
     imageUrl.setHost(host->address());
     imageUrl.setPort(host->port());
+
+    qDebug() << "fetching image:" << imageUrl;
 
     QNetworkRequest imageRequest(imageUrl);
     QNetworkReply *reply = XbmcConnection::nam()->get(imageRequest);
