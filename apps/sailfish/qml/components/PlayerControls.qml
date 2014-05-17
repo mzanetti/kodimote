@@ -31,12 +31,16 @@ Row {
 
     IconButton {
         icon.source: "image://theme/icon-m-previous"
+        icon.height: 75; icon.width: 75
+        height: 75; width: 75
         enabled: !!player
         onClicked: playerControls.player.skipPrevious()
     }
 
     IconButton {
         icon.source: "../icons/icon-m-backwards.png"
+        icon.height: 75; icon.width: 75
+        height: 75; width: 75
         enabled: player ? player.state == "playing" && player.type !== Player.PlayerTypePictures : false
         onClicked: playerControls.player.seekBackward()
         highlighted: down || (playerControls.player && playerControls.player.speed < 0)
@@ -44,18 +48,24 @@ Row {
 
     IconButton {
         icon.source: "../icons/icon-m-stop.png"
+        icon.height: 75; icon.width: 75
+        height: 75; width: 75
         enabled: player ? player.state == "playing" : false
         onClicked: playerControls.player.stop()
     }
 
     IconButton {
         icon.source: "image://theme/icon-m-" + (playerControls.player && playerControls.player.state === "playing" ? "pause" : "play")
+        icon.height: 75; icon.width: 75
+        height: 75; width: 75
         enabled: !!player
         onClicked: playerControls.player.playPause()
     }
 
     IconButton {
         icon.source: "../icons/icon-m-forward.png"
+        icon.height: 75; icon.width: 75
+        height: 75; width: 75
         enabled: player ? player.state == "playing" && player.type !== Player.PlayerTypePictures : false
         onClicked: playerControls.player.seekForward()
         highlighted: down || (playerControls.player && playerControls.player.speed > 1)
@@ -63,6 +73,8 @@ Row {
 
     IconButton {
         icon.source: "image://theme/icon-m-next"
+        icon.height: 75; icon.width: 75
+        height: 75; width: 75
         enabled: !!player
         onClicked: playerControls.player.skipNext()
     }

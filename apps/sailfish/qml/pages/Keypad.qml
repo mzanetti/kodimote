@@ -84,15 +84,15 @@ Page {
             anchors.right: parent.right
             anchors.margins: Theme.paddingLarge
 
-            spacing: Theme.paddingLarge
+            spacing: Theme.paddingLarge * 1.5
 
             Rectangle {
                 width: parent.width
                 color: Theme.rgba(Theme.highlightBackgroundColor, Theme.highlightBackgroundOpacity)
-                height: Theme.itemSizeSmall
+                height: Theme.itemSizeMedium
 
                 Row {
-                    anchors.horizontalCenter: parent.horizontalCenter
+                    anchors.centerIn: parent
                     spacing: Theme.paddingMedium
 
                     IconButton {
@@ -161,10 +161,10 @@ Page {
             Rectangle {
                 width: parent.width
                 color: Theme.rgba(Theme.highlightBackgroundColor, Theme.highlightBackgroundOpacity)
-                height: Theme.itemSizeSmall
+                height: Theme.itemSizeMedium
 
                 PlayerControls {
-                    anchors.horizontalCenter: parent.horizontalCenter
+                    anchors.centerIn: parent
                     player: xbmc.activePlayer
                 }
             }
@@ -172,7 +172,7 @@ Page {
             Rectangle {
                 width: parent.width
                 color: Theme.rgba(Theme.highlightBackgroundColor, Theme.highlightBackgroundOpacity)
-                height: Theme.itemSizeSmall
+                height: Theme.itemSizeMedium
 
                 Row {
                     anchors.centerIn: parent
