@@ -121,6 +121,41 @@ Page {
             GesturePad {
                 id: gesturePad
                 width: parent.width
+
+                IconButton {
+                    icon.source: "image://theme/icon-m-back"
+                    anchors { left: parent.left; top: parent.top; margins: Theme.paddingMedium }
+                    onClicked: {
+                        rumbleEffect.start(2);
+                        keys.back();
+                    }
+                }
+                IconButton {
+                    icon.source: "image://theme/icon-m-back"
+                    rotation: 135
+                    anchors { right: parent.right; top: parent.top; margins: Theme.paddingMedium }
+                    onClicked: {
+                        rumbleEffect.start(2);
+                        keys.fullscreen();
+                    }
+                }
+                IconButton {
+                    icon.source: "image://theme/icon-m-about"
+                    anchors { left: parent.left; bottom: parent.bottom; margins: Theme.paddingMedium }
+                    onClicked: {
+                        rumbleEffect.start(2);
+                        keys.info();
+                    }
+                }
+                IconButton {
+                    icon.source: "../icons/icon-m-menu.png"
+                    anchors { right: parent.right; bottom: parent.bottom; margins: Theme.paddingMedium }
+                    onClicked: {
+                        rumbleEffect.start(2);
+                        keys.osd();
+                        keys.contextMenu();
+                    }
+                }
             }
 
             Rectangle {
