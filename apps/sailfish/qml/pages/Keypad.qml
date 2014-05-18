@@ -28,6 +28,11 @@ import "../components/"
 Page {
     id: keypad
 
+    property QtObject picturePlayer: xbmc.picturePlayer()
+
+    property bool usePictureControls: xbmc.picturePlayerActive && !pictureControlsOverride
+    property bool pictureControlsOverride: false
+
     property QtObject keys: xbmc.keys()
 
     HapticsEffect {
@@ -62,7 +67,8 @@ Page {
 
             MenuItem {
                 text: qsTr("Keypad")
-                enabled: false
+                enabled: xbmc.picturePlayerActive
+
             }
 
             MenuItem {
@@ -70,6 +76,16 @@ Page {
                 enabled: xbmc.activePlayer !== null
                 onClicked: {
                     pageStack.replace("NowPlayingPage.qml")
+                }
+            }
+        }
+
+        PushUpMenu {
+            visible: xbmc.picturePlayerActive
+            MenuItem {
+                text: !enabled || usePictureControls ? qsTr("Keypad") : qsTr("Pictures")
+                onClicked: {
+                    pictureControlsOverride = !pictureControlsOverride
                 }
             }
         }
@@ -131,29 +147,41 @@ Page {
                     }
                 }
                 IconButton {
-                    icon.source: "image://theme/icon-m-back"
-                    rotation: 135
+                    icon.source: usePictureControls ? "image://theme/icon-m-add" : "image://theme/icon-m-back"
+                    rotation: usePictureControls ? 0 : 135
                     anchors { right: parent.right; top: parent.top; margins: Theme.paddingMedium }
                     onClicked: {
                         rumbleEffect.start(2);
-                        keys.fullscreen();
+                        if (usePictureControls) {
+                            picturePlayer.zoomIn();
+                        } else {
+                            keys.fullscreen();
+                        }
                     }
                 }
                 IconButton {
-                    icon.source: "image://theme/icon-m-about"
+                    icon.source: usePictureControls ? "image://theme/icon-m-refresh" : "image://theme/icon-m-about"
                     anchors { left: parent.left; bottom: parent.bottom; margins: Theme.paddingMedium }
                     onClicked: {
                         rumbleEffect.start(2);
-                        keys.info();
+                        if (usePictureControls) {
+                            picturePlayer.rotate();
+                        } else {
+                            keys.info();
+                        }
                     }
                 }
                 IconButton {
-                    icon.source: "../icons/icon-m-menu.png"
+                    icon.source: usePictureControls ? "image://theme/icon-m-remove" : "../icons/icon-m-menu.png"
                     anchors { right: parent.right; bottom: parent.bottom; margins: Theme.paddingMedium }
                     onClicked: {
                         rumbleEffect.start(2);
-                        keys.osd();
-                        keys.contextMenu();
+                        if (usePictureControls) {
+                            picturePlayer.zoomOut();
+                        } else {
+                            keys.osd();
+                            keys.contextMenu();
+                        }
                     }
                 }
             }
@@ -165,7 +193,7 @@ Page {
 
                 PlayerControls {
                     anchors.centerIn: parent
-                    player: xbmc.activePlayer
+                    player: usePictureControls ? keypad.picturePlayer : xbmc.activePlayer
                 }
             }
 
