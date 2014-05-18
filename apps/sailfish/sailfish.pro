@@ -34,5 +34,7 @@ OTHER_FILES += \
     qml/components/PlayerControls.qml \
     qml/components/NowPlayingDetails.qml \
     qml/pages/PlaylistPage.qml \
-    qml/pages/MediaSelectionDialog.qml
+    qml/pages/MediaSelectionDialog.qml \
+    qml/pages/Keypad.qml \
+    qml/components/GesturePad.qml
 
