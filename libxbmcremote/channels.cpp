@@ -82,6 +82,7 @@ QHash<int, QByteArray> Channels::roleNames() const
 
 QVariant Channels::data(const QModelIndex &index, int role) const
 {
+    qDebug() << "asked for" << index << role << XbmcLibrary::RoleSortingTitle << m_list.count() << this;
     if (role == Qt::UserRole + 2000) {
         return static_cast<ChannelItem*>(m_list.at(index.row()))->progressPercent();
     }
@@ -115,10 +116,8 @@ void Channels::listReceived(const QVariantMap &rsp)
     QVariantList responseList = rsp.value("result").toMap().value("channels").toList();
     foreach(const QVariant &itemVariant, responseList) {
         QVariantMap itemMap = itemVariant.toMap();
-        ChannelItem *item = new ChannelItem();
+        ChannelItem *item = new ChannelItem(itemMap.value("label").toString(), " ", this);
 
-        item->setTitle(itemMap.value("label").toString());
-        item->setSubtitle(" "); // there will be date... prevent the ui from jumping
         item->setChannelId(itemMap.value("channelid").toInt());
         item->setThumbnail(itemMap.value("thumbnail").toString());
 
@@ -228,6 +227,7 @@ void Channels::broadcastsReceived(const QVariantMap &rsp)
             item->setProgressPercentage(b.m_progressPercentage);
         }
     }
-    emit dataChanged(index(itemIndex, 0, QModelIndex()),index(itemIndex, 0, QModelIndex()));
+    qDebug() << "emitting dataChanged for index" << itemIndex;
+    emit dataChanged(index(itemIndex, 0, QModelIndex()), index(itemIndex, 0, QModelIndex()));
     qDebug() << "end";
 }

@@ -54,7 +54,6 @@ public:
 signals:
     void modelChanged();
     void filterChanged();
-    void caseSensitivityChanged();
     void hideWatchedChanged();
     void sortOrderChanged();
 

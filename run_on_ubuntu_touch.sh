@@ -74,7 +74,7 @@ sync_code() {
 
 build() {
     exec_with_ssh mkdir -p $CODE_DIR/$BUILD_DIR
-    exec_with_ssh QT_SELECT=qt5 PATH=/usr/lib/ccache:$PATH "cd $CODE_DIR/$BUILD_DIR && PATH=/usr/lib/ccache:$PATH qmake .. CONFIG+=ubuntu"
+    exec_with_ssh "cd $CODE_DIR/$BUILD_DIR && PATH=/usr/lib/ccache:$PATH QT_SELECT=qt5 PATH=/usr/lib/ccache:$PATH qmake .. CONFIG+=ubuntu"
     exec_with_ssh PATH=/usr/lib/ccache:$PATH "cd $CODE_DIR/$BUILD_DIR && PATH=/usr/lib/ccache:$PATH make -j2"
 }
 
@@ -91,7 +91,7 @@ build_click_package() {
 }
 
 run() {
-    exec_with_ssh "cd $CODE_DIR/apps/ubuntu/ && ../../$BUILD_DIR/apps/ubuntu/$BINARY -d discovery --desktop_file_hint=$CODE_DIR/apps/ubuntu/xbmcremote.desktop"
+    exec_with_ssh "cd $CODE_DIR/apps/ubuntu/ && ../../$BUILD_DIR/apps/ubuntu/$BINARY --desktop_file_hint=$CODE_DIR/apps/ubuntu/xbmcremote.desktop"
 }
 
 set -- `getopt -n$0 -u -a --longoptions="setup,gdb,click,help" "sgch" "$@"`

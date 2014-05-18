@@ -33,7 +33,8 @@
 XbmcImageCache::XbmcImageCache(QObject *parent) :
     QThread(parent),
     m_jobId(0),
-    m_currentJob(0)
+    m_currentJob(0),
+    m_doubleDecode(false)
 {
     m_fetchNextTimer = new QTimer(this);
     m_fetchNextTimer->setSingleShot(true);
@@ -92,25 +93,40 @@ void XbmcImageCache::run()
 
 int XbmcImageCache::fetch(const QString &image, QObject *callbackObject, const QString &callbackFunction, const QSize &scaleTo, int cacheId)
 {
-    ImageFetchJob *ifJob = new ImageFetchJob(m_jobId++, cacheId, image, QPointer<QObject>(callbackObject), callbackFunction, scaleTo);
 
     QMutexLocker locker(&m_mutex);
-    if(m_currentJob && m_currentJob->imageName() == image) {
+    if(m_currentJob && m_currentJob->imageName() == image && scaleTo == m_currentJob->scaleTo()) {
         qDebug() << "already fetching image queued for" << image;
+
+        if (m_currentJob->callbackObject() == callbackObject && m_currentJob->callbackMethod() == callbackFunction) {
+            return m_currentJob->id();
+        }
+
+        ImageFetchJob *ifJob = new ImageFetchJob(m_jobId++, cacheId, image, QPointer<QObject>(callbackObject), callbackFunction, scaleTo);
         m_toBeNotifiedList.append(ifJob);
+        qDebug() << m_toBeNotifiedList.count();
         return ifJob->id();
     }
     foreach(ImageFetchJob *job, m_downloadQueue) {
-        if(job->imageName() == image) {
+        if(job->imageName() == image && job->scaleTo() == scaleTo) {
             qDebug() << "image fetching already queued for" << image;
-            // move it to the beginning of the queue to speed up user feedback
+
+            if (job->callbackObject() == callbackObject && job->callbackMethod() == callbackFunction) {
+                // move it to the beginning of the queue to speed up user feedback
+                m_downloadQueue.move(m_downloadQueue.indexOf(job), 0);
+                return job->id();
+            }
+            ImageFetchJob *ifJob = new ImageFetchJob(m_jobId++, cacheId, image, QPointer<QObject>(callbackObject), callbackFunction, scaleTo);
+            // prepend to speed up user feedback
             m_downloadQueue.prepend(m_downloadQueue.takeAt(m_downloadQueue.indexOf(job)));
             m_toBeNotifiedList.append(ifJob);
+            qDebug() << m_toBeNotifiedList.count();
             return ifJob->id();
         }
     }
 
     // Ok... this is a new one... start fetching it
+    ImageFetchJob *ifJob = new ImageFetchJob(m_jobId++, cacheId, image, QPointer<QObject>(callbackObject), callbackFunction, scaleTo);
     m_downloadQueue.prepend(ifJob);
     m_fetchNextTimer->start();
 
@@ -165,7 +181,18 @@ void XbmcImageCache::imageFetched()
             delete job;
         }
     } else {
-        qDebug() << "image fetching failed" << reply->errorString();
+        qDebug() << "image fetching failed" << reply->errorString() << reply->error();
+
+        // Hack: There is something fishy with Xbmc's image urls. Some versions require decoding
+        // from PercentageDecoding once, some twice... Let's retry doubleDecoding if if we get a 404
+        if (!m_doubleDecode && reply->error() == QNetworkReply::ContentNotFoundError) {
+            m_doubleDecode = true;
+            m_downloadQueue.prepend(m_currentJob);
+            m_currentJob = 0;
+            m_fetchNextTimer->start();
+            return;
+        }
+
         QVariant possibleRedirectUrl = reply->attribute(QNetworkRequest::RedirectionTargetAttribute);
         qDebug() << possibleRedirectUrl;
 
@@ -230,7 +257,6 @@ void XbmcImageCache::downloadPrepared(const QVariantMap &rsp)
     imageUrl.setScheme(result.value("protocol").toString());
     imageUrl.setHost(host->address());
     imageUrl.setPort(host->port());
-
 
 #ifdef QT5_BUILD
     QByteArray path = "/" + QByteArray::fromPercentEncoding(result.value("details").toMap().value("path").toByteArray());

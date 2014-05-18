@@ -81,6 +81,7 @@ private:
 
     QList<QHash<QString, bool> > m_cacheFiles;
 
+    bool m_doubleDecode;
 };
 
 class ImageFetchJob

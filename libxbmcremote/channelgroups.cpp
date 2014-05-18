@@ -68,7 +68,7 @@ void ChannelGroups::listReceived(const QVariantMap &rsp)
     QVariantList responseList = rsp.value("result").toMap().value("channelgroups").toList();
     foreach(const QVariant &itemVariant, responseList) {
         QVariantMap itemMap = itemVariant.toMap();
-        LibraryItem *item = new LibraryItem();
+        LibraryItem *item = new LibraryItem(this);
         item->setTitle(itemMap.value("label").toString());
         item->setFileType("directory");
         //itemMap.value("channeltype").toString());

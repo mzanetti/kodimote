@@ -34,31 +34,31 @@ RecentItems::RecentItems(Mode mode, RecentlyWhat what, XbmcLibrary *parent):
 {
     setBusy(false);
     if (mode == ModeAudio) {
-        LibraryItem *item = new LibraryItem(tr("Albums"));
+        LibraryItem *item = new LibraryItem(tr("Albums"), QString(), this);
         item->setFileType("directory");
         item->setPlayable(false);
         item->setProperty("id", 0);
         m_list.append(item);
 
-        item = new LibraryItem(tr("Songs"));
+        item = new LibraryItem(tr("Songs"), QString(), this);
         item->setFileType("directory");
         item->setPlayable(false);
         item->setProperty("id", 1);
         m_list.append(item);
     } else if (mode == ModeVideo) {
-        LibraryItem *item = new LibraryItem(tr("Movies"));
+        LibraryItem *item = new LibraryItem(tr("Movies"), QString(), this);
         item->setFileType("directory");
         item->setPlayable(false);
         item->setProperty("id", 2);
         m_list.append(item);
 
-        item = new LibraryItem(tr("Episodes"));
+        item = new LibraryItem(tr("Episodes"), QString(), this);
         item->setFileType("directory");
         item->setPlayable(false);
         item->setProperty("id", 3);
         m_list.append(item);
 
-        item = new LibraryItem(tr("Music Videos"));
+        item = new LibraryItem(tr("Music Videos"), QString(), this);
         item->setFileType("directory");
         item->setPlayable(false);
         item->setProperty("id", 4);

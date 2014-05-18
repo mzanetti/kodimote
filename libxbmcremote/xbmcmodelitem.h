@@ -32,8 +32,9 @@ class XbmcModelItem: public QObject
     Q_PROPERTY(bool ignoreArticle READ ignoreArticle WRITE setIgnoreArticle NOTIFY ignoreArticleChanged)
 
 public:
-    XbmcModelItem(const QString &title = QString(), const QString &subTitle = QString());
-    ~XbmcModelItem() {}
+    XbmcModelItem(const QString &title, const QString &subTitle = QString(), QObject *parent = 0);
+    XbmcModelItem(QObject *parent = 0);
+    ~XbmcModelItem();
 
     virtual QVariant data(int role) const;
 

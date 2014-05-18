@@ -1,11 +1,17 @@
 #include "channelitem.h"
+#include <QDebug>
 
-ChannelItem::ChannelItem(const QString &title, const QString &subtitle) :
-    LibraryItem(title, subtitle),
+ChannelItem::ChannelItem(const QString &title, const QString &subtitle, QObject *parent) :
+    LibraryItem(title, subtitle, parent),
     m_channelBroadcasts(new ChannelBroadcasts(this)),
     m_progressPercentage(0)
 {
     setType("channel");
+}
+
+ChannelItem::~ChannelItem()
+{
+    qDebug() << "destroying channel item" << this;
 }
 
 ChannelBroadcasts *ChannelItem::channelBroadcasts() const

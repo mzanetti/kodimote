@@ -20,12 +20,24 @@
 
 #include "xbmcmodelitem.h"
 #include "xbmcmodel.h"
-XbmcModelItem::XbmcModelItem(const QString &title, const QString &subTitle) :
+XbmcModelItem::XbmcModelItem(const QString &title, const QString &subTitle, QObject *parent) :
+    QObject(parent),
     m_title(title),
     m_subTitle(subTitle),
     m_ignoreArticle(false)
 {
 
+}
+
+XbmcModelItem::XbmcModelItem(QObject *parent):
+    QObject(parent)
+{
+
+}
+
+XbmcModelItem::~XbmcModelItem()
+{
+    qDebug() << "deleting model item" << m_title;
 }
 
 QVariant XbmcModelItem::data(int role) const

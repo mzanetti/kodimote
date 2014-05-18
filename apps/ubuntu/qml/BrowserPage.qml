@@ -64,7 +64,7 @@ Page {
     }
 
     Component.onCompleted: {
-        console.log("setting model " + model)
+        console.log("BrowserPage: setting model " + model)
         //filterModel.model = model
     }
 
@@ -372,7 +372,7 @@ Page {
                             height: units.dp(3)
                             property int minimumValue: 0
                             property int maximumValue: 100
-                            property int value: progressPercentage
+                            property int value: model.progressPercentage != undefined ? progressPercentage : 0
 
                             UbuntuShape {
                                 anchors.fill: parent

@@ -38,8 +38,9 @@ XbmcModel::XbmcModel(XbmcModel *parent) :
 
 XbmcModel::~XbmcModel()
 {
+    qDebug() << "deleting model";
     while(!m_list.isEmpty()) {
-        delete m_list.takeFirst();
+        m_list.takeFirst()->deleteLater();
     }
 }
 

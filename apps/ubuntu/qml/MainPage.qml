@@ -151,7 +151,8 @@ Page {
                 source: "images/" + target + ".jpg"
                 fillMode: Image.PreserveAspectCrop
             }
-*/            UbuntuShape {
+*/
+            UbuntuShape {
                 id: sourceShape
                 anchors.fill: parent
                 color: "black"
@@ -293,7 +294,7 @@ Page {
                             console.log("created model: " + newModel);
                             break;
                         }
-                        console.log("setting model: " + newModel);
+                        console.log("MainPage: setting model: " + newModel);
                         pageStack.push(component, {model: newModel});
                     } else {
                             console.log("Error loading component:", component.errorString());

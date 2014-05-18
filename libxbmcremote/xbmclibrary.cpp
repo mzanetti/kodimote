@@ -97,7 +97,6 @@ QVariant XbmcLibrary::get(int row, const QString &roleName)
 
 XbmcModelItem *XbmcLibrary::getItem(int index)
 {
-    qDebug() << "returning: " << m_list.at(index);
     return m_list.at(index);
 }
 
