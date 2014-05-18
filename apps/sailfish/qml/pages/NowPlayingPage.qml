@@ -78,6 +78,28 @@ Page {
             }
         }
 
+        PushUpMenu {
+            MenuItem {
+                text: player && player.state === "playing" ? qsTr("Pause") : qsTr("Play")
+                onClicked: player.playPause()
+            }
+
+            MenuItem {
+                text: qsTr("Next")
+                onClicked: player.skipNext()
+            }
+
+            MenuItem {
+                text: qsTr("Previous")
+                onClicked: player.skipPrevious()
+            }
+
+            MenuItem {
+                text: qsTr("Stop")
+                onClicked: player.stop()
+            }
+        }
+
         contentHeight: column.childrenRect.height
 
         Column {
