@@ -221,4 +221,10 @@ Page {
             }
         }
     }
+
+    onStatusChanged: {
+        if (status === PageStatus.Active) {
+            gesturePad.teaseArrows();
+        }
+    }
 }
