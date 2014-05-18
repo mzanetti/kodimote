@@ -122,13 +122,13 @@ CoverBackground {
             }
             PropertyChanges {
                 target: leftAction
-                iconSource: "../icons/icon-cover-stop.png"
-                onTriggered: stop()
+                iconSource: "image://theme/icon-cover-" + (cover.player && cover.player.state === "playing" ? "pause" : "play")
+                onTriggered: playPause()
             }
             PropertyChanges {
                 target: rightAction
-                iconSource: "image://theme/icon-cover-" + (cover.player && cover.player.state === "playing" ? "pause" : "play")
-                onTriggered: playPause()
+                iconSource: "../icons/icon-cover-stop.png"
+                onTriggered: stop()
             }
         },
         State {
