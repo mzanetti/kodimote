@@ -23,6 +23,7 @@
 #define SAILFISHHELPER_H
 
 #include <QObject>
+#include <policy/resource-set.h>
 
 class Settings;
 
@@ -34,10 +35,12 @@ public:
     
 private slots:
     void connectionChanged(bool connected);
+    bool eventFilter(QObject *obj, QEvent *event);
     void hostRemoved();
 
 private:
     Settings *m_settings;
+    ResourcePolicy::ResourceSet *m_resourceSet;
 };
 
 #endif // SAILFISHHELPER_H

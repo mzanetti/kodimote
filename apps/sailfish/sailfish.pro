@@ -5,6 +5,9 @@ TARGET = harbour-xbmcremote
 
 CONFIG += sailfishapp
 
+INCLUDEPATH += /usr/include/resource/qt5
+PKGCONFIG += libresourceqt5
+
 SOURCES += \
     src/main.cpp \
     src/sailfishhelper.cpp

@@ -19,6 +19,9 @@
  *                                                                           *
  ****************************************************************************/
 
+#include <QGuiApplication>
+#include <QApplicationStateChangeEvent>
+
 #include "sailfishhelper.h"
 #include "libxbmcremote/xbmc.h"
 #include "libxbmcremote/xbmchostmodel.h"
@@ -26,8 +29,14 @@
 
 SailfishHelper::SailfishHelper(Settings *settings, QObject *parent) :
     QObject(parent),
-    m_settings(settings)
+    m_settings(settings),
+    m_resourceSet(new ResourcePolicy::ResourceSet("player", 0, false, true))
 {
+    m_resourceSet->addResourceObject(new ResourcePolicy::ScaleButtonResource);
+    QGuiApplication::instance()->installEventFilter(this);
+
+    m_resourceSet->acquire();
+
     // Load stored hosts
     QString lastHostAddress = settings->lastHost().address();
     foreach(const XbmcHost &host, settings->hostList()) {
@@ -48,6 +57,19 @@ void SailfishHelper::connectionChanged(bool connected)
         m_settings->addHost(*Xbmc::instance()->connectedHost());
         m_settings->setLastHost(*Xbmc::instance()->connectedHost());
     }
+}
+
+bool SailfishHelper::eventFilter(QObject *obj, QEvent *event)
+{
+    if (event->type() == QEvent::ApplicationStateChange) {
+        Qt::ApplicationState state = static_cast<QApplicationStateChangeEvent*>(event)->applicationState();
+        if (state == Qt::ApplicationActive) {
+            m_resourceSet->acquire();
+        } else {
+            m_resourceSet->release();
+        }
+    }
+    return QObject::eventFilter(obj, event);
 }
 
 void SailfishHelper::hostRemoved()

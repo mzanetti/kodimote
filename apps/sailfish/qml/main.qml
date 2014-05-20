@@ -36,6 +36,14 @@ ApplicationWindow
         }
     }
 
+    Keys.onVolumeDownPressed: {
+        xbmc.volume -= 5;
+    }
+
+    Keys.onVolumeUpPressed: {
+        xbmc.volume += 5;
+    }
+
     function showAuthenticate(hostname) {
         var component = Qt.createComponent("pages/AuthenticationDialog.qml")
         if (component.status == Component.Ready) {
