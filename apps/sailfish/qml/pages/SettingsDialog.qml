@@ -30,18 +30,20 @@ Dialog {
 
     SilicaFlickable {
         anchors.fill: parent
-        DialogHeader {
-            id: header
-            acceptText: qsTr("Save")
-        }
+
+        contentHeight: settingsCol.childrenRect.height
 
         Column {
             id: settingsCol
-            anchors.top: header.bottom
             anchors.left: parent.left
             anchors.right: parent.right
             anchors.margins: Theme.paddingLarge
             spacing: Theme.paddingSmall
+
+            DialogHeader {
+                id: header
+                acceptText: qsTr("Save")
+            }
 
             SectionHeader {
                 text: qsTr("Look and feel")
@@ -99,9 +101,8 @@ Dialog {
                 }
             }
 
-            /*SectionHeader {
+            SectionHeader {
                 text: qsTr("Phone calls")
-                width: parent.width
             }
 
             TextSwitch {
@@ -114,8 +115,10 @@ Dialog {
                 width: parent.width - 20
                 anchors.right: parent.right
                 value: settings.volumeOnCall
-                enabled: cbChangeVol.checked
+                enabled: changeVol.checked
                 maximumValue: 100
+                valueText: enabled ? value : ""
+                stepSize: 1
             }
             TextSwitch {
                 id: pauseVideo
@@ -131,19 +134,19 @@ Dialog {
                 id: showNotifications
                 text: qsTr("Show call notifications")
                 checked: settings.showCallNotifications
-            }*/
+            }
         }
     }
 
     onAccepted: {
         //settings.keepDisplayLit = keepDisplayLit.checked
         settings.ignoreArticle = ignoreArticle.checked
-        /*settings.changeVolumeOnCall = changeVol.checked
+        settings.changeVolumeOnCall = changeVol.checked
         settings.volumeOnCall = volume.value
         settings.pauseMusicOnCall = pauseMusic.checked
-        settings.pauseVideoOnCall = pauseVideo.checked*/
+        settings.pauseVideoOnCall = pauseVideo.checked
         settings.useThumbnails = useThumbnails.checked
-        //settings.showCallNotifications = showNotifications.checked
+        settings.showCallNotifications = showNotifications.checked
         settings.musicEnabled = musicEnabled.checked
         settings.videosEnabled = videosEnabled.checked
         settings.picturesEnabled = picturesEnabled.checked
