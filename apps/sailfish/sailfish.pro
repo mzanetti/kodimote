@@ -3,10 +3,20 @@ include(../../i18n/i18n.pri)
 
 TARGET = harbour-xbmcremote
 
+STORE = ""
+
 CONFIG += sailfishapp
 
+QT += dbus
 INCLUDEPATH += /usr/include/resource/qt5
 PKGCONFIG += libresourceqt5
+
+contains(STORE, harbour) {
+    DEFINES += HARBOUR_BUILD=
+} else {
+    CONFIG += Qt5Contacts
+    PKGCONFIG += Qt5Contacts
+}
 
 SOURCES += \
     src/main.cpp \

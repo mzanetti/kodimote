@@ -22,6 +22,9 @@
 #ifndef SAILFISHHELPER_H
 #define SAILFISHHELPER_H
 
+#include <QDBusArgument>
+#include <QDBusMessage>
+#include <QDBusObjectPath>
 #include <QObject>
 #include <policy/resource-set.h>
 
@@ -34,13 +37,21 @@ public:
     explicit SailfishHelper(Settings *settings, QObject *parent = 0);
     
 private slots:
+    void callAdded(const QDBusMessage &msg);
+    void callRemoved();
     void connectionChanged(bool connected);
     bool eventFilter(QObject *obj, QEvent *event);
     void hostRemoved();
 
 private:
+    QString lookupContact(QString phoneNumber);
+    QMap<QString, QString> unpackMessage(const QDBusArgument &args);
+
     Settings *m_settings;
     ResourcePolicy::ResourceSet *m_resourceSet;
+
+    bool m_videoPaused;
+    bool m_musicPaused;
 };
 
 #endif // SAILFISHHELPER_H
