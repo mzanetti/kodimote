@@ -254,17 +254,25 @@ void XbmcImageCache::downloadPrepared(const QVariantMap &rsp)
     }
 
     QUrl imageUrl;
-    imageUrl.setScheme(result.value("protocol").toString());
-    imageUrl.setHost(host->address());
-    imageUrl.setPort(host->port());
 
 #ifdef QT5_BUILD
-    QByteArray path = "/" + QByteArray::fromPercentEncoding(result.value("details").toMap().value("path").toByteArray());
-    imageUrl.setPath(path, QUrl::DecodedMode);
+    qDebug() << "***" << result.value("details").toMap().value("path").toByteArray();
+    if (m_doubleDecode) {
+        QByteArray path = "/" + QByteArray::fromPercentEncoding(result.value("details").toMap().value("path").toByteArray());
+        imageUrl = QUrl::fromEncoded(path);
+    } else {
+        imageUrl = QUrl::fromEncoded("/" + result.value("details").toMap().value("path").toByteArray());
+    }
 #else
     QString path = "/" + QUrl::fromPercentEncoding(result.value("details").toMap().value("path").toByteArray());
     imageUrl.setPath(path);
 #endif
+
+    imageUrl.setScheme(result.value("protocol").toString());
+    imageUrl.setHost(host->address());
+    imageUrl.setPort(host->port());
+
+    qDebug() << "fetching image:" << imageUrl;
 
     QNetworkRequest imageRequest(imageUrl);
     QNetworkReply *reply = XbmcConnection::nam()->get(imageRequest);
