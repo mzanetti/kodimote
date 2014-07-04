@@ -25,6 +25,7 @@ XbmcFilterModel::XbmcFilterModel(QObject *parent) :
     m_hideWatched(false),
     m_sortOrder(Qt::AscendingOrder)
 {
+    setSortRole(XbmcModel::RoleTitle);
 }
 
 QAbstractItemModel *XbmcFilterModel::model() const
@@ -71,12 +72,8 @@ void XbmcFilterModel::setSortOrder(Qt::SortOrder sortOrder)
         m_sortOrder = sortOrder;
         emit sortOrderChanged();
         sort(0, sortOrder);
+        emit layoutChanged();
     }
-}
-
-Qt::SortOrder XbmcFilterModel::sortOrder() const
-{
-    return m_sortOrder;
 }
 
 int XbmcFilterModel::mapToSourceIndex(int i)

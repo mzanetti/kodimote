@@ -47,7 +47,6 @@ public:
     bool hideWatched() const;
 
     void setSortOrder(Qt::SortOrder sortOrder);
-    Qt::SortOrder sortOrder() const;
 
     Q_INVOKABLE int mapToSourceIndex(int index);
 
