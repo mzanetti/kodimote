@@ -191,6 +191,9 @@ void XbmcImageCache::imageFetched()
             m_currentJob = 0;
             m_fetchNextTimer->start();
             return;
+        } else if (m_doubleDecode && reply->error() == QNetworkReply::ContentNotFoundError) {
+            // So this failed with both... Lets turn off doubleDecode again and try the next
+            m_doubleDecode = false;
         }
 
         QVariant possibleRedirectUrl = reply->attribute(QNetworkRequest::RedirectionTargetAttribute);
@@ -256,7 +259,6 @@ void XbmcImageCache::downloadPrepared(const QVariantMap &rsp)
     QUrl imageUrl;
 
 #ifdef QT5_BUILD
-    qDebug() << "***" << result.value("details").toMap().value("path").toByteArray();
     if (m_doubleDecode) {
         QByteArray path = "/" + QByteArray::fromPercentEncoding(result.value("details").toMap().value("path").toByteArray());
         imageUrl = QUrl::fromEncoded(path);
