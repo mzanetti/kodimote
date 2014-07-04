@@ -9,7 +9,8 @@ maemo5{
     message("Fremantle build. Building generic app.")
     SUBDIRS += generic
 }
-contains(QT_VERSION, ^5\\..\\..*) {
+
+ubuntu {
     message("Desktop Qt5 build. Building Ubuntu version.")
     SUBDIRS += ubuntu
 }
