@@ -134,14 +134,51 @@ Page {
         id: filterModel
         model: root.model
         filterCaseSensitivity: Qt.CaseInsensitive
-
-//        // When the model is filtered, contentY is messed up sometimes
-//        // Lets unset and reset the model to keep the searchbar in place
-//        onFilterChanged: {
-//            listView.model = undefined
-//            listView.model = filterModel
-//        }
+        filter: searchTextField.text
     }
+
+    Item {
+        anchors { left: parent.left; top: header.bottom; right: parent.right; bottom: parent.bottom }
+        clip: true
+        z: 2
+        TextField {
+            id: searchTextField
+            anchors {
+                left: parent.left
+                right: parent.right
+                leftMargin: root.spacing
+                rightMargin: root.spacing
+            }
+            y: listView.contentItem.y - height - root.spacing
+            opacity: searchBar.expanded ? 1 : 0
+            enabled: searchBar.expanded
+
+            primaryItem: Image {
+                height: searchTextField.height - units.gu(1)
+                width: height
+                source: "/usr/share/icons/ubuntu-mobile/actions/scalable/filter.svg"
+            }
+
+            Keys.onReturnPressed: {
+                listView.forceActiveFocus();
+                platformCloseSoftwareInputPanel();
+            }
+
+            Behavior on opacity {
+                NumberAnimation { duration: 300; easing.type: Easing.OutQuad }
+            }
+
+            InverseMouseArea {
+                anchors.fill: parent
+                enabled: searchTextField.focus
+                onPressed: {
+                    searchTextField.focus = false;
+                    mouse.accepted = false;
+                }
+            }
+        }
+    }
+
 
 
     ListView {
@@ -193,45 +230,6 @@ Page {
                 NumberAnimation { duration: UbuntuAnimation.SnapDuration; easing.type: Easing.OutQuad; }
             }
         }
-
-        TextField {
-            id: searchTextField
-            anchors {
-                left: parent.left
-                right: parent.right
-                leftMargin: root.spacing
-                rightMargin: root.spacing
-            }
-            y: listView.contentItem.y - height - root.spacing
-            opacity: searchBar.expanded ? 1 : 0
-            enabled: searchBar.expanded
-            z: 2
-            primaryItem: Image {
-                height: searchTextField.height - units.gu(1)
-                width: height
-                source: "/usr/share/icons/ubuntu-mobile/actions/scalable/filter.svg"
-            }
-
-            Keys.onReturnPressed: {
-                listView.forceActiveFocus();
-                platformCloseSoftwareInputPanel();
-            }
-
-            Behavior on opacity {
-                NumberAnimation { duration: 300; easing.type: Easing.OutQuad }
-            }
-
-            onTextChanged: {
-                filterModel.filter = text;
-            }
-
-            InverseMouseArea {
-                anchors.fill: parent
-                enabled: searchTextField.focus
-                onClicked: searchTextField.focus = false
-            }
-        }
-
 
         delegate:  Item {
             id: delegateItem
