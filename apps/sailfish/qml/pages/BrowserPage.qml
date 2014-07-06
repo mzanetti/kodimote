@@ -76,15 +76,10 @@ Page {
             }
         }
 
-
-        Column {
-            id: headerContainer
+        PageHeader {
+            id: header
+            title: model ? model.title : ""
             width: parent.width
-
-            PageHeader {
-                id: header
-                title: model ? model.title : ""
-            }
         }
 
         BusyIndicator {
@@ -99,7 +94,7 @@ Page {
             id: listView
             highlightFollowsCurrentItem: true
             model: filterModel
-            anchors.top: headerContainer.bottom
+            anchors.top: header.bottom
             anchors.bottom: parent.bottom
             width: parent.width
             clip: true
