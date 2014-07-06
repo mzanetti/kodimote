@@ -82,7 +82,6 @@ QHash<int, QByteArray> Channels::roleNames() const
 
 QVariant Channels::data(const QModelIndex &index, int role) const
 {
-    qDebug() << "asked for" << index << role << XbmcLibrary::RoleSortingTitle << m_list.count() << this;
     if (role == Qt::UserRole + 2000) {
         return static_cast<ChannelItem*>(m_list.at(index.row()))->progressPercent();
     }
