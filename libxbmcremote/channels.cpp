@@ -176,7 +176,6 @@ void Channels::fetchBroadcasts(int channelId)
 
 void Channels::broadcastsReceived(const QVariantMap &rsp)
 {
-    qDebug() << "start";
     if (!m_broadcastRequestMap.contains(rsp.value("id").toInt())) {
         return;
     }
@@ -196,8 +195,6 @@ void Channels::broadcastsReceived(const QVariantMap &rsp)
         return; // model probably cleared since the request
     }
 
-    qDebug() << "got broadcasts for channel" << item->title();
-
     QVariantList broadcasts = rsp.value("result").toMap().value("broadcasts").toList();
 
     QDateTime nowTime = QDateTime::currentDateTime();
@@ -216,7 +213,6 @@ void Channels::broadcastsReceived(const QVariantMap &rsp)
         b.m_startTime = startTime;
         b.m_endTime = endTime;
         b.m_isActive = broadcast.toMap().value("isactive").toBool();
-        qDebug() << "isActive" << b.m_isActive << title << broadcast;
         b.m_hasTimer = broadcast.toMap().value("hastimer").toBool();
         b.m_progressPercentage = broadcast.toMap().value("progresspercentage").toInt();
 
@@ -226,7 +222,5 @@ void Channels::broadcastsReceived(const QVariantMap &rsp)
             item->setProgressPercentage(b.m_progressPercentage);
         }
     }
-    qDebug() << "emitting dataChanged for index" << itemIndex;
     emit dataChanged(index(itemIndex, 0, QModelIndex()), index(itemIndex, 0, QModelIndex()));
-    qDebug() << "end";
 }
