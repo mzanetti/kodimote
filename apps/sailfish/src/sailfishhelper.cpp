@@ -38,7 +38,9 @@
 #include "libxbmcremote/audioplayer.h"
 #include "libxbmcremote/settings.h"
 
+#ifndef HARBOUR_BUILD
 using namespace QtContacts;
+#endif
 
 SailfishHelper::SailfishHelper(Settings *settings, QObject *parent) :
     QObject(parent),
