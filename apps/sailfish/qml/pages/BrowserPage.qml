@@ -27,6 +27,7 @@ import "../components/"
 Page {
     id: browserPage
     property variant model
+    property bool showSearch: !model.busy && browserPage.model && browserPage.model.allowSearch
 
     signal home();
 
@@ -76,15 +77,10 @@ Page {
             }
         }
 
-
-        Column {
-            id: headerContainer
+        PageHeader {
+            id: header
+            title: model ? model.title : ""
             width: parent.width
-
-            PageHeader {
-                id: header
-                title: model ? model.title : ""
-            }
         }
 
         BusyIndicator {
@@ -99,8 +95,8 @@ Page {
             id: listView
             highlightFollowsCurrentItem: true
             model: filterModel
-            anchors.top: headerContainer.bottom
-            anchors.bottom: parent.bottom
+            anchors.top: header.bottom
+            anchors.bottom: controlBar.top
             width: parent.width
             clip: true
             pressDelay: 0
@@ -109,7 +105,7 @@ Page {
             property bool useThumbnails: settings.useThumbnails
             property int itemHeight: browserPage.model && browserPage.model.thumbnailFormat === XbmcModel.ThumbnailFormatPortrait ? 122 : 88
 
-            header: !model.busy && browserPage.model && browserPage.model.allowSearch ? searchFieldComponent : null
+            header: browserPage.showSearch ? searchFieldComponent : null
 
             delegate: Drawer {
                 id: drawer
@@ -299,6 +295,50 @@ Page {
             }
 
             VerticalScrollDecorator { }
+        }
+
+        Row {
+            id: controlBar
+            anchors.bottom: parent.bottom
+            anchors.left: parent.left
+            anchors.leftMargin: Theme.paddingLarge
+            height: Theme.itemSizeMedium
+
+            IconButton {
+                icon.source: "image://theme/icon-m-search"
+                visible: browserPage.showSearch
+                anchors.verticalCenter: parent.verticalCenter
+                height: 64
+                width: 64
+                onClicked: {
+                    listView.scrollToTop();
+                    listView.headerItem.forceActiveFocus();
+                }
+            }
+
+            Switch {
+                icon.source: "image://theme/icon-s-installed"
+                visible: model.allowWatchedFilter
+                anchors.verticalCenter: parent.verticalCenter
+                anchors.verticalCenterOffset: -14
+                checked: !filterModel.hideWatched
+                onCheckedChanged: {
+                    filterModel.hideWatched = !checked
+                }
+            }
+
+            IconButton {
+                icon.source: "image://theme/icon-direction-forward"
+                rotation: filterModel.sortOrder == Qt.AscendingOrder ? 180 : 0
+                height: 70
+                width: 70
+                icon.height: 70
+                icon.width: 70
+                onClicked: {
+                    filterModel.sortOrder = filterModel.sortOrder == Qt.AscendingOrder ? Qt.DescendingOrder : Qt.AscendingOrder
+                }
+                anchors.verticalCenter: parent.verticalCenter
+            }
         }
     }
 

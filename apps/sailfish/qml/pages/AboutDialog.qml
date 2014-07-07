@@ -37,7 +37,7 @@ Dialog {
                 family: Theme.fontFamilyHeading
             }
             color: Theme.highlightColor
-            text: "Xbmcremote 1.5"
+            text: "Xbmcremote 1.5.0"
         }
 
         Label {
