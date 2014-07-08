@@ -81,6 +81,7 @@ Page {
         }
 
         PushUpMenu {
+            enabled: xbmc.picturePlayerActive
             visible: xbmc.picturePlayerActive
             MenuItem {
                 text: !enabled || usePictureControls ? qsTr("Keypad") : qsTr("Pictures")
