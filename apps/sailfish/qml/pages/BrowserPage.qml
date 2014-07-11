@@ -105,8 +105,6 @@ Page {
             property bool useThumbnails: settings.useThumbnails
             property int itemHeight: browserPage.model && browserPage.model.thumbnailFormat === XbmcModel.ThumbnailFormatPortrait ? 122 : 88
 
-            header: browserPage.showSearch ? searchFieldComponent : null
-
             delegate: Drawer {
                 id: drawer
 
@@ -297,62 +295,66 @@ Page {
             VerticalScrollDecorator { }
         }
 
-        Row {
+        Column {
             id: controlBar
             anchors.bottom: parent.bottom
             anchors.left: parent.left
             anchors.leftMargin: Theme.paddingLarge
-            height: Theme.itemSizeMedium
+            anchors.right: parent.right
+            anchors.rightMargin: Theme.paddingSmall
 
-            IconButton {
-                icon.source: "image://theme/icon-m-search"
-                visible: browserPage.showSearch
-                anchors.verticalCenter: parent.verticalCenter
-                height: 64
-                width: 64
-                onClicked: {
-                    listView.scrollToTop();
-                    listView.headerItem.forceActiveFocus();
+            SearchField {
+                id: searchField
+                width: parent.width
+
+                visible: browserPage.showSearch && searchSwitch.checked
+
+                Binding {
+                    target: filterModel
+                    property: "filter"
+                    value: searchField.text
                 }
             }
 
-            Switch {
-                icon.source: "image://theme/icon-s-installed"
-                visible: model.allowWatchedFilter
-                anchors.verticalCenter: parent.verticalCenter
-                anchors.verticalCenterOffset: -14
-                checked: !filterModel.hideWatched
-                onCheckedChanged: {
-                    filterModel.hideWatched = !checked
+            Row {
+                Switch {
+                    id: searchSwitch
+                    icon.source: "image://theme/icon-m-search"
+                    icon.height: 32
+                    icon.width: 32
+                    visible: browserPage.showSearch
+                    anchors.verticalCenter: parent.verticalCenter
+                    anchors.verticalCenterOffset: -14
+                    onCheckedChanged: {
+                        if (searchSwitch.checked) {
+                            searchField.forceActiveFocus();
+                        }
+                    }
                 }
-            }
 
-            IconButton {
-                icon.source: "image://theme/icon-direction-forward"
-                rotation: filterModel.sortOrder == Qt.AscendingOrder ? 180 : 0
-                height: 70
-                width: 70
-                icon.height: 70
-                icon.width: 70
-                onClicked: {
-                    filterModel.sortOrder = filterModel.sortOrder == Qt.AscendingOrder ? Qt.DescendingOrder : Qt.AscendingOrder
+                Switch {
+                    icon.source: "image://theme/icon-s-installed"
+                    visible: model.allowWatchedFilter
+                    anchors.verticalCenter: parent.verticalCenter
+                    anchors.verticalCenterOffset: -14
+                    checked: !filterModel.hideWatched
+                    onCheckedChanged: {
+                        filterModel.hideWatched = !checked
+                    }
                 }
-                anchors.verticalCenter: parent.verticalCenter
-            }
-        }
-    }
 
-    Component {
-        id: searchFieldComponent
-
-        SearchField {
-            id: searchField
-            width: parent.width
-
-            Binding {
-                target: filterModel
-                property: "filter"
-                value: searchField.text
+                IconButton {
+                    icon.source: "image://theme/icon-direction-forward"
+                    rotation: filterModel.sortOrder == Qt.AscendingOrder ? 180 : 0
+                    height: 70
+                    width: 70
+                    icon.height: 70
+                    icon.width: 70
+                    onClicked: {
+                        filterModel.sortOrder = filterModel.sortOrder == Qt.AscendingOrder ? Qt.DescendingOrder : Qt.AscendingOrder
+                    }
+                    anchors.verticalCenter: parent.verticalCenter
+                }
             }
         }
     }
