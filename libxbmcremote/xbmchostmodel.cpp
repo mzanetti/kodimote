@@ -66,6 +66,8 @@ int XbmcHostModel::insertOrUpdateHost(const XbmcHost &newHost)
     host->setXbmcJsonrpcSupported(newHost.xbmcJsonrpcSupported());
     host->setVolumeUpCommand(newHost.volumeUpCommand());
     host->setVolumeDownCommand(newHost.volumeDownCommand());
+    host->setVolumeControlType(newHost.volumeControlType());
+    host->setVolumeStepping(newHost.volumeStepping());
     m_hosts.append(host);
     endInsertRows();
 
@@ -163,7 +165,9 @@ void XbmcHostModel::wakeup(int row)
 XbmcHost::XbmcHost():
     m_xbmcJsonrpcSupported(false),
     m_xbmcHttpSupported(false),
-    m_port(0)
+    m_port(0),
+    m_volumeControlType(VolumeControlTypeAbsolute),
+    m_volumeStepping(5)
 {
 
 }
@@ -266,4 +270,24 @@ int XbmcHost::port() const
 void XbmcHost::setPort(int port)
 {
     m_port = port;
+}
+
+XbmcHost::VolumeControlType XbmcHost::volumeControlType() const
+{
+    return m_volumeControlType;
+}
+
+void XbmcHost::setVolumeControlType(const VolumeControlType type)
+{
+    m_volumeControlType = type;
+}
+
+int XbmcHost::volumeStepping() const
+{
+    return m_volumeStepping;
+}
+
+void XbmcHost::setVolumeStepping(const int stepping)
+{
+    m_volumeStepping = stepping;
 }

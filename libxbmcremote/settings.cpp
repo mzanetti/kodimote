@@ -154,6 +154,8 @@ void Settings::addHost(const XbmcHost &host)
     settings.setValue("Port", host.port());
     settings.setValue("VolumeUpCommand", host.volumeUpCommand());
     settings.setValue("VolumeDownCommand", host.volumeDownCommand());
+    settings.setValue("VolumeControlType", host.volumeControlType());
+    settings.setValue("VolumeStepping", host.volumeStepping());
 }
 
 void Settings::removeHost(const XbmcHost &host)
@@ -183,6 +185,8 @@ QList<XbmcHost> Settings::hostList() const
         host.setXbmcJsonrpcSupported(true);
         host.setVolumeUpCommand(settings.value("VolumeUpCommand").toString());
         host.setVolumeDownCommand(settings.value("VolumeDownCommand").toString());
+        host.setVolumeControlType((XbmcHost::VolumeControlType)settings.value("VolumeControlType", XbmcHost::VolumeControlTypeAbsolute).toInt());
+        host.setVolumeStepping(settings.value("VolumeStepping", 5).toInt());
         list.append(host);
         settings.endGroup();
     }
@@ -205,6 +209,8 @@ XbmcHost Settings::lastHost() const
         host.setUsername(settings.value("Username").toString());
         host.setVolumeUpCommand(settings.value("VolumeUpCommand").toString());
         host.setVolumeDownCommand(settings.value("VolumeDownCommand").toString());
+        host.setVolumeControlType((XbmcHost::VolumeControlType)settings.value("VolumeControlType", XbmcHost::VolumeControlTypeAbsolute).toInt());
+        host.setVolumeStepping(settings.value("VolumeStepping", 5).toInt());
         host.setXbmcHttpSupported(true);
         host.setXbmcJsonrpcSupported(true);
     }

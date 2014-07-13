@@ -68,6 +68,12 @@ private:
 class XbmcHost
 {
 public:
+    enum VolumeControlType {
+        VolumeControlTypeAbsolute,
+        VolumeControlTypeRelative,
+        VolumeControlTypeCustom
+    };
+
     XbmcHost();
     bool xbmcJsonrpcSupported() const;
     void setXbmcJsonrpcSupported(bool supported);
@@ -99,6 +105,12 @@ public:
     QString volumeDownCommand() const;
     void setVolumeDownCommand(const QString &command);
 
+    VolumeControlType volumeControlType()  const;
+    void setVolumeControlType(const VolumeControlType type);
+
+    int volumeStepping() const;
+    void setVolumeStepping(const int stepping);
+
 private:
     QString m_hostname;
     QString m_address;
@@ -110,6 +122,8 @@ private:
     int m_port;
     QString m_volumeUpCommand;
     QString m_volumeDownCommand;
+    VolumeControlType m_volumeControlType;
+    int m_volumeStepping;
 };
 
 #endif // XBMCHOSTMODEL_H
