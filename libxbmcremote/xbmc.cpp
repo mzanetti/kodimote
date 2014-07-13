@@ -547,12 +547,48 @@ void Xbmc::restoreVolume()
 
 void Xbmc::volumeUp()
 {
-    this->setVolume(this->volume() + 5);
+    XbmcHost *host = XbmcConnection::connectedHost();
+    if (host) {
+        int stepping = host->volumeStepping();
+        int volume = m_volume + stepping;
+        XbmcHost::VolumeControlType type = host->volumeControlType();
+        if (type == XbmcHost::VolumeControlTypeCustom) {
+            QStringList args = XbmcConnection::connectedHost()->volumeUpCommand().split(" ");
+            QString cmd = args.takeFirst();
+
+            args << QString::number(volume);
+            qDebug() << "executing command:" << cmd << args << QProcess::execute(cmd, args);
+        } else if (type == XbmcHost::VolumeControlTypeRelative) {
+            QVariantMap map;
+            map.insert("volume", "increment");
+            XbmcConnection::sendCommand("Application.SetVolume", map);
+        } else {
+            this->setVolume(volume);
+        }
+    }
 }
 
 void Xbmc::volumeDown()
 {
-    this->setVolume(this->volume() - 5);
+    XbmcHost *host = XbmcConnection::connectedHost();
+    if (host) {
+        int stepping = host->volumeStepping();
+        int volume = m_volume - stepping;
+        XbmcHost::VolumeControlType type = host->volumeControlType();
+        if (type == XbmcHost::VolumeControlTypeCustom) {
+            QStringList args = XbmcConnection::connectedHost()->volumeUpCommand().split(" ");
+            QString cmd = args.takeFirst();
+
+            args << QString::number(volume);
+            qDebug() << "executing command:" << cmd << args << QProcess::execute(cmd, args);
+        } else if (type == XbmcHost::VolumeControlTypeRelative) {
+            QVariantMap map;
+            map.insert("volume", "decrement");
+            XbmcConnection::sendCommand("Application.SetVolume", map);
+        } else {
+            this->setVolume(volume);
+        }
+    }
 }
 
 void Xbmc::sendNotification(const QString &header, const QString &text)
