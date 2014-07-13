@@ -37,11 +37,11 @@ MainView {
 
     focus: true
     Keys.onVolumeUpPressed: {
-        xbmc.volume += 5;
+        xbmc.volumeUp();
     }
 
     Keys.onVolumeDownPressed: {
-        xbmc.volume -= 5;
+        xbmc.volumeDown();
     }
 
     Loader {

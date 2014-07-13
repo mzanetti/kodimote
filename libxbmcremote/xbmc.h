@@ -113,6 +113,8 @@ public:
 
     Q_INVOKABLE void dimVolumeTo(int newVolume);
     Q_INVOKABLE void restoreVolume();
+    Q_INVOKABLE void volumeUp();
+    Q_INVOKABLE void volumeDown();
 
     Q_INVOKABLE void sendNotification(const QString &header, const QString &text);
 

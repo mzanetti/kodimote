@@ -545,6 +545,16 @@ void Xbmc::restoreVolume()
     m_volumeAnimation.start();
 }
 
+void Xbmc::volumeUp()
+{
+    this->setVolume(this->volume() + 5);
+}
+
+void Xbmc::volumeDown()
+{
+    this->setVolume(this->volume() - 5);
+}
+
 void Xbmc::sendNotification(const QString &header, const QString &text)
 {
     QVariantMap params;

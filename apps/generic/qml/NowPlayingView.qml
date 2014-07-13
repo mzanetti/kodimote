@@ -77,10 +77,14 @@ FocusScope {
                 xbmc.activePlayer.skipNext();
                 break;
             case Qt.Key_Up:
-                setVolume(xbmc.volume + 5);
+                volumeBar.state = "volumeVisible";
+                xbmc.volumeUp();
+                volumeTimer.restart();
                 break;
             case Qt.Key_Down:
-                setVolume(xbmc.volume-5);
+                volumeBar.state = "volumeVisible";
+                xbmc.volumeDown();
+                volumeTimer.restart();
                 break;
             case Qt.Key_Space:
                 xbmc.activePlayer.playPause();
