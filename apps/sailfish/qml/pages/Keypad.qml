@@ -47,6 +47,7 @@ Page {
 
     SilicaFlickable {
         anchors.fill: parent
+        pressDelay: 0
 
         PageHeader {
             id: header
