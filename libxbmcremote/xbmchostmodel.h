@@ -50,7 +50,7 @@ public:
     Q_INVOKABLE void wakeup(int row);
 
     // inserts or updates the host and returns its index
-    int insertOrUpdateHost(const XbmcHost &host);
+    int insertOrUpdateHost(XbmcHost *host);
 
     Q_INVOKABLE int createHost(const QString &hostname, const QString &ip, int port, const QString &macAddress = QString());
     Q_INVOKABLE void removeHost(int index);
@@ -65,8 +65,21 @@ private:
 
 };
 
-class XbmcHost
+class XbmcHost : public QObject
 {
+    Q_OBJECT
+    Q_PROPERTY(bool xbmcJsonrpcSupported READ xbmcJsonrpcSupported WRITE setXbmcJsonrpcSupported NOTIFY xbmcJsonrpcSupportedChanged)
+    Q_PROPERTY(bool xbmcHttpSupported READ xbmcHttpSupported WRITE setXbmcHttpSupported NOTIFY xbmcJsonrpcSupportedChanged)
+    Q_PROPERTY(QString hwAddr READ hwAddr WRITE setHwAddr NOTIFY hwAddrChanged)
+    Q_PROPERTY(QString address READ address WRITE setAddress NOTIFY addressChanged)
+    Q_PROPERTY(int port READ port WRITE setPort NOTIFY portChanged)
+    Q_PROPERTY(QString username READ username WRITE setUsername NOTIFY usernameChanged)
+    Q_PROPERTY(QString password READ password WRITE setPassword NOTIFY passwordChanged)
+    Q_PROPERTY(QString volumeUpCommand READ volumeUpCommand WRITE setVolumeUpCommand NOTIFY volumeUpCommandChanged)
+    Q_PROPERTY(QString volumeDownCommand READ volumeDownCommand WRITE setVolumeDownCommand NOTIFY volumeDownCommandChanged)
+    Q_PROPERTY(VolumeControlType volumeControlType READ volumeControlType WRITE setVolumeControlType NOTIFY volumeControlTypeChanged)
+    Q_PROPERTY(int volumeStepping READ volumeStepping WRITE setVolumeStepping NOTIFY volumeSteppingChanged)
+
 public:
     enum VolumeControlType {
         VolumeControlTypeAbsolute,
@@ -74,7 +87,7 @@ public:
         VolumeControlTypeCustom
     };
 
-    XbmcHost();
+    explicit XbmcHost(QObject *parent = 0);
     bool xbmcJsonrpcSupported() const;
     void setXbmcJsonrpcSupported(bool supported);
 
@@ -110,6 +123,20 @@ public:
 
     int volumeStepping() const;
     void setVolumeStepping(const int stepping);
+
+signals:
+    void xbmcJsonrpcSupportedChanged();
+    void xbmcHttpSupportedChanged();
+    void hwAddrChanged();
+    void hostnameChanged();
+    void addressChanged();
+    void portChanged();
+    void usernameChanged();
+    void passwordChanged();
+    void volumeUpCommandChanged();
+    void volumeDownCommandChanged();
+    void volumeControlTypeChanged();
+    void volumeSteppingChanged();
 
 private:
     QString m_hostname;

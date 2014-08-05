@@ -31,44 +31,19 @@ XbmcHostModel::XbmcHostModel(QObject *parent) :
 #endif
 }
 
-int XbmcHostModel::insertOrUpdateHost(const XbmcHost &newHost)
+int XbmcHostModel::insertOrUpdateHost(XbmcHost *newHost)
 {
-    for(int i = 0; i < m_hosts.count(); ++i) {
-        if(m_hosts.at(i)->address() == newHost.address()) {
-            XbmcHost *oldHost = m_hosts.at(i);
-            oldHost->setHostname(newHost.hostname());
-            oldHost->setPort(newHost.port());
-            if(!newHost.hwAddr().isEmpty()) {
-                oldHost->setHwAddr(newHost.hwAddr());
-            }
-            if(!newHost.username().isEmpty()) {
-                oldHost->setUsername(newHost.username());
-            }
-            if(!newHost.password().isEmpty()) {
-                oldHost->setPassword(newHost.password());
-            }
-            oldHost->setXbmcHttpSupported(newHost.xbmcHttpSupported());
-            oldHost->setXbmcJsonrpcSupported(newHost.xbmcJsonrpcSupported());
-            emit dataChanged(index(i), index(i));
-            qDebug() << "host updated";
-            return i;
-        }
+    newHost->setParent(this);
+
+    int i = m_hosts.indexOf(newHost);
+    if (i >= 0) {
+        emit dataChanged(index(i), index(i));
+        qDebug() << "host updated";
+        return i;
     }
+
     beginInsertRows(QModelIndex(), m_hosts.count(), m_hosts.count());
-    XbmcHost *host = new XbmcHost();
-    host->setAddress(newHost.address());
-    host->setHostname(newHost.hostname());
-    host->setHwAddr(newHost.hwAddr());
-    host->setPort(newHost.port());
-    host->setUsername(newHost.username());
-    host->setPassword(newHost.password());
-    host->setXbmcHttpSupported(newHost.xbmcHttpSupported());
-    host->setXbmcJsonrpcSupported(newHost.xbmcJsonrpcSupported());
-    host->setVolumeUpCommand(newHost.volumeUpCommand());
-    host->setVolumeDownCommand(newHost.volumeDownCommand());
-    host->setVolumeControlType(newHost.volumeControlType());
-    host->setVolumeStepping(newHost.volumeStepping());
-    m_hosts.append(host);
+    m_hosts.append(newHost);
     endInsertRows();
 
     qDebug() << "host inserted";
@@ -78,19 +53,20 @@ int XbmcHostModel::insertOrUpdateHost(const XbmcHost &newHost)
 
 int XbmcHostModel::createHost(const QString &hostname, const QString &ip, int port, const QString &macAddress)
 {
-    XbmcHost host;
-    host.setHostname(hostname);
-    host.setAddress(ip);
-    host.setHwAddr(macAddress);
-    host.setPort(port);
-    host.setXbmcHttpSupported(true);
-    host.setXbmcJsonrpcSupported(true);
+    XbmcHost *host = new XbmcHost(this);
+    host->setHostname(hostname);
+    host->setAddress(ip);
+    host->setHwAddr(macAddress);
+    host->setPort(port);
+    host->setXbmcHttpSupported(true);
+    host->setXbmcJsonrpcSupported(true);
     return insertOrUpdateHost(host);
 }
 
 void XbmcHostModel::removeHost(int index)
 {
     beginRemoveRows(QModelIndex(), index, index);
+    m_hosts.at(index)->deleteLater();
     m_hosts.removeAt(index);
     endRemoveRows();
     emit countChanged();
@@ -162,7 +138,8 @@ void XbmcHostModel::wakeup(int row)
   XbmcHost implementation
  *******************************************************/
 
-XbmcHost::XbmcHost():
+XbmcHost::XbmcHost(QObject *parent):
+    QObject(parent),
     m_xbmcJsonrpcSupported(false),
     m_xbmcHttpSupported(false),
     m_port(0),
@@ -180,6 +157,7 @@ QString XbmcHost::hostname() const
 void XbmcHost::setHostname(const QString &hostname)
 {
     m_hostname = hostname;
+    emit hostnameChanged();
 }
 
 QString XbmcHost::address() const
@@ -190,6 +168,7 @@ QString XbmcHost::address() const
 void XbmcHost::setAddress(const QString &address)
 {
     m_address = address;
+    emit addressChanged();
 }
 
 QString XbmcHost::username() const
@@ -200,6 +179,7 @@ QString XbmcHost::username() const
 void XbmcHost::setUsername(const QString &username)
 {
     m_username = username;
+    emit usernameChanged();
 }
 
 QString XbmcHost::password() const
@@ -210,6 +190,7 @@ QString XbmcHost::password() const
 void XbmcHost::setPassword(const QString &password)
 {
     m_password = password;
+    emit passwordChanged();
 }
 
 QString XbmcHost::volumeUpCommand() const
@@ -220,6 +201,7 @@ QString XbmcHost::volumeUpCommand() const
 void XbmcHost::setVolumeUpCommand(const QString &command)
 {
     m_volumeUpCommand = command;
+    emit volumeUpCommandChanged();
 }
 
 QString XbmcHost::volumeDownCommand() const
@@ -230,6 +212,7 @@ QString XbmcHost::volumeDownCommand() const
 void XbmcHost::setVolumeDownCommand(const QString &command)
 {
     m_volumeDownCommand = command;
+    emit volumeDownCommandChanged();
 }
 
 bool XbmcHost::xbmcJsonrpcSupported() const
@@ -240,6 +223,7 @@ bool XbmcHost::xbmcJsonrpcSupported() const
 void XbmcHost::setXbmcJsonrpcSupported(bool supported)
 {
     m_xbmcJsonrpcSupported = supported;
+    emit xbmcJsonrpcSupportedChanged();
 }
 
 bool XbmcHost::xbmcHttpSupported() const
@@ -250,6 +234,7 @@ bool XbmcHost::xbmcHttpSupported() const
 void XbmcHost::setXbmcHttpSupported(bool supported)
 {
     m_xbmcHttpSupported = supported;
+    emit xbmcHttpSupportedChanged();
 }
 
 QString XbmcHost::hwAddr() const
@@ -260,6 +245,7 @@ QString XbmcHost::hwAddr() const
 void XbmcHost::setHwAddr(const QString &hwaddr)
 {
     m_hwAddr = hwaddr;
+    emit hwAddrChanged();
 }
 
 int XbmcHost::port() const
@@ -270,6 +256,7 @@ int XbmcHost::port() const
 void XbmcHost::setPort(int port)
 {
     m_port = port;
+    emit portChanged();
 }
 
 XbmcHost::VolumeControlType XbmcHost::volumeControlType() const
@@ -280,6 +267,7 @@ XbmcHost::VolumeControlType XbmcHost::volumeControlType() const
 void XbmcHost::setVolumeControlType(const VolumeControlType type)
 {
     m_volumeControlType = type;
+    emit volumeControlTypeChanged();
 }
 
 int XbmcHost::volumeStepping() const
@@ -290,4 +278,5 @@ int XbmcHost::volumeStepping() const
 void XbmcHost::setVolumeStepping(const int stepping)
 {
     m_volumeStepping = stepping;
+    emit volumeSteppingChanged();
 }

@@ -164,18 +164,18 @@ void XbmcDiscovery::readDatagram()
             parseDatagram(datagram, index, RecordTypeQuery);
         }
 
-        XbmcHost host;
+        XbmcHost *host = new XbmcHost();
 
         for (int i = 0; i < answerCount; ++i) {
-            parseDatagram(datagram, index, RecordTypeAnswer, &host);
+            parseDatagram(datagram, index, RecordTypeAnswer, host);
         }
 
-        xDebug(XDAREA_DISCOVERY) << "Found host:" << host.hostname() << "IP:" << host.address() << "Port:" << host.port() << "XBMC-JSONRPC:" << host.xbmcJsonrpcSupported() << "XBMC-Web-Server:" << host.xbmcHttpSupported() << "MAC:" << host.hwAddr();
+        xDebug(XDAREA_DISCOVERY) << "Found host:" << host->hostname() << "IP:" << host->address() << "Port:" << host->port() << "XBMC-JSONRPC:" << host->xbmcJsonrpcSupported() << "XBMC-Web-Server:" << host->xbmcHttpSupported() << "MAC:" << host->hwAddr();
 
-        if(!host.address().isEmpty()
-                && host.port() != 0
-                && host.xbmcJsonrpcSupported()
-                && host.xbmcHttpSupported()) {
+        if(!host->address().isEmpty()
+                && host->port() != 0
+                && host->xbmcJsonrpcSupported()
+                && host->xbmcHttpSupported()) {
 
             Xbmc::instance()->hostModel()->insertOrUpdateHost(host);
         }

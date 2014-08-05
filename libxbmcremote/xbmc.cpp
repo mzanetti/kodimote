@@ -161,6 +161,7 @@ Xbmc::Xbmc(QObject *parent) :
     qmlRegisterType<AudioPlayer>(qmlUri, 1, 0, "Player");
 
     qmlRegisterType<XbmcHostModel>();
+    qmlRegisterType<XbmcHost>(qmlUri, 1, 0, "XbmcHost");
     qmlRegisterType<XbmcDiscovery>(qmlUri, 1, 0, "XbmcDiscovery");
 
     m_hosts = new XbmcHostModel(this);
