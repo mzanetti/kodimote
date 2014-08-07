@@ -24,6 +24,7 @@ import Sailfish.Silica 1.0
 
 Dialog {
     id: addHostDialog
+    property QtObject host
 
     canAccept: nameTextField.text.length > 0 && addressTextField.text.length > 0 && portTextField.text.length > 0
 
@@ -37,6 +38,7 @@ Dialog {
         TextField {
             id: nameTextField
             width: parent.width
+            text: host.hostname
 
             placeholderText: qsTr("Name")
             label: qsTr("Name")
@@ -49,7 +51,7 @@ Dialog {
 
             onTextChanged: {
                 for (var i = 0; i < xbmc.hostModel().count; ++i) {
-                    if (xbmc.hostModel().get(i, "name") == text) {
+                    if (xbmc.hostModel().get(i, "name") == text && xbmc.hostModel().getHost(i) != host) {
                         conflicting = true;
                         return;
                     }
@@ -72,6 +74,7 @@ Dialog {
         TextField {
             id: addressTextField
             width: parent.width
+            text: host.address
 
             placeholderText: qsTr("Hostname or IP Address")
             label: qsTr("Hostname or IP Address")
@@ -83,8 +86,8 @@ Dialog {
 
         TextField {
             id: portTextField
-            text: "8080"
             width: parent.width
+            text: host.port
 
             placeholderText: qsTr("Port")
             label: qsTr("Port")
@@ -97,6 +100,7 @@ Dialog {
         TextField {
             id: macTextField
             width: parent.width
+            text: host.hwAddr
 
             placeholderText: qsTr("Mac Address")
             label: qsTr("Mac Address")
@@ -108,6 +112,10 @@ Dialog {
     }
 
     onAccepted: {
-        xbmc.hostModel().createHost(nameTextField.text, addressTextField.text, portTextField.text, macTextField.text);
+        host.hostname = nameTextField.text
+        host.address = addressTextField.text
+        host.port = portTextField.text
+        host.hwAddr = macTextField.text
+        xbmc.hostModel().insertOrUpdateHost(host);
     }
 }

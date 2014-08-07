@@ -32,8 +32,19 @@ Dialog {
         xbmc.hostModel().connectToHost(hostList.currentIndex);
     }
 
+    Component {
+        id: hostComponent
+
+        XbmcHost {
+        }
+    }
+
     function addHost() {
-        pageStack.push(Qt.resolvedUrl("AddHostDialog.qml"));
+        var host = hostComponent.createObject();
+        var hostPage = pageStack.push(Qt.resolvedUrl("AddHostDialog.qml"), { host: host });
+        hostPage.onRejected.connect(function() {
+            host.destroy();
+        });
     }
 
     SilicaListView {
@@ -124,6 +135,13 @@ Dialog {
             Component {
                 id: contextMenuComponent
                 ContextMenu {
+                    MenuItem {
+                        text: qsTr("Edit host")
+                        onClicked: {
+                            var host = xbmc.hostModel().getHost(index);
+                            var hostPage = pageStack.push(Qt.resolvedUrl("AddHostDialog.qml"), { host: host });
+                        }
+                    }
                     MenuItem {
                         text: qsTr("Remove host")
                         onClicked: {

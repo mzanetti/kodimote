@@ -50,9 +50,9 @@ public:
     Q_INVOKABLE void wakeup(int row);
 
     // inserts or updates the host and returns its index
-    int insertOrUpdateHost(XbmcHost *host);
-
+    Q_INVOKABLE int insertOrUpdateHost(XbmcHost *host);
     Q_INVOKABLE int createHost(const QString &hostname, const QString &ip, int port, const QString &macAddress = QString());
+    Q_INVOKABLE XbmcHost *getHost(int index) const;
     Q_INVOKABLE void removeHost(int index);
 
     QHash<int, QByteArray> roleNames() const;
@@ -70,6 +70,7 @@ class XbmcHost : public QObject
     Q_OBJECT
     Q_PROPERTY(bool xbmcJsonrpcSupported READ xbmcJsonrpcSupported WRITE setXbmcJsonrpcSupported NOTIFY xbmcJsonrpcSupportedChanged)
     Q_PROPERTY(bool xbmcHttpSupported READ xbmcHttpSupported WRITE setXbmcHttpSupported NOTIFY xbmcJsonrpcSupportedChanged)
+    Q_PROPERTY(QString hostname READ hostname WRITE setHostname NOTIFY hostnameChanged)
     Q_PROPERTY(QString hwAddr READ hwAddr WRITE setHwAddr NOTIFY hwAddrChanged)
     Q_PROPERTY(QString address READ address WRITE setAddress NOTIFY addressChanged)
     Q_PROPERTY(int port READ port WRITE setPort NOTIFY portChanged)

@@ -63,6 +63,15 @@ int XbmcHostModel::createHost(const QString &hostname, const QString &ip, int po
     return insertOrUpdateHost(host);
 }
 
+XbmcHost *XbmcHostModel::getHost(int index) const
+{
+    if (index < m_hosts.size()) {
+        return m_hosts.at(index);
+    } else {
+        return NULL;
+    }
+}
+
 void XbmcHostModel::removeHost(int index)
 {
     beginRemoveRows(QModelIndex(), index, index);
@@ -142,7 +151,7 @@ XbmcHost::XbmcHost(QObject *parent):
     QObject(parent),
     m_xbmcJsonrpcSupported(false),
     m_xbmcHttpSupported(false),
-    m_port(0),
+    m_port(8080),
     m_volumeControlType(VolumeControlTypeAbsolute),
     m_volumeStepping(5)
 {
