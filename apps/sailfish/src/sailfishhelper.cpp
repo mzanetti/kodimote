@@ -75,6 +75,7 @@ SailfishHelper::SailfishHelper(Settings *settings, QObject *parent) :
 
     connect(Xbmc::instance(), SIGNAL(connectedChanged(bool)), SLOT(connectionChanged(bool)));
     connect(Xbmc::instance()->hostModel(), SIGNAL(rowsRemoved(QModelIndex, int, int)), SLOT(hostRemoved()));
+    connect(Xbmc::instance()->hostModel(), SIGNAL(dataChanged(QModelIndex,QModelIndex)), SLOT(hostChanged(QModelIndex)));
 }
 
 void SailfishHelper::connectionChanged(bool connected)
@@ -116,6 +117,12 @@ void SailfishHelper::hostRemoved()
         }
     }
     qDeleteAll(settingsHosts);
+}
+
+void SailfishHelper::hostChanged(QModelIndex startIndex)
+{
+    XbmcHost *host = Xbmc::instance()->hostModel()->getHost(startIndex.row());
+    m_settings->addHost(host);
 }
 
 void SailfishHelper::callAdded(const QDBusMessage &msg)
