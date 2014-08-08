@@ -21,93 +21,159 @@
 
 import QtQuick 2.0
 import Sailfish.Silica 1.0
+import harbour.xbmcremote 1.0
 
 Dialog {
     id: addHostDialog
     property QtObject host
+    property alias title: dialogHeader.acceptText
 
     canAccept: nameTextField.text.length > 0 && addressTextField.text.length > 0 && portTextField.text.length > 0
 
-    Column {
+    SilicaFlickable {
         anchors.fill: parent
+        contentHeight: column.childrenRect.height
 
-        DialogHeader {
-            acceptText: qsTr("Add")
-        }
+        Column {
+            id: column
+            anchors.fill: parent
 
-        TextField {
-            id: nameTextField
-            width: parent.width
-            text: host.hostname
+            DialogHeader {
+                id: dialogHeader
+            }
 
-            placeholderText: qsTr("Name")
-            label: qsTr("Name")
+            TextField {
+                id: nameTextField
+                width: parent.width
+                text: host.hostname
 
-            EnterKey.enabled: text.length > 0
-            EnterKey.iconSource: "image://theme/icon-m-enter-next"
-            EnterKey.onClicked: addressTextField.focus = true
+                placeholderText: qsTr("Name")
+                label: qsTr("Name")
 
-            property bool conflicting: false
+                EnterKey.enabled: text.length > 0
+                EnterKey.iconSource: "image://theme/icon-m-enter-next"
+                EnterKey.onClicked: addressTextField.focus = true
 
-            onTextChanged: {
-                for (var i = 0; i < xbmc.hostModel().count; ++i) {
-                    if (xbmc.hostModel().get(i, "name") == text && xbmc.hostModel().getHost(i) != host) {
-                        conflicting = true;
-                        return;
+                property bool conflicting: false
+
+                onTextChanged: {
+                    for (var i = 0; i < xbmc.hostModel().count; ++i) {
+                        if (xbmc.hostModel().get(i, "name") == text && xbmc.hostModel().getHost(i) != host) {
+                            conflicting = true;
+                            return;
+                        }
+                        conflicting = false;
                     }
-                    conflicting = false;
+                }
+
+                states: [
+                    State {
+                        name: "conflicting";
+                        when: nameTextField.conflicting
+                        PropertyChanges {
+                            target: nameTextField
+                            color: "red"
+                        }
+                    }
+                ]
+            }
+
+            TextField {
+                id: addressTextField
+                width: parent.width
+                text: host.address
+
+                placeholderText: qsTr("Hostname or IP Address")
+                label: qsTr("Hostname or IP Address")
+
+                EnterKey.enabled: text.length > 0
+                EnterKey.iconSource: "image://theme/icon-m-enter-next"
+                EnterKey.onClicked: portTextField.focus = true
+            }
+
+            TextField {
+                id: portTextField
+                width: parent.width
+                text: host.port
+
+                placeholderText: qsTr("Port")
+                label: qsTr("Port")
+
+                EnterKey.enabled: text.length > 0
+                EnterKey.iconSource: "image://theme/icon-m-enter-next"
+                EnterKey.onClicked: macTextField.focus = true
+            }
+
+            TextField {
+                id: macTextField
+                width: parent.width
+                text: host.hwAddr
+
+                placeholderText: qsTr("Mac Address")
+                label: qsTr("Mac Address")
+
+                EnterKey.enabled: addHostDialog.canAccept
+                EnterKey.iconSource: "image://theme/icon-m-enter-accept"
+                EnterKey.onClicked: addHostDialog.accept()
+            }
+
+            SectionHeader {
+                text: qsTr("Volume")
+            }
+
+            ComboBox {
+                id: volumeControlTypeComboBox
+                width: parent.width
+                currentIndex: host.volumeControlType
+
+                label: qsTr("Control type")
+
+                menu: ContextMenu {
+                    MenuItem {
+                        text: qsTr("Custom stepping")
+                    }
+                    MenuItem {
+                        text: qsTr("Up or down")
+                    }
+                    MenuItem {
+                        text: qsTr("Custom script")
+                    }
                 }
             }
 
-            states: [
-                State {
-                    name: "conflicting";
-                    when: nameTextField.conflicting
-                    PropertyChanges {
-                        target: nameTextField
-                        color: "red"
-                    }
-                }
-            ]
-        }
+            Slider {
+                id: volumeSteppingSlider
+                width: parent.width
+                visible: volumeControlTypeComboBox.currentIndex !== 1
 
-        TextField {
-            id: addressTextField
-            width: parent.width
-            text: host.address
+                value: host.volumeStepping
 
-            placeholderText: qsTr("Hostname or IP Address")
-            label: qsTr("Hostname or IP Address")
+                label: qsTr("Stepping")
+                minimumValue: 1
+                maximumValue: 25
+                stepSize: 1
+                valueText: value
+            }
 
-            EnterKey.enabled: text.length > 0
-            EnterKey.iconSource: "image://theme/icon-m-enter-next"
-            EnterKey.onClicked: portTextField.focus = true
-        }
+            TextField {
+                id: volumeUpCommandTextField
+                width: parent.width
+                visible: volumeControlTypeComboBox.currentIndex === 2
+                text: host.volumeUpCommand
 
-        TextField {
-            id: portTextField
-            width: parent.width
-            text: host.port
+                label: qsTr("Up command")
+                placeholderText: qsTr("Up command")
+            }
 
-            placeholderText: qsTr("Port")
-            label: qsTr("Port")
+            TextField {
+                id: volumeDownCommandTextField
+                width: parent.width
+                visible: volumeControlTypeComboBox.currentIndex === 2
+                text: host.volumeDownCommand
 
-            EnterKey.enabled: text.length > 0
-            EnterKey.iconSource: "image://theme/icon-m-enter-next"
-            EnterKey.onClicked: macTextField.focus = true
-        }
-
-        TextField {
-            id: macTextField
-            width: parent.width
-            text: host.hwAddr
-
-            placeholderText: qsTr("Mac Address")
-            label: qsTr("Mac Address")
-
-            EnterKey.enabled: addHostDialog.canAccept
-            EnterKey.iconSource: "image://theme/icon-m-enter-accept"
-            EnterKey.onClicked: addHostDialog.accept()
+                label: qsTr("Down command")
+                placeholderText: qsTr("Down command")
+            }
         }
     }
 
@@ -116,6 +182,11 @@ Dialog {
         host.address = addressTextField.text
         host.port = portTextField.text
         host.hwAddr = macTextField.text
+
+        host.volumeControlType = volumeControlTypeComboBox.currentIndex
+        host.volumeStepping = volumeSteppingSlider.value
+        host.volumeUpCommand = volumeUpCommandTextField.text
+        host.volumeDownCommand = volumeDownCommandTextField.text
         xbmc.hostModel().insertOrUpdateHost(host);
     }
 }

@@ -41,7 +41,7 @@ Dialog {
 
     function addHost() {
         var host = hostComponent.createObject();
-        var hostPage = pageStack.push(Qt.resolvedUrl("AddHostDialog.qml"), { host: host });
+        var hostPage = pageStack.push(Qt.resolvedUrl("AddHostDialog.qml"), { host: host, title: qsTr("Add") });
         hostPage.onRejected.connect(function() {
             host.destroy();
         });
@@ -139,7 +139,7 @@ Dialog {
                         text: qsTr("Edit host")
                         onClicked: {
                             var host = xbmc.hostModel().getHost(index);
-                            var hostPage = pageStack.push(Qt.resolvedUrl("AddHostDialog.qml"), { host: host });
+                            var hostPage = pageStack.push(Qt.resolvedUrl("AddHostDialog.qml"), { host: host, title: qsTr("Save") });
                         }
                     }
                     MenuItem {

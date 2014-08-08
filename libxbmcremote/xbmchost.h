@@ -6,6 +6,7 @@
 class XbmcHost : public QObject
 {
     Q_OBJECT
+    Q_ENUMS(VolumeControlType)
     Q_PROPERTY(bool xbmcJsonrpcSupported READ xbmcJsonrpcSupported WRITE setXbmcJsonrpcSupported NOTIFY xbmcJsonrpcSupportedChanged)
     Q_PROPERTY(bool xbmcHttpSupported READ xbmcHttpSupported WRITE setXbmcHttpSupported NOTIFY xbmcJsonrpcSupportedChanged)
     Q_PROPERTY(QString hostname READ hostname WRITE setHostname NOTIFY hostnameChanged)
