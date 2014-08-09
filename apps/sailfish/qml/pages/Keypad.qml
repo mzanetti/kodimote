@@ -47,6 +47,7 @@ Page {
 
     SilicaFlickable {
         anchors.fill: parent
+        pressDelay: 0
 
         PageHeader {
             id: header
@@ -81,6 +82,7 @@ Page {
         }
 
         PushUpMenu {
+            enabled: xbmc.picturePlayerActive
             visible: xbmc.picturePlayerActive
             MenuItem {
                 text: !enabled || usePictureControls ? qsTr("Keypad") : qsTr("Pictures")
