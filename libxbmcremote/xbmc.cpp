@@ -161,6 +161,7 @@ Xbmc::Xbmc(QObject *parent) :
     qmlRegisterType<AudioPlayer>(qmlUri, 1, 0, "Player");
 
     qmlRegisterType<XbmcHostModel>();
+    qmlRegisterType<XbmcHost>(qmlUri, 1, 0, "XbmcHost");
     qmlRegisterType<XbmcDiscovery>(qmlUri, 1, 0, "XbmcDiscovery");
 
     m_hosts = new XbmcHostModel(this);
@@ -543,6 +544,52 @@ void Xbmc::restoreVolume()
 {
     m_volumeAnimation.setDirection(QAbstractAnimation::Backward);
     m_volumeAnimation.start();
+}
+
+void Xbmc::volumeUp()
+{
+    XbmcHost *host = XbmcConnection::connectedHost();
+    if (host) {
+        int stepping = host->volumeStepping();
+        int volume = m_volume + stepping;
+        XbmcHost::VolumeControlType type = host->volumeControlType();
+        if (type == XbmcHost::VolumeControlTypeCustom) {
+            QStringList args = XbmcConnection::connectedHost()->volumeUpCommand().split(" ");
+            QString cmd = args.takeFirst();
+
+            args << QString::number(volume);
+            qDebug() << "executing command:" << cmd << args << QProcess::execute(cmd, args);
+        } else if (type == XbmcHost::VolumeControlTypeRelative) {
+            QVariantMap map;
+            map.insert("volume", "increment");
+            XbmcConnection::sendCommand("Application.SetVolume", map);
+        } else {
+            this->setVolume(volume);
+        }
+    }
+}
+
+void Xbmc::volumeDown()
+{
+    XbmcHost *host = XbmcConnection::connectedHost();
+    if (host) {
+        int stepping = host->volumeStepping();
+        int volume = m_volume - stepping;
+        XbmcHost::VolumeControlType type = host->volumeControlType();
+        if (type == XbmcHost::VolumeControlTypeCustom) {
+            QStringList args = XbmcConnection::connectedHost()->volumeUpCommand().split(" ");
+            QString cmd = args.takeFirst();
+
+            args << QString::number(volume);
+            qDebug() << "executing command:" << cmd << args << QProcess::execute(cmd, args);
+        } else if (type == XbmcHost::VolumeControlTypeRelative) {
+            QVariantMap map;
+            map.insert("volume", "decrement");
+            XbmcConnection::sendCommand("Application.SetVolume", map);
+        } else {
+            this->setVolume(volume);
+        }
+    }
 }
 
 void Xbmc::sendNotification(const QString &header, const QString &text)

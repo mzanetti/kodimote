@@ -150,10 +150,10 @@ void MeeGoHelper::keyEvent(MeeGo::QmKeys::Key key, MeeGo::QmKeys::State state)
     qDebug() << "keyEvent:" << key << state;
     switch(key) {
     case MeeGo::QmKeys::VolumeUp:
-        Xbmc::instance()->setVolume(Xbmc::instance()->volume() + 5);
+        Xbmc::instance()->volumeUp();
         break;
     case MeeGo::QmKeys::VolumeDown:
-        Xbmc::instance()->setVolume(Xbmc::instance()->volume() - 5);
+        Xbmc::instance()->volumeDown();
         break;
     default:
         break;

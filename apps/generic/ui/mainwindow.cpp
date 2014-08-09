@@ -163,12 +163,12 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
 {
     switch (event->key()) {
     case Qt::Key_F7:
-        Xbmc::instance()->setVolume(Xbmc::instance()->volume() + 5);
+        Xbmc::instance()->volumeUp();
         event->accept();
         break;
 
     case Qt::Key_F8:
-        Xbmc::instance()->setVolume(Xbmc::instance()->volume() - 5);
+        Xbmc::instance()->volumeDown();
         event->accept();
         break;
     }

@@ -57,24 +57,32 @@ SailfishHelper::SailfishHelper(Settings *settings, QObject *parent) :
     systemBus.connect("org.ofono", "/ril_0", "org.ofono.VoiceCallManager", "CallRemoved", this, SLOT(callRemoved()));
 
     // Load stored hosts
-    QString lastHostAddress = settings->lastHost().address();
-    foreach(const XbmcHost &host, settings->hostList()) {
+    QString lastHostAddress = "";
+    XbmcHost *lastHost = settings->lastHost();
+    if (lastHost) {
+        lastHostAddress = lastHost->address();
+        lastHost->deleteLater();
+    }
+    //hostList doesn't have to be deleted as all hosts will be added to the hostModel
+    QList<XbmcHost*> hostList = settings->hostList();
+    foreach(XbmcHost *host, hostList) {
         int index = Xbmc::instance()->hostModel()->insertOrUpdateHost(host);
-        if(host.address() == lastHostAddress) {
-            qDebug() << "reconnecting to" << host.hostname() << host.address() << host.username() << host.password();
+        if(host->address() == lastHostAddress) {
+            qDebug() << "reconnecting to" << host->hostname() << host->address() << host->username() << host->password();
             Xbmc::instance()->hostModel()->connectToHost(index);
         }
     }
 
     connect(Xbmc::instance(), SIGNAL(connectedChanged(bool)), SLOT(connectionChanged(bool)));
     connect(Xbmc::instance()->hostModel(), SIGNAL(rowsRemoved(QModelIndex, int, int)), SLOT(hostRemoved()));
+    connect(Xbmc::instance()->hostModel(), SIGNAL(dataChanged(QModelIndex,QModelIndex)), SLOT(hostChanged(QModelIndex)));
 }
 
 void SailfishHelper::connectionChanged(bool connected)
 {
     if(connected) {
-        m_settings->addHost(*Xbmc::instance()->connectedHost());
-        m_settings->setLastHost(*Xbmc::instance()->connectedHost());
+        m_settings->addHost(Xbmc::instance()->connectedHost());
+        m_settings->setLastHost(Xbmc::instance()->connectedHost());
     }
 }
 
@@ -93,22 +101,28 @@ bool SailfishHelper::eventFilter(QObject *obj, QEvent *event)
 
 void SailfishHelper::hostRemoved()
 {
+    QList<XbmcHost*> settingsHosts = m_settings->hostList();
     // We need to check if all our stored hosts are still in hostList
-    for(int i = 0; i < m_settings->hostList().count();) {
+    for(int i = 0; i < settingsHosts.count(); i++) {
         bool found = false;
         for(int j = 0; j < Xbmc::instance()->hostModel()->rowCount(QModelIndex()); ++j) {
-            if(m_settings->hostList().at(i).address() == Xbmc::instance()->hostModel()->get(j, "address").toString()) {
+            if(settingsHosts.at(i)->address() == Xbmc::instance()->hostModel()->get(j, "address").toString()) {
                 found = true;
                 break;
             }
         }
         if(!found) {
-            m_settings->removeHost(m_settings->hostList().at(i));
+            m_settings->removeHost(settingsHosts.at(i));
             qDebug() << "removed host" << i;
-        } else {
-            ++i;
         }
     }
+    qDeleteAll(settingsHosts);
+}
+
+void SailfishHelper::hostChanged(QModelIndex startIndex)
+{
+    XbmcHost *host = Xbmc::instance()->hostModel()->getHost(startIndex.row());
+    m_settings->addHost(host);
 }
 
 void SailfishHelper::callAdded(const QDBusMessage &msg)

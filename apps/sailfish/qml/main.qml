@@ -37,11 +37,11 @@ ApplicationWindow
     }
 
     Keys.onVolumeDownPressed: {
-        xbmc.volume -= 5;
+        xbmc.volumeDown();
     }
 
     Keys.onVolumeUpPressed: {
-        xbmc.volume += 5;
+        xbmc.volumeUp();
     }
 
     function showAuthenticate(hostname) {
