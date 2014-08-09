@@ -19,9 +19,9 @@
  ****************************************************************************/
 
 import QtQuick 2.0
-import Ubuntu.Components 0.1
-import Ubuntu.Components.Popups 0.1
-import Ubuntu.Components.ListItems 0.1 as ListItems
+import Ubuntu.Components 1.1
+import Ubuntu.Components.Popups 1.0
+import Ubuntu.Components.ListItems 1.0 as ListItems
 import Xbmc 1.0
 import "components"
 
@@ -32,8 +32,12 @@ MainView {
     backgroundColor: "#0c2e71"
     footerColor: "#0a2663"
 
+    property bool overrideColor: false
+
     property int pageMargins: units.gu(2)
     property var inputDialog
+
+    useDeprecatedToolbar: false
 
     focus: true
     Keys.onVolumeUpPressed: {
@@ -185,7 +189,6 @@ MainView {
 
                 Label {
                     id: label
-                    anchors.horizontalCenter: parent.horizontalCenter
                     anchors {
                         left: parent.left
                         right: parent.right
@@ -388,46 +391,41 @@ MainView {
 
     Component {
         id: mainComponent
-        Tabs {
-            id: tabs
-            property int oldTabIndex: -1
-            onSelectedTabIndexChanged: {
-                if (oldTabIndex > 0 && selectedTabIndex == 0) {
-                    resetToolBars()
-                }
-                oldTabIndex = selectedTabIndex;
+        PageStack {
+            id: pageStack
+            Component.onCompleted: push(mainPage)
 
-            }
-            onSelectedTabChanged: {
-                if (selectedTab == keypadTab) {
-                    keypad.teaseArrows();
-                }
-            }
-            Tab {
-                title: qsTr("Media")
-                page: PageStack {
-                    id: pageStack
-                    Component.onCompleted: push(mainPage)
-                    onCurrentPageChanged: resetToolBars()
-                    MainPage {
-                        id: mainPage
-                        visible: false
+            MainPage {
+                id: mainPage
+                visible: false
 
-                    }
+                keypadVisible: true
+                nowPlayingVisible: true
+
+                onGoToNowPlaying: pageStack.push(nowPlayingPage)
+                onGoToKeypad: pageStack.push(keypad)
+            }
+            NowPlayingPage {
+                id: nowPlayingPage
+                timerActive: tabs.selectedTabIndex === 1
+                visible: false
+
+                keypadVisible: true
+
+                onGoToKeypad: {
+                    pageStack.pop()
+                    pageStack.push(keypad)
                 }
             }
-            Tab {
-                id: nowPlayingTab
-                title: qsTr("Now playing")
-                page: NowPlayingPage {
-                    timerActive: tabs.selectedTabIndex === 1
-                }
-            }
-            Tab {
-                id: keypadTab
-                title: qsTr("Keypad")
-                page: Keypad {
-                    id: keypad
+            Keypad {
+                id: keypad
+                visible: false
+
+                nowPlayingVisible: true
+
+                onGoToNowPlaying: {
+                    pageStack.pop();
+                    pageStack.push(nowPlayingPage)
                 }
             }
         }

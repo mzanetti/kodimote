@@ -19,49 +19,27 @@
  ****************************************************************************/
 
 import QtQuick 2.0
-import Ubuntu.Components 0.1
-import Ubuntu.Components.Popups 0.1
-import Ubuntu.Components.ListItems 0.1
+import QtQuick.Layouts 1.1
+import Ubuntu.Components 1.1
+import Ubuntu.Components.Popups 1.0
+import Ubuntu.Components.ListItems 1.0
 import Xbmc 1.0
-import "components/ToolbarButtons" as ToolbarButtons
+import "components"
 
-Page {
+XbmcPage {
     id: root
     title: model.title
     clip: true
 
+    nowPlayingVisible: true
+    keypadVisible: true
+
+    onGoToNowPlaying: pageStack.push(nowPlayingPage)
+    onGoToKeypad: pageStack.push(keypad)
+
     property variant model
     property int spacing: units.gu(1)
 
-    tools: showToolbars ? browserTools : null
-    ToolbarItems {
-        id: browserTools
-        ToolbarButton {
-            text: qsTr("Home")
-            iconSource: "images/home.svg"
-            onTriggered: {
-                while (pageStack.depth > 1) {
-                    pageStack.pop()
-                }
-            }
-        }
-        ToolbarButtons.Spacer {}
-        ToolbarButton {
-            text: qsTr("Watched")
-            iconSource: filterModel.hideWatched ? "images/unchecked.svg" : "image://theme/select"
-            visible: model.allowWatchedFilter
-            onTriggered: {
-                filterModel.hideWatched = !filterModel.hideWatched
-            }
-        }
-        ToolbarButton {
-            text: qsTr("Sorting")
-            iconSource: filterModel.sortOrder == Qt.AscendingOrder ? "images/go-down.svg" : "images/go-up.svg"
-            onTriggered: {
-                filterModel.sortOrder = filterModel.sortOrder == Qt.AscendingOrder ? Qt.DescendingOrder : Qt.AscendingOrder
-            }
-        }
-    }
 
     Component.onCompleted: {
         console.log("BrowserPage: setting model " + model)
@@ -73,31 +51,15 @@ Page {
         model.exit();
     }
 
-    Column {
+    // This works around some positioning issue with the SDK header
+    Item {
         id: header
         anchors {
             left: parent.left
             top: parent.top
-            topMargin: units.gu(1)
             right: parent.right
         }
-        height: childrenRect.height
-        spacing: units.gu(1)
-        Label {
-            anchors {
-                left: parent.left
-                right: parent.right
-                margins: units.gu(2)
-            }
-            text: model.title
-            fontSize: "large"
-        }
-        ThinDivider {
-            anchors {
-                left: parent.left
-                right: parent.right
-            }
-        }
+        height: 0
     }
 
     // The delegate for each section header
@@ -138,7 +100,7 @@ Page {
     }
 
     Item {
-        anchors { left: parent.left; top: header.bottom; right: parent.right; bottom: parent.bottom }
+        anchors { left: parent.left; top: header.bottom; right: parent.right; bottom: bottomEdge.top }
         clip: true
         z: 2
         TextField {
@@ -187,8 +149,7 @@ Page {
             left: parent.left
             top: header.bottom
             right: parent.right
-            bottom: parent.bottom
-//            topMargin: -listView.topMargin
+            bottom: bottomEdge.top
         }
         topMargin: searchBar.height
         highlightFollowsCurrentItem: true
@@ -205,6 +166,7 @@ Page {
 
         onDraggedForSearchChanged: {
             searchBar.expanded = true;
+            print("************************", draggedForSearch, searchBar.height, searchTextField.height)
         }
 
         Item {
@@ -212,6 +174,7 @@ Page {
             anchors.top: parent.top
             width: parent.width
             height: expanded ? searchTextField.height + root.spacing * 2 : 0
+            onHeightChanged: print("fooooooooooooooo", height)
             property bool expanded
 
             Timer {
@@ -246,7 +209,6 @@ Page {
                 State {
                     name: "expanded"; when: expanded
                     PropertyChanges { target: listView; interactive: false; contentY: index * listView.itemHeight }
-                    PropertyChanges { target: browserTools; opened: false }
                     PropertyChanges { target: fastScroller; enabled: false }
                 }
             ]
@@ -392,7 +354,7 @@ Page {
                     onClicked: delegateItem.expanded = false
                 }
 
-                Image {
+                Icon {
                     anchors {
                         right: parent.right
                         bottom: parent.bottom
@@ -401,7 +363,8 @@ Page {
                     width: units.gu(2)
                     height: width
                     visible: playcount > 0
-                    source: "images/tick.png"
+                    source: "image://theme/tick"
+                    color: "white"
                 }
                 onClicked: {
                     if(filetype === "directory") {
@@ -500,5 +463,37 @@ Page {
         anchors.centerIn: parent
         running: model.busy
         visible: model.busy
+    }
+
+    BottomEdge {
+        id: bottomEdge
+
+        BottomEdgeButton {
+            text: qsTr("Home")
+            source: "image://theme/go-home"
+            Layout.fillWidth: true
+            onClicked: {
+                while (pageStack.depth > 1) {
+                    pageStack.pop()
+                }
+            }
+        }
+        BottomEdgeButton {
+            text: qsTr("Show watched")
+            source: filterModel.hideWatched ? "../images/unchecked.svg" : "image://theme/select"
+            visible: model.allowWatchedFilter
+            Layout.fillWidth: true
+            onClicked: {
+                filterModel.hideWatched = !filterModel.hideWatched
+            }
+        }
+        BottomEdgeButton {
+            text: qsTr("Sorting")
+            source: filterModel.sortOrder == Qt.AscendingOrder ? "image://theme/go-down" : "image://theme/go-up"
+            Layout.fillWidth: true
+            onClicked: {
+                filterModel.sortOrder = filterModel.sortOrder == Qt.AscendingOrder ? Qt.DescendingOrder : Qt.AscendingOrder
+            }
+        }
     }
 }

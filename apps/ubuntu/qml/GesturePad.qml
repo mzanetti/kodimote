@@ -20,12 +20,11 @@
 
 import QtQuick 2.0
 import Ubuntu.Components 0.1
+import QtFeedback 5.0
 import Xbmc 1.0
 
 Item {
     id: root
-    height: bgImage.height
-    width: parent.width
 
     function teaseArrows() {
         teaseTimer.start()
@@ -43,6 +42,15 @@ Item {
         rightArrows.item.animate();
         upArrows.item.animate();
         downArrows.item.animate();
+    }
+
+    HapticsEffect {
+        id: rumbleEffect
+        attackIntensity: 0
+        attackTime: 0
+        intensity: 0.1
+        fadeTime: 0
+        fadeIntensity: 0
     }
 
     Component {
@@ -114,14 +122,13 @@ Item {
 
     UbuntuShape {
         id: bgImage
-        anchors.centerIn: parent
-        width: parent.width
-        height: width * 0.75
+        anchors.fill: parent
         color: Qt.rgba(0, 0, 0, 0.05)
 
         Image {
             anchors.fill: parent
             source: "images/pad-separator.png"
+            fillMode: Image.PreserveAspectFit
         }
 
         Loader {
@@ -151,7 +158,6 @@ Item {
             rotation: -90
             sourceComponent: arrows
         }
-
     }
 
     MouseArea {
@@ -181,18 +187,18 @@ Item {
             }
         }
 
-//        onMousePositionChanged: {
-//            if (scrollTimer.running) {
-//                var dxAbs = Math.abs(mouseX - startx);
-//                var dyAbs = Math.abs(mouseY - starty)
+        onPositionChanged: {
+            if (scrollTimer.running) {
+                var dxAbs = Math.abs(mouseX - startx);
+                var dyAbs = Math.abs(mouseY - starty)
 
-//                if (dxAbs > dyAbs) {
-//                    scrollTimer.newSpeed = Math.min(100, Math.max(0, 100 * (dxAbs - minSwipeDistance) / (mouseArea.width - minSwipeDistance)));
-//                } else {
-//                    scrollTimer.newSpeed = Math.min(100, Math.max(0, 100 * (dyAbs - minSwipeDistance) / (mouseArea.height - minSwipeDistance)));
-//                }
-//            }
-//        }
+                if (dxAbs > dyAbs) {
+                    scrollTimer.newSpeed = Math.min(100, Math.max(0, 100 * (dxAbs - minSwipeDistance) / (mouseArea.width - minSwipeDistance)));
+                } else {
+                    scrollTimer.newSpeed = Math.min(100, Math.max(0, 100 * (dyAbs - minSwipeDistance) / (mouseArea.height - minSwipeDistance)));
+                }
+            }
+        }
 
         Timer {
             id: scrollTimer
@@ -228,6 +234,7 @@ Item {
             if (dxAbs < maxClickDistance && dyAbs < maxClickDistance) {
                 print("pressing enter")
                 keys.select();
+                rumbleEffect.start(1);
                 animateAll();
                 return;
             }
@@ -238,7 +245,7 @@ Item {
                 return;
             }
 
-//            rumbleEffect.start(2);
+            rumbleEffect.start(1);
 
             // if horizontal delta is larger than twice the minimum distance,
             // we always go left/right, no matter what the vertical delta is.

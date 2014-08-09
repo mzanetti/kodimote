@@ -19,32 +19,18 @@
  ****************************************************************************/
 
 import QtQuick 2.0
-import Ubuntu.Components 0.1
-import Ubuntu.Components.Popups 0.1
-import Ubuntu.Components.ListItems 0.1 as ListItems
-import "components/ToolbarButtons" as ToolbarButtons
+import QtQuick.Layouts 1.1
+import Ubuntu.Components 1.1
+import Ubuntu.Components.Popups 1.0
+import Ubuntu.Components.ListItems 1.0 as ListItems
+import "components"
 
-Page {
+XbmcPage {
     id: mainPage
 //    anchors.margins: appWindow.pageMargin
-    title: qsTr("XBMC on %1").arg(xbmc.connectedHostName)
+    title: qsTr("Media Browser")
 
     property int spacing
-
-    tools: showToolbars ? mainTools : null
-    ToolbarItems {
-        id: mainTools
-        ToolbarButtons.SystemMenu {}
-        ToolbarButtons.Spacer {}
-        ToolbarButton {
-            text: qsTr("Options")
-            iconSource: "image://theme/properties"
-            onTriggered: {
-                PopupUtils.open(Qt.resolvedUrl("SettingsSheet.qml"), mainTools)
-            }
-        }
-
-    }
 
     Component.onCompleted: {
         if(settings.musicShowsFiles) {
@@ -55,6 +41,7 @@ Page {
         }
         populateMainMenu();
     }
+
 
     ListModel {
         id: mainMenuModelTemplate
@@ -130,7 +117,7 @@ Page {
 
     ListView {
         id: listView
-        anchors { top: parent.top; left: parent.left; right: parent.right; bottom: parent.bottom }
+        anchors { top: parent.top; left: parent.left; right: parent.right; bottom: bottomEdge.top }
 //        header: headerLayout
         model: mainMenuModel
         spacing: units.gu(2)
@@ -147,11 +134,11 @@ Page {
             gradientColor: "black"
             radius: "medium"
 
-/*            image: Image {
+            image: Image {
                 source: "images/" + target + ".jpg"
                 fillMode: Image.PreserveAspectCrop
             }
-*/
+
             UbuntuShape {
                 id: sourceShape
                 anchors.fill: parent
@@ -338,6 +325,27 @@ Page {
                     text: modelData
                     onClicked: popover.selected(actionId)
                 }
+            }
+        }
+    }
+
+    BottomEdge {
+        id: bottomEdge
+
+        BottomEdgeButton {
+            source: "image://theme/settings"
+            text: qsTr("Options")
+            Layout.fillWidth: true
+            onClicked: {
+                PopupUtils.open(Qt.resolvedUrl("SettingsSheet.qml"), mainPage)
+            }
+        }
+        BottomEdgeButton {
+            source: "image://theme/info"
+            text: qsTr("About")
+            Layout.fillWidth: true
+            onClicked: {
+                PopupUtils.open(Qt.resolvedUrl("components/AboutDialog.qml"), mainPage)
             }
         }
     }

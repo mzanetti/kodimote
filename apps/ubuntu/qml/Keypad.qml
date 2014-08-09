@@ -21,12 +21,11 @@
 import QtQuick 2.0
 import Ubuntu.Components 0.1
 import Xbmc 1.0
-import QtFeedback 5.0
 import "components"
-import "components/ToolbarButtons" as ToolbarButtons
 
-Page {
+XbmcPage {
     id: root
+    title: qsTr("Keypad")
 
     property QtObject player: xbmc.activePlayer
     property QtObject picturePlayer: xbmc.picturePlayer()
@@ -40,31 +39,7 @@ Page {
         gesturePad.teaseArrows();
     }
 
-    tools: ToolbarItems {
-        id: keypadTools
-        ToolbarButtons.SystemMenu {}
-        ToolbarButtons.Spacer {}
-        ToolbarButton {
-            text: usePictureControls ? "Keypad" : "Pictures"
-            iconSource: usePictureControls ? "image://theme/keypad" : "image://theme/gallery-symbolic"
-            visible: xbmc.picturePlayerActive
-            onTriggered: {
-                pictureControlsOverride = !pictureControlsOverride;
-            }
-        }
-    }
-
     property QtObject keys: xbmc.keys()
-
-    HapticsEffect {
-        id: rumbleEffect
-        attackIntensity: 0
-        attackTime: 250
-        intensity: 1.0
-        fadeTime: 250
-        fadeIntensity: 0
-        period: 100
-    }
 
     Column {
         anchors {
@@ -98,15 +73,15 @@ Page {
                 }
                 MediaControlButton {
                     id: musicButton
-                    source: "../images/music.svg"
+                    source: "image://theme/stock_music"
                     onClicked: xbmc.switchToWindow(Xbmc.GuiWindowMusic);
                 }
                 MediaControlButton {
-                    source: "../images/home.svg"
+                    source: "image://theme/go-home"
                     onClicked: keys.home();
                 }
                 MediaControlButton {
-                    source: "image://theme/camcorder"
+                    source: "image://theme/stock_video"
                     onClicked: xbmc.switchToWindow(Xbmc.GuiWindowVideos);
 
                 }
@@ -126,13 +101,12 @@ Page {
                 id: backButton
                 anchors { left: parent.left; top: parent.top; margins: units.gu(1.5) }
                 source: "image://theme/back"
-                MouseArea {
+                AbstractButton {
                     width: parent.width * 2
                     height: parent.height * 1.2
                     anchors.centerIn: parent
                     rotation: 55
                     onClicked: {
-                        rumbleEffect.start(2);
                         keys.back();
                     }
                 }
@@ -142,13 +116,12 @@ Page {
             MediaControlButton {
                 anchors { right: parent.right; top: parent.top; margins: units.gu(1.5) }
                 source: usePictureControls ? "image://theme/add" : "image://theme/view-fullscreen"
-                MouseArea {
+                AbstractButton {
                     width: parent.width * 2
                     height: parent.height * 1.2
                     anchors.centerIn: parent
                     rotation: usePictureControls ? -145 : -190
                     onClicked: {
-                        rumbleEffect.start(2);
                         if (usePictureControls) {
                             picturePlayer.zoomIn();
                         } else {
@@ -159,14 +132,13 @@ Page {
             }
             MediaControlButton {
                 anchors { left: parent.left; bottom: parent.bottom; margins: units.gu(1.5) }
-                source: usePictureControls ? "image://theme/reload" : "../images/info.svg"
-                MouseArea {
+                source: usePictureControls ? "image://theme/reload" : "image://theme/info"
+                AbstractButton {
                     width: parent.width * 2
                     height: parent.height * 1.2
                     anchors.centerIn: parent
                     rotation: -145
                     onClicked: {
-                        rumbleEffect.start(2);
                         if (usePictureControls) {
                             picturePlayer.rotate();
                         } else {
@@ -177,13 +149,12 @@ Page {
             }
             MediaControlButton {
                 anchors { right: parent.right; bottom: parent.bottom; margins: units.gu(1.5) }
-                source: usePictureControls ? "../images/remove.svg" : "image://theme/navigation-menu"
-                MouseArea {
+                source: usePictureControls ? "image://theme/remove" : "image://theme/navigation-menu"
+                AbstractButton {
                     width: parent.width * 2
                     height: parent.height * 1.2
                     anchors.centerIn: parent
                     onClicked: {
-                        rumbleEffect.start(2);
                         if (usePictureControls) {
                             picturePlayer.zoomOut();
                         } else {
@@ -229,17 +200,28 @@ Page {
                 height: controlButtons.height
                 spacing: parent.width / 8
                 UbuntuShape { height: units.gu(2); width: parent.spacing; color: "red"; anchors.verticalCenter: parent.verticalCenter;
-                    MouseArea { anchors.fill: parent; anchors.margins: -10; onClicked: { rumbleEffect.start(2); keys.red() } }
+                    AbstractButton { anchors.fill: parent; anchors.margins: -10; onClicked: { keys.red() } }
                 }
                 UbuntuShape { height: units.gu(2); width: parent.spacing; color: "green"; anchors.verticalCenter: parent.verticalCenter;
-                    MouseArea { anchors.fill: parent; anchors.margins: -10; onClicked: { rumbleEffect.start(2); keys.green() } }
+                    AbstractButton { anchors.fill: parent; anchors.margins: -10; onClicked: { keys.green() } }
                 }
                 UbuntuShape { height: units.gu(2); width: parent.spacing; color: "yellow"; anchors.verticalCenter: parent.verticalCenter;
-                    MouseArea { anchors.fill: parent; anchors.margins: -10; onClicked: { rumbleEffect.start(2); keys.yellow() } }
+                    AbstractButton { anchors.fill: parent; anchors.margins: -10; onClicked: { keys.yellow() } }
                 }
                 UbuntuShape { height: units.gu(2); width: parent.spacing; color: "blue"; anchors.verticalCenter: parent.verticalCenter;
-                    MouseArea { anchors.fill: parent; anchors.margins: -10; onClicked: { rumbleEffect.start(2); keys.blue() } }
+                    AbstractButton { anchors.fill: parent; anchors.margins: -10; onClicked: { keys.blue() } }
                 }
+            }
+        }
+    }
+
+    BottomEdge {
+        BottomEdgeButton {
+            text: usePictureControls ? "Keypad" : "Pictures"
+            source: usePictureControls ? "image://theme/keypad" : "image://theme/gallery-symbolic"
+            visible: xbmc.picturePlayerActive
+            onClicked: {
+                pictureControlsOverride = !pictureControlsOverride;
             }
         }
     }

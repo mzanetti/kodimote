@@ -4,6 +4,7 @@ import Ubuntu.Components 0.1
 Row  {
     id: header
     property string headerText
+    property alias color: headerLabel.color
     width: parent.width
     height: headerLabel.height
     opacity: .5

@@ -21,7 +21,7 @@
 import QtQuick 2.0
 import Ubuntu.Components 0.1
 
-Item {
+AbstractButton {
     id: root
     width: units.gu(5)
     height: units.gu(5)
@@ -30,20 +30,10 @@ Item {
     property bool enabled: true
     property bool selected: false
 
-    signal clicked()
-
     XIcon {
         id: image
         anchors.fill: parent
         name: root.source
         color: "white"
-    }
-
-    MouseArea {
-        anchors.fill: parent
-        onClicked: {
-            root.clicked();
-        }
-//        Rectangle { anchors.fill: parent; color: "khaki" }
     }
 }

@@ -19,15 +19,17 @@
  ****************************************************************************/
 
 import QtQuick 2.0
-import Ubuntu.Components 0.1
-import Ubuntu.Components.Popups 0.1
-import Ubuntu.Components.ListItems 0.1
+import QtQuick.Layouts 1.1
+import Ubuntu.Components 1.1
+import Ubuntu.Components.Popups 1.0
+import Ubuntu.Components.ListItems 1.0
 import Xbmc 1.0
 import "components"
-import "components/ToolbarButtons" as ToolbarButtons
 
-Page {
+XbmcPage {
     id: root
+    title: "Now Playing"
+
     property QtObject player: xbmc.activePlayer
     property QtObject playlist: player ? player.playlist() : null
     property QtObject currentItem: player ? player.currentItem : null
@@ -37,56 +39,6 @@ Page {
     property int spacing: units.gu(1)
 
     onCurrentItemChanged: print("************", currentItem.thumbnail)
-
-    tools: ToolbarItems {
-        ToolbarButtons.SystemMenu {}
-        ToolbarButtons.Spacer {}
-        ToolbarButton {
-            iconSource: player.repeat == Player.RepeatNone ? "image://theme/media-playlist-repeat" :
-                                                             player.repeat == Player.RepeatOne ? "images/media-playlist-repeat-one.svg" :
-                                                                                                 "images/media-playlist-repeat-all.svg"
-            text: qsTr("Repeat")
-            visible: xbmc.activePlayer && xbmc.activePlayer.type == Player.PlayerTypeAudio
-            onTriggered: {
-                if (player.repeat === Player.RepeatNone) {
-                    player.repeat = Player.RepeatOne;
-                } else if (player.repeat === Player.RepeatOne) {
-                    player.repeat = Player.RepeatAll;
-                } else {
-                    player.repeat = Player.RepeatNone;
-                }
-            }
-        }
-        ToolbarButton {
-            text: qsTr("shuffle")
-            iconSource: player.shuffle ? "images/media-playlist-shuffle-active.svg" : "image://theme/media-playlist-shuffle"
-            visible: xbmc.activePlayer && xbmc.activePlayer.type == Player.PlayerTypeAudio
-            onTriggered: {
-                player.shuffle = ! player.shuffle
-            }
-        }
-        ToolbarButton {
-            iconSource: "image://theme/messages"
-            text: qsTr("Subtitle")
-            visible: xbmc.activePlayer && xbmc.activePlayer.type == Player.PlayerTypeVideo
-            enabled: !(xbmc.state === "video" && player.subtitles.length === 0)
-            onTriggered: {
-                var popup = PopupUtils.open(toolbarMenuComponent, audioTrackButton, {model: player.subtitles, currentIndex: player.currentSubtitle})
-                popup.accepted.connect(function(selectedIndex) {player.currentSubtitle = selectedIndex})
-            }
-        }
-        ToolbarButton {
-            id: audioTrackButton
-            text: qsTr("Audio track")
-            iconSource: "image://theme/speaker"
-            visible: xbmc.activePlayer && xbmc.activePlayer.type == Player.PlayerTypeVideo
-            //enabled: player.audiostreams.size > 0
-            onTriggered: {
-                var popup = PopupUtils.open(toolbarMenuComponent, audioTrackButton, {model: player.audiostreams, currentIndex: player.currentAudiostream})
-                popup.accepted.connect(function(selectedIndex) {player.currentAudiostream = selectedIndex})
-            }
-        }
-    }
 
     onPlayerChanged: {
         if(player === null) {
@@ -133,6 +85,7 @@ Page {
 
     Item {
         anchors.fill: parent
+        anchors.bottomMargin: bottomEdge.height
         opacity: xbmc.activePlayer !== null ? 1 : 0
         visible: opacity > 0
         Behavior on opacity {
@@ -382,27 +335,44 @@ Page {
 
     Component {
         id: toolbarMenuComponent
-        Popover {
+        Dialog {
             id: toolbarMenu
+
             property alias model: listView.model
             property alias currentIndex: listView.currentIndex
+            property bool showClearButton: false
 
             signal accepted(int selectedIndex)
 
-            ListView {
-                id: listView
+            Column {
                 anchors {
                     left: parent.left
                     right: parent.right
-                    top: parent.top
                 }
-                height: contentHeight
-                model: toolbarMenuModel
-                delegate: Standard {
-                    text: modelData
-                    selected: listView.currentIndex == index
+                ListView {
+                    id: listView
+                    anchors {
+                        left: parent.left
+                        right: parent.right
+                    }
+                    height: contentHeight
+                    model: toolbarMenuModel
+                    interactive: false
+                    delegate: Standard {
+                        text: modelData
+                        selected: listView.currentIndex == index
+                        onClicked: {
+                            toolbarMenu.accepted(index)
+                            PopupUtils.close(toolbarMenu)
+                        }
+                    }
+                }
+                Standard {
+                    text: qsTr("None")
+                    visible: toolbarMenu.showClearButton
+                    selected: listView.currentIndex == -1
                     onClicked: {
-                        toolbarMenu.accepted(index)
+                        toolbarMenu.accepted(-1);
                         PopupUtils.close(toolbarMenu)
                     }
                 }
@@ -444,6 +414,59 @@ Page {
                         PopupUtils.close(playlistPopover)
                     }
                 }
+            }
+        }
+    }
+
+    BottomEdge {
+        id: bottomEdge
+
+        BottomEdgeButton {
+            text: qsTr("Repeat")
+            Layout.fillWidth: true
+            source: player.repeat == Player.RepeatNone ? "image://theme/media-playlist-repeat" :
+                                                             player.repeat == Player.RepeatOne ? "images/media-playlist-repeat-one.svg" :
+                                                                                                 "images/media-playlist-repeat-all.svg"
+            visible: xbmc.activePlayer && xbmc.activePlayer.type == Player.PlayerTypeAudio
+            onClicked: {
+                if (player.repeat === Player.RepeatNone) {
+                    player.repeat = Player.RepeatOne;
+                } else if (player.repeat === Player.RepeatOne) {
+                    player.repeat = Player.RepeatAll;
+                } else {
+                    player.repeat = Player.RepeatNone;
+                }
+            }
+
+        }
+        BottomEdgeButton {
+            text: qsTr("Shuffle")
+            Layout.fillWidth: true
+            source: player.shuffle ? "images/media-playlist-shuffle-active.svg" : "image://theme/media-playlist-shuffle"
+            visible: xbmc.activePlayer && xbmc.activePlayer.type == Player.PlayerTypeAudio
+            onClicked: {
+                player.shuffle = ! player.shuffle
+            }
+        }
+        BottomEdgeButton {
+            text: qsTr("Subtitles")
+            Layout.fillWidth: true
+            source: "image://theme/message"
+            visible: xbmc.activePlayer && xbmc.activePlayer.type == Player.PlayerTypeVideo
+            onClicked: {
+                var popup = PopupUtils.open(toolbarMenuComponent, root, {model: player.subtitles, currentIndex: player.currentSubtitle, title: qsTr("Select subtitle"), showClearButton: true})
+                popup.accepted.connect(function(selectedIndex) {player.currentSubtitle = selectedIndex})
+            }
+            enabled: !(xbmc.state === "video" && player.subtitles.length === 0)
+        }
+        BottomEdgeButton {
+            text: qsTr("Audio track")
+            source: "image://theme/speaker"
+            visible: xbmc.activePlayer && xbmc.activePlayer.type == Player.PlayerTypeVideo
+            Layout.fillWidth: true
+            onClicked: {
+                var popup = PopupUtils.open(toolbarMenuComponent, root, {model: player.audiostreams, currentIndex: player.currentAudiostream, title: qsTr("Select audio track")})
+                popup.accepted.connect(function(selectedIndex) {player.currentAudiostream = selectedIndex})
             }
         }
     }
