@@ -42,14 +42,28 @@ Page {
         ToolbarButtons.SystemMenu {}
         ToolbarButtons.Spacer {}
         ToolbarButton {
-            iconSource: "image://theme/media-playlist-repeat"
+            iconSource: player.repeat == Player.RepeatNone ? "image://theme/media-playlist-repeat" :
+                                                             player.repeat == Player.RepeatOne ? "images/media-playlist-repeat-one.svg" :
+                                                                                                 "images/media-playlist-repeat-all.svg"
             text: qsTr("Repeat")
             visible: xbmc.activePlayer && xbmc.activePlayer.type == Player.PlayerTypeAudio
+            onTriggered: {
+                if (player.repeat === Player.RepeatNone) {
+                    player.repeat = Player.RepeatOne;
+                } else if (player.repeat === Player.RepeatOne) {
+                    player.repeat = Player.RepeatAll;
+                } else {
+                    player.repeat = Player.RepeatNone;
+                }
+            }
         }
         ToolbarButton {
             text: qsTr("shuffle")
-            iconSource: "image://theme/media-playlist-shuffle"
+            iconSource: player.shuffle ? "images/media-playlist-shuffle-active.svg" : "image://theme/media-playlist-shuffle"
             visible: xbmc.activePlayer && xbmc.activePlayer.type == Player.PlayerTypeAudio
+            onTriggered: {
+                player.shuffle = ! player.shuffle
+            }
         }
         ToolbarButton {
             iconSource: "image://theme/messages"
