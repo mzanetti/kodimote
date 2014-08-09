@@ -101,6 +101,16 @@ int XbmcHostModel::count() const
     return m_hosts.count();
 }
 
+XbmcHost *XbmcHostModel::findHost(const QString &hwAddr) const
+{
+    for(int i = 0; i < m_hosts.count(); ++i) {
+        if(m_hosts.at(i)->hwAddr() == hwAddr) {
+            return m_hosts.at(i);
+        }
+    }
+    return NULL;
+}
+
 QVariant XbmcHostModel::data(const QModelIndex &index, int role) const
 {
     switch(role) {

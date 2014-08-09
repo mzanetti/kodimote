@@ -177,6 +177,26 @@ void XbmcDiscovery::readDatagram()
                 && host->xbmcJsonrpcSupported()
                 && host->xbmcHttpSupported()) {
 
+            if (!host->hwAddr().isEmpty()) {
+                XbmcHost *existingHost = Xbmc::instance()->hostModel()->findHost(host->hwAddr());
+
+                if (existingHost) {
+                    host->deleteLater();
+                    // if host exists, and nor IP address nor port did changed, we don't need to update the host
+                    if (host->address() == existingHost->address() &&
+                            host->port() == existingHost->port() &&
+                            host->hostname() == existingHost->hostname()) {
+                        continue;
+                    }
+
+                    existingHost->setAddress(host->address());
+                    existingHost->setPort(host->port());
+                    existingHost->setHostname(host->hostname());
+
+                    host = existingHost;
+                }
+            }
+
             Xbmc::instance()->hostModel()->insertOrUpdateHost(host);
         }
 

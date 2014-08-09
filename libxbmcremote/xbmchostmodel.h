@@ -45,6 +45,8 @@ public:
     int rowCount(const QModelIndex &parent) const;
     int count() const;
 
+    XbmcHost *findHost(const QString &hwAddr) const;
+
     QVariant data(const QModelIndex &index, int role) const;
 
     Q_INVOKABLE QVariant get(int row, const QString &roleName);
