@@ -19,6 +19,7 @@
  ****************************************************************************/
 
 import QtQuick 2.0
+import QtQuick.Layouts 1.1
 import Ubuntu.Components 1.1
 import Ubuntu.Components.Popups 1.0
 import Ubuntu.Components.ListItems 1.0 as ListItems
@@ -278,7 +279,7 @@ MainView {
         id: addHostComponent
         Dialog {
             id: addHostDialog
-            title: qsTr("Add host")
+            title: qsTr("Host settings")
 
             property var host
 
@@ -302,11 +303,13 @@ MainView {
                         spacing: units.gu(1)
                         Label {
                             text: qsTr("Name:")
+                            color: "black"
                         }
                         TextField {
                             id: nameTextField
                             width: parent.width
                             text: addHostDialog.host.hostname
+                            color: "black"
                             property bool conflicting: false
 
                             onTextChanged: {
@@ -334,28 +337,98 @@ MainView {
                         }
                         Label {
                             text: qsTr("Hostname or IP Address:")
+                            color: "black"
                         }
                         TextField {
                             id: addressTextField
                             width: parent.width
                             text: addHostDialog.host.address
+                            color: "black"
                         }
                         Label {
                             text: qsTr("Port:")
+                            color: "black"
                         }
                         TextField {
                             id: portTextField
                             text: addHostDialog.host.port ? addHostDialog.host.port : "8080"
                             width: parent.width
+                            color: "black"
                         }
                         Label {
                             text: qsTr("Mac Address:")
+                            color: "black"
                         }
                         TextField {
                             id: macTextField
                             width: parent.width
                             inputMask: "HH:HH:HH:HH:HH:HH;_"
+                            color: "black"
                             text: addHostDialog.host.hwAddr
+                        }
+
+                        SectionHeader {
+                            headerText: qsTr("Volume")
+                            color: "black"
+                        }
+
+                        OptionSelector {
+                            id: volumeControlTypeSelector
+                            model: [qsTr("Custom Stepping"), qsTr("Up or down"), qsTr("Custom script")]
+                            selectedIndex: addHostDialog.host.volumeControlType
+
+                            // Hack... OptionSelector doesn't let us set the color and uitk is buggy with colors atm
+                            delegate: OptionSelectorDelegate {
+                                text: " "
+                                Label {
+                                    anchors { left: parent.left; verticalCenter: parent.verticalCenter; leftMargin: units.gu(2) }
+                                    text: modelData
+                                    color: "black"
+                                }
+                            }
+                        }
+
+                        RowLayout {
+                            visible: volumeControlTypeSelector.selectedIndex !== 1
+                            Label { text: "0"; color: "black" }
+                            anchors { left: parent.left; right: parent.right }
+                            spacing: units.gu(1)
+                            Slider {
+                                id: volumeSteppingSlider
+                                value: addHostDialog.host.volumeStepping
+                                Layout.fillWidth: true
+                            }
+                            Label { text: "100"; color: "black" }
+                        }
+
+                        Label {
+                            text: qsTr("Up command"); color: "black";
+                            visible: volumeControlTypeSelector.selectedIndex === 2
+                        }
+                        TextField {
+                            id: volumeUpCommandTextField
+                            width: parent.width
+                            visible: volumeControlTypeSelector.selectedIndex === 2
+                            text: host.volumeUpCommand
+                            placeholderText: qsTr("Up command")
+                            color: "black"
+                        }
+
+                        Label {
+                            text: qsTr("Down command"); color: "black"
+                            visible: volumeControlTypeSelector.selectedIndex === 2
+                        }
+                        TextField {
+                            id: volumeDownCommandTextField
+                            width: parent.width
+                            visible: volumeControlTypeSelector.selectedIndex === 2
+                            text: host.volumeDownCommand
+                            placeholderText: qsTr("Down command")
+                            color: "black"
+                        }
+
+                        SectionHeader {
+                            color: "black"
                         }
                         Row {
                             width: parent.width
@@ -379,11 +452,16 @@ MainView {
                                     addHostDialog.host.port = portTextField.text
                                     addHostDialog.host.hwAddr = macTextField.text
 
+                                    addHostDialog.host.volumeControlType = volumeControlTypeSelector.selectedIndex
+                                    addHostDialog.host.volumeStepping = volumeSteppingSlider.value
+                                    addHostDialog.host.volumeUpCommand = volumeUpCommandTextField.text
+                                    addHostDialog.host.volumeDownCommand = volumeDownCommandTextField.text
                                     addHostDialog.accepted();
                                     PopupUtils.close(addHostDialog)
                                 }
                             }
                         }
+
                         Item {
                             width: parent.width
                             height: Qt.inputMethod.keyboardRectangle.height
