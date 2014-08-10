@@ -425,8 +425,8 @@ XbmcPage {
             text: qsTr("Repeat")
             Layout.fillWidth: true
             source: player.repeat == Player.RepeatNone ? "image://theme/media-playlist-repeat" :
-                                                             player.repeat == Player.RepeatOne ? "images/media-playlist-repeat-one.svg" :
-                                                                                                 "images/media-playlist-repeat-all.svg"
+                                                             player.repeat == Player.RepeatOne ? "../images/media-playlist-repeat-one.svg" :
+                                                                                                 "../images/media-playlist-repeat-all.svg"
             visible: xbmc.activePlayer && xbmc.activePlayer.type == Player.PlayerTypeAudio
             onClicked: {
                 if (player.repeat === Player.RepeatNone) {
@@ -442,7 +442,7 @@ XbmcPage {
         BottomEdgeButton {
             text: qsTr("Shuffle")
             Layout.fillWidth: true
-            source: player.shuffle ? "images/media-playlist-shuffle-active.svg" : "image://theme/media-playlist-shuffle"
+            source: player.shuffle ? "../images/media-playlist-shuffle-active.svg" : "image://theme/media-playlist-shuffle"
             visible: xbmc.activePlayer && xbmc.activePlayer.type == Player.PlayerTypeAudio
             onClicked: {
                 player.shuffle = ! player.shuffle
