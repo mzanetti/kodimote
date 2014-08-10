@@ -28,7 +28,7 @@ import "components"
 
 XbmcPage {
     id: root
-    title: "Now Playing"
+    title: qsTr("Now Playing")
 
     property QtObject player: xbmc.activePlayer
     property QtObject playlist: player ? player.playlist() : null

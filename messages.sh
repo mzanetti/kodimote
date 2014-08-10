@@ -1,14 +1,16 @@
-for i in `ls i18n/*.ts`; do
-    lupdate -recursive . -ts i18n/$i -no-obsolete
-done
+tx pull -a
+
+lupdate -recursive . -ts i18n/xbmcremote.ts -no-obsolete
 
 lrelease i18n/xbmcremote_*.ts
 
-QRC=i18n/translations.qrc
+cd i18n
+
+QRC=translations.qrc
 echo "<RCC>" > $QRC
 echo "    <qresource prefix=\"/\">" >> $QRC
 
-for i in `ls i18n/*.qm`; do
+for i in `ls *.qm`; do
     echo "        <file>$i</file>" >> $QRC
 done
 

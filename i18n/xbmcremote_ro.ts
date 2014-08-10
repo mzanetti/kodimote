@@ -1,1688 +1,1716 @@
-<?xml version="1.0" ?><!DOCTYPE TS><TS language="ro" version="2.1">
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE TS>
+<TS version="2.1" language="ro">
 <context>
     <name>AboutDialog</name>
     <message>
-        <source>About</source>
-        <translation>Despre</translation>
-    </message>
-    <message>
-        <source>Close</source>
-        <translation>Închide</translation>
-    </message>
-    <message>
         <source>Donate</source>
-        <translation>Donează</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Flattr</source>
-        <translation>Flattr</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Thanks to</source>
-        <translation>Mulțumiri</translation>
+        <source>Close</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>About</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Copyright</source>
-        <translation>Copyright</translation>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Thanks to</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>AddHostDialog</name>
     <message>
         <source>Name</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Hostname or IP Address</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Port</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Mac Address</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Volume</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Control type</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Custom stepping</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Up or down</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Custom script</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Stepping</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Up command</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Down command</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>Albums</name>
     <message>
         <source>Albums</source>
-        <translation>Albume</translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>Artists</name>
     <message>
         <source>Artists</source>
-        <translation>Artiști</translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>AudioLibrary</name>
     <message>
         <source>Artists</source>
-        <translation>Artiști</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Albums</source>
-        <translation>Albume</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Titles</source>
-        <translation>Titluri</translation>
-    </message>
-    <message>
-        <source>Audio Library</source>
-        <translation>Bibliotecă audio</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Recently added</source>
-        <translation>Adăugate recent</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Recently played</source>
-        <translation>Redate recent</translation>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Audio Library</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>AudioPlaylist</name>
     <message>
         <source>Now Playing</source>
-        <translation>Rulează acum</translation>
-    </message>
-    <message>
-        <source>Music</source>
-        <translation>Muzică</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Playlist</source>
-        <translation>Listă</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Play</source>
-        <translation>Redare</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Remove from playlist</source>
-        <translation>Ștergere din listă</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Clear playlist</source>
-        <translation>Golește lista</translation>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Music</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>AuthenticationDialog</name>
     <message>
-        <source>Authentication</source>
-        <translation>Autentificare</translation>
+        <source>Authenticate</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>XBMC on %1 requires authentication:</source>
-        <translation>XBMC pe %1 are nevoie de autentificare:</translation>
-    </message>
-    <message>
-        <source>Username:</source>
-        <translation>Utilizator:</translation>
-    </message>
-    <message>
-        <source>Password:</source>
-        <translation>Parola:</translation>
-    </message>
-    <message>
-        <source>Authenticate</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Username</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Password</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Authentication</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Username:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Password:</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>AuthenticationSheet</name>
     <message>
         <source>OK</source>
-        <translation>OK</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Cancel</source>
-        <translation>Anulează</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>XBMC on %1 requires authentication:</source>
-        <translation>XBMC pe %1 are nevoie de autentificare:</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Username:</source>
-        <translation>Utilizator:</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Password:</source>
-        <translation>Parola:</translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>Browser</name>
     <message>
         <source>Update library</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Clean library</source>
-        <translation>Golește biblioteca</translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>BrowserPage</name>
     <message>
         <source>Home</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <source>Sorting</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Keypad</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Now playing</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Show watched</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Sorting</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>ChannelGroups</name>
     <message>
         <source>TV Channels</source>
-        <translation>Canale TV</translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>Channels</name>
     <message>
         <source>TV Channels</source>
-        <translation>Canale TV</translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>ConnectDialog</name>
     <message>
-        <source>Host:</source>
-        <translation>Gazdă:</translation>
-    </message>
-    <message>
-        <source>MAC Address (optional):</source>
-        <translation>Adresa MAC(opțional):</translation>
-    </message>
-    <message>
-        <source>Connect</source>
-        <translation>Conectare</translation>
-    </message>
-    <message>
-        <source>Add Host</source>
-        <translation>Adaugă</translation>
-    </message>
-    <message>
-        <source>Remove Host</source>
-        <translation>Șterge</translation>
-    </message>
-    <message>
-        <source>HTTP Port:</source>
-        <translation>Port HTTP:</translation>
-    </message>
-    <message>
         <source>Connect to XBMC</source>
-        <translation>Conectare la XBMC</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Searching for XBMC hosts.</source>
-        <translation>Se caută instanțe XBMC</translation>
-    </message>
-    <message>
-        <source>If you don&apos;t use Zeroconf, add a host manually.</source>
-        <translation>Dacă nu folosiți Zeroconf, adăugați manual.</translation>
-    </message>
-    <message>
-        <source>Allow control of XBMC via HTTP</source>
-        <translation>Permiteți controlul XBMC prin HTTP</translation>
-    </message>
-    <message>
-        <source>Allow programs on other systems to control XBMC</source>
-        <translation>Permiteți programelor de pe alte sisteme să controleze XBMC</translation>
-    </message>
-    <message>
-        <source>Announce these services to other systems via Zeroconf</source>
-        <translation>Publicați aceste servicii prin Zeroconf</translation>
-    </message>
-    <message>
-        <source>Back</source>
-        <translation>Înapoi</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Please enable the following options in the Services settings of XBMC:</source>
-        <translation>Activați următoarele opțiuni în XBMC, în secțiunea Servicii:</translation>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Allow control of XBMC via HTTP</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Allow programs on other systems to control XBMC</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Announce these services to other systems via Zeroconf</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>If you don&apos;t use Zeroconf, add a host manually.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Host:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>HTTP Port:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>MAC Address (optional):</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Connect</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Add Host</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Remove Host</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Back</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>ConnectionDialog</name>
     <message>
         <source>Add</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Connect</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Cancel</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Searching for XBMC hosts.</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Please enable the following options in the Services settings of XBMC:</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Allow control of XBMC via HTTP</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Allow programs on other systems to control XBMC</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Announce these services to other systems via Zeroconf</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>If you don&apos;t use Zeroconf, add a host manually.</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Add host</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Edit host</source>
-        <translation type="unfinished"/>
+        <source>Edit</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Save</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Remove host</source>
-        <translation type="unfinished"/>
+        <source>Remove</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Removing host %1</source>
-        <translation type="unfinished"/>
+        <source>Removing %1</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Wake up</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>ConnectionSheet</name>
     <message>
         <source>Connect</source>
-        <translation>Conectează</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Cancel</source>
-        <translation>Anulează</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Searching for XBMC hosts.</source>
-        <translation>Se caută instanțe XBMC.</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Please enable the following options in the Services settings of XBMC:</source>
-        <translation>Activați următoarele opțiuni în XBMC, în secțiunea Servicii:</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Allow control of XBMC via HTTP</source>
-        <translation>Permiteți controlul XBMC prin HTTP</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Allow programs on other systems to control XBMC</source>
-        <translation>Permiteți programelor de pe alte sisteme să controleze XBMC</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Announce these services to other systems via Zeroconf</source>
-        <translation>Publicați aceste servicii prin Zeroconf</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>If you don&apos;t use Zeroconf, add a host manually.</source>
-        <translation>Dacă nu folosiți Zeroconf, adăugați manual.</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>XBMC on %1</source>
-        <translation>XBMC pe %1</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Waking up %1...</source>
-        <translation>Se trezește %1...</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Remove Host</source>
-        <translation>Șterge</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Add Host</source>
-        <translation>Adaugă</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Host:</source>
-        <translation>Gazda:</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>HTTP Port:</source>
-        <translation>Port HTTP:</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>MAC Address for WakeOnLan (optional):</source>
-        <translation>Adresa MAC pentru WakeOnLAN(opțional).</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Back</source>
-        <translation>Înapoi</translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>CoverPage</name>
     <message>
         <source>XBMC on</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>XBMC remote</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Disconnected</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>DatePicker</name>
     <message>
         <source>Date</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Day</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Month</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Year</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>DownloadDialog</name>
     <message>
         <source>Start download?</source>
-        <translation>Începe descărcarea?</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Start downloading %1?</source>
-        <translation>Începe descărcarea %1?</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Yes</source>
-        <translation>Da</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>No</source>
-        <translation>Nu</translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>Episodes</name>
     <message>
         <source>Episodes</source>
-        <translation>Episoade</translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>HomeMenu</name>
     <message>
         <source>Music</source>
-        <translation> Muzică</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Videos</source>
-        <translation>Filme</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Pictures</source>
-        <translation>Poze</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Files</source>
-        <translation>Fișiere</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Library</source>
-        <translation>Bibliotecă</translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>HostList</name>
     <message>
         <source>Add</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Remove</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Connect</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Host:</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Port:</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>MAC Address for WakeOnLan (optional):</source>
-        <translation>Adresa MAC pentru WakeOnLAN(opțional).</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>OK</source>
-        <translation>OK</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Cancel</source>
-        <translation>Anulează</translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>ItemDetails</name>
     <message>
         <source>Rating:</source>
-        <translation>Calificativ:</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Season:</source>
-        <translation>Sezon:</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Episode:</source>
-        <translation>Episodul:</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>First aired:</source>
-        <translation>Prima difuzare:</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Genre:</source>
-        <translation>Genul:</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Year:</source>
-        <translation>Anul:</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Director:</source>
-        <translation>Regizor:</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Tagline:</source>
-        <translation>Poveste:</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>MPAA:</source>
-        <translation>MPAA:</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Instrument:</source>
-        <translation>Instrument:</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Style:</source>
-        <translation>Stilul:</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Mood:</source>
-        <translation>Ton:</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Born:</source>
-        <translation>Născut:</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Formed:</source>
-        <translation>Format:</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Died:</source>
-        <translation>Decedat:</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Disbanded:</source>
-        <translation>Desființat:</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Duration:</source>
-        <translation>Durată:</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Comment:</source>
-        <translation>Comentariu</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Playcount:</source>
-        <translation>Număr de redări:</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Cast:</source>
-        <translation>Distribuție:</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Play</source>
-        <translation>Redare</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Add to playlist</source>
-        <translation>Adaugă</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Download</source>
-        <translation>Descarcă</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Title:</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>Keypad</name>
     <message>
         <source>Keypad</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Media</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Now playing</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Pictures</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>LibraryView</name>
     <message>
         <source>Play</source>
-        <translation>Redează</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Add to playlist</source>
-        <translation>Adaugă la listă</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Rescan library</source>
-        <translation>Re-scanează biblioteca</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Details</source>
-        <translation>Detalii</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Download</source>
-        <translation>Descarcă</translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>MainPage</name>
     <message>
         <source>XBMC on %1</source>
-        <translation>XBMC pe %1</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Music</source>
-        <translation>Muzică</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Videos</source>
-        <translation>Filme</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Pictures</source>
-        <translation>Poze</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>TV Channels</source>
-        <translation>Canale TV</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Library</source>
-        <translation>Bibliotecă</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Files</source>
-        <translation>Fișiere</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Show files</source>
-        <translation>Afișează fișierele</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Show library</source>
-        <translation>Afișează biblioteca</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Rescan library</source>
-        <translation>Re-scanează biblioteca</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Clean library</source>
-        <translation>Golește biblioteca</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Options</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <source>Settings</source>
-        <translation type="unfinished"/>
+        <source>Browse %1</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Keypad</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Now playing</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Change connection...</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Power</source>
-        <translation type="unfinished"/>
+        <source>Settings</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>About</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Media Browser</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Options</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>MainWindow</name>
     <message>
         <source>Connect...</source>
-        <translation>Conectează...</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Settings</source>
-        <translation>Opțiuni</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>About</source>
-        <translation>Despre</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Incoming call</source>
-        <translation>Apel primit</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Download started: %1</source>
-        <translation>Descărcarea a început: %1</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Download finished: %1</source>
-        <translation>Descărcarea s-a terminat: %1</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Error downloading %1</source>
-        <translation>Eroare la descărcare: %1</translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>MediaSelectionDialog</name>
     <message>
-        <source>Off</source>
-        <translation type="unfinished"/>
+        <source>None</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>MeeGoHelper</name>
     <message>
         <source>Incoming call</source>
-        <translation>Apel primit</translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>Movies</name>
     <message>
         <source>Movies</source>
-        <translation>Filme</translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>MusicVideos</name>
     <message>
         <source>Music Videos</source>
-        <translation>Videoclipuri</translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>NfcHandler</name>
     <message>
         <source>NFC tag is not compatible with Xbmcremote. In order to use it with Xbmcremote you need to write connection information to it.</source>
-        <translation>Tag-ul NFC nu este compatibil cu Xbmcremote. Pentru a putea fi folosit cu Xbmcremote trebuie să înregistrați pe el informațiile despre conexiune.</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>NFC tag is outdated. In order to use it with Xbmcremote you need to update it by rewriting connection information to it.</source>
-        <translation>Tag-ul NFC este expirat. Pentru a putea fi folosit cu Xbmcremote trebuie să îl actualizați rescriind pe el informațiile despre conexiune.</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Tag written successfully. NOTE: This tag does not offer enough space to write all informations. Wake on LAN will not work with this tag.</source>
-        <translation>Tag-ul a fost scris cu succes. ATENȚIE: Acest tag nu conține suficient spațiu pentru a scrie toate informațiile. Funcționalitatea WakeOnLAN nu va funcționa cu acest tag.</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Tag written successfully.</source>
-        <translation>Tag-ul a fost scris cu succes.</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Error writing NFC tag.</source>
-        <translation>Eroare la scrierea tag-ului.</translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>NoConnection</name>
     <message>
         <source>Please enable the following options in the Services settings of XBMC:</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Allow control of XBMC via HTTP</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Allow programs on other systems to control XBMC</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Connect</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>NoConnectionPage</name>
     <message>
         <source>Connect...</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>NowPlaying</name>
     <message>
         <source>Year:</source>
-        <translation>Anul:</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Season:</source>
-        <translation>Sezonul:</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Episode:</source>
-        <translation>Episodul:</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Rating:</source>
-        <translation>Rating:</translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>NowPlayingDetails</name>
     <message>
         <source>Rating:</source>
-        <translation>Rating:</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Season:</source>
-        <translation>Sezonul:</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Episode:</source>
-        <translation>Episodul:</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>First aired:</source>
-        <translation>Prima difuzare:</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Genre:</source>
-        <translation>Genul:</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Year:</source>
-        <translation>Anul:</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Director:</source>
-        <translation>Regizor:</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Tagline:</source>
-        <translation>Povestea:</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>MPAA:</source>
-        <translation>MPAA:</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Instrument:</source>
-        <translation>Instrument:</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Style:</source>
-        <translation>Stil:</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Mood:</source>
-        <translation>Ton:</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Born:</source>
-        <translation>Născut:</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Formed:</source>
-        <translation>Format:</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Died:</source>
-        <translation>Decedat:</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Disbanded:</source>
-        <translation>Desființat:</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Duration:</source>
-        <translation>Durată:</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Comment:</source>
-        <translation>Comentariu:</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Playcount:</source>
-        <translation>Număr de redări:</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Cast:</source>
-        <translation>Distribuție:</translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>NowPlayingPage</name>
     <message>
         <source>Select audio track</source>
-        <translation>Selectează pista audio</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Off</source>
-        <translation>Dezactivat</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Select subtitle</source>
-        <translation>Selectează subtitrarea</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Season:</source>
-        <translation>Sezon:</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Episode:</source>
-        <translation>Episodul:</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Rating:</source>
-        <translation>Calificativ:</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Year:</source>
-        <translation>Anul:</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Cancel</source>
-        <translation>Anulează</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>OK</source>
-        <translation>OK</translation>
-    </message>
-    <message>
-        <source>Repeat</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <source>Audio track</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <source>No active playback. Please select some content from the media tab.</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <source>Play</source>
-        <translation>Redează</translation>
-    </message>
-    <message>
-        <source>Remove from playlist</source>
-        <translation>Șterge din listă</translation>
-    </message>
-    <message>
-        <source>Clear playlist</source>
-        <translation>Golește lista</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Media</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Keypad</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Now playing</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Pause</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Play</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Next</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Previous</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Stop</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Now Playing</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>No active playback. Please select some content from the media tab.</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>None</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Remove from playlist</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Clear playlist</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Repeat</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Shuffle</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Subtitles</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Audio track</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>NowPlayingView</name>
     <message>
         <source>Now playing:</source>
-        <translation>Se redă acum:</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Track:</source>
-        <translation>Pista:</translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>PlaylistPage</name>
     <message>
         <source>Play</source>
-        <translation>Redare</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Remove from playlist</source>
-        <translation>Șterge din listă</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Clear playlist</source>
-        <translation>Golește lista</translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>PopupDialog</name>
     <message>
         <source>Xbmc on %1</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Connect to...</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>PowerMenu</name>
     <message>
         <source>Power menu</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Disconnect</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Quit XBMC</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Shutdown XBMC host</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Reboot XBMC host</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Suspend XBMC host</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Hibernate XBMC host</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Cancel</source>
-        <translation type="unfinished"/>
-    </message>
-</context>
-<context>
-    <name>QuitDialog</name>
-    <message>
-        <source>Quit</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <source>Shutdown</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <source>Reboot</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <source>Suspend</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <source>Hibernate</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>RecentItems</name>
     <message>
         <source>Albums</source>
-        <translation>Albume</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Songs</source>
-        <translation>Melodii</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Movies</source>
-        <translation>Filme</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Episodes</source>
-        <translation>Episoade</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Music Videos</source>
-        <translation>Videoclipuri</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Recently added</source>
-        <translation>Adăugate recent</translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>SailfishHelper</name>
     <message>
         <source>Incoming call</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>Seasons</name>
     <message>
         <source>Seasons</source>
-        <translation>Sezoane</translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>SettingsDialog</name>
     <message>
-        <source>Settings</source>
-        <translation>Opțiuni</translation>
-    </message>
-    <message>
-        <source>Use Thumbnails</source>
-        <translation>Folosește iconițe</translation>
-    </message>
-    <message>
-        <source>Change volume during calls</source>
-        <translation>Modifică volumul în timpul apelurilor telefonice</translation>
-    </message>
-    <message>
-        <source>Pause video during calls</source>
-        <translation>Pauză pentru filme în timpul apelurilor telefonice</translation>
-    </message>
-    <message>
-        <source>Pause music during calls</source>
-        <translation>Pauză pentru muzică în timpul apelurilor telefonice</translation>
-    </message>
-    <message>
-        <source>Ignore articles for sorting</source>
-        <translation>Ignoră articolele la ordonare</translation>
-    </message>
-    <message>
-        <source>Show call notifications</source>
-        <translation>Afizează notificări despre apeluri</translation>
-    </message>
-    <message>
         <source>Save</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Look and feel</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Use Thumbnails</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Ignore articles for sorting</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Used media</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Music</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Videos</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Pictures</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>TV Channels</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Phone calls</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Change volume</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Pause video</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Pause music</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Show call notifications</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Settings</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Change volume during calls</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Pause video during calls</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Pause music during calls</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>SettingsSheet</name>
     <message>
         <source>Save</source>
-        <translation>Salvează</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Cancel</source>
-        <translation>Anulează</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Look and feel</source>
-        <translation>Aspect</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Invert theme</source>
-        <translation>Inversează tema de afișaj</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Use Thumbnails</source>
-        <translation>Folosește iconițe</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Keep display on when charging</source>
-        <translation>Menține afișajul pornit în timp ce se încarcă bateria</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Ignore articles for sorting</source>
-        <translation>Ignoră articolele la ordonare</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Music</source>
-        <translation>Muzică</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Videos</source>
-        <translation>Filme</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Pictures</source>
-        <translation>Poze</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>TV Channels</source>
-        <translation>Canale TV</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Phone calls</source>
-        <translation>Apeluri telefonice</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Change volume</source>
-        <translation>Modifica volumul</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Pause video</source>
-        <translation>Pauză</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Pause music</source>
-        <translation>Pauză</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Show call notifications</source>
-        <translation>Afișează informatiile despre apeluri</translation>
-    </message>
-    <message>
-        <source>Used media</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Media browser settings</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Used media</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>TV</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Close</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>Shares</name>
     <message>
-        <source>Music Files</source>
-        <translation>Fișiere audio</translation>
-    </message>
-    <message>
-        <source>Video Files</source>
-        <translation>Fișiere video</translation>
-    </message>
-    <message>
-        <source>Picture Files</source>
-        <translation>Fișiere cu poze</translation>
-    </message>
-    <message>
         <source>Music</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Videos</source>
-        <translation>Filme</translation>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Music Files</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Video Files</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Picture Files</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Shares</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>Songs</name>
     <message>
         <source>Songs</source>
-        <translation>Melodii</translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>TimePicker</name>
     <message>
         <source>Time</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Hour</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Minute</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>TvShows</name>
     <message>
         <source>TV Shows</source>
-        <translation>Emisiuni TV</translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>VideoLibrary</name>
     <message>
-        <source>Video Library</source>
-        <translation>Biblioteca video</translation>
-    </message>
-    <message>
         <source>Movies</source>
-        <translation>Filme</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>TV Shows</source>
-        <translation>Emisiuni</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Music Videos</source>
-        <translation>Videoclipuri</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Recently added</source>
-        <translation>Adăugate recent</translation>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Video Library</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>VideoPlaylist</name>
     <message>
         <source>Now Playing</source>
-        <translation>Se redă acum</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Videos</source>
-        <translation>Filme</translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>WriteNfcTagSheet</name>
     <message>
         <source>Tap a NFC tag to write XBMC connection information to it. You can then use the tag to connect to this XBMC.</source>
-        <translation>Atingeți un tag NFC pentru a scrie pe el informațiile despre conexiune. Puteți folosi acest tag ulterior pentru a configura rapid conexiunea la XBMC.</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Close</source>
-        <translation>Închide</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Cancel</source>
-        <translation>Anulează</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Write NFC Tag</source>
-        <translation>Scrie un tag NFC</translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>Xbmc</name>
     <message>
         <source>Finished downloading %1</source>
-        <translation>Descărcarea %1 s-a terminat</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Error downloading %1</source>
-        <translation>Eroare la descărcarea %1</translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>XbmcConnection::XbmcConnectionPrivate</name>
     <message>
         <source>Connecting to %1...</source>
-        <translation>Se conectează la %1</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>The connection has been disconnected</source>
-        <translation>Conexiunea a fost întreruptă</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Connection failed: %1</source>
-        <translation>Conexiunea a esuat: %1</translation>
-    </message>
-    <message>
-        <source>Connection to %1 timed out...</source>
-        <translation>Conexiunea la %1 a expirat...</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>This version of Xbmcremote is designed to work with XBMC Frodo (v12.0). It seems you have connected to an older version of XMBC. Please upgrade XBMC in order to use Xbmcremote.</source>
-        <translation>Această versiune de Xbmcremote este compatibilă cu XBMC Frodo (v12.0). Se pare că v-ați conectat la o versiune mai veche de XBMC, care nu este suportată. Pentru a putea folosi Xbmcremote va trebui să actualizați XBMC.
-
-
- Please upgrade XBMC in order to use Xbmcremote.</translation>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Connection to %1 timed out...</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>XbmcPage</name>
     <message>
+        <source>XBMC on %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Quit</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Shutdown</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Reboot</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Suspend</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Hibernate</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <source>Media</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Now Playing</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Keypad</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>main</name>
     <message>
         <source>Connect...</source>
-        <translation>Conectează...</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Quit xbmc</source>
-        <translation>Închidere XBMC</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Write NFC Tag</source>
-        <translation>Scrie un tag NFC</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Settings</source>
-        <translation>Opțiuni</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>About</source>
-        <translation>Despre</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>OK</source>
-        <translation>OK</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Cancel</source>
-        <translation>Anulează</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Quit</source>
-        <translation>Ieșire</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Shutdown</source>
-        <translation>Oprire</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Reboot</source>
-        <translation>Repornire</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Suspend</source>
-        <translation>Suspendare</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Hibernate</source>
-        <translation>Hibernare</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Copyright</source>
-        <translation>Copyright</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Close</source>
-        <translation>Închide</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Donate</source>
-        <translation>Donează</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Flattr</source>
-        <translation>Flattr</translation>
-    </message>
-    <message>
-        <source>Searching for XBMC hosts.</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <source>Please enable the following options in the Services settings of XBMC:</source>
-        <translation>Activați următoarele opțiuni în XBMC, în secțiunea Servicii:</translation>
-    </message>
-    <message>
-        <source>Allow control of XBMC via HTTP</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <source>Allow programs on other systems to control XBMC</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <source>Announce these services to other systems via Zeroconf</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <source>If you don&apos;t use Zeroconf, add a host manually.</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <source>Remove</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <source>Wake up</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <source>Add host</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <source>Name:</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <source>Hostname or IP Address:</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <source>Port:</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <source>Mac Address:</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <source>XBMC on %1 requires authentication:</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <source>Username</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <source>Password</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Connecting...</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Select Host</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Searching for XBMC hosts.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Please enable the following options in the Services settings of XBMC:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Allow control of XBMC via HTTP</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Allow programs on other systems to control XBMC</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Announce these services to other systems via Zeroconf</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>If you don&apos;t use Zeroconf, add a host manually.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Remove</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Wake up</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Edit</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Host settings</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Name:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Hostname or IP Address:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Port:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Mac Address:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Volume</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Custom Stepping</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Up or down</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Custom script</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Up command</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Down command</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>XBMC on %1 requires authentication:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Username</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Password</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 </TS>

@@ -1,1685 +1,1716 @@
-<?xml version="1.0" ?><!DOCTYPE TS><TS language="nl" version="2.1">
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE TS>
+<TS version="2.1" language="nl">
 <context>
     <name>AboutDialog</name>
     <message>
-        <source>About</source>
-        <translation>Over</translation>
-    </message>
-    <message>
-        <source>Close</source>
-        <translation>Sluiten</translation>
-    </message>
-    <message>
         <source>Donate</source>
-        <translation>Schenken</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Flattr</source>
-        <translation>Flattr</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Thanks to</source>
-        <translation>Met dank aan</translation>
+        <source>Close</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>About</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Copyright</source>
-        <translation>Auteur</translation>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Thanks to</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>AddHostDialog</name>
     <message>
         <source>Name</source>
-        <translation>Naam</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Hostname or IP Address</source>
-        <translation>Systeemnaam of IP adres</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Port</source>
-        <translation>Poort</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Mac Address</source>
-        <translation>MAC adres</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Volume</source>
-        <translation>Volume</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Control type</source>
-        <translation>Regeling</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Custom stepping</source>
-        <translation>Aangepaste stappen</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Up or down</source>
-        <translation>Omhoog of omlaag</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Custom script</source>
-        <translation>Eigen commando</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Stepping</source>
-        <translation>Stapgrote</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Up command</source>
-        <translation>Commando omhoog</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Down command</source>
-        <translation>Commando omlaag</translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>Albums</name>
     <message>
         <source>Albums</source>
-        <translation>Albums</translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>Artists</name>
     <message>
         <source>Artists</source>
-        <translation>Artiesten</translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>AudioLibrary</name>
     <message>
         <source>Artists</source>
-        <translation>Artiesten</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Albums</source>
-        <translation>Albums</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Titles</source>
-        <translation>Titels</translation>
-    </message>
-    <message>
-        <source>Audio Library</source>
-        <translation>Audio bibliotheek</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Recently added</source>
-        <translation>Onlangs toegevoegd</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Recently played</source>
-        <translation>Onlangs afgespeeld</translation>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Audio Library</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>AudioPlaylist</name>
     <message>
         <source>Now Playing</source>
-        <translation>Speelt af</translation>
-    </message>
-    <message>
-        <source>Music</source>
-        <translation>Muziek</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Playlist</source>
-        <translation>Afspeellijst</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Play</source>
-        <translation>Afspelen</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Remove from playlist</source>
-        <translation>Verwijderen van afspeellijst</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Clear playlist</source>
-        <translation>Afspeellijst leegmaken</translation>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Music</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>AuthenticationDialog</name>
     <message>
-        <source>Authentication</source>
-        <translation>Authenticatie</translation>
+        <source>Authenticate</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>XBMC on %1 requires authentication:</source>
-        <translation>XBMC op %1 vereist authenticatie:</translation>
-    </message>
-    <message>
-        <source>Username:</source>
-        <translation>Gebruikersnaam:</translation>
-    </message>
-    <message>
-        <source>Password:</source>
-        <translation>Wachtwoord:</translation>
-    </message>
-    <message>
-        <source>Authenticate</source>
-        <translation>Authenticatie</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Username</source>
-        <translation>Gebruikersnaam</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Password</source>
-        <translation>Wachtwoord</translation>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Authentication</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Username:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Password:</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>AuthenticationSheet</name>
     <message>
         <source>OK</source>
-        <translation>OK</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Cancel</source>
-        <translation>Annuleren</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>XBMC on %1 requires authentication:</source>
-        <translation>XBMC op %1 vereist authenticatie:</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Username:</source>
-        <translation>Gebruikersnaam:</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Password:</source>
-        <translation>Wachtwoord:</translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>Browser</name>
     <message>
         <source>Update library</source>
-        <translation>Bibliotheek bijwerken</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Clean library</source>
-        <translation>Bibliotheek opruimen</translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>BrowserPage</name>
     <message>
         <source>Home</source>
-        <translation>Start</translation>
-    </message>
-    <message>
-        <source>Sorting</source>
-        <translation>Sortering</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Keypad</source>
-        <translation>Keypad</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Now playing</source>
-        <translation>Nu afspelen</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Show watched</source>
-        <translation>Bekeken weergeven</translation>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Sorting</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>ChannelGroups</name>
     <message>
         <source>TV Channels</source>
-        <translation>TV Kanalen</translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>Channels</name>
     <message>
         <source>TV Channels</source>
-        <translation>TV Kanalen</translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>ConnectDialog</name>
     <message>
-        <source>Host:</source>
-        <translation>Host:</translation>
-    </message>
-    <message>
-        <source>MAC Address (optional):</source>
-        <translation>MAC adres (optioneel):</translation>
-    </message>
-    <message>
-        <source>Connect</source>
-        <translation>Verbinden</translation>
-    </message>
-    <message>
-        <source>Add Host</source>
-        <translation>Host toevoegen</translation>
-    </message>
-    <message>
-        <source>Remove Host</source>
-        <translation>Host verwijderen</translation>
-    </message>
-    <message>
-        <source>HTTP Port:</source>
-        <translation>HTTP poort:</translation>
-    </message>
-    <message>
         <source>Connect to XBMC</source>
-        <translation>Verbind met XBMC</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Searching for XBMC hosts.</source>
-        <translation>Zoeken naar XBMC hosts.</translation>
-    </message>
-    <message>
-        <source>If you don&apos;t use Zeroconf, add a host manually.</source>
-        <translation>Als je geen gebruik maakt van Zeroconf, voeg dan manueel een host toe.</translation>
-    </message>
-    <message>
-        <source>Allow control of XBMC via HTTP</source>
-        <translation>Gebeurtenissen op afstand activeren</translation>
-    </message>
-    <message>
-        <source>Allow programs on other systems to control XBMC</source>
-        <translation>Gebeurtenissen van andere computers ontvangen</translation>
-    </message>
-    <message>
-        <source>Announce these services to other systems via Zeroconf</source>
-        <translation>Zeroconf publishing</translation>
-    </message>
-    <message>
-        <source>Back</source>
-        <translation>Vorige</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Please enable the following options in the Services settings of XBMC:</source>
-        <translation>Schakel de volgende opties in onder de Diensten-instellingen van XBMC:</translation>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Allow control of XBMC via HTTP</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Allow programs on other systems to control XBMC</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Announce these services to other systems via Zeroconf</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>If you don&apos;t use Zeroconf, add a host manually.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Host:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>HTTP Port:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>MAC Address (optional):</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Connect</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Add Host</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Remove Host</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Back</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>ConnectionDialog</name>
     <message>
         <source>Add</source>
-        <translation>Toevoegen</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Connect</source>
-        <translation>Verbinden</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Cancel</source>
-        <translation>Annuleren</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Searching for XBMC hosts.</source>
-        <translation>Zoeken naar XBMC</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Please enable the following options in the Services settings of XBMC:</source>
-        <translation>Schakel de volgende opties in de onder Diensten-instellingen van XBMC:</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Allow control of XBMC via HTTP</source>
-        <translation>Gebeurtenissen op afstand activeren</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Allow programs on other systems to control XBMC</source>
-        <translation>Programma&apos;s op andere systemen toestaan XBMC te besturen</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Announce these services to other systems via Zeroconf</source>
-        <translation>Zeroconf publishing</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>If you don&apos;t use Zeroconf, add a host manually.</source>
-        <translation>Als je geen gebruik maakt van Zeroconf, voeg dan handmatig een host toe.</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Add host</source>
-        <translation>Systeem toevoegen</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Edit host</source>
-        <translation>Wijzigen</translation>
+        <source>Edit</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Save</source>
-        <translation>Opslaan</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Remove host</source>
-        <translation>Verwijderen</translation>
+        <source>Remove</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Removing host %1</source>
-        <translation>Systeem %1 wordt verwijderd</translation>
+        <source>Removing %1</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Wake up</source>
-        <translation>Ontwaken</translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>ConnectionSheet</name>
     <message>
         <source>Connect</source>
-        <translation>Verbinden</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Cancel</source>
-        <translation>Annuleren</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Searching for XBMC hosts.</source>
-        <translation>Bezig met zoeken naar XBMC host.</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Please enable the following options in the Services settings of XBMC:</source>
-        <translation>Schakel de volgende opties in onder de Diensten-instellingen van XBMC:</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Allow control of XBMC via HTTP</source>
-        <translation>Gebeurtenissen op afstand activeren</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Allow programs on other systems to control XBMC</source>
-        <translation>Gebeurtenissen van andere computers ontvangen</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Announce these services to other systems via Zeroconf</source>
-        <translation>Zeroconf publishing</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>If you don&apos;t use Zeroconf, add a host manually.</source>
-        <translation>Als je geen gebruik maakt van Zeroconf, voeg dan manueel een host toe.</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>XBMC on %1</source>
-        <translation>XBMC op %1</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Waking up %1...</source>
-        <translation>%1 ontwaken...</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Remove Host</source>
-        <translation>Host verwijderen</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Add Host</source>
-        <translation>Host toevoegen</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Host:</source>
-        <translation>Host:</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>HTTP Port:</source>
-        <translation>HTTP poort:</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>MAC Address for WakeOnLan (optional):</source>
-        <translation>MAC Adres voor WakeOnLan (optioneel):</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Back</source>
-        <translation>Vorige</translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>CoverPage</name>
     <message>
         <source>XBMC on</source>
-        <translation>XBMC op</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>XBMC remote</source>
-        <translation>XBMC remote</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Disconnected</source>
-        <translation>Verbinding verbroken</translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>DatePicker</name>
     <message>
         <source>Date</source>
-        <translation>Datum</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Day</source>
-        <translation>Dag</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Month</source>
-        <translation>Maand</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Year</source>
-        <translation>Jaar</translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>DownloadDialog</name>
     <message>
         <source>Start download?</source>
-        <translation>Download starten?</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Start downloading %1?</source>
-        <translation>Start downloaden van %1?</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Yes</source>
-        <translation>Ja</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>No</source>
-        <translation>Nee</translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>Episodes</name>
     <message>
         <source>Episodes</source>
-        <translation>Afleveringen</translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>HomeMenu</name>
     <message>
         <source>Music</source>
-        <translation>Muziek</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Videos</source>
-        <translation>Video&apos;s</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Pictures</source>
-        <translation>Afbeeldingen</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Files</source>
-        <translation>Bestanden</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Library</source>
-        <translation>Bibliotheek</translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>HostList</name>
     <message>
         <source>Add</source>
-        <translation>Toevoegen</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Remove</source>
-        <translation>Verwijderen</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Connect</source>
-        <translation>Verbinden</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Host:</source>
-        <translation>Host:</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Port:</source>
-        <translation>Poort:</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>MAC Address for WakeOnLan (optional):</source>
-        <translation>MAC adres voor WakeOnLan (optioneel):</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>OK</source>
-        <translation>Akkoord</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Cancel</source>
-        <translation>Annuleren</translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>ItemDetails</name>
     <message>
         <source>Rating:</source>
-        <translation>Waardering:</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Season:</source>
-        <translation>Seizoen:</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Episode:</source>
-        <translation>Aflevering:</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>First aired:</source>
-        <translation>Eerst uitgezonden:</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Genre:</source>
-        <translation>Genre:</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Year:</source>
-        <translation>Jaar:</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Director:</source>
-        <translation>Regisseur:</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Tagline:</source>
-        <translation>Tagline:</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>MPAA:</source>
-        <translation>Leeftijdsadvies:</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Instrument:</source>
-        <translation>Instrument:</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Style:</source>
-        <translation>Stijl:</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Mood:</source>
-        <translation>Stemming:</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Born:</source>
-        <translation>Geboortedatum:</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Formed:</source>
-        <translation>Opleiding:</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Died:</source>
-        <translation>Gestorven:</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Disbanded:</source>
-        <translation>Ontbonden:</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Duration:</source>
-        <translation>Duur:</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Comment:</source>
-        <translation>Commentaar:</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Playcount:</source>
-        <translation>Aantal keer afgespeeld:</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Cast:</source>
-        <translation>Cast:</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Play</source>
-        <translation>Afspelen</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Add to playlist</source>
-        <translation>Toevoegen aan afspeellijst</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Download</source>
-        <translation>Download</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Title:</source>
-        <translation>Titel:</translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>Keypad</name>
     <message>
         <source>Keypad</source>
-        <translation>Keypad</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Media</source>
-        <translation>Media</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Now playing</source>
-        <translation>Nu aan het afspelen</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Pictures</source>
-        <translation>Afbeeldingen</translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>LibraryView</name>
     <message>
         <source>Play</source>
-        <translation>Afspelen</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Add to playlist</source>
-        <translation>Toevoegen aan afspeellijst</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Rescan library</source>
-        <translation>Bibliotheek herscannen</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Details</source>
-        <translation>Details</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Download</source>
-        <translation>Download</translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>MainPage</name>
     <message>
         <source>XBMC on %1</source>
-        <translation>XBMC op %1</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Music</source>
-        <translation>Muziek</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Videos</source>
-        <translation>Video&apos;s</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Pictures</source>
-        <translation>Afbeeldingen</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>TV Channels</source>
-        <translation>TV Kanalen</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Library</source>
-        <translation>Bibliotheek</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Files</source>
-        <translation>Bestanden</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Show files</source>
-        <translation>Toon bestanden</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Show library</source>
-        <translation>Toon bibliotheek</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Rescan library</source>
-        <translation>Herscan bibliotheek</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Clean library</source>
-        <translation>Bibliotheek opruimen</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Options</source>
-        <translation>Opties</translation>
-    </message>
-    <message>
-        <source>Settings</source>
-        <translation>Instellingen</translation>
+        <source>Browse %1</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Keypad</source>
-        <translation>Keypad</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Now playing</source>
-        <translation>Nu afspelen</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Change connection...</source>
-        <translation>Verbinden met...</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Power</source>
-        <translation>Afsluiten</translation>
+        <source>Settings</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>About</source>
-        <translation>Over</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Media Browser</source>
-        <translation>Media Browser</translation>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Options</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>MainWindow</name>
     <message>
         <source>Connect...</source>
-        <translation>Verbinden...</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Settings</source>
-        <translation>Instellingen</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>About</source>
-        <translation>Over</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Incoming call</source>
-        <translation>Inkomende oproep</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Download started: %1</source>
-        <translation>Download gestart: %1</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Download finished: %1</source>
-        <translation>Download voltooid: %1</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Error downloading %1</source>
-        <translation>Fout bij downloaden van %1</translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>MediaSelectionDialog</name>
     <message>
-        <source>Off</source>
-        <translation>Uit</translation>
+        <source>None</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>MeeGoHelper</name>
     <message>
         <source>Incoming call</source>
-        <translation>Inkomende oproep</translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>Movies</name>
     <message>
         <source>Movies</source>
-        <translation>Speelfilms</translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>MusicVideos</name>
     <message>
         <source>Music Videos</source>
-        <translation>Muziekvideo&apos;s</translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>NfcHandler</name>
     <message>
         <source>NFC tag is not compatible with Xbmcremote. In order to use it with Xbmcremote you need to write connection information to it.</source>
-        <translation>NFC tag is niet comptatibel met Xbmcremote. Om het te gebruiken met Xbmcremote moet je er verbindingsinformatie naar schrijven.</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>NFC tag is outdated. In order to use it with Xbmcremote you need to update it by rewriting connection information to it.</source>
-        <translation>NFC tag is verouderd. Om het te gebruiken met Xbmcremote moet je de verbindingsinformatie updaten.</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Tag written successfully. NOTE: This tag does not offer enough space to write all informations. Wake on LAN will not work with this tag.</source>
-        <translation>Tag succesvol geschreven. OPMERKING: deze tag biedt niet genoeg ruitme om alle informatie op te slaan. Wake on LAN zal niet werken.</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Tag written successfully.</source>
-        <translation>Tag succesvol geschreven.</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Error writing NFC tag.</source>
-        <translation>Fout bij schrijven NFC tag</translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>NoConnection</name>
     <message>
         <source>Please enable the following options in the Services settings of XBMC:</source>
-        <translation>Schakel de volgende opties in de onder Diensten-instellingen van XBMC:</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Allow control of XBMC via HTTP</source>
-        <translation>Webserver</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Allow programs on other systems to control XBMC</source>
-        <translation>Programma&apos;s op andere computers toestaan XBMC te besturen</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Connect</source>
-        <translation>Verbinden</translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>NoConnectionPage</name>
     <message>
         <source>Connect...</source>
-        <translation>Verbinden...</translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>NowPlaying</name>
     <message>
         <source>Year:</source>
-        <translation>Jaar:</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Season:</source>
-        <translation>Seizoen:</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Episode:</source>
-        <translation>Aflevering:</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Rating:</source>
-        <translation>Score:</translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>NowPlayingDetails</name>
     <message>
         <source>Rating:</source>
-        <translation>Waardering:</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Season:</source>
-        <translation>Seizoen:</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Episode:</source>
-        <translation>Aflevering:</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>First aired:</source>
-        <translation>Eerst uitgezonden:</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Genre:</source>
-        <translation>Genre:</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Year:</source>
-        <translation>Jaar:</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Director:</source>
-        <translation>Regisseur:</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Tagline:</source>
-        <translation>Tagline:</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>MPAA:</source>
-        <translation>Leeftijdsadvies:</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Instrument:</source>
-        <translation>Instrument:</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Style:</source>
-        <translation>Stijl:</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Mood:</source>
-        <translation>Stemming:</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Born:</source>
-        <translation>Geboortedatum:</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Formed:</source>
-        <translation>Opleiding:</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Died:</source>
-        <translation>Gestorven:</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Disbanded:</source>
-        <translation>Ontbonden:</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Duration:</source>
-        <translation>Duur:</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Comment:</source>
-        <translation>Commentaar:</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Playcount:</source>
-        <translation>Aantal keer afgespeeld:</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Cast:</source>
-        <translation>Cast:</translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>NowPlayingPage</name>
     <message>
         <source>Select audio track</source>
-        <translation>Selecteer geluidskanaal</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Off</source>
-        <translation>Geen</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Select subtitle</source>
-        <translation>Selecteer ondertitels</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Season:</source>
-        <translation>Seizoen:</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Episode:</source>
-        <translation>Aflevering:</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Rating:</source>
-        <translation>Waardering:</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Year:</source>
-        <translation>Jaar:</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Cancel</source>
-        <translation>Annuleren</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>OK</source>
-        <translation>Akkoord</translation>
-    </message>
-    <message>
-        <source>Repeat</source>
-        <translation>Herhalen</translation>
-    </message>
-    <message>
-        <source>Audio track</source>
-        <translation>Geluidskanaal</translation>
-    </message>
-    <message>
-        <source>No active playback. Please select some content from the media tab.</source>
-        <translation>Niet aan het afspelen. Selecteer inhoud van de media tab.</translation>
-    </message>
-    <message>
-        <source>Play</source>
-        <translation>Afspelen</translation>
-    </message>
-    <message>
-        <source>Remove from playlist</source>
-        <translation>Verwijderen uit afspeellijst</translation>
-    </message>
-    <message>
-        <source>Clear playlist</source>
-        <translation>Afspeellijst legen</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Media</source>
-        <translation>Media</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Keypad</source>
-        <translation>Keypad</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Now playing</source>
-        <translation>Nu aan het spelen</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Pause</source>
-        <translation>Pauze</translation>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Play</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Next</source>
-        <translation>Volgende</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Previous</source>
-        <translation>Vorige</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Stop</source>
-        <translation>Stop</translation>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Now Playing</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>No active playback. Please select some content from the media tab.</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>None</source>
-        <translation>Geen</translation>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Remove from playlist</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Clear playlist</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Repeat</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Shuffle</source>
-        <translation>Shuffle</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Subtitles</source>
-        <translation>Ondertiteling</translation>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Audio track</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>NowPlayingView</name>
     <message>
         <source>Now playing:</source>
-        <translation>Speelt af:</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Track:</source>
-        <translation>Nummer:</translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>PlaylistPage</name>
     <message>
         <source>Play</source>
-        <translation>Afspelen</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Remove from playlist</source>
-        <translation>Verwijderen van afspeellijst</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Clear playlist</source>
-        <translation>Afspeellijst leegmaken</translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>PopupDialog</name>
     <message>
         <source>Xbmc on %1</source>
-        <translation>Xbmc op %1</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Connect to...</source>
-        <translation>Verbinden met...</translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>PowerMenu</name>
     <message>
         <source>Power menu</source>
-        <translation>Afsluiten</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Disconnect</source>
-        <translation>Verbinding verbreken</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Quit XBMC</source>
-        <translation>XBMC sluiten</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Shutdown XBMC host</source>
-        <translation>Systeem afsluiten</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Reboot XBMC host</source>
-        <translation>Systeem opnieuw opstarten</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Suspend XBMC host</source>
-        <translation>Systeem in stand-by zetten</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Hibernate XBMC host</source>
-        <translation>Systeem in slaapstand zetten</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Cancel</source>
-        <translation>Annuleren</translation>
-    </message>
-</context>
-<context>
-    <name>QuitDialog</name>
-    <message>
-        <source>Quit</source>
-        <translation>Sluiten</translation>
-    </message>
-    <message>
-        <source>Shutdown</source>
-        <translation>Systeem afsluiten</translation>
-    </message>
-    <message>
-        <source>Reboot</source>
-        <translation>Opnieuw opstarten</translation>
-    </message>
-    <message>
-        <source>Suspend</source>
-        <translation>Stand-by</translation>
-    </message>
-    <message>
-        <source>Hibernate</source>
-        <translation>Slaapstand</translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>RecentItems</name>
     <message>
         <source>Albums</source>
-        <translation>Albums</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Songs</source>
-        <translation>Nummers</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Movies</source>
-        <translation>Speelfilms</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Episodes</source>
-        <translation>Afleveringen</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Music Videos</source>
-        <translation>Muziekvideo&apos;s</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Recently added</source>
-        <translation>Recent toegevoegd</translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>SailfishHelper</name>
     <message>
         <source>Incoming call</source>
-        <translation>Inkomende oproep</translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>Seasons</name>
     <message>
         <source>Seasons</source>
-        <translation>Seizoenen</translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>SettingsDialog</name>
     <message>
-        <source>Settings</source>
-        <translation>Instellingen</translation>
-    </message>
-    <message>
-        <source>Use Thumbnails</source>
-        <translation>Gebruik thumbnails</translation>
-    </message>
-    <message>
-        <source>Change volume during calls</source>
-        <translation>Verander volume tijdens oproep</translation>
-    </message>
-    <message>
-        <source>Pause video during calls</source>
-        <translation>Pauzeer video tijdens oproep</translation>
-    </message>
-    <message>
-        <source>Pause music during calls</source>
-        <translation>Pauzeer muziek tijdens oproep</translation>
-    </message>
-    <message>
-        <source>Ignore articles for sorting</source>
-        <translation>Artikels negeren voor sorteren</translation>
-    </message>
-    <message>
-        <source>Show call notifications</source>
-        <translation>Toon inkomende oproepen</translation>
-    </message>
-    <message>
         <source>Save</source>
-        <translation>Opslaan</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Look and feel</source>
-        <translation>Uiterlijk en ervaring</translation>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Use Thumbnails</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Ignore articles for sorting</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Used media</source>
-        <translation>Gebruikte media</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Music</source>
-        <translation>Muziek</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Videos</source>
-        <translation>Video&apos;s</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Pictures</source>
-        <translation>Afbeeldingen</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>TV Channels</source>
-        <translation>TV Kanalen</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Phone calls</source>
-        <translation>Telefoon</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Change volume</source>
-        <translation>Volume aanpassen</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Pause video</source>
-        <translation>Video pauzeren</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Pause music</source>
-        <translation>Muziek pauzeren</translation>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Show call notifications</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Settings</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Change volume during calls</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Pause video during calls</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Pause music during calls</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>SettingsSheet</name>
     <message>
         <source>Save</source>
-        <translation>Opslaan</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Cancel</source>
-        <translation>Annuleren</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Look and feel</source>
-        <translation>Gebruikerservaring</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Invert theme</source>
-        <translation>Thema omkeren</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Use Thumbnails</source>
-        <translation>Gebruik thumbnails</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Keep display on when charging</source>
-        <translation>Laat scherm aan tijdens opladen</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Ignore articles for sorting</source>
-        <translation>Artikels negeren voor sorteren</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Music</source>
-        <translation>Muziek</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Videos</source>
-        <translation>Video&apos;s</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Pictures</source>
-        <translation>Afbeeldingen</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>TV Channels</source>
-        <translation>TV Kanalen</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Phone calls</source>
-        <translation>Oproepen</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Change volume</source>
-        <translation>Volume veranderen</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Pause video</source>
-        <translation>Pauzeer Video</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Pause music</source>
-        <translation>Pauzeer Muziek</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Show call notifications</source>
-        <translation>Toon inkomende oproepen.</translation>
-    </message>
-    <message>
-        <source>Used media</source>
-        <translation>Gebruikte media</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Media browser settings</source>
-        <translation>Media browser instellingen</translation>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Used media</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>TV</source>
-        <translation>TV</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Close</source>
-        <translation>Sluiten</translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>Shares</name>
     <message>
-        <source>Music Files</source>
-        <translation>Muziekbestanden</translation>
-    </message>
-    <message>
-        <source>Video Files</source>
-        <translation>Videobestanden</translation>
-    </message>
-    <message>
-        <source>Picture Files</source>
-        <translation>Afbeeldingsbestanden</translation>
-    </message>
-    <message>
         <source>Music</source>
-        <translation>Muziek</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Videos</source>
-        <translation>Video&apos;s</translation>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Music Files</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Video Files</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Picture Files</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Shares</source>
-        <translation>Gedeeld</translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>Songs</name>
     <message>
         <source>Songs</source>
-        <translation>Nummers</translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>TimePicker</name>
     <message>
         <source>Time</source>
-        <translation>Tijd</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Hour</source>
-        <translation>Uur</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Minute</source>
-        <translation>Minuut</translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>TvShows</name>
     <message>
         <source>TV Shows</source>
-        <translation>TV-Series</translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>VideoLibrary</name>
     <message>
-        <source>Video Library</source>
-        <translation>Videobibliotheek</translation>
-    </message>
-    <message>
         <source>Movies</source>
-        <translation>Speelfilms</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>TV Shows</source>
-        <translation>TV-Series</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Music Videos</source>
-        <translation>Muziekvideo&apos;s</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Recently added</source>
-        <translation>Recent afgespeeld</translation>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Video Library</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>VideoPlaylist</name>
     <message>
         <source>Now Playing</source>
-        <translation>Speelt af</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Videos</source>
-        <translation>Video&apos;s</translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>WriteNfcTagSheet</name>
     <message>
         <source>Tap a NFC tag to write XBMC connection information to it. You can then use the tag to connect to this XBMC.</source>
-        <translation>Tik op een NFC tag om XBMC verbindingsinformatie te schrijven. Je kan dan deze tag gebruiken om te verbinden met deze XBMC.</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Close</source>
-        <translation>Sluiten</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Cancel</source>
-        <translation>Annuleren</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Write NFC Tag</source>
-        <translation>NFC tag schrijven</translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>Xbmc</name>
     <message>
         <source>Finished downloading %1</source>
-        <translation>%1 gedownload</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Error downloading %1</source>
-        <translation>Fout bij downloaden van %1</translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>XbmcConnection::XbmcConnectionPrivate</name>
     <message>
         <source>Connecting to %1...</source>
-        <translation>Verbinden met %1...</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>The connection has been disconnected</source>
-        <translation>De verbinding werd verbroken</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Connection failed: %1</source>
-        <translation>Verbinden mislukt: %1</translation>
-    </message>
-    <message>
-        <source>Connection to %1 timed out...</source>
-        <translation>Time-out tijdens verbinden met %1...</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>This version of Xbmcremote is designed to work with XBMC Frodo (v12.0). It seems you have connected to an older version of XMBC. Please upgrade XBMC in order to use Xbmcremote.</source>
-        <translation>Xbmcremote is ontwikkeld voor XBMC Frodo (v12.0). Je hebt verbinding gemaakt met een oudere versie van XBMC. Je dient XBMC te updaten om Xbmcremote te gebruiken.</translation>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Connection to %1 timed out...</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>XbmcPage</name>
     <message>
+        <source>XBMC on %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Quit</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Shutdown</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Reboot</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Suspend</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Hibernate</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <source>Media</source>
-        <translation>Media</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Now Playing</source>
-        <translation>Speelt af</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Keypad</source>
-        <translation>Keypad</translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>main</name>
     <message>
         <source>Connect...</source>
-        <translation>Verbinden...</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Quit xbmc</source>
-        <translation>XBMC afsluiten</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Write NFC Tag</source>
-        <translation>NFC tag schrijven</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Settings</source>
-        <translation>Instellingen</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>About</source>
-        <translation>Over</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>OK</source>
-        <translation>Akkoord</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Cancel</source>
-        <translation>Annuleren</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Quit</source>
-        <translation>Afsluiten</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Shutdown</source>
-        <translation>Systeem afsluiten</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Reboot</source>
-        <translation>Opnieuw opstarten</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Suspend</source>
-        <translation>Sluimerstand</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Hibernate</source>
-        <translation>Slaapstand</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Copyright</source>
-        <translation>Auteursrecht</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Close</source>
-        <translation>Sluiten</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Donate</source>
-        <translation>Schenken</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Flattr</source>
-        <translation>Flattr</translation>
-    </message>
-    <message>
-        <source>Searching for XBMC hosts.</source>
-        <translation>Bezig met zoeken naar XBMC host.</translation>
-    </message>
-    <message>
-        <source>Please enable the following options in the Services settings of XBMC:</source>
-        <translation>Schakel de volgende opties in onder de Diensten-instellingen van XBMC:</translation>
-    </message>
-    <message>
-        <source>Allow control of XBMC via HTTP</source>
-        <translation>Gebeurtenissen op afstand activeren</translation>
-    </message>
-    <message>
-        <source>Allow programs on other systems to control XBMC</source>
-        <translation>Gebeurtenissen van andere computers ontvangen</translation>
-    </message>
-    <message>
-        <source>Announce these services to other systems via Zeroconf</source>
-        <translation>Zeroconf publishing</translation>
-    </message>
-    <message>
-        <source>If you don&apos;t use Zeroconf, add a host manually.</source>
-        <translation>Als je geen gebruik maakt van Zeroconf, voeg dan manueel een host toe.</translation>
-    </message>
-    <message>
-        <source>Remove</source>
-        <translation>Verwijderen</translation>
-    </message>
-    <message>
-        <source>Wake up</source>
-        <translation>Ontwaken</translation>
-    </message>
-    <message>
-        <source>Add host</source>
-        <translation>Systeem toevoegen</translation>
-    </message>
-    <message>
-        <source>Name:</source>
-        <translation>Naam:</translation>
-    </message>
-    <message>
-        <source>Hostname or IP Address:</source>
-        <translation>Systeemnaam of IP adres:</translation>
-    </message>
-    <message>
-        <source>Port:</source>
-        <translation>Poort:</translation>
-    </message>
-    <message>
-        <source>Mac Address:</source>
-        <translation>MAC adres</translation>
-    </message>
-    <message>
-        <source>XBMC on %1 requires authentication:</source>
-        <translation>XBMC op %1 vereist authenticatie:</translation>
-    </message>
-    <message>
-        <source>Username</source>
-        <translation>Gebruikersnaam</translation>
-    </message>
-    <message>
-        <source>Password</source>
-        <translation>Wachtwoord</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Connecting...</source>
-        <translation>Verbinden met...</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Select Host</source>
-        <translation>Selecteer systeem</translation>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Searching for XBMC hosts.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Please enable the following options in the Services settings of XBMC:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Allow control of XBMC via HTTP</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Allow programs on other systems to control XBMC</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Announce these services to other systems via Zeroconf</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>If you don&apos;t use Zeroconf, add a host manually.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Remove</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Wake up</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Edit</source>
-        <translation>Wijzigen</translation>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Host settings</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Name:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Hostname or IP Address:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Port:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Mac Address:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Volume</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Custom Stepping</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Up or down</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Custom script</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Up command</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Down command</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>XBMC on %1 requires authentication:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Username</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Password</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 </TS>
