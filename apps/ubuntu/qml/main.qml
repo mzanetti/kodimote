@@ -104,7 +104,7 @@ MainView {
         id: noConnectionComponent
         Page {
             id: noConnectionPage
-            title: "Select Host"
+            title: xbmc.connecting ? qsTr("Connecting...") : qsTr("Select Host")
             anchors.fill: parent
             property bool showList: !xbmc.connecting
 
@@ -157,7 +157,7 @@ MainView {
                     }
 
                     Label {
-                        fontSize: "medium"
+                        fontSize: "small"
                         width: parent.width
                         wrapMode: Text.WordWrap
                         text: qsTr("Searching for XBMC hosts.") + "\n" + "\n"
@@ -197,6 +197,15 @@ MainView {
                     wrapMode: Text.WordWrap
                     horizontalAlignment: Text.AlignHCenter
                 }
+                Label {
+                    fontSize: "small"
+                    width: parent.width
+                    wrapMode: Text.WordWrap
+                    text: qsTr("Please enable the following options in the Services settings of XBMC:") + "\n- "
+                          + qsTr("Allow control of XBMC via HTTP") + "\n- "
+                          + qsTr("Allow programs on other systems to control XBMC")
+                }
+
                 Button{
                     text: qsTr("Cancel")
                     anchors {
@@ -215,6 +224,7 @@ MainView {
                     action: Action {
                         text: "add"
                         iconName: "add"
+                        visible: noConnectionPage.showList
                         onTriggered: {
                             var newHost = newHostComponent.createObject();
                             var popup = PopupUtils.open(addHostComponent, noConnectionPage, {host: newHost});

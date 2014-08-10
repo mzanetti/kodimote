@@ -88,6 +88,8 @@ build_click_package() {
     exec_with_ssh cp $CODE_DIR/apps/ubuntu/xbmcremote.svg $CODE_DIR/$BUILD_DIR/install
     exec_with_ssh cp $CODE_DIR/apps/ubuntu/xbmcremote80.png $CODE_DIR/$BUILD_DIR/install
     exec_with_ssh click build $CODE_DIR/$BUILD_DIR/install
+    pwd
+    scp -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -P $TARGET_SSH_PORT $USER@$TARGET_IP:/home/phablet/com.ubuntu*xbmcremote*.click .
 }
 
 run() {

@@ -202,6 +202,9 @@ void XbmcConnectionPrivate::internalConnect()
         qDebug() << m_networkSession->state();
         return;
     }
+    if (!m_host) {
+        return;
+    }
     QObject::disconnect(m_networkSession, SIGNAL(stateChanged(QNetworkSession::State)), this, SLOT(internalConnect()));
     QObject::connect(m_networkSession, SIGNAL(stateChanged(QNetworkSession::State)), this, SLOT(sessionLost()));
 
@@ -270,7 +273,7 @@ void XbmcConnectionPrivate::slotDisconnected()
 void XbmcConnectionPrivate::socketError()
 {
     QString errorString = m_socket->errorString();
-    xDebug(XDAREA_CONNECTION) << "socket error:" << errorString;
+    xDebug(XDAREA_CONNECTION) << "socket error:" << errorString << m_socket->error();
 
     if(m_socket->state() != QAbstractSocket::ConnectedState) {
         m_connectionError = tr("Connection failed: %1").arg(errorString);
@@ -748,6 +751,7 @@ QString XbmcConnectionPrivate::connectionError()
 void XbmcConnectionPrivate::disconnectFromHost()
 {
     m_socket->disconnectFromHost();
+    m_host = 0;
 }
 
 void XbmcConnectionPrivate::authenticationRequired(QNetworkReply *reply, QAuthenticator *authenticator)

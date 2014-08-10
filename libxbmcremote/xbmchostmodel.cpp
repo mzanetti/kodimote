@@ -80,6 +80,10 @@ void XbmcHostModel::removeHost(int index)
     settings.beginGroup(host->id().toString());
     settings.remove("");
 
+    if (XbmcConnection::connectedHost() == host) {
+        XbmcConnection::disconnectFromHost();
+    }
+
     host->deleteLater();
 }
 
