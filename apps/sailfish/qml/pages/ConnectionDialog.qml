@@ -28,8 +28,7 @@ Dialog {
     canAccept: hostList.currentIndex >= 0
 
     onAccepted: {
-        xbmc.hostModel().wakeup(hostList.currentIndex);
-        xbmc.hostModel().connectToHost(hostList.currentIndex);
+        xbmc.hostModel().host(hostList.currentIndex).connect();
     }
 
     Component {
@@ -44,6 +43,9 @@ Dialog {
         var hostPage = pageStack.push(Qt.resolvedUrl("AddHostDialog.qml"), { host: host, title: qsTr("Add") });
         hostPage.onRejected.connect(function() {
             host.destroy();
+        });
+        hostPage.onAccepted.connect(function() {
+            xbmc.hostModel().addHost(host);
         });
     }
 
@@ -112,7 +114,7 @@ Dialog {
             }
 
             function wakeupHost() {
-                xbmc.hostModel().wakeup(index);
+                xbmc.hostModel().host(index).wakeup();
             }
 
             function removeHost() {
@@ -138,7 +140,7 @@ Dialog {
                     MenuItem {
                         text: qsTr("Edit host")
                         onClicked: {
-                            var host = xbmc.hostModel().getHost(index);
+                            var host = xbmc.hostModel().host(index);
                             var hostPage = pageStack.push(Qt.resolvedUrl("AddHostDialog.qml"), { host: host, title: qsTr("Save") });
                         }
                     }

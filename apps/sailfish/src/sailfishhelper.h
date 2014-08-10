@@ -39,10 +39,7 @@ public:
 private slots:
     void callAdded(const QDBusMessage &msg);
     void callRemoved();
-    void connectionChanged(bool connected);
     bool eventFilter(QObject *obj, QEvent *event);
-    void hostRemoved();
-    void hostChanged(QModelIndex startIndex);
 
 private:
     QString lookupContact(QString phoneNumber);
