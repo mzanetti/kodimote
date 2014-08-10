@@ -408,7 +408,7 @@ MainView {
             }
             NowPlayingPage {
                 id: nowPlayingPage
-                timerActive: tabs.selectedTabIndex === 1
+                timerActive: pageStack.currentPage == nowPlayingPage
                 visible: false
 
                 keypadVisible: true
