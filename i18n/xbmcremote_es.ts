@@ -1,17 +1,17 @@
-<?xml version="1.0" ?><!DOCTYPE TS><TS language="tr_TR" version="2.1">
+<?xml version="1.0" ?><!DOCTYPE TS><TS language="es" version="2.1">
 <context>
     <name>AboutDialog</name>
     <message>
         <source>About</source>
-        <translation>Hakkında</translation>
+        <translation>Acerca de</translation>
     </message>
     <message>
         <source>Close</source>
-        <translation>Kapat</translation>
+        <translation>Cerrar</translation>
     </message>
     <message>
         <source>Donate</source>
-        <translation>Bağış Yap</translation>
+        <translation>Donar</translation>
     </message>
     <message>
         <source>Flattr</source>
@@ -19,7 +19,7 @@
     </message>
     <message>
         <source>Thanks to</source>
-        <translation>Teşekkürler</translation>
+        <translation>Gracias a</translation>
     </message>
     <message>
         <source>Copyright</source>
@@ -81,87 +81,87 @@
     <name>Albums</name>
     <message>
         <source>Albums</source>
-        <translation>Albümler</translation>
+        <translation>Álbumes</translation>
     </message>
 </context>
 <context>
     <name>Artists</name>
     <message>
         <source>Artists</source>
-        <translation>Sanatçılar</translation>
+        <translation>Artistas</translation>
     </message>
 </context>
 <context>
     <name>AudioLibrary</name>
     <message>
         <source>Artists</source>
-        <translation>Sanatçılar</translation>
+        <translation>Artistas</translation>
     </message>
     <message>
         <source>Albums</source>
-        <translation>Albümler</translation>
+        <translation>Álbumes</translation>
     </message>
     <message>
         <source>Titles</source>
-        <translation>Başlık</translation>
+        <translation>Títulos</translation>
     </message>
     <message>
         <source>Audio Library</source>
-        <translation>Ses Kütüphanesi</translation>
+        <translation>Biblioteca de Audio</translation>
     </message>
     <message>
         <source>Recently added</source>
-        <translation>Son Eklenenler</translation>
+        <translation>Agregado recientemente</translation>
     </message>
     <message>
         <source>Recently played</source>
-        <translation>Son Çalınanlar</translation>
+        <translation>Reproducido recientemente</translation>
     </message>
 </context>
 <context>
     <name>AudioPlaylist</name>
     <message>
         <source>Now Playing</source>
-        <translation>Şimdi Çalınan</translation>
+        <translation>Reproduciendo</translation>
     </message>
     <message>
         <source>Music</source>
-        <translation>Müzik</translation>
+        <translation>Música</translation>
     </message>
     <message>
         <source>Playlist</source>
-        <translation>Çalma Listesi</translation>
+        <translation>Lista de reproducción</translation>
     </message>
     <message>
         <source>Play</source>
-        <translation>Oynat</translation>
+        <translation>Reproducir</translation>
     </message>
     <message>
         <source>Remove from playlist</source>
-        <translation>Çalma Listesinden Kaldır</translation>
+        <translation>Eliminar de la lista de reproducción</translation>
     </message>
     <message>
         <source>Clear playlist</source>
-        <translation>Çalma Listesini Temizle</translation>
+        <translation>Borrar lista de reproducción</translation>
     </message>
 </context>
 <context>
     <name>AuthenticationDialog</name>
     <message>
         <source>Authentication</source>
-        <translation>Doğrulama</translation>
+        <translation>Autentificación</translation>
     </message>
     <message>
         <source>XBMC on %1 requires authentication:</source>
-        <translation>%1&apos;deki XBMC Doğrulama Gerektiriyor:</translation>
+        <translation>XBMC en %1 requiere autenticación:</translation>
     </message>
     <message>
         <source>Username:</source>
-        <translation>Kullanıcı Adı:</translation>
+        <translation>Usuario:</translation>
     </message>
     <message>
         <source>Password:</source>
-        <translation>Parola:</translation>
+        <translation>Contraseña:</translation>
     </message>
     <message>
         <source>Authenticate</source>
@@ -180,45 +180,45 @@
     <name>AuthenticationSheet</name>
     <message>
         <source>OK</source>
-        <translation>TAMAM</translation>
+        <translation>Aceptar</translation>
     </message>
     <message>
         <source>Cancel</source>
-        <translation>İptal</translation>
+        <translation>Cancelar</translation>
     </message>
     <message>
         <source>XBMC on %1 requires authentication:</source>
-        <translation>%1&apos;deki XBMC Doğrulama Gerektiriyor:</translation>
+        <translation>XBMC en %1 requiere autenticación:</translation>
     </message>
     <message>
         <source>Username:</source>
-        <translation>Kullanıcı Adı:</translation>
+        <translation>Usuario:</translation>
     </message>
     <message>
         <source>Password:</source>
-        <translation>Parola:</translation>
+        <translation>Contraseña:</translation>
     </message>
 </context>
 <context>
     <name>Browser</name>
     <message>
         <source>Update library</source>
-        <translation>Kütüphaneyi Güncelle</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Clean library</source>
-        <translation>Kutuphaneyi temizle</translation>
+        <translation>Limpiar biblioteca</translation>
     </message>
 </context>
 <context>
     <name>BrowserPage</name>
     <message>
         <source>Home</source>
-        <translation>Ana Ekran</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Sorting</source>
-        <translation>Sınıflandırma</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Keypad</source>
@@ -237,73 +237,73 @@
     <name>ChannelGroups</name>
     <message>
         <source>TV Channels</source>
-        <translation>Tv Kanalları</translation>
+        <translation>Canales de TV</translation>
     </message>
 </context>
 <context>
     <name>Channels</name>
     <message>
         <source>TV Channels</source>
-        <translation>Tv Kanalları</translation>
+        <translation>Canales de TV</translation>
     </message>
 </context>
 <context>
     <name>ConnectDialog</name>
     <message>
         <source>Host:</source>
-        <translation>Adres:</translation>
+        <translation>Anfitrión:</translation>
     </message>
     <message>
         <source>MAC Address (optional):</source>
-        <translation>MAD Adresi (opsiyonel):</translation>
+        <translation>Dirección MAC (opcional):</translation>
     </message>
     <message>
         <source>Connect</source>
-        <translation>Bağlan</translation>
+        <translation>Conectar</translation>
     </message>
     <message>
         <source>Add Host</source>
-        <translation>Adres Ekle</translation>
+        <translation>Agregar Anfitrion</translation>
     </message>
     <message>
         <source>Remove Host</source>
-        <translation>Adres Sil</translation>
+        <translation>Eliminar Anfitrión</translation>
     </message>
     <message>
         <source>HTTP Port:</source>
-        <translation>HTTP Portu:</translation>
+        <translation>Puerto HTTP:</translation>
     </message>
     <message>
         <source>Connect to XBMC</source>
-        <translation>XBMC&apos;a Baglan</translation>
+        <translation>Conectar a XBMC</translation>
     </message>
     <message>
         <source>Searching for XBMC hosts.</source>
-        <translation>XBMC adresleri araniyor.</translation>
+        <translation>Buscando anfitriones XBMC.</translation>
     </message>
     <message>
         <source>If you don&apos;t use Zeroconf, add a host manually.</source>
-        <translation>Eger Zeroconf kullanmiyorsaniz,adresleri elinizle ekleyin.</translation>
+        <translation>Si no utiliza Zeroconf agregue un anfitrión manualmente .</translation>
     </message>
     <message>
         <source>Allow control of XBMC via HTTP</source>
-        <translation>HTTP yoluyla XBMC kontrolune izin ver</translation>
+        <translation>Permitir el control de XBMC a través de HTTP</translation>
     </message>
     <message>
         <source>Allow programs on other systems to control XBMC</source>
-        <translation>Diger sistemlerdeki programlarin XBMC&apos;i yonetmesine izin ver</translation>
+        <translation>Permitir programas de otros sistemas controlar XBMC</translation>
     </message>
     <message>
         <source>Announce these services to other systems via Zeroconf</source>
-        <translation>Zeroconf ile bu servisleri diger sistemlere duyur</translation>
+        <translation>Anunciar estos servicios a otros sistemas a través Zeroconf</translation>
     </message>
     <message>
         <source>Back</source>
-        <translation>Geri</translation>
+        <translation>Atrás</translation>
     </message>
     <message>
         <source>Please enable the following options in the Services settings of XBMC:</source>
-        <translation>Lütfen XBMC&apos;nin Bağlantı Ayarlarından Gösterilen Seçenekleri Aktif Edin.</translation>
+        <translation>Por favor, habilitá las siguientes opciones en la configuración de Servicios de XBMC:</translation>
     </message>
 </context>
 <context>
@@ -373,67 +373,67 @@
     <name>ConnectionSheet</name>
     <message>
         <source>Connect</source>
-        <translation>Baglan</translation>
+        <translation>Conectar</translation>
     </message>
     <message>
         <source>Cancel</source>
-        <translation>Iptal</translation>
+        <translation>Cancelar</translation>
     </message>
     <message>
         <source>Searching for XBMC hosts.</source>
-        <translation>XBMC adresleri icin araniyor.</translation>
+        <translation>Buscando anfitriones XBMC</translation>
     </message>
     <message>
         <source>Please enable the following options in the Services settings of XBMC:</source>
-        <translation>Lütfen XBMC&apos;nin Bağlantı Ayarlarından Gösterilen Seçenekleri Aktif Edin.</translation>
+        <translation>Por favor, habilitá las siguientes opciones en la configuración de Servicios de XBMC:</translation>
     </message>
     <message>
         <source>Allow control of XBMC via HTTP</source>
-        <translation>HTTP ile XBMC kontrolune izin ver</translation>
+        <translation>Permitir el control de XBMC a través de HTTP</translation>
     </message>
     <message>
         <source>Allow programs on other systems to control XBMC</source>
-        <translation>Diger sistemlerdeki programlarin XBMC&apos;i yonetmesine izin ver</translation>
+        <translation>Permitir programas de otros sistemas controlar XBMC</translation>
     </message>
     <message>
         <source>Announce these services to other systems via Zeroconf</source>
-        <translation>Zeroconf ile bu servisleri diger sistemlere duyur</translation>
+        <translation>Anunciar estos servicios a otros sistemas a través Zeroconf</translation>
     </message>
     <message>
         <source>If you don&apos;t use Zeroconf, add a host manually.</source>
-        <translation>Eger Zeroconf kullanmiyorsaniz,adresleri elinizle ekleyin.</translation>
+        <translation>Si no utiliza Zeroconf agregue un anfitrión manualmente .</translation>
     </message>
     <message>
         <source>XBMC on %1</source>
-        <translation>%1&apos;de XBMC</translation>
+        <translation>XBMC en %1</translation>
     </message>
     <message>
         <source>Waking up %1...</source>
-        <translation>Uyanmaya %1...</translation>
+        <translation>Despertando %1...</translation>
     </message>
     <message>
         <source>Remove Host</source>
-        <translation>Adresi Sil</translation>
+        <translation>Eliminar Anfitrión</translation>
     </message>
     <message>
         <source>Add Host</source>
-        <translation>Adres Ekle</translation>
+        <translation>Agregar Anfitrión</translation>
     </message>
     <message>
         <source>Host:</source>
-        <translation>Adres:</translation>
+        <translation>Anfitrión:</translation>
     </message>
     <message>
         <source>HTTP Port:</source>
-        <translation>HTTP Portu:</translation>
+        <translation>Puerto HTTP:</translation>
     </message>
     <message>
         <source>MAC Address for WakeOnLan (optional):</source>
-        <translation>WakeOnLan icin MAC-Adresi (opsiyonel):</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Back</source>
-        <translation>Geri</translation>
+        <translation>Atrás</translation>
     </message>
 </context>
 <context>
@@ -455,138 +455,138 @@
     <name>DatePicker</name>
     <message>
         <source>Date</source>
-        <translation>Tarih</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Day</source>
-        <translation>Gün</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Month</source>
-        <translation>Ay</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Year</source>
-        <translation>Yıl</translation>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
     <name>DownloadDialog</name>
     <message>
         <source>Start download?</source>
-        <translation>İndirme Başlasın Mı ?</translation>
+        <translation>¿Comenzar descarga?</translation>
     </message>
     <message>
         <source>Start downloading %1?</source>
-        <translation>İndirme Başlmasına %1?</translation>
+        <translation>¿Comenzar descarga %1?</translation>
     </message>
     <message>
         <source>Yes</source>
-        <translation>Evet</translation>
+        <translation>Sí</translation>
     </message>
     <message>
         <source>No</source>
-        <translation>Hayır</translation>
+        <translation>No</translation>
     </message>
 </context>
 <context>
     <name>Episodes</name>
     <message>
         <source>Episodes</source>
-        <translation>Maceralar</translation>
+        <translation>Capítulos</translation>
     </message>
 </context>
 <context>
     <name>HomeMenu</name>
     <message>
         <source>Music</source>
-        <translation>Muzik</translation>
+        <translation>Música</translation>
     </message>
     <message>
         <source>Videos</source>
-        <translation>Videolar</translation>
+        <translation>Videos</translation>
     </message>
     <message>
         <source>Pictures</source>
-        <translation>Fotograflar</translation>
+        <translation>Fotos</translation>
     </message>
     <message>
         <source>Files</source>
-        <translation>Dosyalar</translation>
+        <translation>Archivos</translation>
     </message>
     <message>
         <source>Library</source>
-        <translation>Kutuphane</translation>
+        <translation>Biblioteca</translation>
     </message>
 </context>
 <context>
     <name>HostList</name>
     <message>
         <source>Add</source>
-        <translation>Ekle</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Remove</source>
-        <translation>Çıkar</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Connect</source>
-        <translation>Bağlan</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Host:</source>
-        <translation>Bilgisayar:</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Port:</source>
-        <translation>Port:</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>MAC Address for WakeOnLan (optional):</source>
-        <translation>WakeOnLan icin MAC-Adresi (opsiyonel):</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>OK</source>
-        <translation>TAMAM</translation>
+        <translation>Aceptar</translation>
     </message>
     <message>
         <source>Cancel</source>
-        <translation>Iptal</translation>
+        <translation>Cancelar</translation>
     </message>
 </context>
 <context>
     <name>ItemDetails</name>
     <message>
         <source>Rating:</source>
-        <translation>Derece:</translation>
+        <translation>Calificación:</translation>
     </message>
     <message>
         <source>Season:</source>
-        <translation>Sezon:</translation>
+        <translation>Temporada:</translation>
     </message>
     <message>
         <source>Episode:</source>
-        <translation>Bolum:</translation>
+        <translation>Capítulo:</translation>
     </message>
     <message>
         <source>First aired:</source>
-        <translation>Ilk yayinlanma:</translation>
+        <translation>Emitido por primera vez:</translation>
     </message>
     <message>
         <source>Genre:</source>
-        <translation>Turu:</translation>
+        <translation>Género:</translation>
     </message>
     <message>
         <source>Year:</source>
-        <translation>Yil:</translation>
+        <translation>Año:</translation>
     </message>
     <message>
         <source>Director:</source>
-        <translation>Yonetmen:</translation>
+        <translation>Director:</translation>
     </message>
     <message>
         <source>Tagline:</source>
-        <translation>Tagline:</translation>
+        <translation>Línea argumental:</translation>
     </message>
     <message>
         <source>MPAA:</source>
@@ -594,63 +594,63 @@
     </message>
     <message>
         <source>Instrument:</source>
-        <translation>Enstruman:</translation>
+        <translation>Instrumento:</translation>
     </message>
     <message>
         <source>Style:</source>
-        <translation>Stil:</translation>
+        <translation>Estilo:</translation>
     </message>
     <message>
         <source>Mood:</source>
-        <translation>Mood:</translation>
+        <translation>Ánimo:</translation>
     </message>
     <message>
         <source>Born:</source>
-        <translation>Dogum:</translation>
+        <translation>Nacimiento:</translation>
     </message>
     <message>
         <source>Formed:</source>
-        <translation>Olusturulma:</translation>
+        <translation>Formado:</translation>
     </message>
     <message>
         <source>Died:</source>
-        <translation>Olum:</translation>
+        <translation>Muerte:</translation>
     </message>
     <message>
         <source>Disbanded:</source>
-        <translation>Dagilma:</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Duration:</source>
-        <translation>Sure:</translation>
+        <translation>Duración</translation>
     </message>
     <message>
         <source>Comment:</source>
-        <translation>Yorum:</translation>
+        <translation>Comentario:</translation>
     </message>
     <message>
         <source>Playcount:</source>
-        <translation>Oynatma sayisi:</translation>
+        <translation>Reproducciones:</translation>
     </message>
     <message>
         <source>Cast:</source>
-        <translation>Oyuncular:</translation>
+        <translation>Elenco:</translation>
     </message>
     <message>
         <source>Play</source>
-        <translation>Oynat</translation>
+        <translation>Reproducir</translation>
     </message>
     <message>
         <source>Add to playlist</source>
-        <translation>Playlist&apos;e ekle</translation>
+        <translation>Agregar a la lista de reproducción</translation>
     </message>
     <message>
         <source>Download</source>
-        <translation>Indir</translation>
+        <translation>Descargar</translation>
     </message>
     <message>
         <source>Title:</source>
-        <translation>Başlık:</translation>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -676,78 +676,78 @@
     <name>LibraryView</name>
     <message>
         <source>Play</source>
-        <translation>Oynat</translation>
+        <translation>Reproducir</translation>
     </message>
     <message>
         <source>Add to playlist</source>
-        <translation>Playlist&apos;e ekle</translation>
+        <translation>Agregar a la lista de reproducción</translation>
     </message>
     <message>
         <source>Rescan library</source>
-        <translation>Kutuphaneyi tekrar tara</translation>
+        <translation>Reescanear biblioteca</translation>
     </message>
     <message>
         <source>Details</source>
-        <translation>Detaylar</translation>
+        <translation>Detalles</translation>
     </message>
     <message>
         <source>Download</source>
-        <translation>Indir</translation>
+        <translation>Descargar</translation>
     </message>
 </context>
 <context>
     <name>MainPage</name>
     <message>
         <source>XBMC on %1</source>
-        <translation>%1&apos;de XBMC</translation>
+        <translation>XBMC en %1</translation>
     </message>
     <message>
         <source>Music</source>
-        <translation>Muzik</translation>
+        <translation>Música</translation>
     </message>
     <message>
         <source>Videos</source>
-        <translation>Videolar</translation>
+        <translation>Videos</translation>
     </message>
     <message>
         <source>Pictures</source>
-        <translation>Fotograflar</translation>
+        <translation>Fotos</translation>
     </message>
     <message>
         <source>TV Channels</source>
-        <translation>Tv Kanalları </translation>
+        <translation>Canales de TV</translation>
     </message>
     <message>
         <source>Library</source>
-        <translation>Kutuphane</translation>
+        <translation>Biblioteca</translation>
     </message>
     <message>
         <source>Files</source>
-        <translation>Dosyalar</translation>
+        <translation>Archivos</translation>
     </message>
     <message>
         <source>Show files</source>
-        <translation>Dosyalari goster</translation>
+        <translation>Mostrar archivos</translation>
     </message>
     <message>
         <source>Show library</source>
-        <translation>Kutuphaneyi goster</translation>
+        <translation>Mostrar biblioteca</translation>
     </message>
     <message>
         <source>Rescan library</source>
-        <translation>Kutuphaneyi tekrar tara</translation>
+        <translation>Reescanear biblioteca</translation>
     </message>
     <message>
         <source>Clean library</source>
-        <translation>Kutuphaneyi temizle</translation>
+        <translation>Limpiar biblioteca</translation>
     </message>
     <message>
         <source>Options</source>
-        <translation>Ayarlar</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Settings</source>
-        <translation>Ayarlar</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Keypad</source>
@@ -778,31 +778,31 @@
     <name>MainWindow</name>
     <message>
         <source>Connect...</source>
-        <translation>Baglan...</translation>
+        <translation>Conectar</translation>
     </message>
     <message>
         <source>Settings</source>
-        <translation>Ayarlar</translation>
+        <translation>Configuración</translation>
     </message>
     <message>
         <source>About</source>
-        <translation>Hakkinda</translation>
+        <translation>Acerca de</translation>
     </message>
     <message>
         <source>Incoming call</source>
-        <translation>Gelen arama</translation>
+        <translation>Llamada entrante</translation>
     </message>
     <message>
         <source>Download started: %1</source>
-        <translation>Indirme baslatildi: %1</translation>
+        <translation>Descarga comenzada: %1</translation>
     </message>
     <message>
         <source>Download finished: %1</source>
-        <translation>Indirme tamamlandi: %1</translation>
+        <translation>Descarga completa: %1</translation>
     </message>
     <message>
         <source>Error downloading %1</source>
-        <translation>Indirmede hata %1</translation>
+        <translation>Error descargando %1</translation>
     </message>
 </context>
 <context>
@@ -816,44 +816,44 @@
     <name>MeeGoHelper</name>
     <message>
         <source>Incoming call</source>
-        <translation>Gelen Arama</translation>
+        <translation>Llamada entrante</translation>
     </message>
 </context>
 <context>
     <name>Movies</name>
     <message>
         <source>Movies</source>
-        <translation>Filmler</translation>
+        <translation>Películas</translation>
     </message>
 </context>
 <context>
     <name>MusicVideos</name>
     <message>
         <source>Music Videos</source>
-        <translation>Klipler</translation>
+        <translation>Videos Musicales</translation>
     </message>
 </context>
 <context>
     <name>NfcHandler</name>
     <message>
         <source>NFC tag is not compatible with Xbmcremote. In order to use it with Xbmcremote you need to write connection information to it.</source>
-        <translation>NFC tagleri Xbmcremote ile uyumlu degil.Xbmcremote ile kullanabilmeniz icin baglanti detaylari yazmaniz gerekiyor.</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>NFC tag is outdated. In order to use it with Xbmcremote you need to update it by rewriting connection information to it.</source>
-        <translation>NFC tag&apos;in suresi dolmus.Xbmcremote ile kullanabilmeniz icin baglanti bilgilerini tekrar yazmaniz gerekiyor.</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Tag written successfully. NOTE: This tag does not offer enough space to write all informations. Wake on LAN will not work with this tag.</source>
-        <translation>Tag basariyla yazildi.NOT: Bu tag size butun bilgileri yazmaniz icin yeterli alan vermez.Wake On LAN bu tag ile calismaz.</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Tag written successfully.</source>
-        <translation>Tag basariyla yazildi.</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Error writing NFC tag.</source>
-        <translation>NFC Tag&apos;i yazilirken hata olustu.</translation>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -879,61 +879,61 @@
     <name>NoConnectionPage</name>
     <message>
         <source>Connect...</source>
-        <translation>Bağlan...</translation>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
     <name>NowPlaying</name>
     <message>
         <source>Year:</source>
-        <translation>Yil:</translation>
+        <translation>Año:</translation>
     </message>
     <message>
         <source>Season:</source>
-        <translation>Sezon:</translation>
+        <translation>Temporada:</translation>
     </message>
     <message>
         <source>Episode:</source>
-        <translation>Bolum:</translation>
+        <translation>Capítulo:</translation>
     </message>
     <message>
         <source>Rating:</source>
-        <translation>Derece:</translation>
+        <translation>Calificación:</translation>
     </message>
 </context>
 <context>
     <name>NowPlayingDetails</name>
     <message>
         <source>Rating:</source>
-        <translation>Derece:</translation>
+        <translation>Calificación:</translation>
     </message>
     <message>
         <source>Season:</source>
-        <translation>Sezon:</translation>
+        <translation>Temporada:</translation>
     </message>
     <message>
         <source>Episode:</source>
-        <translation>Bolum:</translation>
+        <translation>Capítulo:</translation>
     </message>
     <message>
         <source>First aired:</source>
-        <translation>Ilk yayinlanma:</translation>
+        <translation>Emitido por primera vez:</translation>
     </message>
     <message>
         <source>Genre:</source>
-        <translation>Turu:</translation>
+        <translation>Género:</translation>
     </message>
     <message>
         <source>Year:</source>
-        <translation>Yil:</translation>
+        <translation>Año:</translation>
     </message>
     <message>
         <source>Director:</source>
-        <translation>Yonetmen:</translation>
+        <translation>Director:</translation>
     </message>
     <message>
         <source>Tagline:</source>
-        <translation>Tagline:</translation>
+        <translation>Línea argumental:</translation>
     </message>
     <message>
         <source>MPAA:</source>
@@ -941,110 +941,110 @@
     </message>
     <message>
         <source>Instrument:</source>
-        <translation>Enstruman:</translation>
+        <translation>Instrumento:</translation>
     </message>
     <message>
         <source>Style:</source>
-        <translation>Stil:</translation>
+        <translation>Estilo:</translation>
     </message>
     <message>
         <source>Mood:</source>
-        <translation>Mood:</translation>
+        <translation>Ánimo:</translation>
     </message>
     <message>
         <source>Born:</source>
-        <translation>Dogum:</translation>
+        <translation>Nacimiento:</translation>
     </message>
     <message>
         <source>Formed:</source>
-        <translation>Olusturulma:</translation>
+        <translation>Formado:</translation>
     </message>
     <message>
         <source>Died:</source>
-        <translation>Olum:</translation>
+        <translation>Muerte:</translation>
     </message>
     <message>
         <source>Disbanded:</source>
-        <translation>Dagilma:</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Duration:</source>
-        <translation>Sure:</translation>
+        <translation>Duración</translation>
     </message>
     <message>
         <source>Comment:</source>
-        <translation>Yorum:</translation>
+        <translation>Comentario:</translation>
     </message>
     <message>
         <source>Playcount:</source>
-        <translation>Oynatma sayisi:</translation>
+        <translation>Reproducciones:</translation>
     </message>
     <message>
         <source>Cast:</source>
-        <translation>Oyuncular:</translation>
+        <translation>Elenco:</translation>
     </message>
 </context>
 <context>
     <name>NowPlayingPage</name>
     <message>
         <source>Select audio track</source>
-        <translation>Ses Parçasını Seçin</translation>
+        <translation>Seleccione pista de audio</translation>
     </message>
     <message>
         <source>Off</source>
-        <translation>Kapat</translation>
+        <translation>Apagado</translation>
     </message>
     <message>
         <source>Select subtitle</source>
-        <translation>Altyazıyı Seçin</translation>
+        <translation>Seleccione subtítulo</translation>
     </message>
     <message>
         <source>Season:</source>
-        <translation>Sezon:</translation>
+        <translation>Temporada:</translation>
     </message>
     <message>
         <source>Episode:</source>
-        <translation>Bolum:</translation>
+        <translation>Capítulo:</translation>
     </message>
     <message>
         <source>Rating:</source>
-        <translation>Derece:</translation>
+        <translation>Calificación:</translation>
     </message>
     <message>
         <source>Year:</source>
-        <translation>Yil:</translation>
+        <translation>Año:</translation>
     </message>
     <message>
         <source>Cancel</source>
-        <translation>Iptal</translation>
+        <translation>Cancelar</translation>
     </message>
     <message>
         <source>OK</source>
-        <translation>TAMAM</translation>
+        <translation>Aceptar</translation>
     </message>
     <message>
         <source>Repeat</source>
-        <translation>Tekrar</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Audio track</source>
-        <translation>Ses Parçası</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>No active playback. Please select some content from the media tab.</source>
-        <translation>Playback Yok. Lütfen Medya Menüsünden İçerik Seçin.</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Play</source>
-        <translation>Oynat</translation>
+        <translation>Reproducir</translation>
     </message>
     <message>
         <source>Remove from playlist</source>
-        <translation>Playlistten kaldir</translation>
+        <translation>Eliminar de la lista de reproducción</translation>
     </message>
     <message>
         <source>Clear playlist</source>
-        <translation>Playlisti temizle</translation>
+        <translation>Borrar lista de reproducción</translation>
     </message>
     <message>
         <source>Media</source>
@@ -1091,37 +1091,37 @@
     <name>NowPlayingView</name>
     <message>
         <source>Now playing:</source>
-        <translation>Simdi caliniyor:</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Track:</source>
-        <translation>Parca:</translation>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
     <name>PlaylistPage</name>
     <message>
         <source>Play</source>
-        <translation>Oynat</translation>
+        <translation>Reproducir</translation>
     </message>
     <message>
         <source>Remove from playlist</source>
-        <translation>Playlistten kaldir</translation>
+        <translation>Eliminar de la lista de reproducción</translation>
     </message>
     <message>
         <source>Clear playlist</source>
-        <translation>Playlisti temizle</translation>
+        <translation>Borrar lista de reproducción</translation>
     </message>
 </context>
 <context>
     <name>PopupDialog</name>
     <message>
         <source>Xbmc on %1</source>
-        <translation>Xbmc %1&apos;de</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Connect to...</source>
-        <translation>Bağlan ...</translation>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -1186,27 +1186,27 @@
     <name>RecentItems</name>
     <message>
         <source>Albums</source>
-        <translation>Albümler</translation>
+        <translation>Álbumes</translation>
     </message>
     <message>
         <source>Songs</source>
-        <translation>Şarkılar</translation>
+        <translation>Canciones</translation>
     </message>
     <message>
         <source>Movies</source>
-        <translation>Filmler</translation>
+        <translation>Películas</translation>
     </message>
     <message>
         <source>Episodes</source>
-        <translation>Bölüm</translation>
+        <translation>Capítulos</translation>
     </message>
     <message>
         <source>Music Videos</source>
-        <translation>Klipler</translation>
+        <translation>Videos Musicales</translation>
     </message>
     <message>
         <source>Recently added</source>
-        <translation>Son Eklenenler</translation>
+        <translation>Agregado recientemente</translation>
     </message>
 </context>
 <context>
@@ -1220,38 +1220,38 @@
     <name>Seasons</name>
     <message>
         <source>Seasons</source>
-        <translation>Sezonlar</translation>
+        <translation>Temporadas</translation>
     </message>
 </context>
 <context>
     <name>SettingsDialog</name>
     <message>
         <source>Settings</source>
-        <translation>Ayarlar</translation>
+        <translation>Configuración</translation>
     </message>
     <message>
         <source>Use Thumbnails</source>
-        <translation>Thumbnailleri kullan</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Change volume during calls</source>
-        <translation>Aramalarda ses seviyesini degistir</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Pause video during calls</source>
-        <translation>Aramalarda videoyu duraklat</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Pause music during calls</source>
-        <translation>Aramalarda muzigi duraklat</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Ignore articles for sorting</source>
-        <translation>Siralama icin yazilari yoksay</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Show call notifications</source>
-        <translation>Arama bildirimlerini goster</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Save</source>
@@ -1302,71 +1302,71 @@
     <name>SettingsSheet</name>
     <message>
         <source>Save</source>
-        <translation>Kaydet</translation>
+        <translation>Guardar</translation>
     </message>
     <message>
         <source>Cancel</source>
-        <translation>Iptal</translation>
+        <translation>Cancelar</translation>
     </message>
     <message>
         <source>Look and feel</source>
-        <translation>Bak ve hisset</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Invert theme</source>
-        <translation>Temayi cevir</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Use Thumbnails</source>
-        <translation>Thumbnailleri kullan</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Keep display on when charging</source>
-        <translation>Sarj olurken goruntuyu koru</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Ignore articles for sorting</source>
-        <translation>Siralama icin yazilari yoksay</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Music</source>
-        <translation>Müzik</translation>
+        <translation>Música</translation>
     </message>
     <message>
         <source>Videos</source>
-        <translation>Videolar</translation>
+        <translation>Videos</translation>
     </message>
     <message>
         <source>Pictures</source>
-        <translation>Resimler</translation>
+        <translation>Fotos</translation>
     </message>
     <message>
         <source>TV Channels</source>
-        <translation>Tv Kanalları</translation>
+        <translation>Canales de TV</translation>
     </message>
     <message>
         <source>Phone calls</source>
-        <translation>Telefon aramalari</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Change volume</source>
-        <translation>Ses seviyesini degistir</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Pause video</source>
-        <translation>Videoyu duraklat</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Pause music</source>
-        <translation>Muzigi duraklat</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Show call notifications</source>
-        <translation>Arama bildirimlerini goster</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Used media</source>
-        <translation>Kullanılan Medya</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Media browser settings</source>
@@ -1385,143 +1385,143 @@
     <name>Shares</name>
     <message>
         <source>Music Files</source>
-        <translation>Muzik Dosyalari</translation>
+        <translation>Archivos  de Música</translation>
     </message>
     <message>
         <source>Video Files</source>
-        <translation>Video Dosyalari</translation>
+        <translation>Archivos de Video</translation>
     </message>
     <message>
         <source>Picture Files</source>
-        <translation>Fotograf Dosyalari</translation>
+        <translation>Archivos de Imágenes</translation>
     </message>
     <message>
         <source>Music</source>
-        <translation>Müzik</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Videos</source>
-        <translation>Videolar</translation>
+        <translation>Videos</translation>
     </message>
     <message>
         <source>Shares</source>
-        <translation>Paylaşılanlar</translation>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
     <name>Songs</name>
     <message>
         <source>Songs</source>
-        <translation>Sarkilar</translation>
+        <translation>Canciones</translation>
     </message>
 </context>
 <context>
     <name>TimePicker</name>
     <message>
         <source>Time</source>
-        <translation>Zaman</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Hour</source>
-        <translation>Saat</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Minute</source>
-        <translation>Dakika</translation>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
     <name>TvShows</name>
     <message>
         <source>TV Shows</source>
-        <translation>TV Sovları</translation>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
     <name>VideoLibrary</name>
     <message>
         <source>Video Library</source>
-        <translation>Film Kutuphanesi</translation>
+        <translation>Biblioteca de Video</translation>
     </message>
     <message>
         <source>Movies</source>
-        <translation>Filmler</translation>
+        <translation>Películas</translation>
     </message>
     <message>
         <source>TV Shows</source>
-        <translation>TV Sovları</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Music Videos</source>
-        <translation>Klipler</translation>
+        <translation>Videos Musicales</translation>
     </message>
     <message>
         <source>Recently added</source>
-        <translation>Son Eklenenler</translation>
+        <translation>Agregado recientemente</translation>
     </message>
 </context>
 <context>
     <name>VideoPlaylist</name>
     <message>
         <source>Now Playing</source>
-        <translation>Simdi Caliniyor</translation>
+        <translation>Reproduciendo</translation>
     </message>
     <message>
         <source>Videos</source>
-        <translation>Videolar</translation>
+        <translation>Videos</translation>
     </message>
 </context>
 <context>
     <name>WriteNfcTagSheet</name>
     <message>
         <source>Tap a NFC tag to write XBMC connection information to it. You can then use the tag to connect to this XBMC.</source>
-        <translation>Baglanti bilgilerini yazmak icin NFC Tag&apos;inin uzerine dokunun.Ondan sonra XBMC&apos;e baglanmak icin Tag&apos;i kullanabilirsiniz.</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Close</source>
-        <translation>Kapat</translation>
+        <translation>Cerrar</translation>
     </message>
     <message>
         <source>Cancel</source>
-        <translation>Iptal</translation>
+        <translation>Cancelar</translation>
     </message>
     <message>
         <source>Write NFC Tag</source>
-        <translation>NFC Tag&apos;i yaz</translation>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
     <name>Xbmc</name>
     <message>
         <source>Finished downloading %1</source>
-        <translation>Indirme bitiriliyor %1</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Error downloading %1</source>
-        <translation>Indirilirken hata %1</translation>
+        <translation>Error descargando %1</translation>
     </message>
 </context>
 <context>
     <name>XbmcConnection::XbmcConnectionPrivate</name>
     <message>
         <source>Connecting to %1...</source>
-        <translation>%1&apos;a baglaniliyor...</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>The connection has been disconnected</source>
-        <translation>Baglanti kesildi</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Connection failed: %1</source>
-        <translation>Baglanti kurulamadi: %1</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Connection to %1 timed out...</source>
-        <translation>%1&apos;a yapilan baglantida zaman asildi ...</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>This version of Xbmcremote is designed to work with XBMC Frodo (v12.0). It seems you have connected to an older version of XMBC. Please upgrade XBMC in order to use Xbmcremote.</source>
-        <translation>Xbmcremote&apos;un Bu Versiyonu XBMC Frodo (v12.0) İle Çalışması İçin Tasarlandı. XMBC&apos;nin Eski Versiyonunu Kullanıyorsunuz. Xbmcremote&apos;yi Kullanmak İçin Lütfen XBMC&apos;yi Güncelleştirin.</translation>
+        <translation>Esta versión de Xbmcremote está diseñada para funcionar con XBMC Frodo (v12.0). Parece que se ha conectado a una versión anterior de XBMC. Por favor, actualice XBMC para poder utilizar Xbmcremote.</translation>
     </message>
 </context>
 <context>
@@ -1543,51 +1543,51 @@
     <name>main</name>
     <message>
         <source>Connect...</source>
-        <translation>Baglan...</translation>
+        <translation>Conectar</translation>
     </message>
     <message>
         <source>Quit xbmc</source>
-        <translation>XBMC&apos;den cik</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Write NFC Tag</source>
-        <translation>NFC Tag&apos;i yaz</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Settings</source>
-        <translation>Ayarlar</translation>
+        <translation>Configuración</translation>
     </message>
     <message>
         <source>About</source>
-        <translation>Hakkinda</translation>
+        <translation>Acerca de</translation>
     </message>
     <message>
         <source>OK</source>
-        <translation>TAMAM</translation>
+        <translation>Aceptar</translation>
     </message>
     <message>
         <source>Cancel</source>
-        <translation>Iptal</translation>
+        <translation>Cancelar</translation>
     </message>
     <message>
         <source>Quit</source>
-        <translation>Cikis</translation>
+        <translation>Salir</translation>
     </message>
     <message>
         <source>Shutdown</source>
-        <translation>Bilgisayari Kapat</translation>
+        <translation>Apagar</translation>
     </message>
     <message>
         <source>Reboot</source>
-        <translation>Yeniden Baslat</translation>
+        <translation>Reiniciar</translation>
     </message>
     <message>
         <source>Suspend</source>
-        <translation>Bekleme Moduna Al</translation>
+        <translation>Suspender</translation>
     </message>
     <message>
         <source>Hibernate</source>
-        <translation>Uyku Moduna Al</translation>
+        <translation>Hibernar</translation>
     </message>
     <message>
         <source>Copyright</source>
@@ -1595,11 +1595,11 @@
     </message>
     <message>
         <source>Close</source>
-        <translation>Kapat</translation>
+        <translation>Cerrar</translation>
     </message>
     <message>
         <source>Donate</source>
-        <translation>Bagis</translation>
+        <translation>Donar</translation>
     </message>
     <message>
         <source>Flattr</source>
@@ -1607,67 +1607,67 @@
     </message>
     <message>
         <source>Searching for XBMC hosts.</source>
-        <translation>XBMC&apos;yi Ara.</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Please enable the following options in the Services settings of XBMC:</source>
-        <translation>Lütfen XBMC&apos;nin Bağlantı Ayarlarından Göseterile Seçenekleri Aktifleştirin:</translation>
+        <translation>Por favor, habilitá las siguientes opciones en la configuración de Servicios de XBMC:</translation>
     </message>
     <message>
         <source>Allow control of XBMC via HTTP</source>
-        <translation>Web Arayüzü Üzerinden Kontrole İzin Ver</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Allow programs on other systems to control XBMC</source>
-        <translation>Uzaktan Programla Denetime İzin ver</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Announce these services to other systems via Zeroconf</source>
-        <translation>Zeroconf Yayını</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>If you don&apos;t use Zeroconf, add a host manually.</source>
-        <translation>Eğer Zeroconf Kullanmıyorsanız Lütfen XBMC&apos;yi Elle Aktifleştirin.</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Remove</source>
-        <translation>Kaldır</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Wake up</source>
-        <translation>Uyandır</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Add host</source>
-        <translation>Adres Ekle</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Name:</source>
-        <translation>İsim:</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Hostname or IP Address:</source>
-        <translation>Host Adı Veya Ip Adresi :</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Port:</source>
-        <translation>Port:</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Mac Address:</source>
-        <translation>Mac Adresi :</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>XBMC on %1 requires authentication:</source>
-        <translation>%1&apos;deki XBMC Doğrulama Gerektiriyor:</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Username</source>
-        <translation>Kullanıcı Adı</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Password</source>
-        <translation>Parola</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Connecting...</source>

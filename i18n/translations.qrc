@@ -1,21 +1,26 @@
 <RCC>
     <qresource prefix="/">
-        <file>xbmcremote_ar.qm</file>
-        <file>xbmcremote_de.qm</file>
-        <file>xbmcremote_el.qm</file>
-        <file>xbmcremote_en.qm</file>
-        <file>xbmcremote_es_AR.qm</file>
-        <file>xbmcremote_fi.qm</file>
-        <file>xbmcremote_fr.qm</file>
-        <file>xbmcremote_it.qm</file>
-        <file>xbmcremote_nl.qm</file>
-        <file>xbmcremote_pl.qm</file>
-        <file>xbmcremote_pt_BR.qm</file>
-        <file>xbmcremote_pt.qm</file>
-        <file>xbmcremote_ro.qm</file>
-        <file>xbmcremote_sv.qm</file>
-        <file>xbmcremote_tr.qm</file>
-        <file>xbmcremote_tr_TR.qm</file>
-        <file>xbmcremote_zh.qm</file>
+        <file>i18n/xbmcremote_ar.qm</file>
+        <file>i18n/xbmcremote_cs_CZ.qm</file>
+        <file>i18n/xbmcremote_de_AT.qm</file>
+        <file>i18n/xbmcremote_de.qm</file>
+        <file>i18n/xbmcremote_el.qm</file>
+        <file>i18n/xbmcremote_es_AR.qm</file>
+        <file>i18n/xbmcremote_es.qm</file>
+        <file>i18n/xbmcremote_fi.qm</file>
+        <file>i18n/xbmcremote_fr.qm</file>
+        <file>i18n/xbmcremote_is_IS.qm</file>
+        <file>i18n/xbmcremote_nl.qm</file>
+        <file>i18n/xbmcremote_pl.qm</file>
+        <file>i18n/xbmcremote_pt_BR.qm</file>
+        <file>i18n/xbmcremote_pt.qm</file>
+        <file>i18n/xbmcremote_ro.qm</file>
+        <file>i18n/xbmcremote_ru.qm</file>
+        <file>i18n/xbmcremote_sq.qm</file>
+        <file>i18n/xbmcremote_sv.qm</file>
+        <file>i18n/xbmcremote_tr.qm</file>
+        <file>i18n/xbmcremote_tr_TR.qm</file>
+        <file>i18n/xbmcremote_vi.qm</file>
+        <file>i18n/xbmcremote_zh.qm</file>
     </qresource>
 </RCC>
