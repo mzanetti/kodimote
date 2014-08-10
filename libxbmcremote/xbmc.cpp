@@ -550,21 +550,14 @@ void Xbmc::volumeUp()
 {
     XbmcHost *host = XbmcConnection::connectedHost();
     if (host) {
-        int stepping = host->volumeStepping();
-        int volume = m_volume + stepping;
         XbmcHost::VolumeControlType type = host->volumeControlType();
-        if (type == XbmcHost::VolumeControlTypeCustom) {
-            QStringList args = XbmcConnection::connectedHost()->volumeUpCommand().split(" ");
-            QString cmd = args.takeFirst();
-
-            args << QString::number(volume);
-            qDebug() << "executing command:" << cmd << args << QProcess::execute(cmd, args);
-        } else if (type == XbmcHost::VolumeControlTypeRelative) {
+        if (type == XbmcHost::VolumeControlTypeRelative) {
             QVariantMap map;
             map.insert("volume", "increment");
             XbmcConnection::sendCommand("Application.SetVolume", map);
         } else {
-            this->setVolume(volume);
+            int stepping = host->volumeStepping();
+            this->setVolume(m_volume + stepping);
         }
     }
 }
@@ -573,21 +566,14 @@ void Xbmc::volumeDown()
 {
     XbmcHost *host = XbmcConnection::connectedHost();
     if (host) {
-        int stepping = host->volumeStepping();
-        int volume = m_volume - stepping;
         XbmcHost::VolumeControlType type = host->volumeControlType();
-        if (type == XbmcHost::VolumeControlTypeCustom) {
-            QStringList args = XbmcConnection::connectedHost()->volumeUpCommand().split(" ");
-            QString cmd = args.takeFirst();
-
-            args << QString::number(volume);
-            qDebug() << "executing command:" << cmd << args << QProcess::execute(cmd, args);
-        } else if (type == XbmcHost::VolumeControlTypeRelative) {
+        if (type == XbmcHost::VolumeControlTypeRelative) {
             QVariantMap map;
             map.insert("volume", "decrement");
             XbmcConnection::sendCommand("Application.SetVolume", map);
         } else {
-            this->setVolume(volume);
+            int stepping = host->volumeStepping();
+            this->setVolume(m_volume - stepping);
         }
     }
 }
