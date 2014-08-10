@@ -2062,8 +2062,8 @@
         <location filename="../apps/harmattan/qml/main.qml" line="210"/>
         <location filename="../apps/harmattan/qml/main.qml" line="231"/>
         <location filename="../apps/harmattan/qml/main.qml" line="253"/>
-        <location filename="../apps/ubuntu/qml/main.qml" line="372"/>
-        <location filename="../apps/ubuntu/qml/main.qml" line="495"/>
+        <location filename="../apps/ubuntu/qml/main.qml" line="445"/>
+        <location filename="../apps/ubuntu/qml/main.qml" line="573"/>
         <source>OK</source>
         <translation>OK</translation>
     </message>
@@ -2072,9 +2072,9 @@
         <location filename="../apps/harmattan/qml/main.qml" line="232"/>
         <location filename="../apps/harmattan/qml/main.qml" line="254"/>
         <location filename="../apps/harmattan/qml/main.qml" line="359"/>
-        <location filename="../apps/ubuntu/qml/main.qml" line="210"/>
-        <location filename="../apps/ubuntu/qml/main.qml" line="364"/>
-        <location filename="../apps/ubuntu/qml/main.qml" line="490"/>
+        <location filename="../apps/ubuntu/qml/main.qml" line="211"/>
+        <location filename="../apps/ubuntu/qml/main.qml" line="437"/>
+        <location filename="../apps/ubuntu/qml/main.qml" line="568"/>
         <source>Cancel</source>
         <translation>Abbrechen</translation>
     </message>
@@ -2124,100 +2124,132 @@
         <translation>Flattr</translation>
     </message>
     <message>
-        <location filename="../apps/ubuntu/qml/main.qml" line="107"/>
+        <location filename="../apps/ubuntu/qml/main.qml" line="108"/>
         <source>Connecting...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../apps/ubuntu/qml/main.qml" line="107"/>
+        <location filename="../apps/ubuntu/qml/main.qml" line="108"/>
         <source>Select Host</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../apps/ubuntu/qml/main.qml" line="163"/>
+        <location filename="../apps/ubuntu/qml/main.qml" line="164"/>
         <source>Searching for XBMC hosts.</source>
         <translation>Suche XBMC.</translation>
     </message>
     <message>
-        <location filename="../apps/ubuntu/qml/main.qml" line="164"/>
-        <location filename="../apps/ubuntu/qml/main.qml" line="204"/>
+        <location filename="../apps/ubuntu/qml/main.qml" line="165"/>
+        <location filename="../apps/ubuntu/qml/main.qml" line="205"/>
         <source>Please enable the following options in the Services settings of XBMC:</source>
         <translation>Bitte aktivieren Sie folgende Optionen in den Dienst-Einstellungen in XBMC:</translation>
     </message>
     <message>
-        <location filename="../apps/ubuntu/qml/main.qml" line="165"/>
-        <location filename="../apps/ubuntu/qml/main.qml" line="205"/>
+        <location filename="../apps/ubuntu/qml/main.qml" line="166"/>
+        <location filename="../apps/ubuntu/qml/main.qml" line="206"/>
         <source>Allow control of XBMC via HTTP</source>
         <translation>Steuerung über Webinterface zulassen</translation>
     </message>
     <message>
-        <location filename="../apps/ubuntu/qml/main.qml" line="166"/>
-        <location filename="../apps/ubuntu/qml/main.qml" line="206"/>
+        <location filename="../apps/ubuntu/qml/main.qml" line="167"/>
+        <location filename="../apps/ubuntu/qml/main.qml" line="207"/>
         <source>Allow programs on other systems to control XBMC</source>
         <translation>Stuerung über entfernte Programme zulassen</translation>
     </message>
     <message>
-        <location filename="../apps/ubuntu/qml/main.qml" line="167"/>
+        <location filename="../apps/ubuntu/qml/main.qml" line="168"/>
         <source>Announce these services to other systems via Zeroconf</source>
         <translation>Zeroconf-Veröffentlichung</translation>
     </message>
     <message>
-        <location filename="../apps/ubuntu/qml/main.qml" line="168"/>
+        <location filename="../apps/ubuntu/qml/main.qml" line="169"/>
         <source>If you don&apos;t use Zeroconf, add a host manually.</source>
         <translation>Wenn Sie Zeroconf nicht benutzen, fügen Sie den Ihr XBMC manuell hinzu.</translation>
     </message>
     <message>
-        <location filename="../apps/ubuntu/qml/main.qml" line="259"/>
+        <location filename="../apps/ubuntu/qml/main.qml" line="260"/>
         <source>Remove</source>
         <translation>Entfernen</translation>
     </message>
     <message>
-        <location filename="../apps/ubuntu/qml/main.qml" line="264"/>
+        <location filename="../apps/ubuntu/qml/main.qml" line="265"/>
         <source>Wake up</source>
         <translation>Aufwecken</translation>
     </message>
     <message>
-        <location filename="../apps/ubuntu/qml/main.qml" line="269"/>
+        <location filename="../apps/ubuntu/qml/main.qml" line="270"/>
         <source>Edit</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../apps/ubuntu/qml/main.qml" line="281"/>
-        <source>Add host</source>
-        <translation>Hinzufügen</translation>
+        <location filename="../apps/ubuntu/qml/main.qml" line="282"/>
+        <source>Host settings</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../apps/ubuntu/qml/main.qml" line="304"/>
+        <location filename="../apps/ubuntu/qml/main.qml" line="305"/>
         <source>Name:</source>
         <translation>Name:</translation>
     </message>
     <message>
-        <location filename="../apps/ubuntu/qml/main.qml" line="336"/>
+        <location filename="../apps/ubuntu/qml/main.qml" line="339"/>
         <source>Hostname or IP Address:</source>
         <translation>Rechnername oder IP Adresse:</translation>
     </message>
     <message>
-        <location filename="../apps/ubuntu/qml/main.qml" line="344"/>
+        <location filename="../apps/ubuntu/qml/main.qml" line="349"/>
         <source>Port:</source>
         <translation>Port:</translation>
     </message>
     <message>
-        <location filename="../apps/ubuntu/qml/main.qml" line="352"/>
+        <location filename="../apps/ubuntu/qml/main.qml" line="359"/>
         <source>Mac Address:</source>
         <translation>MAC Adresse:</translation>
     </message>
     <message>
-        <location filename="../apps/ubuntu/qml/main.qml" line="468"/>
+        <location filename="../apps/ubuntu/qml/main.qml" line="371"/>
+        <source>Volume</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../apps/ubuntu/qml/main.qml" line="377"/>
+        <source>Custom Stepping</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../apps/ubuntu/qml/main.qml" line="377"/>
+        <source>Up or down</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../apps/ubuntu/qml/main.qml" line="377"/>
+        <source>Custom script</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../apps/ubuntu/qml/main.qml" line="405"/>
+        <location filename="../apps/ubuntu/qml/main.qml" line="413"/>
+        <source>Up command</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../apps/ubuntu/qml/main.qml" line="418"/>
+        <location filename="../apps/ubuntu/qml/main.qml" line="426"/>
+        <source>Down command</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../apps/ubuntu/qml/main.qml" line="546"/>
         <source>XBMC on %1 requires authentication:</source>
         <translation>XBMC auf %1 verlangt authentifizierung:</translation>
     </message>
     <message>
-        <location filename="../apps/ubuntu/qml/main.qml" line="472"/>
+        <location filename="../apps/ubuntu/qml/main.qml" line="550"/>
         <source>Username</source>
         <translation>Benutzername</translation>
     </message>
     <message>
-        <location filename="../apps/ubuntu/qml/main.qml" line="479"/>
+        <location filename="../apps/ubuntu/qml/main.qml" line="557"/>
         <source>Password</source>
         <translation>Passwort</translation>
     </message>
