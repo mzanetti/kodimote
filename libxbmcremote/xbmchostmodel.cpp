@@ -74,7 +74,7 @@ void XbmcHostModel::removeHost(int index)
 
     QSettings settings;
     settings.beginGroup("Hosts");
-    settings.beginGroup(host->address());
+    settings.beginGroup(host->id().toString());
     settings.remove("");
 
     host->deleteLater();
