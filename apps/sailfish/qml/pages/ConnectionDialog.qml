@@ -138,16 +138,16 @@ Dialog {
                 id: contextMenuComponent
                 ContextMenu {
                     MenuItem {
-                        text: qsTr("Edit host")
+                        text: qsTr("Edit")
                         onClicked: {
                             var host = xbmc.hostModel().host(index);
                             var hostPage = pageStack.push(Qt.resolvedUrl("AddHostDialog.qml"), { host: host, title: qsTr("Save") });
                         }
                     }
                     MenuItem {
-                        text: qsTr("Remove host")
+                        text: qsTr("Remove")
                         onClicked: {
-                            hostDelegate.remorseAction(qsTr("Removing host %1").arg(hostname), hostDelegate.removeHost)
+                            hostDelegate.remorseAction(qsTr("Removing %1").arg(hostname), hostDelegate.removeHost)
                         }
                     }
                     MenuItem {

@@ -33,7 +33,7 @@ Dialog {
         id: mediaSelection
 
         header: DialogHeader {
-            cancelText: mediaSelectionDialog.supportsOff ? qsTr("Off") : undefined;
+            cancelText: mediaSelectionDialog.supportsOff ? qsTr("None") : undefined;
         }
 
         anchors.fill: parent
