@@ -155,7 +155,7 @@ Item {
 
                     Slider {
                         id: volumeSlider
-                        enabled: xbmc.connectedHost.volumeControlType === XbmcHost.VolumeControlTypeAbsolute
+                        enabled: xbmc.connectedHost.volumeControlType !== XbmcHost.VolumeControlTypeRelative
                         visible: enabled
                         Layout.fillWidth: true
                         onValueChanged: {
