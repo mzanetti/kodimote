@@ -210,22 +210,23 @@ MainView {
                 }
             }
 
-
             tools: ToolbarItems {
                 ToolbarButton {
-                    text: "add"
-                    iconSource: "/usr/share/icons/ubuntu-mobile/actions/scalable/add.svg"
-                    onTriggered: {
-                        var newHost = newHostComponent.createObject();
-                        var popup = PopupUtils.open(addHostComponent, noConnectionPage, {host: newHost});
-                        popup.rejected.connect(function() {
-                            newHost.destroy();
-                        })
-                        popup.accepted.connect(function() {
-                            xbmc.hostModel().addHost(newHost);
-                        })
-                    }
+                    action: Action {
+                        text: "add"
+                        iconName: "add"
+                        onTriggered: {
+                            var newHost = newHostComponent.createObject();
+                            var popup = PopupUtils.open(addHostComponent, noConnectionPage, {host: newHost});
+                            popup.rejected.connect(function() {
+                                newHost.destroy();
+                            })
+                            popup.accepted.connect(function() {
+                                xbmc.hostModel().addHost(newHost);
+                            })
+                        }
 
+                    }
                     Component {
                         id: newHostComponent
                         XbmcHost {}
