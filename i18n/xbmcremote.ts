@@ -351,23 +351,23 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Edit host</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Save</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Remove host</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Removing host %1</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Wake up</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Edit</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Remove</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Removing %1</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -764,15 +764,15 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Power</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>About</source>
         <translation type="unfinished">Über</translation>
     </message>
     <message>
         <source>Media Browser</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Browse %1</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -810,7 +810,7 @@
 <context>
     <name>MediaSelectionDialog</name>
     <message>
-        <source>Off</source>
+        <source>None</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -1158,29 +1158,6 @@
     </message>
     <message>
         <source>Cancel</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
-    <name>QuitDialog</name>
-    <message>
-        <source>Quit</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Shutdown</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Reboot</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Suspend</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Hibernate</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -1538,6 +1515,30 @@
     </message>
     <message>
         <source>Keypad</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>XBMC on %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Quit</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Shutdown</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Reboot</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Suspend</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Hibernate</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

@@ -4,7 +4,7 @@ import Ubuntu.Components.Popups 1.0
 
 Dialog {
     id: aboutDialog
-    title: "        Xbmcremote 1.5.0"
+    title: "        Xbmcremote 1.5.1"
     text: "Michael Zanetti<br>michael_zanetti@gmx.net<br><a href=\"http://notyetthere.org/ubuntu/xbmcremote\">http://notyetthere.org/ubuntu/xbmcremote</a>"
 
 
