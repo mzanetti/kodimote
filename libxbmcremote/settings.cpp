@@ -27,14 +27,6 @@
 Settings::Settings(QObject *parent) :
     QObject(parent)
 {
-    // Write defaults for hidden configs to file so that users have a chance to find them
-    QSettings settings(qApp->organizationName(), "xbmcremote");
-    if(!settings.contains("VolumeUpCommand")) {
-        settings.setValue("VolumeUpCommand", QString());
-    }
-    if(!settings.contains("VolumeDownCommand")) {
-        settings.setValue("VolumeDownCommand", QString());
-    }
 }
 
 bool Settings::themeInverted() const
@@ -140,88 +132,6 @@ void Settings::setPauseMusicOnCall(bool pause)
     QSettings settings;
     settings.setValue("PauseMusicOnCall", pause);
     emit pauseMusicOnCallChanged();
-}
-
-void Settings::addHost(const XbmcHost *host)
-{
-    QSettings settings;
-    settings.beginGroup("Hosts");
-    settings.beginGroup(host->address());
-    settings.setValue("Hostname", host->hostname());
-    settings.setValue("Username", host->username());
-    settings.setValue("Password", host->password());
-    settings.setValue("MAC", host->hwAddr());
-    settings.setValue("Port", host->port());
-    settings.setValue("VolumeUpCommand", host->volumeUpCommand());
-    settings.setValue("VolumeDownCommand", host->volumeDownCommand());
-    settings.setValue("VolumeControlType", host->volumeControlType());
-    settings.setValue("VolumeStepping", host->volumeStepping());
-}
-
-void Settings::removeHost(const XbmcHost *host)
-{
-    QSettings settings;
-    settings.beginGroup("Hosts");
-    settings.beginGroup(host->address());
-    settings.remove("");
-}
-
-QList<XbmcHost*> Settings::hostList() const
-{
-    QList<XbmcHost*> list;
-
-    QSettings settings;
-    settings.beginGroup("Hosts");
-    foreach(const QString &hostGroup, settings.childGroups()) {
-        settings.beginGroup(hostGroup);
-        XbmcHost *host = new XbmcHost();
-        host->setAddress(hostGroup);
-        host->setHostname(settings.value("Hostname").toString());
-        host->setHwAddr(settings.value("MAC").toString());
-        host->setUsername(settings.value("Username").toString());
-        host->setPassword(settings.value("Password").toString());
-        host->setPort(settings.value("Port").toInt());
-        host->setXbmcHttpSupported(true);
-        host->setXbmcJsonrpcSupported(true);
-        host->setVolumeUpCommand(settings.value("VolumeUpCommand").toString());
-        host->setVolumeDownCommand(settings.value("VolumeDownCommand").toString());
-        host->setVolumeControlType((XbmcHost::VolumeControlType)settings.value("VolumeControlType", XbmcHost::VolumeControlTypeAbsolute).toInt());
-        host->setVolumeStepping(settings.value("VolumeStepping", 5).toInt());
-        list.append(host);
-        settings.endGroup();
-    }
-    return list;
-}
-
-XbmcHost *Settings::lastHost() const
-{
-    QSettings settings;
-    XbmcHost *host = NULL;
-    if(settings.contains("LastHost")) {
-        QString lastHost = settings.value("LastHost").toString();
-        settings.beginGroup("Hosts");
-        settings.beginGroup(lastHost);
-        host = new XbmcHost();
-        host->setAddress(lastHost);
-        host->setHostname(settings.value("Hostname").toString());
-        host->setHwAddr(settings.value("MAC").toString());
-        host->setPassword(settings.value("Password").toString());
-        host->setPort(settings.value("Port").toInt());
-        host->setUsername(settings.value("Username").toString());
-        host->setVolumeUpCommand(settings.value("VolumeUpCommand").toString());
-        host->setVolumeDownCommand(settings.value("VolumeDownCommand").toString());
-        host->setVolumeControlType((XbmcHost::VolumeControlType)settings.value("VolumeControlType", XbmcHost::VolumeControlTypeAbsolute).toInt());
-        host->setVolumeStepping(settings.value("VolumeStepping", 5).toInt());
-        host->setXbmcHttpSupported(true);
-        host->setXbmcJsonrpcSupported(true);
-    }
-    return host;
-}
-
-void Settings::setLastHost(const XbmcHost *host)
-{
-    QSettings settings;
-    settings.setValue("LastHost", host->address());
 }
 
 bool Settings::keepDisplayLit() const

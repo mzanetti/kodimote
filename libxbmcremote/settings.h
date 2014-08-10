@@ -21,7 +21,6 @@
 #ifndef SETTINGS_H
 #define SETTINGS_H
 
-#include "xbmchostmodel.h"
 
 #include <QObject>
 
@@ -70,13 +69,6 @@ public:
 
     void setPauseMusicOnCall(bool pauseOnCall);
     bool pauseMusicOnCall() const;
-
-    QList<XbmcHost *> hostList() const;
-    void addHost(const XbmcHost *host);
-    void removeHost(const XbmcHost *host);
-
-    XbmcHost *lastHost() const;
-    void setLastHost(const XbmcHost *host);
 
     bool keepDisplayLit() const;
     void setKeepDisplayLit(bool keepLit);

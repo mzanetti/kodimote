@@ -2,6 +2,7 @@
 #define XBMCHOST_H
 
 #include <QObject>
+#include <QUuid>
 
 class XbmcHost : public QObject
 {
@@ -27,7 +28,13 @@ public:
         VolumeControlTypeCustom
     };
 
-    explicit XbmcHost(QObject *parent = 0);
+    explicit XbmcHost(const QUuid &id = QUuid::createUuid(), QObject *parent = 0);
+    static XbmcHost* fromSettings(const QUuid &id);
+
+    QUuid id() const;
+    bool persistent() const;
+    void setPersistent(bool persistent);
+
     bool xbmcJsonrpcSupported() const;
     void setXbmcJsonrpcSupported(bool supported);
 
@@ -35,7 +42,7 @@ public:
     void setXbmcHttpSupported(bool supported);
 
     QString hwAddr() const;
-    void setHwAddr(const QString &hwaddr);
+    void setHwAddr(const QString &hwAddr);
 
     QString hostname() const;
     void setHostname(const QString &hostname);
@@ -64,6 +71,10 @@ public:
     int volumeStepping() const;
     void setVolumeStepping(const int stepping);
 
+public slots:
+    void connect();
+    void wakeup();
+
 signals:
     void xbmcJsonrpcSupportedChanged();
     void xbmcHttpSupportedChanged();
@@ -79,6 +90,11 @@ signals:
     void volumeSteppingChanged();
 
 private:
+    void syncToDisk();
+
+private:
+    QUuid m_id;
+    bool m_persistent;
     QString m_hostname;
     QString m_address;
     QString m_username;

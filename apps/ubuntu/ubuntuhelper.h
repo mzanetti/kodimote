@@ -31,10 +31,6 @@ class UbuntuHelper : public QObject
 public:
     explicit UbuntuHelper(Settings *settings, QObject *parent = 0);
 
-private slots:
-    void connectionChanged(bool connected);
-    void hostRemoved();
-
 private:
     Settings *m_settings;
 };

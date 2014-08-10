@@ -21,7 +21,7 @@
 #include "xbmchostmodel.h"
 #include "xbmcconnection.h"
 
-#include <QUdpSocket>
+#include <QSettings>
 
 XbmcHostModel::XbmcHostModel(QObject *parent) :
     QAbstractListModel(parent)
@@ -29,19 +29,24 @@ XbmcHostModel::XbmcHostModel(QObject *parent) :
 #ifndef QT5_BUILD
     setRoleNames(roleNames());
 #endif
+
+    QSettings settings;
+    settings.beginGroup("Hosts");
+    QUuid lastConnectedId = settings.value("LastConnected").toUuid();
+    foreach(const QString &hostGroup, settings.childGroups()) {
+        XbmcHost *host = XbmcHost::fromSettings(hostGroup);
+        addHost(host);
+        if (host->id() == lastConnectedId) {
+            host->connect();
+        }
+    }
+    connect(XbmcConnection::notifier(), SIGNAL(connectionChanged()), this, SLOT(connectionChanged()));
 }
 
-int XbmcHostModel::insertOrUpdateHost(XbmcHost *newHost)
+int XbmcHostModel::addHost(XbmcHost *newHost)
 {
+    qDebug() << "added host" << newHost->id();
     newHost->setParent(this);
-
-    int i = m_hosts.indexOf(newHost);
-    if (i >= 0) {
-        emit dataChanged(index(i), index(i));
-        qDebug() << "host updated";
-        return i;
-    }
-
     beginInsertRows(QModelIndex(), m_hosts.count(), m_hosts.count());
     m_hosts.append(newHost);
     endInsertRows();
@@ -51,19 +56,7 @@ int XbmcHostModel::insertOrUpdateHost(XbmcHost *newHost)
     return m_hosts.count() - 1;
 }
 
-int XbmcHostModel::createHost(const QString &hostname, const QString &ip, int port, const QString &macAddress)
-{
-    XbmcHost *host = new XbmcHost(this);
-    host->setHostname(hostname);
-    host->setAddress(ip);
-    host->setHwAddr(macAddress);
-    host->setPort(port);
-    host->setXbmcHttpSupported(true);
-    host->setXbmcJsonrpcSupported(true);
-    return insertOrUpdateHost(host);
-}
-
-XbmcHost *XbmcHostModel::getHost(int index) const
+XbmcHost *XbmcHostModel::host(int index) const
 {
     if (index < m_hosts.size()) {
         return m_hosts.at(index);
@@ -75,10 +68,27 @@ XbmcHost *XbmcHostModel::getHost(int index) const
 void XbmcHostModel::removeHost(int index)
 {
     beginRemoveRows(QModelIndex(), index, index);
-    m_hosts.at(index)->deleteLater();
-    m_hosts.removeAt(index);
+    XbmcHost *host = m_hosts.takeAt(index);
     endRemoveRows();
     emit countChanged();
+
+    QSettings settings;
+    settings.beginGroup("Hosts");
+    settings.beginGroup(host->address());
+    settings.remove("");
+
+    host->deleteLater();
+}
+
+void XbmcHostModel::connectionChanged()
+{
+    if (!XbmcConnection::connected()) {
+        return;
+    }
+
+    QSettings settings;
+    settings.beginGroup("Hosts");
+    settings.setValue("LastConnected", XbmcConnection::connectedHost()->id().toString());
 }
 
 QHash<int, QByteArray> XbmcHostModel::roleNames() const
@@ -126,29 +136,3 @@ QVariant XbmcHostModel::data(const QModelIndex &index, int role) const
     return QVariant();
 }
 
-QVariant XbmcHostModel::get(int row, const QString &roleName)
-{
-    return data(index(row), roleNames().key(roleName.toLatin1()));
-}
-
-void XbmcHostModel::connectToHost(int row) {
-    XbmcConnection::connect(m_hosts.at(row));
-}
-
-void XbmcHostModel::wakeup(int row)
-{
-    XbmcHost *host = m_hosts.at(row);
-    if(host->hwAddr().isEmpty()) {
-        qDebug() << "don't know MAC address of host" << host->hostname();
-        return;
-    }
-    const char header[] = {0xff, 0xff, 0xff, 0xff, 0xff, 0xff};
-    QByteArray packet = QByteArray::fromRawData(header, sizeof(header));
-    for(int i = 0; i < 16; ++i) {
-        packet.append(QByteArray::fromHex(host->hwAddr().remove(':').toLocal8Bit()));
-    }
-    qDebug() << "created magic packet:" << packet.toHex();
-
-    QUdpSocket udpSocket;
-    udpSocket.writeDatagram(packet.data(), packet.size(), QHostAddress::Broadcast, 9);
-}

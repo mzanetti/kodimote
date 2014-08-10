@@ -172,34 +172,26 @@ void XbmcDiscovery::readDatagram()
 
         xDebug(XDAREA_DISCOVERY) << "Found host:" << host->hostname() << "IP:" << host->address() << "Port:" << host->port() << "XBMC-JSONRPC:" << host->xbmcJsonrpcSupported() << "XBMC-Web-Server:" << host->xbmcHttpSupported() << "MAC:" << host->hwAddr();
 
-        if(!host->address().isEmpty()
-                && host->port() != 0
-                && host->xbmcJsonrpcSupported()
-                && host->xbmcHttpSupported()) {
-
-            if (!host->hwAddr().isEmpty()) {
-                XbmcHost *existingHost = Xbmc::instance()->hostModel()->findHost(host->hwAddr());
-
-                if (existingHost) {
-                    host->deleteLater();
-                    // if host exists, and nor IP address nor port did changed, we don't need to update the host
-                    if (host->address() == existingHost->address() &&
-                            host->port() == existingHost->port() &&
-                            host->hostname() == existingHost->hostname()) {
-                        continue;
-                    }
-
-                    existingHost->setAddress(host->address());
-                    existingHost->setPort(host->port());
-                    existingHost->setHostname(host->hostname());
-
-                    host = existingHost;
-                }
-            }
-
-            Xbmc::instance()->hostModel()->insertOrUpdateHost(host);
+        if(host->address().isEmpty()
+                || host->port() == 0
+                || !host->xbmcJsonrpcSupported()
+                || !host->xbmcHttpSupported()
+                || host->hwAddr().isEmpty()) {
+            host->deleteLater();
+            continue;
         }
 
+        qDebug() << "found host";
+        XbmcHost *existingHost = Xbmc::instance()->hostModel()->findHost(host->hwAddr());
+
+        if (existingHost) {
+            existingHost->setAddress(host->address());
+            existingHost->setPort(host->port());
+            existingHost->setHostname(host->hostname());
+            host->deleteLater();
+        } else {
+            Xbmc::instance()->hostModel()->addHost(host);
+        }
     }
 }
 

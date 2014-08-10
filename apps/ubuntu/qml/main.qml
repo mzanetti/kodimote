@@ -117,7 +117,7 @@ MainView {
 
                     onClicked: {
                         noConnectionPage.showList = false
-                        xbmc.hostModel().connectToHost(index)
+                        xbmc.hostModel().host(index).connect()
                     }
 
                     onPressAndHold: {
@@ -127,8 +127,11 @@ MainView {
                             PopupUtils.close(obj)
                         })
                         obj.wakeupClicked.connect(function() {
-                            xbmc.hostModel().wakeup(index)
+                            xbmc.hostModel().host(index).wakeup();
                             PopupUtils.close(obj)
+                        })
+                        obj.editClicked.connect(function() {
+                            PopupUtils.open(addHostComponent, noConnectionPage, {host: xbmc.hostModel().host(index)});
                         })
                     }
                 }
@@ -210,7 +213,19 @@ MainView {
                     text: "add"
                     iconSource: "/usr/share/icons/ubuntu-mobile/actions/scalable/add.svg"
                     onTriggered: {
-                        PopupUtils.open(addHostComponent, noConnectionPage)
+                        var newHost = newHostComponent.createObject();
+                        var popup = PopupUtils.open(addHostComponent, noConnectionPage, {host: newHost});
+                        popup.rejected.connect(function() {
+                            newHost.destroy();
+                        })
+                        popup.accepted.connect(function() {
+                            xbmc.hostModel().addHost(newHost);
+                        })
+                    }
+
+                    Component {
+                        id: newHostComponent
+                        XbmcHost {}
                     }
                 }
             }
@@ -222,18 +237,24 @@ MainView {
             id: popover
             signal removeClicked()
             signal wakeupClicked()
+            signal editClicked()
             Column {
                 height: childrenRect.height
                 width: parent.width
                 ListItems.Standard {
                     text: qsTr("Remove")
-                    icon: "/usr/share/icons/ubuntu-mobile/actions/scalable/delete.svg"
+                    iconName: "delete"
                     onClicked: popover.removeClicked()
                 }
                 ListItems.Standard {
                     text: qsTr("Wake up")
-                    icon: "/usr/share/icons/ubuntu-mobile/actions/scalable/torch-on.svg"
+                    iconName: "torch-on"
                     onClicked: popover.wakeupClicked()
+                }
+                ListItems.Standard {
+                    text: qsTr("Edit")
+                    iconName: "edit"
+                    onClicked: popover.editClicked();
                 }
             }
         }
@@ -244,6 +265,12 @@ MainView {
         Dialog {
             id: addHostDialog
             title: qsTr("Add host")
+
+            property var host
+
+            signal accepted();
+            signal rejected();
+
             Item {
                 width: parent.width
                 height: units.gu(40)
@@ -265,6 +292,7 @@ MainView {
                         TextField {
                             id: nameTextField
                             width: parent.width
+                            text: addHostDialog.host.hostname
                             property bool conflicting: false
 
                             onTextChanged: {
@@ -296,13 +324,14 @@ MainView {
                         TextField {
                             id: addressTextField
                             width: parent.width
+                            text: addHostDialog.host.address
                         }
                         Label {
                             text: qsTr("Port:")
                         }
                         TextField {
                             id: portTextField
-                            text: "8080"
+                            text: addHostDialog.host.port ? addHostDialog.host.port : "8080"
                             width: parent.width
                         }
                         Label {
@@ -312,6 +341,7 @@ MainView {
                             id: macTextField
                             width: parent.width
                             inputMask: "HH:HH:HH:HH:HH:HH;_"
+                            text: addHostDialog.host.hwAddr
                         }
                         Row {
                             width: parent.width
@@ -319,7 +349,10 @@ MainView {
                             Button {
                                 text: qsTr("Cancel")
                                 width: (parent.width - parent.spacing) / 2
-                                onClicked: PopupUtils.close(addHostDialog)
+                                onClicked: {
+                                    addHostDialog.rejected();
+                                    PopupUtils.close(addHostDialog)
+                                }
                             }
                             Button {
                                 text: qsTr("OK")
@@ -327,7 +360,12 @@ MainView {
                                 color: "#dd4814"
                                 enabled: nameTextField.text.length > 0 && !nameTextField.conflicting && addressTextField.text.length > 0
                                 onClicked: {
-                                    xbmc.hostModel().createHost(nameTextField.text, addressTextField.text, portTextField.text, macTextField.text)
+                                    addHostDialog.host.hostname = nameTextField.text
+                                    addHostDialog.host.address = addressTextField.text
+                                    addHostDialog.host.port = portTextField.text
+                                    addHostDialog.host.hwAddr = macTextField.text
+
+                                    addHostDialog.accepted();
                                     PopupUtils.close(addHostDialog)
                                 }
                             }

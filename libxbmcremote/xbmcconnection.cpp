@@ -394,6 +394,7 @@ void XbmcConnectionPrivate::replyReceived()
             }
             m_connecting = false;
             emit m_notifier->connectionChanged();
+            m_host->setPersistent(true);
             continue;
         }
 
