@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE TS>
-<TS version="2.0" language="de">
+<TS version="2.1" language="de">
 <context>
     <name>AboutDialog</name>
     <message>
@@ -26,6 +26,57 @@
     <message>
         <source>Copyright</source>
         <translation>Copyright</translation>
+    </message>
+</context>
+<context>
+    <name>AddHostDialog</name>
+    <message>
+        <source>Name</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Hostname or IP Address</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Port</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Mac Address</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Volume</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Control type</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Custom stepping</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Up or down</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Custom script</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Stepping</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Up command</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Down command</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -114,6 +165,18 @@
         <source>Password:</source>
         <translation>Passwort:</translation>
     </message>
+    <message>
+        <source>Authenticate</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Username</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Password</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>AuthenticationSheet</name>
@@ -156,11 +219,19 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Watched</source>
+        <source>Sorting</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Sorting</source>
+        <source>Keypad</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Now playing</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Show watched</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -238,6 +309,69 @@
     </message>
 </context>
 <context>
+    <name>ConnectionDialog</name>
+    <message>
+        <source>Add</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Connect</source>
+        <translation type="unfinished">Verbinden</translation>
+    </message>
+    <message>
+        <source>Cancel</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Searching for XBMC hosts.</source>
+        <translation type="unfinished">Suche XBMC.</translation>
+    </message>
+    <message>
+        <source>Please enable the following options in the Services settings of XBMC:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Allow control of XBMC via HTTP</source>
+        <translation type="unfinished">Steuerung über Webinterface zulassen</translation>
+    </message>
+    <message>
+        <source>Allow programs on other systems to control XBMC</source>
+        <translation type="unfinished">Stuerung über entfernte Programme zulassen</translation>
+    </message>
+    <message>
+        <source>Announce these services to other systems via Zeroconf</source>
+        <translation type="unfinished">Zeroconf-Veröffentlichung</translation>
+    </message>
+    <message>
+        <source>If you don&apos;t use Zeroconf, add a host manually.</source>
+        <translation type="unfinished">Wenn Sie Zeroconf nicht benutzen, fügen Sie den Ihr XBMC manuell hinzu.</translation>
+    </message>
+    <message>
+        <source>Add host</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Edit host</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Save</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Remove host</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Removing host %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Wake up</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>ConnectionSheet</name>
     <message>
         <source>Connect</source>
@@ -302,6 +436,21 @@
     <message>
         <source>Back</source>
         <translation type="unfinished">Zurück</translation>
+    </message>
+</context>
+<context>
+    <name>CoverPage</name>
+    <message>
+        <source>XBMC on</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>XBMC remote</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Disconnected</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -507,6 +656,25 @@
     </message>
 </context>
 <context>
+    <name>Keypad</name>
+    <message>
+        <source>Keypad</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Media</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Now playing</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Pictures</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>LibraryView</name>
     <message>
         <source>Play</source>
@@ -584,27 +752,27 @@
         <translation type="unfinished">Einstellungen</translation>
     </message>
     <message>
-        <source>Disconnect</source>
+        <source>Keypad</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Quit</source>
+        <source>Now playing</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Shutdown</source>
+        <source>Change connection...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Reboot</source>
+        <source>Power</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Suspend</source>
-        <translation type="unfinished"></translation>
+        <source>About</source>
+        <translation type="unfinished">Über</translation>
     </message>
     <message>
-        <source>Hibernate</source>
+        <source>Media Browser</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -637,6 +805,13 @@
     <message>
         <source>Error downloading %1</source>
         <translation>Fehler beim Laden von %1</translation>
+    </message>
+</context>
+<context>
+    <name>MediaSelectionDialog</name>
+    <message>
+        <source>Off</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -681,6 +856,25 @@
     <message>
         <source>Error writing NFC tag.</source>
         <translation>Fehler beim Schreiben des NFC Tags.</translation>
+    </message>
+</context>
+<context>
+    <name>NoConnection</name>
+    <message>
+        <source>Please enable the following options in the Services settings of XBMC:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Allow control of XBMC via HTTP</source>
+        <translation type="unfinished">Steuerung über Webinterface zulassen</translation>
+    </message>
+    <message>
+        <source>Allow programs on other systems to control XBMC</source>
+        <translation type="unfinished">Stuerung über entfernte Programme zulassen</translation>
+    </message>
+    <message>
+        <source>Connect</source>
+        <translation type="unfinished">Verbinden</translation>
     </message>
 </context>
 <context>
@@ -835,14 +1029,6 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>shuffle</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Subtitle</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Audio track</source>
         <translation type="unfinished"></translation>
     </message>
@@ -860,6 +1046,46 @@
     </message>
     <message>
         <source>Clear playlist</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Media</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Keypad</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Now playing</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Pause</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Next</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Previous</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Stop</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>None</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Shuffle</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Subtitles</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -901,6 +1127,64 @@
     </message>
 </context>
 <context>
+    <name>PowerMenu</name>
+    <message>
+        <source>Power menu</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Disconnect</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Quit XBMC</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Shutdown XBMC host</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Reboot XBMC host</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Suspend XBMC host</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Hibernate XBMC host</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Cancel</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>QuitDialog</name>
+    <message>
+        <source>Quit</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Shutdown</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Reboot</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Suspend</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Hibernate</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>RecentItems</name>
     <message>
         <source>Albums</source>
@@ -925,6 +1209,13 @@
     <message>
         <source>Recently added</source>
         <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>SailfishHelper</name>
+    <message>
+        <source>Incoming call</source>
+        <translation type="unfinished">Eingehender Anruf</translation>
     </message>
 </context>
 <context>
@@ -963,6 +1254,50 @@
     <message>
         <source>Show call notifications</source>
         <translation>Anrufbenachrichtigung anzeigen</translation>
+    </message>
+    <message>
+        <source>Save</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Look and feel</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Used media</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Music</source>
+        <translation type="unfinished">Musik</translation>
+    </message>
+    <message>
+        <source>Videos</source>
+        <translation type="unfinished">Videos</translation>
+    </message>
+    <message>
+        <source>Pictures</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>TV Channels</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Phone calls</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Change volume</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Pause video</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Pause music</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -1035,6 +1370,18 @@
         <source>Used media</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Media browser settings</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>TV</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Close</source>
+        <translation type="unfinished">Schließen</translation>
+    </message>
 </context>
 <context>
     <name>Shares</name>
@@ -1068,49 +1415,6 @@
     <message>
         <source>Songs</source>
         <translation>Lieder</translation>
-    </message>
-</context>
-<context>
-    <name>SystemMenu</name>
-    <message>
-        <source>More</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>About</source>
-        <translation type="unfinished">Über</translation>
-    </message>
-    <message>
-        <source>Disconnect</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Power</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Quit</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Shutdown</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Reboot</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Suspend</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Hibernate</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Close</source>
-        <translation type="unfinished">Schließen</translation>
     </message>
 </context>
 <context>
@@ -1219,6 +1523,21 @@
     </message>
     <message>
         <source>This version of Xbmcremote is designed to work with XBMC Frodo (v12.0). It seems you have connected to an older version of XMBC. Please upgrade XBMC in order to use Xbmcremote.</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>XbmcPage</name>
+    <message>
+        <source>Media</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Now Playing</source>
+        <translation type="unfinished">Jetzt gespielt</translation>
+    </message>
+    <message>
+        <source>Keypad</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -1341,18 +1660,6 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Media</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Now playing</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Keypad</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>XBMC on %1 requires authentication:</source>
         <translation type="unfinished">XBMC auf %1 verlangt authentifizierung:</translation>
     </message>
@@ -1362,6 +1669,18 @@
     </message>
     <message>
         <source>Password</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Connecting...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Select Host</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Edit</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
