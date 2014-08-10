@@ -187,6 +187,5 @@ Dialog {
         host.volumeStepping = volumeSteppingSlider.value
         host.volumeUpCommand = volumeUpCommandTextField.text
         host.volumeDownCommand = volumeDownCommandTextField.text
-        xbmc.hostModel().insertOrUpdateHost(host);
     }
 }

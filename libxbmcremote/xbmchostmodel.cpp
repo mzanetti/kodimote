@@ -22,6 +22,7 @@
 #include "xbmcconnection.h"
 
 #include <QSettings>
+#include <QStringList>
 
 XbmcHostModel::XbmcHostModel(QObject *parent) :
     QAbstractListModel(parent)
