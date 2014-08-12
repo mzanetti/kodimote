@@ -53,6 +53,9 @@ public:
     void setChannelId(int channelId);
     int channelId() const;
 
+    void setRecordingId(int recordingId);
+    int recordingId() const;
+
     virtual QVariantMap toMap() const;
 
     void setType(const QString &type);
@@ -80,6 +83,7 @@ private:
     int m_seasonId;
     int m_episodeId;
     int m_channelId;
+    int m_recordingId;
 
     QString m_type;
     QString m_tvShow;

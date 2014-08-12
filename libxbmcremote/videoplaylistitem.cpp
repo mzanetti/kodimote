@@ -26,7 +26,8 @@ VideoPlaylistItem::VideoPlaylistItem(int movieId, int musicVideoId, int episodeI
     m_tvShowId(-1),
     m_seasonId(-1),
     m_episodeId(episodeId),
-    m_channelId(-1)
+    m_channelId(-1),
+    m_recordingId(-1)
 {
 }
 
@@ -90,6 +91,16 @@ int VideoPlaylistItem::channelId() const
     return m_channelId;
 }
 
+void VideoPlaylistItem::setRecordingId(int recordingId)
+{
+    m_recordingId = recordingId;
+}
+
+int VideoPlaylistItem::recordingId() const
+{
+    return m_recordingId;
+}
+
 QVariantMap VideoPlaylistItem::toMap() const
 {
     QVariantMap map = PlaylistItem::toMap();
@@ -115,6 +126,10 @@ QVariantMap VideoPlaylistItem::toMap() const
 
     if(m_channelId != -1) {
         map.insert("channelid", m_channelId);
+    }
+
+    if(m_recordingId != -1) {
+        map.insert("recordingid", m_recordingId);
     }
 
     return map;

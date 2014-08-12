@@ -32,6 +32,7 @@ class AudioLibrary;
 class VideoLibrary;
 class Shares;
 class ChannelGroups;
+class PvrMenu;
 
 class Player;
 class AudioPlayer;
@@ -86,7 +87,7 @@ public:
     Q_INVOKABLE VideoLibrary *videoLibrary();
 
     Q_INVOKABLE Shares *shares(const QString &mediatype);
-    Q_INVOKABLE ChannelGroups *channelGroups();
+    Q_INVOKABLE PvrMenu *pvrMenu();
 
     Q_INVOKABLE AudioPlayer *audioPlayer();
     Q_INVOKABLE VideoPlayer *videoPlayer();

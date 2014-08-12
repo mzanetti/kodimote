@@ -56,6 +56,7 @@ public:
         RoleMusicVideoId,
         RoleChannelGroupId,
         RoleChannelId,
+        RoleRecordingId,
         RoleThumbnail,
         RoleLargeThumbnail,
         RoleSortingTitle,

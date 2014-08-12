@@ -36,6 +36,7 @@
 #include "channelgroups.h"
 #include "channels.h"
 #include "channelbroadcasts.h"
+#include "pvrmenu.h"
 
 #include "playlist.h"
 #include "audioplaylist.h"
@@ -151,6 +152,7 @@ Xbmc::Xbmc(QObject *parent) :
     qmlRegisterType<ChannelGroups>();
     qmlRegisterType<Channels>();
     qmlRegisterType<ChannelBroadcasts>();
+    qmlRegisterType<PvrMenu>();
     qmlRegisterType<Keys>();
     qmlRegisterType<EventClient>();
     qmlRegisterType<XbmcFilterModel>(qmlUri, 1, 0, "XbmcFilterModel");
@@ -282,9 +284,9 @@ Shares *Xbmc::shares(const QString &mediatype)
     return new Shares(mediatype);
 }
 
-ChannelGroups *Xbmc::channelGroups()
+PvrMenu *Xbmc::pvrMenu()
 {
-    return new ChannelGroups();
+    return new PvrMenu();
 }
 
 AudioPlayer *Xbmc::audioPlayer()

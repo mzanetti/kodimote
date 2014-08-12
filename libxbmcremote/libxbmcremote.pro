@@ -60,11 +60,13 @@ SOURCES +=  xbmc.cpp \
             settings.cpp \
             channels.cpp \
             channelgroups.cpp \
-    eventclient.cpp \
-    recentitems.cpp \
-    channelitem.cpp \
-    channelbroadcasts.cpp \
-    xbmchost.cpp
+	    eventclient.cpp \
+	    recentitems.cpp \
+	    channelitem.cpp \
+	    channelbroadcasts.cpp \
+	    recordings.cpp \
+	    pvrmenu.cpp \
+	    xbmchost.cpp
 
 HEADERS += libxbmcremote_global.h \
            xbmc.h \
@@ -111,8 +113,10 @@ HEADERS += libxbmcremote_global.h \
            settings.h \
            channels.h \
            channelgroups.h \
-    eventclient.h \
-    recentitems.h \
-    channelitem.h \
-    channelbroadcasts.h \
-    xbmchost.h
+	   eventclient.h \
+	   recentitems.h \
+	   channelitem.h \
+	   channelbroadcasts.h \
+	   recordings.h \
+	   pvrmenu.h \
+	   xbmchost.h

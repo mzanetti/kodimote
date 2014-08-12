@@ -277,7 +277,7 @@ XbmcPage {
                             console.log("created model: " + newModel);
                             break;
                         case "tv":
-                            newModel = xbmc.channelGroups();
+                            newModel = xbmc.pvrMenu();
                             console.log("created model: " + newModel);
                             break;
                         }
