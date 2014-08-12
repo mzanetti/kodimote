@@ -164,11 +164,11 @@ void Channels::fetchBroadcasts(int channelId)
 
     params.insert("properties", properties);
 
-    QVariantMap limits;
-    limits.insert("start", 0);
-    limits.insert("end", 20);
+//    QVariantMap limits;
+//    limits.insert("start", 0);
+//    limits.insert("end", 20);
 
-    params.insert("limits", limits);
+//    params.insert("limits", limits);
 
     int id = XbmcConnection::sendCommand("PVR.GetBroadcasts", params, this, "broadcastsReceived");
     m_broadcastRequestMap.insert(id, channelId);
