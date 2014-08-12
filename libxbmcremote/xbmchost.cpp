@@ -226,6 +226,7 @@ void XbmcHost::setVolumeStepping(const int stepping)
 
 void XbmcHost::connect()
 {
+    qDebug() << "connecting host" << parent();
     XbmcConnection::connect(this);
 }
 

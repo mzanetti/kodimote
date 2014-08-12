@@ -230,6 +230,7 @@ MainView {
                             var newHost = newHostComponent.createObject();
                             var popup = PopupUtils.open(addHostComponent, noConnectionPage, {host: newHost});
                             popup.rejected.connect(function() {
+                                popup.destroy();
                                 newHost.destroy();
                             })
                             popup.accepted.connect(function() {
@@ -283,6 +284,8 @@ MainView {
 
             property var host
 
+            Component.onCompleted: print("############# host", host)
+
             signal accepted();
             signal rejected();
 
@@ -315,8 +318,8 @@ MainView {
                             onTextChanged: {
                                 print("model count", xbmc.hostModel().count)
                                 for (var i = 0; i < xbmc.hostModel().count; ++i) {
-                                    print("got:", xbmc.hostModel().get(i, "name"))
-                                    if (xbmc.hostModel().get(i, "name") == text) {
+                                    print("got:", xbmc.hostModel().host(i).hostname)
+                                    if (xbmc.hostModel().host(i).hostname == text) {
                                         conflicting = true;
                                         return;
                                     }
@@ -499,23 +502,28 @@ MainView {
                 timerActive: pageStack.currentPage == nowPlayingPage
                 visible: false
 
+                mediaVisible: true
                 keypadVisible: true
 
                 onGoToKeypad: {
                     pageStack.pop()
                     pageStack.push(keypad)
                 }
+                onGoToMedia: pageStack.pop()
             }
             Keypad {
                 id: keypad
                 visible: false
 
+                mediaVisible: true
                 nowPlayingVisible: true
 
                 onGoToNowPlaying: {
                     pageStack.pop();
                     pageStack.push(nowPlayingPage)
                 }
+
+                onGoToMedia: pageStack.pop()
             }
         }
     }

@@ -3,20 +3,19 @@ import Ubuntu.Components 1.1
 
 Page {
     id: root
-    property bool replaceMode: false
 
     signal goToNowPlaying();
     signal goToKeypad();
     signal goToMedia();
 
+    property bool backVisible: false
     property alias mediaVisible: mediaAction.visible
     property alias nowPlayingVisible: nowPlayingAction.visible
     property alias keypadVisible: keypadAction.visible
 
-    tools: ToolbarItems {
-        id: mainTools
-        ToolbarButton {
-            action: Action {
+    head {
+        actions: [
+            Action {
                 id: mediaAction
                 text: qsTr("Media")
                 iconName: "navigation-menu"
@@ -24,10 +23,8 @@ Page {
                 onTriggered: {
                     root.goToMedia();
                 }
-            }
-        }
-        ToolbarButton {
-            action: Action {
+            },
+            Action {
                 id: nowPlayingAction
                 text: qsTr("Now Playing")
                 iconName: "media-playback-start"
@@ -35,10 +32,8 @@ Page {
                 onTriggered: {
                     root.goToNowPlaying();
                 }
-            }
-        }
-        ToolbarButton {
-            action: Action {
+            },
+            Action {
                 id: keypadAction
                 text: qsTr("Keypad")
                 iconName: "keypad"
@@ -47,6 +42,11 @@ Page {
                     root.goToKeypad();
                 }
             }
+        ]
+        backAction: Action {
+            iconName: "back"
+            visible: root.backVisible && pageStack.depth > 1
+            onTriggered: pageStack.pop()
         }
     }
 }

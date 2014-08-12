@@ -179,7 +179,6 @@ Item {
                 SectionHeader {
                     Layout.fillWidth: true
                     color: "black"
-                    visible: optionsRow.data.length > 0
                 }
                 RowLayout {
                     id: optionsRow

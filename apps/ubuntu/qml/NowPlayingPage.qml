@@ -74,7 +74,7 @@ XbmcPage {
         text: qsTr("No active playback. Please select some content from the media tab.")
         wrapMode: Text.WordWrap
         fontSize: "large"
-        opacity: xbmc.activePlayer == null ? 1 : 0
+        opacity: root.player == null ? 1 : 0
         visible: opacity > 0
         horizontalAlignment: Text.AlignHCenter
 
@@ -86,7 +86,7 @@ XbmcPage {
     Item {
         anchors.fill: parent
         anchors.bottomMargin: bottomEdge.height
-        opacity: xbmc.activePlayer !== null ? 1 : 0
+        opacity: root.player !== null ? 1 : 0
         visible: opacity > 0
         Behavior on opacity {
             UbuntuNumberAnimation {}
@@ -427,7 +427,7 @@ XbmcPage {
             source: player.repeat == Player.RepeatNone ? "image://theme/media-playlist-repeat" :
                                                              player.repeat == Player.RepeatOne ? "../images/media-playlist-repeat-one.svg" :
                                                                                                  "../images/media-playlist-repeat-all.svg"
-            visible: xbmc.activePlayer && xbmc.activePlayer.type == Player.PlayerTypeAudio
+            visible: root.player && root.player.type == Player.PlayerTypeAudio
             onClicked: {
                 if (player.repeat === Player.RepeatNone) {
                     player.repeat = Player.RepeatOne;
@@ -443,7 +443,7 @@ XbmcPage {
             text: qsTr("Shuffle")
             Layout.fillWidth: true
             source: player.shuffle ? "../images/media-playlist-shuffle-active.svg" : "image://theme/media-playlist-shuffle"
-            visible: xbmc.activePlayer && xbmc.activePlayer.type == Player.PlayerTypeAudio
+            visible: root.player && root.player.type == Player.PlayerTypeAudio
             onClicked: {
                 player.shuffle = ! player.shuffle
             }
@@ -452,7 +452,7 @@ XbmcPage {
             text: qsTr("Subtitles")
             Layout.fillWidth: true
             source: "image://theme/message"
-            visible: xbmc.activePlayer && xbmc.activePlayer.type == Player.PlayerTypeVideo
+            visible: root.player && root.player.type == Player.PlayerTypeVideo
             onClicked: {
                 var popup = PopupUtils.open(toolbarMenuComponent, root, {model: player.subtitles, currentIndex: player.currentSubtitle, title: qsTr("Select subtitle"), showClearButton: true})
                 popup.accepted.connect(function(selectedIndex) {player.currentSubtitle = selectedIndex})
@@ -462,7 +462,7 @@ XbmcPage {
         BottomEdgeButton {
             text: qsTr("Audio track")
             source: "image://theme/speaker"
-            visible: xbmc.activePlayer && xbmc.activePlayer.type == Player.PlayerTypeVideo
+            visible: root.player && root.player.type == Player.PlayerTypeVideo
             Layout.fillWidth: true
             onClicked: {
                 var popup = PopupUtils.open(toolbarMenuComponent, root, {model: player.audiostreams, currentIndex: player.currentAudiostream, title: qsTr("Select audio track")})

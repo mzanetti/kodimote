@@ -31,6 +31,7 @@ XbmcPage {
     title: model.title
     clip: true
 
+    backVisible: true
     nowPlayingVisible: true
     keypadVisible: true
 
