@@ -37,13 +37,8 @@ public:
 
 
 private Q_SLOTS:
-    void qmlCreationFinished();
 
     void newStatus(Plasma::ItemStatus status);
-
-    void connectionChanged(bool connected);
-
-    void hostRemoved();
 
 private:
     QDeclarativeContext * m_rootContext;

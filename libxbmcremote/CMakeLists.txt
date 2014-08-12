@@ -8,6 +8,7 @@ set(libxbmcremote_SRCS
     xbmcdownload.cpp
     xbmcconnection.cpp
     xbmchostmodel.cpp
+    xbmchost.cpp
     xbmcdiscovery.cpp
 
     xdebug.cpp

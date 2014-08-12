@@ -33,7 +33,7 @@ XbmcHostModel::XbmcHostModel(QObject *parent) :
 
     QSettings settings;
     settings.beginGroup("Hosts");
-    QUuid lastConnectedId = settings.value("LastConnected").toUuid();
+    QUuid lastConnectedId = QUuid(settings.value("LastConnected").toString());
     foreach(const QString &hostGroup, settings.childGroups()) {
         if (QUuid(hostGroup).isNull()) {
             continue;
