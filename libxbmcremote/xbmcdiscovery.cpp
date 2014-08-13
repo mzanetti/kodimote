@@ -191,7 +191,7 @@ void XbmcDiscovery::readDatagram()
             // There's a slight possibility that we overwrite a saved host from another
             // network here. But assuming the other host has mdns too
             // it should recover when back to the other network.
-            for (int i = 0; Xbmc::instance()->hostModel()->count(); i++) {
+            for (int i = 0; i < Xbmc::instance()->hostModel()->count(); i++) {
                 XbmcHost *oldhost = Xbmc::instance()->hostModel()->host(i);
                 if (host->address() == oldhost->address()) {
                     existingHost = oldhost;
