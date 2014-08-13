@@ -70,7 +70,7 @@ Page {
         if (menuModel.mode === "library") {
             newModel = xbmc[menuModel.libraryTarget]();
         } else {
-            newModel = xbmc.shares(menuModel.target);
+                newModel = xbmc.shares(menuModel.target);
         }
 
         console.log("setting model: " + newModel);
@@ -287,6 +287,7 @@ Page {
             icon: "../icons/icon-l-tv.png"
             subtitle: ""
             mode: "library"
+            libraryTarget: "pvrMenu"
             target: "tv"
         }
     }
@@ -308,7 +309,7 @@ Page {
                     return qsTr("Pictures");
                 }
                 if (target === "tv") {
-                    return qsTr("TV Channels");
+                    return qsTr("Live TV");
                 }
             }
             return "";
