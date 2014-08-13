@@ -58,7 +58,7 @@ Dialog {
 
                 onTextChanged: {
                     for (var i = 0; i < xbmc.hostModel().count; ++i) {
-                        if (xbmc.hostModel().get(i, "name") == text && xbmc.hostModel().getHost(i) != host) {
+                        if (xbmc.hostModel().host(i).hostname == text && xbmc.hostModel().host(i) != host) {
                             conflicting = true;
                             return;
                         }

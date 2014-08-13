@@ -1,0 +1,10 @@
+* Mon Aug 11 2014 Robert Meijers <robert.meijers@gmail.com> 1.5.1-1
+- Add support for editing a host
+- Add support for custom volume control types per host (unhides custom commands and allows sending up/down commands)
+- Add support for custom volume control stepping per host (default of 5 is kept)
+- Move power controls into a more accessible spot
+- Fix issue of gesture pad not detecting quick up/down swipes
+- Disable hidden push up menu on key pad
+- Work around issue of search field losing focus when results update
+
+
