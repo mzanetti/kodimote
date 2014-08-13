@@ -85,7 +85,7 @@ XbmcPage {
                 return qsTr("Pictures");
             }
             if (target === "tv") {
-                return qsTr("TV Channels");
+                return qsTr("Live TV");
             }
             return "";
         }
