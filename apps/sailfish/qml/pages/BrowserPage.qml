@@ -120,6 +120,10 @@ Page {
                         id: contentLoader
                         anchors.fill: parent
 
+                        onLoaded: {
+                            item.item = browserPage.model.getItem(index);
+                        }
+
                         Connections {
                             target: contentLoader.item
 
@@ -274,7 +278,7 @@ Page {
                         when: open
                         PropertyChanges { target: listView; interactive: false;contentY: listView.itemHeight * listView.currentIndex }
                         PropertyChanges { target: flickable; interactive: false }
-                        PropertyChanges { target: contentLoader; source: "../components/ItemDetails.qml" }
+                        PropertyChanges { target: contentLoader; source: browserPage.model.getItem(filterModel.mapToSourceIndex(index)).type == "channel" ? "../components/ChannelDetails.qml" : "../components/ItemDetails.qml" }
                         PropertyChanges { target: listView; header: null }
                     },
                     State {

@@ -49,5 +49,6 @@ OTHER_FILES += \
     qml/pages/MediaSelectionDialog.qml \
     qml/pages/Keypad.qml \
     qml/components/GesturePad.qml \
-    qml/pages/XbmcPage.qml
+    qml/pages/XbmcPage.qml \
+    qml/components/ChannelDetails.qml
 
