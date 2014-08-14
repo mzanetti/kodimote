@@ -258,6 +258,7 @@ Page {
                                 elide: Text.ElideRight
                                 visible: text != ""
                             }
+
                             Label {
                                 id: subSubText
                                 text: year
@@ -268,6 +269,25 @@ Page {
                                 elide: Text.ElideRight
                                 visible: text != ""
                             }
+                        }
+                    }
+
+                    ProgressBar {
+                        minimumValue: 0
+                        maximumValue: 100
+                        value: model.progressPercentage != undefined ? progressPercentage : 0
+                        visible: index >= 0 && browserPage.model.getItem(filterModel.mapToSourceIndex(index)).type === "channel"
+
+                        leftMargin: 10
+                        rightMargin: 10
+                        height: 20
+                        anchors {
+                            left: (thumbnailImage.visible ? thumbnailImage.right : parent.left);
+                            leftMargin: (thumbnailImage.visible ? Theme.paddingSmall : Theme.paddingLarge);
+                            right: parent.right
+                            rightMargin: Theme.paddingLarge
+                            verticalCenter: parent.bottom
+                            verticalCenterOffset: 25
                         }
                     }
 
