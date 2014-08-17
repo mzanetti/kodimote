@@ -233,11 +233,6 @@ Page {
                     id: playerColumn
                     width: parent.width
 
-                    PlayerControls {
-                        anchors.horizontalCenter: parent.horizontalCenter
-                        player: nowPlayingPage.player
-                    }
-
                     ProgressBar {
                         id: progressBar
                         width: parent.width

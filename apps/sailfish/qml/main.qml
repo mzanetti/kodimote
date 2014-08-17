@@ -21,6 +21,7 @@
 import QtQuick 2.0
 import Sailfish.Silica 1.0
 import "pages"
+import "components"
 
 ApplicationWindow
 {
@@ -28,12 +29,17 @@ ApplicationWindow
 
     cover: Qt.resolvedUrl("cover/CoverPage.qml")
     initialPage: mainPageComponent
+    bottomMargin: dockedControls.visibleSize
 
     Component {
         id: mainPageComponent
         MainPage {
 
         }
+    }
+
+    DockedControls {
+        id: dockedControls
     }
 
     Keys.onVolumeDownPressed: {

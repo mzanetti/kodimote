@@ -50,5 +50,6 @@ OTHER_FILES += \
     qml/pages/Keypad.qml \
     qml/components/GesturePad.qml \
     qml/pages/XbmcPage.qml \
-    qml/components/ChannelDetails.qml
+    qml/components/ChannelDetails.qml \
+    qml/components/DockedControls.qml
 
