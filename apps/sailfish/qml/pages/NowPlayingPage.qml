@@ -108,13 +108,29 @@ Page {
             anchors.right: parent.right
             anchors.margins: Theme.paddingLarge
 
+            // create space to display thumbnail below navigation bullets
+            PageHeader {
+
+            }
+
             Thumbnail {
                 artworkSource: currentItem ? currentItem.thumbnail : ""
                 width: parent.width
-                height: parent.width
+                height: artworkSize && artworkSize.width > artworkSize.height ? artworkSize.height / (artworkSize.width / width) : 400
                 fillMode: Image.PreserveAspectFit
                 smooth: true
                 defaultText: currentItem ? currentItem.title : ""
+
+                MouseArea {
+                    anchors.fill: parent
+                    onClicked: drawer.open = !drawer.open
+                }
+            }
+
+            // create some space between thumbnail and title
+            Item{
+                width: parent.width
+                height: Theme.paddingLarge
 
                 MouseArea {
                     anchors.fill: parent
@@ -271,7 +287,7 @@ Page {
                             Label {
                                 id: progressBarLabelText
                                 anchors.centerIn: parent
-                                color: Theme.highlightSecondaryColor
+                                color: Theme.secondaryHighlightColor
                             }
                         }
 

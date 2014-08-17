@@ -105,7 +105,7 @@ Page {
 
                 Label {
                     id: subText
-                    text: subtitle
+                    text: subtitle ? subtitle : ""
                     font.weight: Font.Light
                     font.pixelSize: 24
                     color: Theme.secondaryColor

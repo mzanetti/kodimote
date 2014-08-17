@@ -32,6 +32,7 @@ Loader {
     property string testColor: "green"
     property int fillMode: Image.Stretch
     property bool smooth: false
+    property variant artworkSize: artworkSource.length > 0 ? item.sourceSize : undefined
 
     Component {
         id: artworkItem
