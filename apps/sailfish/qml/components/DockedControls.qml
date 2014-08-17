@@ -25,11 +25,24 @@ import harbour.xbmcremote 1.0
 DockedPanel {
     id: panel
     property QtObject player: xbmc.activePlayer
+    property bool hideTemporary: false
+    property bool _opened
 
     open: player
     width: parent.width
     height: column.height + (2 * Theme.paddingLarge)
     contentHeight: height
+
+    onHideTemporaryChanged: {
+        if (hideTemporary) {
+            _opened = open;
+            hide(true);
+        } else {
+            if (_opened) {
+                show(true);
+            }
+        }
+    }
 
     Connections {
         target: Qt.inputMethod

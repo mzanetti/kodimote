@@ -300,11 +300,13 @@ Page {
                         PropertyChanges { target: flickable; interactive: false }
                         PropertyChanges { target: contentLoader; source: browserPage.model.getItem(filterModel.mapToSourceIndex(index)).type == "channel" ? "../components/ChannelDetails.qml" : "../components/ItemDetails.qml" }
                         PropertyChanges { target: listView; header: null }
+                        PropertyChanges { target: dockedControls; hideTemporary: true }
                     },
                     State {
                         when: opened
                         PropertyChanges { target: listView; interactive: false }
                         PropertyChanges { target: flickable; interactive: false }
+                        PropertyChanges { target: dockedControls; hideTemporary: true }
                     }
                 ]
             }
