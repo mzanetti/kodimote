@@ -54,7 +54,7 @@ Page {
         anchors.fill: parent
 
         PullDownMenu {
-            MenuPlayerControls {
+            ControlsMenuItem {
 
             }
 

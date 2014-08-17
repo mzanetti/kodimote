@@ -35,7 +35,6 @@ OTHER_FILES += \
     qml/components/Thumbnail.qml \
     qml/icons/icon-cover-stop.png \
     qml/pages/ConnectionDialog.qml \
-    qml/components/MenuPlayerControls.qml \
     qml/pages/AboutDialog.qml \
     qml/pages/AuthenticationDialog.qml \
     qml/components/ItemDetails.qml \
@@ -51,5 +50,6 @@ OTHER_FILES += \
     qml/components/GesturePad.qml \
     qml/pages/XbmcPage.qml \
     qml/components/ChannelDetails.qml \
-    qml/components/DockedControls.qml
+    qml/components/DockedControls.qml \
+    qml/components/ControlsMenuItem.qml
 

@@ -96,7 +96,7 @@ Page {
             id: mainMenu
             visible: false
             enabled: false
-            MenuPlayerControls {
+            ControlsMenuItem {
 
             }
 

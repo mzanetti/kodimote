@@ -22,32 +22,10 @@
 import QtQuick 2.0
 import Sailfish.Silica 1.0
 
-Row {
-    id: playerControls
-
-    property QtObject player: xbmc.activePlayer
-    property QtObject currentItem: player ? player.currentItem : null
-
-    anchors.horizontalCenter: parent.horizontalCenter
-    visible: player
-
-    IconButton {
-        icon.source: "image://theme/icon-m-previous"
-        onClicked: playerControls.player.skipPrevious()
-    }
-
-    IconButton {
-        icon.source: "../icons/icon-m-stop.png"
-        onClicked: playerControls.player.stop()
-    }
-
-    IconButton {
-        icon.source: "image://theme/icon-m-" + (playerControls.player && playerControls.player.state === "playing" ? "pause" : "play")
-        onClicked: playerControls.player.playPause()
-    }
-
-    IconButton {
-        icon.source: "image://theme/icon-m-next"
-        onClicked: playerControls.player.skipNext()
+MenuItem {
+    visible: xbmc.activePlayer
+    text: dockedControls.open ? qsTr("Hide controls") : qsTr("Show controls")
+    onClicked: {
+        dockedControls.open = !dockedControls.open
     }
 }

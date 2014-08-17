@@ -55,7 +55,7 @@ Page {
         }
 
         PullDownMenu {
-            MenuPlayerControls {
+            ControlsMenuItem {
 
             }
 
