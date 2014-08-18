@@ -120,6 +120,10 @@ Page {
                         id: contentLoader
                         anchors.fill: parent
 
+                        onLoaded: {
+                            item.item = browserPage.model.getItem(index);
+                        }
+
                         Connections {
                             target: contentLoader.item
 
@@ -254,6 +258,7 @@ Page {
                                 elide: Text.ElideRight
                                 visible: text != ""
                             }
+
                             Label {
                                 id: subSubText
                                 text: year
@@ -267,6 +272,25 @@ Page {
                         }
                     }
 
+                    ProgressBar {
+                        minimumValue: 0
+                        maximumValue: 100
+                        value: model.progressPercentage != undefined ? progressPercentage : 0
+                        visible: index >= 0 && browserPage.model.getItem(filterModel.mapToSourceIndex(index)).type === "channel"
+
+                        leftMargin: 10
+                        rightMargin: 10
+                        height: 20
+                        anchors {
+                            left: (thumbnailImage.visible ? thumbnailImage.right : parent.left);
+                            leftMargin: (thumbnailImage.visible ? Theme.paddingSmall : Theme.paddingLarge);
+                            right: parent.right
+                            rightMargin: Theme.paddingLarge
+                            verticalCenter: parent.bottom
+                            verticalCenterOffset: 25
+                        }
+                    }
+
                 }
 
                 states: [
@@ -274,7 +298,7 @@ Page {
                         when: open
                         PropertyChanges { target: listView; interactive: false;contentY: listView.itemHeight * listView.currentIndex }
                         PropertyChanges { target: flickable; interactive: false }
-                        PropertyChanges { target: contentLoader; source: "../components/ItemDetails.qml" }
+                        PropertyChanges { target: contentLoader; source: browserPage.model.getItem(filterModel.mapToSourceIndex(index)).type == "channel" ? "../components/ChannelDetails.qml" : "../components/ItemDetails.qml" }
                         PropertyChanges { target: listView; header: null }
                     },
                     State {
