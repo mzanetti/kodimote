@@ -327,7 +327,7 @@ Page {
         if (settings.picturesEnabled) {
             mainMenuModel.append(mainMenuModelTemplate.get(2));
         }
-        if (settings.pvrEnabled) {
+        if (settings.pvrEnabled && xbmc.pvrAvailable) {
             mainMenuModel.append(mainMenuModelTemplate.get(3));
         }
 
@@ -345,5 +345,10 @@ Page {
         onVideosEnabledChanged: populateMainMenu();
         onPicturesEnabledChanged: populateMainMenu();
         onPvrEnabledChanged: populateMainMenu();
+    }
+
+    Connections {
+        target: xbmc
+        onPvrAvailableChanged: populateMainMenu();
     }
 }

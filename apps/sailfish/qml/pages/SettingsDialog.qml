@@ -95,9 +95,10 @@ Dialog {
                 }
                 TextSwitch {
                     id: pvrEnabled
-                    text: qsTr("TV Channels")
+                    text: qsTr("Live TV")
                     checked: settings.pvrEnabled
                     width: parent.width / 2
+                    visible: xbmc.pvrAvailable
                 }
             }
 
