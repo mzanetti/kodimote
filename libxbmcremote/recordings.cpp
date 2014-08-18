@@ -126,6 +126,7 @@ void Recordings::listReceived(const QVariantMap &rsp)
     foreach(const QVariant &itemVariant, responseList) {
         QVariantMap itemMap = itemVariant.toMap();
         QString fullPath = itemMap.value("directory").toString();
+        fullPath = fullPath.remove(QRegExp("^/"));
         // Filter away everything outside this path
         if (!fullPath.startsWith(m_path)) {
             continue;
@@ -134,7 +135,7 @@ void Recordings::listReceived(const QVariantMap &rsp)
         // Group everything in subpaths
         if (!m_allSubItems && fullPath != m_path) {
             QString relPath = fullPath;
-            relPath.remove(QRegExp("^" + m_path + "[/]"));
+            relPath.remove(QRegExp("^" + m_path + "/?"));
 
             QString folder = relPath;
             folder = folder.split('/').first();
