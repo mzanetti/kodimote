@@ -27,6 +27,7 @@ DockedPanel {
     property QtObject player: xbmc.activePlayer
     property bool hideTemporary: false
     property bool _opened
+    property bool _dialogOpen
 
     open: player
     width: parent.width
@@ -52,6 +53,26 @@ DockedPanel {
             } else {
                 panel.show(true);
             }
+        }
+    }
+
+    Connections {
+        target: pageStack
+        onCurrentPageChanged: {
+            var isDialog = pageStack.currentPage.hasOwnProperty('__silica_dialog');
+            if (_dialogOpen) {
+                if (!isDialog && _opened) {
+                        show();
+                }
+            } else if (isDialog) {
+                _dialogOpen = true;
+                _opened = open;
+                if (open) {
+                    hide();
+                }
+            }
+
+            _dialogOpen = isDialog;
         }
     }
 
