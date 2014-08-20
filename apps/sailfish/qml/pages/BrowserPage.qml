@@ -296,10 +296,10 @@ Page {
                 states: [
                     State {
                         when: open
-                        PropertyChanges { target: listView; interactive: false;contentY: listView.itemHeight * listView.currentIndex }
+                        PropertyChanges { target: listView; interactive: false; contentY: listView.itemHeight * listView.currentIndex }
                         PropertyChanges { target: flickable; interactive: false }
                         PropertyChanges { target: contentLoader; source: browserPage.model.getItem(filterModel.mapToSourceIndex(index)).type == "channel" ? "../components/ChannelDetails.qml" : "../components/ItemDetails.qml" }
-                        PropertyChanges { target: listView; header: null }
+                        PropertyChanges { target: controlBar; height: 0 }
                     },
                     State {
                         when: opened
@@ -378,6 +378,13 @@ Page {
                         filterModel.sortOrder = filterModel.sortOrder == Qt.AscendingOrder ? Qt.DescendingOrder : Qt.AscendingOrder
                     }
                     anchors.verticalCenter: parent.verticalCenter
+                }
+            }
+
+            Behavior on height {
+                NumberAnimation {
+                    easing.type: Easing.OutQuad
+                    duration: 300
                 }
             }
         }
