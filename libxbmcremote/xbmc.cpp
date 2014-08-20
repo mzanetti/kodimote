@@ -323,7 +323,7 @@ void Xbmc::parseAnnouncement(const QVariantMap &map)
 //        }
     }
     else if(map.value("method").toString() == "Player.OnStop") {
-        queryActivePlayers();
+        QTimer::singleShot(500, this, SLOT(queryActivePlayers()));
     } else if(map.value("method").toString() == "Application.OnVolumeChanged") {
         qDebug() << "volume changed";
         m_volume = map.value("params").toMap().value("data").toMap().value("volume").toInt();
