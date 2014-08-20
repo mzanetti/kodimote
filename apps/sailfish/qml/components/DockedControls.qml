@@ -34,6 +34,10 @@ DockedPanel {
     height: column.height + (2 * Theme.paddingLarge)
     contentHeight: height
 
+    onPlayerChanged: {
+        open = player;
+    }
+
     onHideTemporaryChanged: {
         if (hideTemporary) {
             _opened = open;
@@ -113,6 +117,10 @@ DockedPanel {
 
                 minimumValue: 0
                 maximumValue: 100
+
+                onValueChanged: {
+                    xbmc.volume = value
+                }
 
                 Binding {
                     target: volumeSlider
