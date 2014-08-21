@@ -205,7 +205,6 @@ void Recordings::listReceived(const QVariantMap &rsp)
 
 bool Recordings::recordingLessThan(XbmcModelItem *item1, XbmcModelItem *item2)
 {
-    qDebug() << "comparing" << item1->property("startTime").toDateTime() << "and" << item2->property("startTime").toDateTime();
     return item1->property("startTime").toDateTime() > item2->property("startTime").toDateTime();
 }
 
