@@ -42,6 +42,7 @@ class Settings : public QObject
     Q_PROPERTY(bool videosEnabled READ videosEnabled WRITE setVideosEnabled NOTIFY videosEnabledChanged)
     Q_PROPERTY(bool picturesEnabled READ picturesEnabled WRITE setPicturesEnabled NOTIFY picturesEnabledChanged)
     Q_PROPERTY(bool pvrEnabled READ pvrEnabled WRITE setPvrEnabled NOTIFY pvrEnabledChanged)
+    Q_PROPERTY(bool hapticsEnabled READ hapticsEnabled WRITE setHapticsEnabled NOTIFY hapticsEnabledChanged)
 
 public:
     explicit Settings(QObject *parent = 0);
@@ -91,6 +92,9 @@ public:
     bool pvrEnabled() const;
     void setPvrEnabled(bool enabled);
 
+    bool hapticsEnabled() const;
+    void setHapticsEnabled(bool enabled);
+
 signals:
     void themeInvertedChanged();
     void useThumbnailsChanged();
@@ -109,6 +113,7 @@ signals:
     void videosEnabledChanged();
     void picturesEnabledChanged();
     void pvrEnabledChanged();
+    void hapticsEnabledChanged();
 };
 
 #endif // SETTINGS_H

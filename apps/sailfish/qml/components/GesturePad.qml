@@ -178,7 +178,10 @@ Item {
         }
 
         onPressAndHold: {
-            rumbleEffect.start(4);
+            if (settings.hapticsEnabled) {
+                rumbleEffect.start(4);
+            }
+
             scrollTimer.start();
         }
 
@@ -247,7 +250,9 @@ Item {
                 return;
             }
 
-            rumbleEffect.start(2);
+            if (settings.hapticsEnabled) {
+                rumbleEffect.start(2);
+            }
 
             // if horizontal delta is larger than twice the minimum distance,
             // we always go left/right, no matter what the vertical delta is.
