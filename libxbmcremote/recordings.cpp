@@ -132,6 +132,8 @@ void Recordings::listReceived(const QVariantMap &rsp)
             continue;
         }
 
+        QDateTime startTime = itemMap.value("starttime").toDateTime();
+
         // Group everything in subpaths
         if (!m_allSubItems && fullPath != m_path) {
             QString relPath = fullPath;
@@ -146,6 +148,9 @@ void Recordings::listReceived(const QVariantMap &rsp)
                 // Already have this subfolder
                 LibraryItem *item = paths.value(folder);
                 item->setProperty("childCount", item->property("childCount").toInt() + 1);
+                if (item->property("startTime").toDateTime() < startTime) {
+                    item->setProperty("startTime", startTime);
+                }
                 item->setSubtitle(tr("%1 recordings").arg(item->property("childCount").toInt()));
                 if (item->playcount() > 0 && itemMap.value("playcount").toInt() == 0) {
                     item->setPlaycount(0);
@@ -155,6 +160,7 @@ void Recordings::listReceived(const QVariantMap &rsp)
 
             LibraryItem *item = new LibraryItem(folder, "", this);
             item->setProperty("childCount", 1);
+            item->setProperty("startTime", startTime);
             item->setThumbnail(itemMap.value("icon").toString());
 //            item->setThumbnail(itemMap.value("art").toMap().value("thumb").toString());
             item->setSubtitle(tr("%1 recordings").arg(1));
@@ -166,12 +172,12 @@ void Recordings::listReceived(const QVariantMap &rsp)
 
 
         LibraryItem *item = new LibraryItem(itemMap.value("title").toString(), " ", this);
+        item->setProperty("startTime", startTime);
         item->setRecordingId(itemMap.value("recordingid").toInt());
         item->setFileType("file");
         item->setPlayable(true);
         item->setFileName(itemMap.value("file").toString());
 
-        QDateTime startTime = itemMap.value("starttime").toDateTime();
         QString channel = itemMap.value("channel").toString().remove(QRegExp("[#0-9]* "));
         item->setSubtitle(startTime.toString(Qt::SystemLocaleShortDate) + " (" + channel + ")");
         item->setThumbnail(itemMap.value("icon").toString());
@@ -181,6 +187,8 @@ void Recordings::listReceived(const QVariantMap &rsp)
         item->setPlaycount(itemMap.value("playcount").toInt());
         list.append(item);
     }
+
+    qSort(list.begin(), list.end(), recordingLessThan);
 
     if (paths.count() > 0) {
         LibraryItem *allItem = new LibraryItem(tr("All recordings"), "", this);
@@ -194,3 +202,10 @@ void Recordings::listReceived(const QVariantMap &rsp)
     }
     endInsertRows();
 }
+
+bool Recordings::recordingLessThan(XbmcModelItem *item1, XbmcModelItem *item2)
+{
+    qDebug() << "comparing" << item1->property("startTime").toDateTime() << "and" << item2->property("startTime").toDateTime();
+    return item1->property("startTime").toDateTime() > item2->property("startTime").toDateTime();
+}
+

@@ -47,6 +47,9 @@ private slots:
     void listReceived(const QVariantMap &rsp);
 
 private:
+
+    static bool recordingLessThan(XbmcModelItem *item1, XbmcModelItem *item2);
+
     QString m_path;
     bool m_allSubItems;
 };
