@@ -145,7 +145,10 @@ Page {
                     icon.source: "image://theme/icon-m-back"
                     anchors { left: parent.left; top: parent.top; margins: Theme.paddingMedium }
                     onClicked: {
-                        rumbleEffect.start(2);
+                        if (settings.hapticsEnabled) {
+                            rumbleEffect.start(2);
+                        }
+
                         keys.back();
                     }
                 }
@@ -154,7 +157,10 @@ Page {
                     rotation: usePictureControls ? 0 : 135
                     anchors { right: parent.right; top: parent.top; margins: Theme.paddingMedium }
                     onClicked: {
-                        rumbleEffect.start(2);
+                        if (settings.hapticsEnabled) {
+                            rumbleEffect.start(2);
+                        }
+
                         if (usePictureControls) {
                             picturePlayer.zoomIn();
                         } else {
@@ -166,7 +172,10 @@ Page {
                     icon.source: usePictureControls ? "image://theme/icon-m-refresh" : "image://theme/icon-m-about"
                     anchors { left: parent.left; bottom: parent.bottom; margins: Theme.paddingMedium }
                     onClicked: {
-                        rumbleEffect.start(2);
+                        if (settings.hapticsEnabled) {
+                            rumbleEffect.start(2);
+                        }
+
                         if (usePictureControls) {
                             picturePlayer.rotate();
                         } else {
@@ -178,7 +187,10 @@ Page {
                     icon.source: usePictureControls ? "image://theme/icon-m-remove" : "../icons/icon-m-menu.png"
                     anchors { right: parent.right; bottom: parent.bottom; margins: Theme.paddingMedium }
                     onClicked: {
-                        rumbleEffect.start(2);
+                        if (settings.hapticsEnabled) {
+                            rumbleEffect.start(2);
+                        }
+
                         if (usePictureControls) {
                             picturePlayer.zoomOut();
                         } else {
@@ -197,16 +209,16 @@ Page {
                     anchors.centerIn: parent
                     spacing: parent.width / 8
                     Rectangle { height: 20; width: parent.spacing; color: "red"; anchors.verticalCenter: parent.verticalCenter; radius: 2
-                        MouseArea { anchors.fill: parent; anchors.margins: -10; onClicked: { rumbleEffect.start(2); keys.red() } }
+                        MouseArea { anchors.fill: parent; anchors.margins: -10; onClicked: { if (settings.hapticsEnabled) { rumbleEffect.start(2); } keys.red() } }
                     }
                     Rectangle { height: 20; width: parent.spacing; color: "green"; anchors.verticalCenter: parent.verticalCenter; radius: 2
-                        MouseArea { anchors.fill: parent; anchors.margins: -10; onClicked: { rumbleEffect.start(2); keys.green() } }
+                        MouseArea { anchors.fill: parent; anchors.margins: -10; onClicked: { if (settings.hapticsEnabled) { rumbleEffect.start(2); } keys.green() } }
                     }
                     Rectangle { height: 20; width: parent.spacing; color: "yellow"; anchors.verticalCenter: parent.verticalCenter; radius: 2
-                        MouseArea { anchors.fill: parent; anchors.margins: -10; onClicked: { rumbleEffect.start(2); keys.yellow() } }
+                        MouseArea { anchors.fill: parent; anchors.margins: -10; onClicked: { if (settings.hapticsEnabled) { rumbleEffect.start(2); } keys.yellow() } }
                     }
                     Rectangle { height: 20; width: parent.spacing; color: "blue"; anchors.verticalCenter: parent.verticalCenter; radius: 2
-                        MouseArea { anchors.fill: parent; anchors.margins: -10; onClicked: { rumbleEffect.start(2); keys.blue() } }
+                        MouseArea { anchors.fill: parent; anchors.margins: -10; onClicked: { if (settings.hapticsEnabled) { rumbleEffect.start(2); } keys.blue() } }
                     }
                 }
             }

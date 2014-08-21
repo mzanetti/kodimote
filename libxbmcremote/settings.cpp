@@ -224,3 +224,16 @@ void Settings::setPvrEnabled(bool enabled)
     settings.setValue("PvrEnabled", enabled);
     emit pvrEnabledChanged();
 }
+
+bool Settings::hapticsEnabled() const
+{
+    QSettings settings;
+    return settings.value("HapticsEnabled", true).toBool();
+}
+
+void Settings::setHapticsEnabled(bool enabled)
+{
+    QSettings settings;
+    settings.setValue("HapticsEnabled", enabled);
+    emit hapticsEnabledChanged();
+}

@@ -65,6 +65,12 @@ Dialog {
                 checked: settings.ignoreArticle
             }
 
+            TextSwitch {
+                id: hapticsEnabled
+                text: qsTr("Enable haptics on keypad")
+                checked: settings.hapticsEnabled
+            }
+
             SectionHeader {
                 text: qsTr("Used media")
             }
@@ -152,5 +158,6 @@ Dialog {
         settings.videosEnabled = videosEnabled.checked
         settings.picturesEnabled = picturesEnabled.checked
         settings.pvrEnabled = pvrEnabled.checked
+        settings.hapticsEnabled = hapticsEnabled.checked
     }
 }
