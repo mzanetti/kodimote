@@ -95,7 +95,7 @@ build_click_package() {
 run() {
 # FIXME: ubuntu currently seems to have troubles running apps with a non-installed .desktop file
 #    exec_with_ssh "cd $CODE_DIR/apps/ubuntu/ && ../../$BUILD_DIR/apps/ubuntu/$BINARY --desktop_file_hint=$CODE_DIR/apps/ubuntu/xbmcremote.desktop"
-    exec_with_ssh "cd $CODE_DIR/apps/ubuntu/ && ../../$BUILD_DIR/apps/ubuntu/$BINARY --desktop_file_hint=/home/phablet/.local/share/applications/com.ubuntu.developer.mzanetti.xbmcremote_xbmcremote_1.4.2.1.desktop"
+    exec_with_ssh "cd $CODE_DIR/apps/ubuntu/ && ../../$BUILD_DIR/apps/ubuntu/$BINARY --desktop_file_hint=/usr/share/applications/dialer-app.desktop"
 }
 
 set -- `getopt -n$0 -u -a --longoptions="setup,gdb,click,help" "sgch" "$@"`
