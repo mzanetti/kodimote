@@ -148,7 +148,7 @@ void Channels::detailsReceived(const QVariantMap &rsp)
     qDebug() << "done 2";
 }
 
-void Channels::fetchBroadcasts(int channelId)
+void Channels::fetchBroadcasts(int channelId, int start, int end)
 {
     QVariantMap params;
     params.insert("channelid", channelId);
@@ -164,11 +164,10 @@ void Channels::fetchBroadcasts(int channelId)
 
     params.insert("properties", properties);
 
-//    QVariantMap limits;
-//    limits.insert("start", 0);
-//    limits.insert("end", 20);
-
-//    params.insert("limits", limits);
+    QVariantMap limits;
+    limits.insert("start", start);
+    limits.insert("end", end);
+    params.insert("limits", limits);
 
     int id = XbmcConnection::sendCommand("PVR.GetBroadcasts", params, this, "broadcastsReceived");
     m_broadcastRequestMap.insert(id, channelId);
@@ -179,6 +178,9 @@ void Channels::broadcastsReceived(const QVariantMap &rsp)
     if (!m_broadcastRequestMap.contains(rsp.value("id").toInt())) {
         return;
     }
+
+    int endItem = rsp.value("result").toMap().value("limits").toMap().value("end").toInt();
+    int totalItems = rsp.value("result").toMap().value("limits").toMap().value("total").toInt();
 
     int channelId = m_broadcastRequestMap.take(rsp.value("id").toInt());
     ChannelItem *item = 0;
@@ -199,6 +201,7 @@ void Channels::broadcastsReceived(const QVariantMap &rsp)
 
     QDateTime nowTime = QDateTime::currentDateTime();
 
+    bool foundCurrent = false;
     foreach (const QVariant &broadcast, broadcasts) {
         QDateTime startTime = broadcast.toMap().value("starttime").toDateTime();
         startTime.setTimeSpec(Qt::UTC);
@@ -220,7 +223,13 @@ void Channels::broadcastsReceived(const QVariantMap &rsp)
         if (startTime < nowTime && nowTime < endTime) {
             item->setSubtitle(title);
             item->setProgressPercentage(b.m_progressPercentage);
+            foundCurrent = true;
         }
     }
-    emit dataChanged(index(itemIndex, 0, QModelIndex()), index(itemIndex, 0, QModelIndex()));
+    if (!foundCurrent && endItem < totalItems) {
+        fetchBroadcasts(channelId, endItem, qMin(endItem + 20, totalItems));
+    } else {
+        emit dataChanged(index(itemIndex, 0, QModelIndex()), index(itemIndex, 0, QModelIndex()));
+    }
+
 }

@@ -48,7 +48,7 @@ private slots:
     void listReceived(const QVariantMap &rsp);
     void detailsReceived(const QVariantMap &rsp);
 
-    void fetchBroadcasts(int channelId);
+    void fetchBroadcasts(int channelId, int start = 0, int end = 20);
     void broadcastsReceived(const QVariantMap &rsp);
 
 private:
