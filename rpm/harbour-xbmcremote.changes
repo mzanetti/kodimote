@@ -1,3 +1,16 @@
+* Thu Aug 21 2014 Robert Meijers <robert.meijers@gmail.com> 1.6.0-1
+- show controls dock, containing playback and volume buttons, when playing media
+- add support for browsing PVR recordings
+- show EPG as details of TV channel
+- hide Live TV menu option and setting when PVR isn't enabled in XBMC
+- hide browser control bar when an item is expanded
+- fix crash in host discovery
+- fix opening of Live TV menu item
+- fix sort icon direction in browser
+- fix size of reboot icon
+- fix issue where stopping music playback wouldn't disable playback controls
+- fix playing a song using the music => recently added => songs menu
+
 * Mon Aug 11 2014 Robert Meijers <robert.meijers@gmail.com> 1.5.1-1
 - Add support for editing a host
 - Add support for custom volume control types per host (unhides custom commands and allows sending up/down commands)

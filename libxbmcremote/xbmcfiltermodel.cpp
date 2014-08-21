@@ -69,10 +69,10 @@ bool XbmcFilterModel::hideWatched() const
 void XbmcFilterModel::setSortOrder(Qt::SortOrder sortOrder)
 {
     if (m_sortOrder != sortOrder) {
-        m_sortOrder = sortOrder;
-        emit sortOrderChanged();
         sort(0, sortOrder);
         emit layoutChanged();
+        m_sortOrder = sortOrder;
+        emit sortOrderChanged();
     }
 }
 
