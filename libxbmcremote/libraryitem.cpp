@@ -44,6 +44,7 @@ void LibraryItem::init()
     m_artistId = -1;
     m_albumId = -1;
     m_songId = -1;
+    m_genreId = -1;
     m_musicvideoId = -1;
     m_tvshowId = -1;
     m_seasonId = -1;
@@ -105,6 +106,8 @@ QVariant LibraryItem::data(int role) const
         return m_albumId;
     case XbmcModel::RoleSongId:
         return m_songId;
+    case XbmcModel::RoleGenreId:
+        return m_genreId;
     case XbmcModel::RoleMusicVideoId:
         return m_musicvideoId;
     case XbmcModel::RoleTvShowId:
@@ -294,6 +297,17 @@ void LibraryItem::setSongId(int songId)
 {
     m_songId = songId;
     emit songIdChanged();
+}
+
+int LibraryItem::genreId() const
+{
+    return m_genreId;
+}
+
+void LibraryItem::setGenreId(int genreId)
+{
+    m_genreId = genreId;
+    emit genreIdChanged();
 }
 
 int LibraryItem::musicvideoId() const

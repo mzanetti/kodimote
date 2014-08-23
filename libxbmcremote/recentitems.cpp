@@ -75,7 +75,7 @@ XbmcModel *RecentItems::enterItem(int index)
 
     switch(m_list.at(index)->property("id").toInt()) {
     case 0:
-        return new Albums(id, this);
+        return new Albums(id, -1, this);
     case 1:
         return new Songs(id, id, this);
     case 2:

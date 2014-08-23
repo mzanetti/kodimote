@@ -29,9 +29,10 @@
 #include "libraryitem.h"
 #include "xbmcdownload.h"
 
-Albums::Albums(int artistId, XbmcModel *parent) :
+Albums::Albums(int artistId, int genreId, XbmcModel *parent) :
     XbmcLibrary(parent),
-    m_artistId(artistId)
+    m_artistId(artistId),
+    m_genreId(genreId)
 {
 }
 
@@ -43,11 +44,18 @@ Albums::~Albums()
 void Albums::refresh()
 {
     QVariantMap params;
-    if(m_artistId >= 0) {
+    if(m_artistId >= 0 || m_genreId >= 0) {
         QVariantMap filter;
-        filter.insert("artistid", m_artistId);
+// 21.08.14: For some reason filtering by artist AND genre doesn't work... Fallback to artist only for now
+//        if (m_genreId >= 0) {
+//            filter.insert("genreid", m_genreId);
+//        }
+        if (m_artistId >= 0) {
+            filter.insert("artistid", m_artistId);
+        }
         params.insert("filter", filter);
     }
+
 
     QVariantList properties;
     properties.append("artist");

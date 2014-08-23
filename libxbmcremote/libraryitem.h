@@ -42,6 +42,7 @@ class LibraryItem : public XbmcModelItem
     Q_PROPERTY(int albumId READ albumId WRITE setAlbumId NOTIFY albumIdChanged)
     Q_PROPERTY(QString album READ album WRITE setAlbum NOTIFY albumChanged)
     Q_PROPERTY(int songId READ songId WRITE setSongId NOTIFY songIdChanged)
+    Q_PROPERTY(int genreId READ genreId WRITE setGenreId NOTIFY genreIdChanged)
     Q_PROPERTY(int musicvideoId READ musicvideoId WRITE setMusicvideoId NOTIFY musicvideoIdChanged)
     Q_PROPERTY(int tvshowId READ tvshowId WRITE setTvshowId NOTIFY tvshowIdChanged)
     Q_PROPERTY(QString tvShow READ tvShow WRITE setTvShow NOTIFY tvShowChanged)
@@ -112,6 +113,9 @@ public:
 
     int songId() const;
     void setSongId(int songId);
+
+    int genreId() const;
+    void setGenreId(int genreId);
 
     int musicvideoId() const;
     void setMusicvideoId(int musicvideoId);
@@ -222,6 +226,7 @@ signals:
     void albumIdChanged();
     void albumChanged();
     void songIdChanged();
+    void genreIdChanged();
     void musicvideoIdChanged();
     void tvshowIdChanged();
     void tvShowChanged();
@@ -272,6 +277,7 @@ private:
     int m_albumId;
     QString m_album;
     int m_songId;
+    int m_genreId;
     int m_musicvideoId;
     int m_tvshowId;
     QString m_tvShow;

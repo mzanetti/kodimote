@@ -46,6 +46,7 @@ public:
         RoleDuration,
         RolePlayable,
         RoleSongId,
+        RoleGenreId,
         RoleAlbumId,
         RoleArtistId,
         RoleFileName,

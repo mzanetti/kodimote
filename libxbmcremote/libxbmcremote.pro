@@ -33,6 +33,7 @@ SOURCES +=  xbmc.cpp \
             artists.cpp \
             albums.cpp \
             songs.cpp \
+	    genres.cpp \
             musicvideos.cpp \
             tvshows.cpp \
             seasons.cpp \
@@ -83,6 +84,7 @@ HEADERS += libxbmcremote_global.h \
            artists.h \
            albums.h \
            songs.h \
+	   genres.h \
            files.h \
            shares.h \
            movies.h \

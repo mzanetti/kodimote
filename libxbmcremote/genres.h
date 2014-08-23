@@ -18,21 +18,19 @@
  *                                                                           *
  ****************************************************************************/
 
-#ifndef ARTISTS_H
-#define ARTISTS_H
+#ifndef GENRES_H
+#define GENRES_H
 
 #include "xbmclibrary.h"
 
 #include <QStandardItem>
 
-class Albums;
-
-class Artists : public XbmcLibrary
+class Genres: public XbmcLibrary
 {
     Q_OBJECT
 public:
-    explicit Artists(int genreId = -1, XbmcModel *parent = 0);
-    ~Artists();
+    explicit Genres(XbmcModel *parent = 0);
+    ~Genres();
 
     XbmcModel *enterItem(int index);
     void playItem(int index);
@@ -40,25 +38,13 @@ public:
 
     QString title() const;
 
-    Q_INVOKABLE void fetchItemDetails(int index);
-    Q_INVOKABLE bool hasDetails() { return true; }
-
-    Q_INVOKABLE virtual void download(int index, const QString &path);
+    Q_INVOKABLE bool hasDetails() { return false; }
 
 public slots:
     void refresh();
 
 private slots:
     void listReceived(const QVariantMap &rsp);
-    void detailsReceived(const QVariantMap &rsp);
-
-    void downloadModelFilled();
-
-private:
-    int m_genreId;
-    QMap<int, int> m_detailsRequestMap;
-
-    QString m_downloadPath;
 };
 
-#endif // ARTISTS_H
+#endif // GENRES_H

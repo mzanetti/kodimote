@@ -31,7 +31,7 @@ class Albums : public XbmcLibrary
 {
     Q_OBJECT
 public:
-    explicit Albums(int artistId = -1, XbmcModel *parent = 0);
+    explicit Albums(int artistId = -1, int genreId = -1, XbmcModel *parent = 0);
     ~Albums();
 
     XbmcModel* enterItem(int index);
@@ -58,6 +58,7 @@ private:
     QMap<int, int> m_detailsRequestMap;
 
     int m_artistId;
+    int m_genreId;
     QList<Songs*> m_downloadList;
     QString m_downloadPath;
 };

@@ -27,14 +27,21 @@
 #include "playlist.h"
 #include "libraryitem.h"
 
-Artists::Artists(XbmcModel *parent) :
-    XbmcLibrary(parent)
+Artists::Artists(int genreId, XbmcModel *parent) :
+    XbmcLibrary(parent),
+    m_genreId(genreId)
 {
 }
 
 void Artists::refresh()
 {
     QVariantMap params;
+
+    if(m_genreId >= 0) {
+        QVariantMap filter;
+        filter.insert("genreid", m_genreId);
+        params.insert("filter", filter);
+    }
 
     QVariantMap sort;
     sort.insert("ignorearticle", ignoreArticle());
@@ -144,7 +151,7 @@ void Artists::downloadModelFilled()
 
 XbmcModel *Artists::enterItem(int index)
 {
-    return new Albums(m_list.at(index)->data(RoleArtistId).toInt(), this);
+    return new Albums(m_list.at(index)->data(RoleArtistId).toInt(), m_genreId, this);
 }
 
 void Artists::playItem(int index)
