@@ -37,6 +37,9 @@ set(libxbmcremote_SRCS
     channels.cpp
     channelitem.cpp
     channelbroadcasts.cpp
+    pvrmenu.cpp
+    genres.cpp
+    recordings.cpp
 
     imagecache.cpp
 
