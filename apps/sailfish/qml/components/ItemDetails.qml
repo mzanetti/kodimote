@@ -189,6 +189,7 @@ Item {
             }
 
             ItemDetailRow {
+                visible: playcount != "-1"
                 title: qsTr("Playcount:")
                 text: playcount
             }
