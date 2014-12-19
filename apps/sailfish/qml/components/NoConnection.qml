@@ -75,6 +75,16 @@ Item {
                 anchors.horizontalCenter: parent.horizontalCenter
                 onClicked: noConnection.showConnect()
             }
+
+            Button {
+                text: qsTr("Wake host")
+                anchors.horizontalCenter: parent.horizontalCenter
+                visible: xbmc.connecting && xbmc.connectedHost && xbmc.connectedHost.hwAddr
+                enabled: xbmc.connectedHost.hwAddr
+                onClicked: {
+                    xbmc.connectedHost.wakeup();
+                }
+            }
         }
     }
 }

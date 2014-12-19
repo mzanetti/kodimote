@@ -120,6 +120,7 @@ Page {
             MenuItem {
                 text: qsTr("Change connection...")
                 onClicked: showConnect()
+                visible: xbmc.connected
             }
 
             MenuItem {
