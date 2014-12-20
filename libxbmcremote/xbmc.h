@@ -172,11 +172,13 @@ private slots:
     void init();
     void slotDownloadAdded(XbmcDownload *download);
     void downloadFinished(bool success);
+    void requestHwAddr();
 
     void activePlayersReceived(const QVariantMap &rsp);
     void volumeReceived(const QVariantMap &rsp);
     void systemPropertiesReceived(const QVariantMap &rsp);
     void pvrPropertiesReceived(const QVariantMap &rsp);
+    void hwAddrReceived(const QVariantMap &rsp);
 
 private:
     static Xbmc *s_instance;
@@ -193,6 +195,7 @@ private:
 
     int m_volume;
     QString m_state;
+    int m_hwAddrRequestCount;
 
     QString m_hostname;
     int m_port;
