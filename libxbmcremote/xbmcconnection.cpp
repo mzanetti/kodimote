@@ -188,20 +188,27 @@ void XbmcConnectionPrivate::connect(XbmcHost *host)
     m_networkSession = new QNetworkSession(networkConfig, this);
     QObject::connect(m_networkSession, SIGNAL(closed()), this, SLOT(sessionLost()));
     m_networkSession->open();
+#ifndef UBUNTU
     if(m_networkSession->isOpen()) {
         internalConnect();
     }
     else {
+        qDebug() << "network session not open... not connecting...";
         QObject::connect(m_networkSession, SIGNAL(stateChanged(QNetworkSession::State)), this, SLOT(internalConnect()));
     }
+#else
+    internalConnect();
+#endif
 }
 
 void XbmcConnectionPrivate::internalConnect()
 {
+#ifndef UBUNTU
     if(m_networkSession->state() != QNetworkSession::Connected) {
         qDebug() << m_networkSession->state();
         return;
     }
+#endif
     if (!m_host) {
         return;
     }

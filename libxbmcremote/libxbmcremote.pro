@@ -9,6 +9,10 @@ packagesExist(sailfishapp) {
     DEFINES += SAILFISH
 }
 
+ubuntu {
+    DEFINES += UBUNTU
+}
+
 TARGET = xbmcremote
 TEMPLATE = lib
 CONFIG += static
