@@ -223,6 +223,11 @@ void Xbmc::init()
     list.append("scanning");
     params.insert("properties", list);
     XbmcConnection::sendCommand("PVR.GetProperties", params, this, "pvrPropertiesReceived");
+
+    if (XbmcConnection::connectedHost()->hwAddr().isEmpty()) {
+        m_hwAddrRequestCount = 0;
+        requestHwAddr();
+    }
 }
 
 void Xbmc::slotDownloadAdded(XbmcDownload *download)
@@ -674,4 +679,30 @@ void Xbmc::setDataPath(const QString &path)
 void Xbmc::disconnectFromHost()
 {
     XbmcConnection::disconnectFromHost();
+}
+
+void Xbmc::requestHwAddr()
+{
+    m_hwAddrRequestCount++;
+    QVariantMap params;
+    QVariantList labels;
+    labels.append("Network.MacAddress");
+    params.insert("labels", labels);
+    XbmcConnection::sendCommand("XBMC.GetInfoLabels", params, this, "hwAddrReceived");
+}
+
+void Xbmc::hwAddrReceived(const QVariantMap &rsp)
+{
+    QString hwAddr = rsp.value("result").toMap().value("Network.MacAddress").toString();
+
+    if (hwAddr.isEmpty()) {
+        return;
+    }
+
+    //hwAddr can be a localized 'Busy' message, so we need to check if it's actually a hw address
+    if (QRegExp("^([0-9A-F]{2}[:]){5}([0-9A-F]{2})$").exactMatch(hwAddr)) {
+        XbmcConnection::connectedHost()->setHwAddr(hwAddr.toLower());
+    } else if(m_hwAddrRequestCount < 5) {
+        QTimer::singleShot(100, this, SLOT(requestHwAddr()));
+    }
 }
