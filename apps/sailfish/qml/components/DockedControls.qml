@@ -55,7 +55,9 @@ DockedPanel {
             if (Qt.inputMethod.visible) {
                 panel.hide(true);
             } else {
-                panel.show(true);
+                if (open && !hideTemporary) {
+                    panel.show(true);
+                }
             }
         }
     }

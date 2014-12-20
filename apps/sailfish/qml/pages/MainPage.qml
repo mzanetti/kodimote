@@ -351,5 +351,6 @@ Page {
     Connections {
         target: xbmc
         onPvrAvailableChanged: populateMainMenu();
+        onConnectingChanged: pageStack.pop(mainPage, PageStackAction.Immediate);
     }
 }
