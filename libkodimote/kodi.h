@@ -33,6 +33,7 @@ class VideoLibrary;
 class Shares;
 class ChannelGroups;
 class PvrMenu;
+class Profiles;
 
 class Player;
 class AudioPlayer;
@@ -89,6 +90,7 @@ public:
 
     Q_INVOKABLE Shares *shares(const QString &mediatype);
     Q_INVOKABLE PvrMenu *pvrMenu();
+    Q_INVOKABLE Profiles *profiles();
 
     Q_INVOKABLE AudioPlayer *audioPlayer();
     Q_INVOKABLE VideoPlayer *videoPlayer();
@@ -207,6 +209,7 @@ private:
     QString m_username;
     QString m_password;
     KodiHostModel *m_hosts;
+    Profiles *m_profiles;
 
     int m_originalVolume;
     int m_targetVolume;

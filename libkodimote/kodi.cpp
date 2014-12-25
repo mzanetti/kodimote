@@ -37,6 +37,7 @@
 #include "channels.h"
 #include "channelbroadcasts.h"
 #include "pvrmenu.h"
+#include "profiles.h"
 
 #include "playlist.h"
 #include "audioplaylist.h"
@@ -153,6 +154,7 @@ Kodi::Kodi(QObject *parent) :
     qmlRegisterType<Channels>();
     qmlRegisterType<ChannelBroadcasts>();
     qmlRegisterType<PvrMenu>();
+    qmlRegisterType<Profiles>();
     qmlRegisterType<Keys>();
     qmlRegisterType<EventClient>();
     qmlRegisterType<KodiFilterModel>(qmlUri, 1, 0, "KodiFilterModel");
@@ -183,6 +185,7 @@ Kodi::Kodi(QObject *parent) :
 
     m_keys = new Keys(this);
     m_eventClient = new EventClient(this);
+    m_profiles = new Profiles(this);
 
     m_volumeAnimation.setTargetObject(this);
     m_volumeAnimation.setPropertyName("volume");
@@ -226,6 +229,8 @@ void Kodi::init()
         m_hwAddrRequestCount = 0;
         requestHwAddr();
     }
+
+    m_profiles->refresh();
 }
 
 void Kodi::slotDownloadAdded(KodiDownload *download)
@@ -301,6 +306,11 @@ Shares *Kodi::shares(const QString &mediatype)
 PvrMenu *Kodi::pvrMenu()
 {
     return new PvrMenu();
+}
+
+Profiles *Kodi::profiles()
+{
+    return m_profiles;
 }
 
 AudioPlayer *Kodi::audioPlayer()
