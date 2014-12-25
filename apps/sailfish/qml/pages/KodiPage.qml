@@ -66,6 +66,10 @@ Page {
         ListModel {
             id: kodiMenuModelTemplate
             ListElement {
+                icon: "image://theme/icon-l-people"
+                target: "changeUser"
+            }
+            ListElement {
                 icon: "image://theme/icon-l-dismiss"
                 target: "quit"
             }
@@ -95,6 +99,9 @@ Page {
 
                 if (item) {
                     var target = kodiMenuModel.get(index).target;
+                    if (target === "changeUser") {
+                        return qsTr("Change user");
+                    }
                     if (target === "quit") {
                         return qsTr("Quit");
                     }
@@ -122,7 +129,10 @@ Page {
                 }
 
                 var target = kodiMenuModel.get(index).target;
-                if (target === "quit") {
+                if (target === "changeUser") {
+                    pageStack.push("ProfileSelectionDialog.qml");
+                }
+                else if (target === "quit") {
                     kodi.quit();
                 }
                 else if (target === "shutdown") {
@@ -143,18 +153,21 @@ Page {
 
     function populateKodiMenu() {
         kodiMenuModel.clear();
-        kodiMenuModel.append(kodiMenuModelTemplate.get(0));
-        if (kodi.canShutdown) {
-            kodiMenuModel.append(kodiMenuModelTemplate.get(1));
+        if (kodi.profiles().count > 1) {
+            kodiMenuModel.append(kodiMenuModelTemplate.get(0));
         }
-        if (kodi.canReboot) {
+        kodiMenuModel.append(kodiMenuModelTemplate.get(1));
+        if (kodi.canShutdown) {
             kodiMenuModel.append(kodiMenuModelTemplate.get(2));
         }
-        if (kodi.canShutdown) {
+        if (kodi.canReboot) {
             kodiMenuModel.append(kodiMenuModelTemplate.get(3));
         }
-        if (kodi.canHibernate) {
+        if (kodi.canShutdown) {
             kodiMenuModel.append(kodiMenuModelTemplate.get(4));
+        }
+        if (kodi.canHibernate) {
+            kodiMenuModel.append(kodiMenuModelTemplate.get(5));
         }
     }
 
@@ -165,5 +178,10 @@ Page {
     Connections {
         target: kodi
         onSystemPropertiesChanged: populateKodiMenu();
+    }
+
+    Connections {
+        target: kodi.profiles()
+        onCountChanged: populateKodiMenu();
     }
 }

@@ -51,5 +51,6 @@ OTHER_FILES += \
     qml/pages/KodiPage.qml \
     qml/components/ChannelDetails.qml \
     qml/components/DockedControls.qml \
-    qml/components/ControlsMenuItem.qml
+    qml/components/ControlsMenuItem.qml \
+    qml/pages/ProfileSelectionDialog.qml
 
