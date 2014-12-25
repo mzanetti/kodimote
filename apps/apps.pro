@@ -17,7 +17,7 @@ ubuntu {
 
 packagesExist(sailfishapp) {
     message("Sailfish build. Building sailfish app.")
-    #SUBDIRS += sailfish
+    SUBDIRS += sailfish
 }
 
 simulator {
