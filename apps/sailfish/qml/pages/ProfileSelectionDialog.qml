@@ -24,8 +24,12 @@ import Sailfish.Silica 1.0
 import harbour.kodimote 1.0
 
 Dialog {
+    id: dialog
+
+    property string lockCode
+
     onAccepted: {
-        listView.model.switchProfile(listView.currentIndex)
+        listView.model.switchProfile(listView.currentIndex, dialog.lockCode)
     }
 
     Connections {
@@ -55,27 +59,86 @@ Dialog {
             acceptText: qsTr("Select user")
         }
 
+        VerticalScrollDecorator {}
+
         delegate: ListItem {
+            id: item
+            property bool active: listView.currentIndex === index
+            property bool mustUnlock: lockMode === KodiModel.LockModeNumeric || lockMode === KodiModel.LockModeAlphaNumeric;
+
             width: listView.width
-            height: Theme.itemSizeLarge
+            height: active && mustUnlock ? Theme.itemSizeExtraLarge : Theme.itemSizeLarge
             contentHeight: height
 
-            highlighted: down || listView.currentIndex === index
+            highlighted: down || active
 
             onClicked: {
                 listView.currentIndex = index
             }
 
-            Label {
-                text: title
-                anchors.margins: Theme.paddingLarge
-                anchors.left: parent.left
-                anchors.right: parent.right
+            onActiveChanged: {
+                if (active) {
+                    if (mustUnlock) {
+                        lockCode.forceActiveFocus();
+                        dialog.canAccept = Qt.binding(function() { return lockCode.text.length > 0; });
+                    } else {
+                        dialog.canAccept = true;
+                    }
+                }
+            }
+
+            Behavior on height {
+                NumberAnimation {
+                    easing.type: Easing.OutQuad
+                    duration: 300
+                }
+            }
+
+            Column {
+                width: parent.width
                 anchors.verticalCenter: parent.verticalCenter
 
-                font.weight: Font.Bold
-                font.pixelSize: Theme.fontSizeMedium
-                elide: Text.ElideRight
+                Label {
+                    text: title
+                    anchors.margins: Theme.paddingLarge
+                    anchors.left: parent.left
+                    anchors.right: parent.right
+
+                    font.weight: Font.Bold
+                    font.pixelSize: Theme.fontSizeMedium
+                    elide: Text.ElideRight
+                }
+
+                Item {
+                    width: parent.width
+                    clip: true
+                    visible: mustUnlock && (item.active || animation.running)
+                    height: item.active ? lockCode.height : 0
+
+                    Behavior on height {
+                        NumberAnimation {
+                            id: animation
+                            easing.type: Easing.OutQuad
+                            duration: 300
+                        }
+                    }
+
+                    TextField {
+                        id: lockCode
+                        width: parent.width
+                        label: qsTr("Lock code")
+                        placeholderText: qsTr("Lock code")
+                        echoMode: TextInput.Password
+                        inputMethodHints: (lockMode === KodiModel.LockModeNumeric ? Qt.ImhDigitsOnly : 0) | Qt.ImhSensitiveData | Qt.ImhNoPredictiveText
+                        onTextChanged: {
+                            dialog.lockCode = text;
+                        }
+
+                        EnterKey.enabled: text.length > 0
+                        EnterKey.iconSource: "image://theme/icon-m-enter-next"
+                        EnterKey.onClicked: dialog.accept()
+                    }
+                }
             }
         }
     }
