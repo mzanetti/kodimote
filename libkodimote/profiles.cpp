@@ -21,10 +21,11 @@
 
 #include "profiles.h"
 
+#include <QCryptographicHash>
 #include <QTimer>
 
 #include "kodiconnection.h"
-#include "libraryitem.h"
+#include "profileitem.h"
 
 Profiles::Profiles(QObject *parent) :
     KodiModel(parent)
@@ -41,7 +42,7 @@ int Profiles::count() const
     return m_list.size();
 }
 
-void Profiles::switchProfile(int index)
+void Profiles::switchProfile(int index, const QString &lockCode)
 {
     if (index < 0 || index > m_list.size()) {
         return;
@@ -50,14 +51,26 @@ void Profiles::switchProfile(int index)
     KodiModelItem *item = m_list.at(index);
     QVariantMap params;
     params.insert("profile", item->title());
-    params.insert("prompt", true);
+
+    if (lockCode.length() > 0) {
+        QByteArray encryptedLockCode = QCryptographicHash::hash(lockCode.toUtf8(), QCryptographicHash::Md5).toHex();
+        QVariantMap password;
+        password.insert("value", encryptedLockCode);
+        params.insert("password", password);
+    }
 
     KodiConnection::sendCommand("Profiles.LoadProfile", params);
 }
 
 void Profiles::refresh()
 {
-    KodiConnection::sendCommand("Profiles.GetProfiles", QVariantMap(), this, "listReceived");
+    QVariantMap params;
+
+    QVariantList properties;
+    properties.append("lockmode");
+    params.insert("properties", properties);
+
+    KodiConnection::sendCommand("Profiles.GetProfiles", params, this, "listReceived");
 
     KodiConnection::sendCommand("Profiles.GetCurrentProfile", QVariantMap(), this, "currentProfileReceived");
 }
@@ -94,8 +107,9 @@ void Profiles::listReceived(const QVariantMap &rsp)
     QVariantList responseList = rsp.value("result").toMap().value("profiles").toList();
     foreach(const QVariant &itemVariant, responseList) {
         QVariantMap itemMap = itemVariant.toMap();
-        KodiModelItem *item = new KodiModelItem(this);
+        ProfileItem *item = new ProfileItem(this);
         item->setTitle(itemMap.value("label").toString());
+        item->setLockMode((KodiModel::LockMode)itemMap.value("lockmode").toInt());
 
         list.append(item);
     }

@@ -30,6 +30,7 @@ class KodiModel : public QAbstractItemModel
 {
     Q_OBJECT
     Q_ENUMS(ThumbnailFormat)
+    Q_ENUMS(LockMode)
     Q_PROPERTY(QString title READ title NOTIFY titleChanged)
     Q_PROPERTY(int count READ rowCount NOTIFY layoutChanged)
     Q_PROPERTY(bool busy READ busy NOTIFY busyChanged)
@@ -82,7 +83,8 @@ public:
         RoleComment,
         RolePlaycount,
         RoleCast,
-        RolePlayingState
+        RolePlayingState,
+        RoleLockMode
     };
 
     enum ThumbnailFormat {
@@ -97,6 +99,13 @@ public:
         ItemIdInvalid = -1,
         ItemIdRecentlyAdded = -2,
         ItemIdRecentlyPlayed = -3
+    };
+
+    enum LockMode {
+        LockModeNone = 0,
+        LockModeNumeric = 1,
+        LockModeGamePad = 2,
+        LockModeAlphaNumeric = 3
     };
 
     explicit KodiModel(KodiModel *parent);

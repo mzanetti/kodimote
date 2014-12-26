@@ -173,6 +173,7 @@ QHash<int, QByteArray> KodiModel::roleNames() const
     roleNames.insert(RolePlaycount, "playcount");
     roleNames.insert(RoleCast, "cast");
     roleNames.insert(RolePlayingState, "playingState");
+    roleNames.insert(RoleLockMode, "lockMode");
     return roleNames;
 }
 

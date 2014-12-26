@@ -19,39 +19,31 @@
  *                                                                           *
  ****************************************************************************/
 
-#ifndef PROFILES_H
-#define PROFILES_H
+#ifndef PROFILEITEM_H
+#define PROFILEITEM_H
+
+#include "kodimodelitem.h"
 
 #include "kodimodel.h"
 
-class Profiles : public KodiModel
+class ProfileItem : public KodiModelItem
 {
     Q_OBJECT
-    Q_PROPERTY(QString currentProfile READ currentProfile NOTIFY currentProfileChanged)
-    Q_PROPERTY(int currentProfileIndex READ currentProfileIndex NOTIFY currentProfileChanged)
-    Q_PROPERTY(int count READ count NOTIFY countChanged)
+    Q_PROPERTY(KodiModel::LockMode lockMode READ lockMode WRITE setLockMode NOTIFY lockModeChanged)
 public:
-    explicit Profiles(QObject *parent = 0);
 
-    int count() const;
-    QString currentProfile() const;
-    int currentProfileIndex() const;
-    Q_INVOKABLE QString title() const;
+    explicit ProfileItem(QObject *parent = 0);
+
+    KodiModel::LockMode lockMode() const;
+    void setLockMode(KodiModel::LockMode lockMode);
+
+    virtual QVariant data(int role) const;
 
 signals:
-    void countChanged();
-    void currentProfileChanged();
-
-public slots:
-    void refresh();
-    void switchProfile(int index, const QString &lockCode = QString());
+    void lockModeChanged();
 
 private:
-    QString m_currentProfile;
-
-private slots:
-    void currentProfileReceived(const QVariantMap &rsp);
-    void listReceived(const QVariantMap &rsp);
+    KodiModel::LockMode m_lockMode;
 };
 
-#endif // PROFILES_H
+#endif // PROFILEITEM_H

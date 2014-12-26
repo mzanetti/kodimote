@@ -70,11 +70,12 @@ SOURCES +=  kodi.cpp \
 	    recentitems.cpp \
 	    channelitem.cpp \
 	    channelbroadcasts.cpp \
-	    recordings.cpp \
+            recordings.cpp \
             pvrmenu.cpp \
             kodihost.cpp \
             addonsource.cpp \
-            profiles.cpp
+            profiles.cpp \
+            profileitem.cpp
 
 HEADERS += libkodimote_global.h \
            kodi.h \
@@ -130,4 +131,5 @@ HEADERS += libkodimote_global.h \
 	   pvrmenu.h \
            kodihost.h \
            addonsource.h \
-           profiles.h
+           profiles.h \
+           profileitem.h
