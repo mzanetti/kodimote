@@ -253,10 +253,24 @@ void KodiConnectionPrivate::slotConnected()
 {
     koDebug(XDAREA_CONNECTION) << "Connected to remote host. Asking for version...";
 
-    m_versionRequestId = m_commandId++;
-    Command cmd(m_versionRequestId, "JSONRPC.Version");
-    m_commandQueue.prepend(cmd);
-    sendNextCommand();
+    m_versionRequestId = sendCommand("JSONRPC.Version", QVariant(), this, "versionReceived");
+}
+
+void KodiConnectionPrivate::versionReceived(const QVariantMap &rsp)
+{
+    // If the remote xbmc has the version field not compiled in, assume its the latest known one
+    koDebug(XDAREA_CONNECTION) << "Parsing XBMC version:" << rsp.value("result").toMap().value("version");
+    m_kodiVersionMajor = rsp.value("result").toMap().value("version").toMap().value("major").toInt();
+    if(m_kodiVersionMajor < 6) {
+        qDebug() << "WARNING! XBMC is too old or version field not valid! Some features might not work";
+        m_connectionError = tr("This version of Kodimote is designed to work with XBMC Frodo (v12.0). It seems you have connected to an older version of XMBC. Please upgrade XBMC in order to use Kodimote.");
+    } else {
+        m_connected = true;
+        m_connectionError.clear();
+    }
+    m_connecting = false;
+    emit m_notifier->connectionChanged();
+    m_host->setPersistent(true);
 }
 
 void KodiConnectionPrivate::slotDisconnected()
@@ -378,27 +392,6 @@ void KodiConnectionPrivate::replyReceived()
 #endif
 
         koDebug(XDAREA_NETWORKDATA) << ">>> Incoming:" << rsp;
-
-        if(rsp.value("id").toInt() == m_versionRequestId) {
-            // If the remote kodi has the version field not compiled in, assume its the latest known one
-            koDebug(XDAREA_CONNECTION) << "Parsing XBMC version:" << rsp.value("result").toMap().value("version");
-            m_kodiVersionMajor = rsp.value("result").toMap().value("version").toMap().value("major").toInt();
-            if(m_kodiVersionMajor < 6) {
-                qDebug() << "WARNING! XBMC is too old or version field not valid! Some features might not work";
-                m_connected = false;
-                m_connectionError = tr("This version of Kodimote is designed to work with XBMC Frodo (v12.0). It seems you have connected to an older version of XMBC. Please upgrade XBMC in order to use Kodimote.");
-            } else {
-                m_timeoutTimer.stop();
-                m_currentPendingCommand = Command();
-                sendNextCommand();
-                m_connected = true;
-                m_connectionError.clear();
-            }
-            m_connecting = false;
-            emit m_notifier->connectionChanged();
-            m_host->setPersistent(true);
-            continue;
-        }
 
         if(rsp.value("params").toMap().value("sender").toString() == "kodi") {
             koDebug(XDAREA_CONNECTION) << ">>> received announcement" << rsp;

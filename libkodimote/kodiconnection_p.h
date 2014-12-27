@@ -107,6 +107,7 @@ private slots:
     void slotDisconnected();
     void internalConnect();
     void sessionLost();
+    void versionReceived(const QVariantMap &rsp);
 
     void replyReceived();
     void authenticationRequired(QNetworkReply *reply, QAuthenticator *authenticator);
