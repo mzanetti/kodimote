@@ -125,7 +125,6 @@ KodiConnectionPrivate::KodiConnectionPrivate(QObject *parent) :
     QObject::connect(m_connManager, SIGNAL(onlineStateChanged(bool)), SLOT(connect()));
 
     QObject::connect(m_socket, SIGNAL(readyRead()), SLOT(readData()));
-//    QObject::connect(m_socket, SIGNAL(connected()), m_notifier, SIGNAL(connectionChanged()));
     QObject::connect(m_socket, SIGNAL(error(QAbstractSocket::SocketError)), SLOT(socketError()));
     QObject::connect(m_socket, SIGNAL(connected()), SLOT(slotConnected()));
     QObject::connect(m_socket, SIGNAL(disconnected()), SLOT(slotDisconnected()));
@@ -315,10 +314,8 @@ void KodiConnectionPrivate::sendNextCommand() {
         QByteArray data = serializer.serialize(map);
 #endif
 
-//        koDebug(XDAREA_CONNECTION) << "ater serializing:" << data;
         QString dataStr = QString::fromLatin1(data);
 #ifdef DEBUGJSON
-//        koDebug(XDAREA_CONNECTION) << "sending command 1" << dataStr;
         koDebug(XDAREA_CONNECTION) << "sending command to" << request.url() << ":" << dataStr.toLocal8Bit();
 #endif
         QNetworkReply * reply = m_network->post(request, data);
@@ -432,7 +429,6 @@ void KodiConnectionPrivate::replyReceived()
         }
 
         if(m_currentPendingCommand.id() == id) {
-//            m_commandQueue.removeFirst();
             m_timeoutTimer.stop();
             m_currentPendingCommand = Command();
         }
@@ -483,7 +479,6 @@ int KodiConnectionPrivate::sendCommand(const QString &command, const QVariant &p
 
 void KodiConnectionPrivate::readData()
 {
-//    QString data = QString::fromUtf8(m_socket->readAll());
     QByteArray dataArray = m_socket->readAll();
     QString data(dataArray);
     koDebug(XDAREA_CONNECTION) << "<<<<<<<<<<<< Received:" << dataArray;
@@ -652,7 +647,6 @@ void KodiConnectionPrivate::downloadProgress(qint64 progress, qint64 total)
 {
     QNetworkReply *reply = static_cast<QNetworkReply*>(sender());
     KodiDownload *download = m_activeDownloadsMap.value(reply);
-//    qDebug() << "updating progress:" << progress << "/" << total;
     download->setTotal(total);
     download->setProgress(progress);
 }
@@ -716,7 +710,6 @@ void KodiConnectionPrivate::authenticationRequired(QNetworkReply *reply, QAuthen
         m_connectionError = "Wrong username or password";
         m_lastAuthRequest = 0;
         m_host->setPassword(QString());
-//        emit m_notifier->authenticationRequired(m_host->hostname(), m_host->address());
     }
     if(!m_host->username().isEmpty() && !m_host->password().isEmpty()) {
         authenticator->setUser(m_host->username());
