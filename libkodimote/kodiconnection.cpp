@@ -353,81 +353,7 @@ void KodiConnectionPrivate::replyReceived()
     }
 
     koDebug(XDAREA_CONNECTION) << "received reply:" << commands;
-
-    QStringList commandsList = commands.split("}{");
-
-    for(int i = 0; i < commandsList.count(); ++i) {
-        QString lineData = commandsList.at(i);
-        if(lineData.isEmpty()) {
-            continue;
-        }
-        // if we split at }{ the braces are removed... so lets add them again
-        if(i < commandsList.count() - 1) {
-            lineData.append("}");
-        }
-        if(i > 0) {
-            lineData.prepend("{");
-        }
-
-        QVariantMap rsp;
-
-#ifdef QT5_BUILD
-        QJsonParseError error;
-        QJsonDocument jsonDoc = QJsonDocument::fromJson(lineData.toUtf8(), &error);
-
-        if(error.error != QJsonParseError::NoError) {
-            koDebug(XDAREA_CONNECTION) << "failed to parse data" << lineData << ":" << error.errorString();
-            return;
-        }
-        rsp = jsonDoc.toVariant().toMap();
-#else
-        QJson::Parser parser;
-        bool ok;
-        rsp = parser.parse(lineData.toAscii(), &ok).toMap();
-        if(!ok) {
-            koDebug(XDAREA_CONNECTION) << "data is" << lineData;
-            qFatal("failed parsing.");
-            return;
-        }
-#endif
-
-        koDebug(XDAREA_NETWORKDATA) << ">>> Incoming:" << rsp;
-
-        if(rsp.value("params").toMap().value("sender").toString() == "kodi") {
-            koDebug(XDAREA_CONNECTION) << ">>> received announcement" << rsp;
-            emit m_notifier->receivedAnnouncement(rsp);
-            continue;
-        }
-
-        int id = rsp.value("id").toInt();
-        if( id < 0) {
-            koDebug(XDAREA_CONNECTION) << "received unhandled data" << commands;
-            continue;
-        }
-
-
-        koDebug(XDAREA_CONNECTION) << ">>> received response" << rsp.value("result");
-
-        if(rsp.contains("error")) {
-            koDebug(XDAREA_GENERAL) << "Error reply received:";
-            koDebug(XDAREA_GENERAL) << "Request:" <<  m_currentPendingCommand.raw();
-            koDebug(XDAREA_GENERAL) << "Reply: " << lineData;
-        }
-
-        if(m_callbacks.contains(id)) {
-            Callback callback = m_callbacks.take(id);
-            if(!callback.receiver().isNull()) {
-                QMetaObject::invokeMethod(callback.receiver().data(), callback.member().toLocal8Bit(), Qt::DirectConnection, Q_ARG(const QVariantMap&, rsp));
-            }
-        }
-
-        if(m_currentPendingCommand.id() == id) {
-            m_timeoutTimer.stop();
-            m_currentPendingCommand = Command();
-        }
-        sendNextCommand();
-        continue;
-    }
+    handleData(commands);
 }
 
 int KodiConnectionPrivate::sendCommand(const QString &command, const QVariant &params)
@@ -478,6 +404,11 @@ void KodiConnectionPrivate::readData()
         koDebug(XDAREA_CONNECTION) << tmp;
         koDebug(XDAREA_CONNECTION) << ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>><";
     }
+    handleData(data);
+}
+
+void KodiConnectionPrivate::handleData(const QString &data)
+{
     QStringList commandsList = data.split("}{");
     for(int i = 0; i < commandsList.count(); ++i) {
         QString lineData = commandsList.at(i);
@@ -495,7 +426,7 @@ void KodiConnectionPrivate::readData()
 
 #ifdef QT5_BUILD
         QJsonParseError error;
-        QJsonDocument jsonDoc = QJsonDocument::fromJson(lineData.toLocal8Bit(), &error);
+        QJsonDocument jsonDoc = QJsonDocument::fromJson(lineData.toUtf8(), &error);
 
         if(error.error != QJsonParseError::NoError) {
             koDebug(XDAREA_CONNECTION) << "failed to parse data" << lineData << ":" << error.errorString();
@@ -512,28 +443,38 @@ void KodiConnectionPrivate::readData()
             return;
         }
 #endif
-        koDebug(XDAREA_CONNECTION) << ">>> Incoming:" << data;
+        koDebug(XDAREA_NETWORKDATA) << ">>> Incoming:" << rsp;
 
         if(rsp.value("params").toMap().value("sender").toString() == "xbmc") {
             koDebug(XDAREA_CONNECTION) << ">>> received announcement" << rsp;
             emit m_notifier->receivedAnnouncement(rsp);
             continue;
         }
-        int id = rsp.value("id").toInt();
-        if(m_callbacks.contains(id)) {
-            Callback callback = m_callbacks.take(id);
-            if(!callback.receiver().isNull()) {
-                QMetaObject::invokeMethod(callback.receiver().data(), callback.member().toLocal8Bit(), Qt::DirectConnection, Q_ARG(const QVariantMap&, rsp));
+
+        if(rsp.contains("error")) {
+            koDebug(XDAREA_GENERAL) << "Error reply received:";
+            koDebug(XDAREA_GENERAL) << "Request:" <<  m_currentPendingCommand.raw();
+            koDebug(XDAREA_GENERAL) << "Reply: " << lineData;
+        }
+
+        if (rsp.contains("id")) {
+            int id = rsp.value("id").toInt();
+            if(m_callbacks.contains(id)) {
+                Callback callback = m_callbacks.take(id);
+                if(!callback.receiver().isNull()) {
+                    QMetaObject::invokeMethod(callback.receiver().data(), callback.member().toLocal8Bit(), Qt::DirectConnection, Q_ARG(const QVariantMap&, rsp));
+                }
             }
 
             if(m_currentPendingCommand.id() == id) {
                 m_timeoutTimer.stop();
                 m_currentPendingCommand = Command();
             }
+
             sendNextCommand();
             continue;
         }
-        koDebug(XDAREA_CONNECTION) << "received unhandled data" << data;
+        koDebug(XDAREA_CONNECTION) << "received unknown data" << data;
     }
 }
 

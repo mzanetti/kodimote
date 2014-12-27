@@ -133,6 +133,7 @@ private:
     QTimer m_reconnectTimer;
 
     void sendNextCommand();
+    void handleData(const QString &data);
 
     KodiHost *m_host;
 
