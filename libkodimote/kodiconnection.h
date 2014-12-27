@@ -42,7 +42,6 @@ QString connectionError();
 
 int sendCommand(const QString &command, const QVariant &params = QVariant());
 int sendCommand(const QString &command, const QVariant &params, QObject *callbackReceiver, const QString &callbackMember);
-void sendLegacyCommand(const QString &command);
 
 QNetworkAccessManager *nam();
 

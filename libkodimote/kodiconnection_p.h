@@ -90,7 +90,6 @@ public:
 
     int sendCommand(const QString &command, const QVariant &parms = QVariant());
     int sendCommand(const QString &command, const QVariant &params, QObject *callbackReceiver, const QString &callbackMember);
-    void sendLegacyCommand(const QString &command);
 
     QNetworkAccessManager *nam();
     Notifier *notifier();
@@ -133,7 +132,6 @@ private:
     QTimer m_reconnectTimer;
 
     void sendNextCommand();
-    void sendNextCommand2();
 
     KodiHost *m_host;
 

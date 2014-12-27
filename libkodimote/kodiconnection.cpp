@@ -73,11 +73,6 @@ int sendCommand(const QString &command, const QVariant &params, QObject *callbac
     return instance()->sendCommand(command, params, callbackReceiver, callbackMember);
 }
 
-void sendLegacyCommand(const QString &command)
-{
-   return instance()->sendLegacyCommand(command);
-}
-
 Notifier *notifier()
 {
     return instance()->notifier();
@@ -262,7 +257,7 @@ void KodiConnectionPrivate::slotConnected()
     m_versionRequestId = m_commandId++;
     Command cmd(m_versionRequestId, "JSONRPC.Version");
     m_commandQueue.prepend(cmd);
-    sendNextCommand2();
+    sendNextCommand();
 }
 
 void KodiConnectionPrivate::slotDisconnected()
@@ -290,7 +285,7 @@ void KodiConnectionPrivate::socketError()
     }
 }
 
-void KodiConnectionPrivate::sendNextCommand2() {
+void KodiConnectionPrivate::sendNextCommand() {
 
     if(m_currentPendingCommand.id() >= 0 || m_socket->state() != QAbstractSocket::ConnectedState) {
         koDebug(XDAREA_CONNECTION) << "cannot send... busy";
@@ -398,7 +393,7 @@ void KodiConnectionPrivate::replyReceived()
             } else {
                 m_timeoutTimer.stop();
                 m_currentPendingCommand = Command();
-                sendNextCommand2();
+                sendNextCommand();
                 m_connected = true;
                 m_connectionError.clear();
             }
@@ -441,7 +436,7 @@ void KodiConnectionPrivate::replyReceived()
             m_timeoutTimer.stop();
             m_currentPendingCommand = Command();
         }
-        sendNextCommand2();
+        sendNextCommand();
         continue;
     }
 }
@@ -456,7 +451,7 @@ int KodiConnectionPrivate::sendCommand(const QString &command, const QVariant &p
     int id = m_commandId++;
     Command cmd(id, command, params);
     m_commandQueue.append(cmd);
-    sendNextCommand2();
+    sendNextCommand();
 
     if(m_commandId < 0) {
         m_commandId = 0;
@@ -478,58 +473,12 @@ int KodiConnectionPrivate::sendCommand(const QString &command, const QVariant &p
 
     Command cmd(id, command, params);
     m_commandQueue.append(cmd);
-    sendNextCommand2();
+    sendNextCommand();
 
     if(m_commandId < 0) {
         m_commandId = 0;
     }
     return id;
-}
-
-void KodiConnectionPrivate::sendLegacyCommand(const QString &command)
-{
-    QNetworkRequest request;
-    request.setUrl(QUrl("http://" + m_host->address() + ':' + QString::number(m_host->port()) + "/kodiCmds/kodiHttp?command=" + command));
-    qDebug() << "sending legacy command:" << request.url().toString();
-    QNetworkReply *reply = m_network->get(request);
-    QObject::connect(reply, SIGNAL(finished()), reply, SLOT(deleteLater()));
-}
-
-void KodiConnectionPrivate::sendNextCommand()
-{
-    if(m_currentPendingCommand.id() >= 0 || m_socket->state() != QAbstractSocket::ConnectedState) {
-//        koDebug(XDAREA_CONNECTION) << "cannot send... busy";
-        return;
-    }
-    if(m_commandQueue.count() > 0) {
-        Command command = m_commandQueue.takeFirst();
-
-        QVariantMap map;
-        map.insert("jsonrpc", "2.0");
-        map.insert("method", command.command());
-        map.insert("id", command.id());
-
-        if(!command.params().isNull()) {
-            map.insert("params", command.params());
-        }
-
-#ifdef QT5_BUILD
-        QJsonDocument jsonDoc = QJsonDocument::fromVariant(map);
-        QByteArray data = jsonDoc.toJson();
-#else
-        QJson::Serializer serializer;
-        QByteArray data = serializer.serialize(map);
-#endif
-//        koDebug(XDAREA_CONNECTION) << "ater serializing:" << data;
-        QString dataStr = QString::fromLatin1(data);
-#ifdef DEBUGJSON
-//        koDebug(XDAREA_CONNECTION) << "sending command 1" << dataStr;
-        koDebug(XDAREA_CONNECTION) << "sending command" << dataStr.toLocal8Bit();
-#endif
-        m_socket->write(data);
-        m_currentPendingCommand = command;
-        m_timeoutTimer.start();
-    }
 }
 
 void KodiConnectionPrivate::readData()
@@ -598,11 +547,10 @@ void KodiConnectionPrivate::readData()
             }
 
             if(m_currentPendingCommand.id() == id) {
-//                m_commandQueue.removeFirst();
                 m_timeoutTimer.stop();
                 m_currentPendingCommand = Command();
             }
-            sendNextCommand2();
+            sendNextCommand();
             continue;
         }
         koDebug(XDAREA_CONNECTION) << "received unhandled data" << data;
@@ -619,7 +567,7 @@ void KodiConnectionPrivate::clearPending()
         m_commandQueue.clear();
     }
     m_currentPendingCommand = Command();
-    sendNextCommand2();
+    sendNextCommand();
 }
 
 Notifier *KodiConnectionPrivate::notifier()
