@@ -153,6 +153,7 @@ void KodiConnectionPrivate::connect(KodiHost *host)
 
     // Stop the reconnect timer in case someone else triggers the connect
     m_reconnectTimer.stop();
+    closeConnection();
 
     // Don't automatically reconnect when device is offline and no host provided
     // In other words, prevent triggering "connect to network" dialog when the connect isn't user initiated
@@ -163,20 +164,6 @@ void KodiConnectionPrivate::connect(KodiHost *host)
 
     qDebug() << "connecting";
     m_connecting = true;
-
-    if(m_socket->state() == QAbstractSocket::ConnectedState) {
-        m_socket->disconnectFromHost();
-    }
-
-    if(m_socket->state() == QAbstractSocket::ConnectingState) {
-        m_socket->abort();
-    }
-
-    if(m_networkSession) {
-        QObject::disconnect(m_networkSession, SIGNAL(closed()), this, SLOT(sessionLost()));
-        m_networkSession->close();
-        m_networkSession->deleteLater();
-    }
 
     QNetworkConfiguration networkConfig = m_connManager->defaultConfiguration();
     m_networkSession = new QNetworkSession(networkConfig, this);
@@ -223,19 +210,26 @@ void KodiConnectionPrivate::sessionLost()
         return;
     }
 
+    closeConnection();
+}
+
+void KodiConnectionPrivate::closeConnection()
+{
     if(m_socket->state() == QAbstractSocket::ConnectedState) {
         m_socket->disconnectFromHost();
-    }
-    else if(m_socket->state() == QAbstractSocket::ConnectingState) {
+    } else if(m_socket->state() == QAbstractSocket::ConnectingState) {
         m_socket->abort();
     }
 
-    m_connected = false;
-    notifier()->connectionChanged();
+    if(m_networkSession) {
+        m_networkSession->close();
+        m_networkSession->deleteLater();
+        m_networkSession = 0;
+    }
 
-    m_networkSession->close();
-    m_networkSession->deleteLater();
-    m_networkSession = 0;
+    m_connecting = false;
+    m_connected = false;
+    emit notifier()->connectionChanged();
 }
 
 KodiHost* KodiConnectionPrivate::connectedHost()
@@ -279,10 +273,8 @@ void KodiConnectionPrivate::slotDisconnected()
         koDebug(XDAREA_CONNECTION) << "No connection yet, cannot disconnect.";
     }
     koDebug(XDAREA_CONNECTION) << "Disconnected";
-    m_connecting = false;
-    m_connected = false;
     m_connectionError = tr("The connection has been disconnected");
-    emit m_notifier->connectionChanged();
+    closeConnection();
 }
 
 void KodiConnectionPrivate::socketError()
@@ -292,7 +284,7 @@ void KodiConnectionPrivate::socketError()
 
     if(m_socket->state() != QAbstractSocket::ConnectedState) {
         m_connectionError = tr("Connection failed: %1").arg(errorString);
-        emit m_notifier->connectionChanged();
+        closeConnection();
         // silently try to reconnect if the connection failed
         m_reconnectTimer.start();
     }

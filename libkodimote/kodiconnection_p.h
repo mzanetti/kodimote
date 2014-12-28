@@ -134,6 +134,7 @@ private:
 
     void sendNextCommand();
     void handleData(const QString &data);
+    void closeConnection();
 
     KodiHost *m_host;
 
