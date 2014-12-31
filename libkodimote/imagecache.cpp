@@ -93,107 +93,88 @@ void KodiImageCache::run()
 
 int KodiImageCache::fetch(const QString &image, QObject *callbackObject, const QString &callbackFunction, const QSize &scaleTo, int cacheId)
 {
-
+    QString cacheKey = this->cacheKey(image, cacheId);
     QMutexLocker locker(&m_mutex);
-    if(m_currentJob && m_currentJob->imageName() == image && scaleTo == m_currentJob->scaleTo()) {
-        qDebug() << "already fetching image queued for" << image;
-
-        if (m_currentJob->callbackObject() == callbackObject && m_currentJob->callbackMethod() == callbackFunction) {
-            return m_currentJob->id();
+    ImageFetchJob *job = m_jobs.value(cacheKey);
+    if (job) {
+        if (m_downloadQueue.contains(cacheKey)) {
+            m_downloadQueue.move(m_downloadQueue.indexOf(cacheKey), 0);
         }
 
-        ImageFetchJob *ifJob = new ImageFetchJob(m_jobId++, cacheId, image, QPointer<QObject>(callbackObject), callbackFunction, scaleTo);
-        m_toBeNotifiedList.append(ifJob);
-        qDebug() << m_toBeNotifiedList.count();
-        return ifJob->id();
-    }
-    foreach(ImageFetchJob *job, m_downloadQueue) {
-        if(job->imageName() == image && job->scaleTo() == scaleTo) {
-            qDebug() << "image fetching already queued for" << image;
-
-            if (job->callbackObject() == callbackObject && job->callbackMethod() == callbackFunction) {
-                // move it to the beginning of the queue to speed up user feedback
-                m_downloadQueue.move(m_downloadQueue.indexOf(job), 0);
+        foreach (const ImageFetchJob::Callback callback, job->callbacks()) {
+            if (callback.object() == callbackObject && callback.method() == callbackFunction) {
                 return job->id();
             }
-            ImageFetchJob *ifJob = new ImageFetchJob(m_jobId++, cacheId, image, QPointer<QObject>(callbackObject), callbackFunction, scaleTo);
-            // prepend to speed up user feedback
-            m_downloadQueue.prepend(m_downloadQueue.takeAt(m_downloadQueue.indexOf(job)));
-            m_toBeNotifiedList.append(ifJob);
-            qDebug() << m_toBeNotifiedList.count();
-            return ifJob->id();
         }
+
+        job->appendCallback(QPointer<QObject>(callbackObject), callbackFunction);
+        return job->id();
     }
 
     // Ok... this is a new one... start fetching it
-    ImageFetchJob *ifJob = new ImageFetchJob(m_jobId++, cacheId, image, QPointer<QObject>(callbackObject), callbackFunction, scaleTo);
-    m_downloadQueue.prepend(ifJob);
+    ImageFetchJob *ifJob = new ImageFetchJob(m_jobId++, cacheId, image, cachedFile(image, cacheId), scaleTo);
+    ifJob->appendCallback(QPointer<QObject>(callbackObject), callbackFunction);
+    m_jobs.insert(cacheKey, ifJob);
+    m_downloadQueue.prepend(cacheKey);
     m_fetchNextTimer->start();
 
     return ifJob->id();
 }
 
+QString KodiImageCache::cacheKey(const QString &image, int cacheId)
+{
+    return image + "-" + QString::number(cacheId);
+}
+
 void KodiImageCache::imageFetched()
 {
-    QNetworkReply *reply = qobject_cast<QNetworkReply*>(sender());
-
     QMutexLocker locker(&m_mutex);
 
+    QNetworkReply *reply = static_cast<QNetworkReply*>(sender());
+    ImageFetchJob *job = static_cast<ImageFetchJob*>(reply->request().originatingObject());
+    QString cacheKey = this->cacheKey(job->imageName(), job->cacheId());
+
     if(reply->error() == QNetworkReply::NoError) {
+        QByteArray data = reply->readAll();
 
-        m_currentJob->appendData(reply->readAll());
+        QString cachedFile = job->cachedFile();
+        QFileInfo fi = cachedFile;
 
-        QImage image = QImage::fromData(m_currentJob->data());
-
-        QFileInfo fi = cachedFile(m_currentJob->imageName(), m_currentJob->cacheId());
-
-        if(m_currentJob->scaleTo().width() > 0 && m_currentJob->scaleTo().height() > 0) {
+        if(job->scaleTo().width() > 0 && job->scaleTo().height() > 0) {
             if(fi.suffix() == "png" || fi.suffix() == "jpg") {
+                QImage image = QImage::fromData(data);
                 qDebug() << "scaling image" << fi.path() << fi.fileName();
-                QImage scaledImage = image.scaled(m_currentJob->scaleTo().width(), m_currentJob->scaleTo().height(), Qt::KeepAspectRatio, Qt::FastTransformation);
-                scaledImage.save(cachedFile(m_currentJob->imageName(), m_currentJob->cacheId()));
+                QImage scaledImage = image.scaled(job->scaleTo().width(), job->scaleTo().height(), Qt::KeepAspectRatio, Qt::FastTransformation);
+                scaledImage.save(cachedFile);
             } else {
                 qDebug() << "NOT scaling image" << fi.fileName();
-                QFile file(cachedFile(m_currentJob->imageName(), m_currentJob->cacheId()));
+                QFile file(cachedFile);
                 if(file.open(QIODevice::WriteOnly)) {
-                    file.write(m_currentJob->data());
+                    file.write(data);
                 }
             }
         }
 
-        m_cacheFiles[m_currentJob->cacheId()].insert(m_currentJob->imageName(), true);
-
-        // Notify original requester
-        QMetaObject::invokeMethod(m_currentJob->callbackObject().data(), m_currentJob->callbackMethod().toLatin1(), Qt::QueuedConnection, Q_ARG(int, m_currentJob->id()));
-
-        // Notify all duplicate requests
-        QList<ImageFetchJob*> newList;
-        foreach(ImageFetchJob* job, m_toBeNotifiedList) {
-            if(job->imageName() == m_currentJob->imageName()) {
-                newList.append(job);
-            }
-        }
-        qDebug() << "found" << newList.count() << "duplicate requests for" << m_currentJob->id();
-        while(!newList.isEmpty()) {
-            ImageFetchJob *job = newList.takeFirst();
-            m_toBeNotifiedList.removeAll(job);
-            QMetaObject::invokeMethod(job->callbackObject().data(), job->callbackMethod().toLatin1(), Qt::QueuedConnection, Q_ARG(int, job->id()));
-            delete job;
+        m_cacheFiles[job->cacheId()].insert(job->imageName(), true);
+        qDebug() << "fetched, notifying callbacks:" << job->callbacks().size();
+        foreach (const ImageFetchJob::Callback callback, job->callbacks()) {
+            QMetaObject::invokeMethod(callback.object().data(), callback.method().toLatin1(), Qt::QueuedConnection, Q_ARG(int, job->id()));
         }
     } else {
         qDebug() << "image fetching failed" << reply->errorString() << reply->error();
 
         // Hack: There is something fishy with Kodi's image urls. Some versions require decoding
         // from PercentageDecoding once, some twice... Let's retry doubleDecoding if if we get a 404
-        if (!m_doubleDecode && reply->error() == QNetworkReply::ContentNotFoundError) {
-            m_doubleDecode = true;
-            m_downloadQueue.prepend(m_currentJob);
-            m_currentJob = 0;
-            m_fetchNextTimer->start();
-            return;
-        } else if (m_doubleDecode && reply->error() == QNetworkReply::ContentNotFoundError) {
-            // So this failed with both... Lets turn off doubleDecode again and try the next
-            m_doubleDecode = false;
+        if (reply->error() == QNetworkReply::ContentNotFoundError) {
+            if (!m_doubleDecode) {
+                m_doubleDecode = true;
+                m_downloadQueue.prepend(cacheKey);
+                m_fetchNextTimer->start();
+                return;
+            } else {
+                // So this failed with both... Lets turn off doubleDecode again and try the next
+                m_doubleDecode = false;
+            }
         }
 
         QVariant possibleRedirectUrl = reply->attribute(QNetworkRequest::RedirectionTargetAttribute);
@@ -204,33 +185,19 @@ void KodiImageCache::imageFetched()
         }
     }
 
-
-    delete m_currentJob;
-    m_currentJob = 0;
-
+    m_jobs.remove(cacheKey);
+    job->deleteLater();
     reply->deleteLater();
-
-    m_fetchNextTimer->start();
-}
-
-void KodiImageCache::downloadProgress(qint64 bytesReceived, qint64 bytesTotal)
-{
-    Q_UNUSED(bytesReceived)
-    Q_UNUSED(bytesTotal)
-
-    QMutexLocker locker(&m_mutex);
-    QNetworkReply *reply = qobject_cast<QNetworkReply*>(sender());
-    m_currentJob->appendData(reply->readAll());
 }
 
 void KodiImageCache::fetchNext()
 {
-
+    m_fetchNextTimer->start();
     if(m_currentJob != 0 || m_downloadQueue.isEmpty()) {
         return;
     }
 
-    m_currentJob = m_downloadQueue.takeFirst();
+    m_currentJob = m_jobs[m_downloadQueue.takeFirst()];
     QFileInfo fi(cachedFile(m_currentJob->imageName(), m_currentJob->cacheId()));
     QDir dir(fi.absolutePath());
     if(!(dir.exists() || dir.mkpath(fi.absolutePath()))) {
@@ -274,17 +241,21 @@ void KodiImageCache::downloadPrepared(const QVariantMap &rsp)
     imageUrl.setHost(host->address());
     imageUrl.setPort(host->port());
 
-    qDebug() << "fetching image:" << imageUrl;
-
     QNetworkRequest imageRequest(imageUrl);
+    imageRequest.setOriginatingObject(m_currentJob);
     QNetworkReply *reply = KodiConnection::nam()->get(imageRequest);
     connect(reply, SIGNAL(finished()), SLOT(imageFetched()));
-    connect(reply, SIGNAL(downloadProgress(qint64,qint64)), SLOT(downloadProgress(qint64,qint64)));
+
+    QMutexLocker locker(&m_mutex);
+    m_currentJob = 0;
+    locker.unlock();
+    m_fetchNextTimer->start();
 }
 
 void KodiImageCache::cleanupAndTriggerNext()
 {
-    delete m_currentJob;
+    m_jobs.remove(cacheKey(m_currentJob->imageName(), m_currentJob->cacheId()));
+    m_currentJob->deleteLater();
     m_currentJob = 0;
     m_fetchNextTimer->start();
 }

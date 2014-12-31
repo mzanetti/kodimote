@@ -64,18 +64,19 @@ public slots:
 
 private slots:
     void imageFetched();
-    void downloadProgress(qint64 bytesReceived, qint64 bytesTotal);
 
     void fetchNext();
     void downloadPrepared(const QVariantMap &map);
 
     void cleanupAndTriggerNext();
 private:
+    QString cacheKey(const QString &image, int cacheId);
+
     int m_jobId;
 
     ImageFetchJob *m_currentJob;
-    QList<ImageFetchJob*> m_downloadQueue;
-    QList<ImageFetchJob*> m_toBeNotifiedList;
+    QList<QString> m_downloadQueue;
+    QHash<QString, ImageFetchJob*> m_jobs;
     QMutex m_mutex;
     QTimer *m_fetchNextTimer;
 
@@ -84,15 +85,14 @@ private:
     bool m_doubleDecode;
 };
 
-class ImageFetchJob
+class ImageFetchJob : public QObject
 {
 public:
-    ImageFetchJob(int id, int cacheId, const QString &imageName, QPointer<QObject> callbackObject, const QString &callbackMethod, const QSize &scaleTo = QSize(0, 0)) :
+    ImageFetchJob(int id, int cacheId, const QString &imageName, const QString &cachedFile, const QSize &scaleTo = QSize(0, 0)) :
         m_id(id),
         m_cacheId(cacheId),
         m_imageName(imageName),
-        m_callbackObject(callbackObject),
-        m_callbackMethod(callbackMethod),
+        m_cachedFile(cachedFile),
         m_scalingSize(scaleTo)
     {
     }
@@ -100,24 +100,36 @@ public:
     {
     }
 
+    class Callback
+    {
+    public:
+        Callback(QPointer<QObject> object, const QString &method):
+            m_object(object), m_method(method) {}
+
+        QPointer<QObject> object() const { return m_object; }
+        QString method() const { return m_method; }
+
+    private:
+        QPointer<QObject> m_object;
+        QString m_method;
+    };
+
     int id() { return m_id; }
     int cacheId() { return m_cacheId; }
     QString imageName() const { return m_imageName; }
-    QPointer<QObject> callbackObject() const { return m_callbackObject; }
-    QString callbackMethod() const { return m_callbackMethod; }
+    QString cachedFile() const { return m_cachedFile; }
     QSize scaleTo() const { return m_scalingSize; }
+    QList<Callback> callbacks() const { return m_callbacks; }
 
-    void appendData(const QByteArray &data) { m_buffer.append(data); }
-    QByteArray data() const { return m_buffer; }
+    void appendCallback(QPointer<QObject> object, const QString &method) { m_callbacks.append(Callback(object, method)); }
 
 private:
     int m_id;
     int m_cacheId;
     QString m_imageName;
-    QByteArray m_buffer;
-    QPointer<QObject> m_callbackObject;
-    QString m_callbackMethod;
+    QString m_cachedFile;
     QSize m_scalingSize;
+    QList<Callback> m_callbacks;
 };
 
 #endif // IMAGECACHE_H
