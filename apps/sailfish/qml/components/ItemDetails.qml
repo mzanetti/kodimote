@@ -96,6 +96,12 @@ Item {
             }
 
             ItemDetailRow {
+                visible: title.length > 0
+                title: qsTr("Title:")
+                text: model.title
+            }
+
+            ItemDetailRow {
                 visible: season > -1
                 title: qsTr("Season:")
                 text: season
