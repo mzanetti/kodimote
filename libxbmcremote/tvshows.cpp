@@ -89,6 +89,7 @@ void TvShows::refresh()
     QVariantList properties;
     properties.append("fanart");
     properties.append("playcount");
+    properties.append("year");
     params.insert("properties", properties);
 
     QVariantMap sort;
@@ -153,6 +154,7 @@ void TvShows::showsReceived(const QVariantMap &rsp)
         item->setIgnoreArticle(ignoreArticle());
         item->setFileType("directory");
         item->setPlayable(false);
+        item->setYear(itemMap.value("year").toString());
         list.append(item);
         m_idIndexMapping.insert(item->tvshowId(), index++);
     }

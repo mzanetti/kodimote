@@ -60,6 +60,7 @@ void Albums::refresh()
     QVariantList properties;
     properties.append("artist");
     properties.append("thumbnail");
+    properties.append("year");
     params.insert("properties", properties);
 
     if (m_artistId == XbmcModel::ItemIdRecentlyAdded) {
@@ -133,6 +134,7 @@ void Albums::listReceived(const QVariantMap &rsp)
         item->setFileType("directory");
         item->setPlayable(true);
         item->setIgnoreArticle(ignoreArticle());
+        item->setYear(itemMap.value("year").toString());
 
         list.append(item);
     }

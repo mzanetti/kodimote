@@ -55,6 +55,7 @@ void Songs::refresh(int start, int end)
     properties.append("album");
     properties.append("thumbnail");
     properties.append("file");
+    properties.append("year");
 
     params.insert("properties", properties);
 
@@ -160,6 +161,7 @@ void Songs::listReceived(const QVariantMap &rsp)
         item->setIgnoreArticle(false); // Ignoring article here...
         item->setFileType("file");
         item->setPlayable(true);
+        item->setYear(itemMap.value("year").toString());
         list.append(item);
     }
     xDebug(XDAREA_LIBRARY) << "inserting items. FromIndex:"<< m_list.count() << "toIndex:" << m_list.count() + list.count() - 1 << "Total:" << totalItems;
