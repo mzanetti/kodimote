@@ -1,14 +1,14 @@
 /*****************************************************************************
  * Copyright: 2011-2013 Michael Zanetti <michael_zanetti@gmx.net>            *
  *                                                                           *
- * This file is part of Xbmcremote                                           *
+ * This file is part of Kodimote                                           *
  *                                                                           *
- * Xbmcremote is free software: you can redistribute it and/or modify        *
+ * Kodimote is free software: you can redistribute it and/or modify        *
  * it under the terms of the GNU General Public License as published by      *
  * the Free Software Foundation, either version 3 of the License, or         *
  * (at your option) any later version.                                       *
  *                                                                           *
- * Xbmcremote is distributed in the hope that it will be useful,             *
+ * Kodimote is distributed in the hope that it will be useful,             *
  * but WITHOUT ANY WARRANTY; without even the implied warranty of            *
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the             *
  * GNU General Public License for more details.                              *
@@ -39,7 +39,7 @@ Rectangle {
         anchors.fill: parent
         fillMode: Image.PreserveAspectCrop
         source: "backgrounds/music.jpg"
-        opacity:  xbmcBrowser.mediaState == "audio" ? 1 : 0
+        opacity:  kodiBrowser.mediaState == "audio" ? 1 : 0
 
         Behavior on opacity {
             NumberAnimation { duration: 1000 }
@@ -51,7 +51,7 @@ Rectangle {
         source: "backgrounds/videos.jpg"
         anchors.fill: parent
         fillMode: Image.PreserveAspectCrop
-        opacity:  xbmcBrowser.mediaState == "video" ? 1 : 0
+        opacity:  kodiBrowser.mediaState == "video" ? 1 : 0
 
         Behavior on opacity {
             NumberAnimation { duration: 1000 }
@@ -63,7 +63,7 @@ Rectangle {
         source: "backgrounds/pictures.jpg"
         anchors.fill: parent
         fillMode: Image.PreserveAspectCrop
-        opacity:  xbmcBrowser.mediaState == "pictures" ? 1 : 0
+        opacity:  kodiBrowser.mediaState == "pictures" ? 1 : 0
 
         Behavior on opacity {
             NumberAnimation { duration: 1000 }
@@ -127,7 +127,7 @@ Rectangle {
 //        }
 
         Item {
-            id: xbmcBrowser
+            id: kodiBrowser
             width: view.width; height: view.height
 
             property string mediaState: "audio"
@@ -135,31 +135,31 @@ Rectangle {
 
             LibraryView {
                 id: musicBrowser
-                library: xbmc.shares("music")
+                library: kodi.shares("music")
                 visible: false
                 onGoBack: homeMenu.state = "open"
             }
             LibraryView {
                 id: musicLibraryView
-                library: xbmc.audioLibrary()
+                library: kodi.audioLibrary()
                 visible: false
                 onGoBack: homeMenu.state = "open"
             }
             LibraryView {
                 id: videoBrowser
-                library: xbmc.shares("video")
+                library: kodi.shares("video")
                 visible: false
                 onGoBack: homeMenu.state = "open"
             }
             LibraryView {
                 id: videoLibraryView
-                library: xbmc.videoLibrary()
+                library: kodi.videoLibrary()
                 visible: false
                 onGoBack: homeMenu.state = "open"
             }
             LibraryView {
                 id: pictureBrowser
-                library: xbmc.shares("pictures")
+                library: kodi.shares("pictures")
                 visible: false
                 onGoBack: homeMenu.state = "open"
             }
@@ -172,23 +172,23 @@ Rectangle {
                     PropertyChanges {target:  videoLibraryView; visible: false }
                     PropertyChanges {target: itemModel; currentView: null }
                 },
-                State { name: "audiofiles"; when: xbmcBrowser.mediaState == "audio" && xbmcBrowser.viewState == "files"
+                State { name: "audiofiles"; when: kodiBrowser.mediaState == "audio" && kodiBrowser.viewState == "files"
                     PropertyChanges {target:  musicBrowser; visible: true }
                     PropertyChanges {target: itemModel; currentView: musicBrowser }
                 },
-                State { name: "audiolibrary"; when: xbmcBrowser.mediaState == "audio" && xbmcBrowser.viewState == "library"
+                State { name: "audiolibrary"; when: kodiBrowser.mediaState == "audio" && kodiBrowser.viewState == "library"
                     PropertyChanges {target:  musicLibraryView; visible: true }
                     PropertyChanges {target: itemModel; currentView: musicLibraryView }
                 },
-                State { name: "videofiles"; when: xbmcBrowser.mediaState == "video" && xbmcBrowser.viewState == "files"
+                State { name: "videofiles"; when: kodiBrowser.mediaState == "video" && kodiBrowser.viewState == "files"
                     PropertyChanges {target:  videoBrowser; visible: true }
                     PropertyChanges {target: itemModel; currentView: videoBrowser }
                 },
-                State { name: "videolibrary"; when: xbmcBrowser.mediaState == "video" && xbmcBrowser.viewState == "library"
+                State { name: "videolibrary"; when: kodiBrowser.mediaState == "video" && kodiBrowser.viewState == "library"
                     PropertyChanges {target:  videoLibraryView; visible: true }
                     PropertyChanges {target: itemModel; currentView: videoLibraryView }
                 },
-                State { name: "pictures"; when: xbmcBrowser.mediaState == "pictures" && xbmcBrowser.viewState == "files"
+                State { name: "pictures"; when: kodiBrowser.mediaState == "pictures" && kodiBrowser.viewState == "files"
                     PropertyChanges {target:  pictureBrowser; visible: true }
                     PropertyChanges {target: itemModel; currentView: pictureBrowser }
                 }
@@ -204,7 +204,7 @@ Rectangle {
             NowPlaying {
                 id: nowPlaying
                 anchors.fill: parent
-                playlist: xbmc.activePlayer.playlist()
+                playlist: kodi.activePlayer.playlist()
                 state: "nowPlaying"
                 Keys.onPressed: {
                     if(event.modifiers === Qt.ControlModifier && event.key === Qt.Key_Left) {
@@ -231,7 +231,7 @@ Rectangle {
                             view.incrementCurrentIndex();
                         }
                     } else {
-                        if(xbmc.picturePlayerActive) {
+                        if(kodi.picturePlayerActive) {
                             pictureControls.keyPressed(event);
                         } else {
                             keyPadInternal.keyPressed(event);
@@ -243,11 +243,11 @@ Rectangle {
 
             Keypad {
                 id: keyPadInternal
-                visible: !xbmc.picturePlayerActive
+                visible: !kodi.picturePlayerActive
             }
             PictureControls {
                 id: pictureControls
-                visible: xbmc.picturePlayerActive
+                visible: kodi.picturePlayerActive
             }
 
         }
@@ -302,7 +302,7 @@ Rectangle {
             anchors.margins: 20
             horizontalAlignment: Text.AlignHCenter
             verticalAlignment: Text.AlignVCenter
-            text: xbmc.connectionError
+            text: kodi.connectionError
             wrapMode: Text.WordWrap
             color: "white"
             font.pixelSize: 28
@@ -337,13 +337,13 @@ Rectangle {
 
     states: [
     State {
-            name: "notConnected"; when: !xbmc.connected
+            name: "notConnected"; when: !kodi.connected
             PropertyChanges { target: notConnectedPopup; opacity: 0.8; scale: 1 }
             PropertyChanges { target: view; opacity: 0; }
             PropertyChanges { target: homeMenu; opacity: 0 }
         },
         State {
-            name: "connected"; when: xbmc.connected
+            name: "connected"; when: kodi.connected
             PropertyChanges { target: notConnectedPopup; opacity: 0; scale: 0.5 }
             PropertyChanges { target: view; opacity: 1; }
 

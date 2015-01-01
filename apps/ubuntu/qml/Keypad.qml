@@ -1,14 +1,14 @@
 /*****************************************************************************
  * Copyright: 2011-2013 Michael Zanetti <michael_zanetti@gmx.net>            *
  *                                                                           *
- * This file is part of Xbmcremote                                           *
+ * This file is part of Kodimote                                           *
  *                                                                           *
- * Xbmcremote is free software: you can redistribute it and/or modify        *
+ * Kodimote is free software: you can redistribute it and/or modify        *
  * it under the terms of the GNU General Public License as published by      *
  * the Free Software Foundation, either version 3 of the License, or         *
  * (at your option) any later version.                                       *
  *                                                                           *
- * Xbmcremote is distributed in the hope that it will be useful,             *
+ * Kodimote is distributed in the hope that it will be useful,             *
  * but WITHOUT ANY WARRANTY; without even the implied warranty of            *
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the             *
  * GNU General Public License for more details.                              *
@@ -20,17 +20,17 @@
 
 import QtQuick 2.0
 import Ubuntu.Components 0.1
-import Xbmc 1.0
+import Kodi 1.0
 import "components"
 
-XbmcPage {
+KodiPage {
     id: root
     title: qsTr("Keypad")
 
-    property QtObject player: xbmc.activePlayer
-    property QtObject picturePlayer: xbmc.picturePlayer()
+    property QtObject player: kodi.activePlayer
+    property QtObject picturePlayer: kodi.picturePlayer()
 
-    property bool usePictureControls: xbmc.picturePlayerActive && !pictureControlsOverride
+    property bool usePictureControls: kodi.picturePlayerActive && !pictureControlsOverride
     property bool pictureControlsOverride: false
 
     property int spacing: units.gu(2)
@@ -39,7 +39,7 @@ XbmcPage {
         gesturePad.teaseArrows();
     }
 
-    property QtObject keys: xbmc.keys()
+    property QtObject keys: kodi.keys()
 
     Column {
         anchors {
@@ -69,12 +69,12 @@ XbmcPage {
 
                 MediaControlButton {
                     source: "image://theme/gallery-symbolic"
-                    onClicked: xbmc.switchToWindow(Xbmc.GuiWindowPictures);
+                    onClicked: kodi.switchToWindow(Kodi.GuiWindowPictures);
                 }
                 MediaControlButton {
                     id: musicButton
                     source: "image://theme/stock_music"
-                    onClicked: xbmc.switchToWindow(Xbmc.GuiWindowMusic);
+                    onClicked: kodi.switchToWindow(Kodi.GuiWindowMusic);
                 }
                 MediaControlButton {
                     source: "image://theme/go-home"
@@ -82,12 +82,12 @@ XbmcPage {
                 }
                 MediaControlButton {
                     source: "image://theme/stock_video"
-                    onClicked: xbmc.switchToWindow(Xbmc.GuiWindowVideos);
+                    onClicked: kodi.switchToWindow(Kodi.GuiWindowVideos);
 
                 }
                 MediaControlButton {
                     source: "../images/livetv.svg"
-                    onClicked: xbmc.switchToWindow(Xbmc.GuiWindowLiveTV);
+                    onClicked: kodi.switchToWindow(Kodi.GuiWindowLiveTV);
                 }
             }
         }
@@ -219,7 +219,7 @@ XbmcPage {
         BottomEdgeButton {
             text: usePictureControls ? "Keypad" : "Pictures"
             source: usePictureControls ? "image://theme/keypad" : "image://theme/gallery-symbolic"
-            visible: xbmc.picturePlayerActive
+            visible: kodi.picturePlayerActive
             onClicked: {
                 pictureControlsOverride = !pictureControlsOverride;
             }

@@ -1,14 +1,14 @@
 /*****************************************************************************
  * Copyright: 2011-2013 Michael Zanetti <michael_zanetti@gmx.net>            *
  *                                                                           *
- * This file is part of Xbmcremote                                           *
+ * This file is part of Kodimote                                           *
  *                                                                           *
- * Xbmcremote is free software: you can redistribute it and/or modify        *
+ * Kodimote is free software: you can redistribute it and/or modify        *
  * it under the terms of the GNU General Public License as published by      *
  * the Free Software Foundation, either version 3 of the License, or         *
  * (at your option) any later version.                                       *
  *                                                                           *
- * Xbmcremote is distributed in the hope that it will be useful,             *
+ * Kodimote is distributed in the hope that it will be useful,             *
  * but WITHOUT ANY WARRANTY; without even the implied warranty of            *
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the             *
  * GNU General Public License for more details.                              *
@@ -71,7 +71,7 @@ BorderImage {
         preferredHighlightBegin: height / 2 - 55
         preferredHighlightEnd: height / 2
         highlightRangeMode: ListView.StrictlyEnforceRange
-        currentIndex: xbmcBrowser.mediaState == "audio" ? 0 : xbmcBrowser.mediaState == "video" ? 1 : 2
+        currentIndex: kodiBrowser.mediaState == "audio" ? 0 : kodiBrowser.mediaState == "video" ? 1 : 2
         focus: true
 
         Keys.onDownPressed: {
@@ -91,14 +91,14 @@ BorderImage {
             homeMenuList.currentIndex = index
             switch(index) {
             case 0:
-                xbmcBrowser.mediaState = "audio"
+                kodiBrowser.mediaState = "audio"
                 break;
             case 1:
-                xbmcBrowser.mediaState = "video"
+                kodiBrowser.mediaState = "video"
                 break;
             case 2:
-                xbmcBrowser.mediaState = "pictures"
-                xbmcBrowser.viewState = "files"
+                kodiBrowser.mediaState = "pictures"
+                kodiBrowser.viewState = "files"
                 homeMenu.state = "closed"
                 return;
             }
@@ -209,7 +209,7 @@ BorderImage {
             preferredHighlightBegin: height / 2 - 55
             preferredHighlightEnd: height / 2
             highlightRangeMode: ListView.StrictlyEnforceRange
-            currentIndex: xbmcBrowser.viewState == "library" ? 1 : 0
+            currentIndex: kodiBrowser.viewState == "library" ? 1 : 0
 
             Keys.onDownPressed: {
                 incrementCurrentIndex();
@@ -232,10 +232,10 @@ BorderImage {
             function enter(index) {
                 switch(index) {
                 case 0:
-                    xbmcBrowser.viewState = "files"
+                    kodiBrowser.viewState = "files"
                     break;
                 case 1:
-                    xbmcBrowser.viewState = "library"
+                    kodiBrowser.viewState = "library"
                     break;
                 }
                 homeMenu.state = "closed"
@@ -247,7 +247,7 @@ BorderImage {
                 anchors.right: parent.right
                 anchors.rightMargin: -15
                 height: 70
-                visible: (stateName === "library" && xbmcBrowser.mediaState == "pictures") ? false : true
+                visible: (stateName === "library" && kodiBrowser.mediaState == "pictures") ? false : true
                 Image {
                     id: buttonBg
                     anchors.fill: parent

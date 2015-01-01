@@ -1,7 +1,7 @@
 [Desktop Entry]
 Type=Application
 X-Nemo-Application-Type=silica-qt5
-Name=Xbmcremote
-Icon=harbour-xbmcremote
-Exec=harbour-xbmcremote
+Name=Kodimote
+Icon=harbour-kodimote
+Exec=harbour-kodimote
 

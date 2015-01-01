@@ -1,14 +1,14 @@
 /*****************************************************************************
  * Copyright: 2011-2013 Michael Zanetti <michael_zanetti@gmx.net>            *
  *                                                                           *
- * This file is part of Xbmcremote                                           *
+ * This file is part of Kodimote                                           *
  *                                                                           *
- * Xbmcremote is free software: you can redistribute it and/or modify        *
+ * Kodimote is free software: you can redistribute it and/or modify        *
  * it under the terms of the GNU General Public License as published by      *
  * the Free Software Foundation, either version 3 of the License, or         *
  * (at your option) any later version.                                       *
  *                                                                           *
- * Xbmcremote is distributed in the hope that it will be useful,             *
+ * Kodimote is distributed in the hope that it will be useful,             *
  * but WITHOUT ANY WARRANTY; without even the implied warranty of            *
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the             *
  * GNU General Public License for more details.                              *
@@ -68,7 +68,7 @@ Item {
             width: 80
             radius: height / 2
             anchors.verticalCenter: parent.verticalCenter
-            x: percentToSliderPos(xbmc.volume)
+            x: percentToSliderPos(kodi.volume)
 
 
             MouseArea {
@@ -77,7 +77,7 @@ Item {
                 drag.target: parent; drag.axis: Drag.XAxis
                 drag.minimumX: 2; drag.maximumX: container.width - slider.width - 2
 
-                onReleased: xbmc.setVolume(sliderPosToPercent(slider.x))
+                onReleased: kodi.setVolume(sliderPosToPercent(slider.x))
 
             }
         }

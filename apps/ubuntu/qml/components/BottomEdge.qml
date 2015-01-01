@@ -2,7 +2,7 @@ import QtQuick 2.0
 import Ubuntu.Components 1.1
 import Ubuntu.Components.Popups 1.0
 import QtQuick.Layouts 1.1
-import Xbmc 1.0
+import Kodi 1.0
 
 Item {
     id: root
@@ -126,7 +126,7 @@ Item {
                 RowLayout {
                     Layout.fillWidth: true
                     Label {
-                        text: xbmc.connectedHostName
+                        text: kodi.connectedHostName
                         Layout.fillWidth: true
                         color: "black"
                     }
@@ -149,29 +149,29 @@ Item {
                         source: "image://theme/speaker-mute"
                         Layout.fillWidth: !volumeSlider.visible
                         onClicked: {
-                            xbmc.volumeDown();
+                            kodi.volumeDown();
                         }
                     }
 
                     Slider {
                         id: volumeSlider
-                        enabled: xbmc.connectedHost.volumeControlType !== XbmcHost.VolumeControlTypeRelative
+                        enabled: kodi.connectedHost.volumeControlType !== KodiHost.VolumeControlTypeRelative
                         visible: enabled
                         Layout.fillWidth: true
                         onValueChanged: {
-                            xbmc.volume = value
+                            kodi.volume = value
                         }
                         Binding {
                             target: volumeSlider
                             property: "value"
-                            value: xbmc.volume
+                            value: kodi.volume
                         }
                     }
                     BottomEdgeButton {
                         source: "image://theme/speaker"
                         Layout.fillWidth: !volumeSlider.visible
                         onClicked: {
-                            xbmc.volumeUp();
+                            kodi.volumeUp();
                         }
                     }
                 }

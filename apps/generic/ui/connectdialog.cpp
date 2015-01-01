@@ -1,14 +1,14 @@
 /*****************************************************************************
  * Copyright: 2011-2013 Michael Zanetti <michael_zanetti@gmx.net>            *
  *                                                                           *
- * This file is part of Xbmcremote                                           *
+ * This file is part of Kodimote                                           *
  *                                                                           *
- * Xbmcremote is free software: you can redistribute it and/or modify        *
+ * Kodimote is free software: you can redistribute it and/or modify        *
  * it under the terms of the GNU General Public License as published by      *
  * the Free Software Foundation, either version 3 of the License, or         *
  * (at your option) any later version.                                       *
  *                                                                           *
- * Xbmcremote is distributed in the hope that it will be useful,             *
+ * Kodimote is distributed in the hope that it will be useful,             *
  * but WITHOUT ANY WARRANTY; without even the implied warranty of            *
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the             *
  * GNU General Public License for more details.                              *
@@ -29,24 +29,24 @@
 #include <QStackedLayout>
 #include <QPushButton>
 
-#include "libxbmcremote/xbmc.h"
-#include "libxbmcremote/xbmchostmodel.h"
-#include "libxbmcremote/xbmcdiscovery.h"
+#include "libkodimote/kodi.h"
+#include "libkodimote/kodihostmodel.h"
+#include "libkodimote/kodidiscovery.h"
 
 ConnectDialog::ConnectDialog(QWidget *parent) :
     QDialog(parent)
 {
 
     setAttribute(Qt::WA_DeleteOnClose, true);
-    setWindowTitle("XbmcRemote - " + tr("Connect to XBMC"));
+    setWindowTitle("KodiRemote - " + tr("Connect to XBMC"));
 
     m_stackedLayout = new QStackedLayout();
 
-    XbmcDiscovery *discovery = new XbmcDiscovery(this);
+    KodiDiscovery *discovery = new KodiDiscovery(this);
     discovery->setContinuousDiscovery(true);
 
     m_hostView = new QListView();
-    m_hostView->setModel(Xbmc::instance()->hostModel());
+    m_hostView->setModel(Kodi::instance()->hostModel());
     m_stackedLayout->addWidget(m_hostView);
 
     QLabel *infoLabel = new QLabel(tr("Searching for XBMC hosts.") + "\n"
@@ -93,12 +93,12 @@ ConnectDialog::ConnectDialog(QWidget *parent) :
 
 //    gridLayout->addWidget(new QLabel("Username:"), 2, 0);
 
-//    m_userName = new QLineEdit(Xbmc::instance()->username());
+//    m_userName = new QLineEdit(Kodi::instance()->username());
 //    gridLayout->addWidget(m_userName, 2, 1);
 
 //    gridLayout->addWidget(new QLabel("Password:"), 3, 0);
 
-//    m_password = new QLineEdit(Xbmc::instance()->password());
+//    m_password = new QLineEdit(Kodi::instance()->password());
 //    gridLayout->addWidget(m_password, 3, 1);
 
 
@@ -122,12 +122,12 @@ ConnectDialog::ConnectDialog(QWidget *parent) :
     connect(m_buttonBox, SIGNAL(accepted()), this, SLOT(accept()));
     connect(m_buttonBox, SIGNAL(rejected()), this, SLOT(reject()));
 
-    if(Xbmc::instance()->hostModel()->rowCount(QModelIndex()) > 0) {
+    if(Kodi::instance()->hostModel()->rowCount(QModelIndex()) > 0) {
         showHostList();
     } else {
         m_stackedLayout->setCurrentIndex(1);
     }
-    connect(Xbmc::instance()->hostModel(), SIGNAL(rowsInserted(QModelIndex, int, int)), SLOT(showHostList()));
+    connect(Kodi::instance()->hostModel(), SIGNAL(rowsInserted(QModelIndex, int, int)), SLOT(showHostList()));
     connect(m_hostView, SIGNAL(clicked(QModelIndex)), SLOT(enableOkButton()));
 
 #ifdef Q_WS_MAEMO_5
@@ -138,16 +138,16 @@ ConnectDialog::ConnectDialog(QWidget *parent) :
 void ConnectDialog::accept()
 {
     if(m_stackedLayout->currentIndex() == 0) {
-        Xbmc::instance()->hostModel()->wakeup(m_hostView->currentIndex().row());
-        Xbmc::instance()->hostModel()->connectToHost(m_hostView->currentIndex().row());
+        Kodi::instance()->hostModel()->wakeup(m_hostView->currentIndex().row());
+        Kodi::instance()->hostModel()->connectToHost(m_hostView->currentIndex().row());
     } else {
-        XbmcHost host;
+        KodiHost host;
         host.setHostname(m_hostName->text());
         host.setAddress(m_hostName->text());
         host.setPort(m_port->text().toInt());
         host.setHwAddr(m_mac->text());
-        int newHostIndex = Xbmc::instance()->hostModel()->insertOrUpdateHost(host);
-        Xbmc::instance()->hostModel()->connectToHost(newHostIndex);
+        int newHostIndex = Kodi::instance()->hostModel()->insertOrUpdateHost(host);
+        Kodi::instance()->hostModel()->connectToHost(newHostIndex);
     }
     QDialog::accept();
 }
@@ -158,7 +158,7 @@ void ConnectDialog::showManualLayout()
         m_stackedLayout->setCurrentIndex(2);
         m_manualButton->setText(tr("Back"));
     } else {
-        if(Xbmc::instance()->hostModel()->rowCount(QModelIndex()) > 0) {
+        if(Kodi::instance()->hostModel()->rowCount(QModelIndex()) > 0) {
             m_stackedLayout->setCurrentIndex(0);
         } else {
             m_stackedLayout->setCurrentIndex(1);
@@ -194,9 +194,9 @@ void ConnectDialog::enableOkButton()
 
 void ConnectDialog::removeHost()
 {
-    Xbmc::instance()->hostModel()->removeHost(m_hostView->currentIndex().row());
+    Kodi::instance()->hostModel()->removeHost(m_hostView->currentIndex().row());
     enableOkButton();
-    if(Xbmc::instance()->hostModel()->rowCount(QModelIndex()) == 0) {
+    if(Kodi::instance()->hostModel()->rowCount(QModelIndex()) == 0) {
         m_stackedLayout->setCurrentIndex(1);
     }
 }

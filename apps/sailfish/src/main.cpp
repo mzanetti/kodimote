@@ -2,14 +2,14 @@
  * Copyright: 2011-2013 Michael Zanetti <michael_zanetti@gmx.net>            *
  *            2014      Robert Meijers <robert.meijers@gmail.com>            *
  *                                                                           *
- * This file is part of Xbmcremote                                           *
+ * This file is part of Kodimote                                           *
  *                                                                           *
- * Xbmcremote is free software: you can redistribute it and/or modify        *
+ * Kodimote is free software: you can redistribute it and/or modify        *
  * it under the terms of the GNU General Public License as published by      *
  * the Free Software Foundation, either version 3 of the License, or         *
  * (at your option) any later version.                                       *
  *                                                                           *
- * Xbmcremote is distributed in the hope that it will be useful,             *
+ * Kodimote is distributed in the hope that it will be useful,             *
  * but WITHOUT ANY WARRANTY; without even the implied warranty of            *
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the             *
  * GNU General Public License for more details.                              *
@@ -28,10 +28,10 @@
 #include <pwd.h>
 #endif
 
-#include "libxbmcremote/xbmc.h"
-#include "libxbmcremote/eventclient.h"
-#include "libxbmcremote/settings.h"
-#include "libxbmcremote/networkaccessmanagerfactory.h"
+#include "libkodimote/kodi.h"
+#include "libkodimote/eventclient.h"
+#include "libkodimote/settings.h"
+#include "libkodimote/networkaccessmanagerfactory.h"
 #include "sailfishhelper.h"
 
 #include <sailfishapp.h>
@@ -56,12 +56,12 @@ int main(int argc, char *argv[])
     application->installTranslator(&qtTranslator);
 
     QTranslator translator;
-    if (!translator.load(":/xbmcremote_" + language + ".qm")) {
-        qDebug() << "Cannot load translation file" << "xbmcremote_" + language + ".qm";
+    if (!translator.load(":/kodimote_" + language + ".qm")) {
+        qDebug() << "Cannot load translation file" << "kodimote_" + language + ".qm";
     }
     application->installTranslator(&translator);
 
-    Xbmc::instance()->setDataPath(QStandardPaths::writableLocation(QStandardPaths::CacheLocation));
+    Kodi::instance()->setDataPath(QStandardPaths::writableLocation(QStandardPaths::CacheLocation));
 
     Settings settings;
 
@@ -70,7 +70,7 @@ int main(int argc, char *argv[])
 
     QQuickView *view = SailfishApp::createView();
     view->engine()->setNetworkAccessManagerFactory(new NetworkAccessManagerFactory());
-    view->engine()->rootContext()->setContextProperty("xbmc", Xbmc::instance());
+    view->engine()->rootContext()->setContextProperty("kodi", Kodi::instance());
     view->engine()->rootContext()->setContextProperty("settings", &settings);
     view->setSource(SailfishApp::pathTo("qml/main.qml"));
 

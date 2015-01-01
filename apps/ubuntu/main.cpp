@@ -1,14 +1,14 @@
 /*****************************************************************************
  * Copyright: 2011-2013 Michael Zanetti <michael_zanetti@gmx.net>            *
  *                                                                           *
- * This file is part of Xbmcremote                                           *
+ * This file is part of Kodimote                                           *
  *                                                                           *
- * Xbmcremote is free software: you can redistribute it and/or modify        *
+ * Kodimote is free software: you can redistribute it and/or modify        *
  * it under the terms of the GNU General Public License as published by      *
  * the Free Software Foundation, either version 3 of the License, or         *
  * (at your option) any later version.                                       *
  *                                                                           *
- * Xbmcremote is distributed in the hope that it will be useful,             *
+ * Kodimote is distributed in the hope that it will be useful,             *
  * but WITHOUT ANY WARRANTY; without even the implied warranty of            *
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the             *
  * GNU General Public License for more details.                              *
@@ -18,10 +18,10 @@
  *                                                                           *
  ****************************************************************************/
 
-#include "libxbmcremote/xbmc.h"
-#include "libxbmcremote/settings.h"
-#include "libxbmcremote/eventclient.h"
-#include "libxbmcremote/networkaccessmanagerfactory.h"
+#include "libkodimote/kodi.h"
+#include "libkodimote/settings.h"
+#include "libkodimote/eventclient.h"
+#include "libkodimote/networkaccessmanagerfactory.h"
 
 #include "ubuntuhelper.h"
 
@@ -38,8 +38,8 @@
 int main(int argc, char** argv)
 {
 
-    QCoreApplication::setOrganizationName("com.ubuntu.developer.mzanetti.xbmcremote");
-    QCoreApplication::setApplicationName("xbmcremote");
+    QCoreApplication::setOrganizationName("com.ubuntu.developer.mzanetti.kodimote");
+    QCoreApplication::setApplicationName("kodimote");
 
     QGuiApplication application(argc, argv);
 
@@ -55,29 +55,29 @@ int main(int argc, char** argv)
     application.installTranslator(&qtTranslator);
 
     QTranslator translator;
-    if (!translator.load(":/xbmcremote_" + language + ".qm")) {
-        qDebug() << "Cannot load translation file" << "xbmcremote_" + language + ".pm";
+    if (!translator.load(":/kodimote_" + language + ".qm")) {
+        qDebug() << "Cannot load translation file" << "kodimote_" + language + ".pm";
     }
     application.installTranslator(&translator);
 
 
-    Xbmc::instance()->setDataPath(QDir::homePath() + "/.cache/com.ubuntu.developer.mzanetti.xbmcremote/");
-    Xbmc::instance()->eventClient()->setApplicationThumbnail("xbmcremote80.png");
+    Kodi::instance()->setDataPath(QDir::homePath() + "/.cache/com.ubuntu.developer.mzanetti.kodimote/");
+    Kodi::instance()->eventClient()->setApplicationThumbnail("kodimote80.png");
 
     QQuickView *view = new QQuickView();
     view->setResizeMode(QQuickView::SizeRootObjectToView);
 
     view->engine()->setNetworkAccessManagerFactory(new NetworkAccessManagerFactory());
 
-    view->setTitle("Xbmcremote");
-    view->engine()->rootContext()->setContextProperty("xbmc", Xbmc::instance());
+    view->setTitle("Kodimote");
+    view->engine()->rootContext()->setContextProperty("kodi", Kodi::instance());
 
 
     Settings settings;
     view->engine()->rootContext()->setContextProperty("settings", &settings);
 
     if(QCoreApplication::applicationDirPath() == QDir(("/usr/bin")).canonicalPath()) {
-        view->setSource(QUrl::fromLocalFile("/usr/share/xbmcremote/qml/main.qml"));
+        view->setSource(QUrl::fromLocalFile("/usr/share/kodimote/qml/main.qml"));
     } else {
         view->setSource(QUrl::fromLocalFile("qml/main.qml"));
     }

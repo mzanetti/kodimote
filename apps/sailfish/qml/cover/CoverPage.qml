@@ -2,14 +2,14 @@
  * Copyright: 2011-2013 Michael Zanetti <michael_zanetti@gmx.net>            *
  *            2014      Robert Meijers <robert.meijers@gmail.com>            *
  *                                                                           *
- * This file is part of Xbmcremote                                           *
+ * This file is part of Kodimote                                           *
  *                                                                           *
- * Xbmcremote is free software: you can redistribute it and/or modify        *
+ * Kodimote is free software: you can redistribute it and/or modify        *
  * it under the terms of the GNU General Public License as published by      *
  * the Free Software Foundation, either version 3 of the License, or         *
  * (at your option) any later version.                                       *
  *                                                                           *
- * Xbmcremote is distributed in the hope that it will be useful,             *
+ * Kodimote is distributed in the hope that it will be useful,             *
  * but WITHOUT ANY WARRANTY; without even the implied warranty of            *
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the             *
  * GNU General Public License for more details.                              *
@@ -25,7 +25,7 @@ import "../"
 
 CoverBackground {
     id: cover
-    property QtObject player: xbmc.activePlayer
+    property QtObject player: kodi.activePlayer
     property QtObject currentItem: player ? player.currentItem : null
     property bool hasThumbnail: cover.currentItem && cover.currentItem.thumbnail.length
 
@@ -132,10 +132,10 @@ CoverBackground {
             }
         },
         State {
-            when: xbmc.connected
+            when: kodi.connected
             PropertyChanges {
                 target: description
-                text: qsTr("XBMC on") + "\n" + xbmc.connectedHostName
+                text: qsTr("XBMC on") + "\n" + kodi.connectedHostName
             }
             PropertyChanges {
                 target: leftAction
@@ -149,7 +149,7 @@ CoverBackground {
             }
         },
         State {
-            when: !xbmc.connected
+            when: !kodi.connected
             PropertyChanges {
                 target: description
                 text: qsTr("XBMC remote") + "\n" +

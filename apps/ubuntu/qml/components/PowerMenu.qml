@@ -15,7 +15,7 @@ Dialog {
             width: parent.width
             iconName: "close"
             onClicked: {
-                xbmc.disconnectFromHost();
+                kodi.disconnectFromHost();
                 PopupUtils.close(powerMenu)
             }
         }
@@ -24,7 +24,7 @@ Dialog {
             width: parent.width
             iconName: "system-log-out"
             onClicked: {
-                xbmc.quit();
+                kodi.quit();
                 PopupUtils.close(powerMenu)
             }
         }
@@ -32,9 +32,9 @@ Dialog {
             text: qsTr("Shutdown XBMC host")
             width: parent.width
             iconName: "system-shutdown"
-            visible: xbmc.canShutdown
+            visible: kodi.canShutdown
             onClicked: {
-                xbmc.quit();
+                kodi.quit();
                 PopupUtils.close(powerMenu)
             }
         }
@@ -42,9 +42,9 @@ Dialog {
             text: qsTr("Reboot XBMC host")
             iconName: "system-restart"
             width: parent.width
-            visible: xbmc.canReboot
+            visible: kodi.canReboot
             onClicked: {
-                xbmc.reboot();
+                kodi.reboot();
                 PopupUtils.close(powerMenu)
             }
         }
@@ -52,20 +52,20 @@ Dialog {
             text: qsTr("Suspend XBMC host")
             width: parent.width
             iconName: "torch-off"
-            visible: xbmc.canSuspend
+            visible: kodi.canSuspend
             onClicked: {
                 PopupUtils.close(powerMenu)
-                xbmc.suspend();
+                kodi.suspend();
             }
         }
         Button {
             text: qsTr("Hibernate XBMC host")
             width: parent.width
-            visible: xbmc.canHibernate
+            visible: kodi.canHibernate
             iconName: "save"
             onClicked: {
                 PopupUtils.close(powerMenu)
-                xbmc.hibernate();
+                kodi.hibernate();
             }
         }
         Button {

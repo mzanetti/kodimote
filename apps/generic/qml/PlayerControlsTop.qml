@@ -1,14 +1,14 @@
 /*****************************************************************************
  * Copyright: 2011-2013 Michael Zanetti <michael_zanetti@gmx.net>            *
  *                                                                           *
- * This file is part of Xbmcremote                                           *
+ * This file is part of Kodimote                                           *
  *                                                                           *
- * Xbmcremote is free software: you can redistribute it and/or modify        *
+ * Kodimote is free software: you can redistribute it and/or modify        *
  * it under the terms of the GNU General Public License as published by      *
  * the Free Software Foundation, either version 3 of the License, or         *
  * (at your option) any later version.                                       *
  *                                                                           *
- * Xbmcremote is distributed in the hope that it will be useful,             *
+ * Kodimote is distributed in the hope that it will be useful,             *
  * but WITHOUT ANY WARRANTY; without even the implied warranty of            *
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the             *
  * GNU General Public License for more details.                              *
@@ -19,7 +19,7 @@
  ****************************************************************************/
 
 import Qt 4.7
-import Xbmc 1.0
+import Kodi 1.0
 
 Row {
     id: playerControlsTop
@@ -50,18 +50,18 @@ Row {
 
         Image {
             anchors.centerIn: parent
-            source: xbmc.activePlayer.repeat === Player.RepeatNone ? "images/OSDRepeatNF.png" : (xbmc.activePlayer.repeat === Player.RepeatOne ? "images/OSDRepeatOneFO.png" : "images/OSDRepeatAllFO.png")
+            source: kodi.activePlayer.repeat === Player.RepeatNone ? "images/OSDRepeatNF.png" : (kodi.activePlayer.repeat === Player.RepeatOne ? "images/OSDRepeatOneFO.png" : "images/OSDRepeatAllFO.png")
         }
 
         MouseArea {
             anchors.fill: parent
             onClicked: {
-                if(xbmc.activePlayer.repeat === Player.RepeatNone) {
-                    xbmc.activePlayer.repeat = Player.RepeatOne;
-                } else if(xbmc.activePlayer.repeat === Player.RepeatOne) {
-                    xbmc.activePlayer.repeat = Player.RepeatAll;
+                if(kodi.activePlayer.repeat === Player.RepeatNone) {
+                    kodi.activePlayer.repeat = Player.RepeatOne;
+                } else if(kodi.activePlayer.repeat === Player.RepeatOne) {
+                    kodi.activePlayer.repeat = Player.RepeatAll;
                 } else {
-                    xbmc.activePlayer.repeat = Player.RepeatNone;
+                    kodi.activePlayer.repeat = Player.RepeatNone;
                 }
             }
         }
@@ -72,14 +72,14 @@ Row {
         width: parent.width / 4
 
         Image {
-            source: xbmc.activePlayer.shuffle ? "images/OSDRandomOffFO.png" : "images/OSDRandomOffNF.png"
+            source: kodi.activePlayer.shuffle ? "images/OSDRandomOffFO.png" : "images/OSDRandomOffNF.png"
             anchors.centerIn: parent
         }
 
         MouseArea {
             anchors.fill: parent
             onClicked: {
-                xbmc.activePlayer.shuffle = ! xbmc.activePlayer.shuffle
+                kodi.activePlayer.shuffle = ! kodi.activePlayer.shuffle
             }
         }
     }

@@ -11,14 +11,14 @@ HEADERS += ubuntuhelper.h
 # debian/rules builds with CONFIG+=package
 package {
     qml.files = qml
-    qml.path = /usr/share/xbmcremote/
+    qml.path = /usr/share/kodimote/
 
     target.path = /usr/bin/
 
-    desktopfile.files = xbmcremote.desktop
+    desktopfile.files = kodimote.desktop
     desktopfile.path = /usr/share/applications/
 
-    icon.files = xbmcremote-square.svg
+    icon.files = kodimote-square.svg
     icon.path = /usr/share/icons/hicolor/scalable/apps/
 
 
@@ -28,7 +28,7 @@ package {
     qml.files = qml
     qml.path = $$OUT_PWD
 
-    icon.files = xbmcremote80.png
+    icon.files = kodimote80.png
     icon.path = $$OUT_PWD
 
     INSTALLS += qml icon

@@ -1,14 +1,14 @@
 /*****************************************************************************
  * Copyright: 2011-2013 Michael Zanetti <michael_zanetti@gmx.net>            *
  *                                                                           *
- * This file is part of Xbmcremote                                           *
+ * This file is part of Kodimote                                           *
  *                                                                           *
- * Xbmcremote is free software: you can redistribute it and/or modify        *
+ * Kodimote is free software: you can redistribute it and/or modify        *
  * it under the terms of the GNU General Public License as published by      *
  * the Free Software Foundation, either version 3 of the License, or         *
  * (at your option) any later version.                                       *
  *                                                                           *
- * Xbmcremote is distributed in the hope that it will be useful,             *
+ * Kodimote is distributed in the hope that it will be useful,             *
  * but WITHOUT ANY WARRANTY; without even the implied warranty of            *
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the             *
  * GNU General Public License for more details.                              *
@@ -33,7 +33,7 @@ AboutDialog::AboutDialog(QWidget *parent) :
     QDialog(parent)
 {
     setAttribute(Qt::WA_DeleteOnClose, true);
-    setWindowTitle(tr("About") + " Xbmcremote");
+    setWindowTitle(tr("About") + " Kodimote");
 
     QHBoxLayout *hlayout = new QHBoxLayout;
     hlayout->setSpacing(20);
@@ -51,7 +51,7 @@ AboutDialog::AboutDialog(QWidget *parent) :
     QVBoxLayout *vlayout = new QVBoxLayout;
     hlayout->addLayout(vlayout);
 
-    QLabel *label = new QLabel(QString("Xbmcremote ") + VERSION_STRING);
+    QLabel *label = new QLabel(QString("Kodimote ") + VERSION_STRING);
     QFont font;
     font.setPixelSize(24);
     label->setFont(font);
@@ -90,5 +90,5 @@ void AboutDialog::openDonationPage()
 
 void AboutDialog::openFlattrPage()
 {
-    QDesktopServices::openUrl(QUrl("http://flattr.com/thing/412274/Xbmcremote"));
+    QDesktopServices::openUrl(QUrl("http://flattr.com/thing/412274/Kodimote"));
 }

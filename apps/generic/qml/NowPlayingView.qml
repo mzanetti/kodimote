@@ -1,14 +1,14 @@
 /*****************************************************************************
  * Copyright: 2011-2013 Michael Zanetti <michael_zanetti@gmx.net>            *
  *                                                                           *
- * This file is part of Xbmcremote                                           *
+ * This file is part of Kodimote                                           *
  *                                                                           *
- * Xbmcremote is free software: you can redistribute it and/or modify        *
+ * Kodimote is free software: you can redistribute it and/or modify        *
  * it under the terms of the GNU General Public License as published by      *
  * the Free Software Foundation, either version 3 of the License, or         *
  * (at your option) any later version.                                       *
  *                                                                           *
- * Xbmcremote is distributed in the hope that it will be useful,             *
+ * Kodimote is distributed in the hope that it will be useful,             *
  * but WITHOUT ANY WARRANTY; without even the implied warranty of            *
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the             *
  * GNU General Public License for more details.                              *
@@ -34,7 +34,7 @@ FocusScope {
         source: "images/ContentPanel.png"
     }
 
-    property QtObject player: xbmc.activePlayer
+    property QtObject player: kodi.activePlayer
     property QtObject playlist: player.playlist()
     property QtObject currentItem: player.currentItem
 
@@ -47,50 +47,50 @@ FocusScope {
         if(event.modifiers === Qt.ShiftModifier) {
             switch(event.key) {
             case Qt.Key_Left:
-                xbmc.activePlayer.seek();
+                kodi.activePlayer.seek();
                 break;
             case Qt.Key_Right:
-                xbmc.activePlayer.seek();
+                kodi.activePlayer.seek();
                 break;
             }
         } else if(event.modifiers === Qt.NoModifier) {
             switch(event.key) {
             case Qt.Key_R:
-                if(xbmc.activePlayer.repeat === Player.RepeatNone) {
-                    xbmc.activePlayer.repeat = Player.RepeatOne;
-                } else if(xbmc.activePlayer.repeat === Player.RepeatOne) {
-                    xbmc.activePlayer.repeat = Player.RepeatAll;
+                if(kodi.activePlayer.repeat === Player.RepeatNone) {
+                    kodi.activePlayer.repeat = Player.RepeatOne;
+                } else if(kodi.activePlayer.repeat === Player.RepeatOne) {
+                    kodi.activePlayer.repeat = Player.RepeatAll;
                 } else {
-                    xbmc.activePlayer.repeat = Player.RepeatNone;
+                    kodi.activePlayer.repeat = Player.RepeatNone;
                 }
                 break;
             case Qt.Key_S:
-                xbmc.activePlayer.shuffle = ! xbmc.activePlayer.shuffle
+                kodi.activePlayer.shuffle = ! kodi.activePlayer.shuffle
                 break;
             case Qt.Key_P:
                 openPlaylist();
                 break;
             case Qt.Key_Left:
-                xbmc.activePlayer.skipPrevious();
+                kodi.activePlayer.skipPrevious();
                 break;
             case Qt.Key_Right:
-                xbmc.activePlayer.skipNext();
+                kodi.activePlayer.skipNext();
                 break;
             case Qt.Key_Up:
                 volumeBar.state = "volumeVisible";
-                xbmc.volumeUp();
+                kodi.volumeUp();
                 volumeTimer.restart();
                 break;
             case Qt.Key_Down:
                 volumeBar.state = "volumeVisible";
-                xbmc.volumeDown();
+                kodi.volumeDown();
                 volumeTimer.restart();
                 break;
             case Qt.Key_Space:
-                xbmc.activePlayer.playPause();
+                kodi.activePlayer.playPause();
                 break;
             case Qt.Key_Escape:
-                xbmc.activePlayer.stop();
+                kodi.activePlayer.stop();
                 break;
             case Qt.Key_I:
                 itemDetails.forceActiveFocus();
@@ -101,7 +101,7 @@ FocusScope {
 
     function setVolume(value) {
         volumeBar.state = "volumeVisible";
-        xbmc.setVolume(value);
+        kodi.setVolume(value);
         volumeTimer.restart();
     }
     Timer {
@@ -186,12 +186,12 @@ FocusScope {
             id: imageItem
             height: screen.orientation == "portrait" ? nowPlayingFlow.height - 40 * 3 - 20 - 15: nowPlayingFlow.height
             width: screen.orientation == "portrait" ? nowPlayingFlow.width : height
-            source: xbmc.state == "audio" ? "images/DefaultAlbumCover.png" : "images/DefaultVideoCover.png"
+            source: kodi.state == "audio" ? "images/DefaultAlbumCover.png" : "images/DefaultVideoCover.png"
             Image {
                 anchors.centerIn: parent
                 height: Math.min(parent.height, parent.width)
                 width: Math.min(parent.height, parent.width)
-                source: xbmc.vfsPath + currentItem.thumbnail
+                source: kodi.vfsPath + currentItem.thumbnail
                 fillMode: Image.PreserveAspectFit
             }
         }
@@ -208,7 +208,7 @@ FocusScope {
                 id: line1
                 height: 40
                 width: nowPlayingText.width
-//                anchors.bottom: xbmc.activePlayer.playlist().type == AudioPlayer.PlayerTypeAudio ? artistText.top : titleText.top
+//                anchors.bottom: kodi.activePlayer.playlist().type == AudioPlayer.PlayerTypeAudio ? artistText.top : titleText.top
 
                 Text {
                     id: nowPlayingTextLabel
@@ -251,7 +251,7 @@ FocusScope {
 //                    anchors {left: parent.left; top: parent.top; bottom: parent.bottom; right: ratingStars.left }
                     width: parent.width - ratingStars.width
                     color: "white"
-                    text: (xbmc.state == "audio" ? currentItem.artist : (currentItem.type === "episode" ? currentItem.tvShow : "Year: " + currentItem.year)) + (xbmc.state == "audio" ? " - " + currentItem.album : (currentItem.type === "episode" ? " - Season: " + currentItem.season : ""))
+                    text: (kodi.state == "audio" ? currentItem.artist : (currentItem.type === "episode" ? currentItem.tvShow : "Year: " + currentItem.year)) + (kodi.state == "audio" ? " - " + currentItem.album : (currentItem.type === "episode" ? " - Season: " + currentItem.season : ""))
                     font.pixelSize: 22
                     elide: Text.ElideRight
     //                visible: ActivePlayer.type == AudioPlayer.PlayerTypeAudio
@@ -321,7 +321,7 @@ FocusScope {
             }
 
             Rectangle {
-                width: height + (progressBar.width - height) * xbmc.activePlayer.percentage / 100
+                width: height + (progressBar.width - height) * kodi.activePlayer.percentage / 100
                 height: 15
                 anchors.bottom: nowPlayingText.bottom
                 radius: height/2
@@ -362,7 +362,7 @@ FocusScope {
                 width: height
                 radius: height / 2
                 anchors.verticalCenter: progressBar.verticalCenter
-                x: dragging ? x : (progressBar.width - height) * xbmc.activePlayer.percentage / 100
+                x: dragging ? x : (progressBar.width - height) * kodi.activePlayer.percentage / 100
                 opacity: dragging ? .8 : .001
                 property bool dragging: false
 

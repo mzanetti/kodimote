@@ -1,14 +1,14 @@
 /*****************************************************************************
  * Copyright: 2011-2013 Michael Zanetti <michael_zanetti@gmx.net>            *
  *                                                                           *
- * This file is part of Xbmcremote                                           *
+ * This file is part of Kodimote                                           *
  *                                                                           *
- * Xbmcremote is free software: you can redistribute it and/or modify        *
+ * Kodimote is free software: you can redistribute it and/or modify        *
  * it under the terms of the GNU General Public License as published by      *
  * the Free Software Foundation, either version 3 of the License, or         *
  * (at your option) any later version.                                       *
  *                                                                           *
- * Xbmcremote is distributed in the hope that it will be useful,             *
+ * Kodimote is distributed in the hope that it will be useful,             *
  * but WITHOUT ANY WARRANTY; without even the implied warranty of            *
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the             *
  * GNU General Public License for more details.                              *
@@ -19,9 +19,9 @@
  ****************************************************************************/
 
 #include "nfchandler.h"
-#include "libxbmcremote/xbmc.h"
-#include "libxbmcremote/xbmcconnection.h"
-#include "libxbmcremote/xbmchostmodel.h"
+#include "libkodimote/kodi.h"
+#include "libkodimote/kodiconnection.h"
+#include "libkodimote/kodihostmodel.h"
 
 #include <QDebug>
 #include <QUrl>
@@ -61,8 +61,8 @@ void NfcHandler::tagDetected(QNearFieldTarget *tag)
 
     if(m_writeNextTag) {
         QNdefNfcUriRecord record;
-        XbmcHost *currentHost = XbmcConnection::connectedHost();
-        record.setUri(QUrl("xbmc://" + currentHost->address()
+        KodiHost *currentHost = KodiConnection::connectedHost();
+        record.setUri(QUrl("kodi://" + currentHost->address()
                            + ':' + QString::number(currentHost->port())
                            + '/' + currentHost->hostname()
                            + '/' + currentHost->hwAddr().remove(':')));
@@ -89,10 +89,10 @@ void NfcHandler::ndefMessageRead(QNdefMessage message)
             QNdefNfcUriRecord uriRecord(record);
             qDebug() << "********** Got URI record:" << uriRecord.uri();
             QUrl uri = uriRecord.uri();
-            if(uri.scheme() == "xbmc") {
+            if(uri.scheme() == "kodi") {
                 qDebug() << "Got and xmbc:// uri" << uri.host() << uri.port() << uri.path();
 
-                XbmcHost host;
+                KodiHost host;
                 host.setAddress(uri.host());
                 host.setPort(uri.port());
                 QString path = uri.path().right(uri.path().length() - 1);
@@ -103,20 +103,20 @@ void NfcHandler::ndefMessageRead(QNdefMessage message)
                     host.setHwAddr(path.split('/').at(1));
                 }
                 qDebug() << "Should connect to" << host.address() << ':' << host.port() << host.hostname() << host.hwAddr();
-                int index = Xbmc::instance()->hostModel()->insertOrUpdateHost(host);
-                Xbmc::instance()->hostModel()->connectToHost(index);
+                int index = Kodi::instance()->hostModel()->insertOrUpdateHost(host);
+                Kodi::instance()->hostModel()->connectToHost(index);
             } else {
-                qDebug() << "NDEF uri record not compatible with xbmcremote:" << uriRecord.uri();
-                emit tagError(tr("NFC tag is not compatible with Xbmcremote. In order to use it with Xbmcremote you need to write connection information to it."));
+                qDebug() << "NDEF uri record not compatible with kodimote:" << uriRecord.uri();
+                emit tagError(tr("NFC tag is not compatible with Kodimote. In order to use it with Kodimote you need to write connection information to it."));
             }
         } else if (record.isRecordType<QNdefNfcTextRecord>()) {
             QNdefNfcTextRecord textRecord(record);
             qDebug() << "********** Got Text record:" << textRecord.text();
-            if(textRecord.text().startsWith("xbmc:")) {
+            if(textRecord.text().startsWith("kodi:")) {
                 qDebug() << "outdated tag detected";
-                emit tagError(tr("NFC tag is outdated. In order to use it with Xbmcremote you need to update it by rewriting connection information to it."));
+                emit tagError(tr("NFC tag is outdated. In order to use it with Kodimote you need to update it by rewriting connection information to it."));
             } else {
-                emit tagError(tr("NFC tag is not compatible with Xbmcremote. In order to use it with Xbmcremote you need to write connection information to it."));
+                emit tagError(tr("NFC tag is not compatible with Kodimote. In order to use it with Kodimote you need to write connection information to it."));
             }
         }else {
             if (record.typeNameFormat() == QNdefRecord::Mime &&
@@ -133,7 +133,7 @@ void NfcHandler::ndefMessageRead(QNdefMessage message)
             } else {
                 qDebug() << "got unknown ndef message type";
             }
-            emit tagError(tr("NFC tag is not compatible with Xbmcremote. In order to use it with Xbmcremote you need to write connection information to it."));
+            emit tagError(tr("NFC tag is not compatible with Kodimote. In order to use it with Kodimote you need to write connection information to it."));
         }
     }
 }
@@ -171,8 +171,8 @@ void NfcHandler::error(QNearFieldTarget::Error error, const QNearFieldTarget::Re
     QNearFieldTarget *tag = qobject_cast<QNearFieldTarget*>(sender());
 
     QNdefNfcUriRecord record;
-    XbmcHost *currentHost = XbmcConnection::connectedHost();
-    record.setUri(QUrl("xbmc://" + currentHost->address()
+    KodiHost *currentHost = KodiConnection::connectedHost();
+    record.setUri(QUrl("kodi://" + currentHost->address()
                        + ':' + QString::number(currentHost->port())
                        + '/' + currentHost->hostname()
                        + '/'));

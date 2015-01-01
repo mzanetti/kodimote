@@ -1,13 +1,13 @@
-TARGET = xbmcremote
+TARGET = kodimote
 TEMPLATE = app
 
 top_srcdir = $$PWD
 
 INCLUDEPATH += $$top_srcdir
 contains(QT_VERSION, ^5\\..\\..*) {
-  LIBS += -L../../libxbmcremote -lxbmcremote
+  LIBS += -L../../libkodimote -lkodimote
 } else {
-  LIBS += -L../../libxbmcremote -lxbmcremote -lqjson
+  LIBS += -L../../libkodimote -lkodimote -lqjson
 }
 #Needed by qmake to figure that this is a dep.
-PRE_TARGETDEPS += ../../libxbmcremote/libxbmcremote.a
+PRE_TARGETDEPS += ../../libkodimote/libkodimote.a

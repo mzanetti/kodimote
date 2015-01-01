@@ -1,14 +1,14 @@
 /*****************************************************************************
  * Copyright: 2011-2013 Michael Zanetti <michael_zanetti@gmx.net>            *
  *                                                                           *
- * This file is part of Xbmcremote                                           *
+ * This file is part of Kodimote                                           *
  *                                                                           *
- * Xbmcremote is free software: you can redistribute it and/or modify        *
+ * Kodimote is free software: you can redistribute it and/or modify        *
  * it under the terms of the GNU General Public License as published by      *
  * the Free Software Foundation, either version 3 of the License, or         *
  * (at your option) any later version.                                       *
  *                                                                           *
- * Xbmcremote is distributed in the hope that it will be useful,             *
+ * Kodimote is distributed in the hope that it will be useful,             *
  * but WITHOUT ANY WARRANTY; without even the implied warranty of            *
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the             *
  * GNU General Public License for more details.                              *
@@ -25,7 +25,7 @@ import Ubuntu.Components.Popups 1.0
 import Ubuntu.Components.ListItems 1.0 as ListItems
 import "components"
 
-XbmcPage {
+KodiPage {
     id: mainPage
 //    anchors.margins: appWindow.pageMargin
     title: qsTr("Media Browser")
@@ -102,13 +102,13 @@ XbmcPage {
         if (settings.picturesEnabled) {
             mainMenuModel.append(mainMenuModelTemplate.get(2));
         }
-        if (xbmc.pvrAvailable && settings.pvrEnabled) {
+        if (kodi.pvrAvailable && settings.pvrEnabled) {
             mainMenuModel.append(mainMenuModelTemplate.get(3));
         }
     }
 
     Connections {
-        target: xbmc
+        target: kodi
         onPvrAvailableChanged: {
             populateMainMenu();
         }
@@ -235,21 +235,21 @@ XbmcPage {
                                     settings.videosShowsFiles = false;
                                 }
                             case 2:
-                                var lib = xbmc.audioLibrary();
+                                var lib = kodi.audioLibrary();
                                 if (index == 0) {
-                                    lib = xbmc.audioLibrary();
+                                    lib = kodi.audioLibrary();
                                 } else {
-                                    lib = xbmc.videoLibrary();
+                                    lib = kodi.videoLibrary();
                                 }
                                 lib.scanForContent();
                                 lib.exit();
                                 break;
                             case 3:
-                                var lib = xbmc.audioLibrary();
+                                var lib = kodi.audioLibrary();
                                 if (index == 0) {
-                                    lib = xbmc.audioLibrary();
+                                    lib = kodi.audioLibrary();
                                 } else {
-                                    lib = xbmc.videoLibrary();
+                                    lib = kodi.videoLibrary();
                                 }
 
                                 lib.clean();
@@ -267,24 +267,24 @@ XbmcPage {
                         switch(mainMenuModel.get(index).target) {
                         case "music":
                             if(mode === "library") {
-                                newModel = xbmc.audioLibrary();
+                                newModel = kodi.audioLibrary();
                             } else {
-                                newModel = xbmc.shares("music");
+                                newModel = kodi.shares("music");
                             }
                             break
                         case "videos":
                             if(mode === "library") {
-                                newModel = xbmc.videoLibrary();
+                                newModel = kodi.videoLibrary();
                             } else {
-                                newModel = xbmc.shares("video");
+                                newModel = kodi.shares("video");
                             }
                             break;
                         case "pictures":
-                            newModel = xbmc.shares("pictures");
+                            newModel = kodi.shares("pictures");
                             console.log("created model: " + newModel);
                             break;
                         case "tv":
-                            newModel = xbmc.pvrMenu();
+                            newModel = kodi.pvrMenu();
                             console.log("created model: " + newModel);
                             break;
                         }

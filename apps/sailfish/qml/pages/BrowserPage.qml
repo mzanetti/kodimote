@@ -2,14 +2,14 @@
  * Copyright: 2011-2013 Michael Zanetti <michael_zanetti@gmx.net>            *
  *            2014      Robert Meijers <robert.meijers@gmail.com>            *
  *                                                                           *
- * This file is part of Xbmcremote                                           *
+ * This file is part of Kodimote                                           *
  *                                                                           *
- * Xbmcremote is free software: you can redistribute it and/or modify        *
+ * Kodimote is free software: you can redistribute it and/or modify        *
  * it under the terms of the GNU General Public License as published by      *
  * the Free Software Foundation, either version 3 of the License, or         *
  * (at your option) any later version.                                       *
  *                                                                           *
- * Xbmcremote is distributed in the hope that it will be useful,             *
+ * Kodimote is distributed in the hope that it will be useful,             *
  * but WITHOUT ANY WARRANTY; without even the implied warranty of            *
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the             *
  * GNU General Public License for more details.                              *
@@ -21,7 +21,7 @@
 
 import QtQuick 2.0
 import Sailfish.Silica 1.0
-import harbour.xbmcremote 1.0
+import harbour.kodimote 1.0
 import "../components/"
 
 Page {
@@ -37,7 +37,7 @@ Page {
         }
     }
 
-    XbmcFilterModel {
+    KodiFilterModel {
         id: filterModel
         model: browserPage.model
         filterCaseSensitivity: Qt.CaseInsensitive
@@ -70,7 +70,7 @@ Page {
 
             MenuItem {
                 text: qsTr("Now playing")
-                enabled: xbmc.activePlayer !== null
+                enabled: kodi.activePlayer !== null
                 onClicked: {
                     pageStack.push("NowPlayingPage.qml")
                 }
@@ -103,7 +103,7 @@ Page {
             cacheBuffer: itemHeight * 3
 
             property bool useThumbnails: settings.useThumbnails
-            property int itemHeight: browserPage.model && browserPage.model.thumbnailFormat === XbmcModel.ThumbnailFormatPortrait ? 122 : 88
+            property int itemHeight: browserPage.model && browserPage.model.thumbnailFormat === KodiModel.ThumbnailFormatPortrait ? 122 : 88
 
             delegate: Drawer {
                 id: drawer
@@ -190,13 +190,13 @@ Page {
 
                     Thumbnail {
                         id: thumbnailImage
-                        height: browserPage.model.thumbnailFormat === XbmcModel.ThumbnailFormatPortrait ? 120 : (browserPage.model.thumbnailFormat === XbmcModel.ThumbnailFormatNone ? 0 : 86 )
-                        width: browserPage.model.thumbnailFormat === XbmcModel.ThumbnailFormatPortrait ? 80 : (browserPage.model.thumbnailFormat === XbmcModel.ThumbnailFormatLandscape ? 152 : height)
+                        height: browserPage.model.thumbnailFormat === KodiModel.ThumbnailFormatPortrait ? 120 : (browserPage.model.thumbnailFormat === KodiModel.ThumbnailFormatNone ? 0 : 86 )
+                        width: browserPage.model.thumbnailFormat === KodiModel.ThumbnailFormatPortrait ? 80 : (browserPage.model.thumbnailFormat === KodiModel.ThumbnailFormatLandscape ? 152 : height)
 
                         anchors.left: parent.left
                         anchors.leftMargin: Theme.paddingLarge
                         anchors.top: parent.top
-                        visible: listView.useThumbnails && browserPage.model.thumbnailFormat !== XbmcModel.ThumbnailFormatNone
+                        visible: listView.useThumbnails && browserPage.model.thumbnailFormat !== KodiModel.ThumbnailFormatNone
 
                         artworkSource: thumbnail
                         defaultText: title

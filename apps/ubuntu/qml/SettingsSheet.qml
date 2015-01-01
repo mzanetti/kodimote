@@ -91,14 +91,14 @@ Dialog {
             CheckBox {
                 id: cbPvrEnabled
                 checked: settings.pvrEnabled
-                visible: xbmc.pvrAvailable
+                visible: kodi.pvrAvailable
             }
             Label {
                 height: cbMusicEnabled.height; verticalAlignment: Text.AlignVCenter
                 width: (parent.width - cbMusicEnabled.width * 2) / 2
                 text: qsTr("Live TV")
                 color: "black"
-                visible: xbmc.pvrAvailable
+                visible: kodi.pvrAvailable
             }
         }
 

@@ -1,14 +1,14 @@
 /*****************************************************************************
  * Copyright: 2011-2013 Michael Zanetti <michael_zanetti@gmx.net>            *
  *                                                                           *
- * This file is part of Xbmcremote                                           *
+ * This file is part of Kodimote                                           *
  *                                                                           *
- * Xbmcremote is free software: you can redistribute it and/or modify        *
+ * Kodimote is free software: you can redistribute it and/or modify        *
  * it under the terms of the GNU General Public License as published by      *
  * the Free Software Foundation, either version 3 of the License, or         *
  * (at your option) any later version.                                       *
  *                                                                           *
- * Xbmcremote is distributed in the hope that it will be useful,             *
+ * Kodimote is distributed in the hope that it will be useful,             *
  * but WITHOUT ANY WARRANTY; without even the implied warranty of            *
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the             *
  * GNU General Public License for more details.                              *
@@ -19,12 +19,12 @@
  ****************************************************************************/
 
 #include "meegohelper.h"
-#include "libxbmcremote/xbmc.h"
-#include "libxbmcremote/videoplayer.h"
-#include "libxbmcremote/audioplayer.h"
-#include "libxbmcremote/settings.h"
-#include "libxbmcremote/xbmcmodel.h"
-#include "libxbmcremote/xbmcdownload.h"
+#include "libkodimote/kodi.h"
+#include "libkodimote/videoplayer.h"
+#include "libkodimote/audioplayer.h"
+#include "libkodimote/settings.h"
+#include "libkodimote/kodimodel.h"
+#include "libkodimote/kodidownload.h"
 
 #include <QDebug>
 #include <QApplication>
@@ -62,14 +62,14 @@ MeeGoHelper::MeeGoHelper(Settings *settings, QObject *parent) :
     QDBusConnection::systemBus().connect(QString(), "/com/nokia/csd/call", "com.nokia.csd.Call", "Created", this, SLOT(callEvent(QDBusObjectPath,QString)));
 
     // Are we launched with an URI as argument? e.g. by an NFC chip?
-    // We support this URL format: xbmc://host:port/hostname/macaddr where hostname and macaddr are optional
+    // We support this URL format: kodi://host:port/hostname/macaddr where hostname and macaddr are optional
     int connectToIndex = -1;
     QStringList argList = QApplication::arguments();
     qDebug() << "got command line arguments:" << argList;
     if(argList.count() > 1 && !argList.at(1).startsWith('-')) {
         QUrl uri = QUrl(argList.at(1));
         if(uri.isValid()) {
-            XbmcHost host;
+            KodiHost host;
             host.setAddress(uri.host());
             host.setPort(uri.port());
             QString path = uri.path().right(uri.path().length() - 1);
@@ -80,16 +80,16 @@ MeeGoHelper::MeeGoHelper(Settings *settings, QObject *parent) :
                 host.setHwAddr(path.split('/').at(1));
             }
             qDebug() << "Connecting to" << host.address() << ':' << host.port() << host.hostname() << host.hwAddr();
-            connectToIndex = Xbmc::instance()->hostModel()->insertOrUpdateHost(host);
+            connectToIndex = Kodi::instance()->hostModel()->insertOrUpdateHost(host);
 
             // In case of a NFC chip we really want to connect, so wake up the target host.
-            Xbmc::instance()->hostModel()->wakeup(connectToIndex);
+            Kodi::instance()->hostModel()->wakeup(connectToIndex);
         }
     }
 
     // Load stored hosts
-    foreach(const XbmcHost &host, settings->hostList()) {
-        int index = Xbmc::instance()->hostModel()->insertOrUpdateHost(host);
+    foreach(const KodiHost &host, settings->hostList()) {
+        int index = Kodi::instance()->hostModel()->insertOrUpdateHost(host);
         if(connectToIndex == -1 && host.address() == settings->lastHost().address()) {
             qDebug() << "reconnecting to" << host.hostname() << host.address() << host.username() << host.password();
             connectToIndex = index;
@@ -105,9 +105,9 @@ MeeGoHelper::MeeGoHelper(Settings *settings, QObject *parent) :
         }
     }
 
-    connect(Xbmc::instance(), SIGNAL(connectedChanged(bool)), SLOT(connectionChanged(bool)));
-    connect(Xbmc::instance()->hostModel(), SIGNAL(rowsRemoved(QModelIndex, int, int)), SLOT(hostRemoved()));
-    connect(Xbmc::instance(), SIGNAL(downloadAdded(XbmcDownload*)), SLOT(downloadAdded(XbmcDownload*)));
+    connect(Kodi::instance(), SIGNAL(connectedChanged(bool)), SLOT(connectionChanged(bool)));
+    connect(Kodi::instance()->hostModel(), SIGNAL(rowsRemoved(QModelIndex, int, int)), SLOT(hostRemoved()));
+    connect(Kodi::instance(), SIGNAL(downloadAdded(KodiDownload*)), SLOT(downloadAdded(KodiDownload*)));
 
     m_displayBlankingTimer.setInterval(60000);
     connect(&m_displayBlankingTimer, SIGNAL(timeout()), SLOT(setBlankingPause()));
@@ -121,7 +121,7 @@ MeeGoHelper::MeeGoHelper(Settings *settings, QObject *parent) :
 
 void MeeGoHelper::internalConnect()
 {
-    Xbmc::instance()->hostModel()->connectToHost(m_connectToIndex);
+    Kodi::instance()->hostModel()->connectToHost(m_connectToIndex);
 }
 
 bool MeeGoHelper::eventFilter(QObject *obj, QEvent *event)
@@ -150,10 +150,10 @@ void MeeGoHelper::keyEvent(MeeGo::QmKeys::Key key, MeeGo::QmKeys::State state)
     qDebug() << "keyEvent:" << key << state;
     switch(key) {
     case MeeGo::QmKeys::VolumeUp:
-        Xbmc::instance()->volumeUp();
+        Kodi::instance()->volumeUp();
         break;
     case MeeGo::QmKeys::VolumeDown:
-        Xbmc::instance()->volumeDown();
+        Kodi::instance()->volumeDown();
         break;
     default:
         break;
@@ -189,21 +189,21 @@ void MeeGoHelper::callEvent(const QDBusObjectPath &param1, const QString &param2
             }
 
             qDebug() << "got contact" << caller;
-            Xbmc::instance()->sendNotification(tr("Incoming call"), caller);
+            Kodi::instance()->sendNotification(tr("Incoming call"), caller);
         }
     }
 
     if(settings.changeVolumeOnCall()) {
-        Xbmc::instance()->dimVolumeTo(settings.volumeOnCall());
+        Kodi::instance()->dimVolumeTo(settings.volumeOnCall());
     }
 
-    if(settings.pauseVideoOnCall() && Xbmc::instance()->videoPlayer()->state() == "playing") {
-        Xbmc::instance()->videoPlayer()->playPause();
+    if(settings.pauseVideoOnCall() && Kodi::instance()->videoPlayer()->state() == "playing") {
+        Kodi::instance()->videoPlayer()->playPause();
         m_videoPaused = true;
     }
 
-    if(settings.pauseMusicOnCall() && Xbmc::instance()->audioPlayer()->state() == "playing") {
-        Xbmc::instance()->audioPlayer()->playPause();
+    if(settings.pauseMusicOnCall() && Kodi::instance()->audioPlayer()->state() == "playing") {
+        Kodi::instance()->audioPlayer()->playPause();
         m_musicPaused = true;
     }
 
@@ -214,15 +214,15 @@ void MeeGoHelper::callEvent(const QDBusObjectPath &param1, const QString &param2
 void MeeGoHelper::callTerminated()
 {
     if(m_settings->changeVolumeOnCall()) {
-        Xbmc::instance()->restoreVolume();
+        Kodi::instance()->restoreVolume();
     }
 
     if(m_videoPaused) {
-        Xbmc::instance()->videoPlayer()->playPause();
+        Kodi::instance()->videoPlayer()->playPause();
         m_videoPaused = false;
     }
     if(m_musicPaused) {
-        Xbmc::instance()->audioPlayer()->playPause();
+        Kodi::instance()->audioPlayer()->playPause();
         m_musicPaused = false;
     }
 }
@@ -230,8 +230,8 @@ void MeeGoHelper::callTerminated()
 void MeeGoHelper::connectionChanged(bool connected)
 {
     if(connected) {
-        m_settings->addHost(*Xbmc::instance()->connectedHost());
-        m_settings->setLastHost(*Xbmc::instance()->connectedHost());
+        m_settings->addHost(*Kodi::instance()->connectedHost());
+        m_settings->setLastHost(*Kodi::instance()->connectedHost());
     }
 
 }
@@ -241,8 +241,8 @@ void MeeGoHelper::hostRemoved()
     // We need to check if all our stored hosts are still in hostList
     for(int i = 0; i < m_settings->hostList().count();) {
         bool found = false;
-        for(int j = 0; j < Xbmc::instance()->hostModel()->rowCount(QModelIndex()); ++j) {
-            if(m_settings->hostList().at(i).address() == Xbmc::instance()->hostModel()->get(j, "address").toString()) {
+        for(int j = 0; j < Kodi::instance()->hostModel()->rowCount(QModelIndex()); ++j) {
+            if(m_settings->hostList().at(i).address() == Kodi::instance()->hostModel()->get(j, "address").toString()) {
                 found = true;
                 break;
             }
@@ -275,10 +275,10 @@ void MeeGoHelper::setBlankingPause()
     m_disaplyState.setBlankingPause();
 }
 
-void MeeGoHelper::downloadAdded(XbmcDownload *download)
+void MeeGoHelper::downloadAdded(KodiDownload *download)
 {
     qDebug() << "Download added";
-    TransferUI::Transfer *transfer = m_transferClient->registerTransfer(download->source(), TransferUI::Client::TRANSFER_TYPES_DOWNLOAD, "Xbmcremote");
+    TransferUI::Transfer *transfer = m_transferClient->registerTransfer(download->source(), TransferUI::Client::TRANSFER_TYPES_DOWNLOAD, "Kodimote");
     transfer->setIcon(download->iconId());
     transfer->setName(download->label());
     transfer->setSize(0);
@@ -298,7 +298,7 @@ void MeeGoHelper::downloadProgress()
     // update the remote transfer window less often as our signal is called
     if(m_lastTransferUpdate.addMSecs(500) < QDateTime::currentDateTime()) {
 
-        XbmcDownload *download = qobject_cast<XbmcDownload*>(sender());
+        KodiDownload *download = qobject_cast<KodiDownload*>(sender());
         TransferUI::Transfer *transfer = m_transferMap.value(download);
         transfer->setSize(download->total());
         transfer->setProgress(1.0 * download->progress()/ download->total());
@@ -309,14 +309,14 @@ void MeeGoHelper::downloadProgress()
 
 void MeeGoHelper::downloadStarted()
 {
-    XbmcDownload *download = qobject_cast<XbmcDownload*>(sender());
+    KodiDownload *download = qobject_cast<KodiDownload*>(sender());
     TransferUI::Transfer *transfer = m_transferMap.value(download);
     transfer->setActive();
 }
 
 void MeeGoHelper::downloadDone(bool success)
 {
-    XbmcDownload *download = qobject_cast<XbmcDownload*>(sender());
+    KodiDownload *download = qobject_cast<KodiDownload*>(sender());
     if(!download->isCancelled()) {
         TransferUI::Transfer *transfer = m_transferMap.value(download);
         transfer->markCompleted(success);

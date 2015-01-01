@@ -2,14 +2,14 @@
  * Copyright: 2011-2013 Michael Zanetti <michael_zanetti@gmx.net>            *
  *            2014      Robert Meijers <robert.meijers@gmail.com>            *
  *                                                                           *
- * This file is part of Xbmcremote                                           *
+ * This file is part of Kodimote                                           *
  *                                                                           *
- * Xbmcremote is free software: you can redistribute it and/or modify        *
+ * Kodimote is free software: you can redistribute it and/or modify        *
  * it under the terms of the GNU General Public License as published by      *
  * the Free Software Foundation, either version 3 of the License, or         *
  * (at your option) any later version.                                       *
  *                                                                           *
- * Xbmcremote is distributed in the hope that it will be useful,             *
+ * Kodimote is distributed in the hope that it will be useful,             *
  * but WITHOUT ANY WARRANTY; without even the implied warranty of            *
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the             *
  * GNU General Public License for more details.                              *
@@ -22,18 +22,18 @@
 import QtQuick 2.0
 import Sailfish.Silica 1.0
 import QtFeedback 5.0
-import harbour.xbmcremote 1.0
+import harbour.kodimote 1.0
 import "../components/"
 
 Page {
     id: keypad
 
-    property QtObject picturePlayer: xbmc.picturePlayer()
+    property QtObject picturePlayer: kodi.picturePlayer()
 
-    property bool usePictureControls: xbmc.picturePlayerActive && !pictureControlsOverride
+    property bool usePictureControls: kodi.picturePlayerActive && !pictureControlsOverride
     property bool pictureControlsOverride: false
 
-    property QtObject keys: xbmc.keys()
+    property QtObject keys: kodi.keys()
 
     HapticsEffect {
         id: rumbleEffect
@@ -68,13 +68,13 @@ Page {
 
             MenuItem {
                 text: qsTr("Keypad")
-                enabled: xbmc.picturePlayerActive
+                enabled: kodi.picturePlayerActive
 
             }
 
             MenuItem {
                 text: qsTr("Now playing")
-                enabled: xbmc.activePlayer !== null
+                enabled: kodi.activePlayer !== null
                 onClicked: {
                     pageStack.replace("NowPlayingPage.qml")
                 }
@@ -82,8 +82,8 @@ Page {
         }
 
         PushUpMenu {
-            enabled: xbmc.picturePlayerActive
-            visible: xbmc.picturePlayerActive
+            enabled: kodi.picturePlayerActive
+            visible: kodi.picturePlayerActive
             MenuItem {
                 text: !enabled || usePictureControls ? qsTr("Keypad") : qsTr("Pictures")
                 onClicked: {
@@ -116,11 +116,11 @@ Page {
 
                     IconButton {
                         icon.source: "image://theme/icon-m-image"
-                        onClicked: xbmc.switchToWindow(Xbmc.GuiWindowPictures)
+                        onClicked: kodi.switchToWindow(Kodi.GuiWindowPictures)
                     }
                     IconButton {
                         icon.source: "image://theme/icon-m-music"
-                        onClicked: xbmc.switchToWindow(Xbmc.GuiWindowMusic)
+                        onClicked: kodi.switchToWindow(Kodi.GuiWindowMusic)
                     }
                     IconButton {
                         icon.source: "image://theme/icon-m-home"
@@ -128,11 +128,11 @@ Page {
                     }
                     IconButton {
                         icon.source: "image://theme/icon-m-video"
-                        onClicked: xbmc.switchToWindow(Xbmc.GuiWindowVideos)
+                        onClicked: kodi.switchToWindow(Kodi.GuiWindowVideos)
                     }
                     IconButton {
                         icon.source: "../icons/icon-m-tv.png"
-                        onClicked: xbmc.switchToWindow(Xbmc.GuiWindowLiveTV)
+                        onClicked: kodi.switchToWindow(Kodi.GuiWindowLiveTV)
                     }
                 }
             }

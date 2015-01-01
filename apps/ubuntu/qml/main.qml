@@ -1,14 +1,14 @@
 /*****************************************************************************
  * Copyright: 2011-2013 Michael Zanetti <michael_zanetti@gmx.net>            *
  *                                                                           *
- * This file is part of Xbmcremote                                           *
+ * This file is part of Kodimote                                           *
  *                                                                           *
- * Xbmcremote is free software: you can redistribute it and/or modify        *
+ * Kodimote is free software: you can redistribute it and/or modify        *
  * it under the terms of the GNU General Public License as published by      *
  * the Free Software Foundation, either version 3 of the License, or         *
  * (at your option) any later version.                                       *
  *                                                                           *
- * Xbmcremote is distributed in the hope that it will be useful,             *
+ * Kodimote is distributed in the hope that it will be useful,             *
  * but WITHOUT ANY WARRANTY; without even the implied warranty of            *
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the             *
  * GNU General Public License for more details.                              *
@@ -23,7 +23,7 @@ import QtQuick.Layouts 1.1
 import Ubuntu.Components 1.1
 import Ubuntu.Components.Popups 1.0
 import Ubuntu.Components.ListItems 1.0 as ListItems
-import Xbmc 1.0
+import Kodi 1.0
 import "components"
 
 MainView {
@@ -42,21 +42,21 @@ MainView {
 
     focus: true
     Keys.onVolumeUpPressed: {
-        xbmc.volumeUp();
+        kodi.volumeUp();
     }
 
     Keys.onVolumeDownPressed: {
-        xbmc.volumeDown();
+        kodi.volumeDown();
     }
 
     Loader {
         anchors.fill: parent
-        sourceComponent: xbmc.connected ? mainComponent : noConnectionComponent
+        sourceComponent: kodi.connected ? mainComponent : noConnectionComponent
     }
 
     Connections {
-        target: xbmc
-        onConnectingChanged: print("connecting.....", xbmc.connecting)
+        target: kodi
+        onConnectingChanged: print("connecting.....", kodi.connecting)
 
         onAuthenticationRequired: {
             print("auth required");
@@ -72,7 +72,7 @@ MainView {
     }
 
     Connections {
-        target: xbmc.keys()
+        target: kodi.keys()
         onInputRequested: {
             if (type === "date") {
                 var year = value.split("/")[2]
@@ -105,14 +105,14 @@ MainView {
         id: noConnectionComponent
         Page {
             id: noConnectionPage
-            title: xbmc.connecting ? qsTr("Connecting...") : qsTr("Select Host")
+            title: kodi.connecting ? qsTr("Connecting...") : qsTr("Select Host")
             anchors.fill: parent
-            property bool showList: !xbmc.connecting
+            property bool showList: !kodi.connecting
 
             ListView {
                 id: hostListView
                 anchors.fill: parent
-                model: xbmc.hostModel()
+                model: kodi.hostModel()
                 opacity: noConnectionPage.showList ? 1 : 0
                 Behavior on opacity { UbuntuNumberAnimation {} }
 
@@ -122,21 +122,21 @@ MainView {
 
                     onClicked: {
                         noConnectionPage.showList = false
-                        xbmc.hostModel().host(index).connect()
+                        kodi.hostModel().host(index).connect()
                     }
 
                     onPressAndHold: {
                         var obj = PopupUtils.open(removePopoverComponent, hostDelegate)
                         obj.removeClicked.connect(function() {
-                            xbmc.hostModel().removeHost(index)
+                            kodi.hostModel().removeHost(index)
                             PopupUtils.close(obj)
                         })
                         obj.wakeupClicked.connect(function() {
-                            xbmc.hostModel().host(index).wakeup();
+                            kodi.hostModel().host(index).wakeup();
                             PopupUtils.close(obj)
                         })
                         obj.editClicked.connect(function() {
-                            PopupUtils.open(addHostComponent, noConnectionPage, {host: xbmc.hostModel().host(index)});
+                            PopupUtils.open(addHostComponent, noConnectionPage, {host: kodi.hostModel().host(index)});
                         })
                     }
                 }
@@ -170,7 +170,7 @@ MainView {
                     }
                 }
 
-                XbmcDiscovery {
+                KodiDiscovery {
                     continuousDiscovery: noConnectionPage.showList
                 }
 
@@ -194,7 +194,7 @@ MainView {
                         left: parent.left
                         right: parent.right
                     }
-                    text: xbmc.connectionError
+                    text: kodi.connectionError
                     wrapMode: Text.WordWrap
                     horizontalAlignment: Text.AlignHCenter
                 }
@@ -234,14 +234,14 @@ MainView {
                                 newHost.destroy();
                             })
                             popup.accepted.connect(function() {
-                                xbmc.hostModel().addHost(newHost);
+                                kodi.hostModel().addHost(newHost);
                             })
                         }
 
                     }
                     Component {
                         id: newHostComponent
-                        XbmcHost {}
+                        KodiHost {}
                     }
                 }
             }
@@ -316,10 +316,10 @@ MainView {
                             property bool conflicting: false
 
                             onTextChanged: {
-                                print("model count", xbmc.hostModel().count)
-                                for (var i = 0; i < xbmc.hostModel().count; ++i) {
-                                    print("got:", xbmc.hostModel().host(i).hostname)
-                                    if (xbmc.hostModel().host(i).hostname == text) {
+                                print("model count", kodi.hostModel().count)
+                                for (var i = 0; i < kodi.hostModel().count; ++i) {
+                                    print("got:", kodi.hostModel().host(i).hostname)
+                                    if (kodi.hostModel().host(i).hostname == text) {
                                         conflicting = true;
                                         return;
                                     }
@@ -581,7 +581,7 @@ MainView {
                             text: qsTr("OK")
                             width: (parent.width - parent.spacing) / 2
                             onClicked: {
-                                xbmc.setAuthCredentials(username.text, password.text);
+                                kodi.setAuthCredentials(username.text, password.text);
                                 PopupUtils.close(authDialog)
                             }
                         }
@@ -603,10 +603,10 @@ MainView {
                 var date = new Date(year, month, day);
                 var dateString = Qt.formatDate(date, "dd/MM/yyyy");
                 print("Sending text", dateString);
-                xbmc.keys().sendText(dateString);
+                kodi.keys().sendText(dateString);
             }
             onRejected: {
-                xbmc.keys().previousMenu();
+                kodi.keys().previousMenu();
             }
         }
     }
@@ -618,10 +618,10 @@ MainView {
                 var date = new Date(0, 0, 0, hour, minute);
                 var timeString = Qt.formatTime(date, "hh:mm");
                 print("Sending text", timeString);
-                xbmc.keys().sendText(timeString);
+                kodi.keys().sendText(timeString);
             }
             onRejected: {
-                xbmc.keys().previousMenu();
+                kodi.keys().previousMenu();
             }
         }
     }
@@ -657,10 +657,10 @@ MainView {
                 }
             }
             onConfirmClicked: {
-                xbmc.keys().sendText(inputField.text);
+                kodi.keys().sendText(inputField.text);
             }
             onCancelClicked: {
-                xbmc.keys().previousMenu();
+                kodi.keys().previousMenu();
             }
         }
     }

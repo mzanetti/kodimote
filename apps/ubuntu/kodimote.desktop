@@ -1,0 +1,8 @@
+[Desktop Entry]
+Type=Application
+Name=Xbmcremote
+Comment=XBMC Remote control
+Exec=./kodimote %u
+Terminal=false
+Icon=xbmcremote.svg
+X-Ubuntu-Touch=true

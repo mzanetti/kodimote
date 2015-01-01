@@ -2,14 +2,14 @@
  * Copyright: 2011-2013 Michael Zanetti <michael_zanetti@gmx.net>            *
  *            2014      Robert Meijers <robert.meijers@gmail.com>            *
  *                                                                           *
- * This file is part of Xbmcremote                                           *
+ * This file is part of Kodimote                                           *
  *                                                                           *
- * Xbmcremote is free software: you can redistribute it and/or modify        *
+ * Kodimote is free software: you can redistribute it and/or modify        *
  * it under the terms of the GNU General Public License as published by      *
  * the Free Software Foundation, either version 3 of the License, or         *
  * (at your option) any later version.                                       *
  *                                                                           *
- * Xbmcremote is distributed in the hope that it will be useful,             *
+ * Kodimote is distributed in the hope that it will be useful,             *
  * but WITHOUT ANY WARRANTY; without even the implied warranty of            *
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the             *
  * GNU General Public License for more details.                              *
@@ -32,11 +32,11 @@
 #endif
 
 #include "sailfishhelper.h"
-#include "libxbmcremote/xbmc.h"
-#include "libxbmcremote/xbmchostmodel.h"
-#include "libxbmcremote/videoplayer.h"
-#include "libxbmcremote/audioplayer.h"
-#include "libxbmcremote/settings.h"
+#include "libkodimote/kodi.h"
+#include "libkodimote/kodihostmodel.h"
+#include "libkodimote/videoplayer.h"
+#include "libkodimote/audioplayer.h"
+#include "libkodimote/settings.h"
 
 #ifndef HARBOUR_BUILD
 using namespace QtContacts;
@@ -78,7 +78,7 @@ void SailfishHelper::callAdded(const QDBusMessage &msg)
         return;
     }
 
-    Xbmc *xbmc = Xbmc::instance();
+    Kodi *kodi = Kodi::instance();
     QMap<QString, QString> properties = unpackMessage(*arg);
 
     qDebug() << properties;
@@ -89,20 +89,20 @@ void SailfishHelper::callAdded(const QDBusMessage &msg)
         QString contactName = lookupContact(phoneNumber);
 
         QString caller = contactName.length() ? contactName : phoneNumber;
-        xbmc->sendNotification(tr("Incoming call"), caller);
+        kodi->sendNotification(tr("Incoming call"), caller);
     }
 
     if(m_settings->changeVolumeOnCall()) {
-        xbmc->dimVolumeTo(m_settings->volumeOnCall());
+        kodi->dimVolumeTo(m_settings->volumeOnCall());
     }
 
-    if(m_settings->pauseVideoOnCall() && xbmc->videoPlayer()->state() == "playing") {
-        xbmc->videoPlayer()->playPause();
+    if(m_settings->pauseVideoOnCall() && kodi->videoPlayer()->state() == "playing") {
+        kodi->videoPlayer()->playPause();
         m_videoPaused = true;
     }
 
-    if(m_settings->pauseMusicOnCall() && xbmc->audioPlayer()->state() == "playing") {
-        xbmc->audioPlayer()->playPause();
+    if(m_settings->pauseMusicOnCall() && kodi->audioPlayer()->state() == "playing") {
+        kodi->audioPlayer()->playPause();
         m_musicPaused = true;
     }
 }
@@ -111,15 +111,15 @@ void SailfishHelper::callRemoved()
 {
     qDebug() << "call removed";
     if(m_settings->changeVolumeOnCall()) {
-        Xbmc::instance()->restoreVolume();
+        Kodi::instance()->restoreVolume();
     }
 
     if(m_videoPaused) {
-        Xbmc::instance()->videoPlayer()->playPause();
+        Kodi::instance()->videoPlayer()->playPause();
         m_videoPaused = false;
     }
     if(m_musicPaused) {
-        Xbmc::instance()->audioPlayer()->playPause();
+        Kodi::instance()->audioPlayer()->playPause();
         m_musicPaused = false;
     }
 }

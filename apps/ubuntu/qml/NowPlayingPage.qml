@@ -1,14 +1,14 @@
 /*****************************************************************************
  * Copyright: 2011-2013 Michael Zanetti <michael_zanetti@gmx.net>            *
  *                                                                           *
- * This file is part of Xbmcremote                                           *
+ * This file is part of Kodimote                                           *
  *                                                                           *
- * Xbmcremote is free software: you can redistribute it and/or modify        *
+ * Kodimote is free software: you can redistribute it and/or modify        *
  * it under the terms of the GNU General Public License as published by      *
  * the Free Software Foundation, either version 3 of the License, or         *
  * (at your option) any later version.                                       *
  *                                                                           *
- * Xbmcremote is distributed in the hope that it will be useful,             *
+ * Kodimote is distributed in the hope that it will be useful,             *
  * but WITHOUT ANY WARRANTY; without even the implied warranty of            *
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the             *
  * GNU General Public License for more details.                              *
@@ -23,14 +23,14 @@ import QtQuick.Layouts 1.1
 import Ubuntu.Components 1.1
 import Ubuntu.Components.Popups 1.0
 import Ubuntu.Components.ListItems 1.0
-import Xbmc 1.0
+import Kodi 1.0
 import "components"
 
-XbmcPage {
+KodiPage {
     id: root
     title: qsTr("Now Playing")
 
-    property QtObject player: xbmc.activePlayer
+    property QtObject player: kodi.activePlayer
     property QtObject playlist: player ? player.playlist() : null
     property QtObject currentItem: player ? player.currentItem : null
 
@@ -57,9 +57,9 @@ XbmcPage {
 
 
    Connections {
-       target: xbmc
+       target: kodi
        onStateChanged: {
-           print("!*!*! state:", xbmc.state);
+           print("!*!*! state:", kodi.state);
        }
    }
 
@@ -201,7 +201,7 @@ XbmcPage {
                     id: artistLabel
                     width: parent.width
                     elide: Text.ElideRight
-                    text: !currentItem ? "" : (xbmc.state == "audio" ? currentItem.artist : (currentItem.type == "episode" ? currentItem.tvShow : qsTr("Year:") + " " + currentItem.year))
+                    text: !currentItem ? "" : (kodi.state == "audio" ? currentItem.artist : (currentItem.type == "episode" ? currentItem.tvShow : qsTr("Year:") + " " + currentItem.year))
                 }
                 Row {
                     id: albumRow
@@ -212,7 +212,7 @@ XbmcPage {
                         id: albumLabel
                         width: Math.min(implicitWidth, parent.width)
                         elide: Text.ElideRight
-                        text: !currentItem ? "" : (xbmc.state == "audio" ? currentItem.album : (currentItem.type == "episode" ? qsTr("Season:") + " " + currentItem.season + "   " + qsTr("Episode:") + " " + currentItem.episode : qsTr("Rating:") + " "))
+                        text: !currentItem ? "" : (kodi.state == "audio" ? currentItem.album : (currentItem.type == "episode" ? qsTr("Season:") + " " + currentItem.season + "   " + qsTr("Episode:") + " " + currentItem.episode : qsTr("Rating:") + " "))
                     }
                     property int starCount: !currentItem ? 0 : (currentItem.rating > 10 ? Math.floor(currentItem.rating / 20) : Math.floor(currentItem.rating / 2))
 
@@ -457,7 +457,7 @@ XbmcPage {
                 var popup = PopupUtils.open(toolbarMenuComponent, root, {model: player.subtitles, currentIndex: player.currentSubtitle, title: qsTr("Select subtitle"), showClearButton: true})
                 popup.accepted.connect(function(selectedIndex) {player.currentSubtitle = selectedIndex})
             }
-            enabled: !(xbmc.state === "video" && player.subtitles.length === 0)
+            enabled: !(kodi.state === "video" && player.subtitles.length === 0)
         }
         BottomEdgeButton {
             text: qsTr("Audio track")

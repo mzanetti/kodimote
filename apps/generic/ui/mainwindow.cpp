@@ -1,14 +1,14 @@
 /*****************************************************************************
  * Copyright: 2011-2013 Michael Zanetti <michael_zanetti@gmx.net>            *
  *                                                                           *
- * This file is part of Xbmcremote                                           *
+ * This file is part of Kodimote                                           *
  *                                                                           *
- * Xbmcremote is free software: you can redistribute it and/or modify        *
+ * Kodimote is free software: you can redistribute it and/or modify        *
  * it under the terms of the GNU General Public License as published by      *
  * the Free Software Foundation, either version 3 of the License, or         *
  * (at your option) any later version.                                       *
  *                                                                           *
- * Xbmcremote is distributed in the hope that it will be useful,             *
+ * Kodimote is distributed in the hope that it will be useful,             *
  * but WITHOUT ANY WARRANTY; without even the implied warranty of            *
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the             *
  * GNU General Public License for more details.                              *
@@ -26,12 +26,12 @@
 
 #include "../qmlapplicationviewer/qmlapplicationviewer.h"
 
-#include "libxbmcremote/xbmc.h"
-#include "libxbmcremote/videoplayer.h"
-#include "libxbmcremote/audioplayer.h"
-#include "libxbmcremote/xbmcdownload.h"
-#include "libxbmcremote/settings.h"
-#include "libxbmcremote/networkaccessmanagerfactory.h"
+#include "libkodimote/kodi.h"
+#include "libkodimote/videoplayer.h"
+#include "libkodimote/audioplayer.h"
+#include "libkodimote/kodidownload.h"
+#include "libkodimote/settings.h"
+#include "libkodimote/networkaccessmanagerfactory.h"
 
 #include <QMenuBar>
 #include <QDeclarativeContext>
@@ -72,7 +72,7 @@ MainWindow::MainWindow(Settings *settings, QWidget *parent) :
 
 //    connect(QApplication::desktop(), SIGNAL(resized(int)), this, SLOT(orientationChanged()));
 
-    connect(Xbmc::instance(), SIGNAL(downloadAdded(XbmcDownload*)), SLOT(downloadAdded(XbmcDownload*)));
+    connect(Kodi::instance(), SIGNAL(downloadAdded(KodiDownload*)), SLOT(downloadAdded(KodiDownload*)));
 #endif
 
     viewer = new QmlApplicationViewer;
@@ -80,12 +80,12 @@ MainWindow::MainWindow(Settings *settings, QWidget *parent) :
 
 
     QMenuBar *menuBar = new QMenuBar();
-    QMenu *menu = menuBar->addMenu("Xbmc");
+    QMenu *menu = menuBar->addMenu("Kodi");
     menu->addAction(tr("Connect..."), this, SLOT(openConnectDialog()));
     menu->addAction(tr("Settings"), this, SLOT(openSettingsDialog()));
 
-    QAction *quitAction = menu->addAction("Quit xbmc", Xbmc::instance(), SLOT(quit()));
-    Xbmc::instance()->connect(Xbmc::instance(), SIGNAL(connectedChanged(bool)), quitAction, SLOT(setEnabled(bool)));
+    QAction *quitAction = menu->addAction("Quit kodi", Kodi::instance(), SLOT(quit()));
+    Kodi::instance()->connect(Kodi::instance(), SIGNAL(connectedChanged(bool)), quitAction, SLOT(setEnabled(bool)));
 
     QMenu *helpMenu = menuBar->addMenu("Help");
     helpMenu->addAction(tr("About"), this, SLOT(openAboutDialog()));
@@ -93,25 +93,25 @@ MainWindow::MainWindow(Settings *settings, QWidget *parent) :
     setMenuBar(menuBar);
 
     viewer->rootContext()->setContextProperty("settings", m_settings);
-    viewer->rootContext()->setContextProperty("xbmc", Xbmc::instance());
+    viewer->rootContext()->setContextProperty("kodi", Kodi::instance());
     viewer->setOrientation(QmlApplicationViewer::ScreenOrientationAuto);
     viewer->setMainQmlFile(QLatin1String("qml/main.qml"));
     viewer->engine()->setNetworkAccessManagerFactory(new NetworkAccessManagerFactory());
 
-    connect(Xbmc::instance(), SIGNAL(authenticationRequired(QString,QString)), SLOT(authenticationRequired(QString,QString)), Qt::QueuedConnection);
+    connect(Kodi::instance(), SIGNAL(authenticationRequired(QString,QString)), SLOT(authenticationRequired(QString,QString)), Qt::QueuedConnection);
 
     // Load stored hosts
     bool connecting = false;
-    foreach(const XbmcHost &host, settings->hostList()) {
-        int index = Xbmc::instance()->hostModel()->insertOrUpdateHost(host);
+    foreach(const KodiHost &host, settings->hostList()) {
+        int index = Kodi::instance()->hostModel()->insertOrUpdateHost(host);
         if(host.address() == settings->lastHost().address()) {
             qDebug() << "reconnecting to" << host.hostname() << host.address() << host.username() << host.password();
-            Xbmc::instance()->hostModel()->connectToHost(index);
+            Kodi::instance()->hostModel()->connectToHost(index);
             connecting = true;
         }
     }
-    connect(Xbmc::instance(), SIGNAL(connectedChanged(bool)), SLOT(connectionChanged(bool)));
-    connect(Xbmc::instance()->hostModel(), SIGNAL(rowsRemoved(QModelIndex, int, int)), SLOT(hostRemoved()));
+    connect(Kodi::instance(), SIGNAL(connectedChanged(bool)), SLOT(connectionChanged(bool)));
+    connect(Kodi::instance()->hostModel(), SIGNAL(rowsRemoved(QModelIndex, int, int)), SLOT(hostRemoved()));
 
     if(!connecting) {
         openConnectDialog();
@@ -163,12 +163,12 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
 {
     switch (event->key()) {
     case Qt::Key_F7:
-        Xbmc::instance()->volumeUp();
+        Kodi::instance()->volumeUp();
         event->accept();
         break;
 
     case Qt::Key_F8:
-        Xbmc::instance()->volumeDown();
+        Kodi::instance()->volumeDown();
         event->accept();
         break;
     }
@@ -229,22 +229,22 @@ void MainWindow::callEvent(const QDBusObjectPath &param1, const QString &param2)
             }
 
             qDebug() << "got contact" << caller;
-            Xbmc::instance()->sendNotification(tr("Incoming call"), caller);
+            Kodi::instance()->sendNotification(tr("Incoming call"), caller);
         }
     }
 
     if(settings.changeVolumeOnCall()) {
-        Xbmc::instance()->dimVolumeTo(settings.volumeOnCall());
+        Kodi::instance()->dimVolumeTo(settings.volumeOnCall());
         m_videoPaused = true;
     }
 
-    if(settings.pauseVideoOnCall() && Xbmc::instance()->videoPlayer()->state() == "playing") {
-        Xbmc::instance()->videoPlayer()->playPause();
+    if(settings.pauseVideoOnCall() && Kodi::instance()->videoPlayer()->state() == "playing") {
+        Kodi::instance()->videoPlayer()->playPause();
         m_audioPaused = true;
     }
 
-    if(settings.pauseMusicOnCall() && Xbmc::instance()->audioPlayer()->state() == "playing") {
-        Xbmc::instance()->audioPlayer()->playPause();
+    if(settings.pauseMusicOnCall() && Kodi::instance()->audioPlayer()->state() == "playing") {
+        Kodi::instance()->audioPlayer()->playPause();
     }
 
     QDBusConnection::systemBus().connect(QString(), param1.path(), "com.nokia.csd.Call.Instance", "Terminated", this, SLOT(callTerminated()));
@@ -256,18 +256,18 @@ void MainWindow::callTerminated()
 {
     Settings settings;
     if(settings.changeVolumeOnCall()) {
-        Xbmc::instance()->restoreVolume();
+        Kodi::instance()->restoreVolume();
     }
 
-    if(m_videoPaused && Xbmc::instance()->videoPlayer()->state() != "playing") {
-        Xbmc::instance()->videoPlayer()->playPause();
+    if(m_videoPaused && Kodi::instance()->videoPlayer()->state() != "playing") {
+        Kodi::instance()->videoPlayer()->playPause();
     }
-    if(m_audioPaused && Xbmc::instance()->audioPlayer()->state() != "playing") {
-        Xbmc::instance()->audioPlayer()->playPause();
+    if(m_audioPaused && Kodi::instance()->audioPlayer()->state() != "playing") {
+        Kodi::instance()->audioPlayer()->playPause();
     }
 }
 
-void MainWindow::downloadAdded(XbmcDownload *download)
+void MainWindow::downloadAdded(KodiDownload *download)
 {
     qDebug() << "Download added";
     connect(download, SIGNAL(finished(bool)), SLOT(downloadDone(bool)));
@@ -278,7 +278,7 @@ void MainWindow::downloadStarted()
 {
     setAttribute(Qt::WA_Maemo5ShowProgressIndicator, true);
 
-    XbmcDownload *download = qobject_cast<XbmcDownload*>(sender());
+    KodiDownload *download = qobject_cast<KodiDownload*>(sender());
 
     QLabel *label = new QLabel(tr("Download started: %1").arg(download->label()));
     m_infoBox.setWidget(label);
@@ -289,7 +289,7 @@ void MainWindow::downloadDone(bool success)
 {
     setAttribute(Qt::WA_Maemo5ShowProgressIndicator, false);
 
-    XbmcDownload *download = qobject_cast<XbmcDownload*>(sender());
+    KodiDownload *download = qobject_cast<KodiDownload*>(sender());
 
     QLabel *label = new QLabel();
     if(success) {
@@ -314,8 +314,8 @@ void MainWindow::authenticationRequired(const QString &hostname, const QString &
 void MainWindow::connectionChanged(bool connected)
 {
     if(connected) {
-        m_settings->addHost(*Xbmc::instance()->connectedHost());
-        m_settings->setLastHost(*Xbmc::instance()->connectedHost());
+        m_settings->addHost(*Kodi::instance()->connectedHost());
+        m_settings->setLastHost(*Kodi::instance()->connectedHost());
     }
 
 }
@@ -325,8 +325,8 @@ void MainWindow::hostRemoved()
     // We need to check if all our stored hosts are still in hostList
     for(int i = 0; i < m_settings->hostList().count();) {
         bool found = false;
-        for(int j = 0; j < Xbmc::instance()->hostModel()->rowCount(QModelIndex()); ++j) {
-            if(m_settings->hostList().at(i).address() == Xbmc::instance()->hostModel()->get(j, "address").toString()) {
+        for(int j = 0; j < Kodi::instance()->hostModel()->rowCount(QModelIndex()); ++j) {
+            if(m_settings->hostList().at(i).address() == Kodi::instance()->hostModel()->get(j, "address").toString()) {
                 found = true;
                 break;
             }

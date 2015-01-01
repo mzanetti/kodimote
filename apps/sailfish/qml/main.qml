@@ -2,14 +2,14 @@
  * Copyright: 2011-2013 Michael Zanetti <michael_zanetti@gmx.net>            *
  *            2014      Robert Meijers <robert.meijers@gmail.com>            *
  *                                                                           *
- * This file is part of Xbmcremote                                           *
+ * This file is part of Kodimote                                           *
  *                                                                           *
- * Xbmcremote is free software: you can redistribute it and/or modify        *
+ * Kodimote is free software: you can redistribute it and/or modify        *
  * it under the terms of the GNU General Public License as published by      *
  * the Free Software Foundation, either version 3 of the License, or         *
  * (at your option) any later version.                                       *
  *                                                                           *
- * Xbmcremote is distributed in the hope that it will be useful,             *
+ * Kodimote is distributed in the hope that it will be useful,             *
  * but WITHOUT ANY WARRANTY; without even the implied warranty of            *
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the             *
  * GNU General Public License for more details.                              *
@@ -43,11 +43,11 @@ ApplicationWindow
     }
 
     Keys.onVolumeDownPressed: {
-        xbmc.volumeDown();
+        kodi.volumeDown();
     }
 
     Keys.onVolumeUpPressed: {
-        xbmc.volumeUp();
+        kodi.volumeUp();
     }
 
     function showAuthenticate(hostname) {
@@ -79,7 +79,7 @@ ApplicationWindow
     }
 
     Connections {
-        target: xbmc
+        target: kodi
         onAuthenticationRequired: {
             if (pageStack.busy) {
                 delayedAuthenticate.hostname = hostname;
@@ -149,7 +149,7 @@ ApplicationWindow
     property variant inputDialog
 
     Connections {
-        target: xbmc.keys()
+        target: kodi.keys()
         onInputRequested: {
             if (type === "date") {
                 appWindow.inputDialog = datePickerComponent.createObject(appWindow);
@@ -168,10 +168,10 @@ ApplicationWindow
             appWindow.inputDialog.accepted.connect(function() {
                 var value = appWindow.inputDialog.value;
                 console.log("Sending text: " + value)
-                xbmc.keys().sendText(value);
+                kodi.keys().sendText(value);
             });
             appWindow.inputDialog.rejected.connect(function() {
-                xbmc.keys().previousMenu();
+                kodi.keys().previousMenu();
             });
             appWindow.inputDialog.open();
         }

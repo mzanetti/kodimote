@@ -1,14 +1,14 @@
 /*****************************************************************************
  * Copyright: 2011-2013 Michael Zanetti <michael_zanetti@gmx.net>            *
  *                                                                           *
- * This file is part of Xbmcremote                                           *
+ * This file is part of Kodimote                                           *
  *                                                                           *
- * Xbmcremote is free software: you can redistribute it and/or modify        *
+ * Kodimote is free software: you can redistribute it and/or modify        *
  * it under the terms of the GNU General Public License as published by      *
  * the Free Software Foundation, either version 3 of the License, or         *
  * (at your option) any later version.                                       *
  *                                                                           *
- * Xbmcremote is distributed in the hope that it will be useful,             *
+ * Kodimote is distributed in the hope that it will be useful,             *
  * but WITHOUT ANY WARRANTY; without even the implied warranty of            *
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the             *
  * GNU General Public License for more details.                              *
@@ -18,11 +18,11 @@
  *                                                                           *
  ****************************************************************************/
 
-#include "libxbmcremote/xbmc.h"
-#include "libxbmcremote/eventclient.h"
-#include "libxbmcremote/xdebug.h"
-#include "libxbmcremote/networkaccessmanagerfactory.h"
-#include "libxbmcremote/settings.h"
+#include "libkodimote/kodi.h"
+#include "libkodimote/eventclient.h"
+#include "libkodimote/kodebug.h"
+#include "libkodimote/networkaccessmanagerfactory.h"
+#include "libkodimote/settings.h"
 
 #if defined Q_WS_MAEMO_6
 #include "meegohelper.h"
@@ -63,19 +63,19 @@ Q_DECL_EXPORT int main(int argc, char *argv[])
     app->installTranslator(&qtTranslator);
 
     QTranslator translator;
-    if (!translator.load(":/xbmcremote_" + language + ".qm")) {
-        qDebug() << "Cannot load translation file" << "xbmcremote_" + language + ".pm";
+    if (!translator.load(":/kodimote_" + language + ".qm")) {
+        qDebug() << "Cannot load translation file" << "kodimote_" + language + ".pm";
     }
     app->installTranslator(&translator);
 
 #ifndef QT_SIMULATOR
-    Xbmc::instance()->eventClient()->setApplicationThumbnail("/usr/share/icons/hicolor/80x80/apps/xbmcremote80.png");
+    Kodi::instance()->eventClient()->setApplicationThumbnail("/usr/share/icons/hicolor/80x80/apps/kodimote80.png");
 #endif
     QDeclarativeView view;
     view.setResizeMode(QDeclarativeView::SizeRootObjectToView);
     view.setAttribute(Qt::WA_AutoOrientation, true);
 
-    view.rootContext()->setContextProperty("xbmc", Xbmc::instance());
+    view.rootContext()->setContextProperty("kodi", Kodi::instance());
 
     Settings settings;
     view.rootContext()->setContextProperty("settings", &settings);
@@ -91,7 +91,7 @@ Q_DECL_EXPORT int main(int argc, char *argv[])
     RumbleEffect rumble;
     view.rootContext()->setContextProperty("rumbleEffect", &rumble);
 
-    qmlRegisterType<GestureHelper>("xbmcremote", 1, 0, "GestureHelper");
+    qmlRegisterType<GestureHelper>("kodimote", 1, 0, "GestureHelper");
     qRegisterMetaType<QNetworkReply::NetworkError>("QNetworkReply::NetworkError");
 
     view.engine()->setNetworkAccessManagerFactory(new NetworkAccessManagerFactory());
@@ -100,7 +100,7 @@ Q_DECL_EXPORT int main(int argc, char *argv[])
 #ifdef QT_SIMULATOR
     view.setSource(QUrl("qml/main.qml"));
 #elif defined Q_WS_MAEMO_6
-    view.setSource(QUrl("/opt/xbmcremote/qml/main.qml"));
+    view.setSource(QUrl("/opt/kodimote/qml/main.qml"));
 #endif
 
     view.showFullScreen();

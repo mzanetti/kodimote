@@ -31,10 +31,10 @@ contains(MEEGO_EDITION,harmattan) {
     splash.files = splash.png
     splash.path = /opt/$${TARGET}
 
-    desktopfile.files = xbmcremote.desktop
+    desktopfile.files = kodimote.desktop
     desktopfile.path = /usr/share/applications/
 
-    icon.files = xbmcremote80.png
+    icon.files = kodimote80.png
     icon.path = /usr/share/icons/hicolor/80x80/apps/
 
     INSTALLS += target qmlfiles splash desktopfile icon

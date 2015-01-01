@@ -3,7 +3,7 @@ include(../../i18n/i18n.pri)
 
 QT += declarative network
 
-RESOURCES += xbmcremote.qrc
+RESOURCES += kodimote.qrc
 
 maemo5: {
     QT += maemo5
@@ -14,10 +14,10 @@ maemo5: {
 
     target.path = /opt/$${TARGET}/bin
 
-    desktopfile.files = xbmcremote.desktop
+    desktopfile.files = kodimote.desktop
     desktopfile.path = /usr/share/applications/hildon/
 
-    icon.files = xbmcremote64.png
+    icon.files = kodimote64.png
     icon.path = /opt/usr/share/icons/hicolor/64x64/apps/
 
     qml.files = qml

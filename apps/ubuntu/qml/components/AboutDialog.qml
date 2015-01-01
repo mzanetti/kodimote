@@ -4,8 +4,8 @@ import Ubuntu.Components.Popups 1.0
 
 Dialog {
     id: aboutDialog
-    title: "        Xbmcremote 1.6.0"
-    text: "Michael Zanetti<br>michael_zanetti@gmx.net<br><a href=\"http://notyetthere.org/ubuntu/xbmcremote\">http://notyetthere.org/ubuntu/xbmcremote</a>"
+    title: "        Kodimote 1.6.0"
+    text: "Michael Zanetti<br>michael_zanetti@gmx.net<br><a href=\"http://notyetthere.org/ubuntu/kodimote\">http://notyetthere.org/ubuntu/kodimote</a>"
 
 
     Item {
@@ -14,7 +14,7 @@ Dialog {
         MouseArea {
             anchors { left: parent.left; right: parent.right; bottom: parent.top; bottomMargin: units.gu(2) }
             height: units.gu(4)
-            onClicked: Qt.openUrlExternally("http://notyetthere.org/ubuntu/xbmcremote")
+            onClicked: Qt.openUrlExternally("http://notyetthere.org/ubuntu/kodimote")
         }
 
         UbuntuShape {
@@ -25,7 +25,7 @@ Dialog {
             width: units.gu(6)
             radius: "medium"
             image: Image {
-                source: "../images/xbmcremote.svg"
+                source: "../images/kodimote.svg"
             }
         }
         Column {
@@ -73,7 +73,7 @@ Dialog {
             Button {
                 text: "flattr";
                 width: parent.width
-                onClicked: Qt.openUrlExternally("http://flattr.com/thing/412274/Xbmcremote")
+                onClicked: Qt.openUrlExternally("http://flattr.com/thing/412274/Kodimote")
             }
         }
     }

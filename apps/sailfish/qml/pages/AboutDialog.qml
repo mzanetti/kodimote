@@ -2,14 +2,14 @@
  * Copyright: 2011-2013 Michael Zanetti <michael_zanetti@gmx.net>            *
  *            2014      Robert Meijers <robert.meijers@gmail.com>            *
  *                                                                           *
- * This file is part of Xbmcremote                                           *
+ * This file is part of Kodimote                                           *
  *                                                                           *
- * Xbmcremote is free software: you can redistribute it and/or modify        *
+ * Kodimote is free software: you can redistribute it and/or modify        *
  * it under the terms of the GNU General Public License as published by      *
  * the Free Software Foundation, either version 3 of the License, or         *
  * (at your option) any later version.                                       *
  *                                                                           *
- * Xbmcremote is distributed in the hope that it will be useful,             *
+ * Kodimote is distributed in the hope that it will be useful,             *
  * but WITHOUT ANY WARRANTY; without even the implied warranty of            *
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the             *
  * GNU General Public License for more details.                              *
@@ -37,13 +37,13 @@ Dialog {
                 family: Theme.fontFamilyHeading
             }
             color: Theme.highlightColor
-            text: "Xbmcremote 1.6.0"
+            text: "Kodimote 1.6.0"
         }
 
         Label {
             font.pixelSize: Theme.fontSizeSmall
             color: Theme.highlightColor
-            text: "Michael Zanetti<br>michael_zanetti@gmx.net<br>http://notyetthere.org/maemomeego/xbmcremote" +
+            text: "Michael Zanetti<br>michael_zanetti@gmx.net<br>http://notyetthere.org/maemomeego/kodimote" +
                   "<br>Sailfish port by:<br>Robert Meijers<br>robert.meijers@gmail.com";
         }
 
@@ -83,7 +83,7 @@ Dialog {
         Button {
             anchors.horizontalCenter: parent.horizontalCenter
             text: qsTr("Flattr")
-            onClicked: Qt.openUrlExternally("http://flattr.com/thing/412274/Xbmcremote")
+            onClicked: Qt.openUrlExternally("http://flattr.com/thing/412274/Kodimote")
         }
     }
 }

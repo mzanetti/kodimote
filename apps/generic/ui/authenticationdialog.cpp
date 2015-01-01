@@ -1,14 +1,14 @@
 /*****************************************************************************
  * Copyright: 2011-2013 Michael Zanetti <michael_zanetti@gmx.net>            *
  *                                                                           *
- * This file is part of Xbmcremote                                           *
+ * This file is part of Kodimote                                           *
  *                                                                           *
- * Xbmcremote is free software: you can redistribute it and/or modify        *
+ * Kodimote is free software: you can redistribute it and/or modify        *
  * it under the terms of the GNU General Public License as published by      *
  * the Free Software Foundation, either version 3 of the License, or         *
  * (at your option) any later version.                                       *
  *                                                                           *
- * Xbmcremote is distributed in the hope that it will be useful,             *
+ * Kodimote is distributed in the hope that it will be useful,             *
  * but WITHOUT ANY WARRANTY; without even the implied warranty of            *
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the             *
  * GNU General Public License for more details.                              *
@@ -19,7 +19,7 @@
  ****************************************************************************/
 
 #include "authenticationdialog.h"
-#include "libxbmcremote/xbmc.h"
+#include "libkodimote/kodi.h"
 
 #include <QDialogButtonBox>
 #include <QHBoxLayout>
@@ -32,7 +32,7 @@ AuthenticationDialog::AuthenticationDialog(const QString &hostname, QWidget *par
     QDialog(parent)
 {
     setAttribute(Qt::WA_DeleteOnClose, true);
-    setWindowTitle("Xbmcremote - " + tr("Authentication"));
+    setWindowTitle("Kodimote - " + tr("Authentication"));
 
 #ifdef Q_WS_MAEMO_5
     QHBoxLayout *layout = new QHBoxLayout();
@@ -78,6 +78,6 @@ AuthenticationDialog::AuthenticationDialog(const QString &hostname, QWidget *par
 
 void AuthenticationDialog::accept()
 {
-    Xbmc::instance()->setAuthCredentials(m_userEdit->text(), m_passwordEdit->text());
+    Kodi::instance()->setAuthCredentials(m_userEdit->text(), m_passwordEdit->text());
     QDialog::accept();
 }
