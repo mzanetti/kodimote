@@ -42,30 +42,30 @@ KodiImageCache::KodiImageCache(QObject *parent) :
     connect(m_fetchNextTimer,SIGNAL(timeout()),this,SLOT(fetchNext()));
 }
 
-bool KodiImageCache::contains(const QString &image, int cacheId)
+bool KodiImageCache::contains(const QString &image, int cacheId, QString &cachedFile)
 {
     QMutexLocker locker(&m_mutex);
 
-    // Make sure the cache exists
-    QDir dir(cachePath(cacheId));
-    if(!dir.exists()) {
-        dir.mkpath(cachePath(cacheId));
+    QString cacheKey = this->cacheKey(image, cacheId);
+    if (!m_cacheFiles.contains(cacheKey)) {
+        QString path = cachePath(cacheId);
+        // Make sure the cache exists
+        QDir dir(path);
+        if(!dir.exists()) {
+            dir.mkpath(path);
+        }
+
+        cachedFile = KodiImageCache::cachedFile(path, image);
+        QFileInfo fi(cachedFile);
+        m_cacheFiles.insert(cacheKey, QPair<bool, QString>(fi.exists(), cachedFile));
+    } else {
+        cachedFile = m_cacheFiles[cacheKey].second;
     }
 
-    while(m_cacheFiles.count() <= cacheId) {
-        m_cacheFiles.append(QHash<QString, bool>());
-    }
-
-    if(!m_cacheFiles.at(cacheId).contains(image)) {
-        QFileInfo fi(cachedFile(image, cacheId));
-        m_cacheFiles[cacheId].insert(image, fi.exists());
-        qDebug() << "checking from file:" << fi.path() << fi.exists();
-    }
-
-    return m_cacheFiles.at(cacheId).value(image);
+    return m_cacheFiles[cacheKey].first;
 }
 
-QString KodiImageCache::cachedFile(const QString &image, int cacheId)
+QString KodiImageCache::cachedFile(const QString &path, const QString &image)
 {
     QString filename = image;
     if(filename.endsWith("/")) {
@@ -78,7 +78,7 @@ QString KodiImageCache::cachedFile(const QString &image, int cacheId)
         filename.replace(".mp3", ".jpg");
     }
     QUrl url = QUrl::fromPercentEncoding(filename.toUtf8());
-    return cachePath(cacheId) + url.path();
+    return path + url.path();
 }
 
 QString KodiImageCache::cachePath(int cacheId)
@@ -111,8 +111,12 @@ int KodiImageCache::fetch(const QString &image, QObject *callbackObject, const Q
         return job->id();
     }
 
+    QString cachedFile = m_cacheFiles.contains(cacheKey) ?
+                m_cacheFiles[cacheKey].second :
+                KodiImageCache::cachedFile(cachePath(cacheId), image);
+
     // Ok... this is a new one... start fetching it
-    ImageFetchJob *ifJob = new ImageFetchJob(m_jobId++, cacheId, image, cachedFile(image, cacheId), scaleTo);
+    ImageFetchJob *ifJob = new ImageFetchJob(m_jobId++, cacheId, image, cachedFile, scaleTo);
     ifJob->appendCallback(QPointer<QObject>(callbackObject), callbackFunction);
     m_jobs.insert(cacheKey, ifJob);
     m_downloadQueue.prepend(cacheKey);
@@ -155,7 +159,7 @@ void KodiImageCache::imageFetched()
             }
         }
 
-        m_cacheFiles[job->cacheId()].insert(job->imageName(), true);
+        m_cacheFiles.insert(cacheKey, QPair<bool, QString>(true, cachedFile));
         qDebug() << "fetched, notifying callbacks:" << job->callbacks().size();
         foreach (const ImageFetchJob::Callback callback, job->callbacks()) {
             QMetaObject::invokeMethod(callback.object().data(), callback.method().toLatin1(), Qt::QueuedConnection, Q_ARG(int, job->id()));
@@ -192,16 +196,15 @@ void KodiImageCache::imageFetched()
 
 void KodiImageCache::fetchNext()
 {
-    m_fetchNextTimer->start();
     if(m_currentJob != 0 || m_downloadQueue.isEmpty()) {
         return;
     }
 
     m_currentJob = m_jobs[m_downloadQueue.takeFirst()];
-    QFileInfo fi(cachedFile(m_currentJob->imageName(), m_currentJob->cacheId()));
+    QFileInfo fi(m_currentJob->cachedFile());
     QDir dir(fi.absolutePath());
     if(!(dir.exists() || dir.mkpath(fi.absolutePath()))) {
-        qDebug() << "cannot open file." << cachedFile(m_currentJob->imageName(), m_currentJob->cacheId()) << "won't fetch artwork";
+        qDebug() << "cannot open file." << m_currentJob->cachedFile() << "won't fetch artwork";
         cleanupAndTriggerNext();
         return;
     }

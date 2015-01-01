@@ -43,10 +43,7 @@ class KodiImageCache : public QThread
 public:
     explicit KodiImageCache(QObject *parent = 0);
     
-    bool contains(const QString &image, int cacheId);
-    QString cachedFile(const QString &image, int cacheId);
-
-    static QString cachePath(int cacheId);
+    bool contains(const QString &image, int cacheId, QString &cachedFile);
 
     void run();
 
@@ -70,7 +67,9 @@ private slots:
 
     void cleanupAndTriggerNext();
 private:
-    QString cacheKey(const QString &image, int cacheId);
+    static QString cacheKey(const QString &image, int cacheId);
+    static QString cachedFile(const QString &path, const QString &image);
+    static QString cachePath(int cacheId);
 
     int m_jobId;
 
@@ -80,7 +79,7 @@ private:
     QMutex m_mutex;
     QTimer *m_fetchNextTimer;
 
-    QList<QHash<QString, bool> > m_cacheFiles;
+    QHash<QString, QPair<bool, QString> > m_cacheFiles;
 
     bool m_doubleDecode;
 };
