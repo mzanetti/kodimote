@@ -63,6 +63,14 @@ Item {
             }
             y: Theme.paddingMedium
 
+            Thumbnail {
+                visible: largeThumbnail.length > 0 && largeThumbnail !== "loading"
+                width: parent.width
+                height: artworkSize && artworkSize.width > artworkSize.height ? artworkSize.height / (artworkSize.width / width) : 400
+                artworkSource: largeThumbnail
+                fillMode: Image.PreserveAspectFit
+            }
+
             Row {
                 width: parent.width; spacing: 10; visible: rating > -1
                 Label { text: qsTr("Rating:"); font.bold: true; color: Theme.highlightColor }
@@ -85,6 +93,12 @@ Item {
                         anchors.verticalCenter: parent.verticalCenter
                     }
                 }
+            }
+
+            ItemDetailRow {
+                visible: title.length > 0
+                title: qsTr("Title:")
+                text: model.title
             }
 
             ItemDetailRow {
