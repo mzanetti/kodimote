@@ -72,6 +72,7 @@ void MusicVideos::refresh()
     QVariantList properties;
     properties.append("fanart");
     properties.append("playcount");
+    properties.append("year");
     params.insert("properties", properties);
 
 
@@ -136,6 +137,7 @@ void MusicVideos::listReceived(const QVariantMap &rsp)
         item->setIgnoreArticle(ignoreArticle());
         item->setFileType("file");
         item->setPlayable(true);
+        item->setYear(itemMap.value("year").toString());
         list.append(item);
         m_idIndexMapping.insert(item->musicvideoId(), index++);
     }
