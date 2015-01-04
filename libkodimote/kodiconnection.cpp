@@ -585,7 +585,7 @@ void KodiConnectionPrivate::readData()
 #endif
         koDebug(XDAREA_CONNECTION) << ">>> Incoming:" << data;
 
-        if(rsp.value("params").toMap().value("sender").toString() == "kodi") {
+        if(rsp.value("params").toMap().value("sender").toString() == "xbmc") {
             koDebug(XDAREA_CONNECTION) << ">>> received announcement" << rsp;
             emit m_notifier->receivedAnnouncement(rsp);
             continue;
