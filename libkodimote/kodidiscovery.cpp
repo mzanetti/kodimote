@@ -30,7 +30,7 @@
 #include <net/if.h>
 #include <errno.h>
 
-// Zeroconf query for _kodi-jsonrpc._tcp, _http._tcp and _workstation._tcp
+// Zeroconf query for _xbmc-jsonrpc._tcp, _http._tcp and _workstation._tcp
 
 char query_jsonrpc_http_workstations[] = {
     // DNS-SD Header
@@ -40,18 +40,18 @@ char query_jsonrpc_http_workstations[] = {
     0x00, 0x00,             // Authority records
     0x00, 0x00,             // Additional records
 
-    // Question for _kodi-jsonrpc._tcp
+    // Question for _xbmc-jsonrpc._tcp
     0x0d,                   // Length of following ttext ield
-    0x5f, 0x78, 0x62, 0x6d, 0x63, 0x2d, 0x6a, 0x73, // _kodi-js
+    0x5f, 0x78, 0x62, 0x6d, 0x63, 0x2d, 0x6a, 0x73, // _xbmc-js
     0x6f, 0x6e, 0x72, 0x70, 0x63, 0x04, 0x5f, 0x74, // onrpc._t
     0x63, 0x70, 0x05, 0x6c, 0x6f, 0x63, 0x61, 0x6c, // cp.local
     0x00,                   // \0
     0x00, 0x0c,             // Type PTR
     0x00, 0x01,             // Class: IN
 
-    // Question for _kodi-jsonrpc-h._tcp
+    // Question for _xbmc-jsonrpc-h._tcp
     0x0f,                   // Length of following ttext ield
-    0x5f, 0x78, 0x62, 0x6d, 0x63, 0x2d, 0x6a, 0x73, // _kodi-js
+    0x5f, 0x78, 0x62, 0x6d, 0x63, 0x2d, 0x6a, 0x73, // _xbmc-js
     0x6f, 0x6e, 0x72, 0x70, 0x63, 0x2d, 0x68, 0x04, // onrpc-h.
     0x5f, 0x74, 0x63, 0x70, 0x05, 0x6c, 0x6f, 0x63, // _tcp.loc
     0x61, 0x6c,                                     // al
@@ -292,8 +292,8 @@ void KodiDiscovery::parseDatagram(const QByteArray &datagram, int &index, Record
     QString type = datagram.left(index + 4).right(4);
     index += 4;
 
-    if (host && serviceName.contains("_kodi-jsonrpc._tcp.local")) {
-        host->setHostname(serviceName.remove("._kodi-jsonrpc._tcp.local"));
+    if (host && serviceName.contains("_xbmc-jsonrpc._tcp.local")) {
+        host->setHostname(serviceName.remove("._xbmc-jsonrpc._tcp.local"));
         host->setKodiJsonrpcSupported(true);
     }
 
@@ -307,7 +307,7 @@ void KodiDiscovery::parseDatagram(const QByteArray &datagram, int &index, Record
 
     if (type == "0021") {
         int port = parseSrvRecord(datagram, index, recordType);
-        if (host && serviceName.contains("_kodi-jsonrpc-h._tcp.local")) {
+        if (host && serviceName.contains("_xbmc-jsonrpc-h._tcp.local")) {
             host->setKodiHttpSupported(true);
             host->setPort(port);
         }
