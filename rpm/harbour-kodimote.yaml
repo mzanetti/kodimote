@@ -1,5 +1,5 @@
-Name: harbour-xbmcremote
-Summary: A remote control for xbmc written in Qt with QML
+Name: harbour-kodimote
+Summary: A remote control for XBMC/Kodi written in Qt with QML
 Version: 1.6.0
 Release: 1
 # The contents of the Group field must be one of the groups listed here:
@@ -12,8 +12,8 @@ License: GPL
 Sources:
 - '%{name}-%{version}.tar.bz2'
 Description: |
-  A remote control for xbmc written in Qt with QML for XBMC Frodo (12.0)
-  NOTE: This application does not work with other versions of XBMC
+  A remote control for XBMC/Kodi written in Qt with QML for XBMC Frodo (12.0) and up (including Kodi Helix)
+  NOTE: This application does not work with older versions of XBMC
 Configure: none
 # The qtc5 builder inserts macros to allow QtCreator to have fine
 # control over qmake/make execution
