@@ -26,10 +26,10 @@ Page {
     SilicaListView {
         id: listView
         anchors.fill: parent
-        model: xbmcMenuModel
+        model: kodiMenuModel
 
         header: PageHeader {
-            title: qsTr("XBMC on %1").arg(xbmc.connectedHostName)
+            title: qsTr("Kodi on %1").arg(kodi.connectedHostName)
         }
 
         delegate: ListItem {
@@ -37,7 +37,7 @@ Page {
 
             contentHeight: Theme.itemSizeExtraLarge
 
-            onClicked: xbmcMenuModel.click(index)
+            onClicked: kodiMenuModel.click(index)
 
             Image {
                 id: img
@@ -64,7 +64,7 @@ Page {
         }
 
         ListModel {
-            id: xbmcMenuModelTemplate
+            id: kodiMenuModelTemplate
             ListElement {
                 icon: "image://theme/icon-l-dismiss"
                 target: "quit"
@@ -88,13 +88,13 @@ Page {
         }
 
         ListModel {
-            id: xbmcMenuModel
+            id: kodiMenuModel
             // workaround: its not possible to have qsTr() in ListElements for now...
             function title(index) {
-                var item = xbmcMenuModel.get(index);
+                var item = kodiMenuModel.get(index);
 
                 if (item) {
-                    var target = xbmcMenuModel.get(index).target;
+                    var target = kodiMenuModel.get(index).target;
                     if (target === "quit") {
                         return qsTr("Quit");
                     }
@@ -115,46 +115,46 @@ Page {
             }
 
             function click(index) {
-                var item = xbmcMenuModel.get(index);
+                var item = kodiMenuModel.get(index);
 
                 if (!item) {
                     return;
                 }
 
-                var target = xbmcMenuModel.get(index).target;
+                var target = kodiMenuModel.get(index).target;
                 if (target === "quit") {
-                    xbmc.quit();
+                    kodi.quit();
                 }
                 else if (target === "shutdown") {
-                    xbmc.shutdown();
+                    kodi.shutdown();
                 }
                 else if (target === "reboot") {
-                    xbmc.reboot();
+                    kodi.reboot();
                 }
                 else if (target === "suspend") {
-                    xbmc.suspend();
+                    kodi.suspend();
                 }
                 else if (target === "hibernate") {
-                    xbmc.hibernate();
+                    kodi.hibernate();
                 }
             }
         }
     }
 
     function populateKodiMenu() {
-        xbmcMenuModel.clear();
-        xbmcMenuModel.append(xbmcMenuModelTemplate.get(0));
-        if (xbmc.canShutdown) {
-            xbmcMenuModel.append(xbmcMenuModelTemplate.get(1));
+        kodiMenuModel.clear();
+        kodiMenuModel.append(kodiMenuModelTemplate.get(0));
+        if (kodi.canShutdown) {
+            kodiMenuModel.append(kodiMenuModelTemplate.get(1));
         }
-        if (xbmc.canReboot) {
-            xbmcMenuModel.append(xbmcMenuModelTemplate.get(2));
+        if (kodi.canReboot) {
+            kodiMenuModel.append(kodiMenuModelTemplate.get(2));
         }
-        if (xbmc.canShutdown) {
-            xbmcMenuModel.append(xbmcMenuModelTemplate.get(3));
+        if (kodi.canShutdown) {
+            kodiMenuModel.append(kodiMenuModelTemplate.get(3));
         }
-        if (xbmc.canHibernate) {
-            xbmcMenuModel.append(xbmcMenuModelTemplate.get(4));
+        if (kodi.canHibernate) {
+            kodiMenuModel.append(kodiMenuModelTemplate.get(4));
         }
     }
 
@@ -163,7 +163,7 @@ Page {
     }
 
     Connections {
-        target: xbmc
+        target: kodi
         onSystemPropertiesChanged: populateKodiMenu();
     }
 }
