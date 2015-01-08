@@ -62,10 +62,8 @@ public slots:
 private slots:
     void imageFetched();
 
-    void fetchNext();
+    void fetchNext(ImageFetchJob *job);
     void downloadPrepared(const QVariantMap &map);
-
-    void cleanupAndTriggerNext();
 private:
     static QString cacheKey(const QString &image, int cacheId);
     static QString cachedFile(const QString &path, const QString &image);
@@ -73,13 +71,11 @@ private:
 
     int m_jobId;
 
-    ImageFetchJob *m_currentJob;
-    QList<QString> m_downloadQueue;
     QHash<QString, ImageFetchJob*> m_jobs;
     QMutex m_mutex;
-    QTimer *m_fetchNextTimer;
 
     QHash<QString, QPair<bool, QString> > m_cacheFiles;
+    QHash<int, QString> m_fetchQueue;
 
     bool m_doubleDecode;
 };

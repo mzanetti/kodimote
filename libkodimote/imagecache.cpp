@@ -33,13 +33,8 @@
 KodiImageCache::KodiImageCache(QObject *parent) :
     QThread(parent),
     m_jobId(0),
-    m_currentJob(0),
     m_doubleDecode(false)
 {
-    m_fetchNextTimer = new QTimer(this);
-    m_fetchNextTimer->setSingleShot(true);
-    m_fetchNextTimer->setInterval(0);
-    connect(m_fetchNextTimer,SIGNAL(timeout()),this,SLOT(fetchNext()));
 }
 
 bool KodiImageCache::contains(const QString &image, int cacheId, QString &cachedFile)
@@ -97,10 +92,6 @@ int KodiImageCache::fetch(const QString &image, QObject *callbackObject, const Q
     QMutexLocker locker(&m_mutex);
     ImageFetchJob *job = m_jobs.value(cacheKey);
     if (job) {
-        if (m_downloadQueue.contains(cacheKey)) {
-            m_downloadQueue.move(m_downloadQueue.indexOf(cacheKey), 0);
-        }
-
         foreach (const ImageFetchJob::Callback callback, job->callbacks()) {
             if (callback.object() == callbackObject && callback.method() == callbackFunction) {
                 return job->id();
@@ -119,8 +110,7 @@ int KodiImageCache::fetch(const QString &image, QObject *callbackObject, const Q
     ImageFetchJob *ifJob = new ImageFetchJob(m_jobId++, cacheId, image, cachedFile, scaleTo);
     ifJob->appendCallback(QPointer<QObject>(callbackObject), callbackFunction);
     m_jobs.insert(cacheKey, ifJob);
-    m_downloadQueue.prepend(cacheKey);
-    m_fetchNextTimer->start();
+    fetchNext(ifJob);
 
     return ifJob->id();
 }
@@ -172,8 +162,7 @@ void KodiImageCache::imageFetched()
         if (reply->error() == QNetworkReply::ContentNotFoundError) {
             if (!m_doubleDecode) {
                 m_doubleDecode = true;
-                m_downloadQueue.prepend(cacheKey);
-                m_fetchNextTimer->start();
+                fetchNext(job);
                 return;
             } else {
                 // So this failed with both... Lets turn off doubleDecode again and try the next
@@ -194,37 +183,36 @@ void KodiImageCache::imageFetched()
     reply->deleteLater();
 }
 
-void KodiImageCache::fetchNext()
+void KodiImageCache::fetchNext(ImageFetchJob *job)
 {
-    if(m_currentJob != 0 || m_downloadQueue.isEmpty()) {
-        return;
-    }
-
-    m_currentJob = m_jobs[m_downloadQueue.takeFirst()];
-    QFileInfo fi(m_currentJob->cachedFile());
+    QString cacheKey = this->cacheKey(job->imageName(), job->cacheId());
+    QFileInfo fi(job->cachedFile());
     QDir dir(fi.absolutePath());
     if(!(dir.exists() || dir.mkpath(fi.absolutePath()))) {
-        qDebug() << "cannot open file." << m_currentJob->cachedFile() << "won't fetch artwork";
-        cleanupAndTriggerNext();
+        qDebug() << "cannot open file." << job->cachedFile() << "won't fetch artwork";
+        m_jobs.remove(cacheKey);
+        job->deleteLater();
         return;
     }
 
     QVariantMap params;
-    params.insert("path", m_currentJob->imageName());
-    KodiConnection::sendCommand("Files.PrepareDownload", params, this, "downloadPrepared");
+    params.insert("path", job->imageName());
+    int id = KodiConnection::sendCommand("Files.PrepareDownload", params, this, "downloadPrepared");
+    m_fetchQueue.insert(id, cacheKey);
 }
 
 void KodiImageCache::downloadPrepared(const QVariantMap &rsp)
 {
-
     QVariantMap result = rsp.value("result").toMap();
     KodiHost *host = KodiConnection::connectedHost();
 
     if(host == 0 || result.isEmpty()) {
-        qDebug() << "couldn't prepare download:" << m_currentJob->imageName();
-        cleanupAndTriggerNext();
         return;
     }
+
+    int id = rsp.value("id").toInt();
+    QString cacheKey = m_fetchQueue[id];
+    ImageFetchJob *job = m_jobs[cacheKey];
 
     QUrl imageUrl;
 
@@ -245,20 +233,7 @@ void KodiImageCache::downloadPrepared(const QVariantMap &rsp)
     imageUrl.setPort(host->port());
 
     QNetworkRequest imageRequest(imageUrl);
-    imageRequest.setOriginatingObject(m_currentJob);
+    imageRequest.setOriginatingObject(job);
     QNetworkReply *reply = KodiConnection::nam()->get(imageRequest);
     connect(reply, SIGNAL(finished()), SLOT(imageFetched()));
-
-    QMutexLocker locker(&m_mutex);
-    m_currentJob = 0;
-    locker.unlock();
-    m_fetchNextTimer->start();
-}
-
-void KodiImageCache::cleanupAndTriggerNext()
-{
-    m_jobs.remove(cacheKey(m_currentJob->imageName(), m_currentJob->cacheId()));
-    m_currentJob->deleteLater();
-    m_currentJob = 0;
-    m_fetchNextTimer->start();
 }
