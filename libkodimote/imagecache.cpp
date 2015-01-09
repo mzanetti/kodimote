@@ -29,9 +29,31 @@
 #include <QNetworkRequest>
 #include <QNetworkReply>
 #include <QDebug>
+#include <QtConcurrent/QtConcurrent>
+
+ImageFetchJob *scaleImage(ImageFetchJob *job, QByteArray data)
+{
+    QString cachedFile = job->cachedFile();
+    QFileInfo fi = cachedFile;
+
+    if(job->scaleTo().width() > 0 && job->scaleTo().height() > 0) {
+        if(fi.suffix() == "png" || fi.suffix() == "jpg") {
+            QImage image = QImage::fromData(data);
+            QImage scaledImage = image.scaled(job->scaleTo().width(), job->scaleTo().height(), Qt::KeepAspectRatio, Qt::FastTransformation);
+            scaledImage.save(cachedFile);
+        } else {
+            QFile file(cachedFile);
+            if(file.open(QIODevice::WriteOnly)) {
+                file.write(data);
+            }
+        }
+    }
+
+    return job;
+}
 
 KodiImageCache::KodiImageCache(QObject *parent) :
-    QThread(parent),
+    QObject(parent),
     m_jobId(0),
     m_doubleDecode(false)
 {
@@ -39,8 +61,6 @@ KodiImageCache::KodiImageCache(QObject *parent) :
 
 bool KodiImageCache::contains(const QString &image, int cacheId, QString &cachedFile)
 {
-    QMutexLocker locker(&m_mutex);
-
     QString cacheKey = this->cacheKey(image, cacheId);
     if (!m_cacheFiles.contains(cacheKey)) {
         QString path = cachePath(cacheId);
@@ -81,15 +101,9 @@ QString KodiImageCache::cachePath(int cacheId)
     return Kodi::instance()->dataPath() + "/imagecache/" + QString::number(cacheId) + "/";
 }
 
-void KodiImageCache::run()
-{
-    exec();
-}
-
 int KodiImageCache::fetch(const QString &image, QObject *callbackObject, const QString &callbackFunction, const QSize &scaleTo, int cacheId)
 {
     QString cacheKey = this->cacheKey(image, cacheId);
-    QMutexLocker locker(&m_mutex);
     ImageFetchJob *job = m_jobs.value(cacheKey);
     if (job) {
         foreach (const ImageFetchJob::Callback callback, job->callbacks()) {
@@ -122,38 +136,19 @@ QString KodiImageCache::cacheKey(const QString &image, int cacheId)
 
 void KodiImageCache::imageFetched()
 {
-    QMutexLocker locker(&m_mutex);
-
     QNetworkReply *reply = static_cast<QNetworkReply*>(sender());
     ImageFetchJob *job = static_cast<ImageFetchJob*>(reply->request().originatingObject());
     QString cacheKey = this->cacheKey(job->imageName(), job->cacheId());
 
+    reply->request().setOriginatingObject(0);
+    reply->deleteLater();
+
     if(reply->error() == QNetworkReply::NoError) {
-        QByteArray data = reply->readAll();
-
-        QString cachedFile = job->cachedFile();
-        QFileInfo fi = cachedFile;
-
-        if(job->scaleTo().width() > 0 && job->scaleTo().height() > 0) {
-            if(fi.suffix() == "png" || fi.suffix() == "jpg") {
-                QImage image = QImage::fromData(data);
-                qDebug() << "scaling image" << fi.path() << fi.fileName();
-                QImage scaledImage = image.scaled(job->scaleTo().width(), job->scaleTo().height(), Qt::KeepAspectRatio, Qt::FastTransformation);
-                scaledImage.save(cachedFile);
-            } else {
-                qDebug() << "NOT scaling image" << fi.fileName();
-                QFile file(cachedFile);
-                if(file.open(QIODevice::WriteOnly)) {
-                    file.write(data);
-                }
-            }
-        }
-
-        m_cacheFiles.insert(cacheKey, QPair<bool, QString>(true, cachedFile));
-        qDebug() << "fetched, notifying callbacks:" << job->callbacks().size();
-        foreach (const ImageFetchJob::Callback callback, job->callbacks()) {
-            QMetaObject::invokeMethod(callback.object().data(), callback.method().toLatin1(), Qt::QueuedConnection, Q_ARG(int, job->id()));
-        }
+        job->setParent(this);
+        QFutureWatcher<ImageFetchJob*> *watcher = new QFutureWatcher<ImageFetchJob*>();
+        connect(watcher, SIGNAL(finished()), this, SLOT(imageScaled()));
+        watcher->setFuture(QtConcurrent::run(scaleImage, job, reply->readAll()));
+        return;
     } else {
         qDebug() << "image fetching failed" << reply->errorString() << reply->error();
 
@@ -179,8 +174,23 @@ void KodiImageCache::imageFetched()
     }
 
     m_jobs.remove(cacheKey);
+}
+
+void KodiImageCache::imageScaled()
+{
+    QFutureWatcher<ImageFetchJob*> *watcher = static_cast<QFutureWatcher<ImageFetchJob*>*>(QObject::sender());
+    watcher->deleteLater();
+    ImageFetchJob *job = watcher->result();
+    QString cachedFile = job->cachedFile();
+    QString cacheKey = this->cacheKey(job->imageName(), job->cacheId());
+
+    m_cacheFiles.insert(cacheKey, QPair<bool, QString>(true, cachedFile));
+
+    foreach (const ImageFetchJob::Callback callback, job->callbacks()) {
+        QMetaObject::invokeMethod(callback.object().data(), callback.method().toLatin1(), Qt::QueuedConnection, Q_ARG(int, job->id()));
+    }
+
     job->deleteLater();
-    reply->deleteLater();
 }
 
 void KodiImageCache::fetchNext(ImageFetchJob *job)

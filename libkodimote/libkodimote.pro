@@ -1,8 +1,9 @@
+Qt += concurent network
 contains(QT_VERSION, ^5\\..\\..*) {
     DEFINES += QT5_BUILD
-    QT += network quick qml
+    QT += quick qml
 } else {
-    QT += network declarative
+    QT += declarative
 }
 
 packagesExist(sailfishapp) {

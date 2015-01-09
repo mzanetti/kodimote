@@ -37,15 +37,13 @@ class ImageFetchJob;
 class QFile;
 
 // Can't be ImageCache because invoker on Harmattan causes a name-clash and breaks method-invokation
-class KodiImageCache : public QThread
+class KodiImageCache : public QObject
 {
     Q_OBJECT
 public:
     explicit KodiImageCache(QObject *parent = 0);
     
     bool contains(const QString &image, int cacheId, QString &cachedFile);
-
-    void run();
 
 public slots:
     /**
@@ -64,6 +62,7 @@ private slots:
 
     void fetchNext(ImageFetchJob *job);
     void downloadPrepared(const QVariantMap &map);
+    void imageScaled();
 private:
     static QString cacheKey(const QString &image, int cacheId);
     static QString cachedFile(const QString &path, const QString &image);
@@ -72,7 +71,6 @@ private:
     int m_jobId;
 
     QHash<QString, ImageFetchJob*> m_jobs;
-    QMutex m_mutex;
 
     QHash<QString, QPair<bool, QString> > m_cacheFiles;
     QHash<int, QString> m_fetchQueue;
