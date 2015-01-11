@@ -36,6 +36,17 @@ KodiModel::KodiModel(KodiModel *parent) :
 #endif
 }
 
+KodiModel::KodiModel(QObject *parent) :
+    QAbstractItemModel(parent),
+    m_parentModel(0),
+    m_busy(true),
+    m_ignoreArticle(false)
+{
+#ifndef QT5_BUILD
+    setRoleNames(roleNames());
+#endif
+}
+
 KodiModel::~KodiModel()
 {
     qDebug() << "deleting model";

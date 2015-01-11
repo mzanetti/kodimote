@@ -25,6 +25,7 @@
 #include "kodebug.h"
 
 Playlist::Playlist(Player *parent) :
+    KodiModel(parent),
     m_currentItem(-1),
     m_player(parent)
 {

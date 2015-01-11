@@ -99,7 +99,8 @@ public:
         ItemIdRecentlyPlayed = -3
     };
 
-    explicit KodiModel(KodiModel *parent = 0);
+    explicit KodiModel(KodiModel *parent);
+    explicit KodiModel(QObject *parent = 0);
     virtual ~KodiModel();
     Q_INVOKABLE KodiModel *parentModel() const;
 
