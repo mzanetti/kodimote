@@ -53,6 +53,16 @@ bool connecting()
     return instance()->connecting();
 }
 
+bool active()
+{
+    return instance()->active();
+}
+
+void setActive(bool active)
+{
+    instance()->setActive(active);
+}
+
 KodiHost *connectedHost()
 {
     return instance()->connectedHost();
@@ -153,7 +163,7 @@ void KodiConnectionPrivate::connect(KodiHost *host)
 
     // Stop the reconnect timer in case someone else triggers the connect
     m_reconnectTimer.stop();
-    closeConnection();
+    closeConnection(false);
 
     // Don't automatically reconnect when device is offline and no host provided
     // In other words, prevent triggering "connect to network" dialog when the connect isn't user initiated
@@ -213,7 +223,7 @@ void KodiConnectionPrivate::sessionLost()
     closeConnection();
 }
 
-void KodiConnectionPrivate::closeConnection()
+void KodiConnectionPrivate::closeConnection(bool reconnect)
 {
     if(m_socket->state() == QAbstractSocket::ConnectedState) {
         m_socket->disconnectFromHost();
@@ -227,7 +237,11 @@ void KodiConnectionPrivate::closeConnection()
         m_networkSession = 0;
     }
 
-    m_connecting = false;
+    if (reconnect && m_active) {
+        m_reconnectTimer.start();
+    }
+
+    m_connecting = true;
     m_connected = false;
     emit notifier()->connectionChanged();
 }
@@ -285,8 +299,6 @@ void KodiConnectionPrivate::socketError()
     if(m_socket->state() != QAbstractSocket::ConnectedState) {
         m_connectionError = tr("Connection failed: %1").arg(errorString);
         closeConnection();
-        // silently try to reconnect if the connection failed
-        m_reconnectTimer.start();
     }
 }
 
@@ -645,6 +657,31 @@ void KodiConnectionPrivate::setAuthCredentials(const QString &username, const QS
         m_host->setUsername(username);
         m_host->setPassword(password);
         connect(m_host);
+    }
+}
+
+bool KodiConnectionPrivate::active() const
+{
+    return m_active;
+}
+
+void KodiConnectionPrivate::setActive(bool active)
+{
+    if (m_active == active) {
+        return;
+    }
+
+    m_active = active;
+
+    if (active) {
+        if (m_connecting && m_socket->state() == QAbstractSocket::UnconnectedState && !m_reconnectTimer.isActive()) {
+            connect();
+        }
+    } else {
+        m_reconnectTimer.stop();
+        if (m_socket->state() != QAbstractSocket::ConnectedState) {
+            closeConnection();
+        }
     }
 }
 

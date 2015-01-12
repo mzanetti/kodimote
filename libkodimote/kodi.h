@@ -53,6 +53,7 @@ class Kodi : public QObject
 
     Q_PROPERTY(bool connecting READ connecting NOTIFY connectingChanged)
     Q_PROPERTY(bool connected READ connected NOTIFY connectedChanged)
+    Q_PROPERTY(bool active READ active WRITE setActive NOTIFY activeChanged)
     Q_PROPERTY(QString connectionError READ connectionError NOTIFY connectedChanged)
     Q_PROPERTY(KodiHost* connectedHost READ connectedHost NOTIFY connectedChanged)
     Q_PROPERTY(QString connectedHostName READ connectedHostName NOTIFY connectedChanged)
@@ -106,6 +107,9 @@ public:
     Q_INVOKABLE KodiHostModel* hostModel();
     Q_INVOKABLE void setAuthCredentials(const QString &username, const QString &password);
 
+    bool active() const;
+    void setActive(bool active);
+
     QString state();
 
     QString vfsPath();
@@ -148,6 +152,7 @@ public slots:
 signals:
     void connectingChanged();
     void connectedChanged(bool connected);
+    void activeChanged(bool connect);
     void authenticationRequired(const QString &hostname, const QString &address);
     void activePlayerChanged();
     void volumeChanged(int volume);

@@ -88,6 +88,9 @@ public:
     void disconnectFromHost();
     void setAuthCredentials(const QString &username, const QString &password);
 
+    bool active() const;
+    void setActive(bool active);
+
     int sendCommand(const QString &command, const QVariant &parms = QVariant());
     int sendCommand(const QString &command, const QVariant &params, QObject *callbackReceiver, const QString &callbackMember);
 
@@ -134,7 +137,7 @@ private:
 
     void sendNextCommand();
     void handleData(const QString &data);
-    void closeConnection();
+    void closeConnection(bool reconnect = true);
 
     KodiHost *m_host;
 
@@ -146,6 +149,7 @@ private:
     QMap<int, Callback> m_callbacks;
     QNetworkConfigurationManager *m_connManager;
     QNetworkSession *m_networkSession;
+    bool m_active;
 
     QList<KodiDownload*> m_downloadQueue;
     QMap<QNetworkReply*, KodiDownload*> m_activeDownloadsMap;

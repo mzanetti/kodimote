@@ -267,6 +267,17 @@ void Kodi::setAuthCredentials(const QString &username, const QString &password)
     KodiConnection::setAuthCredentials(username, password);
 }
 
+bool Kodi::active() const
+{
+    return KodiConnection::active();
+}
+
+void Kodi::setActive(bool active)
+{
+    KodiConnection::setActive(active);
+    emit activeChanged(active);
+}
+
 QString Kodi::connectionError()
 {
     return KodiConnection::connectionError();
