@@ -22,12 +22,16 @@ import QtQuick 2.0
 import Sailfish.Silica 1.0
 import "pages"
 import "components"
+import "cover"
 
 ApplicationWindow
 {
     id: appWindow
 
-    cover: Qt.resolvedUrl("cover/CoverPage.qml")
+    cover: CoverPage {
+        id: cover
+    }
+
     initialPage: mainPageComponent
     bottomMargin: dockedControls.visibleSize
 
@@ -48,6 +52,13 @@ ApplicationWindow
 
     Keys.onVolumeUpPressed: {
         kodi.volumeUp();
+    }
+
+    Binding {
+        target: kodi
+        property: "active"
+        //!== Inactive to try to minimize all the switches when maximizing and minimizing the app
+        value: Qt.application.active || cover.status !== Cover.Inactive
     }
 
     function showAuthenticate(hostname) {
