@@ -39,7 +39,7 @@ Page {
     ]
 
     onConnectedChanged: {
-        pageStack.pop(mainPage);
+        pageStack.pop(mainPage, PageStackAction.Immediate);
         populateMainMenu();
         if (connected) {
             pageStack.pushAttached("KodiPage.qml");
@@ -351,6 +351,5 @@ Page {
     Connections {
         target: kodi
         onPvrAvailableChanged: populateMainMenu();
-        onConnectingChanged: pageStack.pop(mainPage, PageStackAction.Immediate);
     }
 }
