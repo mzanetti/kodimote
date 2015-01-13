@@ -47,10 +47,10 @@ public:
     Command(int id = -1, const QString &command = QString(), const QVariant &params = QVariant(), const QString &raw = QString()):
         m_id(id), m_command(command), m_params(params), m_raw(raw) {}
 
-    int id() {return m_id;}
-    QString command() {return m_command;}
-    QVariant params() {return m_params;}
-    QString raw() {return m_raw; }
+    int id() const {return m_id;}
+    QString command() const {return m_command;}
+    QVariant params() const {return m_params;}
+    QString raw() const {return m_raw; }
 
 private:
 
@@ -112,6 +112,9 @@ private slots:
     void sessionLost();
     void versionReceived(const QVariantMap &rsp);
 
+    void pingElapsed();
+    void pingReplyReceived(const QVariantMap &rsp);
+
     void replyReceived();
     void authenticationRequired(QNetworkReply *reply, QAuthenticator *authenticator);
 
@@ -134,10 +137,12 @@ private:
     Command m_currentPendingCommand;
     QTimer m_timeoutTimer;
     QTimer m_reconnectTimer;
+    QTimer m_pingTimeoutTimer;
 
     void sendNextCommand();
     void handleData(const QString &data);
     void closeConnection(bool reconnect = true);
+    QByteArray buildJsonPayload(const Command &command);
 
     KodiHost *m_host;
 

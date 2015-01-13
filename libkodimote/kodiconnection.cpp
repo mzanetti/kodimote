@@ -149,6 +149,10 @@ KodiConnectionPrivate::KodiConnectionPrivate(QObject *parent) :
     m_reconnectTimer.setInterval(5000);
     m_reconnectTimer.setSingleShot(true);
     QObject::connect(&m_reconnectTimer, SIGNAL(timeout()), SLOT(connect()));
+
+    m_pingTimeoutTimer.setInterval(1000);
+    m_pingTimeoutTimer.setSingleShot(true);
+    QObject::connect(&m_pingTimeoutTimer, SIGNAL(timeout()), SLOT(pingElapsed()));
 }
 
 void KodiConnectionPrivate::connect(KodiHost *host)
@@ -315,22 +319,7 @@ void KodiConnectionPrivate::sendNextCommand() {
         request.setUrl(QUrl("http://" + m_host->address() + ":" + QString::number(m_host->port()) + "/jsonrpc"));
         request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
 
-        QVariantMap map;
-        map.insert("jsonrpc", "2.0");
-        map.insert("method", command.command());
-        map.insert("id", command.id());
-
-        if(!command.params().isNull()) {
-            map.insert("params", command.params());
-        }
-
-#ifdef QT5_BUILD
-        QJsonDocument jsonDoc = QJsonDocument::fromVariant(map);
-        QByteArray data = jsonDoc.toJson();
-#else
-        QJson::Serializer serializer;
-        QByteArray data = serializer.serialize(map);
-#endif
+        QByteArray data = buildJsonPayload(command);
 
         QString dataStr = QString::fromLatin1(data);
 #ifdef DEBUGJSON
@@ -342,6 +331,27 @@ void KodiConnectionPrivate::sendNextCommand() {
         m_currentPendingCommand = Command(command.id(), command.command(), command.params(), data);
         m_timeoutTimer.start();
     }
+}
+
+QByteArray KodiConnectionPrivate::buildJsonPayload(const Command &command)
+{
+    QVariantMap map;
+    map.insert("jsonrpc", "2.0");
+    map.insert("method", command.command());
+    map.insert("id", command.id());
+
+    if(!command.params().isNull()) {
+        map.insert("params", command.params());
+    }
+
+#ifdef QT5_BUILD
+    QJsonDocument jsonDoc = QJsonDocument::fromVariant(map);
+    QByteArray data = jsonDoc.toJson();
+#else
+    QJson::Serializer serializer;
+    QByteArray data = serializer.serialize(map);
+#endif
+    return data;
 }
 
 void KodiConnectionPrivate::replyReceived()
@@ -676,6 +686,14 @@ void KodiConnectionPrivate::setActive(bool active)
     if (active) {
         if (m_connecting && m_socket->state() == QAbstractSocket::UnconnectedState && !m_reconnectTimer.isActive()) {
             connect();
+        } else if (m_connected) {
+            int id = m_commandId++;
+            Command command(id, "JSONRPC.Ping");
+            Callback callback(this, "pingReplyReceived");
+            m_callbacks.insert(id, callback);
+
+            m_socket->write(buildJsonPayload(command));
+            m_pingTimeoutTimer.start();
         }
     } else {
         m_reconnectTimer.stop();
@@ -683,6 +701,17 @@ void KodiConnectionPrivate::setActive(bool active)
             closeConnection();
         }
     }
+}
+
+void KodiConnectionPrivate::pingReplyReceived(const QVariantMap &rsp)
+{
+    Q_UNUSED(rsp);
+    m_pingTimeoutTimer.stop();
+}
+
+void KodiConnectionPrivate::pingElapsed()
+{
+    closeConnection();
 }
 
 QNetworkAccessManager *KodiConnectionPrivate::nam()
