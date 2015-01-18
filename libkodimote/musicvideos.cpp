@@ -170,12 +170,9 @@ KodiModel *MusicVideos::enterItem(int index)
 
 void MusicVideos::playItem(int index)
 {
-    qDebug() << "should play item" << index << "musicvideoid is" << m_list.at(index)->data(RoleMusicVideoId).toInt();
-    Kodi::instance()->videoPlayer()->playlist()->clear();
     VideoPlaylistItem item;
     item.setMusicVideoId(m_list.at(index)->data(RoleMusicVideoId).toInt());
-    Kodi::instance()->videoPlayer()->playlist()->addItems(item);
-    Kodi::instance()->videoPlayer()->playItem(0);
+    Kodi::instance()->videoPlayer()->open(item);
 }
 
 void MusicVideos::addToPlaylist(int row)

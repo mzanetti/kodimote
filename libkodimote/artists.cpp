@@ -158,9 +158,7 @@ void Artists::playItem(int index)
 {
     AudioPlaylistItem pItem;
     pItem.setArtistId(m_list.at(index)->data(RoleArtistId).toInt());
-    Kodi::instance()->audioPlayer()->playlist()->clear();
-    Kodi::instance()->audioPlayer()->playlist()->addItems(pItem);
-    Kodi::instance()->audioPlayer()->playItem(0);
+    Kodi::instance()->audioPlayer()->open(pItem);
 }
 
 void Artists::addToPlaylist(int index)

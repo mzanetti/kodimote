@@ -216,10 +216,8 @@ KodiModel *Movies::enterItem(int index)
 
 void Movies::playItem(int index)
 {
-    Kodi::instance()->videoPlayer()->playlist()->clear();
     VideoPlaylistItem item(m_list.at(index)->data(RoleMovieId).toInt());
-    Kodi::instance()->videoPlayer()->playlist()->addItems(item);
-    Kodi::instance()->videoPlayer()->playItem(0);
+    Kodi::instance()->videoPlayer()->open(item);
 }
 
 void Movies::addToPlaylist(int row)

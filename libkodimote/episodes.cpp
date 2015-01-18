@@ -206,18 +206,14 @@ KodiModel *Episodes::enterItem(int index)
 
 void Episodes::playItem(int index)
 {
-    Kodi::instance()->videoPlayer()->playlist()->clear();
     VideoPlaylistItem item;
     item.setEpisodeId(m_list.at(index)->data(RoleEpisodeId).toInt());
-    Kodi::instance()->videoPlayer()->playlist()->addItems(item);
-    Kodi::instance()->videoPlayer()->playItem(0);
+    Kodi::instance()->videoPlayer()->open(item);
 }
 
 void Episodes::addToPlaylist(int row)
 {
     VideoPlaylistItem pItem;
-//    pItem.setTvShowId(m_tvshowid);
-//    pItem.setSeasonId(m_seasonid);
     pItem.setEpisodeId(index(row, 0, QModelIndex()).data(RoleEpisodeId).toInt());
     Kodi::instance()->videoPlayer()->playlist()->addItems(pItem);
 }

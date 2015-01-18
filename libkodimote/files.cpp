@@ -118,14 +118,12 @@ void Files::playItem(int index)
 
     LibraryItem *item = static_cast<LibraryItem*>(m_list.at(index));
     PlaylistItem pItem;
-    m_player->playlist()->clear();
     if(item->fileType() == "file") {
         pItem.setFile(item->fileName());
     } else {
         pItem.setDirectory(item->fileName());
     }
-    m_player->playlist()->addItems(pItem);
-    m_player->playItem(0);
+    m_player->open(pItem);
 }
 
 void Files::addToPlaylist(int index)

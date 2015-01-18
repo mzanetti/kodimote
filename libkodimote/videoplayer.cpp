@@ -39,10 +39,3 @@ Playlist *VideoPlayer::playlist() const
     return m_playlist;
 }
 
-void VideoPlayer::open(const VideoPlaylistItem &item)
-{
-    QVariantMap params;
-    params.insert("item", item.toMap());
-    KodiConnection::sendCommand("Player.Open", params);
-}
-

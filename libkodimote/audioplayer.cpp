@@ -37,3 +37,10 @@ Playlist * AudioPlayer::playlist() const
 {
     return m_playList;
 }
+
+void AudioPlayer::open(const PlaylistItem &item)
+{
+    m_playList->clear();
+    m_playList->addItems(item);
+    playItem(0);
+}

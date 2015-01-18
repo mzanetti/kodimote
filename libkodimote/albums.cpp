@@ -181,9 +181,7 @@ void Albums::playItem(int index)
 {
     AudioPlaylistItem pItem;
     pItem.setAlbumId(m_list.at(index)->data(RoleAlbumId).toInt());
-    Kodi::instance()->audioPlayer()->playlist()->clear();
-    Kodi::instance()->audioPlayer()->playlist()->addItems(pItem);
-    Kodi::instance()->audioPlayer()->playItem(0);
+    Kodi::instance()->audioPlayer()->open(pItem);
 }
 
 void Albums::addToPlaylist(int index)

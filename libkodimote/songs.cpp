@@ -212,7 +212,6 @@ void Songs::playItem(int row)
     }
     Kodi::instance()->audioPlayer()->playlist()->clear();
     Kodi::instance()->audioPlayer()->playlist()->addItems(pItem);
-//    Kodi::instance()->audioPlayer()->playlist()->playItem(row);
     Kodi::instance()->audioPlayer()->playItem(row);
 }
 
