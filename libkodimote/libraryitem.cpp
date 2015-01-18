@@ -191,8 +191,9 @@ QString LibraryItem::thumbnail() const
         return QString();
     }
 
-    if(Kodi::instance()->imageCache()->contains(m_thumbnail, 1)) {
-        return Kodi::instance()->imageCache()->cachedFile(m_thumbnail, 1);
+    QString cachedFile;
+    if(Kodi::instance()->imageCache()->contains(m_thumbnail, 1, cachedFile)) {
+        return cachedFile;
     }
     // scaleTo size optimized for big representations.
     int id = Kodi::instance()->imageCache()->fetch(m_thumbnail, const_cast<LibraryItem*>(this), "imageFetched", QSize(1000, 1000), 1);
@@ -208,8 +209,9 @@ void LibraryItem::setThumbnail(const QString &thumbnail)
 
 QString LibraryItem::fanart() const
 {
-    if(Kodi::instance()->imageCache()->contains(m_fanart, 1)) {
-        return Kodi::instance()->imageCache()->cachedFile(m_fanart, 1);
+    QString cachedFile;
+    if(Kodi::instance()->imageCache()->contains(m_fanart, 1, cachedFile)) {
+        return cachedFile;
     }
     int id = Kodi::instance()->imageCache()->fetch(m_fanart, const_cast<LibraryItem*>(this), "imageFetched", QSize(1000, 1000), 1);
     m_imageFetchJobs.insert(id, ImageTypeFanart);

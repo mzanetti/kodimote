@@ -71,8 +71,9 @@ QVariant KodiModel::data(const QModelIndex &index, int role) const
         if(thumbnail.isEmpty()) {
             return QString();
         }
-        if(Kodi::instance()->imageCache()->contains(thumbnail, 0)) {
-            return Kodi::instance()->imageCache()->cachedFile(thumbnail, 0);
+        QString cachedFile;
+        if(Kodi::instance()->imageCache()->contains(thumbnail, 0, cachedFile)) {
+            return cachedFile;
         }
         // Size optimized for list view icons.
         int job = Kodi::instance()->imageCache()->fetch(thumbnail, const_cast<KodiModel*>(this), "imageFetched", QSize(152, 120), 0);
@@ -84,8 +85,9 @@ QVariant KodiModel::data(const QModelIndex &index, int role) const
         if(thumbnail.isEmpty()) {
             return QString();
         }
-        if(Kodi::instance()->imageCache()->contains(thumbnail, 1)) {
-            return Kodi::instance()->imageCache()->cachedFile(thumbnail, 1);
+        QString cachedFile;
+        if(Kodi::instance()->imageCache()->contains(thumbnail, 1, cachedFile)) {
+            return cachedFile;
         }
         // Size optimized for big representations.
         int job = Kodi::instance()->imageCache()->fetch(thumbnail, const_cast<KodiModel*>(this), "imageFetched", QSize(1000, 1000), 1);

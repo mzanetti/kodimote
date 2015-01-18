@@ -187,8 +187,6 @@ Kodi::Kodi(QObject *parent) :
     m_volumeAnimation.setTargetObject(this);
     m_volumeAnimation.setPropertyName("volume");
     m_volumeAnimation.setDuration(500);
-
-    m_imageCache->start(QThread::IdlePriority);
 }
 
 Kodi::~Kodi()
