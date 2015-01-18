@@ -1,11 +1,11 @@
 #!/bin/sh
-CODE_DIR=xbmcremote
+CODE_DIR=kodimote
 BUILD_DIR=builddir
 USER=phablet
 USER_ID=32011
 PASSWORD=phablet
-PACKAGE=xbmcremote
-BINARY=xbmcremote
+PACKAGE=kodimote
+BINARY=kodimote
 TARGET_IP=${TARGET_IP-127.0.0.1}
 TARGET_SSH_PORT=${TARGET_SSH_PORT-2222}
 TARGET_DEBUG_PORT=3768
@@ -81,20 +81,20 @@ build() {
 build_click_package() {
     exec_with_ssh mkdir -p $CODE_DIR/$BUILD_DIR/install
     exec_with_ssh rm -rf $CODE_DIR/$BUILD_DIR/install/*
-    exec_with_ssh cp $CODE_DIR/$BUILD_DIR/apps/ubuntu/xbmcremote $CODE_DIR/$BUILD_DIR/install
+    exec_with_ssh cp $CODE_DIR/$BUILD_DIR/apps/ubuntu/kodimote $CODE_DIR/$BUILD_DIR/install
     exec_with_ssh cp -r $CODE_DIR/apps/ubuntu/qml $CODE_DIR/$BUILD_DIR/install
     exec_with_ssh cp $CODE_DIR/apps/ubuntu/*.json $CODE_DIR/$BUILD_DIR/install
-    exec_with_ssh cp $CODE_DIR/apps/ubuntu/xbmcremote.desktop $CODE_DIR/$BUILD_DIR/install
-    exec_with_ssh cp $CODE_DIR/apps/ubuntu/xbmcremote.svg $CODE_DIR/$BUILD_DIR/install
-    exec_with_ssh cp $CODE_DIR/apps/ubuntu/xbmcremote80.png $CODE_DIR/$BUILD_DIR/install
+    exec_with_ssh cp $CODE_DIR/apps/ubuntu/kodimote.desktop $CODE_DIR/$BUILD_DIR/install
+    exec_with_ssh cp $CODE_DIR/apps/ubuntu/kodimote.svg $CODE_DIR/$BUILD_DIR/install
+    exec_with_ssh cp $CODE_DIR/apps/ubuntu/kodimote80.png $CODE_DIR/$BUILD_DIR/install
     exec_with_ssh click build $CODE_DIR/$BUILD_DIR/install
     pwd
-    scp -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -P $TARGET_SSH_PORT $USER@$TARGET_IP:/home/phablet/com.ubuntu*xbmcremote*.click .
+    scp -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -P $TARGET_SSH_PORT $USER@$TARGET_IP:/home/phablet/com.ubuntu*kodimote*.click .
 }
 
 run() {
 # FIXME: ubuntu currently seems to have troubles running apps with a non-installed .desktop file
-#    exec_with_ssh "cd $CODE_DIR/apps/ubuntu/ && ../../$BUILD_DIR/apps/ubuntu/$BINARY --desktop_file_hint=$CODE_DIR/apps/ubuntu/xbmcremote.desktop"
+#    exec_with_ssh "cd $CODE_DIR/apps/ubuntu/ && ../../$BUILD_DIR/apps/ubuntu/$BINARY --desktop_file_hint=$CODE_DIR/apps/ubuntu/kodimote.desktop"
     exec_with_ssh "cd $CODE_DIR/apps/ubuntu/ && ../../$BUILD_DIR/apps/ubuntu/$BINARY --desktop_file_hint=/usr/share/applications/dialer-app.desktop"
 }
 

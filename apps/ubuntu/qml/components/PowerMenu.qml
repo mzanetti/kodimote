@@ -20,7 +20,7 @@ Dialog {
             }
         }
         Button {
-            text: qsTr("Quit XBMC")
+            text: qsTr("Quit Kodi")
             width: parent.width
             iconName: "system-log-out"
             onClicked: {
@@ -29,7 +29,7 @@ Dialog {
             }
         }
         Button {
-            text: qsTr("Shutdown XBMC host")
+            text: qsTr("Shutdown Kodi host")
             width: parent.width
             iconName: "system-shutdown"
             visible: kodi.canShutdown
@@ -39,7 +39,7 @@ Dialog {
             }
         }
         Button {
-            text: qsTr("Reboot XBMC host")
+            text: qsTr("Reboot Kodi host")
             iconName: "system-restart"
             width: parent.width
             visible: kodi.canReboot
@@ -49,7 +49,7 @@ Dialog {
             }
         }
         Button {
-            text: qsTr("Suspend XBMC host")
+            text: qsTr("Suspend Kodi host")
             width: parent.width
             iconName: "torch-off"
             visible: kodi.canSuspend
@@ -59,7 +59,7 @@ Dialog {
             }
         }
         Button {
-            text: qsTr("Hibernate XBMC host")
+            text: qsTr("Hibernate Kodi host")
             width: parent.width
             visible: kodi.canHibernate
             iconName: "save"

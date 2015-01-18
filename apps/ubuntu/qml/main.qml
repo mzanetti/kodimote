@@ -161,10 +161,10 @@ MainView {
                         fontSize: "small"
                         width: parent.width
                         wrapMode: Text.WordWrap
-                        text: qsTr("Searching for XBMC hosts.") + "\n" + "\n"
-                              + qsTr("Please enable the following options in the Services settings of XBMC:") + "\n- "
-                              + qsTr("Allow control of XBMC via HTTP") + "\n- "
-                              + qsTr("Allow programs on other systems to control XBMC") + "\n- "
+                        text: qsTr("Searching for Kodi hosts.") + "\n" + "\n"
+                              + qsTr("Please enable the following options in the Services settings of Kodi:") + "\n- "
+                              + qsTr("Allow control of Kodi via HTTP") + "\n- "
+                              + qsTr("Allow programs on other systems to control Kodi") + "\n- "
                               + qsTr("Announce these services to other systems via Zeroconf") + "\n"
                               + qsTr("If you don't use Zeroconf, add a host manually.");
                     }
@@ -202,9 +202,9 @@ MainView {
                     fontSize: "small"
                     width: parent.width
                     wrapMode: Text.WordWrap
-                    text: qsTr("Please enable the following options in the Services settings of XBMC:") + "\n- "
-                          + qsTr("Allow control of XBMC via HTTP") + "\n- "
-                          + qsTr("Allow programs on other systems to control XBMC")
+                    text: qsTr("Please enable the following options in the Services settings of Kodi:") + "\n- "
+                          + qsTr("Allow control of Kodi via HTTP") + "\n- "
+                          + qsTr("Allow programs on other systems to control Kodi")
                 }
 
                 Button{
@@ -535,7 +535,7 @@ MainView {
             id: authDialog
 //            title: qsTr("Add host")
 //            title: hostname
-//            title: qsTr("XBMC on %1 requires authentication:").arg(hostname);
+//            title: qsTr("Kodi on %1 requires authentication:").arg(hostname);
 
             property string hostname
 
@@ -551,7 +551,7 @@ MainView {
                     spacing: units.gu(1)
                     Label {
                         width: parent.width
-                        text: qsTr("XBMC on %1 requires authentication:").arg(hostname);
+                        text: qsTr("Kodi on %1 requires authentication:").arg(hostname);
                         wrapMode: Text.WordWrap
                     }
                     Label {
