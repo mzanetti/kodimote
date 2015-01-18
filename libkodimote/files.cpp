@@ -117,23 +117,27 @@ void Files::playItem(int index)
     }
 
     LibraryItem *item = static_cast<LibraryItem*>(m_list.at(index));
+    PlaylistItem pItem;
     m_player->playlist()->clear();
     if(item->fileType() == "file") {
-        m_player->playlist()->addFile(item->fileName());
+        pItem.setFile(item->fileName());
     } else {
-        m_player->playlist()->addDirectory(item->fileName());
+        pItem.setDirectory(item->fileName());
     }
+    m_player->playlist()->addItems(pItem);
     m_player->playItem(0);
 }
 
 void Files::addToPlaylist(int index)
 {
     LibraryItem *item = static_cast<LibraryItem*>(m_list.at(index));
+    PlaylistItem pItem;
     if(item->fileType() == "file") {
-        m_player->playlist()->addFile(item->fileName());
+        pItem.setFile(item->fileName());
     } else {
-        m_player->playlist()->addDirectory(item->fileName());
+        pItem.setDirectory(item->fileName());
     }
+    m_player->playlist()->addItems(pItem);
 }
 
 QString Files::title() const

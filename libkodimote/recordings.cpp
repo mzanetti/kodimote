@@ -96,7 +96,9 @@ void Recordings::playItem(int index)
 //    item.setRecordingId(m_list.at(index)->data(RoleRecordingId).toInt());
 //    Kodi::instance()->videoPlayer()->playlist()->addItems(item);
 
-    Kodi::instance()->videoPlayer()->playlist()->addFile(m_list.at(index)->data(RoleFileName).toString());
+    PlaylistItem pItem;
+    pItem.setFile(m_list.at(index)->data(RoleFileName).toString());
+    Kodi::instance()->videoPlayer()->playlist()->addItems(pItem);
 
     Kodi::instance()->videoPlayer()->playItem(0);
 }
