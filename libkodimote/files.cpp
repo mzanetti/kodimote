@@ -36,6 +36,13 @@ Files::Files(const QString &mediaType, const QString &dir, KodiModel *parent):
     m_dir(dir),
     m_sort(true)
 {
+    if (mediaType == "music") {
+        m_player = Kodi::instance()->audioPlayer();
+    } else if (mediaType == "video") {
+        m_player = Kodi::instance()->videoPlayer();
+    } else {
+        m_player = Kodi::instance()->picturePlayer();
+    }
 }
 
 void Files::refresh()
@@ -88,16 +95,15 @@ void Files::listReceived(const QVariantMap &rsp)
         list.append(item);
     }
     beginInsertRows(QModelIndex(), 0, list.count() - 1);
-    foreach(KodiModelItem *item, list) {
-        m_list.append(item);
-    }
+    m_list = list;
     endInsertRows();
 }
 
 KodiModel *Files::enterItem(int index)
 {
-    if(m_list.at(index)->data(RoleFileType).toString() == "directory") {
-        return new Files(m_mediaType, m_list.at(index)->data(RoleFileName).toString(), this);
+    LibraryItem *item = static_cast<LibraryItem*>(m_list.at(index));
+    if(item->fileType() == "directory") {
+        return new Files(m_mediaType, item->fileName(), this);
     }
     qDebug() << "cannot enter item of type file";
     return 0;
@@ -105,59 +111,28 @@ KodiModel *Files::enterItem(int index)
 
 void Files::playItem(int index)
 {
-    Player *player;
-    if(m_mediaType == "music") {
-        player = Kodi::instance()->audioPlayer();
-        player->playlist()->clear();
-        if(m_list.at(index)->data(RoleFileType).toString() == "file") {
-            player->playlist()->addFile(m_list.at(index)->data(RoleFileName).toString());
-        } else {
-            player->playlist()->addDirectory(m_list.at(index)->data(RoleFileName).toString());
-        }
-        player->playItem(0);
-    } else if(m_mediaType == "video"){
-        player = Kodi::instance()->videoPlayer();
-        player->playlist()->clear();
-        if(m_list.at(index)->data(RoleFileType).toString() == "file") {
-            player->playlist()->addFile(m_list.at(index)->data(RoleFileName).toString());
-        } else {
-            player->playlist()->addDirectory(m_list.at(index)->data(RoleFileName).toString());
-        }
-        player->playItem(0);
-    } else {
-        player = Kodi::instance()->picturePlayer();
-        player->stop();
-        player->playlist()->clear();
-        if(m_list.at(index)->data(RoleFileType).toString() == "file") {
-            player->playlist()->addFile(m_list.at(index)->data(RoleFileName).toString());
-        } else {
-            player->playlist()->addDirectory(m_list.at(index)->data(RoleFileName).toString());
-        }
-        player->playItem(0);
+    if (m_mediaType == "picture") {
+        m_player->stop();
         QTimer::singleShot(100, Kodi::instance(), SLOT(queryActivePlayers()));
     }
+
+    LibraryItem *item = static_cast<LibraryItem*>(m_list.at(index));
+    m_player->playlist()->clear();
+    if(item->fileType() == "file") {
+        m_player->playlist()->addFile(item->fileName());
+    } else {
+        m_player->playlist()->addDirectory(item->fileName());
+    }
+    m_player->playItem(0);
 }
 
 void Files::addToPlaylist(int index)
 {
-    if(m_mediaType == "music") {
-        if(m_list.at(index)->data(RoleFileType).toString() == "file") {
-            Kodi::instance()->audioPlayer()->playlist()->addFile(m_list.at(index)->data(RoleFileName).toString());
-        } else {
-            Kodi::instance()->audioPlayer()->playlist()->addDirectory(m_list.at(index)->data(RoleFileName).toString());
-        }
-    } else if(m_mediaType == "video") {
-        if(m_list.at(index)->data(RoleFileType).toString() == "file") {
-            Kodi::instance()->videoPlayer()->playlist()->addFile(m_list.at(index)->data(RoleFileName).toString());
-        } else {
-            Kodi::instance()->videoPlayer()->playlist()->addDirectory(m_list.at(index)->data(RoleFileName).toString());
-        }
-    } else if(m_mediaType == "pictures") {
-        if(m_list.at(index)->data(RoleFileType).toString() == "file") {
-            Kodi::instance()->picturePlayer()->playlist()->addFile(m_list.at(index)->data(RoleFileName).toString());
-        } else {
-            Kodi::instance()->picturePlayer()->playlist()->addDirectory(m_list.at(index)->data(RoleFileName).toString());
-        }
+    LibraryItem *item = static_cast<LibraryItem*>(m_list.at(index));
+    if(item->fileType() == "file") {
+        m_player->playlist()->addFile(item->fileName());
+    } else {
+        m_player->playlist()->addDirectory(item->fileName());
     }
 }
 

@@ -23,6 +23,8 @@
 
 #include "kodilibrary.h"
 
+class Player;
+
 class Files : public KodiLibrary
 {
     Q_OBJECT
@@ -46,6 +48,7 @@ protected:
     QString m_mediaType;
     QString m_dir;
     bool m_sort;
+    Player *m_player;
 
     virtual QString parseTitle(const QString &title) const;
     virtual bool filterFile(const QVariantMap &item) const;
