@@ -73,11 +73,6 @@ int sendCommand(const QString &command, const QVariant &params, QObject *callbac
     return instance()->sendCommand(command, params, callbackReceiver, callbackMember);
 }
 
-void sendLegacyCommand(const QString &command)
-{
-   return instance()->sendLegacyCommand(command);
-}
-
 Notifier *notifier()
 {
     return instance()->notifier();
@@ -130,7 +125,6 @@ KodiConnectionPrivate::KodiConnectionPrivate(QObject *parent) :
     QObject::connect(m_connManager, SIGNAL(onlineStateChanged(bool)), SLOT(connect()));
 
     QObject::connect(m_socket, SIGNAL(readyRead()), SLOT(readData()));
-//    QObject::connect(m_socket, SIGNAL(connected()), m_notifier, SIGNAL(connectionChanged()));
     QObject::connect(m_socket, SIGNAL(error(QAbstractSocket::SocketError)), SLOT(socketError()));
     QObject::connect(m_socket, SIGNAL(connected()), SLOT(slotConnected()));
     QObject::connect(m_socket, SIGNAL(disconnected()), SLOT(slotDisconnected()));
@@ -159,6 +153,7 @@ void KodiConnectionPrivate::connect(KodiHost *host)
 
     // Stop the reconnect timer in case someone else triggers the connect
     m_reconnectTimer.stop();
+    closeConnection();
 
     // Don't automatically reconnect when device is offline and no host provided
     // In other words, prevent triggering "connect to network" dialog when the connect isn't user initiated
@@ -169,20 +164,6 @@ void KodiConnectionPrivate::connect(KodiHost *host)
 
     qDebug() << "connecting";
     m_connecting = true;
-
-    if(m_socket->state() == QAbstractSocket::ConnectedState) {
-        m_socket->disconnectFromHost();
-    }
-
-    if(m_socket->state() == QAbstractSocket::ConnectingState) {
-        m_socket->abort();
-    }
-
-    if(m_networkSession) {
-        QObject::disconnect(m_networkSession, SIGNAL(closed()), this, SLOT(sessionLost()));
-        m_networkSession->close();
-        m_networkSession->deleteLater();
-    }
 
     QNetworkConfiguration networkConfig = m_connManager->defaultConfiguration();
     m_networkSession = new QNetworkSession(networkConfig, this);
@@ -229,19 +210,26 @@ void KodiConnectionPrivate::sessionLost()
         return;
     }
 
+    closeConnection();
+}
+
+void KodiConnectionPrivate::closeConnection()
+{
     if(m_socket->state() == QAbstractSocket::ConnectedState) {
         m_socket->disconnectFromHost();
-    }
-    else if(m_socket->state() == QAbstractSocket::ConnectingState) {
+    } else if(m_socket->state() == QAbstractSocket::ConnectingState) {
         m_socket->abort();
     }
 
-    m_connected = false;
-    notifier()->connectionChanged();
+    if(m_networkSession) {
+        m_networkSession->close();
+        m_networkSession->deleteLater();
+        m_networkSession = 0;
+    }
 
-    m_networkSession->close();
-    m_networkSession->deleteLater();
-    m_networkSession = 0;
+    m_connecting = false;
+    m_connected = false;
+    emit notifier()->connectionChanged();
 }
 
 KodiHost* KodiConnectionPrivate::connectedHost()
@@ -259,10 +247,24 @@ void KodiConnectionPrivate::slotConnected()
 {
     koDebug(XDAREA_CONNECTION) << "Connected to remote host. Asking for version...";
 
-    m_versionRequestId = m_commandId++;
-    Command cmd(m_versionRequestId, "JSONRPC.Version");
-    m_commandQueue.prepend(cmd);
-    sendNextCommand2();
+    m_versionRequestId = sendCommand("JSONRPC.Version", QVariant(), this, "versionReceived");
+}
+
+void KodiConnectionPrivate::versionReceived(const QVariantMap &rsp)
+{
+    // If the remote xbmc has the version field not compiled in, assume its the latest known one
+    koDebug(XDAREA_CONNECTION) << "Parsing XBMC version:" << rsp.value("result").toMap().value("version");
+    m_kodiVersionMajor = rsp.value("result").toMap().value("version").toMap().value("major").toInt();
+    if(m_kodiVersionMajor < 6) {
+        qDebug() << "WARNING! XBMC is too old or version field not valid! Some features might not work";
+        m_connectionError = tr("This version of Kodimote is designed to work with XBMC Frodo (v12.0). It seems you have connected to an older version of XMBC. Please upgrade XBMC in order to use Kodimote.");
+    } else {
+        m_connected = true;
+        m_connectionError.clear();
+    }
+    m_connecting = false;
+    emit m_notifier->connectionChanged();
+    m_host->setPersistent(true);
 }
 
 void KodiConnectionPrivate::slotDisconnected()
@@ -271,10 +273,8 @@ void KodiConnectionPrivate::slotDisconnected()
         koDebug(XDAREA_CONNECTION) << "No connection yet, cannot disconnect.";
     }
     koDebug(XDAREA_CONNECTION) << "Disconnected";
-    m_connecting = false;
-    m_connected = false;
     m_connectionError = tr("The connection has been disconnected");
-    emit m_notifier->connectionChanged();
+    closeConnection();
 }
 
 void KodiConnectionPrivate::socketError()
@@ -284,13 +284,13 @@ void KodiConnectionPrivate::socketError()
 
     if(m_socket->state() != QAbstractSocket::ConnectedState) {
         m_connectionError = tr("Connection failed: %1").arg(errorString);
-        emit m_notifier->connectionChanged();
+        closeConnection();
         // silently try to reconnect if the connection failed
         m_reconnectTimer.start();
     }
 }
 
-void KodiConnectionPrivate::sendNextCommand2() {
+void KodiConnectionPrivate::sendNextCommand() {
 
     if(m_currentPendingCommand.id() >= 0 || m_socket->state() != QAbstractSocket::ConnectedState) {
         koDebug(XDAREA_CONNECTION) << "cannot send... busy";
@@ -320,10 +320,8 @@ void KodiConnectionPrivate::sendNextCommand2() {
         QByteArray data = serializer.serialize(map);
 #endif
 
-//        koDebug(XDAREA_CONNECTION) << "ater serializing:" << data;
         QString dataStr = QString::fromLatin1(data);
 #ifdef DEBUGJSON
-//        koDebug(XDAREA_CONNECTION) << "sending command 1" << dataStr;
         koDebug(XDAREA_CONNECTION) << "sending command to" << request.url() << ":" << dataStr.toLocal8Bit();
 #endif
         QNetworkReply * reply = m_network->post(request, data);
@@ -347,9 +345,63 @@ void KodiConnectionPrivate::replyReceived()
     }
 
     koDebug(XDAREA_CONNECTION) << "received reply:" << commands;
+    handleData(commands);
+}
 
-    QStringList commandsList = commands.split("}{");
+int KodiConnectionPrivate::sendCommand(const QString &command, const QVariant &params)
+{
+    if(!(m_connected || m_connecting)) {
+        qDebug() << "Not connected. Discarding command" << command;
+        return -1;
+    }
 
+    int id = m_commandId++;
+    Command cmd(id, command, params);
+    m_commandQueue.append(cmd);
+    sendNextCommand();
+
+    if(m_commandId < 0) {
+        m_commandId = 0;
+    }
+    return id;
+}
+
+int KodiConnectionPrivate::sendCommand(const QString &command, const QVariant &params, QObject *callbackReceiver, const QString &callbackMember)
+{
+    int id = sendCommand(command, params);
+
+    //reply can't be handled until the next event loop iteration,
+    //so it's save to make the call before registering the callback
+    if (id >= 0) {
+        Callback callback(callbackReceiver, callbackMember);
+        m_callbacks.insert(id, callback);
+    }
+
+    return id;
+}
+
+void KodiConnectionPrivate::readData()
+{
+    QByteArray dataArray = m_socket->readAll();
+    QString data(dataArray);
+    koDebug(XDAREA_CONNECTION) << "<<<<<<<<<<<< Received:" << dataArray;
+    m_socket->waitForReadyRead(10);
+    while(!(data.endsWith("}") || data.endsWith("}\n") || data.isEmpty())) {
+        koDebug(XDAREA_CONNECTION) << "***********************************";
+        koDebug(XDAREA_CONNECTION) << data;
+        koDebug(XDAREA_CONNECTION) << "data seems to be unfinished... rading more";
+        m_socket->waitForReadyRead(100);
+        QString tmp = m_socket->readAll();
+        data.append(tmp);
+        koDebug(XDAREA_CONNECTION) << tmp;
+        koDebug(XDAREA_CONNECTION) << ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>><";
+    }
+    handleData(data);
+}
+
+void KodiConnectionPrivate::handleData(const QString &data)
+{
+    QStringList commandsList = data.split("}{");
     for(int i = 0; i < commandsList.count(); ++i) {
         QString lineData = commandsList.at(i);
         if(lineData.isEmpty()) {
@@ -362,7 +414,6 @@ void KodiConnectionPrivate::replyReceived()
         if(i > 0) {
             lineData.prepend("{");
         }
-
         QVariantMap rsp;
 
 #ifdef QT5_BUILD
@@ -384,44 +435,13 @@ void KodiConnectionPrivate::replyReceived()
             return;
         }
 #endif
-
         koDebug(XDAREA_NETWORKDATA) << ">>> Incoming:" << rsp;
 
-        if(rsp.value("id").toInt() == m_versionRequestId) {
-            // If the remote kodi has the version field not compiled in, assume its the latest known one
-            koDebug(XDAREA_CONNECTION) << "Parsing XBMC version:" << rsp.value("result").toMap().value("version");
-            m_kodiVersionMajor = rsp.value("result").toMap().value("version").toMap().value("major").toInt();
-            if(m_kodiVersionMajor < 6) {
-                qDebug() << "WARNING! XBMC is too old or version field not valid! Some features might not work";
-                m_connected = false;
-                m_connectionError = tr("This version of Kodimote is designed to work with XBMC Frodo (v12.0). It seems you have connected to an older version of XMBC. Please upgrade XBMC in order to use Kodimote.");
-            } else {
-                m_timeoutTimer.stop();
-                m_currentPendingCommand = Command();
-                sendNextCommand2();
-                m_connected = true;
-                m_connectionError.clear();
-            }
-            m_connecting = false;
-            emit m_notifier->connectionChanged();
-            m_host->setPersistent(true);
-            continue;
-        }
-
-        if(rsp.value("params").toMap().value("sender").toString() == "kodi") {
+        if(rsp.value("params").toMap().value("sender").toString() == "xbmc") {
             koDebug(XDAREA_CONNECTION) << ">>> received announcement" << rsp;
             emit m_notifier->receivedAnnouncement(rsp);
             continue;
         }
-
-        int id = rsp.value("id").toInt();
-        if( id < 0) {
-            koDebug(XDAREA_CONNECTION) << "received unhandled data" << commands;
-            continue;
-        }
-
-
-        koDebug(XDAREA_CONNECTION) << ">>> received response" << rsp.value("result");
 
         if(rsp.contains("error")) {
             koDebug(XDAREA_GENERAL) << "Error reply received:";
@@ -429,183 +449,24 @@ void KodiConnectionPrivate::replyReceived()
             koDebug(XDAREA_GENERAL) << "Reply: " << lineData;
         }
 
-        if(m_callbacks.contains(id)) {
-            Callback callback = m_callbacks.take(id);
-            if(!callback.receiver().isNull()) {
-                QMetaObject::invokeMethod(callback.receiver().data(), callback.member().toLocal8Bit(), Qt::DirectConnection, Q_ARG(const QVariantMap&, rsp));
-            }
-        }
-
-        if(m_currentPendingCommand.id() == id) {
-//            m_commandQueue.removeFirst();
-            m_timeoutTimer.stop();
-            m_currentPendingCommand = Command();
-        }
-        sendNextCommand2();
-        continue;
-    }
-}
-
-int KodiConnectionPrivate::sendCommand(const QString &command, const QVariant &params)
-{
-    if(!(m_connected || m_connecting)) {
-        qDebug() << "Not connected. Discarding command" << command;
-        return -1;
-    }
-
-    int id = m_commandId++;
-    Command cmd(id, command, params);
-    m_commandQueue.append(cmd);
-    sendNextCommand2();
-
-    if(m_commandId < 0) {
-        m_commandId = 0;
-    }
-    return id;
-}
-
-int KodiConnectionPrivate::sendCommand(const QString &command, const QVariant &params, QObject *callbackReceiver, const QString &callbackMember)
-{
-    if(!(m_connected || m_connecting)) {
-        qDebug() << "Not connected. Discarding command" << command;
-        return -1;
-    }
-
-    int id = m_commandId++;
-
-    Callback callback(callbackReceiver, callbackMember);
-    m_callbacks.insert(id, callback);
-
-    Command cmd(id, command, params);
-    m_commandQueue.append(cmd);
-    sendNextCommand2();
-
-    if(m_commandId < 0) {
-        m_commandId = 0;
-    }
-    return id;
-}
-
-void KodiConnectionPrivate::sendLegacyCommand(const QString &command)
-{
-    QNetworkRequest request;
-    request.setUrl(QUrl("http://" + m_host->address() + ':' + QString::number(m_host->port()) + "/kodiCmds/kodiHttp?command=" + command));
-    qDebug() << "sending legacy command:" << request.url().toString();
-    QNetworkReply *reply = m_network->get(request);
-    QObject::connect(reply, SIGNAL(finished()), reply, SLOT(deleteLater()));
-}
-
-void KodiConnectionPrivate::sendNextCommand()
-{
-    if(m_currentPendingCommand.id() >= 0 || m_socket->state() != QAbstractSocket::ConnectedState) {
-//        koDebug(XDAREA_CONNECTION) << "cannot send... busy";
-        return;
-    }
-    if(m_commandQueue.count() > 0) {
-        Command command = m_commandQueue.takeFirst();
-
-        QVariantMap map;
-        map.insert("jsonrpc", "2.0");
-        map.insert("method", command.command());
-        map.insert("id", command.id());
-
-        if(!command.params().isNull()) {
-            map.insert("params", command.params());
-        }
-
-#ifdef QT5_BUILD
-        QJsonDocument jsonDoc = QJsonDocument::fromVariant(map);
-        QByteArray data = jsonDoc.toJson();
-#else
-        QJson::Serializer serializer;
-        QByteArray data = serializer.serialize(map);
-#endif
-//        koDebug(XDAREA_CONNECTION) << "ater serializing:" << data;
-        QString dataStr = QString::fromLatin1(data);
-#ifdef DEBUGJSON
-//        koDebug(XDAREA_CONNECTION) << "sending command 1" << dataStr;
-        koDebug(XDAREA_CONNECTION) << "sending command" << dataStr.toLocal8Bit();
-#endif
-        m_socket->write(data);
-        m_currentPendingCommand = command;
-        m_timeoutTimer.start();
-    }
-}
-
-void KodiConnectionPrivate::readData()
-{
-//    QString data = QString::fromUtf8(m_socket->readAll());
-    QByteArray dataArray = m_socket->readAll();
-    QString data(dataArray);
-    koDebug(XDAREA_CONNECTION) << "<<<<<<<<<<<< Received:" << dataArray;
-    m_socket->waitForReadyRead(10);
-    while(!(data.endsWith("}") || data.endsWith("}\n") || data.isEmpty())) {
-        koDebug(XDAREA_CONNECTION) << "***********************************";
-        koDebug(XDAREA_CONNECTION) << data;
-        koDebug(XDAREA_CONNECTION) << "data seems to be unfinished... rading more";
-        m_socket->waitForReadyRead(100);
-        QString tmp = m_socket->readAll();
-        data.append(tmp);
-        koDebug(XDAREA_CONNECTION) << tmp;
-        koDebug(XDAREA_CONNECTION) << ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>><";
-    }
-    QStringList commandsList = data.split("}{");
-    for(int i = 0; i < commandsList.count(); ++i) {
-        QString lineData = commandsList.at(i);
-        if(lineData.isEmpty()) {
-            continue;
-        }
-        // if we split at }{ the braces are removed... so lets add them again
-        if(i < commandsList.count() - 1) {
-            lineData.append("}");
-        }
-        if(i > 0) {
-            lineData.prepend("{");
-        }
-        QVariantMap rsp;
-
-#ifdef QT5_BUILD
-        QJsonParseError error;
-        QJsonDocument jsonDoc = QJsonDocument::fromJson(lineData.toLocal8Bit(), &error);
-
-        if(error.error != QJsonParseError::NoError) {
-            koDebug(XDAREA_CONNECTION) << "failed to parse data" << lineData << ":" << error.errorString();
-            return;
-        }
-        rsp = jsonDoc.toVariant().toMap();
-#else
-        QJson::Parser parser;
-        bool ok;
-        rsp = parser.parse(lineData.toAscii(), &ok).toMap();
-        if(!ok) {
-            koDebug(XDAREA_CONNECTION) << "data is" << lineData;
-            qFatal("failed parsing.");
-            return;
-        }
-#endif
-        koDebug(XDAREA_CONNECTION) << ">>> Incoming:" << data;
-
-        if(rsp.value("params").toMap().value("sender").toString() == "xbmc") {
-            koDebug(XDAREA_CONNECTION) << ">>> received announcement" << rsp;
-            emit m_notifier->receivedAnnouncement(rsp);
-            continue;
-        }
-        int id = rsp.value("id").toInt();
-        if(m_callbacks.contains(id)) {
-            Callback callback = m_callbacks.take(id);
-            if(!callback.receiver().isNull()) {
-                QMetaObject::invokeMethod(callback.receiver().data(), callback.member().toLocal8Bit(), Qt::DirectConnection, Q_ARG(const QVariantMap&, rsp));
+        if (rsp.contains("id")) {
+            int id = rsp.value("id").toInt();
+            if(m_callbacks.contains(id)) {
+                Callback callback = m_callbacks.take(id);
+                if(!callback.receiver().isNull()) {
+                    QMetaObject::invokeMethod(callback.receiver().data(), callback.member().toLocal8Bit(), Qt::DirectConnection, Q_ARG(const QVariantMap&, rsp));
+                }
             }
 
             if(m_currentPendingCommand.id() == id) {
-//                m_commandQueue.removeFirst();
                 m_timeoutTimer.stop();
                 m_currentPendingCommand = Command();
             }
-            sendNextCommand2();
+
+            sendNextCommand();
             continue;
         }
-        koDebug(XDAREA_CONNECTION) << "received unhandled data" << data;
+        koDebug(XDAREA_CONNECTION) << "received unknown data" << data;
     }
 }
 
@@ -619,7 +480,7 @@ void KodiConnectionPrivate::clearPending()
         m_commandQueue.clear();
     }
     m_currentPendingCommand = Command();
-    sendNextCommand2();
+    sendNextCommand();
 }
 
 Notifier *KodiConnectionPrivate::notifier()
@@ -704,7 +565,6 @@ void KodiConnectionPrivate::downloadProgress(qint64 progress, qint64 total)
 {
     QNetworkReply *reply = static_cast<QNetworkReply*>(sender());
     KodiDownload *download = m_activeDownloadsMap.value(reply);
-//    qDebug() << "updating progress:" << progress << "/" << total;
     download->setTotal(total);
     download->setProgress(progress);
 }
@@ -768,7 +628,6 @@ void KodiConnectionPrivate::authenticationRequired(QNetworkReply *reply, QAuthen
         m_connectionError = "Wrong username or password";
         m_lastAuthRequest = 0;
         m_host->setPassword(QString());
-//        emit m_notifier->authenticationRequired(m_host->hostname(), m_host->address());
     }
     if(!m_host->username().isEmpty() && !m_host->password().isEmpty()) {
         authenticator->setUser(m_host->username());

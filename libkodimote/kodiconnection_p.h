@@ -90,7 +90,6 @@ public:
 
     int sendCommand(const QString &command, const QVariant &parms = QVariant());
     int sendCommand(const QString &command, const QVariant &params, QObject *callbackReceiver, const QString &callbackMember);
-    void sendLegacyCommand(const QString &command);
 
     QNetworkAccessManager *nam();
     Notifier *notifier();
@@ -108,6 +107,7 @@ private slots:
     void slotDisconnected();
     void internalConnect();
     void sessionLost();
+    void versionReceived(const QVariantMap &rsp);
 
     void replyReceived();
     void authenticationRequired(QNetworkReply *reply, QAuthenticator *authenticator);
@@ -133,7 +133,8 @@ private:
     QTimer m_reconnectTimer;
 
     void sendNextCommand();
-    void sendNextCommand2();
+    void handleData(const QString &data);
+    void closeConnection();
 
     KodiHost *m_host;
 
