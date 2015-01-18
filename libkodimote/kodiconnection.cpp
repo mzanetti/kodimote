@@ -126,6 +126,7 @@ KodiConnectionPrivate::KodiConnectionPrivate(QObject *parent) :
     m_host(0),
     m_connecting(false),
     m_connected(false),
+    m_disconnecting(false),
     m_networkSession(0)
 {
     m_socket = new QTcpSocket();
@@ -230,6 +231,7 @@ void KodiConnectionPrivate::sessionLost()
 void KodiConnectionPrivate::closeConnection(bool reconnect)
 {
     if(m_socket->state() == QAbstractSocket::ConnectedState) {
+        m_disconnecting = true;
         m_socket->disconnectFromHost();
     } else if(m_socket->state() == QAbstractSocket::ConnectingState) {
         m_socket->abort();
@@ -243,9 +245,9 @@ void KodiConnectionPrivate::closeConnection(bool reconnect)
 
     if (reconnect && m_active) {
         m_reconnectTimer.start();
+        m_connecting = true;
     }
 
-    m_connecting = true;
     m_connected = false;
     emit notifier()->connectionChanged();
 }
@@ -292,7 +294,8 @@ void KodiConnectionPrivate::slotDisconnected()
     }
     koDebug(XDAREA_CONNECTION) << "Disconnected";
     m_connectionError = tr("The connection has been disconnected");
-    closeConnection();
+    closeConnection(!m_disconnecting);
+    m_disconnecting = false;
 }
 
 void KodiConnectionPrivate::socketError()
@@ -361,9 +364,8 @@ void KodiConnectionPrivate::replyReceived()
     QString commands = reply->readAll();
 
     if(reply->error() != QNetworkReply::NoError) {
-        m_socket->disconnectFromHost();
         m_connectionError = tr("Connection failed: %1").arg(reply->errorString());
-        emit m_notifier->connectionChanged();
+        closeConnection();
     }
 
     koDebug(XDAREA_CONNECTION) << "received reply:" << commands;
@@ -639,7 +641,7 @@ QString KodiConnectionPrivate::connectionError()
 
 void KodiConnectionPrivate::disconnectFromHost()
 {
-    m_socket->disconnectFromHost();
+    closeConnection(false);
     m_host = 0;
 }
 

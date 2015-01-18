@@ -150,6 +150,7 @@ private:
     QNetworkReply *m_lastAuthRequest;
     bool m_connecting;
     bool m_connected;
+    bool m_disconnecting;
     QString m_connectionError;
     QMap<int, Callback> m_callbacks;
     QNetworkConfigurationManager *m_connManager;
