@@ -71,7 +71,8 @@ SOURCES +=  kodi.cpp \
 	    channelbroadcasts.cpp \
 	    recordings.cpp \
 	    pvrmenu.cpp \
-            kodihost.cpp
+            kodihost.cpp \
+            addonsource.cpp
 
 HEADERS += libkodimote_global.h \
            kodi.h \
@@ -125,4 +126,5 @@ HEADERS += libkodimote_global.h \
 	   channelbroadcasts.h \
 	   recordings.h \
 	   pvrmenu.h \
-           kodihost.h
+           kodihost.h \
+           addonsource.h

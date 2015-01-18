@@ -26,6 +26,7 @@
 #include "recentitems.h"
 #include "kodiconnection.h"
 #include "libraryitem.h"
+#include "addonsource.h"
 
 AudioLibrary::AudioLibrary() :
     KodiLibrary(0)
@@ -60,6 +61,11 @@ AudioLibrary::AudioLibrary() :
     item->setFileType("directory");
     item->setPlayable(false);
     m_list.append(item);
+
+    item = new LibraryItem(tr("Music Add-ons"), QString(), this);
+    item->setFileType("directory");
+    item->setPlayable(false);
+    m_list.append(item);
 }
 
 KodiModel *AudioLibrary::enterItem(int index)
@@ -77,6 +83,8 @@ KodiModel *AudioLibrary::enterItem(int index)
         return new RecentItems(RecentItems::ModeAudio, RecentItems::RecentlyAdded, this);
     case 5:
         return new RecentItems(RecentItems::ModeAudio, RecentItems::RecentlyPlayed, this);
+    case 6:
+        return new AddonSource(tr("Music Add-ons"), "music", "addons://sources/audio", this);
     }
     return 0;
 }

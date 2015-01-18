@@ -42,9 +42,12 @@ public slots:
 private slots:
     void listReceived(const QVariantMap &rsp);
 
-private:
+protected:
     QString m_mediaType;
     QString m_dir;
+    bool m_sort;
+
+    virtual QString parseTitle(const QString &title) const;
 };
 
 #endif // FILES_H

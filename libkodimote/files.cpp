@@ -33,7 +33,8 @@
 Files::Files(const QString &mediaType, const QString &dir, KodiModel *parent):
     KodiLibrary(parent),
     m_mediaType(mediaType),
-    m_dir(dir)
+    m_dir(dir),
+    m_sort(true)
 {
 }
 
@@ -50,11 +51,13 @@ void Files::refresh()
     }
     params.insert("properties", properties);
 
-    QVariantMap sort;
-    sort.insert("method", "label");
-    sort.insert("order", "ascending");
-    sort.insert("ignorearticle", ignoreArticle());
-    params.insert("sort", sort);
+    if (m_sort) {
+        QVariantMap sort;
+        sort.insert("method", "label");
+        sort.insert("order", "ascending");
+        sort.insert("ignorearticle", ignoreArticle());
+        params.insert("sort", sort);
+    }
 
     KodiConnection::sendCommand("Files.GetDirectory", params, this, "listReceived");
 }
@@ -68,7 +71,7 @@ void Files::listReceived(const QVariantMap &rsp)
     foreach(const QVariant &itemVariant, responseList) {
         QVariantMap itemMap = itemVariant.toMap();
         LibraryItem *item = new LibraryItem(this);
-        item->setTitle(itemMap.value("label").toString());
+        item->setTitle(parseTitle(itemMap.value("label").toString()));
         item->setFileType(itemMap.value("filetype").toString());
         item->setFileName(itemMap.value("file").toString());
         if(m_mediaType == "pictures") {
@@ -180,4 +183,9 @@ void Files::download(int index, const QString &path)
     download->setLabel(item->title());
 
     startDownload(index, download);
+}
+
+QString Files::parseTitle(const QString &title) const
+{
+    return title;
 }
