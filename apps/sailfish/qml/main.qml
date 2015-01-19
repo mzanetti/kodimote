@@ -151,29 +151,14 @@ ApplicationWindow
     Connections {
         target: kodi.keys()
         onInputRequested: {
-            if (type === "date") {
-                appWindow.inputDialog = datePickerComponent.createObject(appWindow);
-            } else if (type === "time") {
-                appWindow.inputDialog = timePickerComponent.createObject(appWindow);
+            if (pageStack.busy) {
+                delayedInputDialog.title = title
+                delayedInputDialog.type = type;
+                delayedInputDialog.value = value;
+                delayedInputDialog.start();
             } else {
-                appWindow.inputDialog = inputComponent.createObject(appWindow);
-                appWindow.inputDialog.title = title;
-
-                if (type === "number" || type === "numericpassword" || type === "seconds") {
-                    appWindow.inputDialog.inputMethodHints = Qt.ImhDigitsOnly;
-                }
+                showInputDialog(title, type, value);
             }
-
-            appWindow.inputDialog.initialValue = value;
-            appWindow.inputDialog.accepted.connect(function() {
-                var value = appWindow.inputDialog.value;
-                console.log("Sending text: " + value)
-                kodi.keys().sendText(value);
-            });
-            appWindow.inputDialog.rejected.connect(function() {
-                kodi.keys().previousMenu();
-            });
-            appWindow.inputDialog.open();
         }
         onInputFinished: {
             if (appWindow.inputDialog) {
@@ -181,5 +166,49 @@ ApplicationWindow
                 appWindow.inputDialog = null;
             }
         }
+    }
+
+    Timer {
+        id: delayedInputDialog
+        interval: 10
+        repeat: true
+        running: false
+        onTriggered: {
+            if (pageStack.busy) {
+                return;
+            }
+
+            stop();
+            showInputDialog(title, type, value);
+        }
+        property string title
+        property string type
+        property string value
+    }
+
+    function showInputDialog(title, type, value) {
+        if (type === "date") {
+            appWindow.inputDialog = datePickerComponent.createObject(appWindow);
+        } else if (type === "time") {
+            appWindow.inputDialog = timePickerComponent.createObject(appWindow);
+        } else {
+            appWindow.inputDialog = inputComponent.createObject(appWindow);
+            appWindow.inputDialog.title = title;
+
+            if (type === "number" || type === "numericpassword" || type === "seconds") {
+                appWindow.inputDialog.inputMethodHints = Qt.ImhDigitsOnly;
+            }
+        }
+
+        appWindow.inputDialog.initialValue = value;
+        appWindow.inputDialog.accepted.connect(function() {
+            var value = appWindow.inputDialog.value;
+            console.log("Sending text: " + value)
+            kodi.keys().sendText(value);
+        });
+        appWindow.inputDialog.rejected.connect(function() {
+            kodi.keys().previousMenu();
+        });
+        appWindow.inputDialog.open();
     }
 }
