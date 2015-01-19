@@ -70,6 +70,10 @@ void Files::listReceived(const QVariantMap &rsp)
     QVariantList responseList = rsp.value("result").toMap().value("files").toList();
     foreach(const QVariant &itemVariant, responseList) {
         QVariantMap itemMap = itemVariant.toMap();
+        if (!filterFile(itemMap)) {
+            continue;
+        }
+
         LibraryItem *item = new LibraryItem(this);
         item->setTitle(parseTitle(itemMap.value("label").toString()));
         item->setFileType(itemMap.value("filetype").toString());
@@ -188,4 +192,9 @@ void Files::download(int index, const QString &path)
 QString Files::parseTitle(const QString &title) const
 {
     return title;
+}
+
+bool Files::filterFile(const QVariantMap &) const
+{
+    return true;
 }

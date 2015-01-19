@@ -48,6 +48,7 @@ protected:
     bool m_sort;
 
     virtual QString parseTitle(const QString &title) const;
+    virtual bool filterFile(const QVariantMap &item) const;
 };
 
 #endif // FILES_H

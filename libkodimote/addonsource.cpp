@@ -27,3 +27,8 @@ QString AddonSource::parseTitle(const QString &title) const
 {
     return QString(title).replace(QRegExp("\\[/?\\w\\]"), "");
 }
+
+bool AddonSource::filterFile(const QVariantMap &item) const
+{
+    return !item.value("file").toString().startsWith("addons://more/");
+}

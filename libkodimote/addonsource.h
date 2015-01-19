@@ -14,6 +14,7 @@ public:
 
 protected:
     QString parseTitle(const QString &title) const;
+    bool filterFile(const QVariantMap &item) const;
 
 private:
     QString m_title;
