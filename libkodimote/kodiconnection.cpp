@@ -168,6 +168,8 @@ void KodiConnectionPrivate::connect(KodiHost *host)
 
     // Stop the reconnect timer in case someone else triggers the connect
     m_reconnectTimer.stop();
+
+    m_connecting = true;
     closeConnection(false);
 
     // Don't automatically reconnect when device is offline and no host provided
@@ -177,8 +179,7 @@ void KodiConnectionPrivate::connect(KodiHost *host)
         return;
     }
 
-    qDebug() << "connecting";
-    m_connecting = true;
+    koDebug(XDAREA_CONNECTION) << "Start connecting to host";
 
     QNetworkConfiguration networkConfig = m_connManager->defaultConfiguration();
     m_networkSession = new QNetworkSession(networkConfig, this);
