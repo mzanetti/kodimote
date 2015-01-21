@@ -49,6 +49,12 @@ MainView {
         kodi.volumeDown();
     }
 
+    Binding {
+        target: kodi
+        property: "active"
+        value: Qt.application.active
+    }
+
     Loader {
         anchors.fill: parent
         sourceComponent: kodi.connected ? mainComponent : noConnectionComponent
