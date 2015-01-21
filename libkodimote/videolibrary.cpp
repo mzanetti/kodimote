@@ -25,6 +25,7 @@
 #include "recentitems.h"
 #include "kodiconnection.h"
 #include "libraryitem.h"
+#include "addonsource.h"
 
 VideoLibrary::VideoLibrary(KodiModel *parent) :
     KodiLibrary(parent)
@@ -49,6 +50,11 @@ VideoLibrary::VideoLibrary(KodiModel *parent) :
     item->setFileType("directory");
     item->setPlayable(false);
     m_list.append(item);
+
+    item = new LibraryItem(tr("Video Add-ons"), QString(), this);
+    item->setFileType("directory");
+    item->setPlayable(false);
+    m_list.append(item);
 }
 
 KodiModel *VideoLibrary::enterItem(int index)
@@ -62,6 +68,8 @@ KodiModel *VideoLibrary::enterItem(int index)
         return new MusicVideos(false, this);
     case 3:
         return new RecentItems(RecentItems::ModeVideo, RecentItems::RecentlyAdded, this);
+    case 4:
+        return new AddonSource(tr("Video Add-ons"), "video", "addons://sources/video", this);
     }
     return 0;
 }
