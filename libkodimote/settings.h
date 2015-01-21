@@ -36,8 +36,6 @@ class Settings : public QObject
     Q_PROPERTY(bool pauseMusicOnCall READ pauseMusicOnCall WRITE setPauseMusicOnCall NOTIFY pauseMusicOnCallChanged)
     Q_PROPERTY(bool keepDisplayLit READ keepDisplayLit WRITE setKeepDisplayLit NOTIFY keepDisplayLitChanged)
     Q_PROPERTY(bool showCallNotifications READ showCallNotifications WRITE setShowCallNotifications NOTIFY showCallNotificationsChanged)
-    Q_PROPERTY(bool musicShowsFiles READ musicShowsFiles WRITE setMusicShowsFiles NOTIFY musicShowsFilesChanged)
-    Q_PROPERTY(bool videoShowsFiles READ videoShowsFiles WRITE setVideoShowsFiles NOTIFY videoShowsFilesChanged)
     Q_PROPERTY(bool musicEnabled READ musicEnabled WRITE setMusicEnabled NOTIFY musicEnabledChanged)
     Q_PROPERTY(bool videosEnabled READ videosEnabled WRITE setVideosEnabled NOTIFY videosEnabledChanged)
     Q_PROPERTY(bool picturesEnabled READ picturesEnabled WRITE setPicturesEnabled NOTIFY picturesEnabledChanged)
@@ -74,12 +72,6 @@ public:
     bool keepDisplayLit() const;
     void setKeepDisplayLit(bool keepLit);
 
-    bool musicShowsFiles() const;
-    void setMusicShowsFiles(bool showFiles);
-
-    bool videoShowsFiles() const;
-    void setVideoShowsFiles(bool showFiles);
-
     bool musicEnabled() const;
     void setMusicEnabled(bool enabled);
 
@@ -107,8 +99,6 @@ signals:
     void pauseMusicOnCallChanged();
     void keepDisplayLitChanged();
     void showCallNotificationsChanged();
-    void musicShowsFilesChanged();
-    void videoShowsFilesChanged();
     void musicEnabledChanged();
     void videosEnabledChanged();
     void picturesEnabledChanged();
