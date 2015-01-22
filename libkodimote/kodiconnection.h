@@ -45,6 +45,7 @@ void setActive(bool active);
 
 int sendCommand(const QString &command, const QVariant &params = QVariant());
 int sendCommand(const QString &command, const QVariant &params, QObject *callbackReceiver, const QString &callbackMember);
+int sendParallelCommand(const QString &command, const QVariant &params, QObject *callbackReceiver, const QString &callbackMember);
 
 QNetworkAccessManager *nam();
 

@@ -93,6 +93,7 @@ public:
 
     int sendCommand(const QString &command, const QVariant &parms = QVariant());
     int sendCommand(const QString &command, const QVariant &params, QObject *callbackReceiver, const QString &callbackMember);
+    int sendParallelCommand(const QString &command, const QVariant &params, QObject *callbackReceiver, const QString &callbackMember);
 
     QNetworkAccessManager *nam();
     Notifier *notifier();
@@ -143,6 +144,7 @@ private:
     void handleData(const QString &data);
     void closeConnection(bool reconnect = true);
     QByteArray buildJsonPayload(const Command &command);
+    QByteArray sendRequest(const Command &command);
 
     KodiHost *m_host;
 

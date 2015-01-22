@@ -83,6 +83,11 @@ int sendCommand(const QString &command, const QVariant &params, QObject *callbac
     return instance()->sendCommand(command, params, callbackReceiver, callbackMember);
 }
 
+int sendParallelCommand(const QString &command, const QVariant &params, QObject *callbackReceiver, const QString &callbackMember)
+{
+    return instance()->sendParallelCommand(command, params, callbackReceiver, callbackMember);
+}
+
 Notifier *notifier()
 {
     return instance()->notifier();
@@ -319,22 +324,29 @@ void KodiConnectionPrivate::sendNextCommand() {
     if(m_commandQueue.count() > 0) {
         Command command = m_commandQueue.takeFirst();
 
-        QNetworkRequest request;
-        request.setUrl(QUrl("http://" + m_host->address() + ":" + QString::number(m_host->port()) + "/jsonrpc"));
-        request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
-
-        QByteArray data = buildJsonPayload(command);
-
-        QString dataStr = QString::fromLatin1(data);
-#ifdef DEBUGJSON
-        koDebug(XDAREA_CONNECTION) << "sending command to" << request.url() << ":" << dataStr.toLocal8Bit();
-#endif
-        QNetworkReply * reply = m_network->post(request, data);
-        QObject::connect(reply, SIGNAL(finished()), SLOT(replyReceived()));
+        QByteArray data = sendRequest(command);
 
         m_currentPendingCommand = Command(command.id(), command.command(), command.params(), data);
         m_timeoutTimer.start();
     }
+}
+
+QByteArray KodiConnectionPrivate::sendRequest(const Command &command)
+{
+    QNetworkRequest request;
+    request.setUrl(QUrl("http://" + m_host->address() + ":" + QString::number(m_host->port()) + "/jsonrpc"));
+    request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
+
+    QByteArray data = buildJsonPayload(command);
+
+    QString dataStr = QString::fromLatin1(data);
+#ifdef DEBUGJSON
+    koDebug(XDAREA_CONNECTION) << "sending command to" << request.url() << ":" << dataStr.toLocal8Bit();
+#endif
+    QNetworkReply * reply = m_network->post(request, data);
+    QObject::connect(reply, SIGNAL(finished()), SLOT(replyReceived()));
+
+    return data;
 }
 
 QByteArray KodiConnectionPrivate::buildJsonPayload(const Command &command)
@@ -394,6 +406,27 @@ int KodiConnectionPrivate::sendCommand(const QString &command, const QVariant &p
 int KodiConnectionPrivate::sendCommand(const QString &command, const QVariant &params, QObject *callbackReceiver, const QString &callbackMember)
 {
     int id = sendCommand(command, params);
+
+    //reply can't be handled until the next event loop iteration,
+    //so it's save to make the call before registering the callback
+    if (id >= 0) {
+        Callback callback(callbackReceiver, callbackMember);
+        m_callbacks.insert(id, callback);
+    }
+
+    return id;
+}
+
+int KodiConnectionPrivate::sendParallelCommand(const QString &command, const QVariant &params, QObject *callbackReceiver, const QString &callbackMember)
+{
+    if(!(m_connected || m_connecting)) {
+        qDebug() << "Not connected. Discarding command" << command;
+        return -1;
+    }
+
+    int id = m_commandId++;
+    Command cmd(id, command, params);
+    sendRequest(cmd);
 
     //reply can't be handled until the next event loop iteration,
     //so it's save to make the call before registering the callback
