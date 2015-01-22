@@ -33,12 +33,6 @@ KodiPage {
     property int spacing
 
     Component.onCompleted: {
-        if(settings.musicShowsFiles) {
-           mainMenuModel.setProperty(0, "mode", "files");
-        }
-        if(settings.videoShowsFiles) {
-            mainMenuModel.setProperty(1, "mode", "files");
-        }
         populateMainMenu();
     }
 
@@ -48,25 +42,21 @@ KodiPage {
         ListElement {
             icon: "icon-m-content-audio"
             subtitle: ""
-            mode: "library"
             target: "music"
         }
         ListElement {
             icon: "icon-m-content-videos"
             subtitle: ""
-            mode: "library"
             target: "videos"
         }
         ListElement {
             icon: "icon-m-content-image"
             subtitle: ""
-            mode: "files"
             target: "pictures"
         }
         ListElement {
             icon: "icon-m-content-image"
             subtitle: ""
-            mode: "library"
             target: "tv"
         }
     }
@@ -173,38 +163,17 @@ KodiPage {
                 "
             }
 
-            Row {
-                id: textRow
-                anchors.fill: parent
-                height: 150
-                spacing: units.gu(4)
-                anchors.margins: units.gu(4)
-
-
-                Image {
-                    id: toolIcon
-                    anchors.verticalCenter: parent.verticalCenter
-//                    source: "image://theme/" + icon + (theme.inverted ? "-inverse" : "")
+            Label {
+                anchors {
+                    left: parent.left
+                    leftMargin: units.gu(4)
+                    verticalCenter: parent.verticalCenter
                 }
-
-                Column {
-                    anchors.verticalCenter: parent.verticalCenter
-
-                    Label {
-                        id: mainText
-                        text: listView.model.title(index)
-                        font.weight: Font.Bold
-                        fontSize: "large"
-                        color: "white"
-                    }
-
-                    Label {
-                        id: subText
-                        text: mode === "library" ? qsTr("Library") : qsTr("Files")
-                        visible: target == "music" || target == "videos"
-                        color: "white"
-                    }
-                }
+                id: mainText
+                text: listView.model.title(index)
+                font.weight: Font.Bold
+                fontSize: "large"
+                color: "white"
             }
 
             MouseArea {
@@ -219,22 +188,7 @@ KodiPage {
                         var popover = openLongTapMenu(listItem, index)
                         popover.selected.connect(function(actionId) {
                             switch (actionId) {
-                            case 0:
-                                mainMenuModel.get(index).mode = "files"
-                                if (mainMenuModel.get(index).target === "music") {
-                                    settings.musicShowsFiles = true;
-                                } else if (mainMenuModel.get(index).target === "videos") {
-                                    settings.videosShowsFiles = true;
-                                }
-                                break;
-                            case 1:
-                                mainMenuModel.get(index).mode = "library"
-                                if (mainMenuModel.get(index).target === "music") {
-                                    settings.musicShowsFiles = false;
-                                } else if (mainMenuModel.get(index).target === "videos") {
-                                    settings.videosShowsFiles = false;
-                                }
-                            case 2:
+                            case "rescan":
                                 var lib = kodi.audioLibrary();
                                 if (index == 0) {
                                     lib = kodi.audioLibrary();
@@ -244,7 +198,7 @@ KodiPage {
                                 lib.scanForContent();
                                 lib.exit();
                                 break;
-                            case 3:
+                            case "clean":
                                 var lib = kodi.audioLibrary();
                                 if (index == 0) {
                                     lib = kodi.audioLibrary();
@@ -266,18 +220,10 @@ KodiPage {
                     if (component.status === Component.Ready) {
                         switch(mainMenuModel.get(index).target) {
                         case "music":
-                            if(mode === "library") {
-                                newModel = kodi.audioLibrary();
-                            } else {
-                                newModel = kodi.shares("music");
-                            }
+                            newModel = kodi.audioLibrary();
                             break
                         case "videos":
-                            if(mode === "library") {
-                                newModel = kodi.videoLibrary();
-                            } else {
-                                newModel = kodi.shares("video");
-                            }
+                            newModel = kodi.videoLibrary();
                             break;
                         case "pictures":
                             newModel = kodi.shares("pictures");
@@ -305,15 +251,9 @@ KodiPage {
     function openLongTapMenu(parent, index) {
         print("opening longtap for index", index)
         longTapModel.clear()
-        if (mainMenuModel.get(index).mode == "library") {
-            longTapModel.append({modelData: qsTr("Show files"), actionId: 0})
-        }
-        if (mainMenuModel.get(index).mode == "files") {
-            longTapModel.append({modelData: qsTr("Show library"), actionId: 1})
-        }
         if (index < 3) {
-            longTapModel.append({modelData: qsTr("Rescan library"), actionId: 2})
-            longTapModel.append({modelData: qsTr("Clean library"), actionId: 3})
+            longTapModel.append({modelData: qsTr("Rescan library"), actionId: "rescan"})
+            longTapModel.append({modelData: qsTr("Clean library"), actionId: "clean"})
         }
         return PopupUtils.open(longTapMenu, parent, {model: longTapModel})
     }
