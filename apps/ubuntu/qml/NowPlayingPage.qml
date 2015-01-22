@@ -166,7 +166,7 @@ KodiPage {
                     id: imageShape
                     anchors.fill: parent
                     opacity: 1
-                    source: !currentItem || currentItem.thumbnail.length === 0 ? "" : currentItem.thumbnail
+                    source: !currentItem || currentItem.thumbnail.length === 0 ? "" : "file://" + currentItem.thumbnail
                     initialWidth: parent.width
                     initialHeight: parent.height
                     scaleTo: "fit"

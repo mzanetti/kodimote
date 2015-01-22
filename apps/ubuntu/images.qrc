@@ -1,0 +1,18 @@
+<RCC>
+    <qresource prefix="/">
+        <file>qml/images/kodimote.svg</file>
+        <file>qml/images/livetv.svg</file>
+        <file>qml/images/media-playlist-repeat-all.svg</file>
+        <file>qml/images/media-playlist-repeat-one.svg</file>
+        <file>qml/images/media-playlist-repeat.svg</file>
+        <file>qml/images/media-playlist-shuffle-active.svg</file>
+        <file>qml/images/media-playlist-shuffle.svg</file>
+        <file>qml/images/music.jpg</file>
+        <file>qml/images/pad-separator.png</file>
+        <file>qml/images/pad-separator.svg</file>
+        <file>qml/images/pictures.jpg</file>
+        <file>qml/images/tv.jpg</file>
+        <file>qml/images/unchecked.svg</file>
+        <file>qml/images/videos.jpg</file>
+    </qresource>
+</RCC>

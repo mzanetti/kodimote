@@ -75,12 +75,7 @@ int main(int argc, char** argv)
 
     Settings settings;
     view->engine()->rootContext()->setContextProperty("settings", &settings);
-
-    if(QCoreApplication::applicationDirPath() == QDir(("/usr/bin")).canonicalPath()) {
-        view->setSource(QUrl::fromLocalFile("/usr/share/kodimote/qml/main.qml"));
-    } else {
-        view->setSource(QUrl::fromLocalFile("qml/main.qml"));
-    }
+    view->setSource(QUrl("qrc:///qml/main.qml"));
 
     UbuntuHelper helper(&settings);
     Q_UNUSED(helper);
