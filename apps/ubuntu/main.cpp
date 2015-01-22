@@ -79,7 +79,7 @@ int main(int argc, char** argv)
     if(QCoreApplication::applicationDirPath() == QDir(("/usr/bin")).canonicalPath()) {
         view->setSource(QUrl::fromLocalFile("/usr/share/kodimote/qml/main.qml"));
     } else {
-        view->setSource(QUrl::fromLocalFile("qml/main.qml"));
+        view->setSource(QUrl("qrc:///qml/main.qml"));
     }
 
     UbuntuHelper helper(&settings);

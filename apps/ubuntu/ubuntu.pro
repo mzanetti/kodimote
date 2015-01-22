@@ -8,17 +8,19 @@ SOURCES += main.cpp \
 
 HEADERS += ubuntuhelper.h
 
+# Copy the png for the notification to the build dir for running on the desktop
+QMAKE_POST_LINK += $$QMAKE_COPY $$quote($$PWD/kodimote80.png) $$quote($$OUT_PWD)
+
+# Install files into the click package
 target.path = /
-qml.files = qml
-qml.path = /
-icon.files = kodimote.svg
+icon.files = kodimote.svg kodimote80.png
 icon.path = /
 desktopfile.files = kodimote.desktop
 desktopfile.path = /
 apparmor.files = kodimote.json
 apparmor.path = /
 
-INSTALLS += qml icon desktopfile apparmor target
+INSTALLS += icon desktopfile apparmor target
 
 
 #This creates the manifest.json file, it is the description file for the
@@ -46,3 +48,6 @@ mfile.path = /
 mfile.CONFIG += no_check_exist
 mfile.files  += $$OUT_PWD/manifest.json
 INSTALLS+=mfile
+
+RESOURCES += \
+    resources.qrc
