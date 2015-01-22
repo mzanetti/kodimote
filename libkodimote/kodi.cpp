@@ -203,7 +203,7 @@ void Kodi::init()
     QVariantList list;
     list.append("volume");
     params.insert("properties", list);
-    KodiConnection::sendCommand("Application.GetProperties", params, this, "volumeReceived");
+    KodiConnection::sendParallelCommand("Application.GetProperties", params, this, "volumeReceived");
 
     params.clear();
     list.clear();
@@ -212,7 +212,7 @@ void Kodi::init()
     list.append("cansuspend");
     list.append("canreboot");
     params.insert("properties", list);
-    KodiConnection::sendCommand("System.GetProperties", params, this, "systemPropertiesReceived");
+    KodiConnection::sendParallelCommand("System.GetProperties", params, this, "systemPropertiesReceived");
 
     params.clear();
     list.clear();
@@ -220,7 +220,7 @@ void Kodi::init()
     list.append("recording");
     list.append("scanning");
     params.insert("properties", list);
-    KodiConnection::sendCommand("PVR.GetProperties", params, this, "pvrPropertiesReceived");
+    KodiConnection::sendParallelCommand("PVR.GetProperties", params, this, "pvrPropertiesReceived");
 
     if (KodiConnection::connectedHost()->hwAddr().isEmpty()) {
         m_hwAddrRequestCount = 0;
@@ -697,7 +697,7 @@ void Kodi::requestHwAddr()
     QVariantList labels;
     labels.append("Network.MacAddress");
     params.insert("labels", labels);
-    KodiConnection::sendCommand("XBMC.GetInfoLabels", params, this, "hwAddrReceived");
+    KodiConnection::sendParallelCommand("XBMC.GetInfoLabels", params, this, "hwAddrReceived");
 }
 
 void Kodi::hwAddrReceived(const QVariantMap &rsp)
