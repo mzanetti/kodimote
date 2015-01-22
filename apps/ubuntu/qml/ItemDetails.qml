@@ -66,7 +66,7 @@ Item {
                 width: parent.width
                 height: Math.min(implicitHeight, itemDetails.width)
                 scaleTo: "fit"
-                source: largeThumbnail
+                source: "file://" + largeThumbnail
                 initialWidth: parent.width
                 initialHeight: width
             }

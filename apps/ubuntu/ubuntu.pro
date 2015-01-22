@@ -50,4 +50,5 @@ mfile.files  += $$OUT_PWD/manifest.json
 INSTALLS+=mfile
 
 RESOURCES += \
-    resources.qrc
+    resources.qrc \
+    images.qrc

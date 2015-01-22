@@ -119,7 +119,7 @@ KodiPage {
             primaryItem: Image {
                 height: searchTextField.height - units.gu(1)
                 width: height
-                source: "/usr/share/icons/ubuntu-mobile/actions/scalable/filter.svg"
+                source: "image://theme/filter"
             }
 
             Keys.onReturnPressed: {
@@ -292,7 +292,7 @@ KodiPage {
                             anchors.centerIn: parent
                             image: Image {
                                 anchors.fill: parent
-                                source: thumbnail
+                                source: thumbnail ? "file://" + thumbnail : ""
                                 fillMode: Image.PreserveAspectCrop
                                 sourceSize {
                                     width: thumbnailImage.width
