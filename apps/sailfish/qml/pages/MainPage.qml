@@ -70,8 +70,9 @@ Page {
         if (menuModel.mode === "library") {
             newModel = kodi[menuModel.libraryTarget]();
         } else {
-                newModel = kodi.shares(menuModel.target);
+            newModel = kodi.shares(menuModel.target);
         }
+
 
         console.log("setting model: " + newModel);
         var browser = pageStack.push("BrowserPage.qml", {model: newModel});
@@ -174,21 +175,6 @@ Page {
                     font.weight: Font.Bold
                     font.pixelSize: Theme.fontSizeLarge
                 }
-
-                Label {
-                    id: subText
-                    text: {
-                        if (mode === "library") {
-                            return qsTr("Library");
-                        } else if (mode == "files") {
-                            return qsTr("Files");
-                        } else {
-                            return ""
-                        }
-                    }
-                    visible: libraryTarget && sharesTarget
-                    color: Theme.secondaryColor
-                }
             }
 
             onPressed: listView.currentSelected = index;
@@ -203,22 +189,6 @@ Page {
                 ContextMenu {
                     id: contextMenu
 
-                    MenuItem {
-                        visible: mode !== "files" && mode !== "single"
-                        text: qsTr("Show files")
-                        onClicked: {
-                            listView.model.get(listView.currentSelected).mode = "files";
-                            settings[target + "ShowsFiles"] = true;
-                        }
-                    }
-                    MenuItem {
-                        visible: mode !== "library" && mode !== "single"
-                        text: qsTr("Show library")
-                        onClicked: {
-                            listView.model.get(listView.currentSelected).mode = "library";
-                            settings[target + "ShowsFiles"] = false;
-                        }
-                    }
                     MenuItem {
                         text: qsTr("Rescan library")
                         onClicked: {
@@ -264,7 +234,6 @@ Page {
             mode: "library"
             target: "music"
             libraryTarget: "audioLibrary"
-            sharesTarget: "music"
             hasMenu: true
         }
         ListElement {
@@ -273,7 +242,6 @@ Page {
             mode: "library"
             target: "video"
             libraryTarget: "videoLibrary"
-            sharesTarget: "video"
             hasMenu: true
         }
         ListElement {
@@ -330,13 +298,6 @@ Page {
         }
         if (settings.pvrEnabled && kodi.pvrAvailable) {
             mainMenuModel.append(mainMenuModelTemplate.get(3));
-        }
-
-        if(settings.musicShowsFiles) {
-           mainMenuModel.setProperty(0, "mode", "files");
-        }
-        if(settings.videoShowsFiles) {
-            mainMenuModel.setProperty(1, "mode", "files");
         }
     }
 
