@@ -20,6 +20,7 @@
  ****************************************************************************/
 import QtQuick 2.0
 import Sailfish.Silica 1.0
+import QtFeedback 5.0
 import harbour.kodimote 1.0
 
 DockedPanel {
@@ -47,6 +48,12 @@ DockedPanel {
                 show(true);
             }
         }
+    }
+
+    HapticsEffect {
+        id: rumbleEffect
+        intensity: 0.50
+        duration: 50
     }
 
     Connections {
@@ -105,7 +112,12 @@ DockedPanel {
                 width: height
                 anchors.left: parent.left
                 icon.source: "../icons/icon-m-volume-down.png"
-                onClicked: kodi.volumeDown()
+                onClicked: {
+                    if (settings.hapticsEnabled) {
+                        rumbleEffect.start(2);
+                    }
+                    kodi.volumeDown()
+                }
             }
 
             Slider {
@@ -137,7 +149,12 @@ DockedPanel {
                 width: height
                 anchors.right: parent.right
                 icon.source: "image://theme/icon-m-speaker"
-                onClicked: kodi.volumeUp()
+                onClicked: {
+                    if (settings.hapticsEnabled) {
+                        rumbleEffect.start(2);
+                    }
+                    kodi.volumeUp()
+                }
             }
         }
 
