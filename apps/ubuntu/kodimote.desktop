@@ -2,7 +2,7 @@
 Type=Application
 Name=Kodimote
 Comment=Remote control app for Kodi
-Exec=./kodimote %u -d connection
+Exec=./kodimote %u
 Terminal=false
 Icon=kodimote.svg
 X-Ubuntu-Touch=true
