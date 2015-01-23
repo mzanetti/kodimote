@@ -133,7 +133,10 @@ Item {
                     BottomEdgeButton {
                         source: "image://theme/system-shutdown"
                         onClicked: {
-                            PopupUtils.open(Qt.resolvedUrl("PowerMenu.qml"), root)
+                            var dialog = PopupUtils.open(Qt.resolvedUrl("PowerMenu.qml"), root)
+                            dialog.selectUser.connect(function() {
+                                PopupUtils.open(Qt.resolvedUrl("ProfileSelectionDialog.qml"), root)
+                            })
                         }
                     }
                 }

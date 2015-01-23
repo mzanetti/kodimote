@@ -6,14 +6,27 @@ Dialog {
     id: powerMenu
     title: qsTr("Power menu")
 
+    signal selectUser()
+
     Column {
         anchors { left: parent.left; right: parent.right }
         spacing: units.gu(1)
 
         Button {
+            text: qsTr("Change user")
+            width: parent.width
+            iconName: "contact"
+            visible: kodi.profiles().count > 1
+            onClicked: {
+                powerMenu.selectUser();
+                PopupUtils.close(powerMenu)
+            }
+        }
+
+        Button {
             text: qsTr("Disconnect")
             width: parent.width
-            iconName: "close"
+            iconName: "stop"
             onClicked: {
                 kodi.disconnectFromHost();
                 PopupUtils.close(powerMenu)

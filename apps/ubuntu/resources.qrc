@@ -25,5 +25,6 @@
         <file>qml/components/SectionHeader.qml</file>
         <file>qml/components/TimePicker.qml</file>
         <file>qml/components/XIcon.qml</file>
+        <file>qml/components/ProfileSelectionDialog.qml</file>
     </qresource>
 </RCC>

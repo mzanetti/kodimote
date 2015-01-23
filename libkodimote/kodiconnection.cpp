@@ -174,10 +174,13 @@ void KodiConnectionPrivate::connect(KodiHost *host)
 
     // Don't automatically reconnect when device is offline and no host provided
     // In other words, prevent triggering "connect to network" dialog when the connect isn't user initiated
-    if(!host && !m_connManager->isOnline()) {
-        koDebug(XDAREA_CONNECTION) << "Device isn't online, we can't connect";
+#ifndef UBUNTU // m_connManager is never online on vivid due to restrictive apparmor permissions atm
+    if(!host && !m_connManager->isOnline()
+            ) {
+        koDebug(XDAREA_CONNECTION) << "Device isn't online, we can't connect" << host;
         return;
     }
+#endif
 
     koDebug(XDAREA_CONNECTION) << "Start connecting to host";
 
