@@ -21,6 +21,7 @@
 
 import QtQuick 2.0
 import Sailfish.Silica 1.0
+import QtFeedback 5.0
 import harbour.kodimote 1.0
 
 Row {
@@ -29,12 +30,23 @@ Row {
     property QtObject player
     spacing: Theme.paddingSmall
 
+    HapticsEffect {
+        id: rumbleEffect
+        intensity: 0.50
+        duration: 50
+    }
+
     IconButton {
         icon.source: "image://theme/icon-m-previous"
         icon.height: 75; icon.width: 75
         height: 75; width: 75
         enabled: !!player
-        onClicked: playerControls.player.skipPrevious()
+        onClicked: {
+            if (settings.hapticsEnabled) {
+                rumbleEffect.start(2);
+            }
+            playerControls.player.skipPrevious()
+        }
     }
 
     IconButton {
@@ -42,7 +54,12 @@ Row {
         icon.height: 75; icon.width: 75
         height: 75; width: 75
         enabled: player ? player.state == "playing" && player.type !== Player.PlayerTypePictures : false
-        onClicked: playerControls.player.seekBackward()
+        onClicked: {
+            if (settings.hapticsEnabled) {
+                rumbleEffect.start(2);
+            }
+            playerControls.player.seekBackward()
+        }
         highlighted: down || (playerControls.player && playerControls.player.speed < 0)
     }
 
@@ -51,7 +68,12 @@ Row {
         icon.height: 75; icon.width: 75
         height: 75; width: 75
         enabled: player ? player.state == "playing" : false
-        onClicked: playerControls.player.stop()
+        onClicked: {
+            if (settings.hapticsEnabled) {
+                rumbleEffect.start(2);
+            }
+            playerControls.player.stop()
+        }
     }
 
     IconButton {
@@ -59,7 +81,12 @@ Row {
         icon.height: 75; icon.width: 75
         height: 75; width: 75
         enabled: !!player
-        onClicked: playerControls.player.playPause()
+        onClicked: {
+            if (settings.hapticsEnabled) {
+                rumbleEffect.start(2);
+            }
+            playerControls.player.playPause()
+        }
     }
 
     IconButton {
@@ -67,7 +94,12 @@ Row {
         icon.height: 75; icon.width: 75
         height: 75; width: 75
         enabled: player ? player.state == "playing" && player.type !== Player.PlayerTypePictures : false
-        onClicked: playerControls.player.seekForward()
+        onClicked: {
+            if (settings.hapticsEnabled) {
+                rumbleEffect.start(2);
+            }
+            playerControls.player.seekForward()
+        }
         highlighted: down || (playerControls.player && playerControls.player.speed > 1)
     }
 
@@ -76,6 +108,11 @@ Row {
         icon.height: 75; icon.width: 75
         height: 75; width: 75
         enabled: !!player
-        onClicked: playerControls.player.skipNext()
+        onClicked: {
+            if (settings.hapticsEnabled) {
+                rumbleEffect.start(2);
+            }
+            playerControls.player.skipNext()
+        }
     }
 }

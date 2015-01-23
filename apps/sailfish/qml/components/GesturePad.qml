@@ -31,12 +31,8 @@ Item {
 
     HapticsEffect {
         id: rumbleEffect
-        attackIntensity: 0
-        attackTime: 250
-        intensity: 1.0
-        fadeTime: 250
-        fadeIntensity: 0
-        period: 100
+        intensity: 0.05
+        duration: 150
     }
 
     function teaseArrows() {

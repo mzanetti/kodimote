@@ -37,12 +37,8 @@ Page {
 
     HapticsEffect {
         id: rumbleEffect
-        attackIntensity: 0
-        attackTime: 250
-        intensity: 1.0
-        fadeTime: 250
-        fadeIntensity: 0
-        period: 100
+        intensity: 0.50
+        duration: 50
     }
 
     SilicaFlickable {
@@ -116,23 +112,53 @@ Page {
 
                     IconButton {
                         icon.source: "image://theme/icon-m-image"
-                        onClicked: kodi.switchToWindow(Kodi.GuiWindowPictures)
+                        onClicked: {
+                            if (settings.hapticsEnabled) {
+                                rumbleEffect.start(2);
+                            }
+
+                            kodi.switchToWindow(Kodi.GuiWindowPictures)
+                        }
                     }
                     IconButton {
                         icon.source: "image://theme/icon-m-music"
-                        onClicked: kodi.switchToWindow(Kodi.GuiWindowMusic)
+                        onClicked: {
+                            if (settings.hapticsEnabled) {
+                                rumbleEffect.start(2);
+                            }
+
+                            kodi.switchToWindow(Kodi.GuiWindowMusic)
+                        }
                     }
                     IconButton {
                         icon.source: "image://theme/icon-m-home"
-                        onClicked: keys.home()
+                        onClicked: {
+                            if (settings.hapticsEnabled) {
+                                rumbleEffect.start(2);
+                            }
+
+                            keys.home()
+                        }
                     }
                     IconButton {
                         icon.source: "image://theme/icon-m-video"
-                        onClicked: kodi.switchToWindow(Kodi.GuiWindowVideos)
+                        onClicked: {
+                            if (settings.hapticsEnabled) {
+                                rumbleEffect.start(2);
+                            }
+
+                            kodi.switchToWindow(Kodi.GuiWindowVideos)
+                        }
                     }
                     IconButton {
                         icon.source: "../icons/icon-m-tv.png"
-                        onClicked: kodi.switchToWindow(Kodi.GuiWindowLiveTV)
+                        onClicked: {
+                            if (settings.hapticsEnabled) {
+                                rumbleEffect.start(2);
+                            }
+
+                            kodi.switchToWindow(Kodi.GuiWindowLiveTV)
+                        }
                     }
                 }
             }
