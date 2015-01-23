@@ -46,11 +46,8 @@ Item {
 
     HapticsEffect {
         id: rumbleEffect
-        attackIntensity: 0
-        attackTime: 0
-        intensity: 0.1
-        fadeTime: 0
-        fadeIntensity: 0
+        intensity: 0.05
+        duration: 50
     }
 
     Component {
