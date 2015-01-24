@@ -211,3 +211,16 @@ void Settings::setHapticsEnabled(bool enabled)
     settings.setValue("HapticsEnabled", enabled);
     emit hapticsEnabledChanged();
 }
+
+Settings::IntroStep Settings::introStep() const
+{
+    QSettings settings;
+    return (IntroStep)settings.value("IntroStep", 0).toInt();
+}
+
+void Settings::setIntroStep(IntroStep introStep)
+{
+    QSettings settings;
+    settings.setValue("IntroStep", introStep);
+    emit introStepChanged();
+}

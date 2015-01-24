@@ -55,7 +55,32 @@ KodiPage {
             height: musicButton.height + root.spacing
             color: Qt.rgba(0, 0, 0, 0.05)
 
+            Label {
+                anchors.fill: parent
+                horizontalAlignment: Text.AlignHCenter
+                verticalAlignment: Text.AlignVCenter
+                wrapMode: Text.WordWrap
+                opacity: settings.introStep < Settings.IntroStepDone ? 1 : 0
+                Behavior on opacity { UbuntuNumberAnimation { duration: UbuntuAnimation.SlowDuration } }
+                color: "white"
+                text: {
+                    switch (settings.introStep) {
+                    case Settings.IntroStepLeftRight:
+                        return qsTr("To move left or right, swipe horizontally.");
+                    case Settings.IntroStepUpDown:
+                        return qsTr("To move up or down, swipe vertically.");
+                    case Settings.IntroStepScroll:
+                        return qsTr("To scroll through lists, press and keep holding while dragging.");
+                    case Settings.IntroStepClick:
+                        return qsTr("To select an item, tap anywhere on the pad.");
+                    }
+                    return ""
+                }
+            }
+
             Row {
+                opacity: settings.introStep < Settings.IntroStepDone ? 0 : 1
+                Behavior on opacity { UbuntuNumberAnimation { duration: UbuntuAnimation.SlowDuration } }
                 id: jumpPointRow
                 anchors {
                     left: parent.left
@@ -101,6 +126,9 @@ KodiPage {
                 id: backButton
                 anchors { left: parent.left; top: parent.top; margins: units.gu(1.5) }
                 source: "image://theme/back"
+                opacity: settings.introStep < Settings.IntroStepDone ? 0 : 1
+                Behavior on opacity { UbuntuNumberAnimation { duration: UbuntuAnimation.SlowDuration } }
+
                 AbstractButton {
                     width: parent.width * 2
                     height: parent.height * 1.2
@@ -116,6 +144,8 @@ KodiPage {
             MediaControlButton {
                 anchors { right: parent.right; top: parent.top; margins: units.gu(1.5) }
                 source: usePictureControls ? "image://theme/add" : "image://theme/view-fullscreen"
+                opacity: settings.introStep < Settings.IntroStepDone ? 0 : 1
+                Behavior on opacity { UbuntuNumberAnimation { duration: UbuntuAnimation.SlowDuration } }
                 AbstractButton {
                     width: parent.width * 2
                     height: parent.height * 1.2
@@ -133,6 +163,8 @@ KodiPage {
             MediaControlButton {
                 anchors { left: parent.left; bottom: parent.bottom; margins: units.gu(1.5) }
                 source: usePictureControls ? "image://theme/reload" : "image://theme/info"
+                opacity: settings.introStep < Settings.IntroStepDone ? 0 : 1
+                Behavior on opacity { UbuntuNumberAnimation { duration: UbuntuAnimation.SlowDuration } }
                 AbstractButton {
                     width: parent.width * 2
                     height: parent.height * 1.2
@@ -150,6 +182,8 @@ KodiPage {
             MediaControlButton {
                 anchors { right: parent.right; bottom: parent.bottom; margins: units.gu(1.5) }
                 source: usePictureControls ? "image://theme/remove" : "image://theme/navigation-menu"
+                opacity: settings.introStep < Settings.IntroStepDone ? 0 : 1
+                Behavior on opacity { UbuntuNumberAnimation { duration: UbuntuAnimation.SlowDuration } }
                 AbstractButton {
                     width: parent.width * 2
                     height: parent.height * 1.2
@@ -175,6 +209,17 @@ KodiPage {
             height: controlButtons.height + root.spacing
             color: Qt.rgba(0, 0, 0, 0.05)
 
+            Label {
+                anchors.fill: parent
+                horizontalAlignment: Text.AlignHCenter
+                verticalAlignment: Text.AlignVCenter
+                color: "white"
+                wrapMode: Text.WordWrap
+                text: settings.introStep == Settings.IntroStepScroll ? qsTr("The further you move, the faster you scroll.") : ""
+                opacity: settings.introStep == Settings.IntroStepScroll ? 1 : 0
+                Behavior on opacity { UbuntuNumberAnimation { duration: UbuntuAnimation.SlowDuration } }
+            }
+
             PlayerControls {
                 id: controlButtons
                 anchors {
@@ -183,6 +228,8 @@ KodiPage {
                     margins: root.spacing / 2
                     verticalCenter: parent.verticalCenter
                 }
+                opacity: settings.introStep < Settings.IntroStepDone ? 0 : 1
+                Behavior on opacity { UbuntuNumberAnimation { duration: UbuntuAnimation.SlowDuration } }
 
                 player: usePictureControls ? root.picturePlayer : root.player
             }
@@ -199,6 +246,8 @@ KodiPage {
                 anchors.centerIn: parent
                 height: controlButtons.height
                 spacing: parent.width / 8
+                opacity: settings.introStep < Settings.IntroStepDone ? 0 : 1
+                Behavior on opacity { UbuntuNumberAnimation { duration: UbuntuAnimation.SlowDuration } }
                 UbuntuShape { height: units.gu(2); width: parent.spacing; color: "red"; anchors.verticalCenter: parent.verticalCenter;
                     AbstractButton { anchors.fill: parent; anchors.margins: -10; onClicked: { keys.red() } }
                 }
@@ -225,4 +274,8 @@ KodiPage {
             }
         }
     }
+
+//    GesturesIntro {
+//        id: gesturesIntro
+//    }
 }

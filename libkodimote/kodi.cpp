@@ -53,7 +53,7 @@
 #include "keys.h"
 #include "eventclient.h"
 
-//#include "settings.h"
+#include "settings.h"
 
 #include "imagecache.h"
 
@@ -167,6 +167,8 @@ Kodi::Kodi(QObject *parent) :
     qmlRegisterType<KodiHostModel>();
     qmlRegisterType<KodiHost>(qmlUri, 1, 0, "KodiHost");
     qmlRegisterType<KodiDiscovery>(qmlUri, 1, 0, "KodiDiscovery");
+
+    qmlRegisterUncreatableType<Settings>("Kodi", 1, 0, "Settings", "Cannot create multiple settings. Use the \"settings\" context property intead");
 
     m_hosts = new KodiHostModel(this);
 

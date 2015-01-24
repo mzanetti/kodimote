@@ -27,6 +27,7 @@
 class Settings : public QObject
 {
     Q_OBJECT
+    Q_ENUMS(IntroStep)
     Q_PROPERTY(bool themeInverted READ themeInverted WRITE setThemeInverted NOTIFY themeInvertedChanged)
     Q_PROPERTY(bool useThumbnails READ useThumbnails WRITE setUseThumbnails NOTIFY useThumbnailsChanged)
     Q_PROPERTY(bool ignoreArticle READ ignoreArticle WRITE setIgnoreArticle NOTIFY ignoreArticleChanged)
@@ -41,8 +42,17 @@ class Settings : public QObject
     Q_PROPERTY(bool picturesEnabled READ picturesEnabled WRITE setPicturesEnabled NOTIFY picturesEnabledChanged)
     Q_PROPERTY(bool pvrEnabled READ pvrEnabled WRITE setPvrEnabled NOTIFY pvrEnabledChanged)
     Q_PROPERTY(bool hapticsEnabled READ hapticsEnabled WRITE setHapticsEnabled NOTIFY hapticsEnabledChanged)
+    Q_PROPERTY(IntroStep introStep READ introStep WRITE setIntroStep NOTIFY introStepChanged)
 
 public:
+    enum IntroStep {
+        IntroStepLeftRight,
+        IntroStepUpDown,
+        IntroStepScroll,
+        IntroStepClick,
+        IntroStepDone
+    };
+
     explicit Settings(QObject *parent = 0);
 
     void setThemeInverted(bool inverted);
@@ -87,6 +97,9 @@ public:
     bool hapticsEnabled() const;
     void setHapticsEnabled(bool enabled);
 
+    IntroStep introStep() const;
+    void setIntroStep(IntroStep introStep);
+
 signals:
     void themeInvertedChanged();
     void useThumbnailsChanged();
@@ -104,6 +117,7 @@ signals:
     void picturesEnabledChanged();
     void pvrEnabledChanged();
     void hapticsEnabledChanged();
+    void introStepChanged();
 };
 
 #endif // SETTINGS_H
