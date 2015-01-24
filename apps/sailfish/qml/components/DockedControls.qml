@@ -121,6 +121,10 @@ DockedPanel {
             }
 
             Slider {
+                property bool volumeChangeOutstanding: false;
+                property bool passiveUpdate: false;
+                property int volumePending: -1
+
                 id: volumeSlider
                 anchors.left: volumeDownButton.right
                 anchors.right: volumeUpButton.left
@@ -133,14 +137,52 @@ DockedPanel {
                 maximumValue: 100
 
                 onValueChanged: {
-                    kodi.volume = value
+                    if (passiveUpdate)
+                        return
+                    requestVolume(value)
                 }
 
-                Binding {
-                    target: volumeSlider
-                    property: "value"
-                    value: kodi.volume
+                // sometimes XBMC doesn't report a volumechanged event back after setting it
+                Timer {
+                    id: volumeChangeTimeout
+                    interval: 500
+                    repeat: false
+                    onTriggered: {
+                        // request volume again
+                        volumeSlider.volumeChangeOutstanding = false
+                        volumeSlider.requestVolume(volumeSlider.volumePending)
+                    }
                 }
+
+                Component.onCompleted: {
+                    kodi.onVolumeChanged.connect(processChangedVolume)
+                }
+
+                // send volume request, but don't flood xbmc
+                function requestVolume(value) {
+                    volumePending = value
+                    if (!volumeChangeOutstanding) {
+                        kodi.volume = value
+                        volumeChangeOutstanding = true
+                        volumeChangeTimeout.start()
+                    }
+                }
+
+                function processChangedVolume(volume) {
+                    // update UI
+                    passiveUpdate = true
+                    volumeSlider.value = volume
+                    passiveUpdate = false
+                    volumeChangeTimeout.stop()
+                    // send last queued volume change
+                    if (volumeChangeOutstanding) {
+                        volumeChangeOutstanding = false
+                        if (volumePending > -1 && volume !== volumePending) {
+                            requestVolume(volumePending)
+                        }
+                    }
+                }
+
             }
 
             IconButton {
