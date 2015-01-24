@@ -73,6 +73,8 @@ KodiPage {
                         return qsTr("To scroll through lists, press and keep holding while dragging.");
                     case Settings.IntroStepClick:
                         return qsTr("To select an item, tap anywhere on the pad.");
+                    case Settings.IntroStepColors:
+                        return qsTr("Pro tip: The color buttons at the bottom simulate an infrared remote.")
                     }
                     return ""
                 }
@@ -215,8 +217,16 @@ KodiPage {
                 verticalAlignment: Text.AlignVCenter
                 color: "white"
                 wrapMode: Text.WordWrap
-                text: settings.introStep == Settings.IntroStepScroll ? qsTr("The further you move, the faster you scroll.") : ""
-                opacity: settings.introStep == Settings.IntroStepScroll ? 1 : 0
+                text: {
+                    switch (settings.introStep) {
+                    case Settings.IntroStepScroll:
+                        return qsTr("The further you move, the faster you scroll.");
+                    case Settings.IntroStepColors:
+                        return qsTr("You can map them to anything you want in Kodi's Lircmap.xml")
+                    }
+                    return ""
+                }
+                opacity: (settings.introStep == Settings.IntroStepScroll || settings.introStep == Settings.IntroStepColors) ? 1 : 0
                 Behavior on opacity { UbuntuNumberAnimation { duration: UbuntuAnimation.SlowDuration } }
             }
 
@@ -246,7 +256,7 @@ KodiPage {
                 anchors.centerIn: parent
                 height: controlButtons.height
                 spacing: parent.width / 8
-                opacity: settings.introStep < Settings.IntroStepDone ? 0 : 1
+                opacity: settings.introStep < Settings.IntroStepColors ? 0 : 1
                 Behavior on opacity { UbuntuNumberAnimation { duration: UbuntuAnimation.SlowDuration } }
                 UbuntuShape { height: units.gu(2); width: parent.spacing; color: "red"; anchors.verticalCenter: parent.verticalCenter;
                     AbstractButton { anchors.fill: parent; anchors.margins: -10; onClicked: { keys.red() } }

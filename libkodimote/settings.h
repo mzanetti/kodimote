@@ -50,6 +50,7 @@ public:
         IntroStepUpDown,
         IntroStepScroll,
         IntroStepClick,
+        IntroStepColors,
         IntroStepDone
     };
 

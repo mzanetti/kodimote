@@ -32,16 +32,22 @@ Item {
         running: settings.introStep < Settings.IntroStepDone
         repeat: true
         onTriggered: {
-            if (settings.introStep == Settings.IntroStepLeftRight || settings.introStep == Settings.IntroStepClick) {
+            switch (settings.introStep) {
+            case Settings.IntroStepLeftRight:
                 leftArrows.item.animate()
                 rightArrows.item.animate();
-            }
-            if (settings.introStep == Settings.IntroStepUpDown || settings.introStep == Settings.IntroStepClick) {
+                break;
+            case Settings.IntroStepUpDown:
                 upArrows.item.animate()
                 downArrows.item.animate();
-            }
-            if (settings.introStep == Settings.IntroStepScroll) {
+                break;
+            case Settings.IntroStepScroll:
                 downArrows.item.animate();
+                break;
+            case Settings.IntroStepColors:
+            case Settings.IntroStepClick:
+                animateAll();
+                break;
             }
         }
     }
@@ -252,7 +258,7 @@ Item {
             if (dxAbs < maxClickDistance && dyAbs < maxClickDistance) {
                 print("pressing enter")
                 if (settings.introStep < Settings.IntroStepDone) {
-                    if (settings.introStep == Settings.IntroStepClick) {
+                    if (settings.introStep == Settings.IntroStepClick || settings.introStep == Settings.IntroStepColors) {
                         settings.introStep++;
                     }
                     return;
