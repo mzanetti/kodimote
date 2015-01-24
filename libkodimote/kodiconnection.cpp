@@ -369,7 +369,7 @@ void KodiConnectionPrivate::replyReceived()
 
     if(reply->error() != QNetworkReply::NoError) {
         m_connectionError = tr("Connection failed: %1").arg(reply->errorString());
-        closeConnection();
+        closeConnection(reply->error() != QNetworkReply::AuthenticationRequiredError);
     }
 
     koDebug(XDAREA_CONNECTION) << "received reply:" << commands;
