@@ -274,8 +274,4 @@ KodiPage {
             }
         }
     }
-
-//    GesturesIntro {
-//        id: gesturesIntro
-//    }
 }
