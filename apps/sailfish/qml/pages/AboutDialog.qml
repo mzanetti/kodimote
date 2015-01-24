@@ -43,8 +43,9 @@ Dialog {
         Label {
             font.pixelSize: Theme.fontSizeSmall
             color: Theme.highlightColor
-            text: "Michael Zanetti<br>michael_zanetti@gmx.net<br>http://notyetthere.org/maemomeego/kodimote" +
-                  "<br>Sailfish port by:<br>Robert Meijers<br>robert.meijers@gmail.com";
+            text: "Michael Zanetti<br>michael_zanetti@gmx.net" +
+                  "<br>Robert Meijers<br>robert.meijers@gmail.com" +
+                  "<br>http://notyetthere.org/maemomeego/kodimote"
         }
 
         SilicaFlickable {

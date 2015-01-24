@@ -5,7 +5,9 @@ import Ubuntu.Components.Popups 1.0
 Dialog {
     id: aboutDialog
     title: "        Kodimote 1.6.0"
-    text: "Michael Zanetti<br>michael_zanetti@gmx.net<br><a href=\"http://notyetthere.org/ubuntu/kodimote\">http://notyetthere.org/ubuntu/kodimote</a>"
+    text: "Michael Zanetti<br>michael_zanetti@gmx.net" +
+          "<br>Robert Meijers<br>robert.meijers@gmail.com" +
+          "<br>http://notyetthere.org/ubuntu/kodimote"
 
 
     Item {
@@ -20,7 +22,7 @@ Dialog {
         UbuntuShape {
             anchors.left: parent.left
             anchors.bottom: parent.top
-            anchors.bottomMargin: units.gu(10.5)
+            anchors.bottomMargin: units.gu(15.5)
             height: units.gu(6)
             width: units.gu(6)
             radius: "medium"
