@@ -548,7 +548,7 @@ MainView {
             Flickable {
                 id: flickbl
                 width: parent.width
-                height: units.gu(60)
+                height: contentHeight
                 contentHeight: authColumn.height
                 interactive: contentHeight > height
                 Column {
@@ -559,9 +559,11 @@ MainView {
                         width: parent.width
                         text: qsTr("Kodi on %1 requires authentication:").arg(hostname);
                         wrapMode: Text.WordWrap
+                        color: "black"
                     }
                     Label {
                         text: qsTr("Username")
+                        color: "black"
                     }
                     TextField {
                         width: parent.width
@@ -569,6 +571,7 @@ MainView {
                     }
                     Label {
                         text: qsTr("Password")
+                        color: "black"
                     }
                     TextField {
                         width: parent.width
@@ -591,11 +594,6 @@ MainView {
                                 PopupUtils.close(authDialog)
                             }
                         }
-                    }
-
-                    Item {
-                        width: parent.width
-                        height: Qt.inputMethod.keyboardRectangle.height
                     }
                 }
             }
