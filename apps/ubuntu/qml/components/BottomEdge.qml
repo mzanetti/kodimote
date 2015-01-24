@@ -161,13 +161,24 @@ Item {
                         enabled: kodi.connectedHost.volumeControlType !== KodiHost.VolumeControlTypeRelative
                         visible: enabled
                         Layout.fillWidth: true
-                        onValueChanged: {
-                            kodi.volume = value
+                        live: true
+                        onPressedChanged: {
+                            if (!pressed) {
+                                kodi.volume = value
+                            }
                         }
                         Binding {
                             target: volumeSlider
                             property: "value"
                             value: kodi.volume
+                        }
+                        Timer {
+                            interval: 100
+                            running: volumeSlider.pressed
+                            repeat: true
+                            onTriggered: {
+                                kodi.volume = volumeSlider.value
+                            }
                         }
                     }
                     BottomEdgeButton {

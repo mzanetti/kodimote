@@ -132,14 +132,25 @@ DockedPanel {
                 minimumValue: 0
                 maximumValue: 100
 
-                onValueChanged: {
-                    kodi.volume = value
+                onDownChanged: {
+                    if (!down) {
+                        kodi.volume = value
+                    }
                 }
 
                 Binding {
                     target: volumeSlider
                     property: "value"
                     value: kodi.volume
+                }
+
+                Timer {
+                    interval: 100
+                    running: volumeSlider.down
+                    repeat: true
+                    onTriggered: {
+                        kodi.volume = volumeSlider.value
+                    }
                 }
             }
 
