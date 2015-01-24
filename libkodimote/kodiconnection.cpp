@@ -498,8 +498,8 @@ void KodiConnectionPrivate::handleData(const QString &data)
 
 void KodiConnectionPrivate::clearPending()
 {
-    koDebug(XDAREA_CONNECTION) << "timeouttimer hit for comman" << m_commandId << m_currentPendingCommand.id() << m_currentPendingCommand.command();
-    if(m_commandId == m_versionRequestId) {
+    koDebug(XDAREA_CONNECTION) << "timeouttimer hit for command" << m_currentPendingCommand.id() << m_currentPendingCommand.command();
+    if(m_currentPendingCommand.id() == m_versionRequestId) {
         koDebug(XDAREA_CONNECTION) << "cannot ask for remote version... ";
         m_connectionError = tr("Connection to %1 timed out...").arg(m_host->hostname());
         emit m_notifier->connectionChanged();
