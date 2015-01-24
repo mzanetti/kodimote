@@ -212,6 +212,7 @@ KodiPage {
             color: Qt.rgba(0, 0, 0, 0.05)
 
             Label {
+                id: introLabel2
                 anchors.fill: parent
                 horizontalAlignment: Text.AlignHCenter
                 verticalAlignment: Text.AlignVCenter
@@ -258,17 +259,54 @@ KodiPage {
                 spacing: parent.width / 8
                 opacity: settings.introStep < Settings.IntroStepColors ? 0 : 1
                 Behavior on opacity { UbuntuNumberAnimation { duration: UbuntuAnimation.SlowDuration } }
-                UbuntuShape { height: units.gu(2); width: parent.spacing; color: "red"; anchors.verticalCenter: parent.verticalCenter;
-                    AbstractButton { anchors.fill: parent; anchors.margins: -10; onClicked: { keys.red() } }
+
+                UbuntuShape {
+                    height: units.gu(2); width: parent.spacing; color: "red"; anchors.verticalCenter: parent.verticalCenter;
+                    AbstractButton {
+                        anchors.fill: parent; anchors.margins: -10;
+                        onClicked: {
+                            if (settings.introStep == Settings.IntroStepColors) {
+                                introLabel2.text = qsTr("Remote name: %1<br>Button name: %2").arg("kodimote").arg("red")
+                            }
+                            keys.red()
+                        }
+                    }
                 }
-                UbuntuShape { height: units.gu(2); width: parent.spacing; color: "green"; anchors.verticalCenter: parent.verticalCenter;
-                    AbstractButton { anchors.fill: parent; anchors.margins: -10; onClicked: { keys.green() } }
+                UbuntuShape {
+                    height: units.gu(2); width: parent.spacing; color: "green"; anchors.verticalCenter: parent.verticalCenter;
+                    AbstractButton {
+                        anchors.fill: parent; anchors.margins: -10;
+                        onClicked: {
+                            if (settings.introStep == Settings.IntroStepColors) {
+                                introLabel2.text = qsTr("Remote name: %1<br>Button name: %2").arg("kodimote").arg("green")
+                            }
+                            keys.green()
+                        }
+                    }
                 }
-                UbuntuShape { height: units.gu(2); width: parent.spacing; color: "yellow"; anchors.verticalCenter: parent.verticalCenter;
-                    AbstractButton { anchors.fill: parent; anchors.margins: -10; onClicked: { keys.yellow() } }
+                UbuntuShape {
+                    height: units.gu(2); width: parent.spacing; color: "yellow"; anchors.verticalCenter: parent.verticalCenter;
+                    AbstractButton {
+                        anchors.fill: parent; anchors.margins: -10;
+                        onClicked: {
+                            if (settings.introStep == Settings.IntroStepColors) {
+                                introLabel2.text = qsTr("Remote name: %1<br>Button name: %2").arg("kodimote").arg("yellow")
+                            }
+                            keys.yellow()
+                        }
+                    }
                 }
-                UbuntuShape { height: units.gu(2); width: parent.spacing; color: "blue"; anchors.verticalCenter: parent.verticalCenter;
-                    AbstractButton { anchors.fill: parent; anchors.margins: -10; onClicked: { keys.blue() } }
+                UbuntuShape {
+                    height: units.gu(2); width: parent.spacing; color: "blue"; anchors.verticalCenter: parent.verticalCenter;
+                    AbstractButton {
+                        anchors.fill: parent; anchors.margins: -10;
+                        onClicked: {
+                            if (settings.introStep == Settings.IntroStepColors) {
+                                introLabel2.text = qsTr("Remote name: %1<br>Button name: %2").arg("kodimote").arg("blue")
+                            }
+                            keys.blue()
+                        }
+                    }
                 }
             }
         }
