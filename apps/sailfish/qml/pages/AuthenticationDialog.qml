@@ -44,7 +44,7 @@ Dialog {
             anchors.left: parent.left
             anchors.right: parent.right
             anchors.margins: Theme.paddingLarge
-            text: qsTr("XBMC on %1 requires authentication:").arg(hostname);
+            text: qsTr("Kodi on %1 requires authentication:").arg(hostname);
             wrapMode: Text.WordWrap
             font.family: Theme.fontFamilyHeading
             color: Theme.highlightColor

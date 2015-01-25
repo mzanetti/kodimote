@@ -85,10 +85,10 @@ Dialog {
                     width: parent.width
                     wrapMode: Text.WordWrap
                     color: Theme.highlightColor
-                    text: qsTr("Searching for XBMC hosts.") + "\n" + "\n"
-                          + qsTr("Please enable the following options in the Services settings of XBMC:") + "\n- "
-                          + qsTr("Allow control of XBMC via HTTP") + "\n- "
-                          + qsTr("Allow programs on other systems to control XBMC") + "\n- "
+                    text: qsTr("Searching for Kodi hosts.") + "\n" + "\n"
+                          + qsTr("Please enable the following options in the Services settings of Kodi:") + "\n- "
+                          + qsTr("Allow control of Kodi via HTTP") + "\n- "
+                          + qsTr("Allow programs on other systems to control Kodi") + "\n- "
                           + qsTr("Announce these services to other systems via Zeroconf") + "\n"
                           + qsTr("If you don't use Zeroconf, add a host manually.");
                 }

@@ -277,11 +277,11 @@ void KodiConnectionPrivate::slotConnected()
 void KodiConnectionPrivate::versionReceived(const QVariantMap &rsp)
 {
     // If the remote xbmc has the version field not compiled in, assume its the latest known one
-    koDebug(XDAREA_CONNECTION) << "Parsing XBMC version:" << rsp.value("result").toMap().value("version");
+    koDebug(XDAREA_CONNECTION) << "Parsing Kodi version:" << rsp.value("result").toMap().value("version");
     m_kodiVersionMajor = rsp.value("result").toMap().value("version").toMap().value("major").toInt();
     if(m_kodiVersionMajor < 6) {
         qDebug() << "WARNING! XBMC is too old or version field not valid! Some features might not work";
-        m_connectionError = tr("This version of Kodimote is designed to work with XBMC Frodo (v12.0). It seems you have connected to an older version of XMBC. Please upgrade XBMC in order to use Kodimote.");
+        m_connectionError = tr("This version of Kodimote is designed to work with XBMC Frodo (v12) or above (XBMC Gotham (v13), Kodi Helix (v14)). It seems you have connected to an older version of XBMC. Please upgrade XBMC to Kodi in order to use Kodimote.");
     } else {
         m_connected = true;
         m_connectionError.clear();
