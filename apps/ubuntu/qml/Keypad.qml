@@ -35,10 +35,6 @@ KodiPage {
 
     property int spacing: units.gu(2)
 
-    function teaseArrows() {
-        gesturePad.teaseArrows();
-    }
-
     property QtObject keys: kodi.keys()
 
     Column {
@@ -55,7 +51,37 @@ KodiPage {
             height: musicButton.height + root.spacing
             color: Qt.rgba(0, 0, 0, 0.05)
 
+            Label {
+                id: introLabel1
+                anchors.fill: parent
+                horizontalAlignment: Text.AlignHCenter
+                verticalAlignment: Text.AlignVCenter
+                wrapMode: Text.WordWrap
+                opacity: settings.introStep < Settings.IntroStepDone ? 1 : 0
+                Behavior on opacity { UbuntuNumberAnimation { duration: UbuntuAnimation.SlowDuration } }
+                color: "white"
+                text: {
+                    switch (settings.introStep) {
+                    case Settings.IntroStepLeftRight:
+                        return qsTr("To move left or right, swipe horizontally anywhere on the pad.");
+                    case Settings.IntroStepUpDown:
+                        return qsTr("To move up or down, swipe vertically.");
+                    case Settings.IntroStepScroll:
+                        return qsTr("To scroll through lists, press and keep holding while dragging.");
+                    case Settings.IntroStepClick:
+                        return qsTr("To select an item, tap anywhere on the pad.");
+                    case Settings.IntroStepColors:
+                        return qsTr("Pro tip: The color buttons at the bottom simulate an infrared remote.")
+                    case Settings.IntroStepExit:
+                        return qsTr("Tap the pad to finish the tutorial.")
+                    }
+                    return ""
+                }
+            }
+
             Row {
+                opacity: settings.introStep < Settings.IntroStepDone ? 0 : 1
+                Behavior on opacity { UbuntuNumberAnimation { duration: UbuntuAnimation.SlowDuration } }
                 id: jumpPointRow
                 anchors {
                     left: parent.left
@@ -101,6 +127,9 @@ KodiPage {
                 id: backButton
                 anchors { left: parent.left; top: parent.top; margins: units.gu(1.5) }
                 source: "image://theme/back"
+                opacity: settings.introStep < Settings.IntroStepDone ? 0 : 1
+                Behavior on opacity { UbuntuNumberAnimation { duration: UbuntuAnimation.SlowDuration } }
+
                 AbstractButton {
                     width: parent.width * 2
                     height: parent.height * 1.2
@@ -116,6 +145,8 @@ KodiPage {
             MediaControlButton {
                 anchors { right: parent.right; top: parent.top; margins: units.gu(1.5) }
                 source: usePictureControls ? "image://theme/add" : "image://theme/view-fullscreen"
+                opacity: settings.introStep < Settings.IntroStepDone ? 0 : 1
+                Behavior on opacity { UbuntuNumberAnimation { duration: UbuntuAnimation.SlowDuration } }
                 AbstractButton {
                     width: parent.width * 2
                     height: parent.height * 1.2
@@ -133,6 +164,8 @@ KodiPage {
             MediaControlButton {
                 anchors { left: parent.left; bottom: parent.bottom; margins: units.gu(1.5) }
                 source: usePictureControls ? "image://theme/reload" : "image://theme/info"
+                opacity: settings.introStep < Settings.IntroStepDone ? 0 : 1
+                Behavior on opacity { UbuntuNumberAnimation { duration: UbuntuAnimation.SlowDuration } }
                 AbstractButton {
                     width: parent.width * 2
                     height: parent.height * 1.2
@@ -150,6 +183,8 @@ KodiPage {
             MediaControlButton {
                 anchors { right: parent.right; bottom: parent.bottom; margins: units.gu(1.5) }
                 source: usePictureControls ? "image://theme/remove" : "image://theme/navigation-menu"
+                opacity: settings.introStep < Settings.IntroStepDone ? 0 : 1
+                Behavior on opacity { UbuntuNumberAnimation { duration: UbuntuAnimation.SlowDuration } }
                 AbstractButton {
                     width: parent.width * 2
                     height: parent.height * 1.2
@@ -175,6 +210,26 @@ KodiPage {
             height: controlButtons.height + root.spacing
             color: Qt.rgba(0, 0, 0, 0.05)
 
+            Label {
+                id: introLabel2
+                anchors.fill: parent
+                horizontalAlignment: Text.AlignHCenter
+                verticalAlignment: Text.AlignVCenter
+                color: "white"
+                wrapMode: Text.WordWrap
+                text: {
+                    switch (settings.introStep) {
+                    case Settings.IntroStepScroll:
+                        return qsTr("The further you move, the faster you scroll.");
+                    case Settings.IntroStepColors:
+                        return qsTr("You can map them to anything you want in Kodi's Lircmap.xml")
+                    }
+                    return ""
+                }
+                opacity: settings.introStep < Settings.IntroStepDone ? 1 : 0
+                Behavior on opacity { UbuntuNumberAnimation { duration: UbuntuAnimation.SlowDuration } }
+            }
+
             PlayerControls {
                 id: controlButtons
                 anchors {
@@ -183,6 +238,8 @@ KodiPage {
                     margins: root.spacing / 2
                     verticalCenter: parent.verticalCenter
                 }
+                opacity: settings.introStep < Settings.IntroStepDone ? 0 : 1
+                Behavior on opacity { UbuntuNumberAnimation { duration: UbuntuAnimation.SlowDuration } }
 
                 player: usePictureControls ? root.picturePlayer : root.player
             }
@@ -199,17 +256,60 @@ KodiPage {
                 anchors.centerIn: parent
                 height: controlButtons.height
                 spacing: parent.width / 8
-                UbuntuShape { height: units.gu(2); width: parent.spacing; color: "red"; anchors.verticalCenter: parent.verticalCenter;
-                    AbstractButton { anchors.fill: parent; anchors.margins: -10; onClicked: { keys.red() } }
+                opacity: settings.introStep < Settings.IntroStepColors ? 0 : 1
+                Behavior on opacity { UbuntuNumberAnimation { duration: UbuntuAnimation.SlowDuration } }
+
+                UbuntuShape {
+                    height: units.gu(2); width: parent.spacing; color: "red"; anchors.verticalCenter: parent.verticalCenter;
+                    AbstractButton {
+                        anchors.fill: parent; anchors.margins: -10;
+                        onClicked: {
+                            if (settings.introStep < Settings.IntroStepDone) {
+                                introLabel2.text = qsTr("Remote name: %1<br>Button name: %2").arg("kodimote").arg("red")
+                                settings.introStep = Settings.IntroStepExit;
+                            }
+                            keys.red()
+                        }
+                    }
                 }
-                UbuntuShape { height: units.gu(2); width: parent.spacing; color: "green"; anchors.verticalCenter: parent.verticalCenter;
-                    AbstractButton { anchors.fill: parent; anchors.margins: -10; onClicked: { keys.green() } }
+                UbuntuShape {
+                    height: units.gu(2); width: parent.spacing; color: "green"; anchors.verticalCenter: parent.verticalCenter;
+                    AbstractButton {
+                        anchors.fill: parent; anchors.margins: -10;
+                        onClicked: {
+                            if (settings.introStep < Settings.IntroStepDone) {
+                                introLabel2.text = qsTr("Remote name: %1<br>Button name: %2").arg("kodimote").arg("green")
+                                settings.introStep = Settings.IntroStepExit;
+                            }
+                            keys.green()
+                        }
+                    }
                 }
-                UbuntuShape { height: units.gu(2); width: parent.spacing; color: "yellow"; anchors.verticalCenter: parent.verticalCenter;
-                    AbstractButton { anchors.fill: parent; anchors.margins: -10; onClicked: { keys.yellow() } }
+                UbuntuShape {
+                    height: units.gu(2); width: parent.spacing; color: "yellow"; anchors.verticalCenter: parent.verticalCenter;
+                    AbstractButton {
+                        anchors.fill: parent; anchors.margins: -10;
+                        onClicked: {
+                            if (settings.introStep < Settings.IntroStepDone) {
+                                introLabel2.text = qsTr("Remote name: %1<br>Button name: %2").arg("kodimote").arg("yellow")
+                                settings.introStep = Settings.IntroStepExit;
+                            }
+                            keys.yellow()
+                        }
+                    }
                 }
-                UbuntuShape { height: units.gu(2); width: parent.spacing; color: "blue"; anchors.verticalCenter: parent.verticalCenter;
-                    AbstractButton { anchors.fill: parent; anchors.margins: -10; onClicked: { keys.blue() } }
+                UbuntuShape {
+                    height: units.gu(2); width: parent.spacing; color: "blue"; anchors.verticalCenter: parent.verticalCenter;
+                    AbstractButton {
+                        anchors.fill: parent; anchors.margins: -10;
+                        onClicked: {
+                            if (settings.introStep < Settings.IntroStepDone) {
+                                introLabel2.text = qsTr("Remote name: %1<br>Button name: %2").arg("kodimote").arg("blue")
+                                settings.introStep = Settings.IntroStepExit;
+                            }
+                            keys.blue()
+                        }
+                    }
                 }
             }
         }
