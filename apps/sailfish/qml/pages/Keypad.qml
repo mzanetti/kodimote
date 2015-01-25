@@ -41,6 +41,21 @@ Page {
         duration: 50
     }
 
+    onStatusChanged: {
+        if (status === PageStatus.Active) {
+            dockedControls.hideTemporary = settings.introStep < Settings.IntroStepDone
+        } else {
+            dockedControls.hideTemporary = false
+        }
+    }
+
+    Connections {
+        target: settings
+        onIntroStepChanged: {
+            dockedControls.hideTemporary = settings.introStep < Settings.IntroStepDone
+        }
+    }
+
     SilicaFlickable {
         anchors.fill: parent
         pressDelay: 0
@@ -106,7 +121,37 @@ Page {
                 color: Theme.rgba(Theme.highlightBackgroundColor, Theme.highlightBackgroundOpacity)
                 height: Theme.itemSizeMedium
 
+                Label {
+                    id: introLabel1
+                    anchors {fill: parent; leftMargin: Theme.paddingSmall; rightMargin: Theme.paddingSmall; }
+                    horizontalAlignment: Text.AlignHCenter
+                    verticalAlignment: Text.AlignVCenter
+                    wrapMode: Text.WordWrap
+                    opacity: settings.introStep < Settings.IntroStepDone ? 1 : 0
+                    Behavior on opacity { NumberAnimation { duration: 500 } }
+                    color: "white"
+                    text: {
+                        switch (settings.introStep) {
+                        case Settings.IntroStepLeftRight:
+                            return qsTr("To move left or right, swipe horizontally anywhere on the pad.");
+                        case Settings.IntroStepUpDown:
+                            return qsTr("To move up or down, swipe vertically.");
+                        case Settings.IntroStepScroll:
+                            return qsTr("To scroll through lists, press and keep holding while dragging.");
+                        case Settings.IntroStepClick:
+                            return qsTr("To select an item, tap anywhere on the pad.");
+                        case Settings.IntroStepColors:
+                            return qsTr("Pro tip: The color buttons at the bottom simulate an infrared remote.")
+                        case Settings.IntroStepExit:
+                            return qsTr("Tap the pad to finish the tutorial.")
+                        }
+                        return ""
+                    }
+                }
+
                 Row {
+                    opacity: settings.introStep < Settings.IntroStepDone ? 0 : 1
+                    Behavior on opacity { NumberAnimation { duration: 500 } }
                     anchors.centerIn: parent
                     spacing: Theme.paddingMedium
 
@@ -168,6 +213,8 @@ Page {
                 width: parent.width
 
                 IconButton {
+                    opacity: settings.introStep < Settings.IntroStepDone ? 0 : 1
+                    Behavior on opacity { NumberAnimation { duration: 500 } }
                     icon.source: "image://theme/icon-m-back"
                     anchors { left: parent.left; top: parent.top; margins: Theme.paddingMedium }
                     onClicked: {
@@ -179,6 +226,8 @@ Page {
                     }
                 }
                 IconButton {
+                    opacity: settings.introStep < Settings.IntroStepDone ? 0 : 1
+                    Behavior on opacity { NumberAnimation { duration: 500 } }
                     icon.source: usePictureControls ? "image://theme/icon-m-add" : "image://theme/icon-m-back"
                     rotation: usePictureControls ? 0 : 135
                     anchors { right: parent.right; top: parent.top; margins: Theme.paddingMedium }
@@ -195,6 +244,8 @@ Page {
                     }
                 }
                 IconButton {
+                    opacity: settings.introStep < Settings.IntroStepDone ? 0 : 1
+                    Behavior on opacity { NumberAnimation { duration: 500 } }
                     icon.source: usePictureControls ? "image://theme/icon-m-refresh" : "image://theme/icon-m-about"
                     anchors { left: parent.left; bottom: parent.bottom; margins: Theme.paddingMedium }
                     onClicked: {
@@ -210,6 +261,8 @@ Page {
                     }
                 }
                 IconButton {
+                    opacity: settings.introStep < Settings.IntroStepDone ? 0 : 1
+                    Behavior on opacity { NumberAnimation { duration: 500 } }
                     icon.source: usePictureControls ? "image://theme/icon-m-remove" : "../icons/icon-m-menu.png"
                     anchors { right: parent.right; bottom: parent.bottom; margins: Theme.paddingMedium }
                     onClicked: {
@@ -234,26 +287,109 @@ Page {
                 Row {
                     anchors.centerIn: parent
                     spacing: parent.width / 8
-                    Rectangle { height: 20; width: parent.spacing; color: "red"; anchors.verticalCenter: parent.verticalCenter; radius: 2
-                        MouseArea { anchors.fill: parent; anchors.margins: -10; onClicked: { if (settings.hapticsEnabled) { rumbleEffect.start(2); } keys.red() } }
+                    opacity: settings.introStep < Settings.IntroStepColors ? 0 : 1
+                    Behavior on opacity { NumberAnimation { duration: 500 } }
+
+                    Rectangle {
+                        height: 20; width: parent.spacing; color: "red"; anchors.verticalCenter: parent.verticalCenter; radius: 2
+                        MouseArea {
+                            anchors.fill: parent; anchors.margins: -10;
+                            onClicked: {
+                                if (settings.hapticsEnabled) {
+                                    rumbleEffect.start(2);
+                                }
+
+                                if (settings.introStep < Settings.IntroStepDone) {
+                                    introLabel2.text = qsTr("Remote name: %1<br>Button name: %2").arg("kodimote").arg("red")
+                                    settings.introStep = Settings.IntroStepExit;
+                                }
+
+                                keys.red();
+                            }
+                        }
                     }
-                    Rectangle { height: 20; width: parent.spacing; color: "green"; anchors.verticalCenter: parent.verticalCenter; radius: 2
-                        MouseArea { anchors.fill: parent; anchors.margins: -10; onClicked: { if (settings.hapticsEnabled) { rumbleEffect.start(2); } keys.green() } }
+                    Rectangle {
+                        height: 20; width: parent.spacing; color: "green"; anchors.verticalCenter: parent.verticalCenter; radius: 2
+                        MouseArea {
+                            anchors.fill: parent; anchors.margins: -10;
+                            onClicked: {
+                                if (settings.hapticsEnabled) {
+                                    rumbleEffect.start(2);
+                                }
+
+                                if (settings.introStep < Settings.IntroStepDone) {
+                                    introLabel2.text = qsTr("Remote name: %1<br>Button name: %2").arg("kodimote").arg("green")
+                                    settings.introStep = Settings.IntroStepExit;
+                                }
+
+                                keys.green()
+                            }
+                        }
                     }
-                    Rectangle { height: 20; width: parent.spacing; color: "yellow"; anchors.verticalCenter: parent.verticalCenter; radius: 2
-                        MouseArea { anchors.fill: parent; anchors.margins: -10; onClicked: { if (settings.hapticsEnabled) { rumbleEffect.start(2); } keys.yellow() } }
+                    Rectangle {
+                        height: 20; width: parent.spacing; color: "yellow"; anchors.verticalCenter: parent.verticalCenter; radius: 2
+                        MouseArea {
+                            anchors.fill: parent; anchors.margins: -10;
+                            onClicked: {
+                                if (settings.hapticsEnabled) {
+                                    rumbleEffect.start(2);
+                                }
+
+                                if (settings.introStep < Settings.IntroStepDone) {
+                                    introLabel2.text = qsTr("Remote name: %1<br>Button name: %2").arg("kodimote").arg("yellow")
+                                    settings.introStep = Settings.IntroStepExit;
+                                }
+
+                                keys.yellow()
+                            }
+                        }
                     }
-                    Rectangle { height: 20; width: parent.spacing; color: "blue"; anchors.verticalCenter: parent.verticalCenter; radius: 2
-                        MouseArea { anchors.fill: parent; anchors.margins: -10; onClicked: { if (settings.hapticsEnabled) { rumbleEffect.start(2); } keys.blue() } }
+                    Rectangle {
+                        height: 20; width: parent.spacing; color: "blue"; anchors.verticalCenter: parent.verticalCenter; radius: 2
+                        MouseArea {
+                            anchors.fill: parent; anchors.margins: -10;
+                            onClicked: {
+                                if (settings.hapticsEnabled) {
+                                    rumbleEffect.start(2);
+                                }
+
+                                if (settings.introStep < Settings.IntroStepDone) {
+                                    introLabel2.text = qsTr("Remote name: %1<br>Button name: %2").arg("kodimote").arg("blue")
+                                    settings.introStep = Settings.IntroStepExit;
+                                }
+
+                                keys.blue()
+                            }
+                        }
                     }
                 }
             }
-        }
-    }
 
-    onStatusChanged: {
-        if (status === PageStatus.Active) {
-            gesturePad.teaseArrows();
+            Rectangle {
+                width: parent.width
+                color: Theme.rgba(Theme.highlightBackgroundColor, Theme.highlightBackgroundOpacity)
+                height: Theme.itemSizeMedium
+                visible: settings.introStep < Settings.IntroStepDone
+                Label {
+                    id: introLabel2
+                    anchors {fill: parent; leftMargin: Theme.paddingSmall; rightMargin: Theme.paddingSmall; }
+                    horizontalAlignment: Text.AlignHCenter
+                    verticalAlignment: Text.AlignVCenter
+                    color: "white"
+                    wrapMode: Text.WordWrap
+                    text: {
+                        switch (settings.introStep) {
+                        case Settings.IntroStepScroll:
+                            return qsTr("The further you move, the faster you scroll.");
+                        case Settings.IntroStepColors:
+                            return qsTr("You can map them to anything you want in Kodi's Lircmap.xml")
+                        }
+                        return ""
+                    }
+                    opacity: settings.introStep < Settings.IntroStepDone ? 1 : 0
+                    Behavior on opacity { NumberAnimation { duration: 500 } }
+                }
+            }
         }
     }
 }
