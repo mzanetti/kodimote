@@ -46,6 +46,7 @@ Item {
                 break;
             case Settings.IntroStepColors:
             case Settings.IntroStepClick:
+            case Settings.IntroStepExit:
                 animateAll();
                 break;
             }
@@ -261,6 +262,11 @@ Item {
                     if (settings.introStep == Settings.IntroStepClick || settings.introStep == Settings.IntroStepColors) {
                         settings.introStep++;
                     }
+                    // If the user just clicked here during the colors step, let's skip the exit step
+                    if (settings.introStep == Settings.IntroStepExit) {
+                        settings.introStep++;
+                    }
+
                     return;
                 }
 

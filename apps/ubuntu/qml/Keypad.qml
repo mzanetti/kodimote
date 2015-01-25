@@ -35,10 +35,6 @@ KodiPage {
 
     property int spacing: units.gu(2)
 
-    function teaseArrows() {
-        gesturePad.teaseArrows();
-    }
-
     property QtObject keys: kodi.keys()
 
     Column {
@@ -56,6 +52,7 @@ KodiPage {
             color: Qt.rgba(0, 0, 0, 0.05)
 
             Label {
+                id: introLabel1
                 anchors.fill: parent
                 horizontalAlignment: Text.AlignHCenter
                 verticalAlignment: Text.AlignVCenter
@@ -66,7 +63,7 @@ KodiPage {
                 text: {
                     switch (settings.introStep) {
                     case Settings.IntroStepLeftRight:
-                        return qsTr("To move left or right, swipe horizontally.");
+                        return qsTr("To move left or right, swipe horizontally anywhere on the pad.");
                     case Settings.IntroStepUpDown:
                         return qsTr("To move up or down, swipe vertically.");
                     case Settings.IntroStepScroll:
@@ -75,6 +72,8 @@ KodiPage {
                         return qsTr("To select an item, tap anywhere on the pad.");
                     case Settings.IntroStepColors:
                         return qsTr("Pro tip: The color buttons at the bottom simulate an infrared remote.")
+                    case Settings.IntroStepExit:
+                        return qsTr("Tap the pad to finish the tutorial.")
                     }
                     return ""
                 }
@@ -227,7 +226,7 @@ KodiPage {
                     }
                     return ""
                 }
-                opacity: (settings.introStep == Settings.IntroStepScroll || settings.introStep == Settings.IntroStepColors) ? 1 : 0
+                opacity: settings.introStep < Settings.IntroStepDone ? 1 : 0
                 Behavior on opacity { UbuntuNumberAnimation { duration: UbuntuAnimation.SlowDuration } }
             }
 
@@ -265,8 +264,9 @@ KodiPage {
                     AbstractButton {
                         anchors.fill: parent; anchors.margins: -10;
                         onClicked: {
-                            if (settings.introStep == Settings.IntroStepColors) {
+                            if (settings.introStep < Settings.IntroStepDone) {
                                 introLabel2.text = qsTr("Remote name: %1<br>Button name: %2").arg("kodimote").arg("red")
+                                settings.introStep = Settings.IntroStepExit;
                             }
                             keys.red()
                         }
@@ -277,8 +277,9 @@ KodiPage {
                     AbstractButton {
                         anchors.fill: parent; anchors.margins: -10;
                         onClicked: {
-                            if (settings.introStep == Settings.IntroStepColors) {
+                            if (settings.introStep < Settings.IntroStepDone) {
                                 introLabel2.text = qsTr("Remote name: %1<br>Button name: %2").arg("kodimote").arg("green")
+                                settings.introStep = Settings.IntroStepExit;
                             }
                             keys.green()
                         }
@@ -289,8 +290,9 @@ KodiPage {
                     AbstractButton {
                         anchors.fill: parent; anchors.margins: -10;
                         onClicked: {
-                            if (settings.introStep == Settings.IntroStepColors) {
+                            if (settings.introStep < Settings.IntroStepDone) {
                                 introLabel2.text = qsTr("Remote name: %1<br>Button name: %2").arg("kodimote").arg("yellow")
+                                settings.introStep = Settings.IntroStepExit;
                             }
                             keys.yellow()
                         }
@@ -301,8 +303,9 @@ KodiPage {
                     AbstractButton {
                         anchors.fill: parent; anchors.margins: -10;
                         onClicked: {
-                            if (settings.introStep == Settings.IntroStepColors) {
+                            if (settings.introStep < Settings.IntroStepDone) {
                                 introLabel2.text = qsTr("Remote name: %1<br>Button name: %2").arg("kodimote").arg("blue")
+                                settings.introStep = Settings.IntroStepExit;
                             }
                             keys.blue()
                         }
