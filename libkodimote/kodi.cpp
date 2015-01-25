@@ -168,7 +168,7 @@ Kodi::Kodi(QObject *parent) :
     qmlRegisterType<KodiHost>(qmlUri, 1, 0, "KodiHost");
     qmlRegisterType<KodiDiscovery>(qmlUri, 1, 0, "KodiDiscovery");
 
-    qmlRegisterUncreatableType<Settings>("Kodi", 1, 0, "Settings", "Cannot create multiple settings. Use the \"settings\" context property intead");
+    qmlRegisterUncreatableType<Settings>(qmlUri, 1, 0, "Settings", "Cannot create multiple settings. Use the \"settings\" context property intead");
 
     m_hosts = new KodiHostModel(this);
 

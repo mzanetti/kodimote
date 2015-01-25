@@ -35,14 +35,30 @@ Item {
         duration: 150
     }
 
-    function teaseArrows() {
-        teaseTimer.start()
-    }
     Timer {
         id: teaseTimer
         interval: 1000
+        running: settings.introStep < Settings.IntroStepDone
+        repeat: true
         onTriggered: {
-            animateAll();
+            switch (settings.introStep) {
+            case Settings.IntroStepLeftRight:
+                leftArrows.item.animate()
+                rightArrows.item.animate();
+                break;
+            case Settings.IntroStepUpDown:
+                upArrows.item.animate()
+                downArrows.item.animate();
+                break;
+            case Settings.IntroStepScroll:
+                downArrows.item.animate();
+                break;
+            case Settings.IntroStepColors:
+            case Settings.IntroStepClick:
+            case Settings.IntroStepExit:
+                animateAll();
+                break;
+            }
         }
     }
 
@@ -217,11 +233,24 @@ Item {
             // Lets use newSpeed for changing and fetch it when appropriate
             property int newSpeed: -1
 
+            property int introScrollCount: 0
             onTriggered: {
                 if(newSpeed !== -1) {
                     speed = newSpeed;
                     newSpeed = -1;
                 }
+
+                if (settings.introStep < Settings.IntroStepDone) {
+                    if (settings.introStep == Settings.IntroStepScroll) {
+                        rumbleEffect.start(1);
+                        introScrollCount++;
+                        if (introScrollCount >= 10) {
+                            settings.introStep++;
+                        }
+                    }
+                    return;
+                }
+
                 mouseArea.doKeyPress();
             }
         }
@@ -234,7 +263,24 @@ Item {
 
             // Did we not move? => press enter
             if (dxAbs < maxClickDistance && dyAbs < maxClickDistance) {
-                print("pressing enter")
+                print("pressing enter");
+
+                if (settings.hapticsEnabled) {
+                    rumbleEffect.start(1);
+                }
+
+                if (settings.introStep < Settings.IntroStepDone) {
+                    if (settings.introStep == Settings.IntroStepClick || settings.introStep == Settings.IntroStepColors) {
+                        settings.introStep++;
+                    }
+                    // If the user just clicked here during the colors step, let's skip the exit step
+                    if (settings.introStep == Settings.IntroStepExit) {
+                        settings.introStep++;
+                    }
+
+                    return;
+                }
+
                 keys.select();
                 animateAll();
                 return;
@@ -255,6 +301,13 @@ Item {
             // Reason is that the thumb can easily produce large vertical deltas
             // just by touching the screen with more than the tip
             if (dxAbs > minSwipeDistance * 2 || dxAbs > dyAbs) {
+                if (settings.introStep < Settings.IntroStepDone) {
+                    if (settings.introStep == Settings.IntroStepLeftRight) {
+                        settings.introStep++;
+                    }
+                    return;
+                }
+
                 if (dx < 0) {
                     leftArrows.item.animate();
                     keys.left();
@@ -263,6 +316,13 @@ Item {
                     keys.right();
                 }
             } else {
+                if (settings.introStep < Settings.IntroStepDone) {
+                    if (settings.introStep == Settings.IntroStepUpDown) {
+                        settings.introStep++;
+                    }
+                    return;
+                }
+
                 if (dy < 0) {
                     upArrows.item.animate();
                     keys.up();
