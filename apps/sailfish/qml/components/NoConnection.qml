@@ -64,9 +64,9 @@ Item {
                 width: parent.width - (Theme.paddingLarge * 2)
                 anchors.horizontalCenter: parent.horizontalCenter
                 wrapMode: Text.WordWrap
-                text: qsTr("Please enable the following options in the Services settings of XBMC:") + "\n- "
-                      + qsTr("Allow control of XBMC via HTTP") + "\n- "
-                      + qsTr("Allow programs on other systems to control XBMC")
+                text: qsTr("Please enable the following options in the Services settings of Kodi:") + "\n- "
+                      + qsTr("Allow control of Kodi via HTTP") + "\n- "
+                      + qsTr("Allow programs on other systems to control Kodi")
                 color: Theme.highlightColor
             }
 

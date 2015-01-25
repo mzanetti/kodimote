@@ -135,7 +135,7 @@ CoverBackground {
             when: kodi.connected
             PropertyChanges {
                 target: description
-                text: qsTr("XBMC on") + "\n" + kodi.connectedHostName
+                text: qsTr("Kodi on") + "\n" + kodi.connectedHostName
             }
             PropertyChanges {
                 target: leftAction
@@ -152,7 +152,7 @@ CoverBackground {
             when: !kodi.connected
             PropertyChanges {
                 target: description
-                text: qsTr("XBMC remote") + "\n" +
+                text: qsTr("Kodimote") + "\n" +
                       qsTr("Disconnected")
             }
             PropertyChanges {
