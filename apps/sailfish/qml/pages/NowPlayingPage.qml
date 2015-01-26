@@ -33,10 +33,8 @@ Page {
 
     onPlayerChanged: {
         if(player === null) {
-            if(nowPlayingPage.status === PageStatus.Active) {
-                //pop immediately to prevent the empty page being shown during the pop animation
-                pageStack.pop(undefined, PageStackAction.Immediate);
-            }
+            //pop immediately to prevent the empty page being shown during the pop animation
+            pageStack.pop(undefined, PageStackAction.Immediate);
         }
     }
 
