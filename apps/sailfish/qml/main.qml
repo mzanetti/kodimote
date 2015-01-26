@@ -216,9 +216,11 @@ ApplicationWindow
             var value = appWindow.inputDialog.value;
             console.log("Sending text: " + value)
             kodi.keys().sendText(value);
+            appWindow.inputDialog = null;
         });
         appWindow.inputDialog.rejected.connect(function() {
             kodi.keys().previousMenu();
+            appWindow.inputDialog = null;
         });
         appWindow.inputDialog.open();
     }
