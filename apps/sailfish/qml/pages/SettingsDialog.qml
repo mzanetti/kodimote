@@ -33,17 +33,16 @@ Dialog {
 
         contentHeight: settingsCol.childrenRect.height
 
+        DialogHeader {
+            id: header
+            acceptText: qsTr("Save")
+            width: parent.width
+        }
+
         Column {
             id: settingsCol
-            anchors.left: parent.left
-            anchors.right: parent.right
-            anchors.margins: Theme.paddingLarge
+            anchors {left: parent.left; right: parent.right; top: header.bottom; leftMargin: Theme.paddingLarge; rightMargin: Theme.paddingLarge }
             spacing: Theme.paddingSmall
-
-            DialogHeader {
-                id: header
-                acceptText: qsTr("Save")
-            }
 
             SectionHeader {
                 text: qsTr("Look and feel")
