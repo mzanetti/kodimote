@@ -207,7 +207,7 @@ void KodiImageCache::fetchNext(ImageFetchJob *job)
 
     QVariantMap params;
     params.insert("path", job->imageName());
-    int id = KodiConnection::sendCommand("Files.PrepareDownload", params, this, "downloadPrepared");
+    int id = KodiConnection::sendParallelCommand("Files.PrepareDownload", params, this, "downloadPrepared");
     m_fetchQueue.insert(id, cacheKey);
 }
 

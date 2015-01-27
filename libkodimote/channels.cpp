@@ -169,7 +169,7 @@ void Channels::fetchBroadcasts(int channelId, int start, int end)
     limits.insert("end", end);
     params.insert("limits", limits);
 
-    int id = KodiConnection::sendCommand("PVR.GetBroadcasts", params, this, "broadcastsReceived");
+    int id = KodiConnection::sendParallelCommand("PVR.GetBroadcasts", params, this, "broadcastsReceived");
     m_broadcastRequestMap.insert(id, channelId);
 }
 
