@@ -39,13 +39,15 @@ Page {
     ]
 
     onConnectedChanged: {
-        pageStack.pop(mainPage, PageStackAction.Immediate);
-        populateMainMenu();
         if (connected) {
             pageStack.pushAttached("KodiPage.qml");
         } else {
-            pageStack.popAttached();
+            try {
+            pageStack.popAttached(undefined, PageStackAction.Immediate);
+            } catch (e) {}
         }
+        pageStack.pop(mainPage, PageStackAction.Immediate);
+        populateMainMenu();
     }
 
     function showConnect(operationType) {
@@ -218,6 +220,8 @@ Page {
 
             if (kodi.connected) {
                 pageStack.pushAttached("KodiPage.qml");
+            } else {
+                pageStack.popAttached();
             }
         }
     }
