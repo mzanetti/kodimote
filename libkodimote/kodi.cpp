@@ -394,32 +394,7 @@ void Kodi::activePlayersReceived(const QVariantMap &rsp)
         }
     }
 
-    if(activePlayer == 0) {
-        if(m_state != "") {
-            m_state = "";
-            emit stateChanged();
-        }
-
-        if(m_activePlayer) {
-            m_activePlayer->detach();
-            m_activePlayer = 0;
-            emit activePlayerChanged();
-        }
-    } else if(m_activePlayer != activePlayer) {
-        if(m_activePlayer) {
-            m_activePlayer->detach();
-        }
-        m_activePlayer = activePlayer;
-        koDebug(XDAREA_PLAYER) << "active player changed!";
-        emit stateChanged();
-        emit activePlayerChanged();
-        m_activePlayer->refresh();
-    }
-
-    if(m_picturePlayerActive != picturesActive) {
-        m_picturePlayerActive = picturesActive;
-        emit picturePlayerActiveChanged();
-    }
+    setActivePlayer(activePlayer, picturesActive);
 }
 
 void Kodi::volumeReceived(const QVariantMap &rsp)
@@ -494,6 +469,7 @@ void Kodi::connectionChanged()
         init();
     } else {
         m_eventClient->disconnectFromHost();
+        setActivePlayer(0, false);
     }
     emit connectedChanged(connected());
 }
@@ -725,5 +701,35 @@ void Kodi::hwAddrReceived(const QVariantMap &rsp)
         KodiConnection::connectedHost()->setHwAddr(hwAddr.toLower());
     } else if(m_hwAddrRequestCount < 5) {
         QTimer::singleShot(100, this, SLOT(requestHwAddr()));
+    }
+}
+
+void Kodi::setActivePlayer(Player *player, bool picturePlayerActive)
+{
+    if(player == 0) {
+        if(m_state != "") {
+            m_state = "";
+            emit stateChanged();
+        }
+
+        if(m_activePlayer) {
+            m_activePlayer->detach();
+            m_activePlayer = 0;
+            emit activePlayerChanged();
+        }
+    } else if(m_activePlayer != player) {
+        if(m_activePlayer) {
+            m_activePlayer->detach();
+        }
+        m_activePlayer = player;
+        koDebug(XDAREA_PLAYER) << "active player changed!";
+        emit stateChanged();
+        emit activePlayerChanged();
+        m_activePlayer->refresh();
+    }
+
+    if(m_picturePlayerActive != picturePlayerActive) {
+        m_picturePlayerActive = picturePlayerActive;
+        emit picturePlayerActiveChanged();
     }
 }

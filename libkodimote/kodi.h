@@ -191,6 +191,8 @@ private:
     static Kodi *s_instance;
     explicit Kodi(QObject *parent = 0);
 
+    void setActivePlayer(Player *player, bool picturePlayerActive);
+
     AudioPlayer *m_audioPlayer;
     VideoPlayer *m_videoPlayer;
     PicturePlayer *m_picturePlayer;
