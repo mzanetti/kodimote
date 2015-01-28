@@ -208,7 +208,7 @@ void Kodi::init()
     QVariantList list;
     list.append("volume");
     params.insert("properties", list);
-    KodiConnection::sendParallelCommand("Application.GetProperties", params, this, "volumeReceived");
+    KodiConnection::sendCommand("Application.GetProperties", params, this, "volumeReceived");
 
     params.clear();
     list.clear();
@@ -217,7 +217,7 @@ void Kodi::init()
     list.append("cansuspend");
     list.append("canreboot");
     params.insert("properties", list);
-    KodiConnection::sendParallelCommand("System.GetProperties", params, this, "systemPropertiesReceived");
+    KodiConnection::sendCommand("System.GetProperties", params, this, "systemPropertiesReceived");
 
     params.clear();
     list.clear();
@@ -225,7 +225,7 @@ void Kodi::init()
     list.append("recording");
     list.append("scanning");
     params.insert("properties", list);
-    KodiConnection::sendParallelCommand("PVR.GetProperties", params, this, "pvrPropertiesReceived");
+    KodiConnection::sendCommand("PVR.GetProperties", params, this, "pvrPropertiesReceived");
 
     if (KodiConnection::connectedHost()->hwAddr().isEmpty()) {
         m_hwAddrRequestCount = 0;
