@@ -1,3 +1,16 @@
+* Thu Jan 29 2015 Robert Meijers <robert.meijers@gmail.com> 2.0.0-1
+- Rename app to Kodimote
+- Add support for browsing audio and video addons
+- Add support for switching profiles
+- Improve Wake On LAN support
+- Move "Files" into sublist of "Music" and "Video" instead of mode switching
+- Improve haptics feedback (thanks to accumulator)
+- Add introduction/tutorial to keypad
+- Fix issue which would lead to random crashes, mostly when opening "Now playing" or reconnecting
+- Improve load time of thumbnails and responsiveness of the app during download
+- Rework reconnecting to Kodi, enabling reconnecting when Kodi disconnected without draining the battery
+- Numerious small bug fixes
+
 * Thu Aug 21 2014 Robert Meijers <robert.meijers@gmail.com> 1.6.0-1
 - show controls dock, containing playback and volume buttons, when playing media
 - add support for browsing PVR recordings
