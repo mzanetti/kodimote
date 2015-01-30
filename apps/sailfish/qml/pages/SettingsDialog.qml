@@ -31,7 +31,7 @@ Dialog {
     SilicaFlickable {
         anchors.fill: parent
 
-        contentHeight: settingsCol.childrenRect.height
+        contentHeight: settingsCol.height + header.height
 
         DialogHeader {
             id: header
