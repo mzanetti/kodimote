@@ -31,6 +31,15 @@ Page {
 
     signal home();
 
+    Component.onCompleted: {
+        var setting = model.watchedFilterSetting;
+        if (setting) {
+            settings[setting + 'Changed'].connect(function() {
+                filterModel.hideWatched = !settings[setting];
+            });
+        }
+    }
+
     Component.onDestruction: {
         if (model) {
             model.exit();
@@ -41,6 +50,14 @@ Page {
         id: filterModel
         model: browserPage.model
         filterCaseSensitivity: Qt.CaseInsensitive
+        hideWatched: model.watchedFilterSetting ? !settings[model.watchedFilterSetting] : false
+
+        onHideWatchedChanged: {
+            var setting = model.watchedFilterSetting;
+            if (setting) {
+                settings[setting] = !hideWatched;
+            }
+        }
     }
 
     SilicaFlickable {
@@ -364,8 +381,9 @@ Page {
                     anchors.verticalCenter: parent.verticalCenter
                     anchors.verticalCenterOffset: -14
                     checked: !filterModel.hideWatched
-                    onCheckedChanged: {
-                        filterModel.hideWatched = !checked
+                    automaticCheck: false
+                    onClicked: {
+                        filterModel.hideWatched = !filterModel.hideWatched
                     }
                 }
 
