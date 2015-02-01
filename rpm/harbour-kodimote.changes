@@ -1,3 +1,6 @@
+* Sat Jan 31 2015 Robert Meijers <robert.meijers@gmail.com> 2.0.1-1
+- Fix Settings page not showing all settings (thanks to nodevel)
+
 * Thu Jan 29 2015 Robert Meijers <robert.meijers@gmail.com> 2.0.0-1
 - Rename app to Kodimote
 - Add support for browsing audio and video addons

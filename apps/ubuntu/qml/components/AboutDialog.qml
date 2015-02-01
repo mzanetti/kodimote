@@ -4,7 +4,7 @@ import Ubuntu.Components.Popups 1.0
 
 Dialog {
     id: aboutDialog
-    title: "        Kodimote 2.0.0"
+    title: "        Kodimote 2.0.1"
     text: "Michael Zanetti<br>michael_zanetti@gmx.net" +
           "<br>Robert Meijers<br>robert.meijers@gmail.com" +
           "<br>http://notyetthere.org/ubuntu/kodimote"
