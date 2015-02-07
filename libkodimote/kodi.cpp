@@ -194,6 +194,13 @@ Kodi::Kodi(QObject *parent) :
     m_volumeAnimation.setTargetObject(this);
     m_volumeAnimation.setPropertyName("volume");
     m_volumeAnimation.setDuration(500);
+
+    m_volumeTimer = new QTimer(this);
+    m_volumeTimer->setInterval(500);
+    m_volumeTimer->setSingleShot(true);
+    connect(m_volumeTimer, SIGNAL(timeout()), this, SLOT(requestVolumeTimeout()));
+    m_volumeChangeOutstanding = false;
+    m_volumePending = -1;
 }
 
 Kodi::~Kodi()
@@ -355,6 +362,13 @@ void Kodi::parseAnnouncement(const QVariantMap &map)
     } else if(map.value("method").toString() == "Application.OnVolumeChanged") {
         qDebug() << "volume changed";
         m_volume = map.value("params").toMap().value("data").toMap().value("volume").toInt();
+        m_volumeTimer->stop();
+        if (m_volumeChangeOutstanding) {
+            m_volumeChangeOutstanding = false;
+            if (m_volumePending != m_volume) {
+                requestVolume(m_volumePending);
+            }
+        }
         emit volumeChanged(m_volume);
     }
 
@@ -500,12 +514,26 @@ void Kodi::setVolume(int volume)
 
     } else {
         if(volume != m_volume) {
-            QVariantMap map;
-            map.insert("volume", volume);
-            KodiConnection::sendCommand("Application.SetVolume", map);
-
+            requestVolume(volume);
         }
     }
+}
+
+void Kodi::requestVolume(int volume) {
+    m_volumePending = volume;
+    if (!m_volumeChangeOutstanding) {
+        m_volumeChangeOutstanding = true;
+        QVariantMap map;
+        map.insert("volume", volume);
+        KodiConnection::sendCommand("Application.SetVolume", map);
+        m_volumeTimer->start();
+    }
+}
+
+void Kodi::requestVolumeTimeout() {
+    // request volume again
+    m_volumeChangeOutstanding = false;
+    requestVolume(m_volumePending);
 }
 
 int Kodi::volume()

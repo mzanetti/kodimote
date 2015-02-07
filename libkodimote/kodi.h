@@ -24,6 +24,7 @@
 #include <QObject>
 #include <QVariantMap>
 #include <QPropertyAnimation>
+#include <QTimer>
 
 class KodiModel;
 class KodiHost;
@@ -187,11 +188,13 @@ private slots:
     void pvrPropertiesReceived(const QVariantMap &rsp);
     void hwAddrReceived(const QVariantMap &rsp);
 
+    void requestVolumeTimeout();
 private:
     static Kodi *s_instance;
     explicit Kodi(QObject *parent = 0);
 
     void setActivePlayer(Player *player, bool picturePlayerActive);
+    void requestVolume(int volume);
 
     AudioPlayer *m_audioPlayer;
     VideoPlayer *m_videoPlayer;
@@ -203,6 +206,10 @@ private:
     EventClient *m_eventClient;
 
     int m_volume;
+    int m_volumePending;
+    bool m_volumeChangeOutstanding;
+    QTimer *m_volumeTimer;
+
     QString m_state;
     int m_hwAddrRequestCount;
 
