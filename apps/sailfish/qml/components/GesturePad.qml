@@ -187,20 +187,12 @@ Item {
         onPressed: {
             startx = mouse.x
             starty = mouse.y
-        }
-
-        onPressAndHold: {
-            if (settings.hapticsEnabled) {
-                rumbleEffect.start(4);
-            }
-
             scrollTimer.start();
         }
 
         onReleased: {
-            if (scrollTimer.running) {
-                scrollTimer.stop();
-            } else {
+            scrollTimer.stop();
+            if (scrollTimer.triggerCount == 0) {
                 doKeyPress();
             }
         }
@@ -233,8 +225,16 @@ Item {
             // Lets use newSpeed for changing and fetch it when appropriate
             property int newSpeed: -1
 
-            property int introScrollCount: 0
+            property int triggerCount: 0
+
+            onRunningChanged: {
+                if (running) {
+                    triggerCount = 0;
+                }
+            }
+
             onTriggered: {
+                triggerCount++;
                 if(newSpeed !== -1) {
                     speed = newSpeed;
                     newSpeed = -1;
@@ -243,10 +243,7 @@ Item {
                 if (settings.introStep < Settings.IntroStepDone) {
                     if (settings.introStep == Settings.IntroStepScroll) {
                         rumbleEffect.start(1);
-                        introScrollCount++;
-                        if (introScrollCount >= 10) {
-                            settings.introStep++;
-                        }
+                        settings.introStep++;
                     }
                     return;
                 }
