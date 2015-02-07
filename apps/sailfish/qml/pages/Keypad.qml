@@ -137,7 +137,7 @@ Page {
                         case Settings.IntroStepUpDown:
                             return qsTr("To move up or down, swipe vertically.");
                         case Settings.IntroStepScroll:
-                            return qsTr("To scroll through lists, press and keep holding while dragging.");
+                            return qsTr("Keep holding after swiping to scroll though lists quickly.");
                         case Settings.IntroStepClick:
                             return qsTr("To select an item, tap anywhere on the pad.");
                         case Settings.IntroStepColors:
