@@ -193,7 +193,7 @@ Item {
         onReleased: {
             scrollTimer.stop();
             if (scrollTimer.triggerCount == 0) {
-                doKeyPress();
+                doKeyPress(false);
             }
         }
 
@@ -248,11 +248,11 @@ Item {
                     return;
                 }
 
-                mouseArea.doKeyPress();
+                mouseArea.doKeyPress(true);
             }
         }
 
-        function doKeyPress() {
+        function doKeyPress(repeated) {
             var dx = mouseX - startx;
             var dy = mouseY - starty;
             var dxAbs = Math.abs(dx);
@@ -261,6 +261,11 @@ Item {
             // Did we not move? => press enter
             if (dxAbs < maxClickDistance && dyAbs < maxClickDistance) {
                 print("pressing enter");
+
+                if (repeated) {
+                    // Do not trigger repeated enter presses
+                    return
+                }
 
                 if (settings.hapticsEnabled) {
                     rumbleEffect.start(1);
