@@ -260,8 +260,6 @@ Item {
 
             // Did we not move? => press enter
             if (dxAbs < maxClickDistance && dyAbs < maxClickDistance) {
-                print("pressing enter");
-
                 if (repeated) {
                     // Do not trigger repeated enter presses
                     return

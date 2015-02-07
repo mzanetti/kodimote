@@ -262,8 +262,6 @@ Item {
                     // Do not trigger repeated enter presses
                     return;
                 }
-
-                print("pressing enter")
                 if (settings.introStep < Settings.IntroStepDone) {
                     if (settings.introStep == Settings.IntroStepClick || settings.introStep == Settings.IntroStepColors) {
                         settings.introStep++;
