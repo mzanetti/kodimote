@@ -234,7 +234,6 @@ Item {
             onTriggered: {
                 triggerCount++;
                 if(newSpeed !== -1) {
-                    console.log("newspeed = " + newSpeed);
                     speed = newSpeed;
                     newSpeed = -1;
                 }
