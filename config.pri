@@ -11,3 +11,5 @@ contains(QT_VERSION, ^5\\..\\..*) {
 }
 #Needed by qmake to figure that this is a dep.
 PRE_TARGETDEPS += ../../libkodimote/libkodimote.a
+
+RESOURCES += ../../libkodimote/qml/qml.qrc

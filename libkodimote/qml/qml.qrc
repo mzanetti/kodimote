@@ -1,0 +1,5 @@
+<RCC>
+    <qresource prefix="/qml/components">
+        <file>GesturePad.qml</file>
+    </qresource>
+</RCC>

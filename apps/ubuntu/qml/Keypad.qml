@@ -118,10 +118,87 @@ KodiPage {
             }
         }
 
-        GesturePad {
-            id: gesturePad
+        UbuntuShape {
             width: parent.width
             height: width * 3 / 4
+            color: Qt.rgba(0, 0, 0, 0.05)
+
+            Image {
+                anchors.fill: parent
+                source: "images/pad-separator.png"
+                fillMode: Image.PreserveAspectFit
+            }
+
+            GesturePad {
+                id: gesturePad
+                anchors.fill: parent
+                introStep: settings.introStep
+
+                arrowImage: Component {
+                    Icon {
+                        id: arrowImage
+                        height: units.gu(3)
+                        width: height
+                        name: "chevron"
+                        color: "white"
+                    }
+                }
+
+                onEnterPressed: {
+                    if (root.introStep < Settings.IntroStepDone) {
+                        if (settings.introStep == Settings.IntroStepClick || settings.introStep == Settings.IntroStepColors) {
+                            settings.introStep++;
+                        }
+                        // If the user just clicked here during the colors step, let's skip the exit step
+                        if (settings.introStep == Settings.IntroStepExit) {
+                            settings.introStep++;
+                        }
+                        return;
+                    }
+
+                    keys.select();
+                }
+                onLeft: {
+                    if (settings.introStep < Settings.IntroStepDone) {
+                        if (settings.introStep == Settings.IntroStepLeftRight) {
+                            settings.introStep++;
+                        }
+                        return;
+                    }
+                    keys.left();
+                }
+
+                onRight: {
+                    if (settings.introStep < Settings.IntroStepDone) {
+                        if (settings.introStep == Settings.IntroStepLeftRight) {
+                            settings.introStep++;
+                        }
+                        return;
+                    }
+                    keys.right();
+                }
+
+                onUp: {
+                    if (settings.introStep < Settings.IntroStepDone) {
+                        if (settings.introStep == Settings.IntroStepUpDown) {
+                            settings.introStep++;
+                        }
+                        return;
+                    }
+                    keys.up();
+                }
+
+                onDown: {
+                    if (settings.introStep < Settings.IntroStepDone) {
+                        if (settings.introStep == Settings.IntroStepUpDown) {
+                            settings.introStep++;
+                        }
+                        return;
+                    }
+                    keys.down();
+                }
+
+            }
 
             MediaControlButton {
                 id: backButton

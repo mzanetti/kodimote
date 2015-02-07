@@ -2,7 +2,6 @@
     <qresource prefix="/">
         <file>qml/BrowserPage.qml</file>
         <file>qml/ChannelDetails.qml</file>
-        <file>qml/GesturePad.qml</file>
         <file>qml/ItemDetails.qml</file>
         <file>qml/Keypad.qml</file>
         <file>qml/LazyImage.qml</file>

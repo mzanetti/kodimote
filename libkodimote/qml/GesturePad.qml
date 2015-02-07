@@ -19,12 +19,20 @@
  ****************************************************************************/
 
 import QtQuick 2.0
-import Ubuntu.Components 0.1
 import QtFeedback 5.0
-import Kodi 1.0
 
 Item {
     id: root
+
+    property Component arrowImage: null
+
+    property int introStep: 0
+
+    signal enterPressed();
+    signal left();
+    signal right();
+    signal up();
+    signal down();
 
     Timer {
         id: teaseTimer
@@ -32,21 +40,21 @@ Item {
         running: settings.introStep < Settings.IntroStepDone
         repeat: true
         onTriggered: {
-            switch (settings.introStep) {
-            case Settings.IntroStepLeftRight:
+            switch (root.introStep) {
+            case 0:
                 leftArrows.item.animate()
                 rightArrows.item.animate();
                 break;
-            case Settings.IntroStepUpDown:
+            case 1:
                 upArrows.item.animate()
                 downArrows.item.animate();
                 break;
-            case Settings.IntroStepScroll:
+            case 2:
                 downArrows.item.animate();
                 break;
-            case Settings.IntroStepColors:
-            case Settings.IntroStepClick:
-            case Settings.IntroStepExit:
+            case 3:
+            case 4:
+            case 5:
                 animateAll();
                 break;
             }
@@ -94,13 +102,13 @@ Item {
                 id: arrowRepeater
                 model: 3
 
-                Icon {
-                    id: arrowImage
+                Loader {
+                    id: arrowImageLoader
                     height: units.gu(3)
                     width: height
-                    name: "chevron"
-                    color: "white"
                     opacity: 0.3
+
+                    sourceComponent: root.arrowImage
 
                     Connections {
                         target: arrowsRoot
@@ -125,24 +133,17 @@ Item {
                         }
 
                         PauseAnimation { duration: 100 * index }
-                        NumberAnimation { target: arrowImage; properties: "opacity"; from: 0.3; to: 1; duration: 200 }
-                        NumberAnimation { target: arrowImage; properties: "opacity"; from: 1; to: 0.3; duration: 200 }
+                        NumberAnimation { target: arrowImageLoader; properties: "opacity"; from: 0.3; to: 1; duration: 200 }
+                        NumberAnimation { target: arrowImageLoader; properties: "opacity"; from: 1; to: 0.3; duration: 200 }
                     }
                 }
             }
         }
     }
 
-    UbuntuShape {
+    Item {
         id: bgImage
         anchors.fill: parent
-        color: Qt.rgba(0, 0, 0, 0.05)
-
-        Image {
-            anchors.fill: parent
-            source: "images/pad-separator.png"
-            fillMode: Image.PreserveAspectFit
-        }
 
         Loader {
             id: rightArrows
@@ -185,17 +186,12 @@ Item {
         onPressed: {
             startx = mouse.x
             starty = mouse.y
-        }
-
-        onPressAndHold: {
-//            rumbleEffect.start(4);
             scrollTimer.start();
         }
 
         onReleased: {
-            if (scrollTimer.running) {
-                scrollTimer.stop();
-            } else {
+            scrollTimer.stop();
+            if (scrollTimer.triggerCount == 0) {
                 doKeyPress();
             }
         }
@@ -228,23 +224,20 @@ Item {
             // Lets use newSpeed for changing and fetch it when appropriate
             property int newSpeed: -1
 
-            property int introScrollCount: 0
+            property int triggerCount: 0
+
+            onRunningChanged: {
+                if (running) {
+                    triggerCount = 0
+                }
+            }
+
             onTriggered: {
+                triggerCount++;
                 if(newSpeed !== -1) {
                     speed = newSpeed;
                     newSpeed = -1;
                 }
-                if (settings.introStep < Settings.IntroStepDone) {
-                    if (settings.introStep == Settings.IntroStepScroll) {
-                        rumbleEffect.start(1);
-                        introScrollCount++;
-                        if (introScrollCount >= 10) {
-                            settings.introStep++;
-                        }
-                    }
-                    return;
-                }
-
                 mouseArea.doKeyPress();
             }
         }
@@ -258,21 +251,9 @@ Item {
             // Did we not move? => press enter
             if (dxAbs < maxClickDistance && dyAbs < maxClickDistance) {
                 print("pressing enter")
-                if (settings.introStep < Settings.IntroStepDone) {
-                    if (settings.introStep == Settings.IntroStepClick || settings.introStep == Settings.IntroStepColors) {
-                        settings.introStep++;
-                    }
-                    // If the user just clicked here during the colors step, let's skip the exit step
-                    if (settings.introStep == Settings.IntroStepExit) {
-                        settings.introStep++;
-                    }
-
-                    return;
-                }
-
-                keys.select();
                 rumbleEffect.start(1);
                 animateAll();
+                root.enterPressed();
                 return;
             }
 
@@ -289,33 +270,20 @@ Item {
             // Reason is that the thumb can easily produce large vertical deltas
             // just by touching the screen with more than the tip
             if (dxAbs > minSwipeDistance * 2 || dxAbs > dyAbs) {
-                if (settings.introStep < Settings.IntroStepDone) {
-                    if (settings.introStep == Settings.IntroStepLeftRight) {
-                        settings.introStep++;
-                    }
-                    return;
-                }
-
                 if (dx < 0) {
                     leftArrows.item.animate();
-                    keys.left();
+                    root.left();
                 } else {
                     rightArrows.item.animate();
-                    keys.right();
+                    root.right();
                 }
             } else {
-                if (settings.introStep < Settings.IntroStepDone) {
-                    if (settings.introStep == Settings.IntroStepUpDown) {
-                        settings.introStep++;
-                    }
-                    return;
-                }
                 if (dy < 0) {
                     upArrows.item.animate();
-                    keys.up();
+                    root.up();
                 } else {
                     downArrows.item.animate();
-                    keys.down();
+                    root.down();
                 }
             }
         }
