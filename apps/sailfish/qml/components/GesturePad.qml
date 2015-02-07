@@ -239,15 +239,6 @@ Item {
                     speed = newSpeed;
                     newSpeed = -1;
                 }
-
-                if (settings.introStep < Settings.IntroStepDone) {
-                    if (settings.introStep == Settings.IntroStepScroll) {
-                        rumbleEffect.start(1);
-                        settings.introStep++;
-                    }
-                    return;
-                }
-
                 mouseArea.doKeyPress(true);
             }
         }
@@ -294,6 +285,11 @@ Item {
 
             if (settings.hapticsEnabled) {
                 rumbleEffect.start(2);
+            }
+
+            if (settings.introStep == Settings.IntroStepScroll && repeated) {
+                settings.introStep++;
+                return;
             }
 
             // if horizontal delta is larger than twice the minimum distance,

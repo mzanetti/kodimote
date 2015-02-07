@@ -237,14 +237,6 @@ Item {
                     speed = newSpeed;
                     newSpeed = -1;
                 }
-                if (settings.introStep < Settings.IntroStepDone) {
-                    if (settings.introStep == Settings.IntroStepScroll) {
-                        rumbleEffect.start(1);
-                        settings.introStep++;
-                    }
-                    return;
-                }
-
                 mouseArea.doKeyPress(true);
             }
         }
@@ -286,6 +278,11 @@ Item {
             }
 
             rumbleEffect.start(1);
+
+            if (settings.introStep == Settings.IntroStepScroll && repeated) {
+                settings.introStep++;
+                return;
+            }
 
             // if horizontal delta is larger than twice the minimum distance,
             // we always go left/right, no matter what the vertical delta is.
