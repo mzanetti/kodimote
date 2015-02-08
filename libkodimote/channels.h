@@ -39,6 +39,7 @@ public:
     virtual QVariant data(const QModelIndex &index, int role) const;
 
     ThumbnailFormat thumbnailFormat() const { return ThumbnailFormat43; }
+    MediaFormat mediaFormat() const { return MediaFormatVideo; }
     Q_INVOKABLE void fetchItemDetails(int index);
     Q_INVOKABLE bool hasDetails() { return true; }
 

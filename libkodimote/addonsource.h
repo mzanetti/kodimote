@@ -12,6 +12,17 @@ public:
     QString title() const;
     KodiModel *enterItem(int index);
 
+    MediaFormat mediaFormat() const {
+        if (m_mediaType == "music") {
+            return MediaFormatAudio;
+        } else if (m_mediaType == "video") {
+            return MediaFormatVideo;
+        } else if (m_mediaType == "pictures") {
+            return MediaFormatPictures;
+        }
+        return MediaFormatUnknown;
+    }
+
 protected:
     QString parseTitle(const QString &title) const;
     bool filterFile(const QVariantMap &item) const;

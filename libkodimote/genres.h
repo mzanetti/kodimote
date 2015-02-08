@@ -40,6 +40,8 @@ public:
 
     Q_INVOKABLE bool hasDetails() { return false; }
 
+    MediaFormat mediaFormat() const { return MediaFormatAudio; }
+
 public slots:
     void refresh();
 

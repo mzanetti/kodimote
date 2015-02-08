@@ -40,6 +40,8 @@ public:
     Q_INVOKABLE void fetchItemDetails(int index);
     Q_INVOKABLE bool hasDetails() { return true; }
 
+    MediaFormat mediaFormat() const { return MediaFormatVideo; }
+
 public slots:
     void refresh();
 

@@ -165,6 +165,7 @@ void KodiImageCache::imageFetched()
             }
         }
 
+
         QVariant possibleRedirectUrl = reply->attribute(QNetworkRequest::RedirectionTargetAttribute);
         qDebug() << possibleRedirectUrl;
 
@@ -173,6 +174,12 @@ void KodiImageCache::imageFetched()
         }
     }
 
+    foreach (const ImageFetchJob::Callback callback, job->callbacks()) {
+        QMetaObject::invokeMethod(callback.object().data(), callback.method().toLatin1(), Qt::QueuedConnection, Q_ARG(int, job->id()));
+    }
+
+    job->deleteLater();
+    m_cacheFiles.insert(cacheKey, qMakePair<bool, QString>(true, ""));
     m_jobs.remove(cacheKey);
 }
 

@@ -36,6 +36,8 @@ public:
     void refresh() {}
     void queryItemData(int) {}
 
+    MediaFormat mediaFormat() const { return MediaFormatPictures; }
+
 private slots:
     void receivedAnnouncement(const QVariantMap &map);
 

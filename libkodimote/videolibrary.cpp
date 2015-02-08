@@ -73,7 +73,7 @@ KodiModel *VideoLibrary::enterItem(int index)
     case 2:
         return new MusicVideos(false, this);
     case 3:
-        return new RecentItems(RecentItems::ModeVideo, RecentItems::RecentlyAdded, this);
+        return new RecentItems(MediaFormatVideo, RecentItems::RecentlyAdded, this);
     case 4:
         return new AddonSource(tr("Video Add-ons"), "video", "addons://sources/video", this);
     case 5:

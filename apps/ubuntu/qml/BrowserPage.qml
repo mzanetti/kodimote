@@ -299,6 +299,25 @@ KodiPage {
                                     height: thumbnailImage.height
                                 }
                             }
+
+                            Icon {
+                                anchors.centerIn: parent
+                                width: Math.min(parent.width, parent.height) - units.gu(1)
+                                height: width
+                                name: {
+                                    switch (root.model.mediaFormat) {
+                                    case KodiModel.MediaFormatAudio:
+                                        return "audio-x-generic-symbolic";
+                                    case KodiModel.MediaFormatVideo:
+                                        return "video-x-generic-symbolic";
+                                    case KodiModel.MediaFormatPictures:
+                                        return "image-x-generic-symbolic";
+                                    }
+                                    return "empty-symbolic";
+                                }
+                                color: "white"
+                                visible: !thumbnail || thumbnail == "loading"
+                            }
                         }
                     }
                     Column {

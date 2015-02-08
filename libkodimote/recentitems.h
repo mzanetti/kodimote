@@ -29,16 +29,12 @@ class RecentItems : public KodiLibrary
 {
     Q_OBJECT
 public:
-    enum Mode {
-        ModeAudio,
-        ModeVideo
-    };
     enum RecentlyWhat {
         RecentlyPlayed,
         RecentlyAdded
     };
 
-    explicit RecentItems(Mode mode, RecentlyWhat what, KodiLibrary *parent);
+    explicit RecentItems(MediaFormat mediaFormat, RecentlyWhat what, KodiLibrary *parent);
     
     KodiModel *enterItem(int index);
     void playItem(int index);
@@ -49,11 +45,13 @@ public:
     bool allowSearch();
 
     ThumbnailFormat thumbnailFormat() const { return ThumbnailFormatNone; }
+    MediaFormat mediaFormat() const {  return m_mediaFormat; }
 
 public slots:
     void refresh();
 
 private:
+    MediaFormat m_mediaFormat;
     RecentlyWhat m_what;
 };
 
