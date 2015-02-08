@@ -29,6 +29,8 @@ Item {
     height: bgImage.height
     width: parent.width
 
+    property int scrollCounter: 0
+
     HapticsEffect {
         id: rumbleEffect
         intensity: 0.05
@@ -187,21 +189,13 @@ Item {
         onPressed: {
             startx = mouse.x
             starty = mouse.y
-        }
-
-        onPressAndHold: {
-            if (settings.hapticsEnabled) {
-                rumbleEffect.start(4);
-            }
-
             scrollTimer.start();
         }
 
         onReleased: {
-            if (scrollTimer.running) {
-                scrollTimer.stop();
-            } else {
-                doKeyPress();
+            scrollTimer.stop();
+            if (scrollTimer.triggerCount == 0) {
+                doKeyPress(false);
             }
         }
 
@@ -233,29 +227,25 @@ Item {
             // Lets use newSpeed for changing and fetch it when appropriate
             property int newSpeed: -1
 
-            property int introScrollCount: 0
+            property int triggerCount: 0
+
+            onRunningChanged: {
+                if (running) {
+                    triggerCount = 0;
+                }
+            }
+
             onTriggered: {
+                triggerCount++;
                 if(newSpeed !== -1) {
                     speed = newSpeed;
                     newSpeed = -1;
                 }
-
-                if (settings.introStep < Settings.IntroStepDone) {
-                    if (settings.introStep == Settings.IntroStepScroll) {
-                        rumbleEffect.start(1);
-                        introScrollCount++;
-                        if (introScrollCount >= 10) {
-                            settings.introStep++;
-                        }
-                    }
-                    return;
-                }
-
-                mouseArea.doKeyPress();
+                mouseArea.doKeyPress(true);
             }
         }
 
-        function doKeyPress() {
+        function doKeyPress(repeated) {
             var dx = mouseX - startx;
             var dy = mouseY - starty;
             var dxAbs = Math.abs(dx);
@@ -263,7 +253,10 @@ Item {
 
             // Did we not move? => press enter
             if (dxAbs < maxClickDistance && dyAbs < maxClickDistance) {
-                print("pressing enter");
+                if (repeated) {
+                    // Do not trigger repeated enter presses
+                    return
+                }
 
                 if (settings.hapticsEnabled) {
                     rumbleEffect.start(1);
@@ -296,13 +289,22 @@ Item {
                 rumbleEffect.start(2);
             }
 
+            if (settings.introStep == Settings.IntroStepScroll && repeated) {
+                if (root.scrollCounter < 9) {
+                    root.scrollCounter++;
+                } else {
+                    settings.introStep++;
+                }
+                return;
+            }
+
             // if horizontal delta is larger than twice the minimum distance,
             // we always go left/right, no matter what the vertical delta is.
             // Reason is that the thumb can easily produce large vertical deltas
             // just by touching the screen with more than the tip
             if (dxAbs > minSwipeDistance * 2 || dxAbs > dyAbs) {
                 if (settings.introStep < Settings.IntroStepDone) {
-                    if (settings.introStep == Settings.IntroStepLeftRight) {
+                    if (settings.introStep == Settings.IntroStepLeftRight && !repeated) {
                         settings.introStep++;
                     }
                     return;
@@ -317,7 +319,7 @@ Item {
                 }
             } else {
                 if (settings.introStep < Settings.IntroStepDone) {
-                    if (settings.introStep == Settings.IntroStepUpDown) {
+                    if (settings.introStep == Settings.IntroStepUpDown && !repeated) {
                         settings.introStep++;
                     }
                     return;
