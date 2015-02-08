@@ -1,3 +1,6 @@
+* Sun Feb 08 2015 Robert Meijers <robert.meijers@gmail.com> 2.0.2-1
+- Fix scrolling in the keypad
+
 * Sat Jan 31 2015 Robert Meijers <robert.meijers@gmail.com> 2.0.1-1
 - Fix Settings page not showing all settings (thanks to nodevel)
 
