@@ -137,7 +137,14 @@ Page {
                         case Settings.IntroStepUpDown:
                             return qsTr("To move up or down, swipe vertically.");
                         case Settings.IntroStepScroll:
-                            return qsTr("Keep holding after swiping to scroll though lists quickly.");
+                            switch (gesturePad.scrollCounter) {
+                            case 0:
+                                return qsTr("To scroll through lists keep holding after swiping.");
+                            case 1:
+                                return qsTr("You've scrolled 1 time, keep holding to scroll another 9 times.");
+                            default:
+                                return qsTr("You've scrolled %1 times, keep holding to scroll another %2 times.").arg(gesturePad.scrollCounter).arg(10 - gesturePad.scrollCounter);
+                            }
                         case Settings.IntroStepClick:
                             return qsTr("To select an item, tap anywhere on the pad.");
                         case Settings.IntroStepColors:

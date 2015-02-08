@@ -26,6 +26,8 @@ import Kodi 1.0
 Item {
     id: root
 
+    property int scrollCounter: 0
+
     Timer {
         id: teaseTimer
         interval: 1000
@@ -280,7 +282,11 @@ Item {
             rumbleEffect.start(1);
 
             if (settings.introStep == Settings.IntroStepScroll && repeated) {
-                settings.introStep++;
+                if (root.scrollCounter < 9) {
+                    root.scrollCounter++;
+                } else {
+                    settings.introStep++;
+                }
                 return;
             }
 

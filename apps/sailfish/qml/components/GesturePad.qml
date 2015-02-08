@@ -29,6 +29,8 @@ Item {
     height: bgImage.height
     width: parent.width
 
+    property int scrollCounter: 0
+
     HapticsEffect {
         id: rumbleEffect
         intensity: 0.05
@@ -288,7 +290,11 @@ Item {
             }
 
             if (settings.introStep == Settings.IntroStepScroll && repeated) {
-                settings.introStep++;
+                if (root.scrollCounter < 9) {
+                    root.scrollCounter++;
+                } else {
+                    settings.introStep++;
+                }
                 return;
             }
 
