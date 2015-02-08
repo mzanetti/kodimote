@@ -304,7 +304,7 @@ Item {
             // just by touching the screen with more than the tip
             if (dxAbs > minSwipeDistance * 2 || dxAbs > dyAbs) {
                 if (settings.introStep < Settings.IntroStepDone) {
-                    if (settings.introStep == Settings.IntroStepLeftRight) {
+                    if (settings.introStep == Settings.IntroStepLeftRight && !repeated) {
                         settings.introStep++;
                     }
                     return;
@@ -319,7 +319,7 @@ Item {
                 }
             } else {
                 if (settings.introStep < Settings.IntroStepDone) {
-                    if (settings.introStep == Settings.IntroStepUpDown) {
+                    if (settings.introStep == Settings.IntroStepUpDown && !repeated) {
                         settings.introStep++;
                     }
                     return;
