@@ -39,6 +39,7 @@ Player::Player(PlayerType type, QObject *parent) :
     m_lastPlaytimeUpdate(QDateTime::currentDateTime()),
     m_currentItem(new LibraryItem(this)),
     m_seeking(false),
+    m_timerActivated(false),
     m_shuffle(false),
     m_repeat(RepeatNone),
     m_currentSubtitle(-1),
