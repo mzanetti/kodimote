@@ -156,6 +156,7 @@ void Player::refresh()
     QVariantList props;
     props.append("speed");
     props.append("time");
+    props.append("totaltime");
     props.append("position");
     props.append("repeat");
     props.append("shuffled");
@@ -379,6 +380,9 @@ void Player::refreshReceived(const QVariantMap &rsp)
     positionReceived(rsp);
     repeatShuffleReceived(rsp);
     mediaPropsReceived(rsp);
+
+    QVariantMap result = rsp.value("result").toMap();
+    m_totalTime = parseTime(result.value("totaltime").toMap());
 }
 
 void Player::detailsReceived(const QVariantMap &rsp)
@@ -487,6 +491,20 @@ QString Player::time() const
     return "00:00";
 }
 
+QTime Player::totalTime() const
+{
+    return m_totalTime;
+}
+
+QString Player::totalTimeString() const
+{
+    if (m_totalTime.hour() > 0) {
+        return m_totalTime.toString("hh:mm:ss");
+    } else {
+        return m_totalTime.toString("mm:ss");
+    }
+}
+
 void Player::updatePlaytime()
 {
     if(!m_currentItem) {
@@ -494,7 +512,7 @@ void Player::updatePlaytime()
     }
 
     //use milliseconds, otherwise it tends to skip a sec. once in a while
-    int duration = QTime(0, 0, 0).msecsTo(m_currentItem->duration());
+    int duration = QTime(0, 0, 0).msecsTo(m_totalTime);
     QDateTime currentTime = QDateTime::currentDateTime();
     int elapsedMSeconds = m_lastPlaytimeUpdate.msecsTo(currentTime);
     m_lastPlaytime += elapsedMSeconds * m_speed;
@@ -508,19 +526,12 @@ void Player::updatePlaytime()
 void Player::updatePlaytime(const QVariantMap &timeMap)
 {
     QDateTime currentTime = QDateTime::currentDateTime();
-    QTime time;
-    int hours = timeMap.value("hours").toInt();
-    int minutes = timeMap.value("minutes").toInt();
-    int seconds = timeMap.value("seconds").toInt();
-    int mseconds = timeMap.value("milliseconds").toInt();
-    time.setHMS(hours, minutes, seconds, mseconds);
+    QTime time = parseTime(timeMap);
     m_lastPlaytime = QTime(0, 0, 0).msecsTo(time);
     m_lastPlaytimeUpdate = currentTime;
-    if(playlist()->currentItem()) {
-        int duration = QTime(0, 0, 0).msecsTo(playlist()->currentItem()->duration());
-        m_percentage = (double)m_lastPlaytime / duration * 100;
-        emit percentageChanged();
-    }
+    int duration = QTime(0, 0, 0).msecsTo(m_totalTime);
+    m_percentage = (double)m_lastPlaytime / duration * 100;
+    emit percentageChanged();
 
     emit timeChanged();
 }
@@ -670,4 +681,16 @@ void Player::seek(double percentage)
 LibraryItem *Player::currentItem() const
 {
     return m_currentItem;
+}
+
+QTime Player::parseTime(const QVariantMap &timeMap) const
+{
+    QTime time;
+    int hours = timeMap.value("hours").toInt();
+    int minutes = timeMap.value("minutes").toInt();
+    int seconds = timeMap.value("seconds").toInt();
+    int mseconds = timeMap.value("milliseconds").toInt();
+    time.setHMS(hours, minutes, seconds, mseconds);
+
+    return time;
 }
