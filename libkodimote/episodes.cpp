@@ -84,6 +84,7 @@ void Episodes::refresh()
     properties.append("thumbnail");
     properties.append("playcount");
     properties.append("file");
+    properties.append("resume");
     params.insert("properties", properties);
 
     if (m_tvshowid == KodiModel::ItemIdRecentlyAdded && m_seasonid == KodiModel::ItemIdRecentlyAdded) {
@@ -174,6 +175,7 @@ void Episodes::listReceived(const QVariantMap &rsp)
         item->setIgnoreArticle(false); // We ignore the setting here...
         item->setFileType("file");
         item->setPlayable(true);
+        item->setResume(itemMap.value("resume").toMap().value("position").toInt());
         list.append(item);
         m_idIndexMapping.insert(item->episodeId(), index++);
     }

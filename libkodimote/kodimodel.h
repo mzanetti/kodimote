@@ -84,6 +84,8 @@ public:
         RoleComment,
         RolePlaycount,
         RoleCast,
+        RoleResume,
+        RoleResumeString,
         RolePlayingState,
         RoleLockMode
     };

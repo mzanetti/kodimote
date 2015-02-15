@@ -73,6 +73,7 @@ void MusicVideos::refresh()
     properties.append("fanart");
     properties.append("playcount");
     properties.append("year");
+    properties.append("resume");
     params.insert("properties", properties);
 
 
@@ -138,6 +139,7 @@ void MusicVideos::listReceived(const QVariantMap &rsp)
         item->setFileType("file");
         item->setPlayable(true);
         item->setYear(itemMap.value("year").toString());
+        item->setResume(itemMap.value("resume").toMap().value("position").toInt());
         list.append(item);
         m_idIndexMapping.insert(item->musicvideoId(), index++);
     }

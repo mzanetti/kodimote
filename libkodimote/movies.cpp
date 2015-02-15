@@ -81,6 +81,7 @@ void Movies::refresh()
     properties.append("file");
     properties.append("genre");
     properties.append("year");
+    properties.append("resume");
     params.insert("properties", properties);
 
 
@@ -180,6 +181,7 @@ void Movies::listReceived(const QVariantMap &rsp)
         item->setIgnoreArticle(ignoreArticle());
         item->setFileType("file");
         item->setPlayable(true);
+        item->setResume(itemMap.value("resume").toMap().value("position").toInt());
         list.append(item);
         m_idIndexMapping.insert(item->movieId(), index++);
     }
