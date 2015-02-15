@@ -129,6 +129,20 @@ Page {
                 height: opened && listView.height * drawer._progress > contentItem.height ? listView.height * drawer._progress : contentItem.height
                 dock: Dock.Bottom
 
+                function playItem() {
+                    if (resume === 0) {
+                        browserPage.model.playItem(filterModel.mapToSourceIndex(index));
+                    } else {
+                        var dialog = pageStack.push("ResumeDialog.qml", {item: model});
+                        dialog.onAccepted.connect(function() {
+                            browserPage.model.playItem(filterModel.mapToSourceIndex(index), true);
+                        });
+                        dialog.onRejected.connect(function() {
+                            browserPage.model.playItem(filterModel.mapToSourceIndex(index));
+                        });
+                    }
+                }
+
                 background: Item {
                     anchors.fill: parent
                     width: drawer.width - 20
@@ -145,8 +159,7 @@ Page {
                             target: contentLoader.item
 
                             onPlayItem: {
-                                print("playItem()!")
-                                browserPage.model.playItem(filterModel.mapToSourceIndex(index))
+                                drawer.playItem();
                             }
 
                             onAddToPlaylist: {
@@ -189,20 +202,20 @@ Page {
                                     browserPage.home();
                                 });
                             } else {
-                                browserPage.model.playItem(filterModel.mapToSourceIndex(index));
+                                drawer.playItem();
                             }
                         }
                     }
 
                     Rectangle {
                         id: highlightBar
-                        color: Theme.highlightColor
+                        color: resume <= 0 ? Theme.highlightColor : Theme.secondaryHighlightColor
                         width: 8
                         anchors.top: thumbnailImage.top
                         anchors.bottom: thumbnailImage.bottom
                         anchors.right: thumbnailImage.left
                         anchors.rightMargin: 2
-                        visible: playcount === 0
+                        visible: playcount === 0 || resume > 0
                     }
 
                     Thumbnail {
