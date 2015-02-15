@@ -97,9 +97,10 @@ KodiModel *AudioLibrary::enterItem(int index)
     return 0;
 }
 
-void AudioLibrary::playItem(int index)
+void AudioLibrary::playItem(int index, bool resume)
 {
     Q_UNUSED(index)
+    Q_UNUSED(resume)
     qDebug() << "cannot play whole audio library";
 }
 

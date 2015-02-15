@@ -32,7 +32,7 @@ public:
     QString title() const;
     void refresh();
     KodiModel* enterItem(int index);
-    void playItem(int index);
+    void playItem(int index, bool resume = false);
     void addToPlaylist(int index);
 
     ThumbnailFormat thumbnailFormat() const { return ThumbnailFormatNone; }

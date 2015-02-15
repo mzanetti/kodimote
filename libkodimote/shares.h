@@ -30,7 +30,7 @@ public:
     explicit Shares(const QString &mediatype, KodiLibrary *parent = 0);
 
     KodiModel *enterItem(int index);
-    void playItem(int index);
+    void playItem(int index, bool resume = false);
     void addToPlaylist(int index);
 
     QString title() const;

@@ -168,11 +168,11 @@ KodiModel *MusicVideos::enterItem(int index)
     return 0;
 }
 
-void MusicVideos::playItem(int index)
+void MusicVideos::playItem(int index, bool resume)
 {
     VideoPlaylistItem item;
     item.setMusicVideoId(m_list.at(index)->data(RoleMusicVideoId).toInt());
-    Kodi::instance()->videoPlayer()->open(item);
+    Kodi::instance()->videoPlayer()->open(item, resume);
 }
 
 void MusicVideos::addToPlaylist(int row)

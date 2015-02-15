@@ -204,11 +204,11 @@ KodiModel *Episodes::enterItem(int index)
     return 0;
 }
 
-void Episodes::playItem(int index)
+void Episodes::playItem(int index, bool resume)
 {
     VideoPlaylistItem item;
     item.setEpisodeId(m_list.at(index)->data(RoleEpisodeId).toInt());
-    Kodi::instance()->videoPlayer()->open(item);
+    Kodi::instance()->videoPlayer()->open(item, resume);
 }
 
 void Episodes::addToPlaylist(int row)

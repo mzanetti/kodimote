@@ -86,12 +86,12 @@ KodiModel *Recordings::enterItem(int index)
 
 }
 
-void Recordings::playItem(int index)
+void Recordings::playItem(int index, bool resume)
 {
     VideoPlaylistItem item;
     item.setRecordingId(m_list.at(index)->data(RoleRecordingId).toInt());
 
-    Kodi::instance()->videoPlayer()->open(item);
+    Kodi::instance()->videoPlayer()->open(item, resume);
 }
 
 void Recordings::addToPlaylist(int index)

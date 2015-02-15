@@ -57,9 +57,10 @@ KodiModel *PvrMenu::enterItem(int index)
     return 0;
 }
 
-void PvrMenu::playItem(int index)
+void PvrMenu::playItem(int index, bool resume)
 {
     Q_UNUSED(index)
+    Q_UNUSED(resume)
     qDebug() << "cannot play PVR Menu";
 }
 

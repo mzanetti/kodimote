@@ -109,7 +109,7 @@ KodiModel *Files::enterItem(int index)
     return 0;
 }
 
-void Files::playItem(int index)
+void Files::playItem(int index, bool resume)
 {
     if (m_mediaType == "picture") {
         m_player->stop();
@@ -123,7 +123,7 @@ void Files::playItem(int index)
     } else {
         pItem.setDirectory(item->fileName());
     }
-    m_player->open(pItem);
+    m_player->open(pItem, resume);
 }
 
 void Files::addToPlaylist(int index)

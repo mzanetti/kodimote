@@ -49,9 +49,10 @@ KodiModel *ChannelGroups::enterItem(int index)
     return new Channels(m_list.at(index)->data(RoleChannelGroupId).toInt(), this);
 }
 
-void ChannelGroups::playItem(int index)
+void ChannelGroups::playItem(int index, bool resume)
 {
     Q_UNUSED(index)
+    Q_UNUSED(resume)
     qDebug() << "cannot play channelgroup";
 }
 

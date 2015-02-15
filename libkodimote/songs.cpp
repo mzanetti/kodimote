@@ -200,7 +200,7 @@ KodiModel* Songs::enterItem(int index)
     return 0;
 }
 
-void Songs::playItem(int row)
+void Songs::playItem(int row, bool resume)
 {
     AudioPlaylistItem pItem;
     if(m_artistId < 0 && m_albumId < 0) {
@@ -210,9 +210,7 @@ void Songs::playItem(int row)
     } else {
         pItem.setAlbumId(m_albumId);
     }
-    Kodi::instance()->audioPlayer()->playlist()->clear();
-    Kodi::instance()->audioPlayer()->playlist()->addItems(pItem);
-    Kodi::instance()->audioPlayer()->playItem(row);
+    Kodi::instance()->audioPlayer()->open(pItem, resume);
 }
 
 void Songs::addToPlaylist(int row)

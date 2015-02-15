@@ -214,10 +214,10 @@ KodiModel *Movies::enterItem(int index)
     return 0;
 }
 
-void Movies::playItem(int index)
+void Movies::playItem(int index, bool resume)
 {
     VideoPlaylistItem item(m_list.at(index)->data(RoleMovieId).toInt());
-    Kodi::instance()->videoPlayer()->open(item);
+    Kodi::instance()->videoPlayer()->open(item, resume);
 }
 
 void Movies::addToPlaylist(int row)

@@ -177,11 +177,11 @@ KodiModel* Albums::enterItem(int index)
     return new Songs(m_artistId, m_list.at(index)->data(RoleAlbumId).toInt(), this);
 }
 
-void Albums::playItem(int index)
+void Albums::playItem(int index, bool resume)
 {
     AudioPlaylistItem pItem;
     pItem.setAlbumId(m_list.at(index)->data(RoleAlbumId).toInt());
-    Kodi::instance()->audioPlayer()->open(pItem);
+    Kodi::instance()->audioPlayer()->open(pItem, resume);
 }
 
 void Albums::addToPlaylist(int index)
