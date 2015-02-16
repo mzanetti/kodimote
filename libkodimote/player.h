@@ -79,7 +79,6 @@ public:
     QTime totalTime() const;
     QString totalTimeString() const;
 
-    void refresh();
     void detach();
 
     PlayerType type() const;
@@ -133,11 +132,9 @@ public slots:
     void skipNext();
     void seekBackward();
     void seekForward();
+    void refresh();
 
 private slots:
-    void getSpeed();
-    void getPlaytime();
-    void getPosition();
     void receivedAnnouncement(const QVariantMap& map);
     void updatePlaytime();
     void getRepeatShuffle();
@@ -145,9 +142,6 @@ private slots:
 
     void getCurrentItemDetails();
 
-    void speedReceived(const QVariantMap &rsp);
-    void playtimeReceived(const QVariantMap &rsp);
-    void positionReceived(const QVariantMap &rsp);
     void repeatShuffleReceived(const QVariantMap &rsp);
     void detailsReceived(const QVariantMap &rsp);
     void refreshReceived(const QVariantMap &rsp);

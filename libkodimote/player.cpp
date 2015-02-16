@@ -52,36 +52,6 @@ Player::Player(PlayerType type, QObject *parent) :
     connect(&m_playtimeTimer, SIGNAL(timeout()), SLOT(updatePlaytime()));
 }
 
-void Player::getSpeed()
-{
-    QVariantMap params;
-    params.insert("playerid", playerId());
-    QVariantList properties;
-    properties.append("speed");
-    params.insert("properties", properties);
-    KodiConnection::sendCommand("Player.GetProperties", params, this, "speedReceived");
-}
-
-void Player::getPlaytime()
-{
-    QVariantMap params;
-    params.insert("playerid", playerId());
-    QVariantList props;
-    props.append("time");
-    params.insert("properties", props);
-    KodiConnection::sendCommand("Player.GetProperties", params, this, "playtimeReceived");
-}
-
-void Player::getPosition()
-{
-    QVariantMap params;
-    params.insert("playerid", playerId());
-    QVariantList props;
-    props.append("position");
-    params.insert("properties", props);
-    KodiConnection::sendCommand("Player.GetProperties", params, this, "positionReceived");
-}
-
 void Player::getRepeatShuffle()
 {
     QVariantMap params;
@@ -264,18 +234,10 @@ void Player::receivedAnnouncement(const QVariantMap &map)
     } else if(map.value("method").toString() == "Player.OnPlay") {
         m_state = "playing";
         emit stateChanged();
-        refresh();
+        //this has to be delayed, otherwise returned times aren't correct (yet)
+        QTimer::singleShot(100, this, SLOT(refresh()));
         m_speed = data.value("player").toMap().value("speed").toInt();
-        qDebug() << "set speed to" << m_speed;
         emit speedChanged();
-        getPosition();
-        getPlaytime();
-        getCurrentItemDetails();
-        m_lastPlaytimeUpdate = QDateTime::currentDateTime();
-        if(m_timerActivated) {
-            m_playtimeTimer.start();
-        }
-        playlist()->refresh();
     } else if(map.value("method").toString() == "Player.OnSeek") {
         updatePlaytime(data.value("player").toMap().value("time").toMap());
         m_seeking = false;
@@ -284,35 +246,6 @@ void Player::receivedAnnouncement(const QVariantMap &map)
         m_speed = data.value("player").toMap().value("speed").toInt();
         emit speedChanged();
     }
-}
-
-void Player::speedReceived(const QVariantMap &rsp)
-{
-    m_speed = rsp.value("result").toMap().value("speed").toInt();
-    koDebug(XDAREA_PLAYER) << "got player speed" << m_speed;
-    emit speedChanged();
-
-    if(m_speed == 0) {
-        m_state = "paused";
-    } else {
-        m_state = "playing";
-    }
-    emit stateChanged();
-}
-
-void Player::playtimeReceived(const QVariantMap &rsp)
-{
-    koDebug(XDAREA_PLAYER) << "Got playtime response" << rsp;
-    updatePlaytime(rsp.value("result").toMap().value("time").toMap());
-    if (m_timerActivated && !m_playtimeTimer.isActive()) {
-        m_playtimeTimer.start();
-    }
-}
-
-void Player::positionReceived(const QVariantMap &rsp)
-{
-    koDebug(XDAREA_PLAYER) << "Got position response" << rsp;
-    playlist()->setCurrentIndex(rsp.value("result").toMap().value("position").toInt());
 }
 
 void Player::repeatShuffleReceived(const QVariantMap &rsp)
@@ -375,14 +308,27 @@ void Player::mediaPropsReceived(const QVariantMap &rsp)
 
 void Player::refreshReceived(const QVariantMap &rsp)
 {
-    speedReceived(rsp);
-    playtimeReceived(rsp);
-    positionReceived(rsp);
     repeatShuffleReceived(rsp);
     mediaPropsReceived(rsp);
 
     QVariantMap result = rsp.value("result").toMap();
     m_totalTime = parseTime(result.value("totaltime").toMap());
+
+    m_speed = result.value("speed").toInt();
+
+    if(m_speed == 0) {
+        m_state = "paused";
+    } else {
+        m_state = "playing";
+    }
+    emit stateChanged();
+
+    updatePlaytime(result.value("time").toMap());
+    if (m_timerActivated && !m_playtimeTimer.isActive()) {
+        m_playtimeTimer.start();
+    }
+
+    playlist()->setCurrentIndex(result.value("position").toInt());
 }
 
 void Player::detailsReceived(const QVariantMap &rsp)
@@ -531,8 +477,8 @@ void Player::updatePlaytime(const QVariantMap &timeMap)
     m_lastPlaytimeUpdate = currentTime;
     int duration = QTime(0, 0, 0).msecsTo(m_totalTime);
     m_percentage = (double)m_lastPlaytime / duration * 100;
-    emit percentageChanged();
 
+    emit percentageChanged();
     emit timeChanged();
 }
 
