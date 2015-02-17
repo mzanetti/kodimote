@@ -111,6 +111,8 @@ public:
 
     LibraryItem* currentItem() const;
 
+    QTime calculateTime(double percentage) const;
+
 signals:
     void stateChanged();
     void speedChanged();

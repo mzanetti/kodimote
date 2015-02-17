@@ -613,12 +613,18 @@ void Player::setTimerActive(bool active)
 
 void Player::seek(double percentage)
 {
-    if(m_seeking && percentage != m_percentage) {
+    if(m_seeking) {
         return;
     }
+
+    QTime position = calculateTime(percentage);
     QVariantMap params;
     params.insert("playerid", playerId());
-    params.insert("value", percentage);
+    QVariantMap time;
+    time.insert("hours", position.hour());
+    time.insert("minutes", position.minute());
+    time.insert("seconds", position.second());
+    params.insert("value", time);
 
     m_seeking = true;
     KodiConnection::sendCommand("Player.Seek", params);
@@ -639,4 +645,10 @@ QTime Player::parseTime(const QVariantMap &timeMap) const
     time.setHMS(hours, minutes, seconds, mseconds);
 
     return time;
+}
+
+QTime Player::calculateTime(double percentage) const
+{
+    int milliSeconds = QTime(0, 0, 0).msecsTo(m_totalTime) * percentage / 100;
+    return QTime(0, 0, 0).addMSecs(milliSeconds);
 }
