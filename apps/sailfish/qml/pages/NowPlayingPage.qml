@@ -254,7 +254,7 @@ Page {
                             anchors.bottom: parent.bottom
                             color: Theme.highlightColor
                             font.pixelSize: Theme.fontSizeExtraSmall
-                            text: currentItem ? currentItem.durationString : "00:00"
+                            text: player.totalTimeString
                         }
 
                         Rectangle {
@@ -296,25 +296,7 @@ Page {
                                 // Center label on mouseX
                                 progressBarLabel.x = mouseX - progressBarLabel.width / 2;
 
-                                // Calculate time under mouseX
-                                var progressedWidth = mouseX - progressBar.x;
-                                var targetTime = progressedWidth * currentItem.durationInSecs / progressBar.width;
-                                targetTime = Math.min(targetTime, currentItem.durationInSecs);
-                                targetTime = Math.max(targetTime, 0);
-
-                                // Translate to human readable time
-                                var hours = Math.floor(targetTime / 60 / 60);
-                                var minutes = Math.floor(targetTime / 60) % 60;
-                                if(minutes < 10) minutes = "0" + minutes;
-                                var seconds = Math.floor(targetTime) % 60;
-                                if(seconds < 10) seconds = "0" + seconds;
-
-                                // Write into the label
-                                if(currentItem.durationInSecs < 60 * 60) {
-                                    progressBarLabelText.text = minutes + ":" + seconds;
-                                } else {
-                                    progressBarLabelText.text = hours + ":" + minutes + ":" + seconds;
-                                }
+                                progressBarLabelText.text = player.calculateTimeString(mouseX * 100 / width);
                             }
 
                             onReleased: {
