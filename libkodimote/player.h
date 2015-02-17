@@ -112,6 +112,7 @@ public:
     LibraryItem* currentItem() const;
 
     QTime calculateTime(double percentage) const;
+    Q_INVOKABLE QString calculateTimeString(double percentage) const;
 
 signals:
     void stateChanged();
@@ -152,6 +153,7 @@ private slots:
 private:
     void updatePlaytime(const QVariantMap &timeMap);
     QTime parseTime(const QVariantMap &timeMap) const;
+    QString formatTime(const QTime &time) const;
 
 protected:
     PlayerType m_type;

@@ -444,11 +444,7 @@ QTime Player::totalTime() const
 
 QString Player::totalTimeString() const
 {
-    if (m_totalTime.hour() > 0) {
-        return m_totalTime.toString("hh:mm:ss");
-    } else {
-        return m_totalTime.toString("mm:ss");
-    }
+    return formatTime(m_totalTime);
 }
 
 void Player::updatePlaytime()
@@ -647,8 +643,22 @@ QTime Player::parseTime(const QVariantMap &timeMap) const
     return time;
 }
 
+QString Player::formatTime(const QTime &time) const
+{
+    if (time.hour() > 0) {
+        return time.toString("hh:mm:ss");
+    } else {
+        return time.toString("mm:ss");
+    }
+}
+
 QTime Player::calculateTime(double percentage) const
 {
     int milliSeconds = QTime(0, 0, 0).msecsTo(m_totalTime) * percentage / 100;
     return QTime(0, 0, 0).addMSecs(milliSeconds);
+}
+
+QString Player::calculateTimeString(double percentage) const
+{
+    return formatTime(calculateTime(percentage));
 }
