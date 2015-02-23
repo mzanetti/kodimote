@@ -41,7 +41,13 @@ public slots:
     //void OpenUri(QString uri);
 
 private:
-    Player *activePlayer() const;
+    Player *m_player;
+
+private slots:
+    void activePlayerChanged();
+    void stateChanged();
+    void currentItemChanged();
+    void playlistChanged();
 };
 
 #endif // MPRISPLAYER_H
