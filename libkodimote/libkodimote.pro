@@ -1,4 +1,4 @@
-QT += concurrent network
+QT += concurrent network dbus
 contains(QT_VERSION, ^5\\..\\..*) {
     DEFINES += QT5_BUILD
     QT += quick qml
@@ -75,7 +75,10 @@ SOURCES +=  kodi.cpp \
             kodihost.cpp \
             addonsource.cpp \
             profiles.cpp \
-            profileitem.cpp
+            profileitem.cpp \
+            mpris2/mpriscontroller.cpp \
+            mpris2/mprisplayer.cpp \
+            mpris2/mprisapplication.cpp
 
 HEADERS += libkodimote_global.h \
            kodi.h \
@@ -132,4 +135,7 @@ HEADERS += libkodimote_global.h \
            kodihost.h \
            addonsource.h \
            profiles.h \
-           profileitem.h
+           profileitem.h \
+           mpris2/mpriscontroller.h \
+           mpris2/mprisplayer.h \
+           mpris2/mprisapplication.h
