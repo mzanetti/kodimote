@@ -318,7 +318,7 @@ KodiPage {
                     spacing: root.spacing
                     Label {
                         id: currentTime
-                        text: player ? player.time : "00:00"
+                        text: player ? player.timeString : "00:00"
                         width: (parent.width - parent.spacing) / 2
                     }
 

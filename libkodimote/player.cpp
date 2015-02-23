@@ -474,7 +474,7 @@ double Player::percentage() const
     return m_percentage;
 }
 
-QString Player::time() const
+QString Player::timeString() const
 {
     if(m_currentItem) {
         QTime time = QTime(0, 0, 0).addMSecs(m_lastPlaytime);
