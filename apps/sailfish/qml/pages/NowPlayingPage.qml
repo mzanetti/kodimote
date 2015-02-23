@@ -246,7 +246,7 @@ Page {
                             anchors.bottom: parent.bottom
                             color: Theme.highlightColor
                             font.pixelSize: Theme.fontSizeExtraSmall
-                            text: player ? player.time : "00:00"
+                            text: player ? player.timeString : "00:00"
                         }
 
                         Label {

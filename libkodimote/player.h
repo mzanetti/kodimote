@@ -42,7 +42,7 @@ class Player : public QObject
     Q_PROPERTY(QString state READ state NOTIFY stateChanged)
     Q_PROPERTY(int speed READ speed NOTIFY speedChanged)
     Q_PROPERTY(double percentage READ percentage NOTIFY percentageChanged)
-    Q_PROPERTY(QString time READ time NOTIFY timeChanged)
+    Q_PROPERTY(QString timeString READ timeString NOTIFY timeChanged)
     Q_PROPERTY(QTime totalTime READ totalTime NOTIFY currentItemChanged)
     Q_PROPERTY(QString totalTimeString READ totalTimeString NOTIFY currentItemChanged)
     Q_PROPERTY(bool timerActive READ timerActive WRITE setTimerActive)
@@ -76,7 +76,7 @@ public:
     QString state() const;
     int speed() const;
     double percentage() const;
-    QString time() const;
+    QString timeString() const;
     QTime totalTime() const;
     QString totalTimeString() const;
 
