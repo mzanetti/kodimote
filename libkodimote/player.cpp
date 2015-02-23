@@ -474,17 +474,22 @@ double Player::percentage() const
     return m_percentage;
 }
 
+QTime Player::time() const
+{
+    QTime time(0, 0, 0);
+    if (m_currentItem) {
+        time = time.addMSecs(m_lastPlaytime);
+    }
+
+    return time;
+}
+
 QString Player::timeString() const
 {
-    if(m_currentItem) {
-        QTime time = QTime(0, 0, 0).addMSecs(m_lastPlaytime);
-        if(m_currentItem->duration().hour() > 0) {
-            return time.toString("hh:mm:ss");
-        } else {
-            return time.toString("mm:ss");
-        }
-    }
-    return "00:00";
+    QString format = m_currentItem && m_currentItem->duration().hour() > 0
+            ? "hh:mm:ss"
+            : "mm:ss";
+    return time().toString(format);
 }
 
 void Player::updatePlaytime()

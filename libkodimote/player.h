@@ -74,6 +74,7 @@ public:
     QString state() const;
     int speed() const;
     double percentage() const;
+    QTime time() const;
     QString timeString() const;
 
     void refresh();
@@ -131,13 +132,13 @@ public slots:
     void skipNext();
     void seekBackward();
     void seekForward();
+    void updatePlaytime();
 
 private slots:
     void getSpeed();
     void getPlaytime();
     void getPosition();
     void receivedAnnouncement(const QVariantMap& map);
-    void updatePlaytime();
     void getRepeatShuffle();
     void getMediaProps();
 
