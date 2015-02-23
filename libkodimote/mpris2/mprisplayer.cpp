@@ -5,9 +5,11 @@
 #include "playlist.h"
 
 MprisPlayer::MprisPlayer(QObject *parent) :
-    QDBusAbstractAdaptor(parent)
+    QDBusAbstractAdaptor(parent),
+    m_player(Kodi::instance()->activePlayer())
 {
-    setAutoRelaySignals(true);
+    setAutoRelaySignals(false);
+    connect(Kodi::instance(), SIGNAL(activePlayerChanged()), SLOT(activePlayerChanged()));
 }
 
 bool MprisPlayer::canControl() const
@@ -17,22 +19,20 @@ bool MprisPlayer::canControl() const
 
 bool MprisPlayer::canGoNext() const
 {
-    Player *player = activePlayer();
-    if (!player) {
+    if (!m_player) {
         return false;
     }
 
-    return player->playlist()->currentTrackNumber() < player->playlist()->count();
+    return m_player->playlist()->currentTrackNumber() < m_player->playlist()->count();
 }
 
 bool MprisPlayer::canGoPrevious() const
 {
-    Player *player = activePlayer();
-    if (!player) {
+    if (!m_player) {
         return false;
     }
 
-    return player->playlist()->currentTrackNumber() > 1;
+    return m_player->playlist()->currentTrackNumber() > 1;
 }
 
 bool MprisPlayer::canPause() const
@@ -42,12 +42,11 @@ bool MprisPlayer::canPause() const
 
 bool MprisPlayer::canPlay() const
 {
-    Player *player = activePlayer();
-    if (!player) {
+    if (!m_player) {
         return false;
     }
 
-    return !!player->currentItem();
+    return !!m_player->currentItem();
 }
 
 bool MprisPlayer::canSeek() const
@@ -63,14 +62,13 @@ QVariantMap MprisPlayer::metadata() const
 
 QString MprisPlayer::playbackStatus() const
 {
-    Player *player = activePlayer();
-    if (!player) {
+    if (!m_player) {
         return "Stopped";
     }
 
-    if (player->state() == "playing") {
+    if (m_player->state() == "playing") {
         return "Playing";
-    } else if (player->state() == "paused") {
+    } else if (m_player->state() == "paused") {
         return "Paused";
     } else {
         return "Stopped";
@@ -79,61 +77,55 @@ QString MprisPlayer::playbackStatus() const
 
 void MprisPlayer::Next()
 {
-    Player *player = activePlayer();
-    if (!player) {
+    if (!m_player) {
         return;
     }
 
-    player->skipNext();
+    m_player->skipNext();
 }
 
 void MprisPlayer::Previous()
 {
-    Player *player = activePlayer();
-    if (!player) {
+    if (!m_player) {
         return;
     }
 
-    player->skipPrevious();
+    m_player->skipPrevious();
 }
 
 void MprisPlayer::Pause()
 {
-    Player *player = activePlayer();
-    if (!player || player->state() != "playing") {
+    if (!m_player || m_player->state() != "playing") {
         return;
     }
 
-    player->playPause();
+    m_player->playPause();
 }
 
 void MprisPlayer::PlayPause()
 {
-    Player *player = activePlayer();
-    if (!player) {
+    if (!m_player) {
         return;
     }
 
-    player->playPause();
+    m_player->playPause();
 }
 
 void MprisPlayer::Play()
 {
-    Player *player = activePlayer();
-    if (!player || player->state() == "playing") {
+    if (!m_player || m_player->state() == "playing") {
         return;
     }
 
-    player->playPause();
+    m_player->playPause();
 }
 
 void MprisPlayer::Stop()
 {
-    Player *player = activePlayer();
-    if (!player) {
+    if (!m_player) {
         return;
     }
-    player->stop();
+    m_player->stop();
 }
 
 /*void MprisPlayer::Seek(int64_t offset)
@@ -151,7 +143,65 @@ void MprisPlayer::Stop()
 
 }*/
 
-Player *MprisPlayer::activePlayer() const
+void MprisPlayer::activePlayerChanged()
 {
-    return Kodi::instance()->activePlayer();
+    if (m_player == Kodi::instance()->activePlayer()) {
+        return;
+    }
+
+    if (m_player) {
+        disconnect(m_player, SIGNAL(stateChanged()), this, SLOT(stateChanged()));
+        disconnect(m_player, SIGNAL(currentItemChanged()), this, SLOT(currentItemChanged()));
+        disconnect(m_player->playlist(), SIGNAL(countChanged()), this, SLOT(playlistChanged()));
+    }
+
+    m_player = Kodi::instance()->activePlayer();
+
+    if (m_player) {
+        connect(m_player, SIGNAL(stateChanged()), this, SLOT(stateChanged()));
+        connect(m_player, SIGNAL(currentItemChanged()), this, SLOT(currentItemChanged()));
+        connect(m_player->playlist(), SIGNAL(countChanged()), this, SLOT(playlistChanged()));
+    }
+
+    currentItemChanged();
+}
+
+void MprisPlayer::stateChanged()
+{
+    QDBusMessage signal = QDBusMessage::createSignal("/org/mpris/MediaPlayer2", "org.freedesktop.DBus.Properties", "PropertiesChanged");
+    signal << "org.mpris.MediaPlayer2.Player";
+    QVariantMap changedProps;
+    changedProps.insert("PlaybackStatus", playbackStatus());
+    signal << changedProps;
+    signal << QStringList();
+    QDBusConnection::sessionBus().send(signal);
+}
+
+void MprisPlayer::currentItemChanged()
+{
+    QDBusMessage signal = QDBusMessage::createSignal("/org/mpris/MediaPlayer2", "org.freedesktop.DBus.Properties", "PropertiesChanged");
+    signal << "org.mpris.MediaPlayer2.Player";
+    QVariantMap changedProps;
+    changedProps.insert("CanGoNext", canGoNext());
+    changedProps.insert("CanGoPrevious", canGoPrevious());
+    changedProps.insert("CanPause", canPause());
+    changedProps.insert("CanPlay", canPlay());
+    changedProps.insert("CanSeek", canSeek());
+    changedProps.insert("Metadata", metadata());
+    changedProps.insert("PlaybackStatus", playbackStatus());
+    signal << changedProps;
+    signal << QStringList();
+    QDBusConnection::sessionBus().send(signal);
+}
+
+void MprisPlayer::playlistChanged()
+{
+    QDBusMessage signal = QDBusMessage::createSignal("/org/mpris/MediaPlayer2", "org.freedesktop.DBus.Properties", "PropertiesChanged");
+    signal << "org.mpris.MediaPlayer2.Player";
+    QVariantMap changedProps;
+    changedProps.insert("CanGoNext", canGoNext());
+    changedProps.insert("CanGoPrevious", canGoPrevious());
+    signal << changedProps;
+    signal << QStringList();
+    QDBusConnection::sessionBus().send(signal);
 }
