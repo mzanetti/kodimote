@@ -108,6 +108,7 @@ public:
     void setTimerActive(bool active);
 
     Q_INVOKABLE void seek(double percentage);
+    void seek(QTime time);
 
     LibraryItem* currentItem() const;
 
