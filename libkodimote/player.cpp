@@ -641,6 +641,25 @@ void Player::seek(double percentage)
     KodiConnection::sendCommand("Player.Seek", params);
 }
 
+void Player::seek(QTime time)
+{
+    if (m_seeking) {
+        return;
+    }
+
+    QVariantMap params;
+    params.insert("playerid", playerId());
+    QVariantMap position;
+    position.insert("hours", time.hour());
+    position.insert("minutes", time.minute());
+    position.insert("hours", time.hour());
+    position.insert("milliseconds", time.msec());
+    params.insert("value", position);
+
+    m_seeking = true;
+    KodiConnection::sendCommand("Player.Seek", params);
+}
+
 LibraryItem *Player::currentItem() const
 {
     return m_currentItem;

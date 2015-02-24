@@ -4,6 +4,7 @@
 #include <QtDBus/QtDBus>
 
 class Player;
+class LibraryItem;
 
 class MprisPlayer : public QDBusAbstractAdaptor
 {
@@ -47,12 +48,14 @@ public slots:
     void PlayPause();
     void Play();
     void Stop();
-    //void Seek(qint64 offset);
-    //void SetPosition(QDBusObjectPath path, qint64 position);
+    void Seek(qint64 offset);
+    void SetPosition(QDBusObjectPath path, qint64 position);
     //void OpenUri(QString uri);
 
 private:
     Player *m_player;
+
+    QString buildPath(LibraryItem *item) const;
 
 private slots:
     void activePlayerChanged();

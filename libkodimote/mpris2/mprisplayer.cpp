@@ -71,7 +71,7 @@ QVariantMap MprisPlayer::metadata() const
     if (m_player && m_player->currentItem()) {
         LibraryItem *item = m_player->currentItem();
         if (item->episodeId() > -1) {
-            map["mpris:trackid"] = qVariantFromValue(QDBusObjectPath(QString("/org/mpris/MediaPlayer2/Track/ep%1").arg(item->episodeId())));
+            map["mpris:trackid"] = qVariantFromValue(QDBusObjectPath(buildPath(item)));
         }
         map["xesam:title"] = item->title();
         map["xesam:artist"] = item->subtitle();
@@ -168,20 +168,57 @@ void MprisPlayer::Stop()
     m_player->stop();
 }
 
-/*void MprisPlayer::Seek(qint64 offset)
+void MprisPlayer::Seek(qint64 offset)
 {
+    if (!m_player || !m_player->currentItem()) {
+        return;
+    }
 
-}*/
+    int currentTime = QTime(0, 0, 0).msecsTo(m_player->time());
+    int newTime = currentTime + (offset / 1000);
+    if (newTime < 0) {
+        newTime = 0;
+    }
 
-/*void MprisPlayer::SetPosition(QDBusObjectPath path, qint64 position)
+    QTime time = QTime(0, 0, 0).addMSecs(newTime);
+    //TODO: use m_player->totalTime from player improvements branch
+    if (time > m_player->currentItem()->duration()) {
+        m_player->skipNext();
+    } else {
+        m_player->seek(time);
+    }
+}
+
+void MprisPlayer::SetPosition(QDBusObjectPath path, qint64 position)
 {
+    if (!m_player || !m_player->currentItem()) {
+        qDebug() << "no player/item";
+        return;
+    }
 
-}*/
+    if (buildPath(m_player->currentItem()) != path.path()) {
+        qDebug() << "path doesn't match";
+        return;
+    }
+
+    QTime time = QTime(0, 0, 0).addMSecs(position / 1000);
+    qDebug() << "seeking to" << time;
+    m_player->seek(time);
+}
 
 /*void MprisPlayer::OpenUri(QString uri)
 {
 
 }*/
+
+QString MprisPlayer::buildPath(LibraryItem *item) const
+{
+    if (item->episodeId() != -1) {
+        return QString("/org/mpris/MediaPlayer2/Track/episode/%1").arg(item->episodeId());
+    }
+
+    return "";
+}
 
 void MprisPlayer::activePlayerChanged()
 {
