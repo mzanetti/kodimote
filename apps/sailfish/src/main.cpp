@@ -32,6 +32,7 @@
 #include "libkodimote/eventclient.h"
 #include "libkodimote/settings.h"
 #include "libkodimote/networkaccessmanagerfactory.h"
+#include "libkodimote/mpris2/mpriscontroller.h"
 #include "sailfishhelper.h"
 
 #include <sailfishapp.h>
@@ -67,6 +68,9 @@ int main(int argc, char *argv[])
 
     SailfishHelper helper(&settings);
     Q_UNUSED(helper)
+
+    MprisController controller;
+    Q_UNUSED(controller)
 
     QQuickView *view = SailfishApp::createView();
     view->engine()->setNetworkAccessManagerFactory(new NetworkAccessManagerFactory());
