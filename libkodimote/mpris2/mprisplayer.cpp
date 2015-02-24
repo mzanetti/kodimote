@@ -52,7 +52,7 @@ bool MprisPlayer::canPlay() const
 
 bool MprisPlayer::canSeek() const
 {
-    return false;
+    return true;
 }
 
 double MprisPlayer::maximumRate() const
@@ -71,7 +71,7 @@ QVariantMap MprisPlayer::metadata() const
     if (m_player && m_player->currentItem()) {
         LibraryItem *item = m_player->currentItem();
         if (item->episodeId() > -1) {
-            map["mpris:trackid"] = QString("/org/mpris/MediaPlayer2/Track/ep%1").arg(item->episodeId());
+            map["mpris:trackid"] = qVariantFromValue(QDBusObjectPath(QString("/org/mpris/MediaPlayer2/Track/ep%1").arg(item->episodeId())));
         }
         map["xesam:title"] = item->title();
         map["xesam:artist"] = item->subtitle();
@@ -112,7 +112,7 @@ double MprisPlayer::rate() const
         return 1.0;
     }
 
-    return m_player->speed();
+    return m_player->state() == "playing" ? m_player->speed() : 1.0;
 }
 
 void MprisPlayer::Next()
@@ -193,6 +193,7 @@ void MprisPlayer::activePlayerChanged()
         disconnect(m_player, SIGNAL(stateChanged()), this, SLOT(stateChanged()));
         disconnect(m_player, SIGNAL(currentItemChanged()), this, SLOT(currentItemChanged()));
         disconnect(m_player, SIGNAL(timeChanged()), this, SLOT(timeChanged));
+        disconnect(m_player, SIGNAL(speedChanged()), this, SLOT(speedChanged));
         disconnect(m_player->playlist(), SIGNAL(countChanged()), this, SLOT(playlistChanged()));
     }
 
@@ -201,7 +202,7 @@ void MprisPlayer::activePlayerChanged()
     if (m_player) {
         connect(m_player, SIGNAL(stateChanged()), this, SLOT(stateChanged()));
         connect(m_player, SIGNAL(currentItemChanged()), this, SLOT(currentItemChanged()));
-        connect(m_player, SIGNAL(timeChanged()), this, SLOT(timeChanged));
+        connect(m_player, SIGNAL(timeChanged()), this, SLOT(timeChanged()));
         connect(m_player->playlist(), SIGNAL(countChanged()), this, SLOT(playlistChanged()));
     }
 
@@ -232,6 +233,7 @@ void MprisPlayer::currentItemChanged()
     changedProps.insert("Metadata", metadata());
     changedProps.insert("PlaybackStatus", playbackStatus());
     changedProps.insert("Position", position());
+    changedProps.insert("Rate", rate());
     signal << changedProps;
     signal << QStringList();
     QDBusConnection::sessionBus().send(signal);
@@ -239,10 +241,15 @@ void MprisPlayer::currentItemChanged()
 
 void MprisPlayer::timeChanged()
 {
+    emit Seeked(QTime(0, 0, 0).msecsTo(m_player->time()) * Q_INT64_C(1000));
+}
+
+void MprisPlayer::speedChanged()
+{
     QDBusMessage signal = QDBusMessage::createSignal("/org/mpris/MediaPlayer2", "org.freedesktop.DBus.Properties", "PropertiesChanged");
     signal << "org.mpris.MediaPlayer2.Player";
     QVariantMap changedProps;
-    changedProps.insert("Position", position());
+    changedProps.insert("Rate", rate());
     signal << changedProps;
     signal << QStringList();
     QDBusConnection::sessionBus().send(signal);

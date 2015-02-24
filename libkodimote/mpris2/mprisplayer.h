@@ -37,6 +37,9 @@ public:
     qint64 position() const;
     double rate() const;
 
+signals:
+    void Seeked(qint64);
+
 public slots:
     void Next();
     void Previous();
@@ -56,6 +59,7 @@ private slots:
     void currentItemChanged();
     void stateChanged();
     void timeChanged();
+    void speedChanged();
     void playlistChanged();
 };
 
