@@ -1,8 +1,8 @@
 tx pull -a
 
-lupdate -recursive . -ts i18n/xbmcremote.ts -no-obsolete
+lupdate -recursive . -ts i18n/kodimote.ts -no-obsolete
 
-lrelease i18n/xbmcremote_*.ts
+lrelease i18n/kodimote_*.ts
 
 cd i18n
 
