@@ -191,17 +191,14 @@ void MprisPlayer::Seek(qint64 offset)
 void MprisPlayer::SetPosition(QDBusObjectPath path, qint64 position)
 {
     if (!m_player || !m_player->currentItem()) {
-        qDebug() << "no player/item";
         return;
     }
 
     if (buildPath(m_player->currentItem()) != path.path()) {
-        qDebug() << "path doesn't match";
         return;
     }
 
     QTime time = QTime(0, 0, 0).addMSecs(position / 1000);
-    qDebug() << "seeking to" << time;
     m_player->seek(time);
 }
 
@@ -244,6 +241,7 @@ void MprisPlayer::activePlayerChanged()
         connect(m_player, SIGNAL(stateChanged()), this, SLOT(stateChanged()));
         connect(m_player, SIGNAL(currentItemChanged()), this, SLOT(currentItemChanged()));
         connect(m_player, SIGNAL(timeChanged()), this, SLOT(timeChanged()));
+        connect(m_player, SIGNAL(speedChanged()), this, SLOT(speedChanged()));
         connect(m_player->playlist(), SIGNAL(countChanged()), this, SLOT(playlistChanged()));
     }
 
