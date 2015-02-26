@@ -12,6 +12,7 @@ MprisPlayer::MprisPlayer(ProtocolManager *protocols, QObject *parent) :
 {
     setAutoRelaySignals(false);
     connect(Kodi::instance(), SIGNAL(activePlayerChanged()), SLOT(activePlayerChanged()));
+    connect(Kodi::instance(), SIGNAL(volumeChanged(int)), SLOT(volumeChanged()));
 }
 
 bool MprisPlayer::canControl() const
@@ -113,6 +114,65 @@ double MprisPlayer::rate() const
     }
 
     return m_player->state() == "playing" ? m_player->speed() : 1.0;
+}
+
+double MprisPlayer::volume() const
+{
+    return Kodi::instance()->volume() / 100.0;
+}
+
+void MprisPlayer::setVolume(double volume)
+{
+    Kodi::instance()->setVolume(volume * 100);
+}
+
+bool MprisPlayer::shuffle() const
+{
+    if (!m_player) {
+        return false;
+    }
+
+    return m_player->shuffle();
+}
+
+void MprisPlayer::setShuffle(bool shuffle)
+{
+    if (!m_player) {
+        return;
+    }
+
+    m_player->setShuffle(shuffle);
+}
+
+QString MprisPlayer::loopStatus() const
+{
+    if (!m_player) {
+        return "None";
+    }
+
+    switch (m_player->repeat()) {
+    case Player::RepeatAll:
+        return "Playlist";
+    case Player::RepeatOne:
+        return "Track";
+    default:
+        return "None";
+    }
+}
+
+void MprisPlayer::setLoopStatus(QString loopStatus)
+{
+    if (!m_player) {
+        return;
+    }
+
+    if (loopStatus == "Playlist") {
+        m_player->setRepeat(Player::RepeatAll);
+    } else if (loopStatus == "Track") {
+        m_player->setRepeat(Player::RepeatOne);
+    } else {
+        m_player->setRepeat(Player::RepeatNone);
+    }
 }
 
 void MprisPlayer::Next()
@@ -251,10 +311,23 @@ void MprisPlayer::activePlayerChanged()
         connect(m_player, SIGNAL(currentItemChanged()), this, SLOT(currentItemChanged()));
         connect(m_player, SIGNAL(timeChanged()), this, SLOT(timeChanged()));
         connect(m_player, SIGNAL(speedChanged()), this, SLOT(speedChanged()));
+        connect(m_player, SIGNAL(shuffleChanged()), this, SLOT(shuffleChanged()));
+        connect(m_player, SIGNAL(repeatChanged()), this, SLOT(repeatChanged()));
         connect(m_player->playlist(), SIGNAL(countChanged()), this, SLOT(playlistChanged()));
     }
 
     currentItemChanged();
+}
+
+void MprisPlayer::volumeChanged()
+{
+    QDBusMessage signal = QDBusMessage::createSignal("/org/mpris/MediaPlayer2", "org.freedesktop.DBus.Properties", "PropertiesChanged");
+    signal << "org.mpris.MediaPlayer2.Player";
+    QVariantMap changedProps;
+    changedProps.insert("Volume", volume());
+    signal << changedProps;
+    signal << QStringList();
+    QDBusConnection::sessionBus().send(signal);
 }
 
 void MprisPlayer::stateChanged()
@@ -298,6 +371,28 @@ void MprisPlayer::speedChanged()
     signal << "org.mpris.MediaPlayer2.Player";
     QVariantMap changedProps;
     changedProps.insert("Rate", rate());
+    signal << changedProps;
+    signal << QStringList();
+    QDBusConnection::sessionBus().send(signal);
+}
+
+void MprisPlayer::shuffleChanged()
+{
+    QDBusMessage signal = QDBusMessage::createSignal("/org/mpris/MediaPlayer2", "org.freedesktop.DBus.Properties", "PropertiesChanged");
+    signal << "org.mpris.MediaPlayer2.Player";
+    QVariantMap changedProps;
+    changedProps.insert("Shuffle", shuffle());
+    signal << changedProps;
+    signal << QStringList();
+    QDBusConnection::sessionBus().send(signal);
+}
+
+void MprisPlayer::repeatChanged()
+{
+    QDBusMessage signal = QDBusMessage::createSignal("/org/mpris/MediaPlayer2", "org.freedesktop.DBus.Properties", "PropertiesChanged");
+    signal << "org.mpris.MediaPlayer2.Player";
+    QVariantMap changedProps;
+    changedProps.insert("LoopStatus", loopStatus());
     signal << changedProps;
     signal << QStringList();
     QDBusConnection::sessionBus().send(signal);
