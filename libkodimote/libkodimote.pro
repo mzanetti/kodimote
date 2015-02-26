@@ -78,7 +78,10 @@ SOURCES +=  kodi.cpp \
             profileitem.cpp \
             mpris2/mpriscontroller.cpp \
             mpris2/mprisplayer.cpp \
-            mpris2/mprisapplication.cpp
+            mpris2/mprisapplication.cpp \
+            protocolhandlers/protocolhandler.cpp \
+            protocolhandlers/youtubeprotocolhandler.cpp \
+            protocolhandlers/protocolmanager.cpp
 
 HEADERS += libkodimote_global.h \
            kodi.h \
@@ -138,4 +141,7 @@ HEADERS += libkodimote_global.h \
            profileitem.h \
            mpris2/mpriscontroller.h \
            mpris2/mprisplayer.h \
-           mpris2/mprisapplication.h
+           mpris2/mprisapplication.h \
+           protocolhandlers/protocolhandler.h \
+           protocolhandlers/youtubeprotocolhandler.h \
+           protocolhandlers/protocolmanager.h
