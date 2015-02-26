@@ -70,12 +70,11 @@ QVariantMap MprisPlayer::metadata() const
     QVariantMap map;
     if (m_player && m_player->currentItem()) {
         LibraryItem *item = m_player->currentItem();
-        if (item->episodeId() > -1) {
-            map["mpris:trackid"] = qVariantFromValue(QDBusObjectPath(buildPath(item)));
-        }
+        map["mpris:trackid"] = qVariantFromValue(QDBusObjectPath(buildPath(item)));
+        map["mpris:length"] = QTime(0, 0, 0).msecsTo(item->duration()) * Q_INT64_C(1000); // milliseconds vs microseconds
         map["xesam:title"] = item->title();
         map["xesam:artist"] = item->subtitle();
-        map["mpris:length"] = QTime(0, 0, 0).msecsTo(item->duration()) * Q_INT64_C(1000); // milliseconds vs microseconds
+        map["xesam:album"] = item->album();
     }
     return map;
 }
@@ -215,6 +214,14 @@ QString MprisPlayer::buildPath(LibraryItem *item) const
 {
     if (item->episodeId() != -1) {
         return QString("/org/mpris/MediaPlayer2/Track/episode/%1").arg(item->episodeId());
+    } else if (item->movieId() != -1) {
+        return QString("/org/mpris/MediaPlayer2/Track/movie/%1").arg(item->movieId());
+    } else if (item->musicvideoId() != -1) {
+        return QString("/org/mpris/MediaPlayer2/Track/musicVideo/%1").arg(item->musicvideoId());
+    } else if (item->channelId() != -1) {
+        return QString("/org/mpris/MediaPlayer2/Track/channel/%1").arg(item->channelId());
+    } else if (item->songId() != -1) {
+        return QString("/org/mpris/MediaPlayer2/Track/song/%1").arg(item->songId());
     }
 
     return "";
