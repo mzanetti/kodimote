@@ -23,6 +23,9 @@ class MprisPlayer : public QDBusAbstractAdaptor
     Q_PROPERTY(QString PlaybackStatus READ playbackStatus)
     Q_PROPERTY(qint64 Position READ position)
     Q_PROPERTY(double Rate READ rate)
+    Q_PROPERTY(double Volume READ volume WRITE setVolume)
+    Q_PROPERTY(bool Shuffle READ shuffle WRITE setShuffle)
+    Q_PROPERTY(QString LoopStatus READ loopStatus WRITE setLoopStatus)
     Q_CLASSINFO("D-Bus Interface", "org.mpris.MediaPlayer2.Player")
 public:
     explicit MprisPlayer(ProtocolManager *protocols, QObject *parent = 0);
@@ -39,6 +42,15 @@ public:
     QString playbackStatus() const;
     qint64 position() const;
     double rate() const;
+
+    double volume() const;
+    void setVolume(double volume);
+
+    bool shuffle() const;
+    void setShuffle(bool shuffle);
+
+    QString loopStatus() const;
+    void setLoopStatus(QString loopStatus);
 
 signals:
     void Seeked(qint64);
@@ -62,10 +74,13 @@ private:
 
 private slots:
     void activePlayerChanged();
+    void volumeChanged();
     void currentItemChanged();
     void stateChanged();
     void timeChanged();
     void speedChanged();
+    void shuffleChanged();
+    void repeatChanged();
     void playlistChanged();
 };
 
