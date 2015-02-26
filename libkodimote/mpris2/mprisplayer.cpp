@@ -5,9 +5,10 @@
 #include "player.h"
 #include "playlist.h"
 
-MprisPlayer::MprisPlayer(QObject *parent) :
+MprisPlayer::MprisPlayer(ProtocolManager *protocols, QObject *parent) :
     QDBusAbstractAdaptor(parent),
-    m_player(Kodi::instance()->activePlayer())
+    m_player(Kodi::instance()->activePlayer()),
+    m_protocols(protocols)
 {
     setAutoRelaySignals(false);
     connect(Kodi::instance(), SIGNAL(activePlayerChanged()), SLOT(activePlayerChanged()));
@@ -202,10 +203,18 @@ void MprisPlayer::SetPosition(QDBusObjectPath path, qint64 position)
     m_player->seek(time);
 }
 
-/*void MprisPlayer::OpenUri(QString uri)
+void MprisPlayer::OpenUri(QString uri)
 {
+    QUrl url(uri);
+    ProtocolHandler *handler = m_protocols->get(url.scheme());
 
-}*/
+    if (!handler) {
+        return;
+    }
+
+    QUrlQuery query(url);
+    handler->execute(url, query.hasQueryItem("queue"));
+}
 
 QString MprisPlayer::buildPath(LibraryItem *item) const
 {

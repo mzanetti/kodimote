@@ -3,6 +3,8 @@
 
 #include <QtDBus/QtDBus>
 
+#include "protocolhandlers/protocolmanager.h"
+
 class Player;
 class LibraryItem;
 
@@ -23,7 +25,7 @@ class MprisPlayer : public QDBusAbstractAdaptor
     Q_PROPERTY(double Rate READ rate)
     Q_CLASSINFO("D-Bus Interface", "org.mpris.MediaPlayer2.Player")
 public:
-    explicit MprisPlayer(QObject *parent = 0);
+    explicit MprisPlayer(ProtocolManager *protocols, QObject *parent = 0);
 
     bool canControl() const;
     bool canGoNext() const;
@@ -50,10 +52,11 @@ public slots:
     void Stop();
     void Seek(qint64 offset);
     void SetPosition(QDBusObjectPath path, qint64 position);
-    //void OpenUri(QString uri);
+    void OpenUri(QString uri);
 
 private:
     Player *m_player;
+    ProtocolManager *m_protocols;
 
     QString buildPath(LibraryItem *item) const;
 

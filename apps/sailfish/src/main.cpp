@@ -69,7 +69,9 @@ int main(int argc, char *argv[])
     SailfishHelper helper(&settings);
     Q_UNUSED(helper)
 
-    MprisController controller;
+    ProtocolManager protocols;
+
+    MprisController controller(&protocols);
     Q_UNUSED(controller)
 
     QQuickView *view = SailfishApp::createView();

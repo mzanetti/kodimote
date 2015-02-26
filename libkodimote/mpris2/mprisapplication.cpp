@@ -4,8 +4,9 @@
 #include "kodihost.h"
 #include "keys.h"
 
-MprisApplication::MprisApplication(QObject *parent) :
-    QDBusAbstractAdaptor(parent)
+MprisApplication::MprisApplication(ProtocolManager *protocols, QObject *parent) :
+    QDBusAbstractAdaptor(parent),
+    m_protocols(protocols)
 {
 }
 
@@ -51,6 +52,11 @@ QString MprisApplication::desktopEntry() const
 QStringList MprisApplication::supportedUriSchemes() const
 {
     QStringList schemes;
+
+    foreach (ProtocolHandler *protocol, m_protocols->list()) {
+        schemes.append(protocol->scheme());
+    }
+
     return schemes;
 }
 
