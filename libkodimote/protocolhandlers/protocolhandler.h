@@ -4,6 +4,7 @@
 #include <QObject>
 #include <QUrl>
 
+#include "../player.h"
 #include "../playlistitem.h"
 
 class ProtocolHandler : public QObject

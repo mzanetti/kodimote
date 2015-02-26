@@ -81,7 +81,8 @@ SOURCES +=  kodi.cpp \
             mpris2/mprisapplication.cpp \
             protocolhandlers/protocolhandler.cpp \
             protocolhandlers/youtubeprotocolhandler.cpp \
-            protocolhandlers/protocolmanager.cpp
+            protocolhandlers/protocolmanager.cpp \
+            protocolhandlers/nativeprotocolhandler.cpp
 
 HEADERS += libkodimote_global.h \
            kodi.h \
@@ -144,4 +145,5 @@ HEADERS += libkodimote_global.h \
            mpris2/mprisapplication.h \
            protocolhandlers/protocolhandler.h \
            protocolhandlers/youtubeprotocolhandler.h \
-           protocolhandlers/protocolmanager.h
+           protocolhandlers/protocolmanager.h \
+           protocolhandlers/nativeprotocolhandler.h
