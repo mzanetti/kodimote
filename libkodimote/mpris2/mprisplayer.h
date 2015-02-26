@@ -72,6 +72,9 @@ private:
 
     QString buildPath(LibraryItem *item) const;
 
+    void sendPropertyChanged(const QString &property);
+    void sendPropertiesChanged(const QStringList &properties);
+
 private slots:
     void activePlayerChanged();
     void volumeChanged();

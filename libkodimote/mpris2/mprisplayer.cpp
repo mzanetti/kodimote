@@ -293,6 +293,24 @@ QString MprisPlayer::buildPath(LibraryItem *item) const
     return "";
 }
 
+void MprisPlayer::sendPropertyChanged(const QString &property)
+{
+    sendPropertiesChanged(QStringList(property));
+}
+
+void MprisPlayer::sendPropertiesChanged(const QStringList &properties)
+{
+    QDBusMessage signal = QDBusMessage::createSignal("/org/mpris/MediaPlayer2", "org.freedesktop.DBus.Properties", "PropertiesChanged");
+    signal << "org.mpris.MediaPlayer2.Player";
+    QVariantMap changedProps;
+    foreach (QString property, properties) {
+        changedProps.insert(property, this->property(property.toUtf8()));
+    }
+    signal << changedProps;
+    signal << QStringList();
+    QDBusConnection::sessionBus().send(signal);
+}
+
 void MprisPlayer::activePlayerChanged()
 {
     if (m_player == Kodi::instance()->activePlayer()) {
@@ -326,43 +344,18 @@ void MprisPlayer::activePlayerChanged()
 
 void MprisPlayer::volumeChanged()
 {
-    QDBusMessage signal = QDBusMessage::createSignal("/org/mpris/MediaPlayer2", "org.freedesktop.DBus.Properties", "PropertiesChanged");
-    signal << "org.mpris.MediaPlayer2.Player";
-    QVariantMap changedProps;
-    changedProps.insert("Volume", volume());
-    signal << changedProps;
-    signal << QStringList();
-    QDBusConnection::sessionBus().send(signal);
+    sendPropertyChanged("Volume");
 }
 
 void MprisPlayer::stateChanged()
 {
-    QDBusMessage signal = QDBusMessage::createSignal("/org/mpris/MediaPlayer2", "org.freedesktop.DBus.Properties", "PropertiesChanged");
-    signal << "org.mpris.MediaPlayer2.Player";
-    QVariantMap changedProps;
-    changedProps.insert("PlaybackStatus", playbackStatus());
-    signal << changedProps;
-    signal << QStringList();
-    QDBusConnection::sessionBus().send(signal);
+    sendPropertyChanged("PlaybackStatus");
 }
 
 void MprisPlayer::currentItemChanged()
 {
-    QDBusMessage signal = QDBusMessage::createSignal("/org/mpris/MediaPlayer2", "org.freedesktop.DBus.Properties", "PropertiesChanged");
-    signal << "org.mpris.MediaPlayer2.Player";
-    QVariantMap changedProps;
-    changedProps.insert("CanGoNext", canGoNext());
-    changedProps.insert("CanGoPrevious", canGoPrevious());
-    changedProps.insert("CanPause", canPause());
-    changedProps.insert("CanPlay", canPlay());
-    changedProps.insert("CanSeek", canSeek());
-    changedProps.insert("Metadata", metadata());
-    changedProps.insert("PlaybackStatus", playbackStatus());
-    changedProps.insert("Position", position());
-    changedProps.insert("Rate", rate());
-    signal << changedProps;
-    signal << QStringList();
-    QDBusConnection::sessionBus().send(signal);
+    sendPropertiesChanged(QStringList() << "CanGoNext" << "CanGoPrevious" << "CanPause"
+        << "CanPlay" << "CanSeek" << "Metadata" << "PlaybackStatus" << "Position" << "Rate");
 }
 
 void MprisPlayer::timeChanged()
@@ -372,45 +365,20 @@ void MprisPlayer::timeChanged()
 
 void MprisPlayer::speedChanged()
 {
-    QDBusMessage signal = QDBusMessage::createSignal("/org/mpris/MediaPlayer2", "org.freedesktop.DBus.Properties", "PropertiesChanged");
-    signal << "org.mpris.MediaPlayer2.Player";
-    QVariantMap changedProps;
-    changedProps.insert("Rate", rate());
-    signal << changedProps;
-    signal << QStringList();
-    QDBusConnection::sessionBus().send(signal);
+    sendPropertyChanged("Rate");
 }
 
 void MprisPlayer::shuffleChanged()
 {
-    QDBusMessage signal = QDBusMessage::createSignal("/org/mpris/MediaPlayer2", "org.freedesktop.DBus.Properties", "PropertiesChanged");
-    signal << "org.mpris.MediaPlayer2.Player";
-    QVariantMap changedProps;
-    changedProps.insert("Shuffle", shuffle());
-    signal << changedProps;
-    signal << QStringList();
-    QDBusConnection::sessionBus().send(signal);
+    sendPropertyChanged("Shuffle");
 }
 
 void MprisPlayer::repeatChanged()
 {
-    QDBusMessage signal = QDBusMessage::createSignal("/org/mpris/MediaPlayer2", "org.freedesktop.DBus.Properties", "PropertiesChanged");
-    signal << "org.mpris.MediaPlayer2.Player";
-    QVariantMap changedProps;
-    changedProps.insert("LoopStatus", loopStatus());
-    signal << changedProps;
-    signal << QStringList();
-    QDBusConnection::sessionBus().send(signal);
+    sendPropertyChanged("LoopStatus");
 }
 
 void MprisPlayer::playlistChanged()
 {
-    QDBusMessage signal = QDBusMessage::createSignal("/org/mpris/MediaPlayer2", "org.freedesktop.DBus.Properties", "PropertiesChanged");
-    signal << "org.mpris.MediaPlayer2.Player";
-    QVariantMap changedProps;
-    changedProps.insert("CanGoNext", canGoNext());
-    changedProps.insert("CanGoPrevious", canGoPrevious());
-    signal << changedProps;
-    signal << QStringList();
-    QDBusConnection::sessionBus().send(signal);
+    sendPropertiesChanged(QStringList() << "CanGoNext" << "CanGoPrevious");
 }
