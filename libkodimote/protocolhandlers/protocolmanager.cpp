@@ -1,10 +1,12 @@
 #include "protocolmanager.h"
 
 #include "youtubeprotocolhandler.h"
+#include "nativeprotocolhandler.h"
 
 ProtocolManager::ProtocolManager(QObject *parent) :
     QObject(parent)
 {
+    NativeProtocolHandler::registerAll(this);
     registerProtocol(new YoutubeProtocolHandler(this));
 }
 
