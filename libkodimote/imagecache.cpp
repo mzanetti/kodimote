@@ -29,7 +29,11 @@
 #include <QNetworkRequest>
 #include <QNetworkReply>
 #include <QDebug>
+#ifdef QT5_BUILD
 #include <QtConcurrent/QtConcurrent>
+#else
+#include <QtCore>
+#endif
 
 ImageFetchJob *scaleImage(ImageFetchJob *job, QByteArray data)
 {

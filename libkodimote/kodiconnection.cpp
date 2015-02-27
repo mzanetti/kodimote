@@ -43,6 +43,9 @@
 
 namespace KodiConnection
 {
+
+Q_GLOBAL_STATIC(KodiConnectionPrivate, instance)
+
 void connect(KodiHost *host)
 {
     instance()->connect(host);

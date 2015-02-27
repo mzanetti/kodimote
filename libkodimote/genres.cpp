@@ -88,6 +88,7 @@ void Genres::playItem(int index)
 //    Kodi::instance()->audioPlayer()->playlist()->clear();
 //    Kodi::instance()->audioPlayer()->playlist()->addItems(pItem);
 //    Kodi::instance()->audioPlayer()->playItem(0);
+    Q_UNUSED(index);
 }
 
 void Genres::addToPlaylist(int index)

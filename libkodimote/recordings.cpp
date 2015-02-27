@@ -115,6 +115,7 @@ QHash<int, QByteArray> Recordings::roleNames() const
 
 void Recordings::fetchItemDetails(int index)
 {
+    Q_UNUSED(index);
 }
 
 void Recordings::listReceived(const QVariantMap &rsp)

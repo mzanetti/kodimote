@@ -3,7 +3,7 @@ contains(QT_VERSION, ^5\\..\\..*) {
     DEFINES += QT5_BUILD
     QT += quick qml
 } else {
-    QT += declarative
+    QT += declarative network
 }
 
 packagesExist(sailfishapp) {
@@ -133,3 +133,8 @@ HEADERS += libkodimote_global.h \
            addonsource.h \
            profiles.h \
            profileitem.h
+
+maemo5 {
+    target.path = /opt/libkodimote/lib
+    INSTALLS += target
+}

@@ -236,8 +236,8 @@ void KodiHost::wakeup()
         qDebug() << "don't know MAC address of host" << m_hostname;
         return;
     }
-    const char header[] = {0xff, 0xff, 0xff, 0xff, 0xff, 0xff};
-    QByteArray packet = QByteArray::fromRawData(header, sizeof(header));
+    const unsigned char header[] = {0xff, 0xff, 0xff, 0xff, 0xff, 0xff};
+    QByteArray packet = QByteArray::fromRawData(reinterpret_cast<const char *>(header), sizeof(header));
     for(int i = 0; i < 16; ++i) {
         packet.append(QByteArray::fromHex(m_hwAddr.remove(':').toLocal8Bit()));
     }

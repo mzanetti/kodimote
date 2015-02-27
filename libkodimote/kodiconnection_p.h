@@ -80,6 +80,7 @@ class KodiConnectionPrivate : public QObject
     Q_OBJECT
 public:
     explicit KodiConnectionPrivate(QObject *parent = 0);
+    static KodiConnectionPrivate *instance();
 
     KodiHost *connectedHost();
     bool connecting();
@@ -161,10 +162,7 @@ private:
 
     QList<KodiDownload*> m_downloadQueue;
     QMap<QNetworkReply*, KodiDownload*> m_activeDownloadsMap;
-
 };
-Q_GLOBAL_STATIC(KodiConnectionPrivate, instance)
-
 
 }
 #endif // XBMC_P_H
