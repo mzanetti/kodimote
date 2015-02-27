@@ -19,9 +19,9 @@
  ****************************************************************************/
 
 #include "libkodimote/kodi.h"
+#include "libkodimote/settings.h"
 #include "libkodimote/kodebug.h"
 #include "libkodimote/networkaccessmanagerfactory.h"
-#include "libkodimote/settings.h"
 
 #if defined Q_WS_MAEMO_5 || defined Q_WS_X11
 #include "ui/mainwindow.h"
@@ -42,40 +42,39 @@
 #include <QtDeclarative>
 #include <QScopedPointer>
 
-Q_DECL_EXPORT int main(int argc, char *argv[])
+int main(int argc, char** argv)
 {
     QString language;
+    QApplication application(argc, argv);
 
-// Load language file depending on platform
+	// Load language file depending on platform
 #if defined Q_WS_MAEMO_5
-    QApplication *app = new QApplication( argc, argv );
     language = QString(getenv("LC_NAME")).split('_').first();
     qDebug() << "language:" << language << getenv("LANG") << getenv("LC_NAME");
 #else
-    QApplication *app = new QApplication( argc, argv );
     language = QLocale::system().name();
-//    language = QString(getenv("LC_NAME")).split('_').first();
+    qDebug() << "got language:" << language;
 #endif
 
-
     QTranslator qtTranslator;
+
     if(!qtTranslator.load("qt_" + language, QLibraryInfo::location(QLibraryInfo::TranslationsPath))) {
         qDebug() << "couldn't load qt_" + language;
     }
-    app->installTranslator(&qtTranslator);
+    application.installTranslator(&qtTranslator);
 
     QTranslator translator;
     if (!translator.load(":/kodimote_" + language + ".qm")) {
         qDebug() << "Cannot load translation file" << "kodimote_" + language + ".pm";
     }
-    app->installTranslator(&translator);
+    application.installTranslator(&translator);
 
     // Load debug stuff
     XDebug::addAllowedArea(XDAREA_GENERAL);
-    for(int i = 1; i < app->arguments().count(); ++i ) {
-        if(app->arguments().at(i) == "-d") {
-            if(app->arguments().count() > i) {
-                QStringList debuglist = app->arguments().at(i + 1).split(',');
+    for(int i = 1; i < application.arguments().count(); ++i ) {
+        if(application.arguments().at(i) == "-d") {
+            if(application.arguments().count() > i) {
+                QStringList debuglist = application.arguments().at(i + 1).split(',');
                 foreach(const QString &debugString, debuglist) {
                     if(debugString == "connection") {
                         XDebug::addAllowedArea(XDAREA_CONNECTION);
@@ -102,5 +101,6 @@ Q_DECL_EXPORT int main(int argc, char *argv[])
 
     qRegisterMetaType<QNetworkReply::NetworkError>("QNetworkReply::NetworkError");
 
-    return app->exec();
+    return application.exec();
 }
+

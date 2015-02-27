@@ -2,9 +2,10 @@
 Encoding=UTF-8
 Version=1.0
 Type=Application
-Terminal=false
-Name=kodimote
+Name=Kodimote
+Comment=Remote control app for Kodi
 Exec=/opt/kodimote/bin/kodimote
+Terminal=false
 Icon=kodimote64
 X-Window-Icon=
 X-HildonDesk-ShowInToolbar=true

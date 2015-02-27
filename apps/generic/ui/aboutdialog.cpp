@@ -27,7 +27,7 @@
 #include <QDesktopServices>
 #include <QUrl>
 
-#define VERSION_STRING "1.3.1"
+#define VERSION_STRING "2.0.2"
 
 AboutDialog::AboutDialog(QWidget *parent) :
     QDialog(parent)
@@ -61,7 +61,7 @@ AboutDialog::AboutDialog(QWidget *parent) :
     vlayout->addWidget(label1);
 
     QLabel *label2 = new QLabel(tr("Thanks to") + "\n" \
-                                "XBMC Development Team\n");
+                                "Kodi Development Team\n");
     vlayout->addWidget(label2);
 
 
