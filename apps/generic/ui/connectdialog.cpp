@@ -38,7 +38,7 @@ ConnectDialog::ConnectDialog(QWidget *parent) :
 {
 
     setAttribute(Qt::WA_DeleteOnClose, true);
-    setWindowTitle("KodiRemote - " + tr("Connect to XBMC"));
+    setWindowTitle("KodiRemote - " + tr("Connect to Kodi"));
 
     m_stackedLayout = new QStackedLayout();
 
@@ -49,10 +49,10 @@ ConnectDialog::ConnectDialog(QWidget *parent) :
     m_hostView->setModel(Kodi::instance()->hostModel());
     m_stackedLayout->addWidget(m_hostView);
 
-    QLabel *infoLabel = new QLabel(tr("Searching for XBMC hosts.") + "\n"
-      + tr("Please enable the following options in the Services settings of XBMC:") + "\n- "
-      + tr("Allow control of XBMC via HTTP") + "\n- "
-      + tr("Allow programs on other systems to control XBMC") + "\n- "
+    QLabel *infoLabel = new QLabel(tr("Searching for Kodi hosts.") + "\n"
+      + tr("Please enable the following options in the Services settings of Kodi:") + "\n- "
+      + tr("Allow control of Kodi via HTTP") + "\n- "
+      + tr("Allow programs on other systems to control Kodi") + "\n- "
       + tr("Announce these services to other systems via Zeroconf") + "\n"
       + tr("If you don't use Zeroconf, add a host manually."));
     infoLabel->setWordWrap(true);
@@ -138,16 +138,17 @@ ConnectDialog::ConnectDialog(QWidget *parent) :
 void ConnectDialog::accept()
 {
     if(m_stackedLayout->currentIndex() == 0) {
-        Kodi::instance()->hostModel()->wakeup(m_hostView->currentIndex().row());
-        Kodi::instance()->hostModel()->connectToHost(m_hostView->currentIndex().row());
+        KodiHost *host = Kodi::instance()->hostModel()->host(m_hostView->currentIndex().row());
+        host->wakeup();
+        host->connect();
     } else {
-        KodiHost host;
-        host.setHostname(m_hostName->text());
-        host.setAddress(m_hostName->text());
-        host.setPort(m_port->text().toInt());
-        host.setHwAddr(m_mac->text());
-        int newHostIndex = Kodi::instance()->hostModel()->insertOrUpdateHost(host);
-        Kodi::instance()->hostModel()->connectToHost(newHostIndex);
+        KodiHost *host = new KodiHost();
+        host->setHostname(m_hostName->text());
+        host->setAddress(m_hostName->text());
+        host->setPort(m_port->text().toInt());
+        host->setHwAddr(m_mac->text());
+        Kodi::instance()->hostModel()->addHost(host);
+        host->connect();
     }
     QDialog::accept();
 }

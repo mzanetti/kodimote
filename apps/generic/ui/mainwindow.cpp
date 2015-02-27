@@ -84,7 +84,7 @@ MainWindow::MainWindow(Settings *settings, QWidget *parent) :
     menu->addAction(tr("Connect..."), this, SLOT(openConnectDialog()));
     menu->addAction(tr("Settings"), this, SLOT(openSettingsDialog()));
 
-    QAction *quitAction = menu->addAction("Quit kodi", Kodi::instance(), SLOT(quit()));
+    QAction *quitAction = menu->addAction("Quit Kodi", Kodi::instance(), SLOT(quit()));
     Kodi::instance()->connect(Kodi::instance(), SIGNAL(connectedChanged(bool)), quitAction, SLOT(setEnabled(bool)));
 
     QMenu *helpMenu = menuBar->addMenu("Help");
@@ -100,20 +100,7 @@ MainWindow::MainWindow(Settings *settings, QWidget *parent) :
 
     connect(Kodi::instance(), SIGNAL(authenticationRequired(QString,QString)), SLOT(authenticationRequired(QString,QString)), Qt::QueuedConnection);
 
-    // Load stored hosts
-    bool connecting = false;
-    foreach(const KodiHost &host, settings->hostList()) {
-        int index = Kodi::instance()->hostModel()->insertOrUpdateHost(host);
-        if(host.address() == settings->lastHost().address()) {
-            qDebug() << "reconnecting to" << host.hostname() << host.address() << host.username() << host.password();
-            Kodi::instance()->hostModel()->connectToHost(index);
-            connecting = true;
-        }
-    }
-    connect(Kodi::instance(), SIGNAL(connectedChanged(bool)), SLOT(connectionChanged(bool)));
-    connect(Kodi::instance()->hostModel(), SIGNAL(rowsRemoved(QModelIndex, int, int)), SLOT(hostRemoved()));
-
-    if(!connecting) {
+    if(!Kodi::instance()->connecting()) {
         openConnectDialog();
     }
 }
@@ -309,33 +296,4 @@ void MainWindow::authenticationRequired(const QString &hostname, const QString &
     Q_UNUSED(address);
     AuthenticationDialog *dialog = new AuthenticationDialog(hostname, this);
     dialog->exec();
-}
-
-void MainWindow::connectionChanged(bool connected)
-{
-    if(connected) {
-        m_settings->addHost(*Kodi::instance()->connectedHost());
-        m_settings->setLastHost(*Kodi::instance()->connectedHost());
-    }
-
-}
-
-void MainWindow::hostRemoved()
-{
-    // We need to check if all our stored hosts are still in hostList
-    for(int i = 0; i < m_settings->hostList().count();) {
-        bool found = false;
-        for(int j = 0; j < Kodi::instance()->hostModel()->rowCount(QModelIndex()); ++j) {
-            if(m_settings->hostList().at(i).address() == Kodi::instance()->hostModel()->get(j, "address").toString()) {
-                found = true;
-                break;
-            }
-        }
-        if(!found) {
-            m_settings->removeHost(m_settings->hostList().at(i));
-            qDebug() << "removed host" << i;
-        } else {
-            ++i;
-        }
-    }
 }
