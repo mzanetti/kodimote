@@ -44,7 +44,7 @@ AuthenticationDialog::AuthenticationDialog(const QString &hostname, QWidget *par
     setLayout(layout);
 
     QVBoxLayout *vLayout = new QVBoxLayout();
-    QLabel *mainLabel = new QLabel(tr("XBMC on %1 requires authentication:").arg(hostname));
+    QLabel *mainLabel = new QLabel(tr("Kodi on %1 requires authentication:").arg(hostname));
     vLayout->addWidget(mainLabel);
 
     QGridLayout *gridLayout = new QGridLayout();
