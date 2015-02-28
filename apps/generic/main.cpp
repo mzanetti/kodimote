@@ -47,7 +47,7 @@ int main(int argc, char** argv)
     QString language;
     QApplication application(argc, argv);
 
-	// Load language file depending on platform
+    // Load language file depending on platform
 #if defined Q_WS_MAEMO_5
     language = QString(getenv("LC_NAME")).split('_').first();
     qDebug() << "language:" << language << getenv("LANG") << getenv("LC_NAME");

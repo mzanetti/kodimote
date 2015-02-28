@@ -38,7 +38,7 @@ ConnectDialog::ConnectDialog(QWidget *parent) :
 {
 
     setAttribute(Qt::WA_DeleteOnClose, true);
-    setWindowTitle("KodiRemote - " + tr("Connect to Kodi"));
+    setWindowTitle("Kodimote - " + tr("Connect to Kodi"));
 
     m_stackedLayout = new QStackedLayout();
 
