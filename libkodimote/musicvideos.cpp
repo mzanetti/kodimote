@@ -73,6 +73,7 @@ void MusicVideos::refresh()
     properties.append("fanart");
     properties.append("playcount");
     properties.append("year");
+    properties.append("resume");
     params.insert("properties", properties);
 
 
@@ -138,6 +139,7 @@ void MusicVideos::listReceived(const QVariantMap &rsp)
         item->setFileType("file");
         item->setPlayable(true);
         item->setYear(itemMap.value("year").toString());
+        item->setResume(itemMap.value("resume").toMap().value("position").toInt());
         list.append(item);
         m_idIndexMapping.insert(item->musicvideoId(), index++);
     }
@@ -168,14 +170,11 @@ KodiModel *MusicVideos::enterItem(int index)
     return 0;
 }
 
-void MusicVideos::playItem(int index)
+void MusicVideos::playItem(int index, bool resume)
 {
-    qDebug() << "should play item" << index << "musicvideoid is" << m_list.at(index)->data(RoleMusicVideoId).toInt();
-    Kodi::instance()->videoPlayer()->playlist()->clear();
     VideoPlaylistItem item;
     item.setMusicVideoId(m_list.at(index)->data(RoleMusicVideoId).toInt());
-    Kodi::instance()->videoPlayer()->playlist()->addItems(item);
-    Kodi::instance()->videoPlayer()->playItem(0);
+    Kodi::instance()->videoPlayer()->open(item, resume);
 }
 
 void MusicVideos::addToPlaylist(int row)

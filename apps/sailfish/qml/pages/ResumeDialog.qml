@@ -1,5 +1,6 @@
 /*****************************************************************************
  * Copyright: 2011-2013 Michael Zanetti <michael_zanetti@gmx.net>            *
+ *            2014      Robert Meijers <robert.meijers@gmail.com>            *
  *                                                                           *
  * This file is part of Kodimote                                           *
  *                                                                           *
@@ -18,48 +19,23 @@
  *                                                                           *
  ****************************************************************************/
 
-#ifndef MOVIES_H
-#define MOVIES_H
+import QtQuick 2.0
+import Sailfish.Silica 1.0
 
-#include "kodilibrary.h"
+Dialog {
+    property variant item
 
-#include <QStandardItem>
+    DialogHeader {
+        id: header
+        acceptText: qsTr("Resume")
+    }
 
-class Movies : public KodiLibrary
-{
-    Q_OBJECT
-public:
-    explicit Movies(bool recentlyAdded = false, KodiModel *parent = 0);
-    ~Movies();
-
-    KodiModel *enterItem(int index);
-    void playItem(int index, bool resume = false);
-    void addToPlaylist(int index);
-
-    QString title() const;
-
-    Q_INVOKABLE void fetchItemDetails(int index);
-    Q_INVOKABLE bool hasShortDetails() { return true; }
-    Q_INVOKABLE bool hasDetails() { return true; }
-
-    Q_INVOKABLE virtual void download(int index, const QString &path);
-
-    ThumbnailFormat thumbnailFormat() const { return ThumbnailFormatPortrait; }
-    bool allowWatchedFilter() { return true; }
-    QString watchedFilterSetting() { return "showWatchedMovies"; }
-
-public slots:
-    void refresh();
-
-private slots:
-    void listReceived(const QVariantMap &rsp);
-    void detailsReceived(const QVariantMap &rsp);
-    void receivedAnnouncement(const QVariantMap &map);
-
-private:
-    QMap<int, int> m_detailsRequestMap;
-    QMap<int, int> m_idIndexMapping;
-    bool m_recentlyAdded;
-};
-
-#endif // MOVIES_H
+    Label {
+        anchors { left: parent.left; right: parent.right; leftMargin: Theme.paddingLarge; rightMargin: Theme.paddingLarge; verticalCenter: parent.verticalCenter }
+        font.pixelSize: Theme.fontSizeExtraLarge
+        text: qsTr("Do you want to resume playback at %1?"). arg(item.resumeString)
+        wrapMode: Text.WrapAtWordBoundaryOrAnywhere
+        horizontalAlignment: Text.AlignHCenter
+        color: Theme.highlightColor
+    }
+}

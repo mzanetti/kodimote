@@ -99,9 +99,10 @@ KodiModel *Shares::enterItem(int index)
     return new Files(m_mediaType, m_list.at(index)->data(RoleFileName).toString(), this);
 }
 
-void Shares::playItem(int index)
+void Shares::playItem(int index, bool resume)
 {
     Q_UNUSED(index)
+    Q_UNUSED(resume)
     koDebug(XDAREA_FILES) << "Playing whole shares is not supported";
 }
 

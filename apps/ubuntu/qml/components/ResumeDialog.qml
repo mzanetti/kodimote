@@ -1,14 +1,14 @@
 /*****************************************************************************
- * Copyright: 2011-2013 Michael Zanetti <michael_zanetti@gmx.net>            *
+ * Copyright: 2015 Michael Zanetti <michael_zanetti@gmx.net>                 *
  *                                                                           *
- * This file is part of Kodimote                                           *
+ * This file is part of Kodimote                                             *
  *                                                                           *
- * Kodimote is free software: you can redistribute it and/or modify        *
+ * Kodimote is free software: you can redistribute it and/or modify          *
  * it under the terms of the GNU General Public License as published by      *
  * the Free Software Foundation, either version 3 of the License, or         *
  * (at your option) any later version.                                       *
  *                                                                           *
- * Kodimote is distributed in the hope that it will be useful,             *
+ * Kodimote is distributed in the hope that it will be useful,               *
  * but WITHOUT ANY WARRANTY; without even the implied warranty of            *
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the             *
  * GNU General Public License for more details.                              *
@@ -18,40 +18,32 @@
  *                                                                           *
  ****************************************************************************/
 
-#ifndef RECORDINGS_H
-#define RECORDINGS_H
+import QtQuick 2.3
+import Ubuntu.Components 1.1
+import Ubuntu.Components.Popups 1.0
 
-#include "kodilibrary.h"
+Dialog {
+    id: root
+    title: item.title
+    property variant item
 
-class Recordings: public KodiLibrary
-{
-    Q_OBJECT
-public:
-    explicit Recordings(const QString &path, bool allSubItems = false, KodiModel *parent = 0);
-    
-    QString title() const;
-    void refresh();
-    KodiModel* enterItem(int index);
-    void playItem(int index, bool resume = false);
-    void addToPlaylist(int index);
+    signal accepted();
+    signal rejected();
 
-    virtual QHash<int, QByteArray> roleNames() const;
-
-    ThumbnailFormat thumbnailFormat() const { return ThumbnailFormatPortrait; }
-    Q_INVOKABLE void fetchItemDetails(int index);
-    Q_INVOKABLE bool hasDetails() { return true; }
-
-signals:
-    
-private slots:
-    void listReceived(const QVariantMap &rsp);
-
-private:
-
-    static bool recordingLessThan(KodiModelItem *item1, KodiModelItem *item2);
-
-    QString m_path;
-    bool m_allSubItems;
-};
-
-#endif // RECORDINGS_H
+    Button {
+        text: qsTr("Resume at %1").arg(item.resumeString)
+        color: UbuntuColors.green
+        onClicked: {
+            root.accepted();
+            PopupUtils.close(root)
+        }
+    }
+    Button {
+        text: qsTr("Start from beginning")
+        color: UbuntuColors.red
+        onClicked: {
+            root.rejected();
+            PopupUtils.close(root)
+        }
+    }
+}

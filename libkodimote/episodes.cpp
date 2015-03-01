@@ -84,6 +84,7 @@ void Episodes::refresh()
     properties.append("thumbnail");
     properties.append("playcount");
     properties.append("file");
+    properties.append("resume");
     params.insert("properties", properties);
 
     if (m_tvshowid == KodiModel::ItemIdRecentlyAdded && m_seasonid == KodiModel::ItemIdRecentlyAdded) {
@@ -174,6 +175,7 @@ void Episodes::listReceived(const QVariantMap &rsp)
         item->setIgnoreArticle(false); // We ignore the setting here...
         item->setFileType("file");
         item->setPlayable(true);
+        item->setResume(itemMap.value("resume").toMap().value("position").toInt());
         list.append(item);
         m_idIndexMapping.insert(item->episodeId(), index++);
     }
@@ -204,20 +206,16 @@ KodiModel *Episodes::enterItem(int index)
     return 0;
 }
 
-void Episodes::playItem(int index)
+void Episodes::playItem(int index, bool resume)
 {
-    Kodi::instance()->videoPlayer()->playlist()->clear();
     VideoPlaylistItem item;
     item.setEpisodeId(m_list.at(index)->data(RoleEpisodeId).toInt());
-    Kodi::instance()->videoPlayer()->playlist()->addItems(item);
-    Kodi::instance()->videoPlayer()->playItem(0);
+    Kodi::instance()->videoPlayer()->open(item, resume);
 }
 
 void Episodes::addToPlaylist(int row)
 {
     VideoPlaylistItem pItem;
-//    pItem.setTvShowId(m_tvshowid);
-//    pItem.setSeasonId(m_seasonid);
     pItem.setEpisodeId(index(row, 0, QModelIndex()).data(RoleEpisodeId).toInt());
     Kodi::instance()->videoPlayer()->playlist()->addItems(pItem);
 }

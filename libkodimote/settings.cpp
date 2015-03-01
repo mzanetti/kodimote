@@ -224,3 +224,37 @@ void Settings::setIntroStep(IntroStep introStep)
     settings.setValue("IntroStep", introStep);
     emit introStepChanged();
 }
+
+bool Settings::showWatchedMovies() const
+{
+    QSettings settings;
+    return settings.value("ShowWatchedMovies", true).toBool();
+}
+
+void Settings::setShowWatchedMovies(bool show)
+{
+    QSettings settings;
+    if (settings.value("ShowWatchedMovies", true).toBool() == show) {
+        return;
+    }
+
+    settings.setValue("ShowWatchedMovies", show);
+    emit showWatchedMoviesChanged();
+}
+
+bool Settings::showWatchedTvShows() const
+{
+    QSettings settings;
+    return settings.value("ShowWatchedTvShows", true).toBool();
+}
+
+void Settings::setShowWatchedTvShows(bool show)
+{
+    QSettings settings;
+    if (settings.value("ShowWatchedTvShows", true).toBool() == show) {
+        return;
+    }
+
+    settings.setValue("ShowWatchedTvShows", show);
+    emit showWatchedTvShowsChanged();
+}

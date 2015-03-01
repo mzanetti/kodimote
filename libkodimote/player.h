@@ -28,6 +28,7 @@
 #include <QStringList>
 
 class Playlist;
+class PlaylistItem;
 class LibraryItem;
 
 class Player : public QObject
@@ -86,6 +87,7 @@ public:
 
     /// play the given item from the playlist
     Q_INVOKABLE void playItem(int index);
+    virtual void open(const PlaylistItem &item, bool resume = false);
 
     bool shuffle() const;
     void setShuffle(bool shuffle);

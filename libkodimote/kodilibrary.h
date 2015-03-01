@@ -38,7 +38,7 @@ public:
     Q_INVOKABLE virtual KodiModel *enterItem(int index) = 0;
     Q_INVOKABLE virtual KodiModel *exit();
 
-    Q_INVOKABLE virtual void playItem(int index) = 0;
+    Q_INVOKABLE virtual void playItem(int index, bool resume = false) = 0;
     Q_INVOKABLE virtual void addToPlaylist(int index) = 0;
 
     Q_INVOKABLE QVariant get(int index, const QString &roleName);

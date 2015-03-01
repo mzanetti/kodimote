@@ -66,45 +66,6 @@ void Playlist::clear()
     refresh();
 }
 
-void Playlist::addPlaylist(const QString &playlist)
-{
-    PlaylistItem pItem;
-    pItem.setPlayList(playlist);
-
-    QVariantMap params;
-    params.insert("item", pItem.toMap());
-    params.insert("playlistid", playlistId());
-
-    KodiConnection::sendCommand("Playlist.Add", params);
-    refresh();
-}
-
-void Playlist::addFile(const QString &file)
-{
-    PlaylistItem pItem;
-    pItem.setFile(file);
-
-    QVariantMap params;
-    params.insert("item", pItem.toMap());
-    params.insert("playlistid", playlistId());
-
-    KodiConnection::sendCommand("Playlist.Add", params);
-    refresh();
-}
-
-void Playlist::addDirectory(const QString &dir)
-{
-    PlaylistItem pItem;
-    pItem.setDirectory(dir);
-
-    QVariantMap params;
-    params.insert("item", pItem.toMap());
-    params.insert("playlistid", playlistId());
-
-    KodiConnection::sendCommand("Playlist.Add", params);
-    refresh();
-}
-
 void Playlist::receivedAnnouncement(const QVariantMap &map)
 {
     Q_UNUSED(map)

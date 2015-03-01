@@ -43,9 +43,6 @@ public:
 
     Q_INVOKABLE virtual void clear();
     virtual void addItems(const PlaylistItem &item);
-    void addPlaylist(const QString &playlistId);
-    void addFile(const QString &file);
-    void addDirectory(const QString &dir);
     Q_INVOKABLE void removeItem(int index);
 
     int count() const;

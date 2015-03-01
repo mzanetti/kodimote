@@ -76,6 +76,8 @@ class LibraryItem : public KodiModelItem
     Q_PROPERTY(QString comment READ comment WRITE setComment NOTIFY commentChanged)
     Q_PROPERTY(int playcount READ playcount WRITE setPlaycount NOTIFY playcountChanged)
     Q_PROPERTY(QString cast READ cast WRITE setCast NOTIFY castChanged)
+    Q_PROPERTY(int resume READ resume WRITE setResume NOTIFY resumeChanged)
+    Q_PROPERTY(QString resumeString READ resumeString NOTIFY resumeChanged)
 
 public:
     explicit LibraryItem(const QString &title, const QString &subTitle = QString(), QObject *parent = 0);
@@ -212,6 +214,10 @@ public:
     QString cast() const;
     void setCast(const QString &cast);
 
+    int resume() const;
+    QString resumeString() const;
+    void setResume(int resume);
+
     virtual QVariant data(int role) const;
 
 signals:
@@ -258,6 +264,7 @@ signals:
     void commentChanged();
     void playcountChanged();
     void castChanged();
+    void resumeChanged();
 
 private slots:
     Q_INVOKABLE void imageFetched(int id);
@@ -309,6 +316,7 @@ private:
     QString m_comment;
     int m_playcount;
     QString m_cast;
+    int m_resume;
 
     enum ImageType {
         ImageTypeThumbnail,

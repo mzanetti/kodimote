@@ -52,5 +52,6 @@ OTHER_FILES += \
     qml/components/ChannelDetails.qml \
     qml/components/DockedControls.qml \
     qml/components/ControlsMenuItem.qml \
-    qml/pages/ProfileSelectionDialog.qml
+    qml/pages/ProfileSelectionDialog.qml \
+    qml/pages/ResumeDialog.qml
 

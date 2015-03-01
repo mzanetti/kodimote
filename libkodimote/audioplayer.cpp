@@ -37,3 +37,19 @@ Playlist * AudioPlayer::playlist() const
 {
     return m_playList;
 }
+
+void AudioPlayer::open(const PlaylistItem &item, bool resume)
+{
+    open(item, 0, resume);
+}
+
+void AudioPlayer::open(const PlaylistItem &item, int position, bool resume)
+{
+    if (resume) {
+        qDebug() << "resume is not supported for AudioPlayer";
+    }
+
+    m_playList->clear();
+    m_playList->addItems(item);
+    playItem(position);
+}

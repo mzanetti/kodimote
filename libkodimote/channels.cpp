@@ -59,13 +59,13 @@ KodiModel *Channels::enterItem(int index)
     return 0;
 }
 
-void Channels::playItem(int index)
+void Channels::playItem(int index, bool resume)
 {
     Q_UNUSED(index);
 
     VideoPlaylistItem item;
     item.setChannelId(m_list.at(index)->data(RoleChannelId).toInt());
-    Kodi::instance()->videoPlayer()->open(item);
+    Kodi::instance()->videoPlayer()->open(item, resume);
 }
 
 void Channels::addToPlaylist(int index)

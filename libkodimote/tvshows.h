@@ -33,7 +33,7 @@ public:
     ~TvShows();
 
     KodiModel *enterItem(int index);
-    void playItem(int index);
+    void playItem(int index, bool resume = false);
     void addToPlaylist(int index);
 
     QString title() const;
@@ -43,6 +43,7 @@ public:
 
     ThumbnailFormat thumbnailFormat() const { return ThumbnailFormatLandscape; }
     bool allowWatchedFilter() { return true; }
+    QString watchedFilterSetting() { return "showWatchedTvShows"; }
 
 public slots:
     void refresh();

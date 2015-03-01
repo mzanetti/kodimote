@@ -535,6 +535,16 @@ void Player::playItem(int index)
     KodiConnection::sendCommand("Player.Open", params);
 }
 
+void Player::open(const PlaylistItem &item, bool resume)
+{
+    QVariantMap params;
+    params.insert("item", item.toMap());
+    QVariantMap options;
+    options.insert("resume", resume);
+    params.insert("options", options);
+    KodiConnection::sendCommand("Player.Open", params);
+}
+
 bool Player::shuffle() const
 {
     return m_shuffle;

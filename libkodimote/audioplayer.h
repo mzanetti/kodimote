@@ -33,6 +33,9 @@ public:
 
     Q_INVOKABLE virtual Playlist *playlist() const;
 
+    void open(const PlaylistItem &item, bool resume = false);
+    void open(const PlaylistItem &item, int position, bool resume = false);
+
 protected:
     virtual int playerId() const;
 

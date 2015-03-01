@@ -86,19 +86,12 @@ KodiModel *Recordings::enterItem(int index)
 
 }
 
-void Recordings::playItem(int index)
+void Recordings::playItem(int index, bool resume)
 {
-    Kodi::instance()->videoPlayer()->playlist()->clear();
+    VideoPlaylistItem item;
+    item.setRecordingId(m_list.at(index)->data(RoleRecordingId).toInt());
 
-    // FIXME: Playlist.Add() doesn't seem to support recordingid yet. We need to use the file mechanism for now.
-//    VideoPlaylistItem item;
-//    qDebug() << "setting recid" << m_list.at(index)->data(RoleRecordingId).toInt();
-//    item.setRecordingId(m_list.at(index)->data(RoleRecordingId).toInt());
-//    Kodi::instance()->videoPlayer()->playlist()->addItems(item);
-
-    Kodi::instance()->videoPlayer()->playlist()->addFile(m_list.at(index)->data(RoleFileName).toString());
-
-    Kodi::instance()->videoPlayer()->playItem(0);
+    Kodi::instance()->videoPlayer()->open(item, resume);
 }
 
 void Recordings::addToPlaylist(int index)

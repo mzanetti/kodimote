@@ -45,6 +45,12 @@ KodiPage {
     Component.onCompleted: {
         console.log("BrowserPage: setting model " + model)
         //filterModel.model = model
+        var setting = model.watchedFilterSetting;
+        if (setting) {
+            settings[setting + 'Changed'].connect(function() {
+                filterModel.hideWatched = !settings[setting];
+            });
+        }
     }
 
     Component.onDestruction: {
@@ -98,6 +104,14 @@ KodiPage {
         model: root.model
         filterCaseSensitivity: Qt.CaseInsensitive
         filter: searchTextField.text
+        hideWatched: model.watchedFilterSetting ? !settings[model.watchedFilterSetting] : false
+
+        onHideWatchedChanged: {
+            var setting = model.watchedFilterSetting;
+            if (setting) {
+                settings[setting] = !hideWatched;
+            }
+        }
     }
 
     Item {
@@ -206,6 +220,20 @@ KodiPage {
                 UbuntuNumberAnimation {}
             }
 
+            function playItem() {
+                if (resume == 0) {
+                    root.model.playItem(filterModel.mapToSourceIndex(index));
+                } else {
+                    var popup = PopupUtils.open(Qt.resolvedUrl("components/ResumeDialog.qml"), delegateItem, {item: model });
+                    popup.accepted.connect(function() {
+                        root.model.playItem(filterModel.mapToSourceIndex(index), true);
+                    })
+                    popup.rejected.connect(function() {
+                        root.model.playItem(filterModel.mapToSourceIndex(index));
+                    })
+                }
+            }
+
             states: [
                 State {
                     name: "expanded"; when: expanded
@@ -243,8 +271,7 @@ KodiPage {
                         target: contentLoader.item
 
                         onPlayItem: {
-                            print("playItem()!")
-                            root.model.playItem(filterModel.mapToSourceIndex(index))
+                                delegateItem.playItem()
                         }
 
                         onAddToPlaylist: {
@@ -255,10 +282,8 @@ KodiPage {
                             root.model.download(filterModel.mapToSourceIndex(index), "/home/user/MyDocs/");
                         }
                     }
-
                 }
             }
-
 
             Base {
                 id: collapsedItem
@@ -363,8 +388,8 @@ KodiPage {
                     }
                     width: units.gu(2)
                     height: width
-                    visible: playcount > 0
-                    source: "image://theme/tick"
+                    visible: playcount > 0 || resume > 0
+                    name: resume > 0 ? "media-playback-start" : "tick"
                     color: "white"
                 }
                 onClicked: {
@@ -378,7 +403,7 @@ KodiPage {
                             console.log("Error loading component:", component.errorString());
                         }
                     } else {
-                        root.model.playItem(filterModel.mapToSourceIndex(index));
+                        delegateItem.playItem();
                     }
                 }
 

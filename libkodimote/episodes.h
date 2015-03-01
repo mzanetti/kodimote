@@ -33,7 +33,7 @@ public:
     explicit Episodes(int tvshowid = -1, int seasonid = -1, const QString &seasonString = QString(), KodiModel *parent = 0);
 
     KodiModel *enterItem(int index);
-    void playItem(int index);
+    void playItem(int index, bool resume = false);
     void addToPlaylist(int index);
 
     QString title() const;
@@ -45,6 +45,7 @@ public:
 
     ThumbnailFormat thumbnailFormat() const { return ThumbnailFormatLandscape; }
     bool allowWatchedFilter() { return true; }
+    QString watchedFilterSetting() { return "showWatchedTvShows"; }
 
 public slots:
     void refresh();

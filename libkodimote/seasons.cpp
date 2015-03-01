@@ -156,9 +156,10 @@ KodiModel *Seasons::enterItem(int index)
     return new Episodes(m_tvshowid, m_list.at(index)->data(RoleSeason).toInt(), m_list.at(index)->title(), this);
 }
 
-void Seasons::playItem(int index)
+void Seasons::playItem(int index, bool resume)
 {
     Q_UNUSED(index)
+    Q_UNUSED(resume)
     qDebug() << "Seasons: playing whole season not supported by kodi";
 }
 

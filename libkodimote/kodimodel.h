@@ -38,6 +38,7 @@ class KodiModel : public QAbstractItemModel
     Q_PROPERTY(ThumbnailFormat thumbnailFormat READ thumbnailFormat NOTIFY thumbnailFormatChanged)
     Q_PROPERTY(bool allowSearch READ allowSearch NOTIFY allowSearchChanged)
     Q_PROPERTY(bool allowWatchedFilter READ allowWatchedFilter NOTIFY allowWatchedFilterChanged)
+    Q_PROPERTY(QString watchedFilterSetting READ watchedFilterSetting NOTIFY watchedFilterSettingChanged)
 
 public:
     enum Roles {
@@ -83,6 +84,8 @@ public:
         RoleComment,
         RolePlaycount,
         RoleCast,
+        RoleResume,
+        RoleResumeString,
         RolePlayingState,
         RoleLockMode
     };
@@ -140,6 +143,7 @@ public:
     virtual ThumbnailFormat thumbnailFormat() const { return ThumbnailFormatSquare; }
     virtual bool allowSearch() { return true; }
     virtual bool allowWatchedFilter() { return false; }
+    virtual QString watchedFilterSetting() { return QString(); }
 
     Q_INVOKABLE void imageFetched(int id);
 public slots:
@@ -153,6 +157,7 @@ signals:
     void thumbnailFormatChanged();
     void allowSearchChanged();
     void allowWatchedFilterChanged();
+    void watchedFilterSettingChanged();
 
 protected:
     KodiModel *m_parentModel;

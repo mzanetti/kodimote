@@ -82,9 +82,10 @@ KodiModel *VideoLibrary::enterItem(int index)
     return 0;
 }
 
-void VideoLibrary::playItem(int index)
+void VideoLibrary::playItem(int index, bool resume)
 {
     Q_UNUSED(index)
+    Q_UNUSED(resume)
     qDebug() << "cannot play whole video library";
 }
 

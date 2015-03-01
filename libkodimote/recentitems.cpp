@@ -88,9 +88,10 @@ KodiModel *RecentItems::enterItem(int index)
     return 0;
 }
 
-void RecentItems::playItem(int index)
+void RecentItems::playItem(int index, bool resume)
 {
     Q_UNUSED(index)
+    Q_UNUSED(resume)
     qDebug() << "cannot play whole recently added items";
 }
 

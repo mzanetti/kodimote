@@ -81,14 +81,10 @@ KodiModel *Genres::enterItem(int index)
     return new Artists(m_list.at(index)->data(RoleGenreId).toInt(), this);
 }
 
-void Genres::playItem(int index)
+void Genres::playItem(int index, bool resume)
 {
-//    AudioPlaylistItem pItem;
-//    pItem.setArtistId(m_list.at(index)->data(RoleArtistId).toInt());
-//    Kodi::instance()->audioPlayer()->playlist()->clear();
-//    Kodi::instance()->audioPlayer()->playlist()->addItems(pItem);
-//    Kodi::instance()->audioPlayer()->playItem(0);
-    Q_UNUSED(index);
+    Q_UNUSED(index)
+    Q_UNUSED(resume)
 }
 
 void Genres::addToPlaylist(int index)
