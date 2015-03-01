@@ -42,6 +42,7 @@ public:
 
     KodiModel::ThumbnailFormat thumbnailFormat() const { return KodiModel::ThumbnailFormatPortrait; }
     bool allowWatchedFilter() { return true; }
+    QString watchedFilterSetting() { return "showWatchedTvShows"; }
 
 public slots:
     void refresh();

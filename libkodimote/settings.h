@@ -43,6 +43,8 @@ class Settings : public QObject
     Q_PROPERTY(bool pvrEnabled READ pvrEnabled WRITE setPvrEnabled NOTIFY pvrEnabledChanged)
     Q_PROPERTY(bool hapticsEnabled READ hapticsEnabled WRITE setHapticsEnabled NOTIFY hapticsEnabledChanged)
     Q_PROPERTY(IntroStep introStep READ introStep WRITE setIntroStep NOTIFY introStepChanged)
+    Q_PROPERTY(bool showWatchedMovies READ showWatchedMovies WRITE setShowWatchedMovies NOTIFY showWatchedMoviesChanged)
+    Q_PROPERTY(bool showWatchedTvShows READ showWatchedTvShows WRITE setShowWatchedTvShows NOTIFY showWatchedTvShowsChanged)
 
 public:
     enum IntroStep {
@@ -102,6 +104,12 @@ public:
     IntroStep introStep() const;
     void setIntroStep(IntroStep introStep);
 
+    bool showWatchedMovies() const;
+    void setShowWatchedMovies(bool show);
+
+    bool showWatchedTvShows() const;
+    void setShowWatchedTvShows(bool show);
+
 signals:
     void themeInvertedChanged();
     void useThumbnailsChanged();
@@ -120,6 +128,8 @@ signals:
     void pvrEnabledChanged();
     void hapticsEnabledChanged();
     void introStepChanged();
+    void showWatchedMoviesChanged();
+    void showWatchedTvShowsChanged();
 };
 
 #endif // SETTINGS_H

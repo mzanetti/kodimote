@@ -45,6 +45,12 @@ KodiPage {
     Component.onCompleted: {
         console.log("BrowserPage: setting model " + model)
         //filterModel.model = model
+        var setting = model.watchedFilterSetting;
+        if (setting) {
+            settings[setting + 'Changed'].connect(function() {
+                filterModel.hideWatched = !settings[setting];
+            });
+        }
     }
 
     Component.onDestruction: {
@@ -98,6 +104,14 @@ KodiPage {
         model: root.model
         filterCaseSensitivity: Qt.CaseInsensitive
         filter: searchTextField.text
+        hideWatched: model.watchedFilterSetting ? !settings[model.watchedFilterSetting] : false
+
+        onHideWatchedChanged: {
+            var setting = model.watchedFilterSetting;
+            if (setting) {
+                settings[setting] = !hideWatched;
+            }
+        }
     }
 
     Item {

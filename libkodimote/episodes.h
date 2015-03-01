@@ -45,6 +45,7 @@ public:
 
     ThumbnailFormat thumbnailFormat() const { return ThumbnailFormatLandscape; }
     bool allowWatchedFilter() { return true; }
+    QString watchedFilterSetting() { return "showWatchedTvShows"; }
 
 public slots:
     void refresh();
