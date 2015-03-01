@@ -16,7 +16,7 @@ ubuntu {
 
 TARGET = kodimote
 TEMPLATE = lib
-CONFIG += static
+CONFIG += staticlib
 
 DEFINES += LIBKODIMOTE_LIBRARY
 
@@ -133,8 +133,3 @@ HEADERS += libkodimote_global.h \
            addonsource.h \
            profiles.h \
            profileitem.h
-
-maemo5 {
-    target.path = /opt/libkodimote/lib
-    INSTALLS += target
-}
