@@ -265,15 +265,7 @@ void MprisPlayer::SetPosition(QDBusObjectPath path, qint64 position)
 
 void MprisPlayer::OpenUri(QString uri)
 {
-    QUrl url(uri);
-    ProtocolHandler *handler = m_protocols->get(url.scheme());
-
-    if (!handler) {
-        return;
-    }
-
-    QUrlQuery query(url);
-    handler->execute(url, query.hasQueryItem("queue"));
+    m_protocols->execute(uri);
 }
 
 QString MprisPlayer::buildPath(LibraryItem *item) const

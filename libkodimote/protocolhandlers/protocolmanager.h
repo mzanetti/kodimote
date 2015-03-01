@@ -15,8 +15,10 @@ public:
     void registerProtocol(ProtocolHandler *handler);
 
     QList<ProtocolHandler*> list() const;
-
     ProtocolHandler *get(const QString &scheme) const;
+
+    inline void execute(const QString &uri) { execute(QUrl(uri)); }
+    void execute(const QUrl &url);
 
 private:
     QHash<QString, ProtocolHandler*> m_handlers;
