@@ -1,5 +1,7 @@
 #include "protocolmanager.h"
 
+#include <QUrlQuery>
+
 #include "youtubeprotocolhandler.h"
 #include "nativeprotocolhandler.h"
 
@@ -27,4 +29,16 @@ ProtocolHandler *ProtocolManager::get(const QString &scheme) const
     }
 
     return m_handlers[scheme];
+}
+
+void ProtocolManager::execute(const QUrl &url)
+{
+    if (!m_handlers.contains(url.scheme())) {
+        return;
+    }
+
+    ProtocolHandler *handler = m_handlers[url.scheme()];
+
+    QUrlQuery query(url);
+    handler->execute(url, query.hasQueryItem("queue"));
 }
