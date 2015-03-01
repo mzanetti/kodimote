@@ -144,7 +144,6 @@ void KodiImageCache::imageFetched()
     reply->deleteLater();
 
     if(reply->error() == QNetworkReply::NoError) {
-        job->setParent(this);
         QFutureWatcher<ImageFetchJob*> *watcher = new QFutureWatcher<ImageFetchJob*>();
         connect(watcher, SIGNAL(finished()), this, SLOT(imageScaled()));
         watcher->setFuture(QtConcurrent::run(scaleImage, job, reply->readAll()));
