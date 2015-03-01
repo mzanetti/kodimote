@@ -210,7 +210,7 @@ void Songs::playItem(int row, bool resume)
     } else {
         pItem.setAlbumId(m_albumId);
     }
-    Kodi::instance()->audioPlayer()->open(pItem, resume);
+    Kodi::instance()->audioPlayer()->open(pItem, row, resume);
 }
 
 void Songs::addToPlaylist(int row)
