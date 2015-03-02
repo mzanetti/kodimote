@@ -187,6 +187,9 @@ Page {
                         if(browserPage.model.hasDetails()) {
                             browserPage.model.fetchItemDetails(filterModel.mapToSourceIndex(listView.currentIndex));
                             drawer.open = true;
+                        } else {
+                            // no info, but we still want to be able to play/queue
+                            drawer.open = true;
                         }
                     }
 
