@@ -42,6 +42,8 @@ public:
     QString title() const;
     int playlistId() const;
 
+    MediaFormat mediaFormat() const { return MediaFormatAudio; }
+
 public slots:
     void refresh();
 

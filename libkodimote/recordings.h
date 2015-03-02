@@ -38,6 +38,7 @@ public:
     virtual QHash<int, QByteArray> roleNames() const;
 
     ThumbnailFormat thumbnailFormat() const { return ThumbnailFormatPortrait; }
+    MediaFormat mediaFormat() const { return MediaFormatVideo; }
     Q_INVOKABLE void fetchItemDetails(int index);
     Q_INVOKABLE bool hasDetails() { return true; }
 

@@ -28,12 +28,13 @@
 #include "kodiconnection.h"
 #include "libraryitem.h"
 
-RecentItems::RecentItems(Mode mode, RecentlyWhat what, KodiLibrary *parent):
+RecentItems::RecentItems(MediaFormat mediaFormat, RecentlyWhat what, KodiLibrary *parent):
     KodiLibrary(parent),
+    m_mediaFormat(mediaFormat),
     m_what(what)
 {
     setBusy(false);
-    if (mode == ModeAudio) {
+    if (mediaFormat == MediaFormatAudio) {
         LibraryItem *item = new LibraryItem(tr("Albums"), QString(), this);
         item->setFileType("directory");
         item->setPlayable(false);
@@ -45,7 +46,7 @@ RecentItems::RecentItems(Mode mode, RecentlyWhat what, KodiLibrary *parent):
         item->setPlayable(false);
         item->setProperty("id", 1);
         m_list.append(item);
-    } else if (mode == ModeVideo) {
+    } else if (mediaFormat == MediaFormatVideo) {
         LibraryItem *item = new LibraryItem(tr("Movies"), QString(), this);
         item->setFileType("directory");
         item->setPlayable(false);

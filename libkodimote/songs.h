@@ -42,6 +42,8 @@ public:
 
     Q_INVOKABLE void download(int index, const QString &path);
 
+    MediaFormat mediaFormat() const { return MediaFormatAudio; }
+
 public slots:
     void refresh() { refresh(0, 200); }
     void refresh(int start, int end);

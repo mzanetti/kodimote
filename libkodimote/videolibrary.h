@@ -40,6 +40,7 @@ public:
     bool allowSearch();
 
     ThumbnailFormat thumbnailFormat() const { return ThumbnailFormatNone; }
+    MediaFormat mediaFormat() const { return MediaFormatVideo; }
 
 public slots:
     void scanForContent();

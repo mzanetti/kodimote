@@ -35,6 +35,7 @@ public:
     void addToPlaylist(int index);
 
     ThumbnailFormat thumbnailFormat() const { return ThumbnailFormatNone; }
+    MediaFormat mediaFormat() const { return MediaFormatVideo; }
 
 public slots:
     void refresh();

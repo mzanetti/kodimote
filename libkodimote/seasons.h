@@ -40,7 +40,8 @@ public:
     Q_INVOKABLE void fetchItemDetails(int index);
     Q_INVOKABLE bool hasDetails() { return true; }
 
-    KodiModel::ThumbnailFormat thumbnailFormat() const { return KodiModel::ThumbnailFormatPortrait; }
+    ThumbnailFormat thumbnailFormat() const { return ThumbnailFormatPortrait; }
+    MediaFormat mediaFormat() const { return MediaFormatVideo; }
     bool allowWatchedFilter() { return true; }
     QString watchedFilterSetting() { return "showWatchedTvShows"; }
 

@@ -31,11 +31,13 @@ class KodiModel : public QAbstractItemModel
     Q_OBJECT
     Q_ENUMS(ThumbnailFormat)
     Q_ENUMS(LockMode)
+    Q_ENUMS(MediaFormat)
     Q_PROPERTY(QString title READ title NOTIFY titleChanged)
     Q_PROPERTY(int count READ rowCount NOTIFY layoutChanged)
     Q_PROPERTY(bool busy READ busy NOTIFY busyChanged)
     Q_PROPERTY(bool ignoreArticle READ ignoreArticle WRITE setIgnoreArticle NOTIFY ignoreArticleChanged)
     Q_PROPERTY(ThumbnailFormat thumbnailFormat READ thumbnailFormat NOTIFY thumbnailFormatChanged)
+    Q_PROPERTY(MediaFormat mediaFormat READ mediaFormat CONSTANT)
     Q_PROPERTY(bool allowSearch READ allowSearch NOTIFY allowSearchChanged)
     Q_PROPERTY(bool allowWatchedFilter READ allowWatchedFilter NOTIFY allowWatchedFilterChanged)
     Q_PROPERTY(QString watchedFilterSetting READ watchedFilterSetting NOTIFY watchedFilterSettingChanged)
@@ -98,6 +100,13 @@ public:
         ThumbnailFormat43
     };
 
+    enum MediaFormat {
+        MediaFormatUnknown,
+        MediaFormatAudio,
+        MediaFormatVideo,
+        MediaFormatPictures
+    };
+
     enum ItemId {
         ItemIdInvalid = -1,
         ItemIdRecentlyAdded = -2,
@@ -141,6 +150,7 @@ public:
     void setIgnoreArticle(bool ignoreArticle);
 
     virtual ThumbnailFormat thumbnailFormat() const { return ThumbnailFormatSquare; }
+    virtual MediaFormat mediaFormat() const { return MediaFormatUnknown; }
     virtual bool allowSearch() { return true; }
     virtual bool allowWatchedFilter() { return false; }
     virtual QString watchedFilterSetting() { return QString(); }

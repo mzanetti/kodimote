@@ -37,6 +37,17 @@ public:
 
     bool allowSearch();
 
+    MediaFormat mediaFormat() const {
+        if (m_mediaType == "music") {
+            return MediaFormatAudio;
+        } else if (m_mediaType == "video") {
+            return MediaFormatVideo;
+        } else if (m_mediaType == "pictures") {
+            return MediaFormatPictures;
+        }
+        return MediaFormatUnknown;
+    }
+
 public slots:
     void refresh();
 

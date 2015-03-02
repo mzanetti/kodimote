@@ -86,9 +86,9 @@ KodiModel *AudioLibrary::enterItem(int index)
     case 3:
         return new Genres(this);
     case 4:
-        return new RecentItems(RecentItems::ModeAudio, RecentItems::RecentlyAdded, this);
+        return new RecentItems(MediaFormatAudio, RecentItems::RecentlyAdded, this);
     case 5:
-        return new RecentItems(RecentItems::ModeAudio, RecentItems::RecentlyPlayed, this);
+        return new RecentItems(MediaFormatAudio, RecentItems::RecentlyPlayed, this);
     case 6:
         return new AddonSource(tr("Music Add-ons"), "music", "addons://sources/audio", this);
     case 7:

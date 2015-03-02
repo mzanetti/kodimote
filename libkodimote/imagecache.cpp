@@ -148,35 +148,33 @@ void KodiImageCache::imageFetched()
     reply->deleteLater();
 
     if(reply->error() == QNetworkReply::NoError) {
-        job->setParent(this);
         QFutureWatcher<ImageFetchJob*> *watcher = new QFutureWatcher<ImageFetchJob*>();
         connect(watcher, SIGNAL(finished()), this, SLOT(imageScaled()));
         watcher->setFuture(QtConcurrent::run(scaleImage, job, reply->readAll()));
         return;
-    } else {
-        qDebug() << "image fetching failed" << reply->errorString() << reply->error();
+    }
 
-        // Hack: There is something fishy with Kodi's image urls. Some versions require decoding
-        // from PercentageDecoding once, some twice... Let's retry doubleDecoding if if we get a 404
-        if (reply->error() == QNetworkReply::ContentNotFoundError) {
-            if (!m_doubleDecode) {
-                m_doubleDecode = true;
-                fetchNext(job);
-                return;
-            } else {
-                // So this failed with both... Lets turn off doubleDecode again and try the next
-                m_doubleDecode = false;
-            }
-        }
+    qDebug() << "image fetching failed" << reply->errorString() << reply->error();
 
-        QVariant possibleRedirectUrl = reply->attribute(QNetworkRequest::RedirectionTargetAttribute);
-        qDebug() << possibleRedirectUrl;
-
-        if(!possibleRedirectUrl.toString().isEmpty() && possibleRedirectUrl != reply->url()) {
-            qDebug() << "We got redirected to" << possibleRedirectUrl;
+    // Hack: There is something fishy with Kodi's image urls. Some versions require decoding
+    // from PercentageDecoding once, some twice... Let's retry doubleDecoding if if we get a 404
+    if (reply->error() == QNetworkReply::ContentNotFoundError) {
+        if (!m_doubleDecode) {
+            m_doubleDecode = true;
+            fetchNext(job);
+            return;
+        } else {
+            // So this failed with both... Lets turn off doubleDecode again and try the next
+            m_doubleDecode = false;
         }
     }
 
+    foreach (const ImageFetchJob::Callback callback, job->callbacks()) {
+        QMetaObject::invokeMethod(callback.object().data(), callback.method().toLatin1(), Qt::QueuedConnection, Q_ARG(int, job->id()));
+    }
+
+    job->deleteLater();
+    m_cacheFiles.insert(cacheKey, qMakePair<bool, QString>(true, ""));
     m_jobs.remove(cacheKey);
 }
 

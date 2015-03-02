@@ -44,6 +44,7 @@ public:
     Q_INVOKABLE void download(int index, const QString &path);
 
     ThumbnailFormat thumbnailFormat() const { return ThumbnailFormatLandscape; }
+    MediaFormat mediaFormat() const { return MediaFormatVideo; }
     bool allowWatchedFilter() { return true; }
     QString watchedFilterSetting() { return "showWatchedTvShows"; }
 
