@@ -75,7 +75,9 @@ SOURCES +=  kodi.cpp \
             kodihost.cpp \
             addonsource.cpp \
             profiles.cpp \
-            profileitem.cpp
+            profileitem.cpp \
+            playlists.cpp \
+            playlistcontent.cpp
 
 HEADERS += libkodimote_global.h \
            kodi.h \
@@ -132,4 +134,6 @@ HEADERS += libkodimote_global.h \
            kodihost.h \
            addonsource.h \
            profiles.h \
-           profileitem.h
+           profileitem.h \
+           playlists.h \
+           playlistcontent.h
