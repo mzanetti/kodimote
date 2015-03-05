@@ -85,6 +85,7 @@ private slots:
     void shuffleChanged();
     void repeatChanged();
     void playlistChanged();
+    void thumbnailChanged();
 };
 
 #endif // MPRISPLAYER_H

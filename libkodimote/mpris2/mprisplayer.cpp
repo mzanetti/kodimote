@@ -77,6 +77,15 @@ QVariantMap MprisPlayer::metadata() const
         map["xesam:title"] = item->title();
         map["xesam:artist"] = item->subtitle();
         map["xesam:album"] = item->album();
+
+        QString thumbnail = item->thumbnail();
+        if (thumbnail == "loading") {
+            //prevent connecting multiple times
+            disconnect(item, SIGNAL(thumbnailChanged()), this, SLOT(thumbnailChanged()));
+            connect(item, SIGNAL(thumbnailChanged()), this, SLOT(thumbnailChanged()));
+        } else if (!thumbnail.isEmpty()) {
+            map["mpris:artUrl"] = "file://" + item->thumbnail();
+        }
     }
     return map;
 }
@@ -317,6 +326,9 @@ void MprisPlayer::activePlayerChanged()
         disconnect(m_player, SIGNAL(shuffleChanged()), this, SLOT(shuffleChanged()));
         disconnect(m_player, SIGNAL(repeatChanged()), this, SLOT(repeatChanged()));
         disconnect(m_player->playlist(), SIGNAL(countChanged()), this, SLOT(playlistChanged()));
+        if (m_player->currentItem()) {
+            disconnect(m_player->currentItem(), SIGNAL(thumbnailChanged()), this, SLOT(thumbnailChanged()));
+        }
     }
 
     m_player = Kodi::instance()->activePlayer();
@@ -346,6 +358,7 @@ void MprisPlayer::stateChanged()
 
 void MprisPlayer::currentItemChanged()
 {
+    connect(m_player->currentItem(), SIGNAL(thumbnailChanged()), this, SLOT(thumbnailChanged()));
     sendPropertiesChanged(QStringList() << "CanGoNext" << "CanGoPrevious" << "CanPause"
         << "CanPlay" << "CanSeek" << "Metadata" << "PlaybackStatus" << "Position" << "Rate");
 }
@@ -373,4 +386,9 @@ void MprisPlayer::repeatChanged()
 void MprisPlayer::playlistChanged()
 {
     sendPropertiesChanged(QStringList() << "CanGoNext" << "CanGoPrevious");
+}
+
+void MprisPlayer::thumbnailChanged()
+{
+    sendPropertyChanged("Metadata");
 }
