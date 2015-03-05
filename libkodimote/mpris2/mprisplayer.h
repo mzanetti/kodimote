@@ -38,7 +38,7 @@ public:
     bool canSeek() const;
     double maximumRate() const;
     double minimumRate() const;
-    QVariantMap metadata() const;
+    QVariantMap metadata();
     QString playbackStatus() const;
     qint64 position() const;
     double rate() const;
@@ -69,6 +69,7 @@ public slots:
 private:
     Player *m_player;
     ProtocolManager *m_protocols;
+    LibraryItem *m_currentItem;
 
     QString buildPath(LibraryItem *item) const;
 
@@ -85,6 +86,7 @@ private slots:
     void shuffleChanged();
     void repeatChanged();
     void playlistChanged();
+    void thumbnailChanged();
 };
 
 #endif // MPRISPLAYER_H

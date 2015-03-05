@@ -67,7 +67,7 @@ double MprisPlayer::minimumRate() const
     return -32.0;
 }
 
-QVariantMap MprisPlayer::metadata() const
+QVariantMap MprisPlayer::metadata()
 {
     QVariantMap map;
     if (m_player && m_player->currentItem()) {
@@ -77,6 +77,19 @@ QVariantMap MprisPlayer::metadata() const
         map["xesam:title"] = item->title();
         map["xesam:artist"] = item->subtitle();
         map["xesam:album"] = item->album();
+
+        QString thumbnail = item->thumbnail();
+        if (thumbnail == "loading") {
+            //prevent connecting multiple times
+            if (m_currentItem) {
+                disconnect(m_currentItem, SIGNAL(thumbnailChanged()), this, SLOT(thumbnailChanged()));
+            }
+
+            m_currentItem = item;
+            connect(item, SIGNAL(thumbnailChanged()), this, SLOT(thumbnailChanged()));
+        } else if (!thumbnail.isEmpty()) {
+            map["mpris:artUrl"] = "file://" + item->thumbnail();
+        }
     }
     return map;
 }
@@ -312,6 +325,9 @@ void MprisPlayer::activePlayerChanged()
     if (m_player) {
         disconnect(m_player, 0, this, 0);
         disconnect(m_player->playlist(), SIGNAL(countChanged()), this, SLOT(playlistChanged()));
+        if (m_player->currentItem()) {
+            disconnect(m_player->currentItem(), SIGNAL(thumbnailChanged()), this, SLOT(thumbnailChanged()));
+        }
     }
 
     m_player = Kodi::instance()->activePlayer();
@@ -341,6 +357,11 @@ void MprisPlayer::stateChanged()
 
 void MprisPlayer::currentItemChanged()
 {
+    if (m_currentItem) {
+        disconnect(m_player->currentItem(), SIGNAL(thumbnailChanged()), this, SLOT(thumbnailChanged()));
+        m_currentItem = 0;
+    }
+
     sendPropertiesChanged(QStringList() << "CanGoNext" << "CanGoPrevious" << "CanPause"
         << "CanPlay" << "CanSeek" << "Metadata" << "PlaybackStatus" << "Position" << "Rate");
 }
@@ -368,4 +389,13 @@ void MprisPlayer::repeatChanged()
 void MprisPlayer::playlistChanged()
 {
     sendPropertiesChanged(QStringList() << "CanGoNext" << "CanGoPrevious");
+}
+
+void MprisPlayer::thumbnailChanged()
+{
+    if (m_currentItem) {
+        disconnect(m_currentItem, SIGNAL(thumbnailChanged()), this, SLOT(currentItemChanged()));
+        m_currentItem = 0;
+    }
+    sendPropertyChanged("Metadata");
 }
