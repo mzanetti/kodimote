@@ -44,7 +44,7 @@ DockedPanel {
             _opened = open;
             hide(true);
         } else {
-            if (_opened) {
+            if (_opened && player) {
                 show(true);
             }
         }
