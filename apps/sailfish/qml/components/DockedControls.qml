@@ -36,7 +36,14 @@ DockedPanel {
     contentHeight: height
 
     onPlayerChanged: {
-        open = player;
+        if (player) {
+            _opened = true;
+            if (!hideTemporary) {
+                open = true;
+            }
+        } else {
+            open = false;
+        }
     }
 
     onHideTemporaryChanged: {
