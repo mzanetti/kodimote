@@ -490,8 +490,14 @@ QString LibraryItem::year() const
 
 void LibraryItem::setYear(const QString &year)
 {
-    m_year = year;
-    emit yearChanged();
+    if (year == "0") {
+        //can't change year, as it's const
+        m_year = QString();
+        emit yearChanged();
+    } else {
+        m_year = year;
+        emit yearChanged();
+    }
 }
 
 QString LibraryItem::director() const

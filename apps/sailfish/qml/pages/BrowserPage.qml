@@ -173,18 +173,18 @@ Page {
 
                 ListItem {
                     id: contentItem
-                    height: listView.itemHeight
                     contentHeight: listView.itemHeight
                     width: parent.width
                     anchors.topMargin: Theme.paddingSmall
                     anchors.rightMargin: Theme.paddingSmall
+                    showMenuOnPressAndHold: playable && !browserPage.model.hasDetails()
 
                     onPressed: {
                         listView.currentIndex = index
                     }
 
                     onPressAndHold: {
-                        if(browserPage.model.hasDetails()) {
+                        if (browserPage.model.hasDetails()) {
                             browserPage.model.fetchItemDetails(filterModel.mapToSourceIndex(listView.currentIndex));
                             drawer.open = true;
                         }
@@ -216,6 +216,19 @@ Page {
                         anchors.right: thumbnailImage.left
                         anchors.rightMargin: 2
                         visible: playcount === 0 || resume > 0
+                    }
+
+                    menu: Component {
+                        ContextMenu {
+                            MenuItem {
+                                text: qsTr("Play")
+                                onClicked: drawer.playItem()
+                            }
+                            MenuItem {
+                                text: qsTr("Add to playlist")
+                                onClicked: browserPage.model.addToPlaylist(filterModel.mapToSourceIndex(index))
+                            }
+                        }
                     }
 
                     Thumbnail {

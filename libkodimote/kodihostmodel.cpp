@@ -144,3 +144,12 @@ QVariant KodiHostModel::data(const QModelIndex &index, int role) const
     return QVariant();
 }
 
+int KodiHostModel::indexOf(KodiHost *host) const
+{
+    if (!host) {
+        return -1;
+    }
+
+    return m_hosts.indexOf(host);
+}
+

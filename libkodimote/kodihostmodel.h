@@ -52,6 +52,8 @@ public:
     Q_INVOKABLE int addHost(KodiHost *host);
     Q_INVOKABLE void removeHost(int index);
 
+    Q_INVOKABLE int indexOf(KodiHost *host) const;
+
 signals:
     void countChanged();
 

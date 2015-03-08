@@ -54,6 +54,7 @@ Dialog {
         anchors.fill: parent
         model: kodi.hostModel()
         highlightFollowsCurrentItem: true
+        currentIndex: model.indexOf(kodi.connectedHost)
 
         header: DialogHeader {
             id: header
