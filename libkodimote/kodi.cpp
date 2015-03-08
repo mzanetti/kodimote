@@ -98,7 +98,7 @@ Kodi::Kodi(QObject *parent) :
     qDebug() << "args are" << args;
     for(int i = 1; i < args.count(); ++i ) {
         if(args.at(i) == "-d") {
-            if(args.count() > i) {
+            if(args.count() > i + 1) {
                 QStringList debuglist = args.at(i + 1).split(',');
                 foreach(const QString &debugString, debuglist) {
                     if(debugString == "connection") {
@@ -121,6 +121,8 @@ Kodi::Kodi(QObject *parent) :
 //                        XDebug::addAllowedArea(XDAREA_);
                     }
                 }
+            } else {
+                koDebug() << "Missing debug area argument after -d. Opssible options are discovery, player, library, files, playlist, networkdata and eventclient.";
             }
         }
     }
