@@ -289,6 +289,8 @@ QString MprisPlayer::buildPath(LibraryItem *item) const
         return QString("/org/mpris/MediaPlayer2/Track/channel/%1").arg(item->channelId());
     } else if (item->songId() != -1) {
         return QString("/org/mpris/MediaPlayer2/Track/song/%1").arg(item->songId());
+    } else if (item->recordingId() != -1) {
+        return QString("/org/mpris/MediaPlayer2/Track/recording/%1").arg(item->recordingId());
     }
 
     return "";
