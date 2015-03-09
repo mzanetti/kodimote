@@ -219,11 +219,13 @@ Item {
             Button {
                 text: qsTr("Play")
                 width: parent.width
+                visible: playable
                 onClicked: itemDetails.playItem()
             }
             Button {
                 text: qsTr("Add to playlist")
                 width: parent.width
+                visible: playable
                 onClicked: itemDetails.addToPlaylist()
             }
 //            Button {

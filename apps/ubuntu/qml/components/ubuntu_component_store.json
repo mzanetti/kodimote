@@ -1,0 +1,6 @@
+{
+    "name": "ListItemWithActions",
+    "description": "This widget provides an updated listitem which is what the core apps currently use.",
+    "version": "1.0",
+    "documentation_url": "http://ubuntu-component-store.readthedocs.org/en/latest/_components/listitemwithactions.html"
+}

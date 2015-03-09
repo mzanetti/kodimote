@@ -122,28 +122,41 @@ MainView {
                 opacity: noConnectionPage.showList ? 1 : 0
                 Behavior on opacity { UbuntuNumberAnimation {} }
 
-                delegate: ListItems.Standard {
+                delegate: ListItemWithActions {
                     id: hostDelegate
-                    text: hostname
+                    width: parent.width
+                    height: units.gu(8)
+                    color: "transparent"
+                    triggerActionOnMouseRelease: true
 
-                    onClicked: {
-                        noConnectionPage.showList = false
-                        kodi.hostModel().host(index).connect()
+                    leftSideAction: Action {
+                        iconName: "delete"
+                        onTriggered: kodi.hostModel().removeHost(index)
+                    }
+                    rightSideActions: [
+                        Action {
+                            iconName: "torch-on"
+                            onTriggered: kodi.hostModel().host(index).wakeup();
+                        },
+                        Action {
+                            iconName: "edit"
+                            onTriggered: PopupUtils.open(addHostComponent, noConnectionPage, {host: kodi.hostModel().host(index)});
+                        }
+
+                    ]
+
+                    Label {
+                        anchors {
+                            left: parent.left
+                            right: parent.right
+                            verticalCenter: parent.verticalCenter
+                        }
+                        text: hostname
                     }
 
-                    onPressAndHold: {
-                        var obj = PopupUtils.open(removePopoverComponent, hostDelegate)
-                        obj.removeClicked.connect(function() {
-                            kodi.hostModel().removeHost(index)
-                            PopupUtils.close(obj)
-                        })
-                        obj.wakeupClicked.connect(function() {
-                            kodi.hostModel().host(index).wakeup();
-                            PopupUtils.close(obj)
-                        })
-                        obj.editClicked.connect(function() {
-                            PopupUtils.open(addHostComponent, noConnectionPage, {host: kodi.hostModel().host(index)});
-                        })
+                    onItemClicked: {
+                        noConnectionPage.showList = false
+                        kodi.hostModel().host(index).connect()
                     }
                 }
                 Column {
