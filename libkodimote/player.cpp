@@ -343,6 +343,12 @@ void Player::detailsReceived(const QVariantMap &rsp)
 
     int id = itemMap.value("id").toInt();
     QString type = itemMap.value("type").toString();
+    if (type == "unknown") {
+        if (itemMap.value("file").toString().startsWith("pvr://")) {
+            type = "recording";
+        }
+    }
+
     if(type == "episode") {
         m_currentItem->setEpisodeId(id);
     } else if(type == "movie") {
@@ -357,17 +363,19 @@ void Player::detailsReceived(const QVariantMap &rsp)
         m_currentItem->setArtistId(id);
     } else if(type == "channel") {
         m_currentItem->setChannelId(id);
+    } else if(type == "recording") {
+        m_currentItem->setRecordingId(id);
     }
 
     m_currentItem->setType(type);
 
 
     m_currentItem->setTitle(itemMap.value("label").toString());
-    if(itemMap.value("type").toString() == "song") {
+    if(type == "song") {
         m_currentItem->setSubtitle(itemMap.value("artist").toString());
-    } else if(itemMap.value("type").toString() == "episode") {
+    } else if(type == "episode") {
         m_currentItem->setSubtitle(itemMap.value("showtitle").toString());
-    } else if(itemMap.value("type").toString() == "channel") {
+    } else if(type == "channel") {
         m_currentItem->setTitle(itemMap.value("title").toString());
         m_currentItem->setSubtitle(itemMap.value("label").toString());
     }
