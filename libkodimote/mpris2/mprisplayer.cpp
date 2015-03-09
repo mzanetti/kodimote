@@ -72,7 +72,10 @@ QVariantMap MprisPlayer::metadata()
     QVariantMap map;
     if (m_player && m_player->currentItem()) {
         LibraryItem *item = m_player->currentItem();
-        map["mpris:trackid"] = qVariantFromValue(QDBusObjectPath(buildPath(item)));
+        QString path = buildPath(item);
+        if (path != "") {
+            map["mpris:trackid"] = qVariantFromValue(QDBusObjectPath(path));
+        }
         map["mpris:length"] = QTime(0, 0, 0).msecsTo(item->duration()) * Q_INT64_C(1000); // milliseconds vs microseconds
         map["xesam:title"] = item->title();
         map["xesam:artist"] = item->subtitle();
