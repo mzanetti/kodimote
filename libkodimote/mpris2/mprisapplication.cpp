@@ -25,9 +25,10 @@
 #include "kodihost.h"
 #include "keys.h"
 
-MprisApplication::MprisApplication(ProtocolManager *protocols, QObject *parent) :
+MprisApplication::MprisApplication(ProtocolManager *protocols, PlatformHelper *platform, QObject *parent) :
     QDBusAbstractAdaptor(parent),
-    m_protocols(protocols)
+    m_protocols(protocols),
+    m_platform(platform)
 {
 }
 
@@ -43,7 +44,7 @@ bool MprisApplication::canSetFullscreen() const
 
 bool MprisApplication::canRaise() const
 {
-    return false;
+    return m_platform->canRaise();
 }
 
 bool MprisApplication::hasTrackList() const
@@ -104,4 +105,5 @@ void MprisApplication::Quit()
 
 void MprisApplication::Raise()
 {
+    m_platform->raise();
 }
