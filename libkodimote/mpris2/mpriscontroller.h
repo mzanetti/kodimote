@@ -26,12 +26,13 @@
 #include <QWindow>
 
 #include "../protocolhandlers/protocolmanager.h"
+#include "../platformhelper.h"
 
 class MprisController : public QObject
 {
     Q_OBJECT
 public:
-    explicit MprisController(ProtocolManager *protocols, QObject *parent = 0);
+    explicit MprisController(ProtocolManager *protocols, PlatformHelper *platform, QObject *parent = 0);
 
 };
 

@@ -25,6 +25,7 @@
 #include <QtDBus/QDBusAbstractAdaptor>
 
 #include "protocolhandlers/protocolmanager.h"
+#include "../platformhelper.h"
 
 class MprisApplication : public QDBusAbstractAdaptor
 {
@@ -40,7 +41,7 @@ class MprisApplication : public QDBusAbstractAdaptor
     Q_PROPERTY(bool Fullscreen READ fullscreen WRITE setFullscreen)
     Q_CLASSINFO("D-Bus Interface", "org.mpris.MediaPlayer2")
 public:
-    explicit MprisApplication(ProtocolManager *protocols, QObject *parent = 0);
+    explicit MprisApplication(ProtocolManager *protocols, PlatformHelper *platform, QObject *parent = 0);
 
     bool canQuit() const;
     bool canSetFullscreen() const;
@@ -60,6 +61,7 @@ public slots:
 
 private:
     ProtocolManager *m_protocols;
+    PlatformHelper *m_platform;
 };
 
 #endif // MPRISAPPLICATION_H
