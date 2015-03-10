@@ -40,8 +40,9 @@
 using namespace QtContacts;
 #endif
 
-SailfishHelper::SailfishHelper(Settings *settings, QObject *parent) :
+SailfishHelper::SailfishHelper(QQuickView *quickView, Settings *settings, QObject *parent) :
     PlatformHelper(settings, parent),
+    m_quickView(quickView),
     m_resourceSet(new ResourcePolicy::ResourceSet("player", 0, false, true))
 {
     m_resourceSet->addResourceObject(new ResourcePolicy::ScaleButtonResource);
@@ -52,6 +53,16 @@ SailfishHelper::SailfishHelper(Settings *settings, QObject *parent) :
     QDBusConnection systemBus = QDBusConnection::systemBus();
     systemBus.connect("org.ofono", "/ril_0", "org.ofono.VoiceCallManager", "CallAdded", this, SLOT(callAdded(QDBusMessage)));
     systemBus.connect("org.ofono", "/ril_0", "org.ofono.VoiceCallManager", "CallRemoved", this, SLOT(callEnded()));
+}
+
+bool SailfishHelper::canRaise() const
+{
+    return true;
+}
+
+void SailfishHelper::raise()
+{
+    m_quickView->raise();
 }
 
 bool SailfishHelper::eventFilter(QObject *obj, QEvent *event)

@@ -64,17 +64,17 @@ int main(int argc, char *argv[])
 
     Kodi::instance()->setDataPath(QStandardPaths::writableLocation(QStandardPaths::CacheLocation));
 
+    QQuickView *view = SailfishApp::createView();
+
     Settings settings;
 
-    SailfishHelper helper(&settings);
-    Q_UNUSED(helper)
+    SailfishHelper helper(view, &settings);
 
     ProtocolManager protocols;
 
-    MprisController controller(&protocols);
+    MprisController controller(&protocols, &helper);
     Q_UNUSED(controller)
 
-    QQuickView *view = SailfishApp::createView();
     view->engine()->setNetworkAccessManagerFactory(new NetworkAccessManagerFactory());
     view->engine()->rootContext()->setContextProperty("kodi", Kodi::instance());
     view->engine()->rootContext()->setContextProperty("settings", &settings);
