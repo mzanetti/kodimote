@@ -22,6 +22,7 @@
 #include "libkodimote/settings.h"
 #include "libkodimote/eventclient.h"
 #include "libkodimote/networkaccessmanagerfactory.h"
+#include "libkodimote/mpris2/mpriscontroller.h"
 
 #include "ubuntuhelper.h"
 
@@ -59,6 +60,11 @@ int main(int argc, char** argv)
         qDebug() << "Cannot load translation file" << "kodimote_" + language + ".pm";
     }
     application.installTranslator(&translator);
+
+    ProtocolManager protocols;
+
+    MprisController controller(&protocols);
+    Q_UNUSED(controller)
 
 
     Kodi::instance()->setDataPath(QDir::homePath() + "/.cache/com.ubuntu.developer.mzanetti.kodimote/");
