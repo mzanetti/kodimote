@@ -24,8 +24,19 @@
 
 #include "ubuntuhelper.h"
 
-UbuntuHelper::UbuntuHelper(Settings *settings, QObject *parent) :
-    PlatformHelper(settings, parent)
+UbuntuHelper::UbuntuHelper(QQuickView *quickView, Settings *settings, QObject *parent) :
+    PlatformHelper(settings, parent),
+    m_quickView(quickView)
 {
+}
+
+bool UbuntuHelper::canRaise() const
+{
+    return true;
+}
+
+void UbuntuHelper::raise()
+{
+    m_quickView->raise();
 }
 

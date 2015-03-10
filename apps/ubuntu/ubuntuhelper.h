@@ -22,6 +22,7 @@
 #define UBUNTUHELPER_H
 
 #include <QObject>
+#include <QQuickView>
 
 #include "libkodimote/platformhelper.h"
 
@@ -31,7 +32,13 @@ class UbuntuHelper : public PlatformHelper
 {
     Q_OBJECT
 public:
-    explicit UbuntuHelper(Settings *settings, QObject *parent = 0);
+    explicit UbuntuHelper(QQuickView *quickView, Settings *settings, QObject *parent = 0);
+
+    bool canRaise() const;
+    void raise();
+
+private:
+    QQuickView *m_quickView;
 };
 
 #endif

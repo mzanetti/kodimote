@@ -61,16 +61,21 @@ int main(int argc, char** argv)
     }
     application.installTranslator(&translator);
 
-    ProtocolManager protocols;
-
-    MprisController controller(&protocols);
-    Q_UNUSED(controller)
-
 
     Kodi::instance()->setDataPath(QDir::homePath() + "/.cache/com.ubuntu.developer.mzanetti.kodimote/");
     Kodi::instance()->eventClient()->setApplicationThumbnail("kodimote80.png");
 
     QQuickView *view = new QQuickView();
+
+    Settings settings;
+    UbuntuHelper helper(view, &settings);
+
+    ProtocolManager protocols;
+
+    MprisController controller(&protocols, &helper);
+    Q_UNUSED(controller)
+
+
     view->setResizeMode(QQuickView::SizeRootObjectToView);
 
     view->engine()->setNetworkAccessManagerFactory(new NetworkAccessManagerFactory());
@@ -78,13 +83,8 @@ int main(int argc, char** argv)
     view->setTitle("Kodimote");
     view->engine()->rootContext()->setContextProperty("kodi", Kodi::instance());
 
-
-    Settings settings;
     view->engine()->rootContext()->setContextProperty("settings", &settings);
     view->setSource(QUrl("qrc:///qml/main.qml"));
-
-    UbuntuHelper helper(&settings);
-    Q_UNUSED(helper);
 
     if(QGuiApplication::arguments().contains("--fullscreen")) {
         view->showFullScreen();
