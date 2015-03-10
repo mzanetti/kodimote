@@ -393,6 +393,12 @@ void Player::detailsReceived(const QVariantMap &rsp)
 
     int id = itemMap.value("id").toInt();
     QString type = itemMap.value("type").toString();
+    if (type == "unknown") {
+        if (itemMap.value("file").toString().startsWith("pvr://")) {
+            type = "recording";
+        }
+    }
+
     if(type == "episode") {
         m_currentItem->setEpisodeId(id);
     } else if(type == "movie") {
@@ -407,17 +413,19 @@ void Player::detailsReceived(const QVariantMap &rsp)
         m_currentItem->setArtistId(id);
     } else if(type == "channel") {
         m_currentItem->setChannelId(id);
+    } else if(type == "recording") {
+        m_currentItem->setRecordingId(id);
     }
 
     m_currentItem->setType(type);
 
 
     m_currentItem->setTitle(itemMap.value("label").toString());
-    if(itemMap.value("type").toString() == "song") {
-        m_currentItem->setSubtitle(itemMap.value("artist").toString());
-    } else if(itemMap.value("type").toString() == "episode") {
+    if(type == "song") {
+        m_currentItem->setSubtitle(itemMap.value("artist").toStringList().join("/"));
+    } else if(type == "episode") {
         m_currentItem->setSubtitle(itemMap.value("showtitle").toString());
-    } else if(itemMap.value("type").toString() == "channel") {
+    } else if(type == "channel") {
         m_currentItem->setTitle(itemMap.value("title").toString());
         m_currentItem->setSubtitle(itemMap.value("label").toString());
     }
@@ -474,17 +482,22 @@ double Player::percentage() const
     return m_percentage;
 }
 
-QString Player::time() const
+QTime Player::time() const
 {
-    if(m_currentItem) {
-        QTime time = QTime(0, 0, 0).addMSecs(m_lastPlaytime);
-        if(m_currentItem->duration().hour() > 0) {
-            return time.toString("hh:mm:ss");
-        } else {
-            return time.toString("mm:ss");
-        }
+    QTime time(0, 0, 0);
+    if (m_currentItem) {
+        time = time.addMSecs(m_lastPlaytime);
     }
-    return "00:00";
+
+    return time;
+}
+
+QString Player::timeString() const
+{
+    QString format = m_currentItem && m_currentItem->duration().hour() > 0
+            ? "hh:mm:ss"
+            : "mm:ss";
+    return time().toString(format);
 }
 
 void Player::updatePlaytime()
@@ -672,6 +685,25 @@ void Player::seek(double percentage)
     QVariantMap params;
     params.insert("playerid", playerId());
     params.insert("value", percentage);
+
+    m_seeking = true;
+    KodiConnection::sendCommand("Player.Seek", params);
+}
+
+void Player::seek(QTime time)
+{
+    if (m_seeking) {
+        return;
+    }
+
+    QVariantMap params;
+    params.insert("playerid", playerId());
+    QVariantMap position;
+    position.insert("hours", time.hour());
+    position.insert("minutes", time.minute());
+    position.insert("hours", time.hour());
+    position.insert("milliseconds", time.msec());
+    params.insert("value", position);
 
     m_seeking = true;
     KodiConnection::sendCommand("Player.Seek", params);

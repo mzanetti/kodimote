@@ -42,7 +42,7 @@ class Player : public QObject
     Q_PROPERTY(QString state READ state NOTIFY stateChanged)
     Q_PROPERTY(int speed READ speed NOTIFY speedChanged)
     Q_PROPERTY(double percentage READ percentage NOTIFY percentageChanged)
-    Q_PROPERTY(QString time READ time NOTIFY timeChanged)
+    Q_PROPERTY(QString timeString READ timeString NOTIFY timeChanged)
     Q_PROPERTY(bool timerActive READ timerActive WRITE setTimerActive)
     Q_PROPERTY(bool shuffle READ shuffle WRITE setShuffle NOTIFY shuffleChanged)
     Q_PROPERTY(Repeat repeat READ repeat WRITE setRepeat NOTIFY repeatChanged)
@@ -74,7 +74,8 @@ public:
     QString state() const;
     int speed() const;
     double percentage() const;
-    QString time() const;
+    QTime time() const;
+    QString timeString() const;
 
     void refresh();
     void detach();
@@ -107,6 +108,7 @@ public:
     void setTimerActive(bool active);
 
     Q_INVOKABLE void seek(double percentage);
+    void seek(QTime time);
 
     LibraryItem* currentItem() const;
 
@@ -131,13 +133,13 @@ public slots:
     void skipNext();
     void seekBackward();
     void seekForward();
+    void updatePlaytime();
 
 private slots:
     void getSpeed();
     void getPlaytime();
     void getPosition();
     void receivedAnnouncement(const QVariantMap& map);
-    void updatePlaytime();
     void getRepeatShuffle();
     void getMediaProps();
 

@@ -1,14 +1,15 @@
 /*****************************************************************************
  * Copyright: 2011-2013 Michael Zanetti <michael_zanetti@gmx.net>            *
+ *            2014-2015 Robert Meijers <robert.meijers@gmail.com>            *
  *                                                                           *
- * This file is part of Kodimote                                           *
+ * This file is part of Kodimote                                             *
  *                                                                           *
- * Kodimote is free software: you can redistribute it and/or modify        *
+ * Kodimote is free software: you can redistribute it and/or modify          *
  * it under the terms of the GNU General Public License as published by      *
  * the Free Software Foundation, either version 3 of the License, or         *
  * (at your option) any later version.                                       *
  *                                                                           *
- * Kodimote is distributed in the hope that it will be useful,             *
+ * Kodimote is distributed in the hope that it will be useful,               *
  * but WITHOUT ANY WARRANTY; without even the implied warranty of            *
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the             *
  * GNU General Public License for more details.                              *
@@ -18,25 +19,32 @@
  *                                                                           *
  ****************************************************************************/
 
-#include "libkodimote/kodihostmodel.h"
-#include "libkodimote/kodi.h"
-#include "libkodimote/settings.h"
+#ifndef PLATFORMHELPER_H
+#define PLATFORMHELPER_H
 
-#include "ubuntuhelper.h"
+#include <QObject>
 
-UbuntuHelper::UbuntuHelper(QQuickView *quickView, Settings *settings, QObject *parent) :
-    PlatformHelper(settings, parent),
-    m_quickView(quickView)
+class Settings;
+
+class PlatformHelper : public QObject
 {
-}
+    Q_OBJECT
+public:
+    explicit PlatformHelper(Settings *settings, QObject *parent = 0);
 
-bool UbuntuHelper::canRaise() const
-{
-    return true;
-}
+    virtual bool canRaise() const { return false; }
+    virtual void raise() {}
 
-void UbuntuHelper::raise()
-{
-    m_quickView->raise();
-}
+protected:
+    Settings *m_settings;
 
+protected slots:
+    void callStarted(bool incoming, const QString &caller);
+    void callEnded();
+
+private:
+    bool m_musicPaused;
+    bool m_videoPaused;
+};
+
+#endif // PLATFORMHELPER_H

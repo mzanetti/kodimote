@@ -32,6 +32,7 @@
 #include "libkodimote/eventclient.h"
 #include "libkodimote/settings.h"
 #include "libkodimote/networkaccessmanagerfactory.h"
+#include "libkodimote/mpris2/mpriscontroller.h"
 #include "sailfishhelper.h"
 
 #include <sailfishapp.h>
@@ -63,12 +64,17 @@ int main(int argc, char *argv[])
 
     Kodi::instance()->setDataPath(QStandardPaths::writableLocation(QStandardPaths::CacheLocation));
 
+    QQuickView *view = SailfishApp::createView();
+
     Settings settings;
 
-    SailfishHelper helper(&settings);
-    Q_UNUSED(helper)
+    SailfishHelper helper(view, &settings);
 
-    QQuickView *view = SailfishApp::createView();
+    ProtocolManager protocols;
+
+    MprisController controller(&protocols, &helper);
+    Q_UNUSED(controller)
+
     view->engine()->setNetworkAccessManagerFactory(new NetworkAccessManagerFactory());
     view->engine()->rootContext()->setContextProperty("kodi", Kodi::instance());
     view->engine()->rootContext()->setContextProperty("settings", &settings);

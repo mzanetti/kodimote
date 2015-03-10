@@ -34,17 +34,15 @@
 #include "sailfishhelper.h"
 #include "libkodimote/kodi.h"
 #include "libkodimote/kodihostmodel.h"
-#include "libkodimote/videoplayer.h"
-#include "libkodimote/audioplayer.h"
 #include "libkodimote/settings.h"
 
 #ifndef HARBOUR_BUILD
 using namespace QtContacts;
 #endif
 
-SailfishHelper::SailfishHelper(Settings *settings, QObject *parent) :
-    QObject(parent),
-    m_settings(settings),
+SailfishHelper::SailfishHelper(QQuickView *quickView, Settings *settings, QObject *parent) :
+    PlatformHelper(settings, parent),
+    m_quickView(quickView),
     m_resourceSet(new ResourcePolicy::ResourceSet("player", 0, false, true))
 {
     m_resourceSet->addResourceObject(new ResourcePolicy::ScaleButtonResource);
@@ -54,7 +52,17 @@ SailfishHelper::SailfishHelper(Settings *settings, QObject *parent) :
 
     QDBusConnection systemBus = QDBusConnection::systemBus();
     systemBus.connect("org.ofono", "/ril_0", "org.ofono.VoiceCallManager", "CallAdded", this, SLOT(callAdded(QDBusMessage)));
-    systemBus.connect("org.ofono", "/ril_0", "org.ofono.VoiceCallManager", "CallRemoved", this, SLOT(callRemoved()));
+    systemBus.connect("org.ofono", "/ril_0", "org.ofono.VoiceCallManager", "CallRemoved", this, SLOT(callEnded()));
+}
+
+bool SailfishHelper::canRaise() const
+{
+    return true;
+}
+
+void SailfishHelper::raise()
+{
+    m_quickView->raise();
 }
 
 bool SailfishHelper::eventFilter(QObject *obj, QEvent *event)
@@ -72,56 +80,18 @@ bool SailfishHelper::eventFilter(QObject *obj, QEvent *event)
 
 void SailfishHelper::callAdded(const QDBusMessage &msg)
 {
-    qDebug() << "call";
     QDBusArgument *arg = (QDBusArgument*)msg.arguments().at(1).data();
     if (arg->currentType() != QDBusArgument::MapType) {
         return;
     }
 
-    Kodi *kodi = Kodi::instance();
     QMap<QString, QString> properties = unpackMessage(*arg);
 
-    qDebug() << properties;
-    qDebug() << properties.value("State");
-    qDebug() << m_settings->showCallNotifications();
-    if (properties.value("State") == "incoming" && m_settings->showCallNotifications()) {
-        QString phoneNumber = properties.value("LineIdentification");
-        QString contactName = lookupContact(phoneNumber);
+    QString phoneNumber = properties.value("LineIdentification");
+    QString contactName = lookupContact(phoneNumber);
 
-        QString caller = contactName.length() ? contactName : phoneNumber;
-        kodi->sendNotification(tr("Incoming call"), caller);
-    }
-
-    if(m_settings->changeVolumeOnCall()) {
-        kodi->dimVolumeTo(m_settings->volumeOnCall());
-    }
-
-    if(m_settings->pauseVideoOnCall() && kodi->videoPlayer()->state() == "playing") {
-        kodi->videoPlayer()->playPause();
-        m_videoPaused = true;
-    }
-
-    if(m_settings->pauseMusicOnCall() && kodi->audioPlayer()->state() == "playing") {
-        kodi->audioPlayer()->playPause();
-        m_musicPaused = true;
-    }
-}
-
-void SailfishHelper::callRemoved()
-{
-    qDebug() << "call removed";
-    if(m_settings->changeVolumeOnCall()) {
-        Kodi::instance()->restoreVolume();
-    }
-
-    if(m_videoPaused) {
-        Kodi::instance()->videoPlayer()->playPause();
-        m_videoPaused = false;
-    }
-    if(m_musicPaused) {
-        Kodi::instance()->audioPlayer()->playPause();
-        m_musicPaused = false;
-    }
+    QString caller = contactName.length() ? contactName : phoneNumber;
+    callStarted(properties.value("State") == "incoming", caller);
 }
 
 QString SailfishHelper::lookupContact(QString phoneNumber)
