@@ -32,8 +32,12 @@ class PlatformHelper : public QObject
 public:
     explicit PlatformHelper(Settings *settings, QObject *parent = 0);
 
+    virtual bool canRaise() const { return false; }
+    virtual void raise() {}
+
 protected:
     Settings *m_settings;
+
 protected slots:
     void callStarted(bool incoming, const QString &caller);
     void callEnded();
