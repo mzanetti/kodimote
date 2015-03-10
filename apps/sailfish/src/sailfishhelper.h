@@ -27,6 +27,7 @@
 #include <QDBusObjectPath>
 #include <QObject>
 #include <policy/resource-set.h>
+#include <QQuickView>
 
 #include "libkodimote/platformhelper.h"
 
@@ -36,8 +37,11 @@ class SailfishHelper : public PlatformHelper
 {
     Q_OBJECT
 public:
-    explicit SailfishHelper(Settings *settings, QObject *parent = 0);
+    explicit SailfishHelper(QQuickView *quickView, Settings *settings, QObject *parent = 0);
     
+    bool canRaise() const;
+    void raise();
+
 private slots:
     void callAdded(const QDBusMessage &msg);
     bool eventFilter(QObject *obj, QEvent *event);
@@ -46,6 +50,7 @@ private:
     QString lookupContact(QString phoneNumber);
     QMap<QString, QString> unpackMessage(const QDBusArgument &args);
 
+    QQuickView *m_quickView;
     ResourcePolicy::ResourceSet *m_resourceSet;
 };
 
