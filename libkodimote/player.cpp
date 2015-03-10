@@ -372,7 +372,7 @@ void Player::detailsReceived(const QVariantMap &rsp)
 
     m_currentItem->setTitle(itemMap.value("label").toString());
     if(type == "song") {
-        m_currentItem->setSubtitle(itemMap.value("artist").toString());
+        m_currentItem->setSubtitle(itemMap.value("artist").toStringList().join("/"));
     } else if(type == "episode") {
         m_currentItem->setSubtitle(itemMap.value("showtitle").toString());
     } else if(type == "channel") {
