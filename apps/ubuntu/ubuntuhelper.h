@@ -23,16 +23,15 @@
 
 #include <QObject>
 
+#include "libkodimote/platformhelper.h"
+
 class Settings;
 
-class UbuntuHelper : public QObject
+class UbuntuHelper : public PlatformHelper
 {
     Q_OBJECT
 public:
     explicit UbuntuHelper(Settings *settings, QObject *parent = 0);
-
-private:
-    Settings *m_settings;
 };
 
 #endif

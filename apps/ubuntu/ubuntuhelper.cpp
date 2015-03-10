@@ -25,8 +25,7 @@
 #include "ubuntuhelper.h"
 
 UbuntuHelper::UbuntuHelper(Settings *settings, QObject *parent) :
-    QObject(parent),
-    m_settings(settings)
+    PlatformHelper(settings, parent)
 {
 }
 
