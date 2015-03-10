@@ -122,7 +122,7 @@ Kodi::Kodi(QObject *parent) :
                     }
                 }
             } else {
-                koDebug() << "Missing debug area argument after -d. Opssible options are discovery, player, library, files, playlist, networkdata and eventclient.";
+                qDebug() << "Missing debug area argument after -d. Possible options are discovery, player, library, files, playlist, networkdata and eventclient.";
             }
         }
     }
