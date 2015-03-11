@@ -1,7 +1,7 @@
 include(../../config.pri)
 include(../../i18n/i18n.pri)
 
-QT += quick
+QT += quick dbus
 
 SOURCES += main.cpp \
             ubuntuhelper.cpp
