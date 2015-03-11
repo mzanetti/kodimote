@@ -83,7 +83,9 @@ SOURCES +=  kodi.cpp \
             protocolhandlers/youtubeprotocolhandler.cpp \
             protocolhandlers/protocolmanager.cpp \
             protocolhandlers/nativeprotocolhandler.cpp \
-            platformhelper.cpp
+            platformhelper.cpp \
+            playlists.cpp \
+            playlistcontent.cpp
 
 HEADERS += libkodimote_global.h \
            kodi.h \
@@ -148,4 +150,6 @@ HEADERS += libkodimote_global.h \
            protocolhandlers/youtubeprotocolhandler.h \
            protocolhandlers/protocolmanager.h \
            protocolhandlers/nativeprotocolhandler.h \
-           platformhelper.h
+           platformhelper.h \
+           playlists.h \
+           playlistcontent.h
