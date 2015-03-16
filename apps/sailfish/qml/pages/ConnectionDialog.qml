@@ -131,7 +131,7 @@ Dialog {
                     rightMargin: Theme.paddingLarge
                     verticalCenter: parent.verticalCenter
                 }
-                elide: Text.ElideRight
+                truncationMode: TruncationMode.Fade
                 font.pixelSize: Theme.fontSizeLarge
             }
 

@@ -267,7 +267,7 @@ Page {
                             leftMargin: (thumbnailImage.visible ? Theme.paddingMedium : Theme.paddingLarge);
                             top: parent.top;
                             right: parent.right;
-                            rightMargin: Theme.paddingSmall
+                            rightMargin: Theme.paddingLarge
                         }
                         height: listView.itemHeight
 
@@ -280,7 +280,7 @@ Page {
                                 font.weight: Font.Bold
                                 font.pixelSize: Theme.fontSizeMedium
                                 width: itemRow.width
-                                elide: Text.ElideRight
+                                truncationMode: TruncationMode.Fade
                                 color: Theme.primaryColor
                                 height: font.pixelSize
                                 verticalAlignment: Text.AlignVCenter
@@ -300,7 +300,7 @@ Page {
                                 font.pixelSize: Theme.fontSizeSmall
                                 color: Theme.secondaryColor
                                 width: mainText.width
-                                elide: Text.ElideRight
+                                truncationMode: TruncationMode.Fade
                                 visible: text != ""
                                 height: font.pixelSize
                                 verticalAlignment: Text.AlignVCenter
@@ -313,7 +313,7 @@ Page {
                                 font.pixelSize: Theme.fontSizeSmall
                                 color: Theme.secondaryColor
                                 width: mainText.width
-                                elide: Text.ElideRight
+                                truncationMode: TruncationMode.Fade
                                 visible: text != ""
                                 height: font.pixelSize
                                 verticalAlignment: Text.AlignVCenter

@@ -151,7 +151,7 @@ Page {
                         bold: true
                         family: Theme.fontFamilyHeading
                     }
-                    elide: Text.ElideRight
+                    truncationMode: TruncationMode.Fade
                     text: currentItem ? currentItem.title : ""
 
                     MouseArea {
@@ -163,7 +163,7 @@ Page {
                 Label {
                     id: playlistItemLabel
                     anchors.right: parent.right
-                    elide: Text.ElideRight
+                    truncationMode: TruncationMode.Fade
                     text: playlist ? playlist.currentTrackNumber + "/" + playlist.count : "0/0"
 
                     Behavior on opacity {
@@ -184,7 +184,7 @@ Page {
             Label {
                 text: currentItem.subtitle
                 width: parent.width
-                elide: Text.ElideRight
+                truncationMode: TruncationMode.Fade
                 color: Theme.highlightColor
                 visible: text.length > 0
                 font {
@@ -196,7 +196,7 @@ Page {
             Label {
                 text: currentItem.album
                 width: parent.width
-                elide: Text.ElideRight
+                truncationMode: TruncationMode.Fade
                 visible: text.length > 0
                 font.bold: true
             }

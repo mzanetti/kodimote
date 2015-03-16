@@ -106,7 +106,7 @@ Dialog {
 
                     font.weight: Font.Bold
                     font.pixelSize: Theme.fontSizeMedium
-                    elide: Text.ElideRight
+                    truncationMode: TruncationMode.Fade
                 }
 
                 Item {
