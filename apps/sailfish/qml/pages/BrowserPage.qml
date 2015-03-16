@@ -120,7 +120,7 @@ Page {
             cacheBuffer: itemHeight * 3
 
             property bool useThumbnails: settings.useThumbnails
-            property int itemHeight: browserPage.model && browserPage.model.thumbnailFormat === KodiModel.ThumbnailFormatPortrait ? 122 : 88
+            property int itemHeight: browserPage.model && browserPage.model.thumbnailFormat === KodiModel.ThumbnailFormatPortrait ? 126 : 92
 
             delegate: Drawer {
                 id: drawer
@@ -238,7 +238,7 @@ Page {
 
                         anchors.left: parent.left
                         anchors.leftMargin: Theme.paddingLarge
-                        anchors.top: parent.top
+                        anchors.verticalCenter: parent.verticalCenter
                         visible: listView.useThumbnails && browserPage.model.thumbnailFormat !== KodiModel.ThumbnailFormatNone
 
                         artworkSource: thumbnail
@@ -274,7 +274,7 @@ Page {
                         Column {
                             anchors.verticalCenter: parent.verticalCenter
 
-                            Text {
+                            Label {
                                 id: mainText
                                 text: title
                                 font.weight: Font.Bold
@@ -282,6 +282,8 @@ Page {
                                 width: itemRow.width
                                 elide: Text.ElideRight
                                 color: Theme.primaryColor
+                                height: font.pixelSize
+                                verticalAlignment: Text.AlignVCenter
 
                                 states: [
                                     State {
@@ -300,6 +302,8 @@ Page {
                                 width: mainText.width
                                 elide: Text.ElideRight
                                 visible: text != ""
+                                height: font.pixelSize
+                                verticalAlignment: Text.AlignVCenter
                             }
 
                             Label {
@@ -311,6 +315,8 @@ Page {
                                 width: mainText.width
                                 elide: Text.ElideRight
                                 visible: text != ""
+                                height: font.pixelSize
+                                verticalAlignment: Text.AlignVCenter
                             }
                         }
                     }
