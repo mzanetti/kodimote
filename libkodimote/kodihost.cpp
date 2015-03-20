@@ -238,8 +238,9 @@ void KodiHost::wakeup()
     }
     const unsigned char header[] = {0xff, 0xff, 0xff, 0xff, 0xff, 0xff};
     QByteArray packet = QByteArray::fromRawData(reinterpret_cast<const char *>(header), sizeof(header));
+    QString hwAddr = m_hwAddr;
     for(int i = 0; i < 16; ++i) {
-        packet.append(QByteArray::fromHex(m_hwAddr.remove(':').toLocal8Bit()));
+        packet.append(QByteArray::fromHex(hwAddr.remove(':').toLocal8Bit()));
     }
     qDebug() << "created magic packet:" << packet.toHex();
 
