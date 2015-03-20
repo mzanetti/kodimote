@@ -23,7 +23,6 @@
 #define MPRISCONTROLLER_H
 
 #include <QObject>
-#include <QWindow>
 
 #include "../protocolhandlers/protocolmanager.h"
 #include "../platformhelper.h"

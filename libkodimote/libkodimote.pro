@@ -3,6 +3,7 @@ contains(QT_VERSION, ^5\\..\\..*) {
     DEFINES += QT5_BUILD
     QT += quick qml
 } else {
+    DEFINES += QT4_BUILD
     QT += declarative
 }
 
@@ -12,6 +13,14 @@ packagesExist(sailfishapp) {
 
 ubuntu {
     DEFINES += UBUNTU
+}
+
+maemo5 {
+    DEFINES += MAEMO5
+}
+
+contains(MEEGO_EDITION,harmattan) {
+    DEFINES += HARMATTAN
 }
 
 TARGET = kodimote

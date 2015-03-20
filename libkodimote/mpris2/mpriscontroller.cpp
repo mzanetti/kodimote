@@ -21,7 +21,6 @@
 
 #include "mpriscontroller.h"
 
-#include <QGuiApplication>
 #include <QtDBus/QtDBus>
 
 #include "mprisapplication.h"
