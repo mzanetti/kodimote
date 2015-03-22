@@ -35,31 +35,31 @@ RecentItems::RecentItems(MediaFormat mediaFormat, RecentlyWhat what, KodiLibrary
 {
     setBusy(false);
     if (mediaFormat == MediaFormatAudio) {
-        LibraryItem *item = new LibraryItem(tr("Albums"), QString(), this);
+        LibraryItem *item = new LibraryItem(Albums::tr("Albums"), QString(), this);
         item->setFileType("directory");
         item->setPlayable(false);
         item->setProperty("id", 0);
         m_list.append(item);
 
-        item = new LibraryItem(tr("Songs"), QString(), this);
+        item = new LibraryItem(Songs::tr("Songs"), QString(), this);
         item->setFileType("directory");
         item->setPlayable(false);
         item->setProperty("id", 1);
         m_list.append(item);
     } else if (mediaFormat == MediaFormatVideo) {
-        LibraryItem *item = new LibraryItem(tr("Movies"), QString(), this);
+        LibraryItem *item = new LibraryItem(Movies::tr("Movies"), QString(), this);
         item->setFileType("directory");
         item->setPlayable(false);
         item->setProperty("id", 2);
         m_list.append(item);
 
-        item = new LibraryItem(tr("Episodes"), QString(), this);
+        item = new LibraryItem(Episodes::tr("Episodes"), QString(), this);
         item->setFileType("directory");
         item->setPlayable(false);
         item->setProperty("id", 3);
         m_list.append(item);
 
-        item = new LibraryItem(tr("Music Videos"), QString(), this);
+        item = new LibraryItem(MusicVideos::tr("Music Videos"), QString(), this);
         item->setFileType("directory");
         item->setPlayable(false);
         item->setProperty("id", 4);

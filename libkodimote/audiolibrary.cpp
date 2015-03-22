@@ -34,12 +34,12 @@ AudioLibrary::AudioLibrary() :
     KodiLibrary(0)
 {
     setBusy(false);
-    LibraryItem *item = new LibraryItem(tr("Artists"), QString(), this);
+    LibraryItem *item = new LibraryItem(Artists::tr("Artists"), QString(), this);
     item->setFileType("directory");
     item->setPlayable(false);
     m_list.append(item);
 
-    item = new LibraryItem(tr("Albums"), QString(), this);
+    item = new LibraryItem(Albums::tr("Albums"), QString(), this);
     item->setFileType("directory");
     item->setPlayable(false);
     m_list.append(item);
@@ -49,12 +49,12 @@ AudioLibrary::AudioLibrary() :
     item->setPlayable(false);
     m_list.append(item);
 
-    item = new LibraryItem(tr("Genres"), QString(), this);
+    item = new LibraryItem(Genres::tr("Genres"), QString(), this);
     item->setFileType("directory");
     item->setPlayable(false);
     m_list.append(item);
 
-    item = new LibraryItem(tr("Recently added"), QString(), this);
+    item = new LibraryItem(RecentItems::tr("Recently added"), QString(), this);
     item->setFileType("directory");
     item->setPlayable(false);
     m_list.append(item);

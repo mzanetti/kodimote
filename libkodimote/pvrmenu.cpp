@@ -22,6 +22,7 @@
 
 #include "libraryitem.h"
 
+#include "channels.h"
 #include "channelgroups.h"
 #include "recordings.h"
 
@@ -29,12 +30,12 @@ PvrMenu::PvrMenu(KodiModel *parent) :
     KodiLibrary(parent)
 {
     setBusy(false);
-    LibraryItem *item = new LibraryItem(tr("TV Channels"), QString(), this);
+    LibraryItem *item = new LibraryItem(Channels::tr("TV Channels"), QString(), this);
     item->setFileType("directory");
     item->setPlayable(false);
     m_list.append(item);
 
-    item = new LibraryItem(tr("Recordings"), QString(), this);
+    item = new LibraryItem(Recordings::tr("Recordings"), QString(), this);
     item->setFileType("directory");
     item->setPlayable(false);
     m_list.append(item);
