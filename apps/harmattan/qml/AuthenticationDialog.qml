@@ -23,7 +23,7 @@ import com.nokia.meego 1.0
 import Xbmc 1.0
 
 Sheet {
-    id: connectionSheet
+    id: authenticationDialog
     acceptButtonText: qsTr("OK")
     rejectButtonText: qsTr("Cancel")
 

@@ -25,7 +25,7 @@ import QtMobility.connectivity 1.2
 import Xbmc 1.0
 
 Sheet {
-    id: connectionSheet
+    id: connectionDialog
     acceptButtonText: qsTr("Connect")
     rejectButtonText: qsTr("Cancel")
     acceptButton.enabled: itemView.currentIndex == 0 && hostList.currentIndex >= 0 || hostnameTextField.text != ""
@@ -39,7 +39,7 @@ Sheet {
         target: xbmc
         onConnectedChanged: {
             if(connected)
-                connectionSheet.reject();
+                connectionDialog.reject();
         }
     }
 
@@ -254,11 +254,11 @@ Sheet {
             var newIndex = xbmc.hostModel().createHost(hostnameTextField.text, hostnameTextField.text, portTextField.text, macTextField.text);
             xbmc.hostModel().connectToHost(newIndex);
         }
-        connectionSheet.destroy();
+        connectionDialog.destroy();
     }
 
     onRejected: {
         print("rejected");
-        connectionSheet.destroy();
+        connectionDialog.destroy();
     }
 }

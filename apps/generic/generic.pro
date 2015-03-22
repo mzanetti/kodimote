@@ -39,15 +39,15 @@ maemo5: {
 SOURCES += main.cpp \
             ui/mainwindow.cpp \
             ui/settingsdialog.cpp \
-            ui/connectdialog.cpp \
             ui/aboutdialog.cpp \
             ui/authenticationdialog.cpp \
             qmlapplicationviewer/qmlapplicationviewer.cpp \
+    ui/connectiondialog.cpp
 
 
 HEADERS += ui/mainwindow.h \
             ui/settingsdialog.h \
-            ui/connectdialog.h \
             ui/aboutdialog.h \
             ui/authenticationdialog.h \
             qmlapplicationviewer/qmlapplicationviewer.h \
+    ui/connectiondialog.h

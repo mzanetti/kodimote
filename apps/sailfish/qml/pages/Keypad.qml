@@ -84,7 +84,7 @@ Page {
             }
 
             MenuItem {
-                text: qsTr("Now playing")
+                text: qsTr("Now Playing")
                 enabled: kodi.activePlayer !== null
                 onClicked: {
                     pageStack.replace("NowPlayingPage.qml")
