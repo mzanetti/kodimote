@@ -2,6 +2,7 @@
     <qresource prefix="/">
         <file>kodimote_ar.qm</file>
         <file>kodimote_cs_CZ.qm</file>
+        <file>kodimote_de_AT.qm</file>
         <file>kodimote_de.qm</file>
         <file>kodimote_el.qm</file>
         <file>kodimote_es_AR.qm</file>

@@ -3,5 +3,5 @@ host = https://www.transifex.com
 
 [xbmcremote.xbmcremotets]
 source_lang = en
-file_filter = i18n/xbmcremote_<lang>.ts
+file_filter = i18n/kodimote_<lang>.ts
 type = TS
