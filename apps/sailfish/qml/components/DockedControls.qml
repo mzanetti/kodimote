@@ -39,10 +39,10 @@ DockedPanel {
         if (player) {
             _opened = true;
             if (!hideTemporary) {
-                open = true;
+                show(true);
             }
         } else {
-            open = false;
+            hide(true);
         }
     }
 
@@ -81,8 +81,8 @@ DockedPanel {
         onCurrentPageChanged: {
             var isDialog = pageStack.currentPage.hasOwnProperty('__silica_dialog');
             if (_dialogOpen) {
-                if (!isDialog && _opened) {
-                        show();
+                if (!isDialog && _opened && player) {
+                    show();
                 }
             } else if (isDialog) {
                 _dialogOpen = true;

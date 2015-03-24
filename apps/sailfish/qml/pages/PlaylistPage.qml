@@ -89,7 +89,7 @@ Page {
                     font.weight: Font.Bold
                     font.pixelSize: 26
                     width: listView.width - durationLabel.width
-                    elide: Text.ElideRight
+                    truncationMode: TruncationMode.Fade
                     color: listItem.highlighted ? Theme.highlightColor : Theme.primaryColor
                     states: [
                         State {
@@ -110,7 +110,7 @@ Page {
                     font.pixelSize: 24
                     color: Theme.secondaryColor
                     width: listView.width - durationLabel.width
-                    elide: Text.ElideRight
+                    truncationMode: TruncationMode.Fade
                     visible: text != ""
                 }
             }

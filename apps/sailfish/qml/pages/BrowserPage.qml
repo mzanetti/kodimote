@@ -120,7 +120,7 @@ Page {
             cacheBuffer: itemHeight * 3
 
             property bool useThumbnails: settings.useThumbnails
-            property int itemHeight: browserPage.model && browserPage.model.thumbnailFormat === KodiModel.ThumbnailFormatPortrait ? 122 : 88
+            property int itemHeight: browserPage.model && browserPage.model.thumbnailFormat === KodiModel.ThumbnailFormatPortrait ? 126 : 92
 
             delegate: Drawer {
                 id: drawer
@@ -238,7 +238,7 @@ Page {
 
                         anchors.left: parent.left
                         anchors.leftMargin: Theme.paddingLarge
-                        anchors.top: parent.top
+                        anchors.verticalCenter: parent.verticalCenter
                         visible: listView.useThumbnails && browserPage.model.thumbnailFormat !== KodiModel.ThumbnailFormatNone
 
                         artworkSource: thumbnail
@@ -267,21 +267,23 @@ Page {
                             leftMargin: (thumbnailImage.visible ? Theme.paddingMedium : Theme.paddingLarge);
                             top: parent.top;
                             right: parent.right;
-                            rightMargin: Theme.paddingSmall
+                            rightMargin: Theme.paddingLarge
                         }
                         height: listView.itemHeight
 
                         Column {
                             anchors.verticalCenter: parent.verticalCenter
 
-                            Text {
+                            Label {
                                 id: mainText
                                 text: title
                                 font.weight: Font.Bold
                                 font.pixelSize: Theme.fontSizeMedium
                                 width: itemRow.width
-                                elide: Text.ElideRight
+                                truncationMode: TruncationMode.Fade
                                 color: Theme.primaryColor
+                                height: font.pixelSize
+                                verticalAlignment: Text.AlignVCenter
 
                                 states: [
                                     State {
@@ -298,8 +300,10 @@ Page {
                                 font.pixelSize: Theme.fontSizeSmall
                                 color: Theme.secondaryColor
                                 width: mainText.width
-                                elide: Text.ElideRight
+                                truncationMode: TruncationMode.Fade
                                 visible: text != ""
+                                height: font.pixelSize
+                                verticalAlignment: Text.AlignVCenter
                             }
 
                             Label {
@@ -309,8 +313,10 @@ Page {
                                 font.pixelSize: Theme.fontSizeSmall
                                 color: Theme.secondaryColor
                                 width: mainText.width
-                                elide: Text.ElideRight
+                                truncationMode: TruncationMode.Fade
                                 visible: text != ""
+                                height: font.pixelSize
+                                verticalAlignment: Text.AlignVCenter
                             }
                         }
                     }

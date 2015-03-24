@@ -51,7 +51,7 @@ Item {
                 Label {
                     width: parent.width
                     color: Theme.primaryColor
-                    elide: Text.ElideRight
+                    truncationMode: TruncationMode.Fade
                     text: title
                 }
 
@@ -59,7 +59,7 @@ Item {
                     width: parent.width
                     color: Theme.secondaryColor
                     font.pixelSize: Theme.fontSizeSmall
-                    elide: Text.ElideRight
+                    truncationMode: TruncationMode.Fade
                     text: Qt.formatDate(startTime) + "  " + Qt.formatTime(startTime) + " - " + Qt.formatTime(endTime)
                 }
             }
