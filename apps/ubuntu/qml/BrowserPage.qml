@@ -413,8 +413,8 @@ KodiPage {
                         }
                     }
                     Icon {
-                        height: parent.height / 2
-                        width: height
+                        Layout.preferredHeight: parent.height / 2
+                        Layout.preferredWidth: height
                         color: "white"
                         name: "go-next"
                         visible: filetype == "directory"
