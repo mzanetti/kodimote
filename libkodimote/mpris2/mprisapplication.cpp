@@ -55,7 +55,7 @@ bool MprisApplication::hasTrackList() const
 QString MprisApplication::identity() const
 {
     KodiHost *host = Kodi::instance()->connectedHost();
-    if (host) {
+    if (host && Kodi::instance()->connected()) {
         return tr("Kodi on %1").arg(host->hostname());
     } else {
         return "Kodimote";
