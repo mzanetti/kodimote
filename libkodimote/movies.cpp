@@ -48,27 +48,13 @@ void Movies::receivedAnnouncement(const QVariantMap &map)
 
     QVariantMap data = map.value("params").toMap().value("data").toMap();
 
-    QVariant playcount = data.value("playcount");
-    if(!playcount.isValid() || playcount.toInt() < 0) {
-        return;
-    }
-
     QString type = data.value("item").toMap().value("type").toString();
     int id = data.value("item").toMap().value("id").toInt();
     if(type != "movie" || !m_idIndexMapping.contains(id)) {
         return;
     }
 
-    int i = m_idIndexMapping.value(id);
-    LibraryItem *item = qobject_cast<LibraryItem*>(m_list.at(i));
-
-    if(playcount.toInt() == item->playcount()) {
-        return;
-    }
-
-
-    item->setPlaycount(playcount.toInt());
-    dataChanged(index(i, 0, QModelIndex()), index(i, 0, QModelIndex()));
+    refresh();
 }
 
 void Movies::refresh()
