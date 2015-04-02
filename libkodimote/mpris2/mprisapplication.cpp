@@ -21,6 +21,9 @@
 
 #include "mprisapplication.h"
 
+#include <QDBusConnection>
+#include <QDBusMessage>
+
 #include "kodi.h"
 #include "kodihost.h"
 #include "keys.h"
@@ -30,6 +33,7 @@ MprisApplication::MprisApplication(ProtocolManager *protocols, PlatformHelper *p
     m_protocols(protocols),
     m_platform(platform)
 {
+    connect(Kodi::instance(), SIGNAL(connectedChanged(bool)), this, SLOT(connectedHostChanged()));
 }
 
 bool MprisApplication::canQuit() const
@@ -106,4 +110,15 @@ void MprisApplication::Quit()
 void MprisApplication::Raise()
 {
     m_platform->raise();
+}
+
+void MprisApplication::connectedHostChanged()
+{
+    QDBusMessage signal = QDBusMessage::createSignal("/org/mpris/MediaPlayer2", "org.freedesktop.DBus.Properties", "PropertiesChanged");
+    signal << "org.mpris.MediaPlayer2";
+    QVariantMap changedProps;
+    changedProps.insert("Identity", identity());
+    signal << changedProps;
+    signal << QStringList();
+    QDBusConnection::sessionBus().send(signal);
 }

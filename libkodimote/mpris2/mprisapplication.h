@@ -62,6 +62,9 @@ public slots:
 private:
     ProtocolManager *m_protocols;
     PlatformHelper *m_platform;
+
+private slots:
+    void connectedHostChanged();
 };
 
 #endif // MPRISAPPLICATION_H
