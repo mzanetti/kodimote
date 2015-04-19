@@ -51,6 +51,10 @@ KodiLibrary::~KodiLibrary()
 
 QVariant KodiLibrary::data(const QModelIndex &index, int role) const
 {
+    if(index.row() < 0 || index.row() >= m_list.count()) {
+        return QVariant();
+    }
+
     if(role == RolePlayingState) {
         if(!Kodi::instance()->activePlayer() || !Kodi::instance()->activePlayer()->currentItem()) {
             return "";
