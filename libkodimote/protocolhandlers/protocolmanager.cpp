@@ -21,7 +21,11 @@
 
 #include "protocolmanager.h"
 
+#if defined(QT5_BUILD)
 #include <QUrlQuery>
+#elif defined(QT4_BUILD)
+#include <QUrl>
+#endif
 
 #include "youtubeprotocolhandler.h"
 #include "nativeprotocolhandler.h"
@@ -60,6 +64,10 @@ void ProtocolManager::execute(const QUrl &url)
 
     ProtocolHandler *handler = m_handlers[url.scheme()];
 
+#if defined(QT5_BUILD)
     QUrlQuery query(url);
+#elif defined(QT4_BUILD)
+    QUrl query = url;
+#endif
     handler->execute(url, query.hasQueryItem("queue"));
 }

@@ -20,7 +20,7 @@
 
 #include "mainwindow.h"
 #include "settingsdialog.h"
-#include "connectdialog.h"
+#include "connectiondialog.h"
 #include "aboutdialog.h"
 #include "authenticationdialog.h"
 
@@ -81,8 +81,8 @@ MainWindow::MainWindow(Settings *settings, QWidget *parent) :
 
     QMenuBar *menuBar = new QMenuBar();
     QMenu *menu = menuBar->addMenu("Kodi");
-    menu->addAction(tr("Connect..."), this, SLOT(openConnectDialog()));
-    menu->addAction(tr("Settings"), this, SLOT(openSettingsDialog()));
+    menu->addAction(tr("Connect..."), this, SLOT(openConnectionDialog()));
+    menu->addAction(SettingsDialog::tr("Settings"), this, SLOT(openSettingsDialog()));
 
     QAction *quitAction = menu->addAction("Quit Kodi", Kodi::instance(), SLOT(quit()));
     Kodi::instance()->connect(Kodi::instance(), SIGNAL(connectedChanged(bool)), quitAction, SLOT(setEnabled(bool)));
@@ -101,7 +101,7 @@ MainWindow::MainWindow(Settings *settings, QWidget *parent) :
     connect(Kodi::instance(), SIGNAL(authenticationRequired(QString,QString)), SLOT(authenticationRequired(QString,QString)), Qt::QueuedConnection);
 
     if(!Kodi::instance()->connecting()) {
-        openConnectDialog();
+        openConnectionDialog();
     }
 }
 
@@ -134,10 +134,10 @@ void MainWindow::openSettingsDialog()
     settings->exec();
 }
 
-void MainWindow::openConnectDialog()
+void MainWindow::openConnectionDialog()
 {
-    ConnectDialog *settings = new ConnectDialog();
-    settings->exec();
+    ConnectionDialog *connection = new ConnectionDialog();
+    connection->exec();
 }
 
 void MainWindow::openAboutDialog()

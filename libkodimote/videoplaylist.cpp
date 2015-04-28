@@ -18,6 +18,7 @@
  *                                                                           *
  ****************************************************************************/
 
+#include "shares.h"
 #include "videoplaylist.h"
 #include "kodiconnection.h"
 #include "kodebug.h"
@@ -163,5 +164,5 @@ PlaylistItem* VideoPlaylist::at(int index) const
 
 QString VideoPlaylist::title() const
 {
-    return tr("Now Playing") + " - " + tr("Videos");
+    return tr("Now Playing") + " - " + Shares::tr("Videos");
 }

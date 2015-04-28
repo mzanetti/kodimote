@@ -35,7 +35,7 @@ PageStackWindow {
 
         print("connecting", xbmc.connecting, "connected", xbmc.connected)
         if(!(xbmc.connecting || xbmc.connected)) {
-            var component = Qt.createComponent("ConnectionSheet.qml")
+            var component = Qt.createComponent("ConnectionDialog.qml")
             if (component.status == Component.Ready) {
                 component.createObject(mainPage).open()
             } else {
@@ -98,7 +98,7 @@ PageStackWindow {
             MenuItem {
                 text: qsTr("Connect...")
                 onClicked: {
-                    var component = Qt.createComponent("ConnectionSheet.qml")
+                    var component = Qt.createComponent("ConnectionDialog.qml")
                     if (component.status == Component.Ready) {
                         component.createObject(mainPage).open()
                     } else {
@@ -129,7 +129,7 @@ PageStackWindow {
                 text: qsTr("Settings")
                 onClicked: {
                     onClicked: {
-                        var component = Qt.createComponent("SettingsSheet.qml")
+                        var component = Qt.createComponent("SettingsDialog.qml")
                         if (component.status == Component.Ready) {
                             component.createObject(mainPage).open()
                         } else {
@@ -171,7 +171,7 @@ PageStackWindow {
         target: xbmc
         onAuthenticationRequired: {
             print("auth required");
-            var component = Qt.createComponent("AuthenticationSheet.qml")
+            var component = Qt.createComponent("AuthenticationDialog.qml")
             if (component.status == Component.Ready) {
                 var authSheet = component.createObject(mainPage);
                 authSheet.hostname = hostname;

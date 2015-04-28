@@ -21,7 +21,11 @@
 
 #include "youtubeprotocolhandler.h"
 
+#if defined(QT5_BUILD)
 #include <QUrlQuery>
+#elif defined(QT4_BUILD)
+#include <QUrl>
+#endif
 #include "kodi.h"
 #include "videoplayer.h"
 #include "playlist.h"
@@ -39,7 +43,11 @@ QString YoutubeProtocolHandler::scheme() const
 void YoutubeProtocolHandler::execute(const QUrl &uri, bool queue)
 {
     QStringList parts = uri.path().split('/');
+#if defined(QT5_BUILD)
     QUrlQuery query;
+#elif defined(QT4_BUILD)
+    QUrl query;
+#endif
     if (parts.length() == 1) {
         query.addQueryItem("action", "play_video");
         query.addQueryItem("videoid", parts[0]);

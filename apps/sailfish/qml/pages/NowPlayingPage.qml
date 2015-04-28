@@ -71,7 +71,7 @@ Page {
             }
 
             MenuItem {
-                text: qsTr("Now playing")
+                text: qsTr("Now Playing")
                 enabled: false
             }
         }

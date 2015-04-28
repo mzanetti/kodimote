@@ -31,7 +31,7 @@ ChannelGroups::ChannelGroups(KodiModel *parent) :
 
 QString ChannelGroups::title() const
 {
-    return tr("TV Channels");
+    return Channels::tr("TV Channels");
 }
 
 void ChannelGroups::refresh()

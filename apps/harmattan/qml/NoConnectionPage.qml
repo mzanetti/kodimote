@@ -47,7 +47,7 @@ Page {
             text: qsTr("Connect...")
             anchors.horizontalCenter: parent.horizontalCenter
             onClicked: {
-                var component = Qt.createComponent("ConnectionSheet.qml")
+                var component = Qt.createComponent("ConnectionDialog.qml")
                 if (component.status === Component.Ready) {
                     component.createObject(mainPage).open()
                 } else {

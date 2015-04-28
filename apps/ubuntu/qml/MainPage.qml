@@ -284,7 +284,7 @@ KodiPage {
             text: qsTr("Options")
             Layout.fillWidth: true
             onClicked: {
-                PopupUtils.open(Qt.resolvedUrl("SettingsSheet.qml"), mainPage)
+                PopupUtils.open(Qt.resolvedUrl("SettingsDialog.qml"), mainPage)
             }
         }
         BottomEdgeButton {

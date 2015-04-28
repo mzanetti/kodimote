@@ -18,7 +18,7 @@
  *                                                                           *
  ****************************************************************************/
 
-#include "connectdialog.h"
+#include "connectiondialog.h"
 
 #include <QGridLayout>
 #include <QDialogButtonBox>
@@ -33,7 +33,7 @@
 #include "libkodimote/kodihostmodel.h"
 #include "libkodimote/kodidiscovery.h"
 
-ConnectDialog::ConnectDialog(QWidget *parent) :
+ConnectionDialog::ConnectionDialog(QWidget *parent) :
     QDialog(parent)
 {
 
@@ -135,7 +135,7 @@ ConnectDialog::ConnectDialog(QWidget *parent) :
 #endif
 }
 
-void ConnectDialog::accept()
+void ConnectionDialog::accept()
 {
     if(m_stackedLayout->currentIndex() == 0) {
         KodiHost *host = Kodi::instance()->hostModel()->host(m_hostView->currentIndex().row());
@@ -153,7 +153,7 @@ void ConnectDialog::accept()
     QDialog::accept();
 }
 
-void ConnectDialog::showManualLayout()
+void ConnectionDialog::showManualLayout()
 {
     if(m_stackedLayout->currentIndex() != 2) {
         m_stackedLayout->setCurrentIndex(2);
@@ -169,12 +169,12 @@ void ConnectDialog::showManualLayout()
     enableOkButton();
 }
 
-void ConnectDialog::showHostList()
+void ConnectionDialog::showHostList()
 {
     m_stackedLayout->setCurrentIndex(0);
 }
 
-void ConnectDialog::enableOkButton()
+void ConnectionDialog::enableOkButton()
 {
     switch(m_stackedLayout->currentIndex()) {
     case 0:
@@ -193,7 +193,7 @@ void ConnectDialog::enableOkButton()
     }
 }
 
-void ConnectDialog::removeHost()
+void ConnectionDialog::removeHost()
 {
     Kodi::instance()->hostModel()->removeHost(m_hostView->currentIndex().row());
     enableOkButton();

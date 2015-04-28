@@ -33,22 +33,22 @@ VideoLibrary::VideoLibrary(KodiModel *parent) :
     KodiLibrary(parent)
 {
     setBusy(false);
-    LibraryItem *item = new LibraryItem(tr("Movies"), QString(), this);
+    LibraryItem *item = new LibraryItem(Movies::tr("Movies"), QString(), this);
     item->setFileType("directory");
     item->setPlayable(false);
     m_list.append(item);
 
-    item = new LibraryItem(tr("TV Shows"), QString(), this);
+    item = new LibraryItem(TvShows::tr("TV Shows"), QString(), this);
     item->setFileType("directory");
     item->setPlayable(false);
     m_list.append(item);
 
-    item = new LibraryItem(tr("Music Videos"), QString(), this);
+    item = new LibraryItem(MusicVideos::tr("Music Videos"), QString(), this);
     item->setFileType("directory");
     item->setPlayable(false);
     m_list.append(item);
 
-    item = new LibraryItem(tr("Recently added"), QString(), this);
+    item = new LibraryItem(RecentItems::tr("Recently added"), QString(), this);
     item->setFileType("directory");
     item->setPlayable(false);
     m_list.append(item);

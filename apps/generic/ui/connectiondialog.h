@@ -29,12 +29,12 @@ class QGridLayout;
 class QListView;
 class QDialogButtonBox;
 
-class ConnectDialog : public QDialog
+class ConnectionDialog : public QDialog
 {
     Q_OBJECT
 
 public:
-    explicit ConnectDialog(QWidget *parent = 0);
+    explicit ConnectionDialog(QWidget *parent = 0);
 
     void setHostname(const QString &hostname);
     QString hostname();

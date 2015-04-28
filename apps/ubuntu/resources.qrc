@@ -11,7 +11,7 @@
         <file>qml/NowPlayingPage.qml</file>
         <file>qml/OpenEffect.qml</file>
         <file>qml/RatingStars.qml</file>
-        <file>qml/SettingsSheet.qml</file>
+        <file>qml/SettingsDialog.qml</file>
         <file>qml/Thumbnail.qml</file>
         <file>qml/components/AboutDialog.qml</file>
         <file>qml/components/BottomEdge.qml</file>
