@@ -55,9 +55,6 @@ MainView {
 
         onShareRequested: {
             var filePath = transfer.items[0].url
-            print("Should share link", filePath)
-//            uploader.uploadImage(filePath);
-
             protocolManager.execute(filePath)
         }
     }

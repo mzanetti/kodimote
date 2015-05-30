@@ -59,7 +59,6 @@ ProtocolHandler *ProtocolManager::get(const QString &scheme) const
 void ProtocolManager::execute(const QUrl &url)
 {
     QUrl finalUrl = url;
-    qDebug() << "initial url" << url;
     // FIXME: We want the youtube handler not only for "youtube://"
     // but also for "http[s]://*youtube.*/" uris. Let's rewrite those
     // to youtube:// uris for now.
@@ -68,7 +67,6 @@ void ProtocolManager::execute(const QUrl &url)
     if (finalUrl.host().contains("youtube")) {
         finalUrl = "youtube:///video/" + QUrlQuery(url.query()).queryItemValue("v");
     }
-    koDebug() << "Handling url:" << finalUrl << finalUrl.path() << finalUrl.path().split("/").count();
 
     if (!m_handlers.contains(finalUrl.scheme())) {
         return;
