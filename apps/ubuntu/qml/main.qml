@@ -25,6 +25,7 @@ import Ubuntu.Components.Popups 1.0
 import Ubuntu.Components.ListItems 1.0 as ListItems
 import Kodi 1.0
 import "components"
+import Ubuntu.Content 1.1
 
 MainView {
     id: appWindow
@@ -47,6 +48,18 @@ MainView {
 
     Keys.onVolumeDownPressed: {
         kodi.volumeDown();
+    }
+
+    Connections {
+        target: ContentHub
+
+        onShareRequested: {
+            var filePath = transfer.items[0].url
+            print("Should share link", filePath)
+//            uploader.uploadImage(filePath);
+
+            protocolManager.execute(filePath)
+        }
     }
 
     Binding {

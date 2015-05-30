@@ -17,10 +17,12 @@ icon.files = kodimote.svg kodimote80.png
 icon.path = /
 desktopfile.files = kodimote.desktop
 desktopfile.path = /
-apparmor.files = kodimote.json
+apparmor.files = kodimote.apparmor
 apparmor.path = /
+contenthub.files = kodimote-contenthub.json
+contenthub.path = /
 
-INSTALLS += icon desktopfile apparmor target
+INSTALLS += icon desktopfile apparmor contenthub target
 
 
 #This creates the manifest.json file, it is the description file for the

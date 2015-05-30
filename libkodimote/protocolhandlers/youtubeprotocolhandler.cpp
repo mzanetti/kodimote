@@ -40,14 +40,9 @@ void YoutubeProtocolHandler::execute(const QUrl &uri, bool queue)
 {
     QStringList parts = uri.path().split('/');
     QUrlQuery query;
-    if (parts.length() == 1) {
+    if (parts.count()) {
         query.addQueryItem("action", "play_video");
-        query.addQueryItem("videoid", parts[0]);
-    } else if (parts.length() == 2) {
-        if (parts[0] == "video") {
-            query.addQueryItem("action", "play_video");
-            query.addQueryItem("videoid", parts[1]);
-        }
+        query.addQueryItem("videoid", parts.last());
     }
 
     if (query.isEmpty()) {

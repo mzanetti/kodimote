@@ -4,8 +4,9 @@
     "architecture": "armhf",
     "hooks": {
         "kodimote": {
-            "apparmor": "kodimote.json",
-            "desktop": "kodimote.desktop"
+            "apparmor": "kodimote.apparmor",
+            "desktop": "kodimote.desktop",
+            "content-hub": "kodimote-contenthub.json"
         }
     },
     "maintainer": "Michael Zanetti <michael_zanetti@gmx.net>",
