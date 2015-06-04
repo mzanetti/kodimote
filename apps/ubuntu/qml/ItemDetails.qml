@@ -18,9 +18,9 @@
  *                                                                           *
  ****************************************************************************/
 
-import QtQuick 2.0
-import Ubuntu.Components 0.1
-import Ubuntu.Components.ListItems 0.1
+import QtQuick 2.4
+import Ubuntu.Components 1.2
+import Ubuntu.Components.ListItems 1.0
 
 Item {
     id: itemDetails
@@ -215,25 +215,6 @@ Item {
                 text: description;
                 wrapMode: Text.WrapAtWordBoundaryOrAnywhere
             }
-
-            Button {
-                text: qsTr("Play")
-                width: parent.width
-                visible: playable
-                onClicked: itemDetails.playItem()
-            }
-            Button {
-                text: qsTr("Add to playlist")
-                width: parent.width
-                visible: playable
-                onClicked: itemDetails.addToPlaylist()
-            }
-//            Button {
-//                text: qsTr("Download")
-//                width: parent.width
-//                onClicked: itemDetails.askDownload()
-//            }
         }
-
     }
 }
