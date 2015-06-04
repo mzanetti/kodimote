@@ -18,9 +18,9 @@
  *                                                                           *
  ****************************************************************************/
 
-import QtQuick 2.0
+import QtQuick 2.4
 import QtQuick.Layouts 1.1
-import Ubuntu.Components 1.1
+import Ubuntu.Components 1.2
 import Ubuntu.Components.Popups 1.0
 import Ubuntu.Components.ListItems 1.0
 import Kodi 1.0
@@ -387,7 +387,6 @@ KodiPage {
                             text: subtitle + (year.length > 0 ? '\n' + year : "")
                             height: text.length == 0 ? 0 : implicitHeight
                             fontSize: "small"
-                            color: Theme.palette.normal.backgroundText
                             wrapMode: Text.WordWrap
                             maximumLineCount: index >= 0 && root.model.getItem(filterModel.mapToSourceIndex(index)).type === "channel" ? 2 : 3
                         }
@@ -412,12 +411,29 @@ KodiPage {
                             }
                         }
                     }
-                    Icon {
-                        Layout.preferredHeight: parent.height / 2
-                        Layout.preferredWidth: height
-                        color: "white"
-                        name: "go-next"
-                        visible: filetype == "directory"
+                    Item {
+                        Layout.fillHeight: true
+                        Layout.preferredWidth: units.gu(2)
+                        Icon {
+                            width: parent.width
+                            height: width
+                            color: "white"
+                            name: "go-next"
+                            visible: filetype == "directory"
+                            anchors.verticalCenter: parent.verticalCenter
+                        }
+                        Icon {
+                            anchors {
+                                right: parent.right
+                                bottom: parent.bottom
+                                //bottomMargin: units.gu(1)
+                            }
+                            width: parent.width
+                            height: width
+                            visible: playcount > 0 || resume > 0
+                            name: resume > 0 ? "media-playback-start" : "tick"
+                            color: "white"
+                        }
                     }
                 }
 
@@ -427,18 +443,6 @@ KodiPage {
                     onClicked: delegateItem.expanded = false
                 }
 
-                Icon {
-                    anchors {
-                        right: parent.right
-                        bottom: parent.bottom
-                        bottomMargin: units.gu(1)
-                    }
-                    width: units.gu(2)
-                    height: width
-                    visible: playcount > 0 || resume > 0
-                    name: resume > 0 ? "media-playback-start" : "tick"
-                    color: "white"
-                }
                 onItemClicked: {
                     if(filetype === "directory") {
                         var component = Qt.createComponent("BrowserPage.qml")
@@ -546,13 +550,13 @@ KodiPage {
             source: "image://theme/go-home"
             Layout.fillWidth: true
             onClicked: {
-                while (pageStack.depth > 1) {
-                    pageStack.pop()
-                }
+                print("pageStack depth:", pageStack.depth)
+                pageStack.clear();
+                pageStack.push(mainPage)
             }
         }
         BottomEdgeButton {
-            text: qsTr("Show watched")
+            text: filterModel.hideWatched ? qsTr("Show watched") : qsTr("Hide watched")
             source: filterModel.hideWatched ? "../images/unchecked.svg" : "image://theme/select"
             visible: model.allowWatchedFilter
             Layout.fillWidth: true
