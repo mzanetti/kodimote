@@ -39,10 +39,15 @@ public:
     ProtocolHandler *get(const QString &scheme) const;
 
     inline void execute(const QString &uri) { execute(QUrl(uri)); }
-    void execute(const QUrl &url);
+    Q_INVOKABLE void execute(const QUrl &url);
+
+private slots:
+    void connectedChanged(bool connected);
 
 private:
     QHash<QString, ProtocolHandler*> m_handlers;
+
+    QUrl m_cache; // In case we need to wait for the user to connect first
 };
 
 #endif // PROTOCOLMANAGER_H

@@ -84,6 +84,7 @@ int main(int argc, char** argv)
     view->engine()->rootContext()->setContextProperty("kodi", Kodi::instance());
 
     view->engine()->rootContext()->setContextProperty("settings", &settings);
+    view->engine()->rootContext()->setContextProperty("protocolManager", &protocols);
     view->setSource(QUrl("qrc:///qml/main.qml"));
 
     if(QGuiApplication::arguments().contains("--fullscreen")) {

@@ -1,5 +1,5 @@
 /*****************************************************************************
- * Copyright: 2011-2013 Michael Zanetti <michael_zanetti@gmx.net>            *
+ * Copyright: 2011-2015 Michael Zanetti <michael_zanetti@gmx.net>            *
  *            2014-2015 Robert Meijers <robert.meijers@gmail.com>            *
  *                                                                           *
  * This file is part of Kodimote                                             *
@@ -20,6 +20,8 @@
  ****************************************************************************/
 
 #include "protocolmanager.h"
+#include "kodebug.h"
+#include "kodi.h"
 
 #include <QUrlQuery>
 
@@ -31,6 +33,8 @@ ProtocolManager::ProtocolManager(QObject *parent) :
 {
     NativeProtocolHandler::registerAll(this);
     registerProtocol(new YoutubeProtocolHandler(this));
+
+    connect(Kodi::instance(), SIGNAL(connectedChanged(bool)), this, SLOT(connectedChanged(bool)));
 }
 
 void ProtocolManager::registerProtocol(ProtocolHandler *handler)
@@ -54,12 +58,34 @@ ProtocolHandler *ProtocolManager::get(const QString &scheme) const
 
 void ProtocolManager::execute(const QUrl &url)
 {
-    if (!m_handlers.contains(url.scheme())) {
+    QUrl finalUrl = url;
+    // FIXME: We want the youtube handler not only for "youtube://"
+    // but also for "http[s]://*youtube.*/" uris. Let's rewrite those
+    // to youtube:// uris for now.
+    // Probably we should change the registering of handlers
+    // to allow specifying more than just schemes.
+    if (finalUrl.host().contains("youtube")) {
+        finalUrl = "youtube:///video/" + QUrlQuery(url.query()).queryItemValue("v");
+    }
+
+    if (!m_handlers.contains(finalUrl.scheme())) {
         return;
     }
 
-    ProtocolHandler *handler = m_handlers[url.scheme()];
+    ProtocolHandler *handler = m_handlers[finalUrl.scheme()];
 
-    QUrlQuery query(url);
-    handler->execute(url, query.hasQueryItem("queue"));
+    if (Kodi::instance()->connected()) {
+        QUrlQuery query(finalUrl);
+        handler->execute(finalUrl, query.hasQueryItem("queue"));
+        m_cache.clear();
+    } else {
+        m_cache = finalUrl; // We only store one uri, in case the user keeps on sending things without realizing he needs to connect.
+    }
+}
+
+void ProtocolManager::connectedChanged(bool connected)
+{
+    if (connected && !m_cache.isEmpty()) {
+        execute(m_cache);
+    }
 }
