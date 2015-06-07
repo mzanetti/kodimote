@@ -1,3 +1,13 @@
+* Sun Jun 07 2015 Robert Meijers <robert.meijers@gmail.com> 2.1.0-1
+- Add support for resuming playback of a previously stopped item
+- Remember watched filter for movies and TV shows
+- Add basic support for browsing music and video playlists
+- Allow playing and queueing items which don't have details (like directories)
+- Add MPRIS2 support (allowing both playback control as adding items)
+- Fix incorrect total time shown on now playing page (mostly for streaming media)
+- Small cosmetic fixes all around
+- Small bugfixes all around
+
 * Sun Feb 08 2015 Robert Meijers <robert.meijers@gmail.com> 2.0.2-1
 - Fix scrolling in the keypad
 
