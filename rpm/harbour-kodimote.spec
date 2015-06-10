@@ -13,7 +13,7 @@ Name:       harbour-kodimote
 %{!?qtc_make:%define qtc_make make}
 %{?qtc_builddir:%define _builddir %qtc_builddir}
 Summary:    A remote control for XBMC/Kodi written in Qt with QML
-Version:    2.0.2
+Version:    2.1.0
 Release:    1
 Group:      Applications/Multimedia
 License:    GPL
