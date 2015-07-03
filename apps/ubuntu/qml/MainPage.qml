@@ -27,10 +27,10 @@ import "components"
 
 KodiPage {
     id: mainPage
-//    anchors.margins: appWindow.pageMargin
+    //    anchors.margins: appWindow.pageMargin
     title: qsTr("Media Browser")
 
-    property int spacing
+    property int spacing: units.gu(2)
 
     Component.onCompleted: {
         populateMainMenu();
@@ -112,45 +112,47 @@ KodiPage {
         onPvrEnabledChanged: populateMainMenu();
     }
 
-    ListView {
-        id: listView
+    GridLayout {
+        id: grid
         anchors { top: parent.top; left: parent.left; right: parent.right; bottom: bottomEdge.top }
-//        header: headerLayout
-        model: mainMenuModel
-        spacing: units.gu(2)
         anchors.margins: appWindow.pageMargins
-        interactive: false
         property int currentSelected
+        rowSpacing: mainPage.spacing
+        columnSpacing: mainPage.spacing
+        columns: width > height ? 2 : 1
 
-        delegate:  UbuntuShape {
-            id: listItem
-            height: (listView.height) / 4 - listView.spacing * 2
-            width: parent.width
+        Repeater {
+            model: mainMenuModel
+            delegate:  UbuntuShape {
+                id: listItem
+                Layout.fillWidth: true
+                Layout.fillHeight: true
+                width: parent.width
 
-//            color: Qt.rgba(0, 0, 0, mouseArea.pressed ? 0.1 : 0.05)
-            gradientColor: "black"
-            radius: "medium"
-
-            image: Image {
-                source: "images/" + target + ".jpg"
-                fillMode: Image.PreserveAspectCrop
-            }
-
-            UbuntuShape {
-                id: sourceShape
-                anchors.fill: parent
-                color: "black"
+                //            color: Qt.rgba(0, 0, 0, mouseArea.pressed ? 0.1 : 0.05)
+                gradientColor: "black"
                 radius: "medium"
-            }
 
-            ShaderEffect {
-                anchors.fill: parent
-                property variant source: ShaderEffectSource {
-                    sourceItem: sourceShape
-                    hideSource: true
+                image: Image {
+                    source: "images/" + target + ".jpg"
+                    fillMode: Image.PreserveAspectCrop
                 }
 
-                fragmentShader: "
+                UbuntuShape {
+                    id: sourceShape
+                    anchors.fill: parent
+                    color: "black"
+                    radius: "medium"
+                }
+
+                ShaderEffect {
+                    anchors.fill: parent
+                    property variant source: ShaderEffectSource {
+                        sourceItem: sourceShape
+                        hideSource: true
+                    }
+
+                    fragmentShader: "
                 varying highp vec2 qt_TexCoord0;
                 uniform sampler2D source;
                 void main(void)
@@ -161,86 +163,88 @@ KodiPage {
                     gl_FragColor = sourceColor;
                 }
                 "
-            }
-
-            Label {
-                anchors {
-                    left: parent.left
-                    leftMargin: units.gu(4)
-                    verticalCenter: parent.verticalCenter
                 }
-                id: mainText
-                text: listView.model.title(index)
-                font.weight: Font.Bold
-                fontSize: "large"
-                color: "white"
-            }
 
-            MouseArea {
-                id: mouseArea
-                anchors.fill: parent
-
-                onPressed: listView.currentSelected = index;
-
-                onPressAndHold: {
-
-                    if (mainMenuModel.get(index).target === "music" || mainMenuModel.get(index).target === "videos") {
-                        var popover = openLongTapMenu(listItem, index)
-                        popover.selected.connect(function(actionId) {
-                            switch (actionId) {
-                            case "rescan":
-                                var lib = kodi.audioLibrary();
-                                if (index == 0) {
-                                    lib = kodi.audioLibrary();
-                                } else {
-                                    lib = kodi.videoLibrary();
-                                }
-                                lib.scanForContent();
-                                lib.exit();
-                                break;
-                            case "clean":
-                                var lib = kodi.audioLibrary();
-                                if (index == 0) {
-                                    lib = kodi.audioLibrary();
-                                } else {
-                                    lib = kodi.videoLibrary();
-                                }
-
-                                lib.clean();
-                                lib.exit();
-                            }
-                            PopupUtils.close(popover)
-                        })
+                Label {
+                    anchors {
+                        left: parent.left
+                        leftMargin: units.gu(4)
+                        verticalCenter: parent.verticalCenter
                     }
+                    id: mainText
+                    text: mainMenuModel.title(index)
+                    font.weight: Font.Bold
+                    fontSize: "large"
+                    color: "white"
                 }
 
-                onClicked: {
-                    var component = Qt.createComponent("BrowserPage.qml")
-                    var newModel;
-                    if (component.status === Component.Ready) {
-                        switch(mainMenuModel.get(index).target) {
-                        case "music":
-                            newModel = kodi.audioLibrary();
-                            break
-                        case "videos":
-                            newModel = kodi.videoLibrary();
-                            break;
-                        case "pictures":
-                            newModel = kodi.shares("pictures");
-                            console.log("created model: " + newModel);
-                            break;
-                        case "tv":
-                            newModel = kodi.pvrMenu();
-                            console.log("created model: " + newModel);
-                            break;
+                MouseArea {
+                    id: mouseArea
+                    anchors.fill: parent
+
+                    onPressed: listView.currentSelected = index;
+
+                    onPressAndHold: {
+
+                        if (mainMenuModel.get(index).target === "music" || mainMenuModel.get(index).target === "videos") {
+                            var popover = openLongTapMenu(listItem, index)
+                            popover.selected.connect(function(actionId) {
+                                switch (actionId) {
+                                case "rescan":
+                                    var lib = kodi.audioLibrary();
+                                    if (index == 0) {
+                                        lib = kodi.audioLibrary();
+                                    } else {
+                                        lib = kodi.videoLibrary();
+                                    }
+                                    lib.scanForContent();
+                                    lib.exit();
+                                    break;
+                                case "clean":
+                                    var lib = kodi.audioLibrary();
+                                    if (index == 0) {
+                                        lib = kodi.audioLibrary();
+                                    } else {
+                                        lib = kodi.videoLibrary();
+                                    }
+
+                                    lib.clean();
+                                    lib.exit();
+                                }
+                                PopupUtils.close(popover)
+                            })
                         }
-                        console.log("MainPage: setting model: " + newModel);
-                        pageStack.push(component, {model: newModel});
-                    } else {
+                    }
+
+                    onClicked: {
+                        var component = Qt.createComponent("BrowserPage.qml")
+                        var newModel;
+                        if (component.status === Component.Ready) {
+                            switch(mainMenuModel.get(index).target) {
+                            case "music":
+                                newModel = kodi.audioLibrary();
+                                break
+                            case "videos":
+                                newModel = kodi.videoLibrary();
+                                break;
+                            case "pictures":
+                                newModel = kodi.shares("pictures");
+                                console.log("created model: " + newModel);
+                                break;
+                            case "tv":
+                                newModel = kodi.pvrMenu();
+                                console.log("created model: " + newModel);
+                                break;
+                            }
+                            console.log("MainPage: setting model: " + newModel);
+                            pageStack.push(component, {model: newModel});
+                        } else {
                             console.log("Error loading component:", component.errorString());
+                        }
                     }
                 }
             }
+
         }
     }
 

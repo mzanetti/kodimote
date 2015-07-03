@@ -285,35 +285,35 @@ KodiPage {
                 }
             }
 
-            ListItemWithActions {
+            ListItem {
                 id: collapsedItem
                 height: listView.itemHeight
                 width: listView.width
                 color: "transparent"
-                triggerActionOnMouseRelease: true
                 opacity: delegateItem.expanded ? 0.6 : 1
 
-                rightSideActions: [
-                    Action {
-                        iconName: "media-playback-start"
-                        visible: model.playable
-                        onTriggered: delegateItem.playItem();
-                    },
-                    Action {
-                        iconName: "add-to-playlist"
-                        visible: model.playable
-                        onTriggered: root.model.addToPlaylist(filterModel.mapToSourceIndex(index))
-                    },
-                    Action {
-                        iconName: "info"
-                        visible: root.model.hasDetails()
-                        onTriggered: {
-                            root.model.fetchItemDetails(filterModel.mapToSourceIndex(index))
-                            delegateItem.expanded = true
+                trailingActions: ListItemActions {
+                    actions: [
+                        Action {
+                            iconName: "media-playback-start"
+                            visible: model.playable
+                            onTriggered: delegateItem.playItem();
+                        },
+                        Action {
+                            iconName: "add-to-playlist"
+                            visible: model.playable
+                            onTriggered: root.model.addToPlaylist(filterModel.mapToSourceIndex(index))
+                        },
+                        Action {
+                            iconName: "info"
+                            visible: root.model.hasDetails()
+                            onTriggered: {
+                                root.model.fetchItemDetails(filterModel.mapToSourceIndex(index))
+                                delegateItem.expanded = true
+                            }
                         }
-                    }
-
-                ]
+                    ]
+                }
 
                 anchors {
                     left: parent.left
@@ -322,8 +322,8 @@ KodiPage {
                 }
 
                 RowLayout {
-                    width: parent.width
-                    height: parent.height
+                    anchors.fill: parent
+                    anchors.margins: units.gu(1)
                     spacing: units.gu(1)
 
                     Item {
@@ -437,13 +437,13 @@ KodiPage {
                     }
                 }
 
-                MouseArea {
-                    anchors.fill: parent
-                    enabled: delegateItem.expanded
-                    onClicked: delegateItem.expanded = false
-                }
+                onClicked: {
+                    if (delegateItem.expanded) {
+                        delegateItem.expanded = false;
+                        return;
+                    }
 
-                onItemClicked: {
+                    print("clicked")
                     if(filetype === "directory") {
                         var component = Qt.createComponent("BrowserPage.qml")
                         if (component.status === Component.Ready) {
@@ -458,7 +458,7 @@ KodiPage {
                     }
                 }
 
-                onItemPressAndHold: {
+                onPressAndHold: {
                     if (root.model.hasDetails()) {
                         root.model.fetchItemDetails(filterModel.mapToSourceIndex(index))
                         delegateItem.expanded = true

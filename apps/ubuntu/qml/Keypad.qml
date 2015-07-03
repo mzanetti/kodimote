@@ -19,6 +19,7 @@
  ****************************************************************************/
 
 import QtQuick 2.4
+import QtQuick.Layouts 1.1
 import Ubuntu.Components 1.2
 import Kodi 1.0
 import "components"
@@ -37,18 +38,20 @@ KodiPage {
 
     property QtObject keys: kodi.keys()
 
-    Column {
+    GridLayout {
+        id: grid
         anchors {
-            left: parent.left
-            right: parent.right
+            fill: parent
             margins: root.spacing
-            verticalCenter: parent.verticalCenter
+            bottomMargin: root.spacing + units.gu(2)
         }
-        spacing: root.spacing
+        columns: root.width  > root.height ? 2 : 1
+        columnSpacing: root.spacing
+        rowSpacing: root.spacing
 
         UbuntuShape {
-            width: parent.width
-            height: musicButton.height + root.spacing
+            Layout.fillWidth: true
+            Layout.preferredHeight: musicButton.height + root.spacing
             color: Qt.rgba(0, 0, 0, 0.05)
 
             Label {
@@ -127,8 +130,10 @@ KodiPage {
 
         GesturePad {
             id: gesturePad
-            width: parent.width
-            height: width * 3 / 4
+            //Layout.fillWidth: true
+            Layout.preferredWidth: Math.min(grid.width / grid.columns, grid.height * 4 / 3)
+            Layout.preferredHeight: width * 3 / 4
+            Layout.rowSpan: 3
 
             MediaControlButton {
                 id: backButton
@@ -210,11 +215,8 @@ KodiPage {
         }
 
         UbuntuShape {
-            anchors {
-                left: parent.left
-                right: parent.right
-            }
-            height: controlButtons.height + root.spacing
+            Layout.fillWidth: true
+            Layout.preferredHeight: controlButtons.height + root.spacing
             color: Qt.rgba(0, 0, 0, 0.05)
 
             Label {
@@ -253,8 +255,8 @@ KodiPage {
         }
 
         UbuntuShape {
-            width: parent.width
-            height: colorButtonRow.height + root.spacing
+            Layout.fillWidth: true
+            Layout.preferredHeight: colorButtonRow.height + root.spacing
             color: Qt.rgba(0, 0, 0, 0.05)
 
             Row {

@@ -29,6 +29,8 @@ import Ubuntu.Content 1.1
 
 MainView {
     id: appWindow
+    width: units.gu(70)
+    height: units.gu(40)
 
     headerColor: "#1b62c8"
     backgroundColor: "#0c2e71"
@@ -77,7 +79,7 @@ MainView {
             PopupUtils.open(authComponent, appWindow, {hostname: hostname})
         }
 
-/*        onDisplayNotification: {
+        /*        onDisplayNotification: {
             print("************ notification", text, notificationBanner)
             notificationBanner.text = text;
             notificationBanner.show();
@@ -123,6 +125,32 @@ MainView {
             anchors.fill: parent
             property bool showList: !kodi.connecting
 
+            head {
+                actions: [
+                    Action {
+                        text: "add"
+                        iconName: "add"
+                        visible: noConnectionPage.showList
+                        onTriggered: {
+                            var newHost = newHostComponent.createObject();
+                            var popup = PopupUtils.open(addHostComponent, noConnectionPage, {host: newHost});
+                            popup.rejected.connect(function() {
+                                popup.destroy();
+                                newHost.destroy();
+                            })
+                            popup.accepted.connect(function() {
+                                kodi.hostModel().addHost(newHost);
+                            })
+                        }
+
+                    }
+                ]
+            }
+            Component {
+                id: newHostComponent
+                KodiHost {}
+            }
+
             ListView {
                 id: hostListView
                 anchors.fill: parent
@@ -130,45 +158,51 @@ MainView {
                 opacity: noConnectionPage.showList ? 1 : 0
                 Behavior on opacity { UbuntuNumberAnimation {} }
 
-                delegate: ListItemWithActions {
+                delegate: ListItem {
                     id: hostDelegate
                     width: parent.width
                     height: units.gu(8)
                     color: "transparent"
-                    triggerActionOnMouseRelease: true
 
-                    leftSideAction: Action {
-                        iconName: "delete"
-                        onTriggered: kodi.hostModel().removeHost(index)
+                    leadingActions: ListItemActions {
+                        actions: [
+                            Action {
+                                iconName: "delete"
+                                onTriggered: kodi.hostModel().removeHost(index)
+                            }
+                        ]
                     }
-                    rightSideActions: [
-                        Action {
-                            iconName: "torch-on"
-                            onTriggered: kodi.hostModel().host(index).wakeup();
-                        },
-                        Action {
-                            iconName: "edit"
-                            onTriggered: PopupUtils.open(addHostComponent, noConnectionPage, {host: kodi.hostModel().host(index)});
-                        }
+                    trailingActions: ListItemActions {
+                        actions: [
+                            Action {
+                                iconName: "torch-on"
+                                onTriggered: kodi.hostModel().host(index).wakeup();
+                            },
+                            Action {
+                                iconName: "edit"
+                                onTriggered: PopupUtils.open(addHostComponent, noConnectionPage, {host: kodi.hostModel().host(index)});
+                            }
 
-                    ]
+                        ]
+                    }
 
                     Label {
                         anchors {
                             left: parent.left
                             right: parent.right
+                            margins: units.gu(1)
                             verticalCenter: parent.verticalCenter
                         }
                         text: hostname
                     }
 
-                    onItemClicked: {
+                    onClicked: {
                         noConnectionPage.showList = false
                         kodi.hostModel().host(index).connect()
                     }
                 }
                 Column {
-                    spacing: units.gu(5)
+                    spacing: units.gu(1)
                     visible: hostListView.count == 0
                     anchors {
                         left: parent.left
@@ -177,19 +211,25 @@ MainView {
                         verticalCenter: parent.verticalCenter
                     }
 
-                    ActivityIndicator {
-                        running: parent.visible
-                        anchors.horizontalCenter: parent.horizontalCenter
-                        width: units.gu(5)
-                        height: width
+                    Row {
+                        width: parent.width
+                        height: childrenRect.height
+                        spacing: units.gu(1)
+
+                        ActivityIndicator {
+                            running: parent.visible
+                        }
+                        Label {
+                            text: qsTr("Searching for Kodi hosts.")
+                            anchors.verticalCenter: parent.verticalCenter
+                        }
                     }
 
                     Label {
                         fontSize: "small"
                         width: parent.width
                         wrapMode: Text.WordWrap
-                        text: qsTr("Searching for Kodi hosts.") + "\n" + "\n"
-                              + qsTr("Please enable the following options in the Services settings of Kodi:") + "\n- "
+                        text: qsTr("Please enable the following options in the Services settings of Kodi:") + "\n- "
                               + qsTr("Allow control of Kodi via HTTP") + "\n- "
                               + qsTr("Allow programs on other systems to control Kodi") + "\n- "
                               + qsTr("Announce these services to other systems via Zeroconf") + "\n"
@@ -246,32 +286,6 @@ MainView {
                     }
                 }
             }
-
-            tools: ToolbarItems {
-                ToolbarButton {
-                    action: Action {
-                        text: "add"
-                        iconName: "add"
-                        visible: noConnectionPage.showList
-                        onTriggered: {
-                            var newHost = newHostComponent.createObject();
-                            var popup = PopupUtils.open(addHostComponent, noConnectionPage, {host: newHost});
-                            popup.rejected.connect(function() {
-                                popup.destroy();
-                                newHost.destroy();
-                            })
-                            popup.accepted.connect(function() {
-                                kodi.hostModel().addHost(newHost);
-                            })
-                        }
-
-                    }
-                    Component {
-                        id: newHostComponent
-                        KodiHost {}
-                    }
-                }
-            }
         }
     }
     Component {
@@ -316,187 +330,174 @@ MainView {
             signal accepted();
             signal rejected();
 
-            Item {
+            Column {
+                id: addColumn
                 width: parent.width
-                height: units.gu(40)
-
-                Flickable {
+                spacing: units.gu(1)
+                Label {
+                    text: qsTr("Name:")
+                    color: "black"
+                }
+                TextField {
+                    id: nameTextField
                     width: parent.width
-                    height: parent.height
-                    contentHeight: addColumn.height
-                    clip: true
-                    interactive: contentHeight > height
+                    text: addHostDialog.host.hostname
+                    color: "black"
+                    property bool conflicting: false
 
-                    Column {
-                        id: addColumn
-                        width: parent.width
-                        spacing: units.gu(1)
-                        Label {
-                            text: qsTr("Name:")
-                            color: "black"
-                        }
-                        TextField {
-                            id: nameTextField
-                            width: parent.width
-                            text: addHostDialog.host.hostname
-                            color: "black"
-                            property bool conflicting: false
-
-                            onTextChanged: {
-                                print("model count", kodi.hostModel().count)
-                                for (var i = 0; i < kodi.hostModel().count; ++i) {
-                                    print("got:", kodi.hostModel().host(i).hostname)
-                                    if (kodi.hostModel().host(i).hostname == text) {
-                                        conflicting = true;
-                                        return;
-                                    }
-                                    conflicting = false;
-                                }
+                    onTextChanged: {
+                        print("model count", kodi.hostModel().count)
+                        for (var i = 0; i < kodi.hostModel().count; ++i) {
+                            print("got:", kodi.hostModel().host(i).hostname)
+                            if (addHostDialog.host != kodi.hostModel().host(i) && kodi.hostModel().host(i).hostname == text) {
+                                conflicting = true;
+                                return;
                             }
-
-                            states: [
-                                State {
-                                    name: "conflicting"; when: nameTextField.conflicting
-                                    PropertyChanges {
-                                        target: nameTextField
-                                        color: "red"
-                                    }
-                                }
-
-                            ]
-                        }
-                        Label {
-                            text: qsTr("Hostname or IP Address:")
-                            color: "black"
-                        }
-                        TextField {
-                            id: addressTextField
-                            width: parent.width
-                            text: addHostDialog.host.address
-                            color: "black"
-                        }
-                        Label {
-                            text: qsTr("Port:")
-                            color: "black"
-                        }
-                        TextField {
-                            id: portTextField
-                            text: addHostDialog.host.port ? addHostDialog.host.port : "8080"
-                            width: parent.width
-                            color: "black"
-                        }
-                        Label {
-                            text: qsTr("Mac Address:")
-                            color: "black"
-                        }
-                        TextField {
-                            id: macTextField
-                            width: parent.width
-                            inputMask: "HH:HH:HH:HH:HH:HH;_"
-                            color: "black"
-                            text: addHostDialog.host.hwAddr
-                        }
-
-                        SectionHeader {
-                            headerText: qsTr("Volume")
-                            color: "black"
-                        }
-
-                        OptionSelector {
-                            id: volumeControlTypeSelector
-                            model: [qsTr("Custom Stepping"), qsTr("Up or down"), qsTr("Custom script")]
-                            selectedIndex: addHostDialog.host.volumeControlType
-
-                            // Hack... OptionSelector doesn't let us set the color and uitk is buggy with colors atm
-                            delegate: OptionSelectorDelegate {
-                                text: " "
-                                Label {
-                                    anchors { left: parent.left; verticalCenter: parent.verticalCenter; leftMargin: units.gu(2) }
-                                    text: modelData
-                                    color: "black"
-                                }
-                            }
-                        }
-
-                        RowLayout {
-                            visible: volumeControlTypeSelector.selectedIndex !== 1
-                            Label { text: "0"; color: "black" }
-                            anchors { left: parent.left; right: parent.right }
-                            spacing: units.gu(1)
-                            Slider {
-                                id: volumeSteppingSlider
-                                value: addHostDialog.host.volumeStepping
-                                Layout.fillWidth: true
-                            }
-                            Label { text: "100"; color: "black" }
-                        }
-
-                        Label {
-                            text: qsTr("Up command"); color: "black";
-                            visible: volumeControlTypeSelector.selectedIndex === 2
-                        }
-                        TextField {
-                            id: volumeUpCommandTextField
-                            width: parent.width
-                            visible: volumeControlTypeSelector.selectedIndex === 2
-                            text: host.volumeUpCommand
-                            placeholderText: qsTr("Up command")
-                            color: "black"
-                        }
-
-                        Label {
-                            text: qsTr("Down command"); color: "black"
-                            visible: volumeControlTypeSelector.selectedIndex === 2
-                        }
-                        TextField {
-                            id: volumeDownCommandTextField
-                            width: parent.width
-                            visible: volumeControlTypeSelector.selectedIndex === 2
-                            text: host.volumeDownCommand
-                            placeholderText: qsTr("Down command")
-                            color: "black"
-                        }
-
-                        SectionHeader {
-                            color: "black"
-                        }
-                        Row {
-                            width: parent.width
-                            spacing: units.gu(1)
-                            Button {
-                                text: qsTr("Cancel")
-                                width: (parent.width - parent.spacing) / 2
-                                onClicked: {
-                                    addHostDialog.rejected();
-                                    PopupUtils.close(addHostDialog)
-                                }
-                            }
-                            Button {
-                                text: qsTr("OK")
-                                width: (parent.width - parent.spacing) / 2
-                                color: "#dd4814"
-                                enabled: nameTextField.text.length > 0 && !nameTextField.conflicting && addressTextField.text.length > 0
-                                onClicked: {
-                                    addHostDialog.host.hostname = nameTextField.text
-                                    addHostDialog.host.address = addressTextField.text
-                                    addHostDialog.host.port = portTextField.text
-                                    addHostDialog.host.hwAddr = macTextField.text
-
-                                    addHostDialog.host.volumeControlType = volumeControlTypeSelector.selectedIndex
-                                    addHostDialog.host.volumeStepping = volumeSteppingSlider.value
-                                    addHostDialog.host.volumeUpCommand = volumeUpCommandTextField.text
-                                    addHostDialog.host.volumeDownCommand = volumeDownCommandTextField.text
-                                    addHostDialog.accepted();
-                                    PopupUtils.close(addHostDialog)
-                                }
-                            }
-                        }
-
-                        Item {
-                            width: parent.width
-                            height: Qt.inputMethod.keyboardRectangle.height
+                            conflicting = false;
                         }
                     }
+
+                    states: [
+                        State {
+                            name: "conflicting"; when: nameTextField.conflicting
+                            PropertyChanges {
+                                target: nameTextField
+                                color: "red"
+                            }
+                        }
+
+                    ]
+                }
+                Label {
+                    text: qsTr("Hostname or IP Address:")
+                    color: "black"
+                }
+                TextField {
+                    id: addressTextField
+                    width: parent.width
+                    text: addHostDialog.host.address
+                    color: "black"
+                }
+                Label {
+                    text: qsTr("Port:")
+                    color: "black"
+                }
+                TextField {
+                    id: portTextField
+                    text: addHostDialog.host.port ? addHostDialog.host.port : "8080"
+                    width: parent.width
+                    color: "black"
+                }
+                Label {
+                    text: qsTr("Mac Address:")
+                    color: "black"
+                }
+                TextField {
+                    id: macTextField
+                    width: parent.width
+                    inputMask: "HH:HH:HH:HH:HH:HH;_"
+                    color: "black"
+                    text: addHostDialog.host.hwAddr
+                }
+
+                SectionHeader {
+                    headerText: qsTr("Volume")
+                    color: "black"
+                }
+
+                OptionSelector {
+                    id: volumeControlTypeSelector
+                    model: [qsTr("Custom Stepping"), qsTr("Up or down"), qsTr("Custom script")]
+                    selectedIndex: addHostDialog.host.volumeControlType
+
+                    // Hack... OptionSelector doesn't let us set the color and uitk is buggy with colors atm
+                    delegate: OptionSelectorDelegate {
+                        text: " "
+                        Label {
+                            anchors { left: parent.left; verticalCenter: parent.verticalCenter; leftMargin: units.gu(2) }
+                            text: modelData
+                            color: "black"
+                        }
+                    }
+                }
+
+                RowLayout {
+                    visible: volumeControlTypeSelector.selectedIndex !== 1
+                    Label { text: "0"; color: "black" }
+                    anchors { left: parent.left; right: parent.right }
+                    spacing: units.gu(1)
+                    Slider {
+                        id: volumeSteppingSlider
+                        value: addHostDialog.host.volumeStepping
+                        Layout.fillWidth: true
+                    }
+                    Label { text: "100"; color: "black" }
+                }
+
+                Label {
+                    text: qsTr("Up command"); color: "black";
+                    visible: volumeControlTypeSelector.selectedIndex === 2
+                }
+                TextField {
+                    id: volumeUpCommandTextField
+                    width: parent.width
+                    visible: volumeControlTypeSelector.selectedIndex === 2
+                    text: host.volumeUpCommand
+                    placeholderText: qsTr("Up command")
+                    color: "black"
+                }
+
+                Label {
+                    text: qsTr("Down command"); color: "black"
+                    visible: volumeControlTypeSelector.selectedIndex === 2
+                }
+                TextField {
+                    id: volumeDownCommandTextField
+                    width: parent.width
+                    visible: volumeControlTypeSelector.selectedIndex === 2
+                    text: host.volumeDownCommand
+                    placeholderText: qsTr("Down command")
+                    color: "black"
+                }
+
+                SectionHeader {
+                    color: "black"
+                }
+                Row {
+                    width: parent.width
+                    spacing: units.gu(1)
+                    Button {
+                        text: qsTr("Cancel")
+                        width: (parent.width - parent.spacing) / 2
+                        onClicked: {
+                            addHostDialog.rejected();
+                            PopupUtils.close(addHostDialog)
+                        }
+                    }
+                    Button {
+                        text: qsTr("OK")
+                        width: (parent.width - parent.spacing) / 2
+                        color: "#dd4814"
+                        enabled: nameTextField.text.length > 0 && !nameTextField.conflicting && addressTextField.text.length > 0
+                        onClicked: {
+                            addHostDialog.host.hostname = nameTextField.text
+                            addHostDialog.host.address = addressTextField.text
+                            addHostDialog.host.port = portTextField.text
+                            addHostDialog.host.hwAddr = macTextField.text
+
+                            addHostDialog.host.volumeControlType = volumeControlTypeSelector.selectedIndex
+                            addHostDialog.host.volumeStepping = volumeSteppingSlider.value
+                            addHostDialog.host.volumeUpCommand = volumeUpCommandTextField.text
+                            addHostDialog.host.volumeDownCommand = volumeDownCommandTextField.text
+                            addHostDialog.accepted();
+                            PopupUtils.close(addHostDialog)
+                        }
+                    }
+                }
+
+                Item {
+                    width: parent.width
+                    height: Qt.inputMethod.keyboardRectangle.height
                 }
             }
         }
@@ -560,9 +561,9 @@ MainView {
 
         Dialog {
             id: authDialog
-//            title: qsTr("Add host")
-//            title: hostname
-//            title: qsTr("Kodi on %1 requires authentication:").arg(hostname);
+            //            title: qsTr("Add host")
+            //            title: hostname
+            //            title: qsTr("Kodi on %1 requires authentication:").arg(hostname);
 
             property string hostname
 
