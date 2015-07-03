@@ -112,11 +112,33 @@ KodiPage {
             }
 
             model: playlist
-            delegate: SingleValue {
+            delegate: ListItem {
                 id: playlistDelegate
-                text: title
-                value: duration
-                selected: index === ListView.view.model.currentTrackNumber - 1
+
+                leadingActions: ListItemActions {
+                    actions: [
+                        Action {
+                            iconName: "delete"
+                            onTriggered: playlist.removeItem(selectedIndex)
+                        }
+                    ]
+                }
+
+                RowLayout {
+                    anchors.fill: parent
+                    anchors.margins: units.gu(1)
+
+                    Label {
+                        Layout.fillWidth: true
+                        text: title
+                        elide: Text.ElideRight
+                        font.bold: index == playlist.currentTrackNumber - 1
+                    }
+                    Label {
+                        text: duration
+                        font.bold: index == playlist.currentTrackNumber - 1
+                    }
+                }
                 onClicked: {
                     player.playItem(index);
                 }
