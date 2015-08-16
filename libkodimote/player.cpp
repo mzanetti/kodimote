@@ -621,11 +621,13 @@ void Player::setTimerActive(bool active)
 
     if(active) {
         if(m_state == "playing") {
+            qDebug() << "timer started";
             m_playtimeTimer.start();
             updatePlaytime();
         }
     }
     else {
+        qDebug() << "timer stopped";
         m_playtimeTimer.stop();
     }
 }

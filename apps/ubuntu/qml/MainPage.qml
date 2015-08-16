@@ -20,7 +20,7 @@
 
 import QtQuick 2.4
 import QtQuick.Layouts 1.1
-import Ubuntu.Components 1.2
+import Ubuntu.Components 1.3
 import Ubuntu.Components.Popups 1.0
 import Ubuntu.Components.ListItems 1.0 as ListItems
 import "components"
@@ -64,6 +64,7 @@ KodiPage {
         id: mainMenuModel
         // workaround: its not possible to have qsTr() in ListElements for now...
         function title(index) {
+            if (index == -1) return "";
             var target = mainMenuModel.get(index).target;
             if (target === "music") {
                 return qsTr("Music");
@@ -123,17 +124,16 @@ KodiPage {
 
         Repeater {
             model: mainMenuModel
-            delegate:  UbuntuShape {
+            delegate: UbuntuShape {
                 id: listItem
                 Layout.fillWidth: true
                 Layout.fillHeight: true
-                width: parent.width
+                width: grid.width
+                sourceFillMode: Image.PreserveAspectCrop
 
-                //            color: Qt.rgba(0, 0, 0, mouseArea.pressed ? 0.1 : 0.05)
-                gradientColor: "black"
                 radius: "medium"
 
-                image: Image {
+                source: Image {
                     source: "images/" + target + ".jpg"
                     fillMode: Image.PreserveAspectCrop
                 }
@@ -141,7 +141,7 @@ KodiPage {
                 UbuntuShape {
                     id: sourceShape
                     anchors.fill: parent
-                    color: "black"
+                    backgroundColor: "black"
                     radius: "medium"
                 }
 
@@ -158,7 +158,7 @@ KodiPage {
                 void main(void)
                 {
                     highp vec4 sourceColor = texture2D(source, qt_TexCoord0);
-                    highp float alpha = 1.0 - qt_TexCoord0.x;
+                    highp float alpha = 1.0 - qt_TexCoord0.x * 2.0;
                     sourceColor *= alpha;
                     gl_FragColor = sourceColor;
                 }
@@ -188,7 +188,9 @@ KodiPage {
 
                         if (mainMenuModel.get(index).target === "music" || mainMenuModel.get(index).target === "videos") {
                             var popover = openLongTapMenu(listItem, index)
+                            print("popver opened")
                             popover.selected.connect(function(actionId) {
+                                print("selected", actionId)
                                 switch (actionId) {
                                 case "rescan":
                                     var lib = kodi.audioLibrary();
@@ -267,14 +269,17 @@ KodiPage {
         Popover {
             id: popover
             property alias model: listView.model
-            signal selected(int actionId)
+            signal selected(string actionId)
             ListView {
                 id: listView
                 width: parent.width
                 height: contentHeight
                 delegate: ListItems.Standard {
                     text: modelData
-                    onClicked: popover.selected(actionId)
+                    onClicked: {
+                        print("clicked", index, longTapModel.get(index).actionId)
+                        popover.selected(longTapModel.get(index).actionId)
+                    }
                 }
             }
         }

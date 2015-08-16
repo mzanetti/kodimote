@@ -20,7 +20,7 @@
 
 import QtQuick 2.4
 import QtQuick.Layouts 1.1
-import Ubuntu.Components 1.2
+import Ubuntu.Components 1.3
 import Ubuntu.Components.Popups 1.0
 import Ubuntu.Components.ListItems 1.0
 import Kodi 1.0
@@ -37,8 +37,6 @@ KodiPage {
     property string orientation: width > height ? "landscape" : "portrait"
 
     property int spacing: units.gu(1)
-
-    onCurrentItemChanged: print("************", currentItem.thumbnail)
 
     onPlayerChanged: {
         if(player === null) {
@@ -188,7 +186,7 @@ KodiPage {
                     id: imageShape
                     anchors.fill: parent
                     opacity: 1
-                    source: !currentItem || currentItem.thumbnail.length === 0 ? "" : "file://" + currentItem.thumbnail
+                    source: currentItem && currentItem.thumbnail ? "file://" + currentItem.thumbnail : ""
                     initialWidth: parent.width
                     initialHeight: parent.height
                     scaleTo: "fit"
@@ -264,14 +262,14 @@ KodiPage {
                     UbuntuShape {
                         anchors.fill: parent
                         anchors.rightMargin: parent.width - (parent.width * parent.value / 100)
-                        color: "#1b62c8"
+                        backgroundColor: UbuntuColors.blue
                     }
 
                     Rectangle {
-                        color: "black"
+                        color: "white"
                         rotation: 45
-                        width: 10
-                        height: 10
+                        width: units.gu(1.5)
+                        height: width
                         anchors.horizontalCenter: progressBarLabel.horizontalCenter
                         anchors.verticalCenter: progressBarLabel.bottom
                         visible: progressBarLabel.visible
@@ -279,17 +277,17 @@ KodiPage {
 
                     UbuntuShape {
                         id: progressBarLabel
-                        color: "black"
+                        backgroundColor: "white"
                         anchors.bottom: parent.top
-                        anchors.bottomMargin: 40
-                        height: 40
+                        anchors.bottomMargin: units.gu(3)
+                        height: units.gu(6)
                         width: progressBarLabelText.width + 20
                         visible: progressBarMouseArea.pressed
 
                         Label {
                             id: progressBarLabelText
                             anchors.centerIn: parent
-                            color: "white"
+                            color: "black"
                         }
                     }
 
@@ -300,7 +298,6 @@ KodiPage {
                         anchors.bottomMargin: -root.spacing
                         preventStealing: true
                         property var targetTime
-                        drag.target: anchorItem
 
                         onPositionChanged: {
                             // Center label on mouseX
@@ -325,7 +322,7 @@ KodiPage {
                     }
 
                     Label {
-                        text: player.totalTimeString
+                        text: player ? player.totalTimeString : ""
                         horizontalAlignment: Text.AlignRight
                         width: (parent.width - parent.spacing) / 2
                     }
@@ -426,8 +423,8 @@ KodiPage {
         BottomEdgeButton {
             text: qsTr("Repeat")
             Layout.fillWidth: true
-            source: player.repeat == Player.RepeatNone ? "image://theme/media-playlist-repeat" :
-                                                             player.repeat == Player.RepeatOne ? "../images/media-playlist-repeat-one.svg" :
+            source: player && player.repeat == Player.RepeatNone ? "image://theme/media-playlist-repeat" :
+                                                             player && player.repeat == Player.RepeatOne ? "../images/media-playlist-repeat-one.svg" :
                                                                                                  "../images/media-playlist-repeat-all.svg"
             visible: root.player && root.player.type == Player.PlayerTypeAudio
             onClicked: {
@@ -444,7 +441,7 @@ KodiPage {
         BottomEdgeButton {
             text: qsTr("Shuffle")
             Layout.fillWidth: true
-            source: player.shuffle ? "../images/media-playlist-shuffle-active.svg" : "image://theme/media-playlist-shuffle"
+            source: player && player.shuffle ? "../images/media-playlist-shuffle-active.svg" : "image://theme/media-playlist-shuffle"
             visible: root.player && root.player.type == Player.PlayerTypeAudio
             onClicked: {
                 player.shuffle = ! player.shuffle

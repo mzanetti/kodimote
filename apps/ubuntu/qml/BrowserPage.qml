@@ -20,7 +20,7 @@
 
 import QtQuick 2.4
 import QtQuick.Layouts 1.1
-import Ubuntu.Components 1.2
+import Ubuntu.Components 1.3
 import Ubuntu.Components.Popups 1.0
 import Ubuntu.Components.ListItems 1.0
 import Kodi 1.0
@@ -41,6 +41,14 @@ KodiPage {
     property variant model
     property int spacing: units.gu(1)
 
+    onBackPressed: {
+        print("listView.expanded", listView.expaned)
+        if (listView.expaned) {
+            listView.collapse();
+        } else {
+            pageStack.pop();
+        }
+    }
 
     Component.onCompleted: {
         console.log("BrowserPage: setting model " + model)
@@ -177,6 +185,7 @@ KodiPage {
 
         property int itemHeight: root.model.thumbnailFormat === KodiModel.ThumbnailFormatPortrait ? units.gu(10) : units.gu(8)
 
+        property bool expaned: false
         signal collapse()
 
         onDraggedForSearchChanged: {
@@ -215,9 +224,14 @@ KodiPage {
             height: expanded ? listView.height : collapsedItem.height
 
             property bool expanded: false
+            onExpandedChanged: listView.expaned = expanded
 
             Behavior on height {
                 UbuntuNumberAnimation {}
+            }
+            Connections {
+                target: listView
+                onCollapse: delegateItem.expanded = false
             }
 
             function playItem() {
@@ -250,7 +264,7 @@ KodiPage {
                     bottom: collapsedItem.top
                 }
 
-                color: Qt.rgba(0, 0, 0, 0.4)
+                color: Qt.rgba(0, 0, 0, 0.2)
                 opacity: delegateItem.expanded ? 1 : 0
                 visible: opacity > 0
                 Behavior on opacity {
@@ -341,10 +355,11 @@ KodiPage {
                                             height * 16/9 :
                                             (root.model.thumbnailFormat === KodiModel.ThumbnailFormat43 ? height * 4/3 : height))
                             anchors.centerIn: parent
-                            image: Image {
+                            sourceFillMode: Image.PreserveAspectCrop
+                            source: Image {
                                 anchors.fill: parent
                                 source: thumbnail ? "file://" + thumbnail : ""
-                                fillMode: Image.PreserveAspectCrop
+                                asynchronous: true
                                 sourceSize {
                                     width: thumbnailImage.width
                                     height: thumbnailImage.height
@@ -397,7 +412,7 @@ KodiPage {
                                 right: parent.right
                             }
                             visible: index >= 0 ? root.model.getItem(filterModel.mapToSourceIndex(index)).type === "channel" : false
-                            color: "#22000000"
+                            backgroundColor: "#22000000"
 
                             height: units.dp(3)
                             property int minimumValue: 0
@@ -407,7 +422,7 @@ KodiPage {
                             UbuntuShape {
                                 anchors.fill: parent
                                 anchors.rightMargin: parent.width - (parent.width * parent.value / 100)
-                                color: "#1b62c8"
+                                backgroundColor: UbuntuColors.blue
                             }
                         }
                     }
@@ -432,7 +447,7 @@ KodiPage {
                             height: width
                             visible: playcount > 0 || resume > 0
                             name: resume > 0 ? "media-playback-start" : "tick"
-                            color: "white"
+                            color: theme.palette.normal.overlayText
                         }
                     }
                 }
@@ -476,64 +491,65 @@ KodiPage {
             UbuntuNumberAnimation {}
         }
 
-    }
+        MouseArea {
+            id:fastScroller
+            anchors {top: searchBar.bottom; right: parent.right; bottom: parent.bottom }
+            width: units.gu(6)
+            preventStealing: true
 
-    MouseArea {
-        id:fastScroller
-        anchors {top: searchBar.bottom; right: parent.right; bottom: parent.bottom }
-        width: units.gu(6)
+            Rectangle {
+                id: scrollBackground
+                color: "black"
+                opacity: 0
+                anchors.fill: parent
 
-        Rectangle {
-            id: scrollBackground
-            color: "black"
-            opacity: 0
-            anchors.fill: parent
-
-            Behavior on opacity {
-                NumberAnimation {
-                    easing.type: Easing.InQuad
-                    duration: 200
+                Behavior on opacity {
+                    NumberAnimation {
+                        easing.type: Easing.InQuad
+                        duration: 200
+                    }
                 }
             }
-        }
 
-        onReleased: {
-            scrollBackground.opacity = 0;
-        }
+            onReleased: {
+                scrollBackground.opacity = 0;
+            }
 
-        onCanceled: {
-            scrollBackground.opacity = 0;
-        }
+            onCanceled: {
+                scrollBackground.opacity = 0;
+            }
 
-        onMouseYChanged: {
-            scrollBackground.opacity = 0.2;
-            var percent = Math.min(model.count - 1, Math.max(0, Math.round((mouseY) / fastScroller.height * (listView.count - 1))))
-            scrollIndicatorLabel.text = model.get(percent, "sortingTitle").substring(0, 1);
-            listView.positionViewAtIndex(percent, ListView.Center);
-            scrollIndicator.y = Math.min(listView.height - scrollIndicator.height + listView.y, Math.max(listView.y, mouseY + fastScroller.y - scrollIndicator.height / 2))
-        }
+            onMouseYChanged: {
+                scrollBackground.opacity = 0.2;
+                var percent = Math.min(model.count - 1, Math.max(0, Math.round((mouseY) / fastScroller.height * (listView.count - 1))))
+                scrollIndicatorLabel.text = model.get(percent, "sortingTitle").substring(0, 1);
+                listView.positionViewAtIndex(percent, ListView.Center);
+                scrollIndicator.y = Math.min(listView.height - scrollIndicator.height + listView.y, Math.max(listView.y, mouseY + fastScroller.y - scrollIndicator.height / 2))
+            }
 
+        }
+        Item {
+            id: scrollIndicator
+            opacity: scrollBackground.opacity * 4
+            anchors.left: parent.left
+            anchors.right: parent.right
+            height: units.gu(10)
+
+            Rectangle {
+                anchors.fill: parent
+                color: "black"
+            }
+            Label {
+                id: scrollIndicatorLabel
+                anchors.fill: scrollIndicator
+                verticalAlignment: Text.AlignVCenter
+                anchors.margins: units.gu(2)
+                color: "white"
+                fontSize: "x-large"
+            }
+        }
     }
-    Item {
-        id: scrollIndicator
-        opacity: scrollBackground.opacity * 4
-        anchors.left: parent.left
-        anchors.right: parent.right
-        height: units.gu(10)
 
-        Rectangle {
-            anchors.fill: parent
-            color: "black"
-        }
-        Label {
-            id: scrollIndicatorLabel
-            anchors.fill: scrollIndicator
-            verticalAlignment: Text.AlignVCenter
-            anchors.margins: units.gu(2)
-            color: "white"
-            fontSize: "x-large"
-        }
-    }
 
     ActivityIndicator {
         id: busyIndicator
@@ -556,8 +572,8 @@ KodiPage {
             }
         }
         BottomEdgeButton {
-            text: filterModel.hideWatched ? qsTr("Show watched") : qsTr("Hide watched")
-            source: filterModel.hideWatched ? "../images/unchecked.svg" : "image://theme/select"
+            text: qsTr("Hide watched")
+            source: filterModel.hideWatched ? "image://theme/select" : "image://theme/select-none"
             visible: model.allowWatchedFilter
             Layout.fillWidth: true
             onClicked: {

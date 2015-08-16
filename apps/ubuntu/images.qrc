@@ -12,7 +12,6 @@
         <file>qml/images/pad-separator.svg</file>
         <file>qml/images/pictures.jpg</file>
         <file>qml/images/tv.jpg</file>
-        <file>qml/images/unchecked.svg</file>
         <file>qml/images/videos.jpg</file>
     </qresource>
 </RCC>

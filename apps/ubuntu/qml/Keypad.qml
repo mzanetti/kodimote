@@ -20,7 +20,7 @@
 
 import QtQuick 2.4
 import QtQuick.Layouts 1.1
-import Ubuntu.Components 1.2
+import Ubuntu.Components 1.3
 import Kodi 1.0
 import "components"
 
@@ -52,7 +52,7 @@ KodiPage {
         UbuntuShape {
             Layout.fillWidth: true
             Layout.preferredHeight: musicButton.height + root.spacing
-            color: Qt.rgba(0, 0, 0, 0.05)
+            backgroundColor: Qt.rgba(0, 0, 0, 0.05)
 
             Label {
                 id: introLabel1
@@ -104,12 +104,12 @@ KodiPage {
                 spacing: (width - musicButton.width * 5) / 4
 
                 MediaControlButton {
-                    source: "image://theme/gallery-symbolic"
+                    source: "image://theme/image-x-generic-symbolic"
                     onClicked: kodi.switchToWindow(Kodi.GuiWindowPictures);
                 }
                 MediaControlButton {
                     id: musicButton
-                    source: "image://theme/stock_music"
+                    source: "image://theme/audio-x-generic-symbolic"
                     onClicked: kodi.switchToWindow(Kodi.GuiWindowMusic);
                 }
                 MediaControlButton {
@@ -117,7 +117,7 @@ KodiPage {
                     onClicked: keys.home();
                 }
                 MediaControlButton {
-                    source: "image://theme/stock_video"
+                    source: "image://theme/video-x-generic-symbolic"
                     onClicked: kodi.switchToWindow(Kodi.GuiWindowVideos);
 
                 }
@@ -217,7 +217,7 @@ KodiPage {
         UbuntuShape {
             Layout.fillWidth: true
             Layout.preferredHeight: controlButtons.height + root.spacing
-            color: Qt.rgba(0, 0, 0, 0.05)
+            backgroundColor: Qt.rgba(0, 0, 0, 0.05)
 
             Label {
                 id: introLabel2
@@ -257,7 +257,7 @@ KodiPage {
         UbuntuShape {
             Layout.fillWidth: true
             Layout.preferredHeight: colorButtonRow.height + root.spacing
-            color: Qt.rgba(0, 0, 0, 0.05)
+            backgroundColor: Qt.rgba(0, 0, 0, 0.05)
 
             Row {
                 id: colorButtonRow
@@ -269,7 +269,7 @@ KodiPage {
                 Behavior on opacity { UbuntuNumberAnimation { duration: UbuntuAnimation.SlowDuration } }
 
                 UbuntuShape {
-                    height: units.gu(2); width: parent.spacing; color: "red"; anchors.verticalCenter: parent.verticalCenter;
+                    height: units.gu(2); width: parent.spacing; backgroundColor: "red"; anchors.verticalCenter: parent.verticalCenter;
                     AbstractButton {
                         anchors.fill: parent; anchors.margins: -10;
                         onClicked: {
@@ -282,7 +282,7 @@ KodiPage {
                     }
                 }
                 UbuntuShape {
-                    height: units.gu(2); width: parent.spacing; color: "green"; anchors.verticalCenter: parent.verticalCenter;
+                    height: units.gu(2); width: parent.spacing; backgroundColor: "green"; anchors.verticalCenter: parent.verticalCenter;
                     AbstractButton {
                         anchors.fill: parent; anchors.margins: -10;
                         onClicked: {
@@ -295,7 +295,7 @@ KodiPage {
                     }
                 }
                 UbuntuShape {
-                    height: units.gu(2); width: parent.spacing; color: "yellow"; anchors.verticalCenter: parent.verticalCenter;
+                    height: units.gu(2); width: parent.spacing; backgroundColor: "yellow"; anchors.verticalCenter: parent.verticalCenter;
                     AbstractButton {
                         anchors.fill: parent; anchors.margins: -10;
                         onClicked: {
@@ -308,7 +308,7 @@ KodiPage {
                     }
                 }
                 UbuntuShape {
-                    height: units.gu(2); width: parent.spacing; color: "blue"; anchors.verticalCenter: parent.verticalCenter;
+                    height: units.gu(2); width: parent.spacing; backgroundColor: "blue"; anchors.verticalCenter: parent.verticalCenter;
                     AbstractButton {
                         anchors.fill: parent; anchors.margins: -10;
                         onClicked: {

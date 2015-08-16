@@ -1,7 +1,8 @@
 {
     "policy_groups": [
         "networking",
-        "content_exchange"
+        "content_exchange",
+        "keep-display-on"
     ],
     "policy_version": 1.3
 }

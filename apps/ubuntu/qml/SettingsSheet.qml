@@ -1,12 +1,12 @@
 import QtQuick 2.4
-import Ubuntu.Components 1.2
+import Ubuntu.Components 1.3
 import Ubuntu.Components.Popups 1.0
 import Ubuntu.Components.ListItems 1.0
 import "components"
 
 Dialog {
     id: root
-    title: qsTr("Media browser settings")
+    title: qsTr("Settings")
 
     Column {
         id: settingsCol
@@ -20,13 +20,35 @@ Dialog {
             color: "black"
         }
 
-        //            Standard {
-        //                id: cbKeepDisplayLit
-        //                text: qsTr("Keep display on when charging")
-        //                control: Switch {
-        //                    checked: settings.keepDisplayLit
-        //                }
-        //            }
+        Row {
+            width: parent.width
+            spacing: units.gu(1)
+            CheckBox {
+                id: cbThemeInverted
+                checked: settings.themeInverted
+            }
+            Label {
+                width: parent.width - x
+                text: qsTr("Invert theme")
+                color: "black"
+                anchors.verticalCenter: parent.verticalCenter
+            }
+        }
+
+        Row {
+            width: parent.width
+            spacing: units.gu(1)
+            CheckBox {
+                id: cbKeepDisplayLit
+                checked: settings.keepDisplayLit
+            }
+            Label {
+                width: parent.width - x
+                text: qsTr("Keep display on")
+                color: "black"
+                anchors.verticalCenter: parent.verticalCenter
+            }
+        }
 
         Row {
             width: parent.width
@@ -38,10 +60,9 @@ Dialog {
             Label {
                 width: parent.width - x
                 text: qsTr("Ignore articles for sorting")
-                anchors.verticalCenter: parent.verticalCenter
                 color: "black"
+                anchors.verticalCenter: parent.verticalCenter
             }
-
         }
 
         SectionHeader {
@@ -156,7 +177,8 @@ Dialog {
 
             onClicked: {
                 console.log("sheet accepted")
-                //        settings.keepDisplayLit = cbKeepDisplayLit.checked
+                settings.themeInverted = cbThemeInverted.checked
+                settings.keepDisplayLit = cbKeepDisplayLit.checked
                 settings.ignoreArticle = cbIgnoreArticle.checked
                 //        settings.changeVolumeOnCall = cbChangeVol.checked
                 //        settings.volumeOnCall = slVolume.value

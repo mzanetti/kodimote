@@ -1,5 +1,5 @@
 import QtQuick 2.4
-import Ubuntu.Components 1.2
+import Ubuntu.Components 1.3
 import Ubuntu.Components.Popups 1.0
 import QtQuick.Layouts 1.1
 import Kodi 1.0
@@ -83,6 +83,7 @@ Item {
             }
         }
 
+
         Rectangle {
             id: contentRect
             anchors {left: parent.left; right: parent.right; top: parent.bottom }
@@ -92,23 +93,22 @@ Item {
                 UbuntuNumberAnimation {}
             }
 
-            color: "white"
+            color: theme.palette.normal.overlay
 
-            Row {
+            Rectangle {
+                anchors { left: contentRect.left; top: contentRect.top; right: contentRect.right }
+                height: units.dp(1)
+                color: UbuntuColors.warmGrey
+            }
+
+            Rectangle {
                 anchors.top: parent.top
                 anchors.topMargin: units.gu(.5)
                 anchors.horizontalCenter: parent.horizontalCenter
                 height: units.gu(1)
-                spacing: units.gu(1)
-                Repeater {
-                    model: 3
-                    Rectangle {
-                        height: units.gu(1)
-                        width: height
-                        radius: width / 2
-                        color: "lightgray"
-                    }
-                }
+                width: units.gu(6)
+                radius: width / 2
+                color: "lightgray"
             }
 
             MouseArea {
@@ -132,6 +132,7 @@ Item {
                     }
                     BottomEdgeButton {
                         source: "image://theme/system-shutdown"
+                        Layout.preferredWidth: undefined // overriding default to distribute space
                         onClicked: {
                             var dialog = PopupUtils.open(Qt.resolvedUrl("PowerMenu.qml"), root)
                             dialog.selectUser.connect(function() {
@@ -149,8 +150,9 @@ Item {
                 RowLayout {
                     Layout.fillWidth: true
                     BottomEdgeButton {
-                        source: "image://theme/speaker-mute"
+                        source: "image://theme/audio-speakers-muted-symbolic"
                         Layout.fillWidth: !volumeSlider.visible
+                        Layout.preferredWidth: undefined // overriding default to distribute space
                         onClicked: {
                             kodi.volumeDown();
                         }
@@ -182,8 +184,9 @@ Item {
                         }
                     }
                     BottomEdgeButton {
-                        source: "image://theme/speaker"
+                        source: "image://theme/audio-speakers-symbolic"
                         Layout.fillWidth: !volumeSlider.visible
+                        Layout.preferredWidth: undefined // overriding default to distribute space
                         onClicked: {
                             kodi.volumeUp();
                         }

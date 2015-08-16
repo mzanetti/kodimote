@@ -1,10 +1,10 @@
 import QtQuick 2.4
-import Ubuntu.Components 1.2
+import Ubuntu.Components 1.3
 import Ubuntu.Components.Popups 1.0
 
 Dialog {
     id: aboutDialog
-    title: "        Kodimote 2.1.1"
+    title: "        Kodimote 2.1.2"
     text: "Michael Zanetti<br>michael_zanetti@gmx.net" +
           "<br>Robert Meijers<br>robert.meijers@gmail.com" +
           "<br>http://notyetthere.org/ubuntu/kodimote"
@@ -26,7 +26,7 @@ Dialog {
             height: units.gu(6)
             width: units.gu(6)
             radius: "medium"
-            image: Image {
+            source: Image {
                 source: "../images/kodimote.svg"
             }
         }
@@ -61,21 +61,24 @@ Dialog {
                 }
             }
             Button {
-                id: closeButton
-                width: parent.width
-                text: qsTr("Close")
-                onClicked: PopupUtils.close(aboutDialog)
-            }
-            Button {
                 id: donateButton
                 width: parent.width
                 text: "Donate";
+                color: UbuntuColors.green
                 onClicked: Qt.openUrlExternally("https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=CWFYRZH8XNYF2")
             }
             Button {
                 text: "flattr";
+                color: UbuntuColors.green
                 width: parent.width
                 onClicked: Qt.openUrlExternally("http://flattr.com/thing/412274/Kodimote")
+            }
+            Button {
+                id: closeButton
+                width: parent.width
+                text: qsTr("Close")
+                color: UbuntuColors.red
+                onClicked: PopupUtils.close(aboutDialog)
             }
         }
     }

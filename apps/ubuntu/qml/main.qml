@@ -20,21 +20,21 @@
 
 import QtQuick 2.4
 import QtQuick.Layouts 1.1
-import Ubuntu.Components 1.2
+import Ubuntu.Components 1.3
 import Ubuntu.Components.Popups 1.0
 import Ubuntu.Components.ListItems 1.0 as ListItems
 import Kodi 1.0
 import "components"
 import Ubuntu.Content 1.1
+import QtSystemInfo 5.0
 
 MainView {
     id: appWindow
-    width: units.gu(70)
-    height: units.gu(40)
+    width: units.gu(40)
+    height: units.gu(70)
 
-    headerColor: "#1b62c8"
-    backgroundColor: "#0c2e71"
-    footerColor: "#0a2663"
+//    backgroundColor: "black"
+    theme.name: settings.themeInverted ? "" : "Ubuntu.Components.Themes.SuruDark"
 
     property bool overrideColor: false
 
@@ -44,10 +44,12 @@ MainView {
     focus: true
     Keys.onVolumeUpPressed: {
         kodi.volumeUp();
+        event.accepted = true;
     }
 
     Keys.onVolumeDownPressed: {
         kodi.volumeDown();
+        event.accepted = true;
     }
 
     Connections {
@@ -63,6 +65,10 @@ MainView {
         target: kodi
         property: "active"
         value: Qt.application.active
+    }
+
+    ScreenSaver {
+        screenSaverEnabled: !settings.keepDisplayLit || Qt.application.state !== Qt.ApplicationActive
     }
 
     Loader {
@@ -217,11 +223,12 @@ MainView {
                         spacing: units.gu(1)
 
                         ActivityIndicator {
+                            id: ai
                             running: parent.visible
                         }
                         Label {
                             text: qsTr("Searching for Kodi hosts.")
-                            anchors.verticalCenter: parent.verticalCenter
+                            anchors.verticalCenter: ai.verticalCenter
                         }
                     }
 
@@ -654,39 +661,31 @@ MainView {
 
     Component {
         id: inputSheetComponent
-        ComposerSheet {
+        Dialog {
             id: inputSheet
-            property alias description: descriptionLabel.text
+            property string description
             property alias initialValue: inputField.text
             property alias inputMethodHints: inputField.inputMethodHints
+            title: description
 
-
-            Component.onCompleted: {
-                inputField.forceActiveFocus();
-                __foreground.__styleInstance.headerColor = "#0a2663"
-                __foreground.__styleInstance.backgroundColor = "#1b62c8"
+            TextField {
+                width: parent.width
+                id: inputField
             }
 
-            Column {
-                anchors.fill: parent
-                anchors.margins: 10
-                spacing: 20
-                Label {
-                    id: descriptionLabel
-                    width: parent.width
-                    wrapMode: Text.WordWrap
-                }
-
-                TextField {
-                    width: parent.width
-                    id: inputField
+            Button {
+                text: qsTr("OK")
+                color: UbuntuColors.green
+                onClicked: {
+                    kodi.keys().sendText(inputField.text);
                 }
             }
-            onConfirmClicked: {
-                kodi.keys().sendText(inputField.text);
-            }
-            onCancelClicked: {
-                kodi.keys().previousMenu();
+            Button {
+                text: qsTr("Cancel")
+                color: UbuntuColors.red
+                onClicked: {
+                    kodi.keys().previousMenu();
+                }
             }
         }
     }

@@ -19,7 +19,7 @@
  ****************************************************************************/
 
 import QtQuick 2.4
-import Ubuntu.Components 1.2
+import Ubuntu.Components 1.3
 import QtFeedback 5.0
 import Kodi 1.0
 
@@ -101,7 +101,7 @@ Item {
                     height: units.gu(3)
                     width: height
                     name: "chevron"
-                    color: "white"
+                    color: theme.palette.normal.overlayText
                     opacity: 0.3
 
                     Connections {
@@ -138,7 +138,7 @@ Item {
     UbuntuShape {
         id: bgImage
         anchors.fill: parent
-        color: Qt.rgba(0, 0, 0, 0.05)
+        backgroundColor: Qt.rgba(0, 0, 0, 0.05)
 
         Image {
             anchors.fill: parent

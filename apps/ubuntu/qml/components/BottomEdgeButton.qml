@@ -19,11 +19,13 @@
  ****************************************************************************/
 
 import QtQuick 2.4
-import Ubuntu.Components 1.2
+import QtQuick.Layouts 1.1
+import Ubuntu.Components 1.3
 
 AbstractButton {
     id: root
     height: text.length > 0 ? units.gu(6) : units.gu(4)
+    Layout.preferredWidth: parent.width / parent.children.length
     implicitWidth: Math.max(image.width, label.width)
 
     property string source

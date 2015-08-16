@@ -18,7 +18,7 @@
  */
 
 import QtQuick 2.4
-import Ubuntu.Components 1.2
+import Ubuntu.Components 1.3
 
 Item {
     id: root
@@ -65,7 +65,7 @@ Item {
     UbuntuShape {
         id: placeholder
         objectName: "placeholder"
-        color: "#22FFFFFF"
+        backgroundColor: "#22FFFFFF"
         width: shape.width
         height: shape.height
         anchors.centerIn: shape
@@ -103,7 +103,7 @@ Item {
         opacity: 0
         visible: opacity != 0
 
-        image: Image {
+        source: Image {
             id: image
             objectName: "image"
 
