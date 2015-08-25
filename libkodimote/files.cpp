@@ -53,6 +53,7 @@ void Files::refresh()
 
     QVariantList properties;
     properties.append("file");
+    properties.append("playcount");
     if(m_mediaType != "pictures") {
         properties.append("thumbnail");
     }
@@ -92,6 +93,9 @@ void Files::listReceived(const QVariantMap &rsp)
         }
         item->setIgnoreArticle(ignoreArticle());
         item->setPlayable(true);
+        if (itemMap.contains("playcount")) {
+            item->setPlaycount(itemMap.value("playcount").toInt());
+        }
         list.append(item);
     }
     beginInsertRows(QModelIndex(), 0, list.count() - 1);
