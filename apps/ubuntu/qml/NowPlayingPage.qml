@@ -21,8 +21,8 @@
 import QtQuick 2.4
 import QtQuick.Layouts 1.1
 import Ubuntu.Components 1.3
-import Ubuntu.Components.Popups 1.0
-import Ubuntu.Components.ListItems 1.0
+import Ubuntu.Components.Popups 1.3
+import Ubuntu.Components.ListItems 1.3
 import Kodi 1.0
 import "components"
 
@@ -460,7 +460,7 @@ KodiPage {
         }
         BottomEdgeButton {
             text: qsTr("Audio track")
-            source: "image://theme/speaker"
+            source: "image://theme/audio-speakers-symbolic"
             visible: root.player && root.player.type == Player.PlayerTypeVideo
             Layout.fillWidth: true
             onClicked: {

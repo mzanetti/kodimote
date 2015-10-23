@@ -1,10 +1,10 @@
 import QtQuick 2.4
 import Ubuntu.Components 1.3
-import Ubuntu.Components.Popups 1.0
+import Ubuntu.Components.Popups 1.3
 
 Dialog {
     id: aboutDialog
-    title: "        Kodimote 2.1.2"
+    title: "        Kodimote 2.1.2.1"
     text: "Michael Zanetti<br>michael_zanetti@gmx.net" +
           "<br>Robert Meijers<br>robert.meijers@gmail.com" +
           "<br>http://notyetthere.org/ubuntu/kodimote"

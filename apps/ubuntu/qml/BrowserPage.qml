@@ -21,8 +21,8 @@
 import QtQuick 2.4
 import QtQuick.Layouts 1.1
 import Ubuntu.Components 1.3
-import Ubuntu.Components.Popups 1.0
-import Ubuntu.Components.ListItems 1.0
+import Ubuntu.Components.Popups 1.3
+import Ubuntu.Components.ListItems 1.3
 import Kodi 1.0
 import "components"
 
@@ -187,6 +187,7 @@ KodiPage {
 
         property bool expaned: false
         signal collapse()
+        property bool swipingActions: false
 
         onDraggedForSearchChanged: {
             searchBar.expanded = true;
@@ -305,6 +306,13 @@ KodiPage {
                 width: listView.width
                 color: "transparent"
                 opacity: delegateItem.expanded ? 0.6 : 1
+
+                Connections {
+                    target: collapsedItem.contentItem
+                    onXChanged: {
+                        listView.swipingActions = collapsedItem.contentItem.x !== 0
+                    }
+                }
 
                 trailingActions: ListItemActions {
                     actions: [
@@ -496,6 +504,7 @@ KodiPage {
             anchors {top: searchBar.bottom; right: parent.right; bottom: parent.bottom }
             width: units.gu(6)
             preventStealing: true
+            visible: !listView.swipingActions
 
             Rectangle {
                 id: scrollBackground

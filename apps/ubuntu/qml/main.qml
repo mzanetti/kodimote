@@ -21,8 +21,8 @@
 import QtQuick 2.4
 import QtQuick.Layouts 1.1
 import Ubuntu.Components 1.3
-import Ubuntu.Components.Popups 1.0
-import Ubuntu.Components.ListItems 1.0 as ListItems
+import Ubuntu.Components.Popups 1.3
+import Ubuntu.Components.ListItems 1.3 as ListItems
 import Kodi 1.0
 import "components"
 import Ubuntu.Content 1.1
@@ -34,7 +34,7 @@ MainView {
     height: units.gu(70)
 
 //    backgroundColor: "black"
-    theme.name: settings.themeInverted ? "" : "Ubuntu.Components.Themes.SuruDark"
+    theme.name: settings.themeInverted ? "Ubuntu.Components.Themes.SuruDark" : ""
 
     property bool overrideColor: false
 
