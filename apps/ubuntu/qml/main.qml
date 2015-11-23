@@ -619,7 +619,7 @@ MainView {
                             text: qsTr("OK")
                             width: (parent.width - parent.spacing) / 2
                             onClicked: {
-                                kodi.setAuthCredentials(username.text, password.text);
+                                kodi.setAuthCredentials(username.displayText, password.displayText);
                                 PopupUtils.close(authDialog)
                             }
                         }
