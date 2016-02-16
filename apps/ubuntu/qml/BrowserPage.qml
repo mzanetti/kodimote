@@ -343,17 +343,18 @@ KodiPage {
                     bottom: parent.bottom
                 }
 
-                RowLayout {
+                SlotsLayout {
                     anchors.fill: parent
                     anchors.margins: units.gu(1)
-                    spacing: units.gu(1)
 
                     Item {
+                        id: imageItem
                         width: root.model.thumbnailFormat === KodiModel.ThumbnailFormatNone ? 0 : thumbnailImage.width
                         visible: root.model.thumbnailFormat !== KodiModel.ThumbnailFormatNone
-                        anchors.verticalCenter: parent.verticalCenter
                         height: thumbnailImage.height
+                        SlotsLayout.position: SlotsLayout.Leading
 
+                        property string thumbnail: model.thumbnail
                         UbuntuShape {
                             id: thumbnailImage
                             height: listView.itemHeight - units.gu(2)
@@ -366,7 +367,7 @@ KodiPage {
                             sourceFillMode: Image.PreserveAspectCrop
                             source: Image {
                                 anchors.fill: parent
-                                source: thumbnail ? "file://" + thumbnail : ""
+                                source: imageItem.thumbnail ? "file://" + imageItem.thumbnail : ""
                                 asynchronous: true
                                 sourceSize {
                                     width: thumbnailImage.width
@@ -390,16 +391,13 @@ KodiPage {
                                     return "empty-symbolic";
                                 }
                                 color: "white"
-                                visible: !thumbnail || thumbnail == "loading"
+                                visible: !imageItem.thumbnail || imageItem.thumbnail == "loading"
                             }
                         }
                     }
-                    Column {
-                        anchors { verticalCenter: parent.verticalCenter }
-                        Layout.fillWidth: true
-                        height: childrenRect.height
+                    mainSlot: Column {
+                        id: mainColumn
                         spacing: units.gu(.5)
-
                         Label {
                             width: parent.width
                             text: title
@@ -435,8 +433,9 @@ KodiPage {
                         }
                     }
                     Item {
-                        Layout.fillHeight: true
-                        Layout.preferredWidth: units.gu(2)
+                        SlotsLayout.position: SlotsLayout.Trailing
+                        width: units.gu(2)
+                        height: mainColumn.height
                         Icon {
                             width: parent.width
                             height: width
