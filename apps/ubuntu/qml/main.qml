@@ -247,9 +247,8 @@ MainView {
                 KodiDiscovery {
                     continuousDiscovery: noConnectionPage.showList
                 }
-
-
             }
+
             Column {
                 anchors.verticalCenter: parent.verticalCenter
                 anchors {
@@ -260,6 +259,7 @@ MainView {
                 height: childrenRect.height
                 spacing: units.gu(2)
                 opacity: noConnectionPage.showList ? 0 : 1
+                visible: opacity > 0
                 Behavior on opacity { UbuntuNumberAnimation {} }
 
                 Label {
