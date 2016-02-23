@@ -117,7 +117,7 @@ KodiPage {
                     actions: [
                         Action {
                             iconName: "delete"
-                            onTriggered: playlist.removeItem(selectedIndex)
+                            onTriggered: playlist.removeItem(index)
                         }
                     ]
                 }
