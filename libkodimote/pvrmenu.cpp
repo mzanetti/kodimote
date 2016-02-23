@@ -34,6 +34,11 @@ PvrMenu::PvrMenu(KodiModel *parent) :
     item->setPlayable(false);
     m_list.append(item);
 
+    item = new LibraryItem(tr("Radio Channels"), QString(), this);
+    item->setFileType("directory");
+    item->setPlayable(false);
+    m_list.append(item);
+
     item = new LibraryItem(tr("Recordings"), QString(), this);
     item->setFileType("directory");
     item->setPlayable(false);
@@ -49,8 +54,10 @@ KodiModel *PvrMenu::enterItem(int index)
 {
     switch (index) {
     case 0:
-        return new ChannelGroups(this);
+        return new ChannelGroups(ChannelGroups::ChannelTypeTV, this);
     case 1:
+        return new ChannelGroups(ChannelGroups::ChannelTypeRadio, this);
+    case 2:
         return new Recordings("", false, this);
     }
 

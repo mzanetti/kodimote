@@ -24,20 +24,34 @@
 #include "kodiconnection.h"
 #include "libraryitem.h"
 
-ChannelGroups::ChannelGroups(KodiModel *parent) :
-    KodiLibrary(parent)
+ChannelGroups::ChannelGroups(ChannelGroups::ChannelType channelType, KodiModel *parent) :
+    KodiLibrary(parent),
+    m_channelType(channelType)
 {
 }
 
 QString ChannelGroups::title() const
 {
-    return tr("TV Channels");
+    switch (m_channelType) {
+    case ChannelTypeTV:
+        return tr("TV Channels");
+    case ChannelTypeRadio:
+        return tr("Radio Channels");
+    }
+    return QString();
 }
 
 void ChannelGroups::refresh()
 {
     QVariantMap params;
-    params.insert("channeltype", "tv");
+    switch (m_channelType) {
+    case ChannelTypeTV:
+        params.insert("channeltype", "tv");
+        break;
+    case ChannelTypeRadio:
+        params.insert("channeltype", "radio");
+        break;
+    }
 
     KodiConnection::sendCommand("PVR.GetChannelGroups", params, this, "listReceived");
 
@@ -46,7 +60,7 @@ void ChannelGroups::refresh()
 KodiModel *ChannelGroups::enterItem(int index)
 {
     qDebug() << "entering" << m_list.at(index)->data(RoleChannelGroupId).toInt();
-    return new Channels(m_list.at(index)->data(RoleChannelGroupId).toInt(), this);
+    return new Channels(m_channelType, m_list.at(index)->data(RoleChannelGroupId).toInt(), this);
 }
 
 void ChannelGroups::playItem(int index, bool resume)

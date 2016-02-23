@@ -22,12 +22,13 @@
 #define CHANNELS_H
 
 #include "kodilibrary.h"
+#include "channelgroups.h"
 
 class Channels : public KodiLibrary
 {
     Q_OBJECT
 public:
-    explicit Channels(int channelgroupid, KodiModel *parent = 0);
+    explicit Channels(ChannelGroups::ChannelType channelType, int channelgroupid, KodiModel *parent = 0);
     
     QString title() const;
     void refresh();
@@ -53,6 +54,7 @@ private slots:
     void broadcastsReceived(const QVariantMap &rsp);
 
 private:
+    ChannelGroups::ChannelType m_channelType;
     int m_channelgroupid;
 
     QMap<int, int> m_detailsRequestMap;

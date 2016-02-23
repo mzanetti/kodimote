@@ -27,7 +27,12 @@ class ChannelGroups : public KodiLibrary
 {
     Q_OBJECT
 public:
-    explicit ChannelGroups(KodiModel *parent = 0);
+    enum ChannelType {
+        ChannelTypeTV,
+        ChannelTypeRadio
+    };
+
+    explicit ChannelGroups(ChannelType channelType, KodiModel *parent = 0);
     
     QString title() const;
     void refresh();
@@ -42,6 +47,8 @@ signals:
 private slots:
     void listReceived(const QVariantMap &rsp);
     
+private:
+    ChannelType m_channelType;
 };
 
 #endif // CHANNELGROUPSS_H

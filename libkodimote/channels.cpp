@@ -27,15 +27,22 @@
 #include "videoplayer.h"
 #include "playlist.h"
 
-Channels::Channels(int channelgroupid, KodiModel *parent) :
+Channels::Channels(ChannelGroups::ChannelType channelType, int channelgroupid, KodiModel *parent) :
     KodiLibrary(parent),
+    m_channelType(channelType),
     m_channelgroupid(channelgroupid)
 {
 }
 
 QString Channels::title() const
 {
-    return tr("TV Channels");
+    switch (m_channelType) {
+    case ChannelGroups::ChannelTypeTV:
+        return tr("TV Channels");
+    case ChannelGroups::ChannelTypeRadio:
+        return tr("Radio Channels");
+    }
+    return QString();
 }
 
 void Channels::refresh()
