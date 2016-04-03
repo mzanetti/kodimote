@@ -12,11 +12,13 @@ Page {
     property alias mediaVisible: mediaAction.visible
     property alias nowPlayingVisible: nowPlayingAction.visible
     property alias keypadVisible: keypadAction.visible
+    property alias title: pageHeader.title
 
     signal backPressed();
 
-    head {
-        actions: [
+    header: PageHeader {
+        id: pageHeader
+        trailingActionBar.actions: [
             Action {
                 id: mediaAction
                 text: qsTr("Media")
@@ -45,10 +47,12 @@ Page {
                 }
             }
         ]
-        backAction: Action {
-            iconName: "back"
-            visible: root.backVisible && pageStack.depth > 1
-            onTriggered: root.backPressed()
-        }
+        leadingActionBar.actions: [
+            Action {
+                iconName: "back"
+                visible: root.backVisible && pageStack.depth > 1
+                onTriggered: root.backPressed()
+            }
+        ]
     }
 }

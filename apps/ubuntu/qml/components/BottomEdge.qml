@@ -8,6 +8,7 @@ Item {
     id: root
     anchors { left: parent.left; right: parent.right; bottom: parent.bottom }
     height: units.gu(2)
+    z: 3
 
     default property alias data: optionsRow.data
 
@@ -98,7 +99,7 @@ Item {
             Rectangle {
                 anchors { left: contentRect.left; top: contentRect.top; right: contentRect.right }
                 height: units.dp(1)
-                color: UbuntuColors.warmGrey
+                color: theme.palette.normal.overlaySecondaryText
             }
 
             Rectangle {
@@ -108,7 +109,7 @@ Item {
                 height: units.gu(1)
                 width: units.gu(6)
                 radius: width / 2
-                color: "lightgray"
+                color: theme.palette.normal.overlaySecondaryText
             }
 
             MouseArea {
@@ -128,7 +129,7 @@ Item {
                     Label {
                         text: kodi.connectedHostName
                         Layout.fillWidth: true
-                        color: "black"
+                        color: theme.palette.normal.overlayText
                     }
                     BottomEdgeButton {
                         source: "image://theme/system-shutdown"
@@ -143,7 +144,6 @@ Item {
                 }
 
                 SectionHeader {
-                    color: "black"
                     Layout.fillWidth: true
                 }
 
@@ -195,7 +195,6 @@ Item {
 
                 SectionHeader {
                     Layout.fillWidth: true
-                    color: "black"
                 }
                 RowLayout {
                     id: optionsRow

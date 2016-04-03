@@ -123,9 +123,9 @@ KodiPage {
     }
 
     Item {
-        anchors { left: parent.left; top: header.bottom; right: parent.right; bottom: bottomEdge.top }
+        anchors { left: parent.left; top: root.header.bottom; right: parent.right; bottom: bottomEdge.top; }
+        z: 1
         clip: true
-        z: 2
         TextField {
             id: searchTextField
             anchors {
@@ -170,7 +170,7 @@ KodiPage {
         id: listView
         anchors {
             left: parent.left
-            top: header.bottom
+            top: root.header.bottom
             right: parent.right
             bottom: bottomEdge.top
         }

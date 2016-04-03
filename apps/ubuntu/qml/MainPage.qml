@@ -115,8 +115,14 @@ KodiPage {
 
     GridLayout {
         id: grid
-        anchors { top: parent.top; left: parent.left; right: parent.right; bottom: bottomEdge.top }
-        anchors.margins: appWindow.pageMargins
+        anchors {
+            top: parent.top;
+            topMargin: mainPage.header.height + appWindow.pageMargins;
+            left: parent.left;
+            right: parent.right;
+            bottom: bottomEdge.top
+            margins: appWindow.pageMargins
+        }
         property int currentSelected
         rowSpacing: mainPage.spacing
         columnSpacing: mainPage.spacing

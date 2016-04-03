@@ -19,5 +19,6 @@ RowLayout  {
     Label {
         id: headerLabel
         text: headerText
+        color: theme.palette.normal.overlaySecondaryText
     }
 }

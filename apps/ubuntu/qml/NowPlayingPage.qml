@@ -39,10 +39,8 @@ KodiPage {
     property int spacing: units.gu(1)
 
     onPlayerChanged: {
-        if(player === null) {
-            if(root.status === PageStatus.Active) {
-                pageStack.pop();
-            }
+        if(player !== null) {
+            player.timerActive = timerActive
         }
     }
 
@@ -84,6 +82,7 @@ KodiPage {
     Item {
         anchors.fill: parent
         anchors.bottomMargin: bottomEdge.height
+        anchors.topMargin: root.header.height
         opacity: root.player !== null ? 1 : 0
         visible: opacity > 0
         Behavior on opacity {
@@ -159,7 +158,7 @@ KodiPage {
             z: 2
         }
 
-        Grid {
+        GridLayout {
             id: mainGrid
             anchors {
                 left: parent.left
@@ -170,17 +169,20 @@ KodiPage {
                 topMargin: appWindow.pageMargins
             }
             height: parent.height - appWindow.pageMargins * 2
-//            anchors.fill: parent
 
             columns: root.orientation == "portrait" ? 1 : 2
-            spacing: appWindow.pageMargins
+            columnSpacing: appWindow.pageMargins
+            rowSpacing: appWindow.pageMargins
             opacity: playlistView.showPlaylist ? .6 : 1
             Behavior on opacity { UbuntuNumberAnimation {} }
 
             Item {
                 id: imageItem
-                height: root.orientation == "portrait" ? Math.min(parent.width, parent.height - textItem.height - parent.spacing) : parent.height
-                width: root.orientation == "portrait" ? parent.width : height
+                Layout.fillWidth: true
+                Layout.fillHeight: true
+                Layout.minimumWidth: parent.width / 2
+//                height: root.orientation == "portrait" ? Math.min(parent.width, parent.height - textItem.height - parent.spacing) : parent.height
+//                width: root.orientation == "portrait" ? parent.width : height
 
                 LazyImage {
                     id: imageShape
@@ -198,16 +200,23 @@ KodiPage {
                 }
             }
 
-            Column {
+            ColumnLayout {
                 id: textItem
-                width: root.orientation == "portrait" ? parent.width : parent.width - imageItem.width - parent.spacing
+                Layout.fillWidth: true
+                Layout.fillHeight: true
+//                width: root.orientation == "portrait" ? parent.width : parent.width - imageItem.width - parent.spacing
                 spacing: root.spacing
-                Row {
-                    width: parent.width
+                Item {
+                    Layout.fillHeight: true
+                    Layout.fillWidth: true
+                }
+
+                RowLayout {
+                    Layout.fillWidth: true
                     spacing: root.spacing
                     Label {
                         id: trackLabel
-                        width: parent.width - trackNumLabel.width - parent.spacing
+                        Layout.fillWidth: true
                         text: currentItem ? currentItem.title : ""
                         elide: Text.ElideRight
                         font.bold: true
@@ -219,18 +228,17 @@ KodiPage {
                 }
                 Label {
                     id: artistLabel
-                    width: parent.width
+                    Layout.fillWidth: true
                     elide: Text.ElideRight
                     text: !currentItem ? "" : (kodi.state == "audio" ? currentItem.artist : (currentItem.type == "episode" ? currentItem.tvShow : qsTr("Year:") + " " + currentItem.year))
                 }
-                Row {
+                RowLayout {
                     id: albumRow
-                    height: albumLabel.height
-                    width: parent.width
+                    Layout.preferredHeight: albumLabel.height
+                    Layout.fillWidth: true
                     spacing: units.gu(.5)
                     Label {
                         id: albumLabel
-                        width: Math.min(implicitWidth, parent.width)
                         elide: Text.ElideRight
                         text: !currentItem ? "" : (kodi.state == "audio" ? currentItem.album : (currentItem.type == "episode" ? qsTr("Season:") + " " + currentItem.season + "   " + qsTr("Episode:") + " " + currentItem.episode : qsTr("Rating:") + " "))
                     }
@@ -247,14 +255,14 @@ KodiPage {
                 PlayerControls {
                     id: controlButtons
                     player: root.player
-                    width: parent.width
+                    Layout.fillWidth: true
                 }
 
 
                 UbuntuShape {
                     id: progressBar
-                    width: parent.width
-                    height: units.gu(1)
+                    Layout.fillWidth: true
+                    Layout.preferredHeight: units.gu(1)
                     property int minimumValue: 0
                     property int maximumValue: 100
                     property int value: player ? player.percentage : 0
@@ -313,7 +321,7 @@ KodiPage {
                 }
 
                 Row {
-                    width: parent.width
+                    Layout.fillWidth: true
                     spacing: root.spacing
                     Label {
                         id: currentTime

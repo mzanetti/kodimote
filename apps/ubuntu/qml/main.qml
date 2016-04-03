@@ -127,12 +127,12 @@ MainView {
         id: noConnectionComponent
         Page {
             id: noConnectionPage
-            title: kodi.connecting ? qsTr("Connecting...") : qsTr("Select Host")
             anchors.fill: parent
             property bool showList: !kodi.connecting
 
-            head {
-                actions: [
+            header: PageHeader {
+                title: kodi.connecting ? qsTr("Connecting...") : qsTr("Select Host")
+                trailingActionBar.actions: [
                     Action {
                         text: "add"
                         iconName: "add"
@@ -152,6 +152,7 @@ MainView {
                     }
                 ]
             }
+
             Component {
                 id: newHostComponent
                 KodiHost {}
@@ -160,6 +161,7 @@ MainView {
             ListView {
                 id: hostListView
                 anchors.fill: parent
+                anchors.topMargin: noConnectionPage.header.height
                 model: kodi.hostModel()
                 opacity: noConnectionPage.showList ? 1 : 0
                 Behavior on opacity { UbuntuNumberAnimation {} }
@@ -332,8 +334,6 @@ MainView {
 
             property var host
 
-            Component.onCompleted: print("############# host", host)
-
             signal accepted();
             signal rejected();
 
@@ -343,13 +343,11 @@ MainView {
                 spacing: units.gu(1)
                 Label {
                     text: qsTr("Name:")
-                    color: "black"
                 }
                 TextField {
                     id: nameTextField
                     width: parent.width
                     text: addHostDialog.host.hostname
-                    color: "black"
                     property bool conflicting: false
 
                     onTextChanged: {
@@ -377,39 +375,32 @@ MainView {
                 }
                 Label {
                     text: qsTr("Hostname or IP Address:")
-                    color: "black"
                 }
                 TextField {
                     id: addressTextField
                     width: parent.width
                     text: addHostDialog.host.address
-                    color: "black"
                 }
                 Label {
                     text: qsTr("Port:")
-                    color: "black"
                 }
                 TextField {
                     id: portTextField
                     text: addHostDialog.host.port ? addHostDialog.host.port : "8080"
                     width: parent.width
-                    color: "black"
                 }
                 Label {
                     text: qsTr("Mac Address:")
-                    color: "black"
                 }
                 TextField {
                     id: macTextField
                     width: parent.width
                     inputMask: "HH:HH:HH:HH:HH:HH;_"
-                    color: "black"
                     text: addHostDialog.host.hwAddr
                 }
 
                 SectionHeader {
                     headerText: qsTr("Volume")
-                    color: "black"
                 }
 
                 OptionSelector {
@@ -423,14 +414,13 @@ MainView {
                         Label {
                             anchors { left: parent.left; verticalCenter: parent.verticalCenter; leftMargin: units.gu(2) }
                             text: modelData
-                            color: "black"
                         }
                     }
                 }
 
                 RowLayout {
                     visible: volumeControlTypeSelector.selectedIndex !== 1
-                    Label { text: "0"; color: "black" }
+                    Label { text: "0" }
                     anchors { left: parent.left; right: parent.right }
                     spacing: units.gu(1)
                     Slider {
@@ -438,11 +428,11 @@ MainView {
                         value: addHostDialog.host.volumeStepping
                         Layout.fillWidth: true
                     }
-                    Label { text: "100"; color: "black" }
+                    Label { text: "100" }
                 }
 
                 Label {
-                    text: qsTr("Up command"); color: "black";
+                    text: qsTr("Up command")
                     visible: volumeControlTypeSelector.selectedIndex === 2
                 }
                 TextField {
@@ -451,11 +441,10 @@ MainView {
                     visible: volumeControlTypeSelector.selectedIndex === 2
                     text: host.volumeUpCommand
                     placeholderText: qsTr("Up command")
-                    color: "black"
                 }
 
                 Label {
-                    text: qsTr("Down command"); color: "black"
+                    text: qsTr("Down command")
                     visible: volumeControlTypeSelector.selectedIndex === 2
                 }
                 TextField {
@@ -464,11 +453,9 @@ MainView {
                     visible: volumeControlTypeSelector.selectedIndex === 2
                     text: host.volumeDownCommand
                     placeholderText: qsTr("Down command")
-                    color: "black"
                 }
 
                 SectionHeader {
-                    color: "black"
                 }
                 Row {
                     width: parent.width
@@ -476,6 +463,7 @@ MainView {
                     Button {
                         text: qsTr("Cancel")
                         width: (parent.width - parent.spacing) / 2
+                        color: UbuntuColors.red
                         onClicked: {
                             addHostDialog.rejected();
                             PopupUtils.close(addHostDialog)
@@ -484,7 +472,7 @@ MainView {
                     Button {
                         text: qsTr("OK")
                         width: (parent.width - parent.spacing) / 2
-                        color: "#dd4814"
+                        color: UbuntuColors.green
                         enabled: nameTextField.text.length > 0 && !nameTextField.conflicting && addressTextField.text.length > 0
                         onClicked: {
                             addHostDialog.host.hostname = nameTextField.text
@@ -500,11 +488,6 @@ MainView {
                             PopupUtils.close(addHostDialog)
                         }
                     }
-                }
-
-                Item {
-                    width: parent.width
-                    height: Qt.inputMethod.keyboardRectangle.height
                 }
             }
         }
@@ -534,7 +517,7 @@ MainView {
             }
             NowPlayingPage {
                 id: nowPlayingPage
-                timerActive: pageStack.currentPage == nowPlayingPage
+                timerActive: pageStack.currentPage == nowPlayingPage && Qt.application.state == Qt.ApplicationActive
                 visible: false
 
                 mediaVisible: true
@@ -588,11 +571,9 @@ MainView {
                         width: parent.width
                         text: qsTr("Kodi on %1 requires authentication:").arg(hostname);
                         wrapMode: Text.WordWrap
-                        color: "black"
                     }
                     Label {
                         text: qsTr("Username")
-                        color: "black"
                     }
                     TextField {
                         width: parent.width
@@ -600,7 +581,6 @@ MainView {
                     }
                     Label {
                         text: qsTr("Password")
-                        color: "black"
                     }
                     TextField {
                         width: parent.width
@@ -671,6 +651,7 @@ MainView {
             TextField {
                 width: parent.width
                 id: inputField
+                focus: true
             }
 
             Button {

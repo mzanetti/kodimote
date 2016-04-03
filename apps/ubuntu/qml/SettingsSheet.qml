@@ -17,7 +17,6 @@ Dialog {
         SectionHeader {
             headerText: qsTr("Look and feel")
             width: parent.width
-            color: "black"
         }
 
         Row {
@@ -30,7 +29,6 @@ Dialog {
             Label {
                 width: parent.width - x
                 text: qsTr("Invert theme")
-                color: "black"
                 anchors.verticalCenter: parent.verticalCenter
             }
         }
@@ -45,7 +43,6 @@ Dialog {
             Label {
                 width: parent.width - x
                 text: qsTr("Keep display on")
-                color: "black"
                 anchors.verticalCenter: parent.verticalCenter
             }
         }
@@ -60,7 +57,6 @@ Dialog {
             Label {
                 width: parent.width - x
                 text: qsTr("Ignore articles for sorting")
-                color: "black"
                 anchors.verticalCenter: parent.verticalCenter
             }
         }
@@ -68,7 +64,6 @@ Dialog {
         SectionHeader {
             headerText: qsTr("Used media")
             width: parent.width
-            color: "black"
         }
 
         Grid {
@@ -84,7 +79,6 @@ Dialog {
                 height: cbMusicEnabled.height; verticalAlignment: Text.AlignVCenter
                 width: (parent.width - cbMusicEnabled.width * 2) / 2
                 text: qsTr("Music")
-                color: "black"
             }
 
             CheckBox {
@@ -95,7 +89,6 @@ Dialog {
                 height: cbMusicEnabled.height; verticalAlignment: Text.AlignVCenter
                 width: (parent.width - cbMusicEnabled.width * 2) / 2
                 text: qsTr("Videos")
-                color: "black"
             }
 
             CheckBox {
@@ -106,7 +99,6 @@ Dialog {
                 height: cbMusicEnabled.height; verticalAlignment: Text.AlignVCenter
                 width: (parent.width - cbMusicEnabled.width * 2) / 2
                 text: qsTr("Pictures")
-                color: "black"
             }
 
             CheckBox {
@@ -118,7 +110,6 @@ Dialog {
                 height: cbMusicEnabled.height; verticalAlignment: Text.AlignVCenter
                 width: (parent.width - cbMusicEnabled.width * 2) / 2
                 text: qsTr("Live TV")
-                color: "black"
                 visible: kodi.pvrAvailable
             }
         }
@@ -169,6 +160,10 @@ Dialog {
         //                    checked: settings.showCallNotifications
         //                }
         //            }
+
+        SectionHeader {
+            width: parent.width
+        }
 
         Button {
             text: qsTr("Close")

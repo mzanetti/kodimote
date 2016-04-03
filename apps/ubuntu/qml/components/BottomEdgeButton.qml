@@ -39,13 +39,13 @@ AbstractButton {
         width: units.gu(4)
         height: width
         name: root.source
-        color: "black"
+        color: theme.palette.normal.overlayText
     }
 
     Label {
         id: label
         anchors { horizontalCenter: parent.horizontalCenter; bottom: parent.bottom }
         fontSize: "x-small"
-        color: "black"
+        color: theme.palette.normal.overlayText
     }
 }

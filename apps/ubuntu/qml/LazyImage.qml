@@ -23,37 +23,24 @@ import Ubuntu.Components 1.3
 Item {
     id: root
 
-    property string source
+    property url source
     // TODO convert into enums when available in QML
     property string scaleTo
 
-    property real initialWidth: units.gu(10)
-    property real initialHeight: units.gu(10)
+    property real initialWidth: scaleTo == "width" || scaleTo == "fit" ? width : units.gu(10)
+    property real initialHeight: scaleTo == "height" || scaleTo == "fit" ? height : units.gu(10)
 
     property alias sourceSize: image.sourceSize
-    property alias fillMode: image.fillMode
     property alias asynchronous: image.asynchronous
     property alias cache: image.cache
-    property alias horizontalAlignment: image.horizontalAlignment
-    property alias verticalAlignment: image.verticalAlignment
+    property alias sourceImage: image
+
+    property bool useUbuntuShape: true
+    property bool pressed: false
 
     state: "default"
 
-    property string __source
-
-    Component.onCompleted: {
-        if (source == "loading") {
-            state = "loading";
-        }
-    }
-
     onSourceChanged: {
-        if (source == "loading") {
-            image.source = "";
-            state = "loading";
-            return;
-        }
-
         if (state === "ready") {
             state = "default";
             image.nextSource = source;
@@ -62,14 +49,15 @@ Item {
         }
     }
 
-    UbuntuShape {
+    Loader {
         id: placeholder
         objectName: "placeholder"
-        backgroundColor: "#22FFFFFF"
-        width: shape.width
-        height: shape.height
-        anchors.centerIn: shape
+        anchors.fill: shape
+        active: useUbuntuShape
         visible: opacity != 0
+        sourceComponent: UbuntuShape {
+            backgroundColor: "#22FFFFFF"
+        }
 
         ActivityIndicator {
             id: activity
@@ -92,35 +80,51 @@ Item {
         }
     }
 
-    UbuntuShape {
+    Loader {
         id: shape
         objectName: "shape"
-        // w : h = i.w : i.h
         height: root.initialHeight
         width: root.initialWidth
-
         anchors.centerIn: root.scaleTo == "fit" ? parent : undefined
+        active: useUbuntuShape
         opacity: 0
         visible: opacity != 0
+        sourceComponent: UbuntuShapeOverlay {
+            property bool pressed: false
+            overlayColor: Qt.rgba(0, 0, 0, pressed ? 0.1 : 0)
+            overlayRect: Qt.rect(0.0, 0.0, 1.0, 1.0)
+        }
+        onLoaded: {
+            item.source = image;
+            item.pressed = Qt.binding(function() { return root.pressed; });
+        }
 
-        source: Image {
+        Image {
             id: image
             objectName: "image"
 
             property url nextSource
             property string format: image.implicitWidth > image.implicitHeight ? "landscape" : "portrait"
 
+
+            // iw : ih = w : h
+            property int scaledToWidthWidth: root.width
+            property int scaledToWidthHeight: image.implicitHeight * root.width / image.implicitWidth
+            property int scaledToHeightWidth: root.height * image.implicitWidth / image.implicitHeight
+            property int scaledToHeightHeight: root.height
+
+
+            anchors.fill: parent
+            visible: !useUbuntuShape
             fillMode: Image.PreserveAspectFit
             asynchronous: true
             cache: false
-            horizontalAlignment: Image.AlignHCenter
-            verticalAlignment: Image.AlignVCenter
             sourceSize.width: root.scaleTo == "width" ? root.width
-                                : root.scaleTo == "fit" && root.width < root.height ? root.width
-                                : undefined
+                                : root.scaleTo == "fit" && root.width <= root.height ? root.width
+                                : 0
             sourceSize.height: root.scaleTo == "height" ? root.height
-                                : root.scale == "fit" && root.height < root.width ? root.height
-                                : undefined
+                                : root.scaleTo == "fit" && root.height <= root.width ? root.height
+                                : 0
         }
     }
 
@@ -130,7 +134,6 @@ Item {
             when: image.source == ""
             PropertyChanges { target: root; implicitWidth: root.initialWidth; implicitHeight: root.initialHeight }
             PropertyChanges { target: errorImage; opacity: 0 }
-            PropertyChanges { target: placeholder; width: root.initialWidth; height: root.initialHeight }
         },
         State {
             name: "loading"
@@ -144,10 +147,8 @@ Item {
             PropertyChanges { target: root; implicitWidth: shape.width; implicitHeight: shape.height }
             PropertyChanges { target: placeholder; opacity: 0 }
             PropertyChanges { target: shape; opacity: 1
-                width: root.scaleTo == "width" || (root.scaleTo == "fit" && image.format == "landscape") ? root.width
-                    : root.scaleTo == "" ?  image.implicitWidth : image.implicitWidth * height / image.implicitHeight
-                height: root.scaleTo == "height" || (root.scaleTo == "fit" && image.format == "portrait") ? root.height
-                    : root.scaleTo == "" ? image.implicitHeight : image.implicitHeight * width / image.implicitWidth
+                width: image.implicitWidth
+                height: image.implicitHeight
             }
         },
         State {
@@ -168,7 +169,6 @@ Item {
                     NumberAnimation { target: shape; property: "opacity"; easing.type: Easing.Linear }
                     UbuntuNumberAnimation { target: root; properties: "implicitWidth,implicitHeight" }
                     UbuntuNumberAnimation { target: shape; properties: "width,height" }
-                    UbuntuNumberAnimation { target: placeholder; properties: "width,height" }
                     NumberAnimation {
                         targets: [placeholder, activity, errorImage]; property: "opacity";
                         easing.type: Easing.Linear; duration: UbuntuAnimation.SnapDuration
@@ -189,7 +189,6 @@ Item {
                     }
                     UbuntuNumberAnimation { target: root; properties: "implicitWidth,implicitHeight" }
                     UbuntuNumberAnimation { target: shape; properties: "width,height" }
-                    UbuntuNumberAnimation { target: placeholder; properties: "width,height" }
                 }
                 PropertyAction { target: shape; property: "visible" }
             }

@@ -43,6 +43,7 @@ KodiPage {
         anchors {
             fill: parent
             margins: root.spacing
+            topMargin: root.header.height
             bottomMargin: root.spacing + units.gu(2)
         }
         columns: root.width  > root.height ? 2 : 1
