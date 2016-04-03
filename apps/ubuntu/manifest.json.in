@@ -1,6 +1,6 @@
 {
     "description": "A remote control application for Kodi",
-    "framework": "ubuntu-sdk-15.04.3",
+    "framework": "ubuntu-sdk-15.04.4",
     "architecture": "armhf",
     "hooks": {
         "kodimote": {
@@ -12,5 +12,5 @@
     "maintainer": "Michael Zanetti <michael_zanetti@gmx.net>",
     "name": "com.ubuntu.developer.mzanetti.kodimote",
     "title": "Kodimote",
-    "version": "2.2.0.1"
+    "version": "2.2.1.0"
 }
