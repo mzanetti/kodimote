@@ -47,7 +47,7 @@ Dialog {
             iconName: "system-shutdown"
             visible: kodi.canShutdown
             onClicked: {
-                kodi.quit();
+                kodi.shutdown();
                 PopupUtils.close(powerMenu)
             }
         }
