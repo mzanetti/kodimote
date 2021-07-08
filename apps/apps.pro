@@ -15,7 +15,7 @@ ubuntu {
     SUBDIRS += ubuntu
 }
 
-packagesExist(sailfishapp) {
+exists("/usr/include/sailfishapp/sailfishapp.h") {
     message("Sailfish build. Building sailfish app.")
     SUBDIRS += sailfish
 }
